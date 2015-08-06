@@ -858,7 +858,7 @@ static bool processOutCommand(uint8_t cmdMSP)
         headSerialReply(5);
         serialize8( currentProfile->tiltArm.flagEnabled );
         serialize8( currentProfile->tiltArm.pitchDivisior );
-        serialize8( currentProfile->tiltArm.thrustLiftoff );
+        serialize8( currentProfile->tiltArm.thrustLiftoffPercent );
         serialize8( currentProfile->tiltArm.gearRatioPercent );
         serialize8( currentProfile->tiltArm.channel );
         break;
@@ -1453,7 +1453,7 @@ static bool processInCommand(void)
 #ifdef USE_SERVOS
         currentProfile->tiltArm.flagEnabled = read8();
         currentProfile->tiltArm.pitchDivisior = read8();
-        currentProfile->tiltArm.thrustLiftoff = read8();
+        currentProfile->tiltArm.thrustLiftoffPercent = read8();
         currentProfile->tiltArm.gearRatioPercent = read8();
         currentProfile->tiltArm.channel = read8();
 #endif

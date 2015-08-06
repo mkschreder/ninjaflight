@@ -828,7 +828,7 @@ static void cliTiltArm(char *cmdline)
             printf(" DISABLED");
         }
         printf(" thrust liftoff value: %d",
-            tilt->thrustLiftoff
+            tilt->thrustLiftoffPercent
         );
         printf("\r\nbody thrust compensation");
         if (tilt->flagEnabled & TILT_ARM_ENABLE_THRUST_BODY){
@@ -914,7 +914,7 @@ static void cliTiltArm(char *cmdline)
             tilt->flagEnabled |= TILT_ARM_ENABLE_THRUST_BODY;
         }
         tilt->pitchDivisior = arguments[4];
-        tilt->thrustLiftoff = arguments[5];
+        tilt->thrustLiftoffPercent = arguments[5];
 
         tilt->gearRatioPercent = arguments[6];
 

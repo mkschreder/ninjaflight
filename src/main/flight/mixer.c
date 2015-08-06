@@ -633,18 +633,22 @@ void mixTilting(void) {
 
     //do heavy math only one time
     float tmpCosine = cosf(angleTilt);
-    float tmpSine = sinf(angleTilt);
 
     if ( hasTiltingMotor() && (tiltArmConfig->flagEnabled & TILT_ARM_ENABLE_THRUST) ) {
         // compensate the throttle because motor orientation
-    	float pitchToCompensate = tmpSine;
+    	float pitchToCompensate = tmpCosine;
     	if (tiltArmConfig->flagEnabled & TILT_ARM_ENABLE_THRUST_BODY){
     		pitchToCompensate += degreesToRadians(inclination.values.pitchDeciDegrees);
     	}
-    	uint16_t liftOffTrust = ( (rxConfig->maxcheck - rxConfig->mincheck) * tiltArmConfig->thrustLiftoff) / 100; //force this order so we don't need float!
-    	float compensation = liftOffTrust * ABS(pitchToCompensate); //absolute value because we want to increase power even if breaking
-    	if (compensation > 0){//prevent oveload
-    		rcCommand[THROTTLE] += compensation;
+
+    	if ( ABS(pitchToCompensate) < M_PIf/2){ //only from -90 to +90, otherwise it will push you into the ground
+            uint16_t liftOffTrust = ( (rxConfig->maxcheck - rxConfig->mincheck) * tiltArmConfig->thrustLiftoffPercent) / 100; //force this order so we don't need float!
+            uint16_t liftOffLimit = ( (rxConfig->maxcheck - rxConfig->mincheck) * 80) / 100; //we will artificially limit the trust compensation to 80%
+
+            float compensation = liftOffTrust * ABS(pitchToCompensate); //absolute value because we want to increase power even if breaking
+            if (compensation > 0){//prevent overflow
+                rcCommand[THROTTLE] += fmin(compensation, liftOffLimit);
+            }
     	}
     }
 
