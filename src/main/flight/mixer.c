@@ -630,24 +630,30 @@ void servoTilting(void) {
 
 void mixTilting(void) {
     float angleTilt = requestedTiltServoAngle();
-
-    //do heavy math only one time
     float tmpCosine = cosf(angleTilt);
 
     if ( hasTiltingMotor() && (tiltArmConfig->flagEnabled & TILT_ARM_ENABLE_THRUST) ) {
         // compensate the throttle because motor orientation
-    	float pitchToCompensate = tmpCosine;
+    	float pitchToCompensate = angleTilt;
+
+    	float bodyPitch = degreesToRadians(inclination.values.pitchDeciDegrees);
     	if (tiltArmConfig->flagEnabled & TILT_ARM_ENABLE_THRUST_BODY){
-    		pitchToCompensate += degreesToRadians(inclination.values.pitchDeciDegrees);
+    		pitchToCompensate += bodyPitch;
     	}
 
-    	if ( ABS(pitchToCompensate) < M_PIf/2){ //only from -90 to +90, otherwise it will push you into the ground
+    	pitchToCompensate = ABS(pitchToCompensate); //we compensate in the same way if up or down.
+
+    	if ( pitchToCompensate > 0 && angleTilt+bodyPitch < M_PIf/2){ //if there is something to compensate, and only from 0 to 90, otherwise it will push you into the ground
             uint16_t liftOffTrust = ( (rxConfig->maxcheck - rxConfig->mincheck) * tiltArmConfig->thrustLiftoffPercent) / 100; //force this order so we don't need float!
             uint16_t liftOffLimit = ( (rxConfig->maxcheck - rxConfig->mincheck) * 80) / 100; //we will artificially limit the trust compensation to 80%
 
-            float compensation = liftOffTrust * ABS(pitchToCompensate); //absolute value because we want to increase power even if breaking
-            if (compensation > 0){//prevent overflow
-                rcCommand[THROTTLE] += fmin(compensation, liftOffLimit);
+            float tmp_cos_compensate = cosf(pitchToCompensate);
+            if (tmp_cos_compensate != 0){ //it may be zero if the pitchToCOmpensate is 90°, also if it is very close due to float approximation.
+                float compensation = liftOffTrust / tmp_cos_compensate; //absolute value because we want to increase power even if breaking
+
+                if (compensation > 0){//prevent overflow
+                    rcCommand[THROTTLE] += fmin(compensation, liftOffLimit);
+                }
             }
     	}
     }
