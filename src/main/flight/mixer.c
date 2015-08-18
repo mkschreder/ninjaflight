@@ -576,15 +576,15 @@ static void airplaneMixer(void)
 void radiantWriteServo(uint8_t index, float angle){
     // normalize angle to range -PI to PI
     while (angle > M_PIf)
-        angle -= M_PIf;
+        angle -= M_PIf * 2;
     while (angle < -M_PIf)
-            angle += M_PIf;
+        angle += M_PIf * 2;
 
     //remap input value (RX limit) to output value (Servo limit), also take into account eventual non-linearity of the full range
     if (angle > 0){
-        angle = scaleRangef(angle, 0, +M_PIf, servoConf[index].middle, servoConf[index].max);
+        angle = scaleRangef(angle, 0, +M_PIf/2, servoConf[index].middle, servoConf[index].max);
     }else{
-        angle = scaleRangef(angle, -M_PIf, 0, servoConf[index].min, servoConf[index].middle);
+        angle = scaleRangef(angle, 0, -M_PIf/2, servoConf[index].middle, servoConf[index].min);
     }
 
     //just to be sure
@@ -612,7 +612,11 @@ float requestedTiltServoAngle() {
     }
 
     //convert to radiant, keep eventual non-linearity of range
-    float servoAngle = scaleRangef(userInput, 1000, 2000, -degreesToRadians(servoConf[TILTING_SERVO].angleAtMin), degreesToRadians(servoConf[TILTING_SERVO].angleAtMax) );
+    float servoAngle;
+    if (userInput > 1500)
+        servoAngle = scaleRangef(userInput, 1500, 2000, 0, degreesToRadians(servoConf[TILTING_SERVO].angleAtMax) );
+    else
+        servoAngle = scaleRangef(userInput, 1000, 1500, -degreesToRadians(servoConf[TILTING_SERVO].angleAtMin), 0 );
 
     return (servoAngle * tiltArmConfig->gearRatioPercent)/100.0f;
 }
