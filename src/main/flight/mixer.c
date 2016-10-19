@@ -352,16 +352,14 @@ void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *c
 
 #endif
 
-void mixerResetDisarmedMotors(struct mixer *self)
+void mixer_reset_disarmed_pwm_values(struct mixer *self)
 {
-	(void)self; 
-    int i;
     // set disarmed motor values
-    for (i = 0; i < MAX_SUPPORTED_MOTORS; i++)
+    for (int i = 0; i < MAX_SUPPORTED_MOTORS; i++)
         self->motor_disarmed[i] = feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand;
 }
 
-void writeMotors(struct mixer *self)
+void mixer_write_pwm(struct mixer *self)
 {
     uint8_t i;
 
@@ -374,24 +372,26 @@ void writeMotors(struct mixer *self)
     }
 }
 
-void writeAllMotors(struct mixer *self, int16_t mc)
+void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc)
 {
     uint8_t i;
 
     // Sends commands to all motors
     for (i = 0; i < self->motorCount; i++)
         self->motor[i] = mc;
-    writeMotors(self);
+    mixer_write_pwm(self);
 }
 
-void stopMotors(struct mixer *self)
+void mixer_stop_motors(struct mixer *self)
 {
-    writeAllMotors(self, feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand);
+    mixer_set_all_motors_pwm(self, feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand);
 
+	// TODO: remove this delay
     delay(50); // give the timers and ESCs a chance to react.
 }
 
-void StopPwmAllMotors(struct mixer *self)
+// TODO: all pwm functions need to be moved outside of mixer!
+void mixer_stop_pwm_all_motors(struct mixer *self)
 {
     pwmShutdownPulsesForAllMotors(self->motorCount);
 }
@@ -401,7 +401,7 @@ static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_
     return constrain(self->motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
 }
 
-void mixTable(struct mixer *self)
+void mixer_update(struct mixer *self)
 {
     uint32_t i;
 
@@ -560,6 +560,7 @@ void mixTable(struct mixer *self)
 
 
     /* Disarmed for all mixers */
+	// TODO: this should be moved higher up in this function. Need to evaluate effects of doing that. 
     if (!ARMING_FLAG(ARMED)) {
         for (i = 0; i < self->motorCount; i++) {
             self->motor[i] = self->motor_disarmed[i];
@@ -569,7 +570,7 @@ void mixTable(struct mixer *self)
     // motor outputs are used as sources for servo mixing, so motors must be calculated before servos.
 
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-    servoMixTable(self);
+    mixer_update_servos(self);
 #endif
 }
 

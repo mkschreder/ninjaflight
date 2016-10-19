@@ -239,7 +239,7 @@ void mspSerialProcess(void)
 #endif
         if (isRebootScheduled) {
             waitForSerialPortToFinishTransmitting(msp->port);  // TODO - postpone reboot, allow all modules to react
-            stopMotors(&default_mixer);
+            mixer_stop_motors(&default_mixer);
             handleOneshotFeatureChangeOnRestart();
             systemReset();
         }

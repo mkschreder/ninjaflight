@@ -271,7 +271,7 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
     axisPID[FD_YAW] = 0;
 
     // when
-    mixTable(&default_mixer);
+    mixer_update(&default_mixer);
     writeServos();
 
     // then
@@ -310,8 +310,8 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 
 
     // when
-    mixTable(&default_mixer);
-    writeMotors(&default_mixer);
+    mixer_update(&default_mixer);
+    mixer_write_pwm(&default_mixer);
 
     // then
     EXPECT_EQ(4, updatedMotorCount);
@@ -402,8 +402,8 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
 
     // when
-    mixTable(&default_mixer);
-    writeMotors(&default_mixer);
+    mixer_update(&default_mixer);
+    mixer_write_pwm(&default_mixer);
     writeServos();
 
     // then

@@ -714,7 +714,7 @@ static void taskMainPidLoop(void)
         rxConfig()
     );
 
-    mixTable(&default_mixer);
+    mixer_update(&default_mixer);
 
 #ifdef USE_SERVOS
     filterServos();
@@ -722,7 +722,7 @@ static void taskMainPidLoop(void)
 #endif
 
     if (motorControlEnable) {
-        writeMotors(&default_mixer);
+        mixer_write_pwm(&default_mixer);
     }
 
 #ifdef USE_SDCARD

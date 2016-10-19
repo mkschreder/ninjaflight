@@ -1913,7 +1913,7 @@ static void cliExit(char *cmdline)
     bufferIndex = 0;
     cliMode = 0;
     // incase a motor was left running during motortest, clear it here
-    mixerResetDisarmedMotors(&default_mixer);
+    mixer_reset_disarmed_pwm_values(&default_mixer);
     cliReboot();
 
     cliWriter = NULL;
@@ -2201,7 +2201,7 @@ static void cliReboot(void)
     cliPrint("\r\nRebooting");
     bufWriterFlush(cliWriter);
     waitForSerialPortToFinishTransmitting(cliPort);
-    stopMotors(&default_mixer);
+    mixer_stop_motors(&default_mixer);
     handleOneshotFeatureChangeOnRestart();
     systemReset();
 }

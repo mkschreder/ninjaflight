@@ -249,7 +249,7 @@ TEST_F(SerialMspUnitTest, Test_TestMspSerialInFraming)
 // STUBS
 extern "C" {
 void handleOneshotFeatureChangeOnRestart(void) {}
-void stopMotors(struct mixer *self) {(void)self;}
+void mixer_stop_motors(struct mixer *self) {(void)self;}
 uint8_t armingFlags = 0;
 void delay(uint32_t ms) {UNUSED(ms);}
 // from system_stm32fN0x.c

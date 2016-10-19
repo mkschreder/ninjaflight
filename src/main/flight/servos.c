@@ -177,7 +177,7 @@ void mixerUseConfigs(servoParam_t *servoConfToUse)
     servoConf = servoConfToUse;
 }
 
-void mixerInitialiseServoFiltering(struct mixer *self, uint32_t targetLooptime)
+void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime)
 {
 	(void)self; 
     if (mixerConfig()->servo_lowpass_enable) {
@@ -289,7 +289,7 @@ void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOC
         }
     }
 
-    mixerResetDisarmedMotors(&default_mixer);
+    mixer_reset_disarmed_pwm_values(&default_mixer);
 }
 
 void loadCustomServoMixer(void)
@@ -484,7 +484,7 @@ STATIC_UNIT_TESTED void servoMixer(void)
 }
 
 // airplane / servo mixes
-void servoMixTable(struct mixer *self)
+void mixer_update_servos(struct mixer *self)
 {
 	(void)self; 
     switch (mixerConfig()->mixerMode) {

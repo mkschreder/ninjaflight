@@ -512,7 +512,7 @@ static void init(void)
     flashLedsAndBeep();
 
 #ifdef USE_SERVOS
-    mixerInitialiseServoFiltering(&default_mixer, targetLooptime);
+    mixer_init_servo_filtering(&default_mixer, targetLooptime);
 #endif
 
 #ifdef MAG
@@ -733,7 +733,7 @@ void HardFault_Handler(void)
     // fall out of the sky
     uint8_t requiredStateForMotors = SYSTEM_STATE_CONFIG_LOADED | SYSTEM_STATE_MOTORS_READY;
     if ((systemState & requiredStateForMotors) == requiredStateForMotors) {
-        stopMotors(&default_mixer);
+        mixer_stop_motors(&default_mixer);
     }
 #ifdef TRANSPONDER
     // prevent IR LEDs from burning out.
