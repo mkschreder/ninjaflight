@@ -61,23 +61,23 @@ typedef enum mixerMode
 } mixerMode_e;
 
 // Custom mixer data per motor
-typedef struct motorMixer_s {
+struct motor_mixer {
     float throttle;
     float roll;
     float pitch;
     float yaw;
-} motorMixer_t;
+};
 
-PG_DECLARE_ARR(motorMixer_t, MAX_SUPPORTED_MOTORS, customMotorMixer);
+PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
 
 // Custom mixer configuration
-typedef struct mixer_s {
+struct mixer {
     uint8_t motorCount;
     uint8_t useServo;
-    const motorMixer_t *motor;
-} mixer_t;
+    const struct motor_mixer *motor;
+};
 
-typedef struct mixerConfig_s {
+struct mixer_config {
     uint8_t mixerMode;
     uint8_t pid_at_min_throttle;            // when enabled pids are used at minimum throttle
     int8_t yaw_motor_direction;
@@ -87,17 +87,17 @@ typedef struct mixerConfig_s {
     float servo_lowpass_freq;             // lowpass servo filter frequency selection; 1/1000ths of loop freq
     int8_t servo_lowpass_enable;            // enable/disable lowpass filter
 #endif
-} mixerConfig_t;
+};
 
-PG_DECLARE(mixerConfig_t, mixerConfig);
+PG_DECLARE(struct mixer_config, mixerConfig);
 
-typedef struct motor3DConfig_s {
+struct motor_3d_config {
     uint16_t deadband3d_low;                // min 3d value
     uint16_t deadband3d_high;               // max 3d value
     uint16_t neutral3d;                     // center 3d value
-} motor3DConfig_t;
+};
 
-PG_DECLARE(motor3DConfig_t, motor3DConfig);
+PG_DECLARE(struct motor_3d_config, motor3DConfig);
 
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
 
@@ -106,9 +106,9 @@ extern int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
 
 extern bool motorLimitReached;
 
-void mixerInit(motorMixer_t *customMotorMixers);
+void mixer_init(struct mixer *self, struct motor_mixer *custom_mixers, uint8_t count);
 void writeAllMotors(int16_t mc);
-void mixerLoadMix(int index, motorMixer_t *customMixers);
+void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
 void mixerResetDisarmedMotors(void);
 void mixTable(void);
 void servoMixTable(void);

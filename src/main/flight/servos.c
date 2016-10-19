@@ -62,9 +62,9 @@
 #include "flight/imu.h"
 
 extern uint8_t motorCount;
-extern motorMixer_t *customMixers;
-extern mixer_t mixers[];
-extern motorMixer_t currentMixer[MAX_SUPPORTED_MOTORS];
+extern struct motor_mixer *customMixers;
+extern struct mixer mixers[];
+extern struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
 
 static uint8_t servoRuleCount = 0;
 static servoMixer_t currentServoMixer[MAX_SERVO_RULES];

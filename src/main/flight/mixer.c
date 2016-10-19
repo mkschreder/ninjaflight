@@ -68,13 +68,13 @@ int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
 
 bool motorLimitReached;
 
-motorMixer_t currentMixer[MAX_SUPPORTED_MOTORS];
+struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
 
-PG_REGISTER_ARR(motorMixer_t, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
-PG_REGISTER_WITH_RESET_TEMPLATE(mixerConfig_t, mixerConfig, PG_MIXER_CONFIG, 0);
-PG_REGISTER_WITH_RESET_TEMPLATE(motor3DConfig_t, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
+PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
 
-PG_RESET_TEMPLATE(motor3DConfig_t, motor3DConfig,
+PG_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig,
     .deadband3d_low = 1406,
     .deadband3d_high = 1514,
     .neutral3d = 1460,
@@ -82,7 +82,7 @@ PG_RESET_TEMPLATE(motor3DConfig_t, motor3DConfig,
 
 
 #ifdef USE_SERVOS
-PG_RESET_TEMPLATE(mixerConfig_t, mixerConfig,
+PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
     .mixerMode = MIXER_QUADX,
     .pid_at_min_throttle = 1,
     .yaw_motor_direction = 1,
@@ -92,7 +92,7 @@ PG_RESET_TEMPLATE(mixerConfig_t, mixerConfig,
     .servo_lowpass_freq = 400.0f,
 );
 #else
-PG_RESET_TEMPLATE(mixerConfig_t, mixerConfig,
+PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
     .mixerMode = MIXER_QUADX,
     .pid_at_min_throttle = 1,
     .yaw_motor_direction = 1,
@@ -107,7 +107,7 @@ PG_RESET_TEMPLATE(mixerConfig_t, mixerConfig,
    / \
 3CCW  1CW
 */
-static const motorMixer_t mixerQuadX[] = {
+static const struct motor_mixer mixerQuadX[] = {
 //throttle,  roll, pitch,   yaw
     { 1.0f, -1.0f,  1.0f, -1.0f },          // REAR_R  (M1)
     { 1.0f, -1.0f, -1.0f,  1.0f },          // FRONT_R (M2)
@@ -123,7 +123,7 @@ static const motorMixer_t mixerQuadX[] = {
      |
     1CW
 */
-static const motorMixer_t mixerQuadP[] = {
+static const struct motor_mixer mixerQuadP[] = {
     { 1.0f,  0.0f,  1.0f, -1.0f },          // REAR
     { 1.0f, -1.0f,  0.0f,  1.0f },          // RIGHT
     { 1.0f,  1.0f,  0.0f,  1.0f },          // LEFT
@@ -137,7 +137,7 @@ static const motorMixer_t mixerQuadP[] = {
 3CW\ || /1CCW
     \||/
 */
-static const motorMixer_t mixerVtail4[] = {
+static const struct motor_mixer mixerVtail4[] = {
     { 1.0f, -0.58f,  0.58f,  1.0f },        // REAR_R
     { 1.0f, -0.46f, -0.39f, -0.5f },        // FRONT_R
     { 1.0f,  0.58f,  0.58f, -1.0f },        // REAR_L
@@ -151,7 +151,7 @@ static const motorMixer_t mixerVtail4[] = {
      /\
 3CCW/  \1CW
 */
-static const motorMixer_t mixerAtail4[] = {
+static const struct motor_mixer mixerAtail4[] = {
     { 1.0f, -0.58f,  0.58f, -1.0f },        // REAR_R
     { 1.0f, -0.46f, -0.39f,  0.5f },        // FRONT_R
     { 1.0f,  0.58f,  0.58f,  1.0f },        // REAR_L
@@ -165,7 +165,7 @@ static const motorMixer_t mixerAtail4[] = {
     1CW
     3CCW
 */
-static const motorMixer_t mixerY4[] = {
+static const struct motor_mixer mixerY4[] = {
     { 1.0f,  0.0f,  1.0f, -1.0f },          // REAR_TOP CW
     { 1.0f, -1.0f, -1.0f,  0.0f },          // FRONT_R CCW
     { 1.0f,  0.0f,  1.0f,  1.0f },          // REAR_BOTTOM CCW
@@ -173,7 +173,7 @@ static const motorMixer_t mixerY4[] = {
 };
 
 #if (MAX_SUPPORTED_MOTORS >= 6)
-static const motorMixer_t mixerY6[] = {
+static const struct motor_mixer mixerY6[] = {
     { 1.0f,  0.0f,  1.333333f,  1.0f },     // REAR
     { 1.0f, -1.0f, -0.666667f, -1.0f },     // RIGHT
     { 1.0f,  1.0f, -0.666667f, -1.0f },     // LEFT
@@ -182,7 +182,7 @@ static const motorMixer_t mixerY6[] = {
     { 1.0f,  1.0f, -0.666667f,  1.0f },     // UNDER_LEFT
 };
 
-static const motorMixer_t mixerHex6H[] = {
+static const struct motor_mixer mixerHex6H[] = {
     { 1.0f, -1.0f,  1.0f, -1.0f },          // REAR_R
     { 1.0f, -1.0f, -1.0f,  1.0f },          // FRONT_R
     { 1.0f,  1.0f,  1.0f,  1.0f },          // REAR_L
@@ -191,7 +191,7 @@ static const motorMixer_t mixerHex6H[] = {
     { 1.0f,  0.0f,  0.0f,  0.0f },          // LEFT
 };
 
-static const motorMixer_t mixerHex6P[] = {
+static const struct motor_mixer mixerHex6P[] = {
     { 1.0f, -0.866025f,  0.5f,  1.0f },     // REAR_R
     { 1.0f, -0.866025f, -0.5f, -1.0f },     // FRONT_R
     { 1.0f,  0.866025f,  0.5f,  1.0f },     // REAR_L
@@ -200,7 +200,7 @@ static const motorMixer_t mixerHex6P[] = {
     { 1.0f,  0.0f,       1.0f, -1.0f },     // REAR
 };
 
-static const motorMixer_t mixerHex6X[] = {
+static const struct motor_mixer mixerHex6X[] = {
     { 1.0f, -0.5f,  0.866025f,  1.0f },     // REAR_R
     { 1.0f, -0.5f, -0.866025f,  1.0f },     // FRONT_R
     { 1.0f,  0.5f,  0.866025f, -1.0f },     // REAR_L
@@ -211,7 +211,7 @@ static const motorMixer_t mixerHex6X[] = {
 #endif
 
 #if (MAX_SUPPORTED_MOTORS >= 8)
-static const motorMixer_t mixerOctoX8[] = {
+static const struct motor_mixer mixerOctoX8[] = {
     { 1.0f, -1.0f,  1.0f, -1.0f },          // REAR_R
     { 1.0f, -1.0f, -1.0f,  1.0f },          // FRONT_R
     { 1.0f,  1.0f,  1.0f,  1.0f },          // REAR_L
@@ -222,7 +222,7 @@ static const motorMixer_t mixerOctoX8[] = {
     { 1.0f,  1.0f, -1.0f,  1.0f },          // UNDER_FRONT_L
 };
 
-static const motorMixer_t mixerOctoFlatP[] = {
+static const struct motor_mixer mixerOctoFlatP[] = {
     { 1.0f,  0.707107f, -0.707107f,  1.0f },// FRONT_L
     { 1.0f, -0.707107f, -0.707107f,  1.0f },// FRONT_R
     { 1.0f, -0.707107f,  0.707107f,  1.0f },// REAR_R
@@ -233,7 +233,7 @@ static const motorMixer_t mixerOctoFlatP[] = {
     { 1.0f,  1.0f,       0.0f,      -1.0f },// LEFT
 };
 
-static const motorMixer_t mixerOctoFlatX[] = {
+static const struct motor_mixer mixerOctoFlatX[] = {
     { 1.0f,  1.0f,      -0.414178f,  1.0f },// MIDFRONT_L
     { 1.0f, -0.414178f, -1.0f,       1.0f },// FRONT_R
     { 1.0f, -1.0f,       0.414178f,  1.0f },// MIDREAR_R
@@ -245,28 +245,28 @@ static const motorMixer_t mixerOctoFlatX[] = {
 };
 #endif
 
-static const motorMixer_t mixerSingleProp[] = {
+static const struct motor_mixer mixerSingleProp[] = {
     { 1.0f,  0.0f,  0.0f, 0.0f },
 };
 
-static const motorMixer_t mixerDualcopter[] = {
+static const struct motor_mixer mixerDualcopter[] = {
     { 1.0f,  0.0f,  0.0f, -1.0f },          // LEFT
     { 1.0f,  0.0f,  0.0f,  1.0f },          // RIGHT
 };
 
-static const motorMixer_t mixerBicopter[] = {
+static const struct motor_mixer mixerBicopter[] = {
     { 1.0f,  1.0f,  0.0f,  0.0f },          // LEFT
     { 1.0f, -1.0f,  0.0f,  0.0f },          // RIGHT
 };
 
-static const motorMixer_t mixerTricopter[] = {
+static const struct motor_mixer mixerTricopter[] = {
     { 1.0f,  0.0f,  1.333333f,  0.0f },     // REAR
     { 1.0f, -1.0f, -0.666667f,  0.0f },     // RIGHT
     { 1.0f,  1.0f, -0.666667f,  0.0f },     // LEFT
 };
 
 // Keep synced with mixerMode_e
-const mixer_t mixers[] = {
+const struct mixer mixers[] = {
     // motors, use servo, motor mixer
     { 0, false, NULL },                // entry 0
     { 3, true,  mixerTricopter },      // MIXER_TRI
@@ -316,10 +316,10 @@ const mixer_t mixers[] = {
 };
 #endif
 
-motorMixer_t *customMixers;
+struct motor_mixer *customMixers;
 
-void mixerInit(motorMixer_t *initialCustomMixers)
-{
+// TODO: fix the self reference and remove all externs 
+void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uint8_t count){
     customMixers = initialCustomMixers;
 }
 
@@ -338,7 +338,7 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 
 
 #ifndef USE_QUAD_MIXER_ONLY
-void mixerLoadMix(int index, motorMixer_t *customMixers)
+void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *customMixers)
 {
     int i;
 

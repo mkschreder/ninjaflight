@@ -132,6 +132,8 @@ void SetSysClock(void);
 void SetSysClock(bool overclock);
 #endif
 
+struct mixer mixer; 
+
 PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
 PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
 
@@ -326,7 +328,7 @@ void init(void)
 
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    mixerInit(customMotorMixer(0));
+    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 #ifdef USE_SERVOS
     mixerInitServos(customServoMixer(0));
 #endif
