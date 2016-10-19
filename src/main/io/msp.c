@@ -467,7 +467,7 @@ static const pgToMSPMapEntry_t pgToMSPMap[] =
 
 // criteria is passed by value; cast as (void *)
 // TODO - the search is quadratic, the code should first map mspId to pgN, then search for pgN
-static uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria)
+uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria)
 {
     int mspIdForSet = (intptr_t)criteria;
 
@@ -481,7 +481,7 @@ static uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *cri
 }
 
 // criteria is passed by value; cast as (void *)
-static uint8_t pgMatcherForMSP(const pgRegistry_t *candidate, const void *criteria)
+uint8_t pgMatcherForMSP(const pgRegistry_t *candidate, const void *criteria)
 {
     int mspId = (intptr_t)criteria;
 

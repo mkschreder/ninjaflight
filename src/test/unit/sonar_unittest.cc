@@ -24,7 +24,7 @@ extern "C" {
     #include "sensors/sonar.h"
     extern int32_t measurement;
     extern int16_t sonarMaxTiltDeciDegrees;
-    void sonarInit(const sonarHardware_t *sonarHardware);
+    void sonarInit(const struct sonar_hardware *sonarHardware);
 }
 
 #include "unittest_macros.h"

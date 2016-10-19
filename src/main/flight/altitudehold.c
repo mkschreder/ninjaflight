@@ -165,7 +165,7 @@ void updateSonarAltHoldState(void)
     }
 }
 
-static bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude)
+bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude)
 {
     return ABS(attitude->values.roll) < DEGREES_80_IN_DECIDEGREES && ABS(attitude->values.pitch) < DEGREES_80_IN_DECIDEGREES;
 }

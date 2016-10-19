@@ -37,3 +37,4 @@ void updateAltHoldState(void);
 void updateSonarAltHoldState(void);
 
 int32_t altitudeHoldGetEstimatedAltitude(void);
+bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude); 

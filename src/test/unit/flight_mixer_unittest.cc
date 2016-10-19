@@ -56,7 +56,7 @@ extern "C" {
     extern uint8_t servoCount;
     void forwardAuxChannelsToServos(uint8_t firstServoIndex);
 
-    void mixerInit(motorMixer_t *initialCustomMixers);
+    void mixerInit(struct motor_mixer *initialCustomMixers);
     void mixerInitServos(servoMixer_t *initialCustomServoMixers);
     void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
 
@@ -235,6 +235,7 @@ protected:
 
 TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 {
+	struct mixer mixer; 
     // given
     rxConfig()->midrc = 1500;
 
@@ -251,7 +252,7 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
     configureMixer(MIXER_TRI);
 
-    mixerInit(customMotorMixer(0));
+    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -280,12 +281,13 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
 TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 {
+	struct mixer mixer; 
     // given
     withDefaultmotorAndServoConfiguration();
 
     configureMixer(MIXER_QUADX);
 
-    mixerInit(customMotorMixer(0));
+    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -351,6 +353,7 @@ protected:
 
 TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 {
+	struct mixer mixer; 
     // given
     enum {
         EXPECTED_SERVOS_TO_MIX_COUNT = 6,
@@ -367,7 +370,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
     };
     memcpy(customServoMixer_arr(), testServoMixer, sizeof(testServoMixer));
 
-    static const motorMixer_t testMotorMixer[EXPECTED_MOTORS_TO_MIX_COUNT] = {
+    static const struct motor_mixer testMotorMixer[EXPECTED_MOTORS_TO_MIX_COUNT] = {
         { 1.0f,  0.0f,  0.0f, -1.0f },          // LEFT
         { 1.0f,  0.0f,  0.0f,  1.0f },          // RIGHT
     };
@@ -375,7 +378,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     configureMixer(MIXER_CUSTOM_AIRPLANE);
 
-    mixerInit(customMotorMixer(0));
+    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     pwmIOConfiguration_t pwmIOConfiguration = {
