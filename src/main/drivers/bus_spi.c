@@ -180,7 +180,7 @@ void initSpi1(void)
 #define SPI2_MOSI_PIN_SOURCE    GPIO_PinSource15
 #endif
 
-void initSpi2(void)
+static void initSpi2(void)
 {
     // Specific to the STM32F103 / STM32F303 (AF5)
     // SPI2 Driver

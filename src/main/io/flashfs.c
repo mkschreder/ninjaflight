@@ -50,12 +50,12 @@ static uint8_t bufferHead = 0, bufferTail = 0;
 // The position of the buffer's tail in the overall flash address space:
 static uint32_t tailAddress = 0;
 
-static void flashfsClearBuffer()
+static void flashfsClearBuffer(void)
 {
     bufferTail = bufferHead = 0;
 }
 
-static bool flashfsBufferIsEmpty()
+static bool flashfsBufferIsEmpty(void)
 {
     return bufferTail == bufferHead;
 }
@@ -65,7 +65,7 @@ static void flashfsSetTailAddress(uint32_t address)
     tailAddress = address;
 }
 
-void flashfsEraseCompletely()
+void flashfsEraseCompletely(void)
 {
     m25p16_eraseCompletely();
 
@@ -114,7 +114,7 @@ uint32_t flashfsGetSize()
     return m25p16_getGeometry()->totalSize;
 }
 
-static uint32_t flashfsTransmitBufferUsed()
+static uint32_t flashfsTransmitBufferUsed(void)
 {
     if (bufferHead >= bufferTail)
         return bufferHead - bufferTail;

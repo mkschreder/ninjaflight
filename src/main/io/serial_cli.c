@@ -1887,6 +1887,8 @@ static void cliDump(char *cmdline)
     }
 }
 
+// TODO: this one is abused elsewhere. 
+void cliEnter(serialPort_t *serialPort); 
 void cliEnter(serialPort_t *serialPort)
 {
     cliMode = 1;

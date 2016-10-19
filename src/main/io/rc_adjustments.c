@@ -56,7 +56,7 @@ uint8_t adjustmentStateMask = 0;
 
 #define IS_ADJUSTMENT_FUNCTION_BUSY(adjustmentIndex) (adjustmentStateMask & (1 << adjustmentIndex))
 
-void blackboxLogInflightAdjustmentEvent(adjustmentFunction_e adjustmentFunction, int32_t newValue)
+static void blackboxLogInflightAdjustmentEvent(adjustmentFunction_e adjustmentFunction, int32_t newValue)
 {
 #ifndef BLACKBOX
     UNUSED(adjustmentFunction);
@@ -72,6 +72,8 @@ void blackboxLogInflightAdjustmentEvent(adjustmentFunction_e adjustmentFunction,
 #endif
 }
 
+// TODO: this one is abused elsewhere. Stop the abuse. 
+void blackboxLogInflightAdjustmentEventFloat(adjustmentFunction_e adjustmentFunction, float newFloatValue); 
 void blackboxLogInflightAdjustmentEventFloat(adjustmentFunction_e adjustmentFunction, float newFloatValue)
 {
 #ifndef BLACKBOX
@@ -122,7 +124,7 @@ static void setAdjustment(uint8_t* ptr, uint8_t adjustment, int delta, uint8_t m
     blackboxLogInflightAdjustmentEvent(adjustment, *ptr);
 }
 
-void applyStepAdjustment(controlRateConfig_t *controlRateConfig, uint8_t adjustmentFunction, int delta)
+static void applyStepAdjustment(controlRateConfig_t *controlRateConfig, uint8_t adjustmentFunction, int delta)
 {
 
     if (delta > 0) {
@@ -254,7 +256,7 @@ void applyStepAdjustment(controlRateConfig_t *controlRateConfig, uint8_t adjustm
     };
 }
 
-void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
+static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
 {
     bool applied = false;
 

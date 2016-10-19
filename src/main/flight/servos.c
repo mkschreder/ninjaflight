@@ -189,7 +189,7 @@ void mixerInitialiseServoFiltering(uint32_t targetLooptime)
     }
 }
 
-int16_t determineServoMiddleOrForwardFromChannel(servoIndex_e servoIndex)
+static int16_t determineServoMiddleOrForwardFromChannel(servoIndex_e servoIndex)
 {
     uint8_t channelToForwardFrom = servoConf[servoIndex].forwardFromChannel;
 
@@ -226,6 +226,8 @@ void mixerInitServos(servoMixer_t *initialCustomServoMixers)
     }
 }
 
+// TODO: this is abused elsewhere. Stop the abuse. 
+void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration); 
 void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 {
     int i;

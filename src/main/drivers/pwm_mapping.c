@@ -39,10 +39,12 @@
 #include "serial_uart_stm32f30x.h"
 #endif
 
+// TODO: these are abused elsewhere. Stop the abuse. 
 void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse);
 void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse);
 void pwmOneshotMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex);
 void pwmServoConfig(const timerHardware_t *timerHardware, uint8_t servoIndex, uint16_t servoPwmRate, uint16_t servoCenterPulse);
+
 
 /*
     Configuration maps

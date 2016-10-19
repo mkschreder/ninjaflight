@@ -30,6 +30,7 @@
 #include "config/config.h"
 #include "config/parameter_group.h"
 #include "config/config_streamer.h"
+#include "config_eeprom.h"
 
 static const uint8_t EEPROM_CONF_VERSION = 112;
 
@@ -98,7 +99,7 @@ static uint8_t updateChecksum(uint8_t chk, const void *data, uint32_t length)
     return chk;
 }
 
-uint8_t pgMatcherForConfigRecord(const pgRegistry_t *candidate, const void *criteria)
+static uint8_t pgMatcherForConfigRecord(const pgRegistry_t *candidate, const void *criteria)
 {
     const configRecord_t *record = (const configRecord_t *)criteria;
 

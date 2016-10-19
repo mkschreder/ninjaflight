@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "sensors.h"
+
 // Type of accelerometer used/detected
 typedef enum {
     ACC_DEFAULT = 0,

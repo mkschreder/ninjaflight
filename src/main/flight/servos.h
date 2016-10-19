@@ -132,3 +132,4 @@ void mixerUseConfigs(servoParam_t *servoConfToUse);
 void servoMixerLoadMix(int index, servoMixer_t *customServoMixers);
 void loadCustomServoMixer(void);
 int servoDirection(int servoIndex, int fromChannel);
+

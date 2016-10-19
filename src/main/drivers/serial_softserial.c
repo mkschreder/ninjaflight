@@ -85,7 +85,7 @@ softSerial_t softSerialPorts[MAX_SOFTSERIAL_PORTS];
 void onSerialTimer(timerCCHandlerRec_t *cbRec, captureCompare_t capture);
 void onSerialRxPinChange(timerCCHandlerRec_t *cbRec, captureCompare_t capture);
 
-void setTxSignal(softSerial_t *softSerial, uint8_t state)
+static void setTxSignal(softSerial_t *softSerial, uint8_t state)
 {
     if (softSerial->port.options & SERIAL_INVERTED) {
         state = !state;
@@ -108,7 +108,7 @@ static void softSerialGPIOConfig(GPIO_TypeDef *gpio, uint16_t pin, GPIO_Mode mod
     gpioInit(gpio, &cfg);
 }
 
-void serialInputPortConfig(const timerHardware_t *timerHardwarePtr)
+static void serialInputPortConfig(const timerHardware_t *timerHardwarePtr)
 {
 #ifdef STM32F10X
     softSerialGPIOConfig(timerHardwarePtr->gpio, timerHardwarePtr->pin, Mode_IPU);
@@ -236,7 +236,7 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e portIndex, serialReceiveCallb
 
 /*********************************************/
 
-void processTxState(softSerial_t *softSerial)
+static void processTxState(softSerial_t *softSerial)
 {
     uint8_t mask;
 
@@ -279,7 +279,7 @@ enum {
     LEADING
 };
 
-void applyChangedBits(softSerial_t *softSerial)
+static void applyChangedBits(softSerial_t *softSerial)
 {
     if (softSerial->rxEdge == TRAILING) {
         uint8_t bitToSet;
@@ -289,7 +289,7 @@ void applyChangedBits(softSerial_t *softSerial)
     }
 }
 
-void prepareForNextRxByte(softSerial_t *softSerial)
+static void prepareForNextRxByte(softSerial_t *softSerial)
 {
     // prepare for next byte
     softSerial->rxBitIndex = 0;
@@ -307,7 +307,7 @@ void prepareForNextRxByte(softSerial_t *softSerial)
 #define STOP_BIT_MASK (1 << 0)
 #define START_BIT_MASK (1 << (RX_TOTAL_BITS - 1))
 
-void extractAndStoreRxByte(softSerial_t *softSerial)
+static void extractAndStoreRxByte(softSerial_t *softSerial)
 {
     if ((softSerial->port.mode & MODE_RX) == 0) {
         return;
@@ -331,7 +331,7 @@ void extractAndStoreRxByte(softSerial_t *softSerial)
     }
 }
 
-void processRxState(softSerial_t *softSerial)
+static void processRxState(softSerial_t *softSerial)
 {
     if (softSerial->isSearchingForStartBit) {
         return;
@@ -466,7 +466,7 @@ void softSerialSetBaudRate(serialPort_t *s, uint32_t baudRate)
     openSoftSerial(softSerial->softSerialPortIndex, s->callback, baudRate, softSerial->port.options);
 }
 
-void softSerialSetMode(serialPort_t *instance, portMode_t mode)
+static void softSerialSetMode(serialPort_t *instance, portMode_t mode)
 {
     instance->mode = mode;
 }

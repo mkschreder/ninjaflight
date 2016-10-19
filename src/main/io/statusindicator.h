@@ -17,6 +17,7 @@
 
 #pragma once
 
+void warningLedResetTimer(void); 
 void warningLedEnable(void);
 void warningLedDisable(void);
 void warningLedRefresh(void);

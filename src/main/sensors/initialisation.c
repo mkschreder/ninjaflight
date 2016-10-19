@@ -81,7 +81,7 @@ extern acc_t acc;
 uint8_t detectedSensors[MAX_SENSORS_TO_DETECT] = { GYRO_NONE, ACC_NONE, BARO_NONE, MAG_NONE };
 
 
-const extiConfig_t *selectMPUIntExtiConfig(void)
+static const extiConfig_t *selectMPUIntExtiConfig(void)
 {
 #ifdef NAZE
     // MPU_INT output on rev4 PB13
@@ -243,7 +243,7 @@ bool fakeAccDetect(acc_t *acc)
 }
 #endif
 
-bool detectGyro(void)
+static bool detectGyro(void)
 {
     gyroSensor_e gyroHardware = GYRO_DEFAULT;
     gyroAlign = ALIGN_DEFAULT;
@@ -692,7 +692,7 @@ retry:
 }
 #endif
 
-void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
+static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
 {
     if (sensorAlignmentConfig->gyro_align != ALIGN_DEFAULT) {
         gyroAlign = sensorAlignmentConfig->gyro_align;

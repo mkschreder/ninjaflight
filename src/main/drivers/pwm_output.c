@@ -33,6 +33,13 @@
 
 #define MAX_PWM_OUTPUT_PORTS MAX(MAX_MOTORS, MAX_SERVOS)
 
+// TODO: these are abused elsewhere. Stop the abuse. 
+void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse);
+void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse);
+void pwmOneshotMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex);
+void pwmServoConfig(const timerHardware_t *timerHardware, uint8_t servoIndex, uint16_t servoPwmRate, uint16_t servoCenterPulse);
+
+
 typedef void (*pwmWriteFuncPtr)(uint8_t index, uint16_t value);  // function pointer used to write motors
 
 typedef struct {

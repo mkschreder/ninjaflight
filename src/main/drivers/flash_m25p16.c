@@ -82,7 +82,7 @@ static void m25p16_performOneByteCommand(uint8_t command)
  * The flash requires this write enable command to be sent before commands that would cause
  * a write like program and erase.
  */
-static void m25p16_writeEnable()
+static void m25p16_writeEnable(void)
 {
     m25p16_performOneByteCommand(M25P16_INSTRUCTION_WRITE_ENABLE);
 
@@ -90,7 +90,7 @@ static void m25p16_writeEnable()
     couldBeBusy = true;
 }
 
-static uint8_t m25p16_readStatus()
+static uint8_t m25p16_readStatus(void)
 {
     uint8_t command[2] = {M25P16_INSTRUCTION_READ_STATUS_REG, 0};
     uint8_t in[2];
@@ -104,7 +104,7 @@ static uint8_t m25p16_readStatus()
     return in[1];
 }
 
-bool m25p16_isReady()
+bool m25p16_isReady(void)
 {
     // If couldBeBusy is false, don't bother to poll the flash chip for its status
     couldBeBusy = couldBeBusy && ((m25p16_readStatus() & M25P16_STATUS_FLAG_WRITE_IN_PROGRESS) != 0);
@@ -129,7 +129,7 @@ bool m25p16_waitForReady(uint32_t timeoutMillis)
  *
  * Returns true if we get valid ident, false if something bad happened like there is no M25P16.
  */
-static bool m25p16_readIdentification()
+static bool m25p16_readIdentification(void)
 {
     uint8_t out[] = { M25P16_INSTRUCTION_RDID, 0, 0, 0};
     uint8_t in[4];

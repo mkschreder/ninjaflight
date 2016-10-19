@@ -145,7 +145,7 @@ bool shouldProcessRx(uint32_t currentTime);
 void calculateRxChannelsAndUpdateFailsafe(uint32_t currentTime);
 
 void parseRcChannels(const char *input, rxConfig_t *rxConfig);
-uint8_t serialRxFrameStatus();
+uint8_t serialRxFrameStatus(void);
 
 void updateRSSI(uint32_t currentTime);
 void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);

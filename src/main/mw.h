@@ -20,7 +20,7 @@
 extern int16_t magHold;
 
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta);
-void handleInflightCalibrationStickPosition();
+void handleInflightCalibrationStickPosition(void);
 
 void mwDisarm(void);
 void mwArm(void);

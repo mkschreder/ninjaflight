@@ -253,7 +253,7 @@ static void updateFailsafeStatus(void)
     i2c_OLED_send_char(failsafeIndicator);
 }
 
-static void showTitle()
+static void showTitle(void)
 {
     i2c_OLED_set_line(0);
     i2c_OLED_send_string(pageTitles[pageState.pageId]);
@@ -296,7 +296,7 @@ static void showRxPage(void)
     }
 }
 
-void showWelcomePage(void)
+static void showWelcomePage(void)
 {
     uint8_t rowIndex = PAGE_TITLE_LINE_COUNT;
 
@@ -308,11 +308,11 @@ void showWelcomePage(void)
     i2c_OLED_send_string(targetName);
 }
 
-void showArmedPage(void)
+static void showArmedPage(void)
 {
 }
 
-void showProfilePage(void)
+static void showProfilePage(void)
 {
     uint8_t rowIndex = PAGE_TITLE_LINE_COUNT;
 
@@ -697,7 +697,7 @@ void updateDisplay(void)
 
 }
 
-void displaySetPage(pageId_e pageId)
+static void displaySetPage(pageId_e pageId)
 {
     pageState.pageId = pageId;
     pageState.pageFlags |= PAGE_STATE_FLAG_FORCE_PAGE_CHANGE;

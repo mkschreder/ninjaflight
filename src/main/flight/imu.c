@@ -171,7 +171,7 @@ void imuResetAccelerationSum(void)
     accTimeSum = 0;
 }
 
-void imuTransformVectorBodyToEarth(t_fp_vector * v)
+static void imuTransformVectorBodyToEarth(t_fp_vector * v)
 {
     float x,y,z;
 
@@ -186,7 +186,7 @@ void imuTransformVectorBodyToEarth(t_fp_vector * v)
 }
 
 // rotate acc into Earth frame and calculate acceleration in it
-void imuCalculateAcceleration(uint32_t deltaT)
+static void imuCalculateAcceleration(uint32_t deltaT)
 {
     static int32_t accZoffset = 0;
     static float accz_smooth = 0;

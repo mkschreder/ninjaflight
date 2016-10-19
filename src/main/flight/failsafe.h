@@ -74,12 +74,12 @@ PG_DECLARE(failsafeConfig_t, failsafeConfig);
 
 void failsafeInit(void);
 
-void useFailsafeConfig();
+void useFailsafeConfig(void);
 
 void failsafeStartMonitoring(void);
 void failsafeUpdateState(void);
 
-failsafePhase_e failsafePhase();
+failsafePhase_e failsafePhase(void);
 bool failsafeIsMonitoring(void);
 bool failsafeIsActive(void);
 bool failsafeIsReceivingRxData(void);

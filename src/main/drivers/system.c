@@ -80,6 +80,7 @@ static void extiHandler(IRQn_Type irqn)
 
 }
 
+void EXTI15_10_IRQHandler(void); 
 void EXTI15_10_IRQHandler(void)
 {
     extiHandler(EXTI15_10_IRQn);
@@ -114,6 +115,7 @@ static void cycleCounterInit(void)
 }
 
 // SysTick
+void SysTick_Handler(void); 
 void SysTick_Handler(void)
 {
     sysTickUptime++;

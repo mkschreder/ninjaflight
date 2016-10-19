@@ -258,7 +258,7 @@ void uartSetBaudRate(serialPort_t *instance, uint32_t baudRate)
     uartReconfigure(uartPort);
 }
 
-void uartSetMode(serialPort_t *instance, portMode_t mode)
+static void uartSetMode(serialPort_t *instance, portMode_t mode)
 {
     uartPort_t *uartPort = (uartPort_t *)instance;
     uartPort->port.mode = mode;

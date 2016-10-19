@@ -53,7 +53,6 @@
 #include "flight/gtune.h"
 #include "flight/mixer.h"
 
-
 extern uint8_t PIDweight[3];
 extern int32_t lastITerm[3], ITermLimit[3];
 

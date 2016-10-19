@@ -91,17 +91,17 @@ bool isAccelerationCalibrationComplete(void)
     return calibratingA == 0;
 }
 
-bool isOnFinalAccelerationCalibrationCycle(void)
+static bool isOnFinalAccelerationCalibrationCycle(void)
 {
     return calibratingA == 1;
 }
 
-bool isOnFirstAccelerationCalibrationCycle(void)
+static bool isOnFirstAccelerationCalibrationCycle(void)
 {
     return calibratingA == CALIBRATING_ACC_CYCLES;
 }
 
-void performAcclerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims)
+static void performAcclerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims)
 {
     static int32_t a[3];
     uint8_t axis;
@@ -134,7 +134,7 @@ void performAcclerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims)
     calibratingA--;
 }
 
-void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims)
+static void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndPitchTrims)
 {
     uint8_t axis;
     static int32_t b[3];
@@ -187,7 +187,7 @@ void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndPitchTri
     }
 }
 
-void applyAccelerationTrims(flightDynamicsTrims_t *accelerationTrims)
+static void applyAccelerationTrims(flightDynamicsTrims_t *accelerationTrims)
 {
     accADC[X] -= accelerationTrims->raw[X];
     accADC[Y] -= accelerationTrims->raw[Y];

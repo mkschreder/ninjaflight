@@ -32,7 +32,8 @@
 
 #define CCMR_Offset                 ((uint16_t)0x0018)
 
-void TIM_SelectOCxM_NoDisable(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode)
+#if 0
+static void TIM_SelectOCxM_NoDisable(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode)
 {
   uint32_t tmp = 0;
 
@@ -65,3 +66,4 @@ void TIM_SelectOCxM_NoDisable(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t 
     *(__IO uint32_t *) tmp |= (uint16_t)(TIM_OCMode << 8);
   }
 }
+#endif

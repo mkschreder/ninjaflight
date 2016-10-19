@@ -62,7 +62,7 @@ void detectHardwareRevision(void)
 #define M25P16_INSTRUCTION_RDID 0x9F
 #define FLASH_M25P16_ID (0x202015)
 
-uint8_t detectSpiDevice(void)
+static uint8_t detectSpiDevice(void)
 {
     uint8_t out[] = { M25P16_INSTRUCTION_RDID, 0, 0, 0 };
     uint8_t in[4];

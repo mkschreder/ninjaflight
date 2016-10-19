@@ -34,4 +34,4 @@ void handleBlackbox(void);
 void startBlackbox(void);
 void finishBlackbox(void);
 
-bool blackboxMayEditConfig();
+bool blackboxMayEditConfig(void);

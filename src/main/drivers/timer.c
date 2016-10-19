@@ -490,7 +490,7 @@ static inline uint8_t lookupChannelIndex(const uint16_t channel)
     return channel >> 2;
 }
 
-void timerNVICConfigure(uint8_t irq)
+static void timerNVICConfigure(uint8_t irq)
 {
     NVIC_InitTypeDef NVIC_InitStructure;
 
@@ -877,6 +877,7 @@ static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
 
 // handler for shared interrupts when both timers need to check status bits
 #define _TIM_IRQ_HANDLER2(name, i, j)                                   \
+    void name(void);                                                     \
     void name(void)                                                     \
     {                                                                   \
         timCCxHandler(TIM ## i, &timerConfig[TIMER_INDEX(i)]);          \
@@ -884,6 +885,7 @@ static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
     } struct dummy
 
 #define _TIM_IRQ_HANDLER(name, i)                                       \
+    void name(void);                                                     \
     void name(void)                                                     \
     {                                                                   \
         timCCxHandler(TIM ## i, &timerConfig[TIMER_INDEX(i)]);          \

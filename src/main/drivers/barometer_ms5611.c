@@ -21,6 +21,7 @@
 #include <platform.h>
 
 #include "barometer.h"
+#include "barometer_ms5611.h"
 
 #include "gpio.h"
 #include "system.h"
@@ -59,8 +60,7 @@ STATIC_UNIT_TESTED uint32_t ms5611_up;  // static result of pressure measurement
 STATIC_UNIT_TESTED uint16_t ms5611_c[PROM_NB];  // on-chip ROM
 static uint8_t ms5611_osr = CMD_ADC_4096;
 
-bool ms5611Detect(baro_t *baro)
-{
+bool ms5611Detect(baro_t *baro){
     bool ack = false;
     uint8_t sig;
     int i;

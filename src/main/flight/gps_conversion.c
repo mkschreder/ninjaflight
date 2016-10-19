@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include <platform.h>
+#include "gps_conversion.h"
 
 #ifdef GPS
 

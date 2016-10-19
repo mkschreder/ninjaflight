@@ -181,7 +181,7 @@ void batteryInit(void)
 }
 
 #define ADCVREF 3300   // in mV
-int32_t currentSensorToCentiamps(uint16_t src)
+static int32_t currentSensorToCentiamps(uint16_t src)
 {
     int32_t millivolts;
 

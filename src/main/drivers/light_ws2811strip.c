@@ -75,7 +75,7 @@ void setStripColors(const hsvColor_t *colors)
     }
 }
 
-void ws2811DMAHandler(DMA_Channel_TypeDef *channel)
+static void ws2811DMAHandler(DMA_Channel_TypeDef *channel)
 {
     if (DMA_GetFlagStatus(WS2811_DMA_TC_FLAG)) {
         ws2811LedDataTransferInProgress = 0;

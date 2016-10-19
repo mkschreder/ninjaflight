@@ -53,10 +53,12 @@ float sonarMaxTiltCos;
 
 static int32_t calculatedAltitude;
 
-const sonarHardware_t *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType)
+// TODO: this is being abused elsewhere. Make it static
+const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType); 
+const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType)
 {
 #if defined(SONAR_PWM_TRIGGER_PIN)
-    static const sonarHardware_t const sonarPWM = {
+    static const struct sonar_hardware const sonarPWM = {
         .trigger_pin = SONAR_PWM_TRIGGER_PIN,
         .trigger_gpio = SONAR_PWM_TRIGGER_GPIO,
         .echo_pin = SONAR_PWM_ECHO_PIN,
@@ -67,7 +69,7 @@ const sonarHardware_t *sonarGetHardwareConfiguration(currentSensor_e  currentMet
     };
 #endif
 #if !defined(UNIT_TEST)
-    static const sonarHardware_t sonarRC = {
+    static const struct sonar_hardware sonarRC = {
         .trigger_pin = SONAR_TRIGGER_PIN,
         .trigger_gpio = SONAR_TRIGGER_GPIO,
         .echo_pin = SONAR_ECHO_PIN,
@@ -97,7 +99,7 @@ const sonarHardware_t *sonarGetHardwareConfiguration(currentSensor_e  currentMet
 #endif
 }
 
-void sonarInit(const sonarHardware_t *sonarHardware)
+void sonarInit(const struct sonar_hardware *sonarHardware)
 {
     sonarRange_t sonarRange;
 

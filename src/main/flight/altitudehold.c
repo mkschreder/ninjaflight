@@ -165,12 +165,12 @@ void updateSonarAltHoldState(void)
     }
 }
 
-bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude)
+static bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude)
 {
     return ABS(attitude->values.roll) < DEGREES_80_IN_DECIDEGREES && ABS(attitude->values.pitch) < DEGREES_80_IN_DECIDEGREES;
 }
 
-int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tmp, float accZ_old)
+static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tmp, float accZ_old)
 {
     int32_t result = 0;
     int32_t error;

@@ -255,7 +255,7 @@ void gpsInit(void)
     gpsSetState(GPS_INITIALIZING);
 }
 
-void gpsInitNmea(void)
+static void gpsInitNmea(void)
 {
     switch(gpsData.state) {
         case GPS_INITIALIZING:
@@ -266,7 +266,7 @@ void gpsInitNmea(void)
     }
 }
 
-void gpsInitUblox(void)
+static void gpsInitUblox(void)
 {
     uint32_t now;
     // UBX will run at the serial port's baudrate, it shouldn't be "autodetected". So here we force it to that rate
@@ -347,7 +347,7 @@ void gpsInitUblox(void)
     }
 }
 
-void gpsInitHardware(void)
+static void gpsInitHardware(void)
 {
     switch (gpsConfig()->provider) {
         case GPS_NMEA:
@@ -860,7 +860,8 @@ static union {
     uint8_t bytes[UBLOX_BUFFER_SIZE];
 } _buffer;
 
-void _update_checksum(uint8_t *data, uint8_t len, uint8_t *ck_a, uint8_t *ck_b)
+/*
+static void _update_checksum(uint8_t *data, uint8_t len, uint8_t *ck_a, uint8_t *ck_b)
 {
     while (len--) {
         *ck_a += *data;
@@ -868,7 +869,7 @@ void _update_checksum(uint8_t *data, uint8_t len, uint8_t *ck_a, uint8_t *ck_b)
         data++;
     }
 }
-
+*/
 
 static bool UBLOX_parse_gps(void)
 {

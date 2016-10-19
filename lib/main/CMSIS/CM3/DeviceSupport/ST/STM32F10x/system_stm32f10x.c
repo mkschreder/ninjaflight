@@ -87,6 +87,7 @@ enum {
 };
 
 // Set system clock to 72 (HSE) or 64 (HSI) MHz
+void SetSysClock(bool overclock); 
 void SetSysClock(bool overclock)
 {
     __IO uint32_t StartUpCounter = 0, status = 0, clocksrc = SRC_NONE;

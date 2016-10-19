@@ -122,7 +122,7 @@ static float magGain[3] = { 1.0f, 1.0f, 1.0f };
 
 static const hmc5883Config_t *hmc5883Config = NULL;
 
-void MAG_DATA_READY_EXTI_Handler(void)
+static void MAG_DATA_READY_EXTI_Handler(void)
 {
     if (EXTI_GetITStatus(hmc5883Config->exti_line) == RESET) {
         return;

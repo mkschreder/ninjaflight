@@ -40,6 +40,8 @@
 #define CCMR_OC13M_MASK    ((uint32_t)0xFFFEFF8F)
 #define CCMR_OC24M_MASK    ((uint32_t)0xFEFF8FFF) 
 
+#if 0
+// TODO: not used?
 void TIM_SelectOCxM_NoDisable(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint32_t TIM_OCMode)
 {
   uint32_t tmp = 0;
@@ -73,3 +75,4 @@ void TIM_SelectOCxM_NoDisable(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint32_t 
     *(__IO uint32_t *) tmp |= (uint32_t)(TIM_OCMode << 8);
   }
 }
+#endif

@@ -85,6 +85,8 @@
 #include "config/config.h"
 #include "config/feature.h"
 
+#include "mw.h"
+
 // June 2013     V2.2-dev
 
 enum {
@@ -292,13 +294,15 @@ void mwDisarm(void)
 
 #define TELEMETRY_FUNCTION_MASK (FUNCTION_TELEMETRY_FRSKY | FUNCTION_TELEMETRY_HOTT | FUNCTION_TELEMETRY_SMARTPORT | FUNCTION_TELEMETRY_LTM | FUNCTION_TELEMETRY_MAVLINK)
 
-void releaseSharedTelemetryPorts(void) {
+#ifdef TELEMETRY
+static void releaseSharedTelemetryPorts(void) {
     serialPort_t *sharedPort = findSharedSerialPort(TELEMETRY_FUNCTION_MASK, FUNCTION_MSP);
      while (sharedPort) {
          mspSerialReleasePortIfAllocated(sharedPort);
          sharedPort = findNextSharedSerialPort(TELEMETRY_FUNCTION_MASK, FUNCTION_MSP);
      }
 }
+#endif 
 
 void mwArm(void)
 {
@@ -366,7 +370,7 @@ void handleInflightCalibrationStickPosition(void)
     }
 }
 
-void updateInflightCalibrationState(void)
+static void updateInflightCalibrationState(void)
 {
     if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rcData[THROTTLE] > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
         InflightcalibratingA = 50;
@@ -382,7 +386,7 @@ void updateInflightCalibrationState(void)
     }
 }
 
-void updateMagHold(void)
+static void updateMagHold(void)
 {
     if (ABS(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
         int16_t dif = DECIDEGREES_TO_DEGREES(attitude.values.yaw) - magHold;
@@ -397,7 +401,7 @@ void updateMagHold(void)
         magHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
 }
 
-void processRx(void)
+static void processRx(void)
 {
     static bool armedBeeperOn = false;
 
@@ -590,7 +594,7 @@ void processRx(void)
 
 }
 
-void filterRc(void){
+static void filterRc(void){
     static int16_t lastCommand[4] = { 0, 0, 0, 0 };
     static int16_t deltaRC[4] = { 0, 0, 0, 0 };
     static int16_t factor, rcInterpolationFactor;
@@ -627,7 +631,7 @@ void filterRc(void){
 static bool haveUpdatedRcCommandsOnce = false;
 #endif
 
-void taskMainPidLoop(void)
+static void taskMainPidLoop(void)
 {
     cycleTime = getTaskDeltaTime(TASK_SELF);
     dT = (float)cycleTime * 0.000001f;

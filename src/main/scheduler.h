@@ -121,6 +121,26 @@ uint32_t getTaskDeltaTime(cfTaskId_e taskId);
 void schedulerInit(void);
 void scheduler(void);
 
+void taskMainPidLoopChecker(void);
+void taskUpdateAccelerometer(void);
+void taskHandleSerial(void);
+void taskUpdateBeeper(void);
+void taskUpdateBattery(void);
+bool taskUpdateRxCheck(uint32_t currentDeltaTime);
+void taskUpdateRxMain(void);
+void taskProcessGPS(void);
+void taskUpdateCompass(void);
+void taskUpdateBaro(void);
+void taskUpdateSonar(void);
+void taskCalculateAltitude(void);
+void taskUpdateDisplay(void);
+void taskTelemetry(void);
+void taskLedStrip(void);
+void taskTransponder(void);
+
+
+void taskSystem(void);
+
 #define LOAD_PERCENTAGE_ONE 100
 
 #define isSystemOverloaded() (averageSystemLoadPercent >= LOAD_PERCENTAGE_ONE)

@@ -17,6 +17,8 @@
 
 #pragma once
 
+struct serialPort_s; 
+
 #define LAT 0
 #define LON 1
 
@@ -123,6 +125,7 @@ extern uint32_t GPS_garbageByteCount;
 
 void gpsInit(void);
 
+void gpsEnablePassthrough(struct serialPort_s *gpsPassthroughPort); 
 void gpsThread(void);
 bool gpsNewFrame(uint8_t c);
 void updateGpsIndicator(uint32_t currentTime);

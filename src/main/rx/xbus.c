@@ -148,7 +148,7 @@ static uint16_t xBusCRC16(uint16_t crc, uint8_t value)
 }
 
 // Full RJ01 message CRC calculations
-uint8_t xBusRj01CRC8(uint8_t inData, uint8_t seed)
+static uint8_t xBusRj01CRC8(uint8_t inData, uint8_t seed)
 {
     uint8_t bitsLeft;
     uint8_t temp;

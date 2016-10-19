@@ -95,11 +95,12 @@ PG_RESET_TEMPLATE(gpsProfile_t, gpsProfile,
 
 
 // When using PWM input GPS usage reduces number of available channels by 2 - see pwm_common.c/pwmInit()
+// TODO: this one is abused elsewhere. 
+void navigationInit(pidProfile_t *pidProfile); 
 void navigationInit(pidProfile_t *pidProfile)
 {
     gpsUsePIDs(pidProfile);
 }
-
 
 
 /*-----------------------------------------------------------
@@ -260,7 +261,7 @@ static int32_t nav_bearing;
 // saves the bearing at takeof (1deg = 1) used to rotate to takeoff direction when arrives at home
 static int16_t nav_takeoff_bearing;
 
-void GPS_calculateDistanceAndDirectionToHome(void)
+static void GPS_calculateDistanceAndDirectionToHome(void)
 {
     if (STATE(GPS_FIX_HOME)) {      // If we don't have home set, do not display anything
         uint32_t dist;

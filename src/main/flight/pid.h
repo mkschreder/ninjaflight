@@ -77,3 +77,17 @@ void pidSetController(pidControllerType_e type);
 void pidResetITermAngle(void);
 void pidResetITerm(void);
 
+// TODO: remove these dependencies because this is awful
+#include "rx/rx.h"
+#include "io/rate_profile.h" 
+#include "drivers/accgyro.h" 
+#include "sensors/acceleration.h" 
+
+void pidMultiWiiRewrite(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+        uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
+void pidMultiWii23(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+        uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
+void pidLuxFloat(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+        uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
+
+

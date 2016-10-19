@@ -134,3 +134,4 @@ void resetAdjustmentStates(void);
 void configureAdjustmentState(adjustmentRange_t *adjustmentRange);
 void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges);
 void processRcAdjustments(controlRateConfig_t *controlRateConfig, rxConfig_t *rxConfig);
+

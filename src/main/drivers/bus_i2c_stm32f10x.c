@@ -68,6 +68,11 @@ void i2cSetOverclock(uint8_t OverClock)
     i2cOverClock = (OverClock) ? true : false;
 }
 
+void I2C1_ER_IRQHandler(void); 
+void I2C1_EV_IRQHandler(void); 
+void I2C2_ER_IRQHandler(void);
+void I2C2_EV_IRQHandler(void); 
+
 void I2C1_ER_IRQHandler(void)
 {
     i2c_er_handler();

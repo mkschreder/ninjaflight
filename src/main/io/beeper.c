@@ -252,7 +252,7 @@ void beeperConfirmationBeeps(uint8_t beepCount)
 }
 
 #ifdef GPS
-void beeperGpsStatus(void)
+static void beeperGpsStatus(void)
 {
     // if GPS fix then beep out number of satellites
     if (STATE(GPS_FIX) && GPS_numSat >= 5) {

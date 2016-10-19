@@ -159,7 +159,7 @@ static uint16_t spektrumReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t ch
 
 #ifdef SPEKTRUM_BIND
 
-bool spekShouldBind(uint8_t spektrum_sat_bind)
+static bool spekShouldBind(uint8_t spektrum_sat_bind)
 {
 #ifdef HARDWARE_BIND_PLUG
     gpio_config_t cfg = {

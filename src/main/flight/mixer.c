@@ -320,6 +320,8 @@ struct motor_mixer *customMixers;
 
 // TODO: fix the self reference and remove all externs 
 void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uint8_t count){
+	(void)self; 
+	(void)count; 
     customMixers = initialCustomMixers;
 }
 
@@ -340,6 +342,7 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 #ifndef USE_QUAD_MIXER_ONLY
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *customMixers)
 {
+	(void)self; 
     int i;
 
     // we're 1-based
@@ -400,7 +403,7 @@ void StopPwmAllMotors()
     pwmShutdownPulsesForAllMotors(motorCount);
 }
 
-uint16_t mixConstrainMotorForFailsafeCondition(uint8_t motorIndex)
+static uint16_t mixConstrainMotorForFailsafeCondition(uint8_t motorIndex)
 {
     return constrain(motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
 }

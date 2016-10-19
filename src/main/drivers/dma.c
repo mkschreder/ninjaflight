@@ -30,26 +30,30 @@
  */
 static dmaHandlers_t dmaHandlers;
 
-void dmaNoOpHandler(DMA_Channel_TypeDef *channel)
+static void dmaNoOpHandler(DMA_Channel_TypeDef *channel)
 {
     UNUSED(channel);
 }
 
+void DMA1_Channel2_IRQHandler(void); 
 void DMA1_Channel2_IRQHandler(void)
 {
     dmaHandlers.dma1Channel2IRQHandler(DMA1_Channel2);
 }
 
+void DMA1_Channel3_IRQHandler(void); 
 void DMA1_Channel3_IRQHandler(void)
 {
     dmaHandlers.dma1Channel3IRQHandler(DMA1_Channel3);
 }
 
+void DMA1_Channel6_IRQHandler(void); 
 void DMA1_Channel6_IRQHandler(void)
 {
     dmaHandlers.dma1Channel6IRQHandler(DMA1_Channel6);
 }
 
+void DMA1_Channel7_IRQHandler(void); 
 void DMA1_Channel7_IRQHandler(void)
 {
     dmaHandlers.dma1Channel7IRQHandler(DMA1_Channel7);

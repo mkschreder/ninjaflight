@@ -39,7 +39,7 @@
 #if defined(SONAR)
 STATIC_UNIT_TESTED volatile int32_t measurement = -1;
 static uint32_t lastMeasurementAt;
-static sonarHardware_t const *sonarHardware;
+static struct sonar_hardware const *sonarHardware;
 
 #if !defined(UNIT_TEST)
 static void ECHO_EXTI_IRQHandler(void)
@@ -59,6 +59,10 @@ static void ECHO_EXTI_IRQHandler(void)
     EXTI_ClearITPendingBit(sonarHardware->exti_line);
 }
 
+void EXTI0_IRQHandler(void); 
+void EXTI1_IRQHandler(void); 
+void EXTI9_5_IRQHandler(void); 
+
 void EXTI0_IRQHandler(void)
 {
     ECHO_EXTI_IRQHandler();
@@ -75,7 +79,7 @@ void EXTI9_5_IRQHandler(void)
 }
 #endif
 
-void hcsr04_init(const sonarHardware_t *initialSonarHardware, sonarRange_t *sonarRange)
+void hcsr04_init(const struct sonar_hardware *initialSonarHardware, sonarRange_t *sonarRange)
 {
     sonarHardware = initialSonarHardware;
     sonarRange->maxRangeCm = HCSR04_MAX_RANGE_CM;

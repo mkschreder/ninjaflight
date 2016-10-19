@@ -143,7 +143,7 @@ typedef struct ppmISREvent_s {
 static ppmISREvent_t ppmEvents[20];
 static uint8_t ppmEventIndex = 0;
 
-void ppmISREvent(eventSource_e source, uint32_t capture)
+static void ppmISREvent(eventSource_e source, uint32_t capture)
 {
     ppmEventIndex = (ppmEventIndex + 1) % (sizeof(ppmEvents) / sizeof(ppmEvents[0]));
 

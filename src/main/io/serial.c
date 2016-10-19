@@ -141,7 +141,7 @@ static serialPortUsage_t *findSerialPortUsageByIdentifier(serialPortIdentifier_e
     return NULL;
 }
 
-serialPortUsage_t *findSerialPortUsageByPort(serialPort_t *serialPort)
+static serialPortUsage_t *findSerialPortUsageByPort(serialPort_t *serialPort)
 {
     uint8_t index;
     for (index = 0; index < SERIAL_PORT_COUNT; index++) {

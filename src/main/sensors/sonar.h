@@ -19,10 +19,12 @@
 
 #define SONAR_OUT_OF_RANGE (-1)
 
+struct sonar_hardware; 
 extern int16_t sonarMaxRangeCm;
 extern int16_t sonarCfAltCm;
 extern int16_t sonarMaxAltWithTiltCm;
 
+void sonarInit(const struct sonar_hardware *sonarHardware);
 void sonarUpdate(void);
 int32_t sonarRead(void);
 int32_t sonarCalculateAltitude(int32_t sonarDistance, float cosTiltAngle);

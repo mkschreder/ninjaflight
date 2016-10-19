@@ -120,8 +120,7 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
 void rxInit(modeActivationCondition_t *modeActivationConditions);
 
 void navigationInit(pidProfile_t *pidProfile);
-const sonarHardware_t *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType);
-void sonarInit(const sonarHardware_t *sonarHardware);
+const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType);
 
 #ifdef STM32F303xC
 // from system_stm32f30x.c
@@ -153,7 +152,7 @@ typedef enum {
 
 static uint8_t systemState = SYSTEM_STATE_INITIALISING;
 
-void flashLedsAndBeep(void)
+static void flashLedsAndBeep(void)
 {
     LED1_ON;
     LED0_OFF;
@@ -227,7 +226,7 @@ void buttonsHandleColdBootButtonPresses(void)
 
 #endif
 
-void init(void)
+static void init(void)
 {
     drv_pwm_config_t pwm_params;
 
@@ -336,7 +335,7 @@ void init(void)
     memset(&pwm_params, 0, sizeof(pwm_params));
 
 #ifdef SONAR
-    const sonarHardware_t *sonarHardware = NULL;
+    const struct sonar_hardware *sonarHardware = NULL;
 
     if (feature(FEATURE_SONAR)) {
         sonarHardware = sonarGetHardwareConfiguration(batteryConfig()->currentMeterType);
@@ -728,6 +727,7 @@ int main(void) {
     }
 }
 
+void HardFault_Handler(void); 
 void HardFault_Handler(void)
 {
     // fall out of the sky

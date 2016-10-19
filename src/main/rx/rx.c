@@ -170,6 +170,8 @@ STATIC_UNIT_TESTED void rxUpdateFlightChannelStatus(uint8_t channel, bool valid)
     }
 }
 
+// TODO: this one is abused elsewhere. 
+void rxInit(modeActivationCondition_t *modeActivationConditions); 
 void rxInit(modeActivationCondition_t *modeActivationConditions)
 {
     uint8_t i;
@@ -288,7 +290,7 @@ uint8_t serialRxFrameStatus(void)
 }
 #endif
 
-uint8_t calculateChannelRemapping(uint8_t *channelMap, uint8_t channelMapEntryCount, uint8_t channelToRemap)
+static uint8_t calculateChannelRemapping(uint8_t *channelMap, uint8_t channelMapEntryCount, uint8_t channelToRemap)
 {
     if (channelToRemap < channelMapEntryCount) {
         return channelMap[channelToRemap];
@@ -583,7 +585,7 @@ void parseRcChannels(const char *input, rxConfig_t *rxConfig)
     }
 }
 
-void updateRSSIPWM(void)
+static void updateRSSIPWM(void)
 {
     int16_t pwmRssi = 0;
     // Read value of AUX channel as rssi
@@ -601,7 +603,7 @@ void updateRSSIPWM(void)
 #define RSSI_ADC_SAMPLE_COUNT 16
 //#define RSSI_SCALE (0xFFF / 100.0f)
 
-void updateRSSIADC(uint32_t currentTime)
+static void updateRSSIADC(uint32_t currentTime)
 {
 #ifndef USE_ADC
     UNUSED(currentTime);
