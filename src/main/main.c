@@ -116,7 +116,7 @@ extern uint8_t motorControlEnable;
 serialPort_t *loopbackPort;
 #endif
 
-void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
+void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
 void rxInit(modeActivationCondition_t *modeActivationConditions);
 
 void navigationInit(pidProfile_t *pidProfile);
@@ -400,7 +400,7 @@ static void init(void)
     // pwmInit() needs to be called as soon as possible for ESC compatibility reasons
     pwmIOConfiguration_t *pwmIOConfiguration = pwmInit(&pwm_params);
 
-    mixerUsePWMIOConfiguration(pwmIOConfiguration);
+    mixerUsePWMIOConfiguration(&default_mixer, pwmIOConfiguration);
 
 #ifdef DEBUG_PWM_CONFIGURATION
     debug[2] = pwmIOConfiguration->pwmInputCount;
@@ -512,7 +512,7 @@ static void init(void)
     flashLedsAndBeep();
 
 #ifdef USE_SERVOS
-    mixerInitialiseServoFiltering(targetLooptime);
+    mixerInitialiseServoFiltering(&default_mixer, targetLooptime);
 #endif
 
 #ifdef MAG
@@ -733,7 +733,7 @@ void HardFault_Handler(void)
     // fall out of the sky
     uint8_t requiredStateForMotors = SYSTEM_STATE_CONFIG_LOADED | SYSTEM_STATE_MOTORS_READY;
     if ((systemState & requiredStateForMotors) == requiredStateForMotors) {
-        stopMotors();
+        stopMotors(&default_mixer);
     }
 #ifdef TRANSPONDER
     // prevent IR LEDs from burning out.

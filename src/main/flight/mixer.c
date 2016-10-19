@@ -60,15 +60,7 @@
 #include "config/config_reset.h"
 
 //#define MIXER_DEBUG
-
-uint8_t motorCount;
-
-int16_t motor[MAX_SUPPORTED_MOTORS];
-int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-
-bool motorLimitReached;
-
-struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
+struct mixer default_mixer; 
 
 PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
 PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
@@ -266,7 +258,7 @@ static const struct motor_mixer mixerTricopter[] = {
 };
 
 // Keep synced with mixerMode_e
-const struct mixer mixers[] = {
+const struct mixer_mode mixers[] = {
     // motors, use servo, motor mixer
     { 0, false, NULL },                // entry 0
     { 3, true,  mixerTricopter },      // MIXER_TRI
@@ -316,23 +308,22 @@ const struct mixer mixers[] = {
 };
 #endif
 
-struct motor_mixer *customMixers;
 
 // TODO: fix the self reference and remove all externs 
 void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uint8_t count){
-	(void)self; 
 	(void)count; 
-    customMixers = initialCustomMixers;
+	self->motorCount = 0; 
+    self->customMixers = initialCustomMixers;
 }
 
 #if !defined(USE_SERVOS) || defined(USE_QUAD_MIXER_ONLY)
-void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
+void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration)
 {
     UNUSED(pwmIOConfiguration);
-    motorCount = 4;
+    self->motorCount = 4;
     uint8_t i;
-    for (i = 0; i < motorCount; i++) {
-        currentMixer[i] = mixerQuadX[i];
+    for (i = 0; i < self->motorCount; i++) {
+        self->currentMixer[i] = mixerQuadX[i];
     }
     mixerResetDisarmedMotors();
 }
@@ -340,6 +331,7 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 
 
 #ifndef USE_QUAD_MIXER_ONLY
+// TODO: this method does not make sense. Change name. 
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *customMixers)
 {
 	(void)self; 
@@ -360,61 +352,62 @@ void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *c
 
 #endif
 
-void mixerResetDisarmedMotors(void)
+void mixerResetDisarmedMotors(struct mixer *self)
 {
+	(void)self; 
     int i;
     // set disarmed motor values
     for (i = 0; i < MAX_SUPPORTED_MOTORS; i++)
-        motor_disarmed[i] = feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand;
+        self->motor_disarmed[i] = feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand;
 }
 
-void writeMotors(void)
+void writeMotors(struct mixer *self)
 {
     uint8_t i;
 
-    for (i = 0; i < motorCount; i++)
-        pwmWriteMotor(i, motor[i]);
+    for (i = 0; i < self->motorCount; i++)
+        pwmWriteMotor(i, self->motor[i]);
 
 
     if (feature(FEATURE_ONESHOT125)) {
-        pwmCompleteOneshotMotorUpdate(motorCount);
+        pwmCompleteOneshotMotorUpdate(self->motorCount);
     }
 }
 
-void writeAllMotors(int16_t mc)
+void writeAllMotors(struct mixer *self, int16_t mc)
 {
     uint8_t i;
 
     // Sends commands to all motors
-    for (i = 0; i < motorCount; i++)
-        motor[i] = mc;
-    writeMotors();
+    for (i = 0; i < self->motorCount; i++)
+        self->motor[i] = mc;
+    writeMotors(self);
 }
 
-void stopMotors(void)
+void stopMotors(struct mixer *self)
 {
-    writeAllMotors(feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand);
+    writeAllMotors(self, feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand);
 
     delay(50); // give the timers and ESCs a chance to react.
 }
 
-void StopPwmAllMotors()
+void StopPwmAllMotors(struct mixer *self)
 {
-    pwmShutdownPulsesForAllMotors(motorCount);
+    pwmShutdownPulsesForAllMotors(self->motorCount);
 }
 
-static uint16_t mixConstrainMotorForFailsafeCondition(uint8_t motorIndex)
+static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_t motorIndex)
 {
-    return constrain(motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
+    return constrain(self->motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
 }
 
-void mixTable(void)
+void mixTable(struct mixer *self)
 {
     uint32_t i;
 
     bool isFailsafeActive = failsafeIsActive();
 
-    if (motorCount >= 4 && mixerConfig()->yaw_jump_prevention_limit < YAW_JUMP_PREVENTION_LIMIT_HIGH) {
+    if (self->motorCount >= 4 && mixerConfig()->yaw_jump_prevention_limit < YAW_JUMP_PREVENTION_LIMIT_HIGH) {
         // prevent "yaw jump" during yaw correction
         axisPID[FD_YAW] = constrain(axisPID[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
     }
@@ -426,11 +419,11 @@ void mixTable(void)
         int16_t rollPitchYawMixMin = 0;
 
         // Find roll/pitch/yaw desired output
-        for (i = 0; i < motorCount; i++) {
+        for (i = 0; i < self->motorCount; i++) {
             rollPitchYawMix[i] =
-                axisPID[FD_PITCH] * currentMixer[i].pitch +
-                axisPID[FD_ROLL] * currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * currentMixer[i].yaw;
+                axisPID[FD_PITCH] * self->currentMixer[i].pitch +
+                axisPID[FD_ROLL] * self->currentMixer[i].roll +
+                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * self->currentMixer[i].yaw;
 
             if (rollPitchYawMix[i] > rollPitchYawMixMax) rollPitchYawMixMax = rollPitchYawMix[i];
             if (rollPitchYawMix[i] < rollPitchYawMixMin) rollPitchYawMixMin = rollPitchYawMix[i];
@@ -470,54 +463,54 @@ void mixTable(void)
         throttleRange = throttleMax - throttleMin;
 
         if (rollPitchYawMixRange > throttleRange) {
-            motorLimitReached = true;
+            self->motorLimitReached = true;
             float mixReduction = (float) throttleRange / rollPitchYawMixRange;
-            for (i = 0; i < motorCount; i++) {
+            for (i = 0; i < self->motorCount; i++) {
                 rollPitchYawMix[i] =  lrintf((float) rollPitchYawMix[i] * mixReduction);
             }
             // Get the maximum correction by setting throttle offset to center.
             throttleMin = throttleMax = throttleMin + (throttleRange / 2);
         } else {
-            motorLimitReached = false;
+            self->motorLimitReached = false;
             throttleMin = throttleMin + (rollPitchYawMixRange / 2);
             throttleMax = throttleMax - (rollPitchYawMixRange / 2);
         }
 
         // Now add in the desired throttle, but keep in a range that doesn't clip adjusted
         // roll/pitch/yaw. This could move throttle down, but also up for those low throttle flips.
-        for (i = 0; i < motorCount; i++) {
-            motor[i] = rollPitchYawMix[i] + constrain(throttle * currentMixer[i].throttle, throttleMin, throttleMax);
+        for (i = 0; i < self->motorCount; i++) {
+            self->motor[i] = rollPitchYawMix[i] + constrain(throttle * self->currentMixer[i].throttle, throttleMin, throttleMax);
 
             if (isFailsafeActive) {
-                motor[i] = mixConstrainMotorForFailsafeCondition(i);
+                self->motor[i] = mixConstrainMotorForFailsafeCondition(self, i);
             } else if (feature(FEATURE_3D)) {
                 if (throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)) {
-                    motor[i] = constrain(motor[i], motorAndServoConfig()->minthrottle, motor3DConfig()->deadband3d_low);
+                    self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->minthrottle, motor3DConfig()->deadband3d_low);
                 } else {
-                    motor[i] = constrain(motor[i], motor3DConfig()->deadband3d_high, motorAndServoConfig()->maxthrottle);
+                    self->motor[i] = constrain(self->motor[i], motor3DConfig()->deadband3d_high, motorAndServoConfig()->maxthrottle);
                 }
             } else {
-                motor[i] = constrain(motor[i], motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+                self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
             }
         }
     } else {
         // motors for non-servo mixes
-        for (i = 0; i < motorCount; i++) {
-            motor[i] =
-                rcCommand[THROTTLE] * currentMixer[i].throttle +
-                axisPID[FD_PITCH] * currentMixer[i].pitch +
-                axisPID[FD_ROLL] * currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * currentMixer[i].yaw;
+        for (i = 0; i < self->motorCount; i++) {
+            self->motor[i] =
+                rcCommand[THROTTLE] * self->currentMixer[i].throttle +
+                axisPID[FD_PITCH] * self->currentMixer[i].pitch +
+                axisPID[FD_ROLL] * self->currentMixer[i].roll +
+                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * self->currentMixer[i].yaw;
         }
 
         // Find the maximum motor output.
-        int16_t maxMotor = motor[0];
-        for (i = 1; i < motorCount; i++) {
+        int16_t maxMotor = self->motor[0];
+        for (i = 1; i < self->motorCount; i++) {
             // If one motor is above the maxthrottle threshold, we reduce the value
             // of all motors by the amount of overshoot.  That way, only one motor
             // is at max and the relative power of each motor is preserved.
-            if (motor[i] > maxMotor) {
-                maxMotor = motor[i];
+            if (self->motor[i] > maxMotor) {
+                maxMotor = self->motor[i];
             }
         }
 
@@ -526,38 +519,38 @@ void mixTable(void)
             maxThrottleDifference = maxMotor - motorAndServoConfig()->maxthrottle;
         }
 
-        for (i = 0; i < motorCount; i++) {
+        for (i = 0; i < self->motorCount; i++) {
             // this is a way to still have good gyro corrections if at least one motor reaches its max.
-            motor[i] -= maxThrottleDifference;
+            self->motor[i] -= maxThrottleDifference;
 
             if (feature(FEATURE_3D)) {
                 if (mixerConfig()->pid_at_min_throttle
                         || rcData[THROTTLE] <= rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle
                         || rcData[THROTTLE] >= rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle) {
                     if (rcData[THROTTLE] > rxConfig()->midrc) {
-                        motor[i] = constrain(motor[i], motor3DConfig()->deadband3d_high, motorAndServoConfig()->maxthrottle);
+                        self->motor[i] = constrain(self->motor[i], motor3DConfig()->deadband3d_high, motorAndServoConfig()->maxthrottle);
                     } else {
-                        motor[i] = constrain(motor[i], motorAndServoConfig()->mincommand, motor3DConfig()->deadband3d_low);
+                        self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->mincommand, motor3DConfig()->deadband3d_low);
                     }
                 } else {
                     if (rcData[THROTTLE] > rxConfig()->midrc) {
-                        motor[i] = motor3DConfig()->deadband3d_high;
+                        self->motor[i] = motor3DConfig()->deadband3d_high;
                     } else {
-                        motor[i] = motor3DConfig()->deadband3d_low;
+                        self->motor[i] = motor3DConfig()->deadband3d_low;
                     }
                 }
             } else {
                 if (isFailsafeActive) {
-                    motor[i] = mixConstrainMotorForFailsafeCondition(i);
+                    self->motor[i] = mixConstrainMotorForFailsafeCondition(self, i);
                 } else {
                     // If we're at minimum throttle and FEATURE_MOTOR_STOP enabled,
                     // do not spin the motors.
-                    motor[i] = constrain(motor[i], motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+                    self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
                     if ((rcData[THROTTLE]) < rxConfig()->mincheck) {
                         if (feature(FEATURE_MOTOR_STOP)) {
-                            motor[i] = motorAndServoConfig()->mincommand;
+                            self->motor[i] = motorAndServoConfig()->mincommand;
                         } else if (mixerConfig()->pid_at_min_throttle == 0) {
-                            motor[i] = motorAndServoConfig()->minthrottle;
+                            self->motor[i] = motorAndServoConfig()->minthrottle;
                         }
                     }
                 }
@@ -568,15 +561,37 @@ void mixTable(void)
 
     /* Disarmed for all mixers */
     if (!ARMING_FLAG(ARMED)) {
-        for (i = 0; i < motorCount; i++) {
-            motor[i] = motor_disarmed[i];
+        for (i = 0; i < self->motorCount; i++) {
+            self->motor[i] = self->motor_disarmed[i];
         }
     }
 
     // motor outputs are used as sources for servo mixing, so motors must be calculated before servos.
 
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-    servoMixTable();
+    servoMixTable(self);
 #endif
 }
 
+void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value){
+	if(id >= self->motorCount) return; 
+	self->motor_disarmed[id] = value; 
+}
+
+int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id){
+	if(id >= self->motorCount) return 0; 
+	return self->motor_disarmed[id]; 
+}
+
+uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id){
+	if(id >= self->motorCount) return 0; 
+	return self->motor[id]; 
+}
+
+bool mixer_motor_limit_reached(struct mixer *self){
+	return self->motorLimitReached; 
+}
+
+uint8_t mixer_get_motor_count(struct mixer *self){
+	return self->motorCount; 
+}

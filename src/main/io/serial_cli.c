@@ -1913,7 +1913,7 @@ static void cliExit(char *cmdline)
     bufferIndex = 0;
     cliMode = 0;
     // incase a motor was left running during motortest, clear it here
-    mixerResetDisarmedMotors();
+    mixerResetDisarmedMotors(&default_mixer);
     cliReboot();
 
     cliWriter = NULL;
@@ -2120,11 +2120,11 @@ static void cliMotor(char *cmdline)
             cliShowArgumentRangeError("value", 1000, 2000);
             return;
         } else {
-            motor_disarmed[motor_index] = motor_value;
+			mixer_set_motor_disarmed_pwm(&default_mixer, motor_index,  motor_value); 
         }
     }
 
-    cliPrintf("motor %d: %d\r\n", motor_index, motor_disarmed[motor_index]);
+    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_disarmed_pwm(&default_mixer, motor_index));
 }
 
 static void cliPlaySound(char *cmdline)
@@ -2201,7 +2201,7 @@ static void cliReboot(void)
     cliPrint("\r\nRebooting");
     bufWriterFlush(cliWriter);
     waitForSerialPortToFinishTransmitting(cliPort);
-    stopMotors();
+    stopMotors(&default_mixer);
     handleOneshotFeatureChangeOnRestart();
     systemReset();
 }

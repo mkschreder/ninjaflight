@@ -343,7 +343,8 @@ void changeProfile(uint8_t profileIndex)
 void handleOneshotFeatureChangeOnRestart(void)
 {
     // Shutdown PWM on all motors prior to soft restart
-    StopPwmAllMotors();
+	// TODO: this is not supposed to be called from here and with new changes this is very apparent. So fix this after done refactoring. 
+    //StopPwmAllMotors(&default_mixer);
     delay(50);
     // Apply additional delay when OneShot125 feature changed from on to off state
     if (feature(FEATURE_ONESHOT125) && !featureConfigured(FEATURE_ONESHOT125)) {

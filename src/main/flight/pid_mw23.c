@@ -57,8 +57,6 @@ static int32_t ITermAngle[2];
 
 uint8_t dynP8[3], dynI8[3], dynD8[3];
 
-extern uint8_t motorCount;
-
 #ifdef BLACKBOX
 extern int32_t axisPID_P[3], axisPID_I[3], axisPID_D[3];
 #endif
@@ -106,7 +104,7 @@ void pidMultiWii23(const pidProfile_t *pidProfile, const controlRateConfig_t *co
 
         // Anti windup protection
         if (rcModeIsActive(BOXAIRMODE)) {
-            if (STATE(ANTI_WINDUP) || motorLimitReached) {
+            if (STATE(ANTI_WINDUP) || mixer_motor_limit_reached(&default_mixer)) {
                 lastITerm[axis] = constrain(lastITerm[axis], -ITermLimit[axis], ITermLimit[axis]);
             } else {
                 ITermLimit[axis] = ABS(lastITerm[axis]);
@@ -187,7 +185,7 @@ void pidMultiWii23(const pidProfile_t *pidProfile, const controlRateConfig_t *co
     PTerm = (int32_t)error * pidProfile->P8[FD_YAW] >> 6; // TODO: Bitwise shift on a signed integer is not recommended
 
     // Constrain YAW by D value if not servo driven in that case servolimits apply
-    if(motorCount >= 4 && pidProfile->yaw_p_limit < YAW_P_LIMIT_MAX) {
+    if(mixer_get_motor_count(&default_mixer) >= 4 && pidProfile->yaw_p_limit < YAW_P_LIMIT_MAX) {
         PTerm = constrain(PTerm, -pidProfile->yaw_p_limit, pidProfile->yaw_p_limit);
     }
 

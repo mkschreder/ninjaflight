@@ -61,10 +61,7 @@
 #include "flight/pid.h"
 #include "flight/imu.h"
 
-extern uint8_t motorCount;
-extern struct motor_mixer *customMixers;
-extern struct mixer mixers[];
-extern struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
+extern struct mixer_mode mixers[];
 
 static uint8_t servoRuleCount = 0;
 static servoMixer_t currentServoMixer[MAX_SERVO_RULES];
@@ -180,8 +177,9 @@ void mixerUseConfigs(servoParam_t *servoConfToUse)
     servoConf = servoConfToUse;
 }
 
-void mixerInitialiseServoFiltering(uint32_t targetLooptime)
+void mixerInitialiseServoFiltering(struct mixer *self, uint32_t targetLooptime)
 {
+	(void)self; 
     if (mixerConfig()->servo_lowpass_enable) {
         for (int servoIdx = 0; servoIdx < MAX_SUPPORTED_SERVOS; servoIdx++) {
             BiQuadNewLpf(mixerConfig()->servo_lowpass_freq, &servoFilterState[servoIdx], targetLooptime);
@@ -227,29 +225,30 @@ void mixerInitServos(servoMixer_t *initialCustomServoMixers)
 }
 
 // TODO: this is abused elsewhere. Stop the abuse. 
-void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration); 
-void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
+void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration); 
+void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration)
 {
     int i;
 
-    motorCount = 0;
+    self->motorCount = 0;
     servoCount = pwmIOConfiguration->servoCount;
 
     if (mixerConfig()->mixerMode == MIXER_CUSTOM || mixerConfig()->mixerMode == MIXER_CUSTOM_TRI || mixerConfig()->mixerMode == MIXER_CUSTOM_AIRPLANE) {
         // load custom mixer into currentMixer
         for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
             // check if done
-            if (customMixers[i].throttle == 0.0f)
+			// TODO: make this use some kind of is_zero because otherwise it will not work like this with floats!
+            if (self->customMixers[i].throttle == 0.0f)
                 break;
-            currentMixer[i] = customMixers[i];
-            motorCount++;
+            self->currentMixer[i] = self->customMixers[i];
+            self->motorCount++;
         }
     } else {
-        motorCount = mixers[mixerConfig()->mixerMode].motorCount;
+        self->motorCount = mixers[mixerConfig()->mixerMode].motorCount;
         // copy motor-based mixers
         if (mixers[mixerConfig()->mixerMode].motor) {
-            for (i = 0; i < motorCount; i++)
-                currentMixer[i] = mixers[mixerConfig()->mixerMode].motor[i];
+            for (i = 0; i < self->motorCount; i++)
+                self->currentMixer[i] = mixers[mixerConfig()->mixerMode].motor[i];
         }
     }
 
@@ -263,11 +262,11 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
 
     // in 3D mode, mixer gain has to be halved
     if (feature(FEATURE_3D)) {
-        if (motorCount > 1) {
-            for (i = 0; i < motorCount; i++) {
-                currentMixer[i].pitch *= 0.5f;
-                currentMixer[i].roll *= 0.5f;
-                currentMixer[i].yaw *= 0.5f;
+        if (self->motorCount > 1) {
+            for (i = 0; i < self->motorCount; i++) {
+                self->currentMixer[i].pitch *= 0.5f;
+                self->currentMixer[i].roll *= 0.5f;
+                self->currentMixer[i].yaw *= 0.5f;
             }
         }
     }
@@ -290,7 +289,7 @@ void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration)
         }
     }
 
-    mixerResetDisarmedMotors();
+    mixerResetDisarmedMotors(&default_mixer);
 }
 
 void loadCustomServoMixer(void)
@@ -433,7 +432,7 @@ STATIC_UNIT_TESTED void servoMixer(void)
     input[INPUT_GIMBAL_PITCH] = scaleRange(attitude.values.pitch, -1800, 1800, -500, +500);
     input[INPUT_GIMBAL_ROLL] = scaleRange(attitude.values.roll, -1800, 1800, -500, +500);
 
-    input[INPUT_STABILIZED_THROTTLE] = motor[0] - 1000 - 500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
+    input[INPUT_STABILIZED_THROTTLE] = mixer_get_motor_value(&default_mixer, 0) - 1000 - 500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
 
     // center the RC input value around the RC middle value
     // by subtracting the RC middle value from the RC input value, we get:
@@ -485,8 +484,9 @@ STATIC_UNIT_TESTED void servoMixer(void)
 }
 
 // airplane / servo mixes
-void servoMixTable(void)
+void servoMixTable(struct mixer *self)
 {
+	(void)self; 
     switch (mixerConfig()->mixerMode) {
         case MIXER_CUSTOM_AIRPLANE:
         case MIXER_FLYING_WING:

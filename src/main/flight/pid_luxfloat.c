@@ -61,8 +61,6 @@ extern float lastITermf[3], ITermLimitf[3];
 
 extern biquad_t deltaFilterState[3];
 
-extern uint8_t motorCount;
-
 #ifdef BLACKBOX
 extern int32_t axisPID_P[3], axisPID_I[3], axisPID_D[3];
 #endif
@@ -85,7 +83,7 @@ STATIC_UNIT_TESTED int16_t pidLuxFloatCore(int axis, const pidProfile_t *pidProf
     // -----calculate P component
     float PTerm = luxPTermScale * rateError * pidProfile->P8[axis] * PIDweight[axis] / 100;
     // Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-    if (axis == YAW && pidProfile->yaw_p_limit && motorCount >= 4) {
+    if (axis == YAW && pidProfile->yaw_p_limit && mixer_get_motor_count(&default_mixer) >= 4) {
         PTerm = constrainf(PTerm, -pidProfile->yaw_p_limit, pidProfile->yaw_p_limit);
     }
 
@@ -96,7 +94,7 @@ STATIC_UNIT_TESTED int16_t pidLuxFloatCore(int axis, const pidProfile_t *pidProf
     ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
     // Anti windup protection
     if (rcModeIsActive(BOXAIRMODE)) {
-        if (STATE(ANTI_WINDUP) || motorLimitReached) {
+        if (STATE(ANTI_WINDUP) || mixer_motor_limit_reached(&default_mixer)) {
             ITerm = constrainf(ITerm, -ITermLimitf[axis], ITermLimitf[axis]);
         } else {
             ITermLimitf[axis] = ABS(ITerm);

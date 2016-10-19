@@ -146,9 +146,6 @@ static const box_t boxes[CHECKBOX_ITEM_COUNT] = {
 // mask of enabled IDs, calculated on start based on enabled features. boxId_e is used as bit index.
 static uint32_t activeBoxIds;
 
-// from mixer.c
-extern int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-
 // cause reboot after MSP processing complete
 bool isRebootScheduled = false;
 // switch to 4wayIf (on current port)
@@ -637,7 +634,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_MOTOR:
             for (unsigned i = 0; i < 8; i++) {
-                sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? motor[i] : 0);
+                sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? mixer_get_motor_value(&default_mixer, i) : 0);
             }
             break;
 
@@ -1197,7 +1194,7 @@ static int processInCommand(mspPacket_t *cmd)
             for (int i = 0; i < 8; i++) {
                 const int16_t disarmed = sbufReadU16(src);
                 if (i < MAX_SUPPORTED_MOTORS) {
-                    motor_disarmed[i] = disarmed;
+                   	mixer_set_motor_disarmed_pwm(&default_mixer, i, disarmed);
                 }
             }
             break;

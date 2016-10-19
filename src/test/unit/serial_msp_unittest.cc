@@ -48,6 +48,8 @@ extern "C" {
     #include "io/serial_msp.h"
     #include "io/msp.h"
 
+	#include "flight/mixer.h"
+
     #include "config/parameter_group_ids.h"
     #include "config/runtime_config.h"
     #include "config/config.h"
@@ -86,6 +88,7 @@ static mspBuffer_t serialReadBuffer;
 static int serialReadPos = 0;
 static int serialReadEnd = 0;
 
+struct mixer default_mixer; 
 serialPort_t serialTestInstance;
 
 void serialWrite(serialPort_t *instance, uint8_t ch)
@@ -246,7 +249,7 @@ TEST_F(SerialMspUnitTest, Test_TestMspSerialInFraming)
 // STUBS
 extern "C" {
 void handleOneshotFeatureChangeOnRestart(void) {}
-void stopMotors(void) {}
+void stopMotors(struct mixer *self) {(void)self;}
 uint8_t armingFlags = 0;
 void delay(uint32_t ms) {UNUSED(ms);}
 // from system_stm32fN0x.c

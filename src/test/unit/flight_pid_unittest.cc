@@ -41,6 +41,7 @@ extern "C" {
     #include "flight/pid.h"
     #include "config/config_unittest.h"
     #include "flight/imu.h"
+	#include "flight/mixer.h"
 
     pidProfile_t testPidProfile;
 }
@@ -71,6 +72,10 @@ extern "C" {
     int32_t unittest_pidMultiWiiRewriteCore_PTerm[3];
     int32_t unittest_pidMultiWiiRewriteCore_ITerm[3];
     int32_t unittest_pidMultiWiiRewriteCore_DTerm[3];
+
+	struct mixer default_mixer; 
+	uint8_t mixer_get_motor_count(struct mixer *self) { (void)self; return 4; }; 
+	bool mixer_motor_limit_reached(struct mixer *self) { (void)self; return false; }; 
 }
 
 static const float luxPTermScale = 1.0f / 128;

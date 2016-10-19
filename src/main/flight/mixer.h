@@ -71,11 +71,27 @@ struct motor_mixer {
 PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
 
 // Custom mixer configuration
-struct mixer {
+struct mixer_mode {
     uint8_t motorCount;
     uint8_t useServo;
     const struct motor_mixer *motor;
+}; 
+
+struct mixer {
+	uint8_t motorCount; 
+
+	int16_t motor[MAX_SUPPORTED_MOTORS];
+	int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
+
+	bool motorLimitReached;
+
+	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
+
+	struct motor_mixer *customMixers;
 };
+
+// TODO: this is very bad way so remove this later once refactoring is done.
+extern struct mixer default_mixer; 
 
 struct mixer_config {
     uint8_t mixerMode;
@@ -101,18 +117,18 @@ PG_DECLARE(struct motor_3d_config, motor3DConfig);
 
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
 
-extern int16_t motor[MAX_SUPPORTED_MOTORS];
-extern int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-
-extern bool motorLimitReached;
-
 void mixer_init(struct mixer *self, struct motor_mixer *custom_mixers, uint8_t count);
-void writeAllMotors(int16_t mc);
+void writeAllMotors(struct mixer *self, int16_t mc);
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
-void mixerResetDisarmedMotors(void);
-void mixTable(void);
-void servoMixTable(void);
-void writeMotors(void);
-void stopMotors(void);
-void StopPwmAllMotors(void);
-void mixerInitialiseServoFiltering(uint32_t targetLooptime);
+void mixerResetDisarmedMotors(struct mixer *self);
+void mixTable(struct mixer *self);
+void servoMixTable(struct mixer *self);
+void writeMotors(struct mixer *self);
+void stopMotors(struct mixer *self);
+void StopPwmAllMotors(struct mixer *self);
+void mixerInitialiseServoFiltering(struct mixer *self, uint32_t targetLooptime);
+void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
+int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id); 
+uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id); 
+bool mixer_motor_limit_reached(struct mixer *self); 
+uint8_t mixer_get_motor_count(struct mixer *self); 

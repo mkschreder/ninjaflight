@@ -189,7 +189,6 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
-
 //#define DEBUG_PG_INSTANCES
 TEST(configTest, fixUnusedWarning)
 {
@@ -406,7 +405,6 @@ extern "C" {
 void applyDefaultLedStripConfig(void) {}
 void applyDefaultColors(void) {}
 void beeperConfirmationBeeps(uint8_t) {}
-void StopPwmAllMotors(void) {}
 void useRxConfig(rxConfig_t *) {}
 void useRcControlsConfig(modeActivationCondition_t *) {}
 void useFailsafeConfig(void) {}

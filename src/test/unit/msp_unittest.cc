@@ -540,7 +540,11 @@ bool setModeColor(ledModeIndex_e , int , int ) { return true; }
 int16_t motor[MAX_SUPPORTED_MOTORS];
 int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
 int16_t servo[MAX_SUPPORTED_SERVOS];
-void stopMotors(void) {}
+struct mixer default_mixer; 
+uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id){ (void)self; (void)id; return 1000; }
+int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id){ (void)self; (void)id; return 900; }
+void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value){ (void)self; (void)id; (void)value; }
+void stopMotors(struct mixer *self) {(void)self;}
 void loadCustomServoMixer(void) {}
 // from msp.c
 void rxMspFrameReceive(uint16_t *, int ) {}

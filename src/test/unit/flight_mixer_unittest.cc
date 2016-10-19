@@ -56,9 +56,8 @@ extern "C" {
     extern uint8_t servoCount;
     void forwardAuxChannelsToServos(uint8_t firstServoIndex);
 
-    void mixerInit(struct motor_mixer *initialCustomMixers);
     void mixerInitServos(servoMixer_t *initialCustomServoMixers);
-    void mixerUsePWMIOConfiguration(pwmIOConfiguration_t *pwmIOConfiguration);
+    void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
 
     PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
@@ -69,6 +68,8 @@ extern "C" {
 
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
+
+struct mixer default_mixer; 
 
 // input
 #define TEST_RC_MID 1500
@@ -235,7 +236,6 @@ protected:
 
 TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 {
-	struct mixer mixer; 
     // given
     rxConfig()->midrc = 1500;
 
@@ -252,7 +252,7 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
     configureMixer(MIXER_TRI);
 
-    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -265,13 +265,13 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
             .ioConfigurations = {}
     };
 
-    mixerUsePWMIOConfiguration(&pwmIOConfiguration);
+    mixerUsePWMIOConfiguration(&default_mixer, &pwmIOConfiguration);
 
     // and
     axisPID[FD_YAW] = 0;
 
     // when
-    mixTable();
+    mixTable(&default_mixer);
     writeServos();
 
     // then
@@ -281,13 +281,12 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
 TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 {
-	struct mixer mixer; 
     // given
     withDefaultmotorAndServoConfiguration();
 
     configureMixer(MIXER_QUADX);
 
-    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -300,7 +299,7 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
             .ioConfigurations = {}
     };
 
-    mixerUsePWMIOConfiguration(&pwmIOConfiguration);
+    mixerUsePWMIOConfiguration(&default_mixer, &pwmIOConfiguration);
 
     // and
     memset(rcCommand, 0, sizeof(rcCommand));
@@ -311,8 +310,8 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 
 
     // when
-    mixTable();
-    writeMotors();
+    mixTable(&default_mixer);
+    writeMotors(&default_mixer);
 
     // then
     EXPECT_EQ(4, updatedMotorCount);
@@ -353,7 +352,6 @@ protected:
 
 TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 {
-	struct mixer mixer; 
     // given
     enum {
         EXPECTED_SERVOS_TO_MIX_COUNT = 6,
@@ -378,7 +376,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     configureMixer(MIXER_CUSTOM_AIRPLANE);
 
-    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
 
     pwmIOConfiguration_t pwmIOConfiguration = {
@@ -390,7 +388,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
             .ioConfigurations = {}
     };
 
-    mixerUsePWMIOConfiguration(&pwmIOConfiguration);
+    mixerUsePWMIOConfiguration(&default_mixer, &pwmIOConfiguration);
 
     // and
     rcCommand[THROTTLE] = 1000;
@@ -404,8 +402,8 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
 
     // when
-    mixTable();
-    writeMotors();
+    mixTable(&default_mixer);
+    writeMotors(&default_mixer);
     writeServos();
 
     // then
