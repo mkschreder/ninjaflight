@@ -320,9 +320,6 @@ extern uint8_t motorCount;
 //From mw.c:
 extern uint32_t currentTime;
 
-//From rx.c:
-extern uint16_t rssi;
-
 static BlackboxState blackboxState = BLACKBOX_STATE_DISABLED;
 
 static uint32_t blackboxLastArmingBeep = 0;

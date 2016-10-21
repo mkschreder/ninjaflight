@@ -129,5 +129,3 @@ void reevalulateLedConfig(void);
 
 bool setModeColor(ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex);
 
-extern uint16_t rssi; // FIXME dependency on mw.c
-

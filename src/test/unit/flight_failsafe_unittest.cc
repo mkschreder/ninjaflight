@@ -414,6 +414,10 @@ TEST(FlightFailsafeTest, TestFailsafeNotActivatedWhenDisarmedAndRXLossIsDetected
 
 extern "C" {
 int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+// TODO: proper way to do this is to write a mock receiver
+int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
+void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
+
 uint8_t armingFlags;
 int16_t rcCommand[4];
 uint32_t rcModeActivationMask = 0;

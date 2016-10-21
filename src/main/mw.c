@@ -179,18 +179,18 @@ static void updateRcCommands(void)
     int32_t axis, prop1 = 0, prop2;
 
     // PITCH & ROLL only dynamic PID adjustment,  depending on throttle value
-    if (rcData[THROTTLE] < currentControlRateProfile->tpa_breakpoint) {
+    if (rc_get_channel_value(THROTTLE) < currentControlRateProfile->tpa_breakpoint) {
         prop2 = 100;
     } else {
-        if (rcData[THROTTLE] < 2000) {
-            prop2 = 100 - (uint16_t)currentControlRateProfile->dynThrPID * (rcData[THROTTLE] - currentControlRateProfile->tpa_breakpoint) / (2000 - currentControlRateProfile->tpa_breakpoint);
+        if (rc_get_channel_value(THROTTLE) < 2000) {
+            prop2 = 100 - (uint16_t)currentControlRateProfile->dynThrPID * (rc_get_channel_value(THROTTLE) - currentControlRateProfile->tpa_breakpoint) / (2000 - currentControlRateProfile->tpa_breakpoint);
         } else {
             prop2 = 100 - currentControlRateProfile->dynThrPID;
         }
     }
 
     for (axis = 0; axis < 3; axis++) {
-        tmp = MIN(ABS(rcData[axis] - rxConfig()->midrc), 500);
+        tmp = MIN(ABS(rc_get_channel_value(axis) - rxConfig()->midrc), 500);
         if (axis == ROLL || axis == PITCH) {
             if (rcControlsConfig()->deadband) {
                 if (tmp > rcControlsConfig()->deadband) {
@@ -230,11 +230,11 @@ static void updateRcCommands(void)
             PIDweight[axis] = prop2;
         }
 
-        if (rcData[axis] < rxConfig()->midrc)
+        if (rc_get_channel_value(axis) < rxConfig()->midrc)
             rcCommand[axis] = -rcCommand[axis];
     }
 
-    tmp = constrain(rcData[THROTTLE], rxConfig()->mincheck, PWM_RANGE_MAX);
+    tmp = constrain(rc_get_channel_value(THROTTLE), rxConfig()->mincheck, PWM_RANGE_MAX);
     tmp = (uint32_t)(tmp - rxConfig()->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - rxConfig()->mincheck);       // [MINCHECK;2000] -> [0;1000]
     tmp2 = tmp / 100;
     rcCommand[THROTTLE] = lookupThrottleRC[tmp2] + (tmp - tmp2 * 100) * (lookupThrottleRC[tmp2 + 1] - lookupThrottleRC[tmp2]) / 100;    // [0;1000] -> expo -> [MINTHROTTLE;MAXTHROTTLE]
@@ -372,7 +372,7 @@ void handleInflightCalibrationStickPosition(void)
 
 static void updateInflightCalibrationState(void)
 {
-    if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rcData[THROTTLE] > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
+    if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rc_get_channel_value(THROTTLE) > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
         InflightcalibratingA = 50;
         AccInflightCalibrationArmed = false;
     }
@@ -683,7 +683,7 @@ static void taskMainPidLoop(void)
     // sticks, do not process yaw input from the rx.  We do this so the
     // motors do not spin up while we are trying to arm or disarm.
     // Allow yaw control for tricopters if the user wants the servo to move even when unarmed.
-    if (isUsingSticksForArming() && rcData[THROTTLE] <= rxConfig()->mincheck
+    if (isUsingSticksForArming() && rc_get_channel_value(THROTTLE) <= rxConfig()->mincheck
 #ifndef USE_QUAD_MIXER_ONLY
 #ifdef USE_SERVOS
                 && !((mixerConfig()->mixerMode == MIXER_TRI || mixerConfig()->mixerMode == MIXER_CUSTOM_TRI) && mixerConfig()->tri_unarmed_servo)

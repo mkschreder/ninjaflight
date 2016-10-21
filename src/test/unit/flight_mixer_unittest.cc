@@ -96,6 +96,74 @@ uint32_t testFeatureMask = 0;
 int updatedServoCount;
 int updatedMotorCount;
 
+// STUBS
+
+extern "C" {
+attitudeEulerAngles_t attitude;
+rxRuntimeConfig_t rxRuntimeConfig;
+
+int16_t axisPID[XYZ_AXIS_COUNT];
+int16_t rcCommand[4];
+int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+// TODO: proper way to do this is to write a mock receiver
+int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
+void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
+
+uint32_t rcModeActivationMask;
+int16_t debug[DEBUG16_VALUE_COUNT];
+
+uint8_t stateFlags;
+uint16_t flightModeFlags;
+uint8_t armingFlags;
+
+uint32_t targetLooptime;
+
+void delay(uint32_t) {}
+
+float applyBiQuadFilter(float sample, biquad_t *state) {UNUSED(state);return sample;}
+void BiQuadNewLpf(float filterCutFreq, biquad_t *newState, uint32_t refreshRate) {UNUSED(filterCutFreq);UNUSED(newState);UNUSED(refreshRate);}
+
+
+bool feature(uint32_t mask) {
+    return (mask & testFeatureMask);
+}
+
+void pwmWriteMotor(uint8_t index, uint16_t value) {
+    motors[index].value = value;
+    updatedMotorCount++;
+}
+
+void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
+{
+    uint8_t index;
+
+    for(index = 0; index < motorCount; index++){
+        motors[index].value = 0;
+    }
+}
+
+void pwmCompleteOneshotMotorUpdate(uint8_t motorCount) {
+    lastOneShotUpdateMotorCount = motorCount;
+}
+
+void pwmWriteServo(uint8_t index, uint16_t value) {
+    // FIXME logic in test, mimic's production code.
+    // Perhaps the solution is to remove the logic from the production code version and assume that
+    // anything calling calling pwmWriteServo always uses a valid index?
+    // See MAX_SERVOS in pwm_output (driver) and MAX_SUPPORTED_SERVOS (flight)
+    if (index < MAX_SERVOS) {
+        servos[index].value = value;
+    }
+    updatedServoCount++;
+}
+
+bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
+
+bool failsafeIsActive(void) {
+    return false;
+}
+
+}
 TEST(FlightAxisUnittest, TestAxisIndices)
 {
     // In various places Cleanflight assumes equality between the flight dynamics indices,
@@ -423,68 +491,4 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
 }
 
-// STUBS
 
-extern "C" {
-attitudeEulerAngles_t attitude;
-rxRuntimeConfig_t rxRuntimeConfig;
-
-int16_t axisPID[XYZ_AXIS_COUNT];
-int16_t rcCommand[4];
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-
-uint32_t rcModeActivationMask;
-int16_t debug[DEBUG16_VALUE_COUNT];
-
-uint8_t stateFlags;
-uint16_t flightModeFlags;
-uint8_t armingFlags;
-
-uint32_t targetLooptime;
-
-void delay(uint32_t) {}
-
-float applyBiQuadFilter(float sample, biquad_t *state) {UNUSED(state);return sample;}
-void BiQuadNewLpf(float filterCutFreq, biquad_t *newState, uint32_t refreshRate) {UNUSED(filterCutFreq);UNUSED(newState);UNUSED(refreshRate);}
-
-
-bool feature(uint32_t mask) {
-    return (mask & testFeatureMask);
-}
-
-void pwmWriteMotor(uint8_t index, uint16_t value) {
-    motors[index].value = value;
-    updatedMotorCount++;
-}
-
-void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
-{
-    uint8_t index;
-
-    for(index = 0; index < motorCount; index++){
-        motors[index].value = 0;
-    }
-}
-
-void pwmCompleteOneshotMotorUpdate(uint8_t motorCount) {
-    lastOneShotUpdateMotorCount = motorCount;
-}
-
-void pwmWriteServo(uint8_t index, uint16_t value) {
-    // FIXME logic in test, mimic's production code.
-    // Perhaps the solution is to remove the logic from the production code version and assume that
-    // anything calling calling pwmWriteServo always uses a valid index?
-    // See MAX_SERVOS in pwm_output (driver) and MAX_SUPPORTED_SERVOS (flight)
-    if (index < MAX_SERVOS) {
-        servos[index].value = value;
-    }
-    updatedServoCount++;
-}
-
-bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
-
-bool failsafeIsActive(void) {
-    return false;
-}
-
-}

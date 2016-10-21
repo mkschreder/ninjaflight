@@ -306,12 +306,13 @@ void processRcAdjustments(controlRateConfig_t *controlRateConfig, rxConfig_t *rx
         }
 
         uint8_t channelIndex = NON_AUX_CHANNEL_COUNT + adjustmentState->auxChannelIndex;
+		int16_t rcin = rc_get_channel_value(channelIndex); 
 
         if (adjustmentState->config.mode == ADJUSTMENT_MODE_STEP) {
             int delta;
-            if (rcData[channelIndex] > rxConfig->midrc + 200) {
+            if (rcin > rxConfig->midrc + 200) {
                 delta = adjustmentState->config.data.stepConfig.step;
-            } else if (rcData[channelIndex] < rxConfig->midrc - 200) {
+            } else if (rcin < rxConfig->midrc - 200) {
                 delta = 0 - adjustmentState->config.data.stepConfig.step;
             } else {
                 // returning the switch to the middle immediately resets the ready state
@@ -326,7 +327,7 @@ void processRcAdjustments(controlRateConfig_t *controlRateConfig, rxConfig_t *rx
             applyStepAdjustment(controlRateConfig, adjustmentFunction, delta);
         } else if (adjustmentState->config.mode == ADJUSTMENT_MODE_SELECT) {
             uint16_t rangeWidth = ((2100 - 900) / adjustmentState->config.data.selectConfig.switchPositions);
-            uint8_t position = (constrain(rcData[channelIndex], 900, 2100 - 1) - 900) / rangeWidth;
+            uint8_t position = (constrain(rcin, 900, 2100 - 1) - 900) / rangeWidth;
 
             applySelectAdjustment(adjustmentFunction, position);
         }

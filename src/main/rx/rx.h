@@ -74,8 +74,6 @@ typedef enum {
 
 extern const char rcChannelLetters[];
 
-extern int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];       // interval [1000;2000]
-
 #define MAX_MAPPABLE_RX_INPUTS 8
 
 #define RSSI_SCALE_MIN 1
@@ -155,4 +153,9 @@ void resumeRxSignal(void);
 
 void initRxRefreshRate(uint16_t *rxRefreshRatePtr);
 
-extern uint16_t rssi;
+uint16_t rc_get_rssi(void); 
+int16_t rc_get_channel_value(uint8_t chan); 
+
+// TODO: remove this because rc should only be set in this module
+void rc_set_channel_value(uint8_t chan, int16_t value); 
+

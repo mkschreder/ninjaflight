@@ -806,7 +806,7 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
 extern "C" {
 bool rcModeIsActive(boxId_e modeId)  { return rcModeActivationMask & (1 << modeId); }
 int16_t GPS_angle[ANGLE_INDEX_COUNT] = { 0, 0 };
-int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {return MIN(ABS(rcData[axis] - midrc), 500);}
+int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {return MIN(ABS(rc_get_channel_value(axis) - midrc), 500);}
 attitudeEulerAngles_t attitude = { { 0, 0, 0 } };
 void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
 uint16_t flightModeFlags = 0; // acro mode
@@ -816,6 +816,10 @@ gyro_t gyro;
 int32_t gyroADC[XYZ_AXIS_COUNT];
 int16_t rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+500] for ROLL/PITCH/YAW
 int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
+// TODO: proper way to do this is to write a mock receiver
+int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
+void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
+
 bool motorLimitReached;
 uint32_t rcModeActivationMask;
 }

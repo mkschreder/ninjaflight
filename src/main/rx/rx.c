@@ -63,7 +63,7 @@
 
 const char rcChannelLetters[] = "AERT12345678abcdefgh";
 
-uint16_t rssi = 0;                  // range: [0;1023]
+static uint16_t rssi = 0;                  // range: [0;1023]
 
 static bool rxDataReceived = false;
 static bool rxSignalReceived = false;
@@ -77,9 +77,9 @@ static uint32_t needRxSignalBefore = 0;
 static uint32_t suspendRxSignalUntil = 0;
 static uint8_t  skipRxSamples = 0;
 
-int16_t rcRaw[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
-uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+static int16_t rcRaw[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
+static uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+static int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
 
 #define MAX_INVALID_PULS_TIME    300
 #define PPM_AND_PWM_SAMPLE_COUNT 3
@@ -652,3 +652,17 @@ void initRxRefreshRate(uint16_t *rxRefreshRatePtr)
     *rxRefreshRatePtr = rxRefreshRate;
 }
 
+uint16_t rc_get_rssi(void){
+	return rssi; 
+}
+
+// returns interval 1000:2000
+int16_t rc_get_channel_value(uint8_t chan){
+	if(chan >= MAX_SUPPORTED_RC_CHANNEL_COUNT) return 1000; 
+	return rcData[chan]; 
+}
+
+void rc_set_channel_value(uint8_t chan, int16_t value){
+	if(chan >= MAX_SUPPORTED_RC_CHANNEL_COUNT) return; 
+	rcData[chan] = value; 
+}

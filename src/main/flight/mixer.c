@@ -439,14 +439,14 @@ void mixer_update(struct mixer *self)
         if (feature(FEATURE_3D)) {
             if (!ARMING_FLAG(ARMED)) throttlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
 
-            if ((rcData[THROTTLE] <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
+            if ((rc_get_channel_value(THROTTLE) <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
                 throttleMax = motor3DConfig()->deadband3d_low;
                 throttleMin = motorAndServoConfig()->minthrottle;
-                throttlePrevious = throttle = rcData[THROTTLE];
-            } else if (rcData[THROTTLE] >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
+                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
+            } else if (rc_get_channel_value(THROTTLE) >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
                 throttleMax = motorAndServoConfig()->maxthrottle;
                 throttleMin = motor3DConfig()->deadband3d_high;
-                throttlePrevious = throttle = rcData[THROTTLE];
+                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
             } else if ((throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)))  { // Deadband handling from negative to positive
                 throttle = throttleMax = motor3DConfig()->deadband3d_low;
                 throttleMin = motorAndServoConfig()->minthrottle;
@@ -519,21 +519,22 @@ void mixer_update(struct mixer *self)
             maxThrottleDifference = maxMotor - motorAndServoConfig()->maxthrottle;
         }
 
+		int16_t throttle = rc_get_channel_value(THROTTLE); 
         for (i = 0; i < self->motorCount; i++) {
             // this is a way to still have good gyro corrections if at least one motor reaches its max.
             self->motor[i] -= maxThrottleDifference;
-
+			
             if (feature(FEATURE_3D)) {
                 if (mixerConfig()->pid_at_min_throttle
-                        || rcData[THROTTLE] <= rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle
-                        || rcData[THROTTLE] >= rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle) {
-                    if (rcData[THROTTLE] > rxConfig()->midrc) {
+                        || throttle <= rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle
+                        || throttle >= rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle) {
+                    if (rc_get_channel_value(THROTTLE) > rxConfig()->midrc) {
                         self->motor[i] = constrain(self->motor[i], motor3DConfig()->deadband3d_high, motorAndServoConfig()->maxthrottle);
                     } else {
                         self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->mincommand, motor3DConfig()->deadband3d_low);
                     }
                 } else {
-                    if (rcData[THROTTLE] > rxConfig()->midrc) {
+                    if (throttle > rxConfig()->midrc) {
                         self->motor[i] = motor3DConfig()->deadband3d_high;
                     } else {
                         self->motor[i] = motor3DConfig()->deadband3d_low;
@@ -546,7 +547,7 @@ void mixer_update(struct mixer *self)
                     // If we're at minimum throttle and FEATURE_MOTOR_STOP enabled,
                     // do not spin the motors.
                     self->motor[i] = constrain(self->motor[i], motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
-                    if ((rcData[THROTTLE]) < rxConfig()->mincheck) {
+                    if (throttle < rxConfig()->mincheck) {
                         if (feature(FEATURE_MOTOR_STOP)) {
                             self->motor[i] = motorAndServoConfig()->mincommand;
                         } else if (mixerConfig()->pid_at_min_throttle == 0) {

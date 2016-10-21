@@ -104,9 +104,10 @@ bool areSticksInApModePosition(uint16_t ap_mode)
 
 throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband3d_throttle)
 {
-    if (feature(FEATURE_3D) && (rcData[THROTTLE] > (rxConfig->midrc - deadband3d_throttle) && rcData[THROTTLE] < (rxConfig->midrc + deadband3d_throttle)))
+	int16_t throttle = rc_get_channel_value(THROTTLE); 
+    if (feature(FEATURE_3D) && (throttle > (rxConfig->midrc - deadband3d_throttle) && throttle < (rxConfig->midrc + deadband3d_throttle)))
         return THROTTLE_LOW;
-    else if (!feature(FEATURE_3D) && (rcData[THROTTLE] < rxConfig->mincheck))
+    else if (!feature(FEATURE_3D) && (throttle < rxConfig->mincheck))
         return THROTTLE_LOW;
 
     return THROTTLE_HIGH;
@@ -114,8 +115,10 @@ throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband
 
 rollPitchStatus_e calculateRollPitchCenterStatus(rxConfig_t *rxConfig)
 {
-    if (((rcData[PITCH] < (rxConfig->midrc + AIRMODE_DEADBAND)) && (rcData[PITCH] > (rxConfig->midrc -AIRMODE_DEADBAND)))
-            && ((rcData[ROLL] < (rxConfig->midrc + AIRMODE_DEADBAND)) && (rcData[ROLL] > (rxConfig->midrc -AIRMODE_DEADBAND))))
+	int16_t pitch = rc_get_channel_value(PITCH); 
+	int16_t roll = rc_get_channel_value(ROLL); 
+    if (((pitch < (rxConfig->midrc + AIRMODE_DEADBAND)) && (pitch > (rxConfig->midrc -AIRMODE_DEADBAND)))
+            && ((roll < (rxConfig->midrc + AIRMODE_DEADBAND)) && (roll > (rxConfig->midrc -AIRMODE_DEADBAND))))
         return CENTERED;
 
     return NOT_CENTERED;
@@ -132,9 +135,10 @@ void processRcStickPositions(rxConfig_t *rxConfig, throttleStatus_e throttleStat
     // checking sticks positions
     for (i = 0; i < 4; i++) {
         stTmp >>= 2;
-        if (rcData[i] > rxConfig->mincheck)
+		int16_t chan = rc_get_channel_value(i); 
+        if (chan > rxConfig->mincheck)
             stTmp |= 0x80;  // check for MIN
-        if (rcData[i] < rxConfig->maxcheck)
+        if (chan < rxConfig->maxcheck)
             stTmp |= 0x40;  // check for MAX
     }
     if (stTmp == rcSticks) {
@@ -327,7 +331,7 @@ bool isRangeActive(uint8_t auxChannelIndex, channelRange_t *range)
         return false;
     }
 
-    uint16_t channelValue = constrain(rcData[auxChannelIndex + NON_AUX_CHANNEL_COUNT], CHANNEL_RANGE_MIN, CHANNEL_RANGE_MAX - 1);
+    uint16_t channelValue = constrain(rc_get_channel_value(auxChannelIndex + NON_AUX_CHANNEL_COUNT), CHANNEL_RANGE_MIN, CHANNEL_RANGE_MAX - 1);
     return (channelValue >= MODE_STEP_TO_CHANNEL_VALUE(range->startStep)
             && channelValue < MODE_STEP_TO_CHANNEL_VALUE(range->endStep));
 }
@@ -353,7 +357,7 @@ void rcModeUpdateActivated(modeActivationCondition_t *modeActivationConditions)
 
 int32_t getRcStickDeflection(int32_t axis, uint16_t midrc)
 {
-    return MIN(ABS(rcData[axis] - midrc), 500);
+    return MIN(ABS(rc_get_channel_value(axis) - midrc), 500);
 }
 
 void useRcControlsConfig(modeActivationCondition_t *modeActivationConditions)

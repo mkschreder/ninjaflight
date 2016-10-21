@@ -74,7 +74,7 @@ TEST(RxTest, TestValidFlightChannels)
     rxInit(modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step above active range to init to OFF)
-    EXPECT_EQ(1625, rcData[modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT]);
+    EXPECT_EQ(1625, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
 
     // given
     rxResetFlightChannelStatus();
@@ -115,7 +115,7 @@ TEST(RxTest, TestInvalidFlightChannels)
     rxInit(modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step below active range to init to OFF)
-    EXPECT_EQ(1375, rcData[modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT]);
+    EXPECT_EQ(1375, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
 
     // and
     for (uint8_t stickChannelIndex = 0; stickChannelIndex < STICK_CHANNEL_COUNT; stickChannelIndex++) {

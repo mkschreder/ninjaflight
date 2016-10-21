@@ -127,10 +127,11 @@ static void failsafeActivate(void)
 
 static void failsafeApplyControlInput(void)
 {
+	// TODO: clean up this kind of crap
     for (int i = 0; i < 3; i++) {
-        rcData[i] = rxConfig()->midrc;
+        rc_set_channel_value(i, rxConfig()->midrc);
     }
-    rcData[THROTTLE] = failsafeConfig()->failsafe_throttle;
+    rc_set_channel_value(THROTTLE, failsafeConfig()->failsafe_throttle);
 }
 
 bool failsafeIsReceivingRxData(void)

@@ -531,8 +531,8 @@ static void applyLedHue(ledFunctionId_e flag, int16_t value, int16_t minRange, i
 
 static void applyLedHueLayer(void)
 {
-    applyLedHue(LED_FUNCTION_THROTTLE, rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX);
-    applyLedHue(LED_FUNCTION_RSSI, rssi, 0, 1023);
+    applyLedHue(LED_FUNCTION_THROTTLE, rc_get_channel_value(THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX);
+    applyLedHue(LED_FUNCTION_RSSI, rc_get_rssi(), 0, 1023);
 }
 
 typedef enum {
@@ -710,7 +710,7 @@ static void applyLedThrustRingLayer(bool updateNow, uint32_t *timer)
     if(updateNow) {
         rotationPhase = rotationPhase > 0 ? rotationPhase - 1 : ledRingSeqLen - 1;
 
-        int scale = ARMING_FLAG(ARMED) ? scaleRange(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX, 10, 100) : 10;
+        int scale = ARMING_FLAG(ARMED) ? scaleRange(rc_get_channel_value(THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX, 10, 100) : 10;
         *timer += LED_STRIP_HZ(5) * 10 / scale;  // 5 - 50Hz update rate
     }
 

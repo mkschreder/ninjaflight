@@ -83,7 +83,7 @@ TEST_F(RcControlsModesTest, updateActivatedModesWithAllInputsAtMidde)
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // when
@@ -154,16 +154,16 @@ TEST_F(RcControlsModesTest, updateActivatedModesUsingValidAuxConfigurationAndRXV
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE); 
     }
 
-    rcData[AUX1] = PWM_RANGE_MAX;
-    rcData[AUX2] = PWM_RANGE_MIDDLE;
-    rcData[AUX3] = PWM_RANGE_MIN;
-    rcData[AUX4] = PWM_RANGE_MAX;
-    rcData[AUX5] = 899; // value lower that range minimum should be treated the same as the lowest range value
-    rcData[AUX6] = 2101; // value higher than the range maximum should be treated the same as the highest range value
-    rcData[AUX7] = 950; // value equal to range step upper boundary should not activate the mode
+    rc_set_channel_value(AUX1, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX2, PWM_RANGE_MIDDLE);
+    rc_set_channel_value(AUX3, PWM_RANGE_MIN);
+    rc_set_channel_value(AUX4, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX5, 899); // value lower that range minimum should be treated the same as the lowest range value
+    rc_set_channel_value(AUX6, 2101); // value higher than the range maximum should be treated the same as the highest range value
+    rc_set_channel_value(AUX7, 950); // value equal to range step upper boundary should not activate the mode
 
     // and
     uint32_t expectedMask = 0;
@@ -297,7 +297,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsSticksInMiddle)
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // and
@@ -346,7 +346,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsWithRcRateFunctionSwitchUp
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // and
@@ -354,7 +354,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsWithRcRateFunctionSwitchUp
     resetMillis();
 
     // and
-    rcData[AUX3] = PWM_RANGE_MAX;
+    rc_set_channel_value(AUX3, PWM_RANGE_MAX);
 
     // and
     uint8_t expectedAdjustmentStateMask =
@@ -393,7 +393,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsWithRcRateFunctionSwitchUp
 
 
     // given
-    rcData[AUX3] = PWM_RANGE_MIDDLE;
+    rc_set_channel_value(AUX3, PWM_RANGE_MIDDLE);
 
     // and
     fixedMillis = 498;
@@ -413,7 +413,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsWithRcRateFunctionSwitchUp
     // flipping the switch again, before the state reset would have occurred, allows the value to be increased again
 
     // given
-    rcData[AUX3] = PWM_RANGE_MAX;
+    rc_set_channel_value(AUX3, PWM_RANGE_MAX);
 
     // and
     expectedAdjustmentStateMask =
@@ -497,7 +497,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcRateProfileAdjustments)
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // and
@@ -505,7 +505,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcRateProfileAdjustments)
     resetMillis();
 
     // and
-    rcData[AUX4] = PWM_RANGE_MAX;
+    rc_set_channel_value(AUX4, PWM_RANGE_MAX);
 
     // and
     uint8_t expectedAdjustmentStateMask =
@@ -599,7 +599,7 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController0) // uses inte
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // and
@@ -607,9 +607,9 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController0) // uses inte
     resetMillis();
 
     // and
-    rcData[AUX1] = PWM_RANGE_MAX;
-    rcData[AUX2] = PWM_RANGE_MAX;
-    rcData[AUX3] = PWM_RANGE_MAX;
+    rc_set_channel_value(AUX1, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX2, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX3, PWM_RANGE_MAX);
 
     // and
     uint8_t expectedAdjustmentStateMask =
@@ -720,7 +720,7 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController2) // uses floa
     // and
     uint8_t index;
     for (index = AUX1; index < MAX_SUPPORTED_RC_CHANNEL_COUNT; index++) {
-        rcData[index] = PWM_RANGE_MIDDLE;
+        rc_set_channel_value(index, PWM_RANGE_MIDDLE);
     }
 
     // and
@@ -728,9 +728,9 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController2) // uses floa
     resetMillis();
 
     // and
-    rcData[AUX1] = PWM_RANGE_MAX;
-    rcData[AUX2] = PWM_RANGE_MAX;
-    rcData[AUX3] = PWM_RANGE_MAX;
+    rc_set_channel_value(AUX1, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX2, PWM_RANGE_MAX);
+    rc_set_channel_value(AUX3, PWM_RANGE_MAX);
 
     // and
     uint8_t expectedAdjustmentStateMask =
@@ -792,5 +792,8 @@ uint8_t armingFlags = 0;
 int16_t heading;
 uint8_t stateFlags = 0;
 int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
+void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
+
 rxRuntimeConfig_t rxRuntimeConfig;
 }

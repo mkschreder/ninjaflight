@@ -124,7 +124,7 @@ TEST(AltitudeHoldTest, applyMultirotorAltHold)
     memset(rcControlsConfig(), 0, sizeof(rcControlsConfig_t));
     rcControlsConfig()->alt_hold_deadband = 40;
     
-    rcData[THROTTLE] = 1400;
+    rc_set_channel_value(THROTTLE, 1400);
     rcCommand[THROTTLE] = 1500;
     rcModeActivationMask |= (1 << BOXBARO);
     updateAltHoldState();
@@ -152,7 +152,9 @@ uint32_t rcModeActivationMask;
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 int16_t rcCommand[4];
 int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-
+// TODO: proper way to do this is to write a mock receiver
+int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
+void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
 uint32_t accTimeSum ;        // keep track for integration of acc
 int accSumCount;
 float accVelScale;

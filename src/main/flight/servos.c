@@ -192,7 +192,7 @@ static int16_t determineServoMiddleOrForwardFromChannel(servoIndex_e servoIndex)
     uint8_t channelToForwardFrom = servoConf[servoIndex].forwardFromChannel;
 
     if (channelToForwardFrom != CHANNEL_FORWARDING_DISABLED && channelToForwardFrom < rxRuntimeConfig.channelCount) {
-        return rcData[channelToForwardFrom];
+        return rc_get_channel_value(channelToForwardFrom);
     }
 
     return servoConf[servoIndex].middle;
@@ -332,7 +332,7 @@ STATIC_UNIT_TESTED void forwardAuxChannelsToServos(uint8_t firstServoIndex)
 
     uint8_t servoOffset;
     for (servoOffset = 0; servoOffset < MAX_AUX_CHANNEL_COUNT && channelOffset < MAX_SUPPORTED_RC_CHANNEL_COUNT; servoOffset++) {
-        pwmWriteServo(firstServoIndex + servoOffset, rcData[channelOffset++]);
+        pwmWriteServo(firstServoIndex + servoOffset, rc_get_channel_value(channelOffset++));
     }
 }
 
@@ -424,7 +424,7 @@ STATIC_UNIT_TESTED void servoMixer(void)
         input[INPUT_STABILIZED_YAW] = axisPID[FD_YAW];
 
         // Reverse yaw servo when inverted in 3D mode
-        if (feature(FEATURE_3D) && (rcData[THROTTLE] < rxConfig()->midrc)) {
+        if (feature(FEATURE_3D) && (rc_get_channel_value(THROTTLE) < rxConfig()->midrc)) {
             input[INPUT_STABILIZED_YAW] *= -1;
         }
     }
@@ -440,14 +440,14 @@ STATIC_UNIT_TESTED void servoMixer(void)
     // 2000 - 1500 = +500
     // 1500 - 1500 = 0
     // 1000 - 1500 = -500
-    input[INPUT_RC_ROLL]     = rcData[ROLL]     - rxConfig()->midrc;
-    input[INPUT_RC_PITCH]    = rcData[PITCH]    - rxConfig()->midrc;
-    input[INPUT_RC_YAW]      = rcData[YAW]      - rxConfig()->midrc;
-    input[INPUT_RC_THROTTLE] = rcData[THROTTLE] - rxConfig()->midrc;
-    input[INPUT_RC_AUX1]     = rcData[AUX1]     - rxConfig()->midrc;
-    input[INPUT_RC_AUX2]     = rcData[AUX2]     - rxConfig()->midrc;
-    input[INPUT_RC_AUX3]     = rcData[AUX3]     - rxConfig()->midrc;
-    input[INPUT_RC_AUX4]     = rcData[AUX4]     - rxConfig()->midrc;
+    input[INPUT_RC_ROLL]     = rc_get_channel_value(ROLL)     - rxConfig()->midrc;
+    input[INPUT_RC_PITCH]    = rc_get_channel_value(PITCH)    - rxConfig()->midrc;
+    input[INPUT_RC_YAW]      = rc_get_channel_value(YAW)      - rxConfig()->midrc;
+    input[INPUT_RC_THROTTLE] = rc_get_channel_value(THROTTLE) - rxConfig()->midrc;
+    input[INPUT_RC_AUX1]     = rc_get_channel_value(AUX1)     - rxConfig()->midrc;
+    input[INPUT_RC_AUX2]     = rc_get_channel_value(AUX2)     - rxConfig()->midrc;
+    input[INPUT_RC_AUX3]     = rc_get_channel_value(AUX3)     - rxConfig()->midrc;
+    input[INPUT_RC_AUX4]     = rc_get_channel_value(AUX4)     - rxConfig()->midrc;
 
     for (i = 0; i < MAX_SUPPORTED_SERVOS; i++)
         servo[i] = 0;

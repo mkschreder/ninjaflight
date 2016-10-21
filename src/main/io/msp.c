@@ -99,7 +99,6 @@
 #include "io/msp.h"
 
 extern uint16_t cycleTime; // FIXME dependency on mw.c
-extern uint16_t rssi; // FIXME dependency on mw.c
 extern void resetPidProfile(pidProfile_t *pidProfile);
 
 static const char * const flightControllerIdentifier = CLEANFLIGHT_IDENTIFIER; // 4 UPPER CASE alpha numeric characters that identify the flight controller.
@@ -640,7 +639,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_RC:
             for (int i = 0; i < rxRuntimeConfig.channelCount; i++)
-                sbufWriteU16(dst, rcData[i]);
+                sbufWriteU16(dst, rc_get_channel_value(i));
             break;
 
         case MSP_ATTITUDE:
@@ -670,7 +669,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_ANALOG:
             sbufWriteU8(dst, (uint8_t)constrain(vbat, 0, 255));
             sbufWriteU16(dst, (uint16_t)constrain(mAhDrawn, 0, 0xFFFF)); // milliamp hours drawn from battery
-            sbufWriteU16(dst, rssi);
+            sbufWriteU16(dst, rc_get_rssi());
             if(batteryConfig()->multiwiiCurrentMeterOutput) {
                 sbufWriteU16(dst, (uint16_t)constrain(amperage * 10, 0, 0xFFFF)); // send amperage in 0.001 A steps. Negative range is truncated to zero
             } else
