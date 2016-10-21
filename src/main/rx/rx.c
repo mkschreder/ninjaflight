@@ -61,6 +61,19 @@
 
 //#define DEBUG_RX_SIGNAL_LOSS
 
+#define RSSI_ADC_SAMPLE_COUNT 16
+#define MAX_INVALID_PULS_TIME    300
+#define PPM_AND_PWM_SAMPLE_COUNT 3
+
+#define DELAY_50_HZ (1000000 / 50)
+#define DELAY_10_HZ (1000000 / 10)
+#define DELAY_5_HZ (1000000 / 5)
+#define SKIP_RC_ON_SUSPEND_PERIOD 1500000           // 1.5 second period in usec (call frequency independent)
+#define SKIP_RC_SAMPLES_ON_RESUME  2                // flush 2 samples to drop wrong measurements (timing independent)
+#define REQUIRED_CHANNEL_MASK 0x0F // first 4 channels
+
+static uint16_t nullReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t channel); 
+
 const char rcChannelLetters[] = "AERT12345678abcdefgh";
 
 static uint16_t rssi = 0;                  // range: [0;1023]
@@ -81,14 +94,15 @@ static int16_t rcRaw[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000
 static uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
 static int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
 
-#define MAX_INVALID_PULS_TIME    300
-#define PPM_AND_PWM_SAMPLE_COUNT 3
 
-#define DELAY_50_HZ (1000000 / 50)
-#define DELAY_10_HZ (1000000 / 10)
-#define DELAY_5_HZ (1000000 / 5)
-#define SKIP_RC_ON_SUSPEND_PERIOD 1500000           // 1.5 second period in usec (call frequency independent)
-#define SKIP_RC_SAMPLES_ON_RESUME  2                // flush 2 samples to drop wrong measurements (timing independent)
+static rcReadRawDataPtr rcReadRawFunc = nullReadRawRC;
+static uint16_t rxRefreshRate;
+static uint8_t adcRssiSamples[RSSI_ADC_SAMPLE_COUNT];
+static uint8_t adcRssiSampleIndex = 0;
+static uint32_t rssiUpdateAt = 0;
+static uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
+static bool rxSamplesCollected = false;
+
 
 static uint8_t rcSampleIndex = 0;
 
@@ -136,12 +150,10 @@ static uint16_t nullReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t channe
     return PPM_RCVR_TIMEOUT;
 }
 
-static rcReadRawDataPtr rcReadRawFunc = nullReadRawRC;
-static uint16_t rxRefreshRate;
+
 
 void serialRxInit(rxConfig_t *rxConfig);
 
-#define REQUIRED_CHANNEL_MASK 0x0F // first 4 channels
 
 static uint8_t validFlightChannelMask;
 
@@ -396,9 +408,6 @@ bool shouldProcessRx(uint32_t currentTime)
 
 static uint16_t calculateNonDataDrivenChannel(uint8_t chan, uint16_t sample)
 {
-    static uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
-    static bool rxSamplesCollected = false;
-
     uint8_t currentSampleIndex = rcSampleIndex % PPM_AND_PWM_SAMPLE_COUNT;
 
     // update the recent samples and compute the average of them
@@ -600,18 +609,11 @@ static void updateRSSIPWM(void)
     rssi = (uint16_t)((constrain(pwmRssi - 1000, 0, 1000) / 1000.0f) * 1023.0f);
 }
 
-#define RSSI_ADC_SAMPLE_COUNT 16
-//#define RSSI_SCALE (0xFFF / 100.0f)
-
 static void updateRSSIADC(uint32_t currentTime)
 {
 #ifndef USE_ADC
     UNUSED(currentTime);
 #else
-    static uint8_t adcRssiSamples[RSSI_ADC_SAMPLE_COUNT];
-    static uint8_t adcRssiSampleIndex = 0;
-    static uint32_t rssiUpdateAt = 0;
-
     if ((int32_t)(currentTime - rssiUpdateAt) < 0) {
         return;
     }
