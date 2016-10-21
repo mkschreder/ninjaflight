@@ -386,6 +386,7 @@ static void updateInflightCalibrationState(void)
     }
 }
 
+#if defined(MAG)
 static void updateMagHold(void)
 {
     if (ABS(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
@@ -400,6 +401,7 @@ static void updateMagHold(void)
     } else
         magHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
 }
+#endif
 
 static void processRx(void)
 {
