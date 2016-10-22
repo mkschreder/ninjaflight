@@ -68,6 +68,38 @@ introducing these changes.
   devices on any port, softserial too.
 - And many more minor bug fixes.
 
+## Most popular supported boards
+
+![NAZE](board-naze32.jpg)
+*NAZE*
+
+![CJMCU](media/board-cjmcu.jpg)
+*CJMCU*
+
+![CC3D](board-cc3d.jpg)
+*CC3D*
+
+![Dodo](board-rmdo.jpg)
+*DODO*
+
+![Sparky](board-sparky.jpg)
+*Sparky*
+
+![SPRacingEVO](board-sp-racing-evo.jpg)
+*SPRacingEVO*
+
+![SPRacingF3](board-spracing-f3.jpg)
+*SPRacingF3*
+
+![Colibri](board-colibri-race.jpg)
+*Colibri Race*
+
+![Lux-Race](board-lux-race.jpg)
+*Lux Race*
+
+![Olimexino](board-olimexino.jpg)
+*Olimexino*
+
 ## Installation
 
 See: [Installation.md](docs/Installation.md)
