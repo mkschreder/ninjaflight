@@ -38,7 +38,7 @@ typedef enum portOptions_t {
     SERIAL_BIDIR         = 1 << 3
 } portOptions_t;
 
-//typedef void (*serialReceiveCallbackPtr)(uint16_t data);   // used by serial drivers to return frames to app
+typedef void (*serialReceiveCallbackPtr)(uint16_t data);   // used by serial drivers to return frames to app
 
 typedef struct serialPort_s {
     const struct serial_port_ops *vTable;
@@ -59,7 +59,7 @@ typedef struct serialPort_s {
     uint32_t txBufferTail;
 
     // FIXME rename member to rxCallback
-    //serialReceiveCallbackPtr callback;
+    serialReceiveCallbackPtr callback;
 } serialPort_t;
 
 struct serial_port_ops {
