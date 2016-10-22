@@ -40,7 +40,6 @@ void serialWrite(serialPort_t *instance, uint8_t ch)
     instance->vTable->put(instance, ch);
 }
 
-
 void serialWriteBuf(serialPort_t *instance, uint8_t *data, int count)
 {
     if (instance->vTable->writeBuf) {

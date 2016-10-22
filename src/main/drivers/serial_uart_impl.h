@@ -19,6 +19,25 @@
 
 // device specific uart implementation is defined here
 
+typedef struct {
+    serialPort_t port;
+
+    DMA_Channel_TypeDef *rxDMAChannel;
+    DMA_Channel_TypeDef *txDMAChannel;
+
+    uint32_t rxDMAIrq;
+    uint32_t txDMAIrq;
+
+    uint32_t rxDMAPos;
+    bool txDMAEmpty;
+
+    uint32_t txDMAPeripheralBaseAddr;
+    uint32_t rxDMAPeripheralBaseAddr;
+
+    USART_TypeDef *USARTx;
+} uartPort_t;
+
+
 
 void uartStartTxDMA(uartPort_t *s);
 
