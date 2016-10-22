@@ -422,6 +422,7 @@ uartPort_t *serialUART4(uint32_t baudRate, portMode_t mode, portOptions_t option
 }
 
 // UART4 Rx/Tx IRQ Handler
+void UART4_IRQHandler(void); 
 void UART4_IRQHandler(void)
 {
     uartPort_t *s = &uartPort4;
@@ -493,6 +494,7 @@ uartPort_t *serialUART5(uint32_t baudRate, portMode_t mode, portOptions_t option
 }
 
 // UART5 Rx/Tx IRQ Handler
+void UART5_IRQHandler(void); 
 void UART5_IRQHandler(void)
 {
     uartPort_t *s = &uartPort5;

@@ -314,9 +314,6 @@ typedef struct blackboxSlowState_s {
     bool rxFlightChannelsValid;
 } __attribute__((__packed__)) blackboxSlowState_t; // We pack this struct so that padding doesn't interfere with memcmp()
 
-//From mixer.c:
-extern uint8_t motorCount;
-
 //From mw.c:
 extern uint32_t currentTime;
 
@@ -372,7 +369,7 @@ bool blackboxMayEditConfig()
     return blackboxState <= BLACKBOX_STATE_STOPPED;
 }
 
-static bool blackboxIsOnlyLoggingIntraframes()
+static bool blackboxIsOnlyLoggingIntraframes(void)
 {
     return blackboxConfig()->rate_num == 1 && blackboxConfig()->rate_denom == 32;
 }
@@ -391,7 +388,7 @@ static bool testBlackboxConditionUncached(FlightLogFieldCondition condition)
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_6:
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_7:
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_8:
-            return motorCount >= condition - FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_1 + 1;
+            return mixer_get_motor_count(&default_mixer) >= condition - FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_1 + 1;
         
         case FLIGHT_LOG_FIELD_CONDITION_TRICOPTER:
             return mixerConfig()->mixerMode == MIXER_TRI || mixerConfig()->mixerMode == MIXER_CUSTOM_TRI;
@@ -441,7 +438,7 @@ static bool testBlackboxConditionUncached(FlightLogFieldCondition condition)
     }
 }
 
-static void blackboxBuildConditionCache()
+static void blackboxBuildConditionCache(void)
 {
     FlightLogFieldCondition cond;
 
@@ -566,7 +563,7 @@ static void writeIntraframe(void)
     blackboxWriteUnsignedVB(blackboxCurrent->motor[0] - motorAndServoConfig()->minthrottle);
 
     //Motors tend to be similar to each other so use the first motor's value as a predictor of the others
-    for (x = 1; x < motorCount; x++) {
+    for (x = 1; x < mixer_get_motor_count(&default_mixer); x++) {
         blackboxWriteSignedVB(blackboxCurrent->motor[x] - blackboxCurrent->motor[0]);
     }
 
@@ -689,7 +686,7 @@ static void writeInterframe(void)
     //Since gyros, accs and motors are noisy, base their predictions on the average of the history:
     blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, gyroADC),   XYZ_AXIS_COUNT);
     blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, accSmooth), XYZ_AXIS_COUNT);
-    blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, motor),     motorCount);
+    blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, motor),     mixer_get_motor_count(&default_mixer));
 
     if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_TRICOPTER)) {
         blackboxWriteSignedVB(blackboxCurrent->servo[5] - blackboxLast->servo[5]);
@@ -777,7 +774,7 @@ static int gcd(int num, int denom)
     return gcd(denom, num % denom);
 }
 
-static void validateBlackboxConfig()
+static void validateBlackboxConfig(void)
 {
     int div;
 
@@ -881,7 +878,7 @@ void finishBlackbox(void)
 }
 
 #ifdef GPS
-static void writeGPSHomeFrame()
+static void writeGPSHomeFrame(void)
 {
     blackboxWrite('H');
 
@@ -893,7 +890,7 @@ static void writeGPSHomeFrame()
     gpsHistory.GPS_home[1] = GPS_home[1];
 }
 
-static void writeGPSFrame()
+static void writeGPSFrame(void)
 {
     blackboxWrite('G');
 
@@ -953,8 +950,8 @@ static void loadMainState(void)
         blackboxCurrent->accSmooth[i] = accSmooth[i];
     }
 
-    for (i = 0; i < motorCount; i++) {
-        blackboxCurrent->motor[i] = motor[i];
+    for (i = 0; i < mixer_get_motor_count(&default_mixer); i++) {
+        blackboxCurrent->motor[i] = mixer_get_motor_value(&default_mixer, i);
     }
 
     blackboxCurrent->vbatLatest = vbatLatestADC;
@@ -975,7 +972,7 @@ static void loadMainState(void)
     blackboxCurrent->sonarRaw = sonarRead();
 #endif
 
-    blackboxCurrent->rssi = rssi;
+    blackboxCurrent->rssi = rc_get_rssi();
 
 #ifdef USE_SERVOS
     //Tail servo for tricopters
@@ -1103,7 +1100,7 @@ static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const v
  * Transmit a portion of the system information headers. Call the first time with xmitState.headerIndex == 0. Returns
  * true iff transmission is complete, otherwise call again later to continue transmission.
  */
-static bool blackboxWriteSysinfo()
+static bool blackboxWriteSysinfo(void)
 {
     // Make sure we have enough room in the buffer for our longest line (as of this writing, the "Firmware date" line)
     if (blackboxDeviceReserveBufferSpace(64) != BLACKBOX_RESERVE_SUCCESS) {
@@ -1213,7 +1210,7 @@ void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data)
 }
 
 /* If an arming beep has played since it was last logged, write the time of the arming beep to the log as a synchronization point */
-static void blackboxCheckAndLogArmingBeep()
+static void blackboxCheckAndLogArmingBeep(void)
 {
     flightLogEvent_syncBeep_t eventData;
 
@@ -1239,13 +1236,13 @@ static bool blackboxShouldLogPFrame(uint32_t pFrameIndex)
     return (pFrameIndex + blackboxConfig()->rate_num - 1) % blackboxConfig()->rate_denom < blackboxConfig()->rate_num;
 }
 
-static bool blackboxShouldLogIFrame()
+static bool blackboxShouldLogIFrame(void)
 {
     return blackboxPFrameIndex == 0;
 }
 
 // Called once every FC loop in order to keep track of how many FC loop iterations have passed
-static void blackboxAdvanceIterationTimers()
+static void blackboxAdvanceIterationTimers(void)
 {
     blackboxSlowFrameIterationTimer++;
     blackboxIteration++;
@@ -1258,7 +1255,7 @@ static void blackboxAdvanceIterationTimers()
 }
 
 // Called once every FC loop in order to log the current state
-static void blackboxLogIteration()
+static void blackboxLogIteration(void)
 {
     // Write a keyframe every BLACKBOX_I_INTERVAL frames so we can resynchronise upon missing frames
     if (blackboxShouldLogIFrame()) {

@@ -87,6 +87,7 @@ void EXTI15_10_IRQHandler(void)
 }
 
 #if defined(CC3D)
+ void EXTI3_IRQHandler(void);
  void EXTI3_IRQHandler(void)
 {
     extiHandler(EXTI3_IRQn);
@@ -94,6 +95,7 @@ void EXTI15_10_IRQHandler(void)
 #endif
 
 #if defined(COLIBRI_RACE) || defined(LUX_RACE)
+void EXTI9_5_IRQHandler(void); 
 void EXTI9_5_IRQHandler(void)
 {
     extiHandler(EXTI9_5_IRQn);

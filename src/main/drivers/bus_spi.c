@@ -41,7 +41,7 @@
 #define SPI1_MOSI_PIN_SOURCE    GPIO_PinSource7
 #endif
 
-void initSpi1(void)
+static void initSpi1(void)
 {
     // Specific to the STM32F103
     // SPI1 Driver
@@ -321,7 +321,7 @@ static void initSpi2(void)
 #define SPI3_MOSI_PIN_SOURCE    GPIO_PinSource5
 #endif
 
-void initSpi3(void)
+static void initSpi3(void)
 {
     // Specific to the STM32F303 (AF6)
     // SPI3 Driver

@@ -184,7 +184,7 @@ static void ltm_sframe(void)
     ltm_initialise_packet('S');
     ltm_serialise_16(vbat * 100);    //vbat converted to mv
     ltm_serialise_16(0);             //  current, not implemented
-    ltm_serialise_8((uint8_t)((rssi * 254) / 1023));        // scaled RSSI (uchar)
+    ltm_serialise_8((uint8_t)((rc_get_rssi() * 254) / 1023));        // scaled RSSI (uchar)
     ltm_serialise_8(0);              // no airspeed
     ltm_serialise_8((lt_flightmode << 2) | lt_statemode);
     ltm_finalise();
@@ -194,7 +194,7 @@ static void ltm_sframe(void)
  * Attitude A-frame - 10 Hz at > 2400 baud
  *  PITCH ROLL HEADING
  */
-static void ltm_aframe()
+static void ltm_aframe(void)
 {
     ltm_initialise_packet('A');
     ltm_serialise_16(DECIDEGREES_TO_DEGREES(attitude.values.pitch));
@@ -208,7 +208,7 @@ static void ltm_aframe()
  *  This frame will be ignored by Ghettostation, but processed by GhettOSD if it is used as standalone onboard OSD
  *  home pos, home alt, direction to home
  */
-static void ltm_oframe()
+static void ltm_oframe(void)
 {
     ltm_initialise_packet('O');
 #if defined(GPS)

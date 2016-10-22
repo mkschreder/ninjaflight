@@ -117,7 +117,7 @@ typedef enum {
 
 static queuedReadState_t queuedRead = { false, 0, 0};
 
-bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf)
+static bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf)
 {
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_ADDR, addr_ | READ_FLAG);   // set I2C slave address for read
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_REG, reg_);                 // set I2C slave register
@@ -129,7 +129,7 @@ bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *buf)
     return true;
 }
 
-bool ak8963SensorWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
+static bool ak8963SensorWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
 {
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_ADDR, addr_);               // set I2C slave address for write
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_REG, reg_);                 // set I2C slave register
@@ -138,7 +138,7 @@ bool ak8963SensorWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
     return true;
 }
 
-bool ak8963SensorStartRead(uint8_t addr_, uint8_t reg_, uint8_t len_)
+static bool ak8963SensorStartRead(uint8_t addr_, uint8_t reg_, uint8_t len_)
 {
     if (queuedRead.waiting) {
         return false;
@@ -173,7 +173,7 @@ static uint32_t ak8963SensorQueuedReadTimeRemaining(void)
     return timeRemaining;
 }
 
-bool ak8963SensorCompleteRead(uint8_t *buf)
+static bool ak8963SensorCompleteRead(uint8_t *buf)
 {
     uint32_t timeRemaining = ak8963SensorQueuedReadTimeRemaining();
 
@@ -187,12 +187,12 @@ bool ak8963SensorCompleteRead(uint8_t *buf)
     return true;
 }
 #else
-bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf)
+static bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf)
 {
     return i2cRead(addr_, reg_, len, buf);
 }
 
-bool ak8963SensorWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
+static bool ak8963SensorWrite(uint8_t addr_, uint8_t reg_, uint8_t data)
 {
     return i2cWrite(addr_, reg_, data);
 }

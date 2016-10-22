@@ -113,7 +113,7 @@ int32_t accelSummedSamples100Hz[3];
 
 int32_t accelSummedSamples500Hz[3];
 
-void lsm303dlhcAccInit(acc_t *acc)
+static void lsm303dlhcAccInit(acc_t *acc)
 {
     i2cWrite(LSM303DLHC_ACCEL_ADDRESS, CTRL_REG5_A, BOOT);
 

@@ -38,7 +38,7 @@ uint8_t transponderIrDMABuffer[TRANSPONDER_DMA_BUFFER_SIZE];
 
 volatile uint8_t transponderIrDataTransferInProgress = 0;
 
-void transponderDMAHandler(DMA_Channel_TypeDef *channel)
+static void transponderDMAHandler(DMA_Channel_TypeDef *channel)
 {
     if (DMA_GetFlagStatus(TRANSPONDER_DMA_TC_FLAG)) {
         transponderIrDataTransferInProgress = 0;
@@ -61,7 +61,7 @@ bool isTransponderIrReady(void)
 
 static uint16_t dmaBufferOffset;
 
-void updateTransponderDMABuffer(const uint8_t* transponderData)
+static void updateTransponderDMABuffer(const uint8_t* transponderData)
 {
     uint8_t byteIndex;
     uint8_t bitIndex;

@@ -316,8 +316,9 @@ void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uin
     self->customMixers = initialCustomMixers;
 }
 
-#if !defined(USE_SERVOS) || defined(USE_QUAD_MIXER_ONLY)
-void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration)
+//#if !defined(USE_SERVOS) || defined(USE_QUAD_MIXER_ONLY)
+// TODO: what is this useful for exactly? 
+void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration)
 {
     UNUSED(pwmIOConfiguration);
     self->motorCount = 4;
@@ -325,9 +326,9 @@ void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOC
     for (i = 0; i < self->motorCount; i++) {
         self->currentMixer[i] = mixerQuadX[i];
     }
-    mixerResetDisarmedMotors();
+    mixer_reset_disarmed_pwm_values(self);
 }
-#endif
+//#endif
 
 
 #ifndef USE_QUAD_MIXER_ONLY

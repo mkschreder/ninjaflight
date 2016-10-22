@@ -541,7 +541,7 @@ static bool afatfs_fileIsBusy(afatfsFilePtr_t file)
  *
  * Note that this is the same as the number of clusters in an AFATFS supercluster.
  */
-static uint32_t afatfs_fatEntriesPerSector()
+static uint32_t afatfs_fatEntriesPerSector(void)
 {
     return afatfs.filesystemType == FAT_FILESYSTEM_TYPE_FAT32 ? AFATFS_FAT32_FAT_ENTRIES_PER_SECTOR : AFATFS_FAT16_FAT_ENTRIES_PER_SECTOR;
 }
@@ -550,7 +550,7 @@ static uint32_t afatfs_fatEntriesPerSector()
  * Size of a FAT cluster in bytes
  */
 ONLY_EXPOSE_FOR_TESTING
-uint32_t afatfs_clusterSize()
+uint32_t afatfs_clusterSize(void)
 {
     return afatfs.sectorsPerCluster * AFATFS_SECTOR_SIZE;
 }
@@ -1620,7 +1620,7 @@ static afatfsOperationStatus_e afatfs_appendRegularFreeCluster(afatfsFilePtr_t f
  * Size of a AFATFS supercluster in bytes
  */
 ONLY_EXPOSE_FOR_TESTING
-uint32_t afatfs_superClusterSize()
+uint32_t afatfs_superClusterSize(void)
 {
     return afatfs_fatEntriesPerSector() * afatfs_clusterSize();
 }
@@ -2366,7 +2366,7 @@ static afatfsOperationStatus_e afatfs_allocateDirectoryEntry(afatfsFilePtr_t dir
  * Return a pointer to a free entry in the open files table (a file whose type is "NONE"). You should initialize
  * the file afterwards with afatfs_initFileHandle().
  */
-static afatfsFilePtr_t afatfs_allocateFileHandle()
+static afatfsFilePtr_t afatfs_allocateFileHandle(void)
 {
     for (int i = 0; i < AFATFS_MAX_OPEN_FILES; i++) {
         if (afatfs.openFiles[i].type == AFATFS_FILE_TYPE_NONE) {
@@ -3213,7 +3213,7 @@ static void afatfs_fileOperationContinue(afatfsFile_t *file)
 /**
  * Check files for pending operations and execute them.
  */
-static void afatfs_fileOperationsPoll()
+static void afatfs_fileOperationsPoll(void)
 {
     afatfs_fileOperationContinue(&afatfs.currentDirectory);
 
@@ -3240,7 +3240,7 @@ uint32_t afatfs_getContiguousFreeSpace()
  * Call to set up the initial state for finding the largest block of free space on the device whose corresponding FAT
  * sectors are themselves entirely free space (so the free space has dedicated FAT sectors of its own).
  */
-static void afatfs_findLargestContiguousFreeBlockBegin()
+static void afatfs_findLargestContiguousFreeBlockBegin(void)
 {
     // The first FAT sector has two reserved entries, so it isn't eligible for this search. Start at the next FAT sector.
     afatfs.initState.freeSpaceSearch.candidateStart = afatfs_fatEntriesPerSector();
@@ -3258,7 +3258,7 @@ static void afatfs_findLargestContiguousFreeBlockBegin()
  *     AFATFS_OPERATION_SUCCESS - When the search has finished and afatfs.initState.freeSpaceSearch has been updated with the details of the best gap.
  *     AFATFS_OPERATION_FAILURE - When a read error occured
  */
-static afatfsOperationStatus_e afatfs_findLargestContiguousFreeBlockContinue()
+static afatfsOperationStatus_e afatfs_findLargestContiguousFreeBlockContinue(void)
 {
     afatfsFreeSpaceSearch_t *opState = &afatfs.initState.freeSpaceSearch;
     uint32_t fatEntriesPerSector = afatfs_fatEntriesPerSector();
@@ -3363,7 +3363,7 @@ static void afatfs_introspecLogCreated(afatfsFile_t *file)
 
 #endif
 
-static void afatfs_initContinue()
+static void afatfs_initContinue(void)
 {
 #ifdef AFATFS_USE_FREEFILE
     afatfsOperationStatus_e status;

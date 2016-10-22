@@ -81,7 +81,7 @@ extern acc_t acc;
 uint8_t detectedSensors[MAX_SENSORS_TO_DETECT] = { GYRO_NONE, ACC_NONE, BARO_NONE, MAG_NONE };
 
 
-static const extiConfig_t *selectMPUIntExtiConfig(void)
+static __attribute__((unused)) const extiConfig_t *selectMPUIntExtiConfig(void)
 {
 #ifdef NAZE
     // MPU_INT output on rev4 PB13
@@ -213,7 +213,7 @@ static bool fakeGyroReadTemp(int16_t *tempData)
     return true;
 }
 
-bool fakeGyroDetect(gyro_t *gyro)
+static bool fakeGyroDetect(gyro_t *gyro)
 {
     gyro->init = fakeGyroInit;
     gyro->read = fakeGyroRead;
@@ -234,7 +234,7 @@ static bool fakeAccRead(int16_t *accData)
     return true;
 }
 
-bool fakeAccDetect(acc_t *acc)
+static bool fakeAccDetect(acc_t *acc)
 {
     acc->init = fakeAccInit;
     acc->read = fakeAccRead;

@@ -229,7 +229,7 @@ void configureSmartPortTelemetryPort(void)
     smartPortLastRequestTime = millis();
 }
 
-bool canSendSmartPortTelemetry(void)
+static bool canSendSmartPortTelemetry(void)
 {
     return smartPortSerialPort && (smartPortState == SPSTATE_INITIALIZED || smartPortState == SPSTATE_WORKING);
 }

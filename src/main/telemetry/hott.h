@@ -501,6 +501,7 @@ void freeHoTTTelemetryPort(void);
 
 uint32_t getHoTTTelemetryProviderBaudRate(void);
 
+void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t longitude); 
 void hottPrepareGPSResponse(HOTT_GPS_MSG_t *hottGPSMessage);
 
 #endif /* HOTT_TELEMETRY_H_ */

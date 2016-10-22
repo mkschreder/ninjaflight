@@ -181,7 +181,7 @@ void checkMAVLinkTelemetryState(void)
         freeMAVLinkTelemetryPort();
 }
 
-void mavlinkSendSystemStatus(void)
+static void mavlinkSendSystemStatus(void)
 {
     uint16_t msgLength;
     
@@ -236,7 +236,7 @@ void mavlinkSendSystemStatus(void)
     mavlinkSerialWrite(mavBuffer, msgLength);
 }
 
-void mavlinkSendRCChannelsAndRSSI(void)
+static void mavlinkSendRCChannelsAndRSSI(void)
 {
     uint16_t msgLength;
     mavlink_msg_rc_channels_raw_pack(0, 200, &mavMsg,
@@ -245,29 +245,29 @@ void mavlinkSendRCChannelsAndRSSI(void)
         // port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
         0,
         // chan1_raw RC channel 1 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 1) ? rcData[0] : 0,
+        (rxRuntimeConfig.channelCount >= 1) ? rc_get_channel_value(0) : 0,
         // chan2_raw RC channel 2 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 2) ? rcData[1] : 0,
+        (rxRuntimeConfig.channelCount >= 2) ? rc_get_channel_value(1) : 0,
         // chan3_raw RC channel 3 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 3) ? rcData[2] : 0,
+        (rxRuntimeConfig.channelCount >= 3) ? rc_get_channel_value(2) : 0,
         // chan4_raw RC channel 4 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 4) ? rcData[3] : 0,
+        (rxRuntimeConfig.channelCount >= 4) ? rc_get_channel_value(3) : 0,
         // chan5_raw RC channel 5 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 5) ? rcData[4] : 0,
+        (rxRuntimeConfig.channelCount >= 5) ? rc_get_channel_value(4) : 0,
         // chan6_raw RC channel 6 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 6) ? rcData[5] : 0,
+        (rxRuntimeConfig.channelCount >= 6) ? rc_get_channel_value(5) : 0,
         // chan7_raw RC channel 7 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 7) ? rcData[6] : 0,
+        (rxRuntimeConfig.channelCount >= 7) ? rc_get_channel_value(6) : 0,
         // chan8_raw RC channel 8 value, in microseconds
-        (rxRuntimeConfig.channelCount >= 8) ? rcData[7] : 0,
+        (rxRuntimeConfig.channelCount >= 8) ? rc_get_channel_value(7) : 0,
         // rssi Receive signal strength indicator, 0: 0%, 255: 100%
-        scaleRange(rssi, 0, 1023, 0, 255));
+        scaleRange(rc_get_rssi(), 0, 1023, 0, 255));
     msgLength = mavlink_msg_to_send_buffer(mavBuffer, &mavMsg);
     mavlinkSerialWrite(mavBuffer, msgLength);
 }
 
 #if defined(GPS)
-void mavlinkSendPosition(void)
+static void mavlinkSendPosition(void)
 {
     uint16_t msgLength;
     uint8_t gpsFixType = 0;
@@ -351,7 +351,7 @@ void mavlinkSendPosition(void)
 }
 #endif
 
-void mavlinkSendAttitude(void)
+static void mavlinkSendAttitude(void)
 {
     uint16_t msgLength;
     mavlink_msg_attitude_pack(0, 200, &mavMsg,
@@ -373,7 +373,7 @@ void mavlinkSendAttitude(void)
     mavlinkSerialWrite(mavBuffer, msgLength);
 }
 
-void mavlinkSendHUDAndHeartbeat(void)
+static void mavlinkSendHUDAndHeartbeat(void)
 {
     uint16_t msgLength;
     float mavAltitude = 0;
@@ -414,7 +414,7 @@ void mavlinkSendHUDAndHeartbeat(void)
         // heading Current heading in degrees, in compass units (0..360, 0=north)
         DECIDEGREES_TO_DEGREES(attitude.values.yaw),
         // throttle Current throttle setting in integer percent, 0 to 100
-        scaleRange(constrain(rcData[THROTTLE], PWM_RANGE_MIN, PWM_RANGE_MAX), PWM_RANGE_MIN, PWM_RANGE_MAX, 0, 100),
+        scaleRange(constrain(rc_get_channel_value(THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX), PWM_RANGE_MIN, PWM_RANGE_MAX, 0, 100),
         // alt Current altitude (MSL), in meters, if we have sonar or baro use them, otherwise use GPS (less accurate)
         mavAltitude,
         // climb Current climb rate in meters/second
@@ -507,7 +507,7 @@ void mavlinkSendHUDAndHeartbeat(void)
     mavlinkSerialWrite(mavBuffer, msgLength);
 }
 
-void processMAVLinkTelemetry(void)
+static void processMAVLinkTelemetry(void)
 {
     // is executed @ TELEMETRY_MAVLINK_MAXRATE rate
     if (mavlinkStreamTrigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {

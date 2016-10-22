@@ -121,7 +121,7 @@ bool mpu6000ReadRegister(uint8_t reg, uint8_t length, uint8_t *data)
     return true;
 }
 
-void mpu6000SpiGyroInit(uint8_t lpf)
+static void mpu6000SpiGyroInit(uint8_t lpf)
 {
     mpuIntExtiInit();
 
@@ -141,7 +141,7 @@ void mpu6000SpiGyroInit(uint8_t lpf)
     }
 }
 
-void mpu6000SpiAccInit(acc_t *acc)
+static void mpu6000SpiAccInit(acc_t *acc)
 {
     mpuIntExtiInit();
 

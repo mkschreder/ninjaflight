@@ -128,6 +128,8 @@ void mixer_stop_motors(struct mixer *self);
 void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
+struct pwmIOConfiguration_s; // TODO: remove this kind of dependency 
+void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration); 
 int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id); 
 uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id); 
 bool mixer_motor_limit_reached(struct mixer *self); 

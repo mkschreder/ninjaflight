@@ -18,6 +18,7 @@
 #include "io/motor_and_servo.h"
 #include "io/rc_controls.h"
 #include "flight/pid.h"
+#include "flight/imu.h"
 
 #include "sensors/barometer.h"
 

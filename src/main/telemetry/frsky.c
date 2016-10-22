@@ -462,7 +462,7 @@ void configureFrSkyTelemetryPort(void)
     frskyTelemetryEnabled = true;
 }
 
-bool hasEnoughTimeLapsedSinceLastTelemetryTransmission(uint32_t currentMillis)
+static bool hasEnoughTimeLapsedSinceLastTelemetryTransmission(uint32_t currentMillis)
 {
     return currentMillis - lastCycleTime >= CYCLETIME;
 }

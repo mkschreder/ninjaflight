@@ -73,7 +73,7 @@ void i2cSetOverclock(uint8_t OverClock)
     i2cOverClock = (OverClock) ? true : false;
 }
 
-uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
+static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
 {
     if (I2Cx == I2C1) {
         i2c1ErrorCount++;
@@ -83,7 +83,7 @@ uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
     return false;
 }
 
-void i2cInitPort(I2C_TypeDef *I2Cx)
+static void i2cInitPort(I2C_TypeDef *I2Cx)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     I2C_InitTypeDef I2C_InitStructure;

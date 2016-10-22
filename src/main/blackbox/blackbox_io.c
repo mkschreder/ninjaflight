@@ -669,7 +669,7 @@ static void blackboxLogFileCreated(afatfsFilePtr_t file)
     }
 }
 
-static void blackboxCreateLogFile()
+static void blackboxCreateLogFile(void)
 {
     uint32_t remainder = blackboxSDCard.largestLogFileNumber + 1;
 
@@ -700,7 +700,7 @@ static void blackboxCreateLogFile()
  *
  * Keep calling until the function returns true (open is complete).
  */
-static bool blackboxSDCardBeginLog()
+static bool blackboxSDCardBeginLog(void)
 {
     fatDirectoryEntry_t *directoryEntry;
 

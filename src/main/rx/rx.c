@@ -97,9 +97,13 @@ static int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;200
 
 static rcReadRawDataPtr rcReadRawFunc = nullReadRawRC;
 static uint16_t rxRefreshRate;
+
+#if defined(USE_ADC)
 static uint8_t adcRssiSamples[RSSI_ADC_SAMPLE_COUNT];
 static uint8_t adcRssiSampleIndex = 0;
 static uint32_t rssiUpdateAt = 0;
+#endif
+
 static uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
 static bool rxSamplesCollected = false;
 

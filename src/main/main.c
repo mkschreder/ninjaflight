@@ -169,7 +169,7 @@ static void flashLedsAndBeep(void)
 }
 
 #ifdef BUTTONS
-void buttonsInit(void)
+static void buttonsInit(void)
 {
 
     gpio_config_t buttonAGpioConfig = {
@@ -189,7 +189,7 @@ void buttonsInit(void)
     delayMicroseconds(10);  // allow GPIO configuration to settle
 }
 
-void buttonsHandleColdBootButtonPresses(void)
+static void buttonsHandleColdBootButtonPresses(void)
 {
     uint8_t secondsRemaining = 10;
     bool bothButtonsHeld;
@@ -400,7 +400,7 @@ static void init(void)
     // pwmInit() needs to be called as soon as possible for ESC compatibility reasons
     pwmIOConfiguration_t *pwmIOConfiguration = pwmInit(&pwm_params);
 
-    mixerUsePWMIOConfiguration(&default_mixer, pwmIOConfiguration);
+    mixer_use_pwmio_config(&default_mixer, pwmIOConfiguration);
 
 #ifdef DEBUG_PWM_CONFIGURATION
     debug[2] = pwmIOConfiguration->pwmInputCount;

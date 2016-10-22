@@ -181,7 +181,8 @@ static void mpu6050FindRevision(void)
     }
 }
 
-static void MPU_DATA_READY_EXTI_Handler(void){
+void MPU_DATA_READY_EXTI_Handler(void); 
+void MPU_DATA_READY_EXTI_Handler(void){
     if (EXTI_GetITStatus(mpuIntExtiConfig->exti_line) == RESET) {
         return;
     }

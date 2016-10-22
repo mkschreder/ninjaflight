@@ -265,7 +265,7 @@ static inline void hottEAMUpdateBatteryDrawnCapacity(HOTT_EAM_MSG_t *hottEAMMess
     hottEAMMessage->batt_cap_H = mAh >> 8;
 }
 
-void hottPrepareEAMResponse(HOTT_EAM_MSG_t *hottEAMMessage)
+static void hottPrepareEAMResponse(HOTT_EAM_MSG_t *hottEAMMessage)
 {
     // Reset alarms
     hottEAMMessage->warning_beeps = 0x0;
@@ -476,7 +476,7 @@ static inline bool shouldPrepareHoTTMessages(uint32_t currentMicros)
     return currentMicros - lastMessagesPreparedAt >= HOTT_MESSAGE_PREPARATION_FREQUENCY_5_HZ;
 }
 
-static inline bool shouldCheckForHoTTRequest()
+static inline bool shouldCheckForHoTTRequest(void)
 {
     if (hottIsSending) {
         return false;

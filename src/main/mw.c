@@ -133,7 +133,7 @@ void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsD
 
 #ifdef GTUNE
 
-void updateGtuneState(void)
+static void updateGtuneState(void)
 {
     static bool GTuneWasUsed = false;
 
