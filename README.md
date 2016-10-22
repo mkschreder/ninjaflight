@@ -70,34 +70,44 @@ introducing these changes.
 
 ## Most popular supported boards
 
-![NAZE](board-naze32.jpg)
+![NAZE](media/board-naze32.jpg)
+
 *NAZE*
 
 ![CJMCU](media/board-cjmcu.jpg)
+
 *CJMCU*
 
-![CC3D](board-cc3d.jpg)
+![CC3D](media/board-cc3d.jpg)
+
 *CC3D*
 
-![Dodo](board-rmdo.jpg)
+![Dodo](media/board-rmdo.jpg)
+
 *DODO*
 
-![Sparky](board-sparky.jpg)
+![Sparky](media/board-sparky.jpg)
+
 *Sparky*
 
-![SPRacingEVO](board-sp-racing-evo.jpg)
+![SPRacingEVO](media/board-sp-racing-evo.jpg)
+
 *SPRacingEVO*
 
-![SPRacingF3](board-spracing-f3.jpg)
+![SPRacingF3](media/board-spracing-f3.jpg)
+
 *SPRacingF3*
 
-![Colibri](board-colibri-race.jpg)
+![Colibri](media/board-colibri-race.jpg)
+
 *Colibri Race*
 
-![Lux-Race](board-lux-race.jpg)
+![Lux-Race](media/board-lux-race.jpg)
+
 *Lux Race*
 
-![Olimexino](board-olimexino.jpg)
+![Olimexino](media/board-olimexino.jpg)
+
 *Olimexino*
 
 ## Installation
