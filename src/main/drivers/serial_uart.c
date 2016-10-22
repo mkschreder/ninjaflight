@@ -103,7 +103,7 @@ static void uartReconfigure(uartPort_t *uartPort)
     USART_Cmd(uartPort->USARTx, ENABLE);
 }
 
-void uartSetBaudRate(serialPort_t *instance, uint32_t baudRate)
+static void uartSetBaudRate(serialPort_t *instance, uint32_t baudRate)
 {
     uartPort_t *uartPort = (uartPort_t *)instance;
     uartPort->port.baudRate = baudRate;
@@ -131,7 +131,7 @@ void uartStartTxDMA(uartPort_t *s)
     DMA_Cmd(s->txDMAChannel, ENABLE);
 }
 
-uint8_t uartTotalRxBytesWaiting(serialPort_t *instance)
+static uint8_t uartTotalRxBytesWaiting(serialPort_t *instance)
 {
     uartPort_t *s = (uartPort_t*)instance;
     if (s->rxDMAChannel) {
@@ -150,7 +150,7 @@ uint8_t uartTotalRxBytesWaiting(serialPort_t *instance)
     }
 }
 
-uint8_t uartTotalTxBytesFree(serialPort_t *instance)
+static uint8_t uartTotalTxBytesFree(serialPort_t *instance)
 {
     uartPort_t *s = (uartPort_t*)instance;
 
@@ -185,7 +185,7 @@ uint8_t uartTotalTxBytesFree(serialPort_t *instance)
     return (s->port.txBufferSize - 1) - bytesUsed;
 }
 
-bool isUartTransmitBufferEmpty(serialPort_t *instance)
+static bool isUartTransmitBufferEmpty(serialPort_t *instance)
 {
     uartPort_t *s = (uartPort_t *)instance;
     if (s->txDMAChannel)
@@ -194,7 +194,7 @@ bool isUartTransmitBufferEmpty(serialPort_t *instance)
         return s->port.txBufferTail == s->port.txBufferHead;
 }
 
-uint8_t uartRead(serialPort_t *instance)
+static uint8_t uartRead(serialPort_t *instance)
 {
     uint8_t ch;
     uartPort_t *s = (uartPort_t *)instance;
@@ -215,7 +215,7 @@ uint8_t uartRead(serialPort_t *instance)
     return ch;
 }
 
-void uartWrite(serialPort_t *instance, uint8_t ch)
+static void uartWrite(serialPort_t *instance, uint8_t ch)
 {
     uartPort_t *s = (uartPort_t *)instance;
     s->port.txBuffer[s->port.txBufferHead] = ch;

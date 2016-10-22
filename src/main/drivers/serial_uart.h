@@ -154,10 +154,3 @@ serialPort_t *uartOpen(USART_TypeDef *USARTx, serialReceiveCallbackPtr callback,
 
 void usartInitAllIOSignals(void);
 
-// serialPort API
-void uartWrite(serialPort_t *instance, uint8_t ch);
-uint8_t uartTotalRxBytesWaiting(serialPort_t *instance);
-uint8_t uartTotalTxBytesFree(serialPort_t *instance);
-uint8_t uartRead(serialPort_t *instance);
-void uartSetBaudRate(serialPort_t *s, uint32_t baudRate);
-bool isUartTransmitBufferEmpty(serialPort_t *s);
