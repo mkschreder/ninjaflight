@@ -35,7 +35,6 @@
 #include "serial.h"
 #include "serial_uart.h"
 #include "serial_uart_impl.h"
-#include "serial_uart_stm32f10x.h"
 
 #ifdef USE_UART1
 static uartPort_t uartPort1;
@@ -63,6 +62,32 @@ static uartPort_t uartPort5;
 #if defined(CC3D) // FIXME move board specific code to target.h files.
 #undef USE_UART1_RX_DMA
 #endif
+
+void usartInitAllIOSignals(void)
+{
+    // Set UART1 TX to output and high state to prevent a rs232 break condition on reset.
+    // See issue https://github.com/cleanflight/cleanflight/issues/1433
+    gpio_config_t gpio;
+
+    gpio.mode = Mode_Out_PP;
+    gpio.speed = Speed_2MHz;
+    gpio.pin = UART1_TX_PIN;
+    digitalHi(UART1_GPIO, gpio.pin);
+    gpioInit(UART1_GPIO, &gpio);
+
+    // Set TX of UART2 and UART3 to input with pull-up to prevent floating TX outputs.
+    gpio.mode = Mode_IPU;
+
+#ifdef USE_UART2
+    gpio.pin = UART2_TX_PIN;
+    gpioInit(UART2_GPIO, &gpio);
+#endif
+
+#ifdef USE_UART3
+    gpio.pin = UART3_TX_PIN;
+    gpioInit(UART3_GPIO, &gpio);
+#endif
+}
 
 static void usartIrqHandler(uartPort_t *s)
 {
@@ -102,7 +127,6 @@ uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t option
     NVIC_InitTypeDef NVIC_InitStructure;
 
     s = &uartPort1;
-    s->port.vTable = uartVTable;
     
     s->port.baudRate = baudRate;
     
@@ -205,7 +229,6 @@ uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t option
     NVIC_InitTypeDef NVIC_InitStructure;
 
     s = &uartPort2;
-    s->port.vTable = uartVTable;
     
     s->port.baudRate = baudRate;
     
@@ -280,7 +303,6 @@ uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t option
     NVIC_InitTypeDef NVIC_InitStructure;
 
     s = &uartPort3;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 
@@ -350,7 +372,6 @@ uartPort_t *serialUART4(uint32_t baudRate, portMode_t mode, portOptions_t option
     NVIC_InitTypeDef NVIC_InitStructure;
 
     s = &uartPort4;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 
@@ -419,7 +440,6 @@ uartPort_t *serialUART5(uint32_t baudRate, portMode_t mode, portOptions_t option
     NVIC_InitTypeDef NVIC_InitStructure;
 
     s = &uartPort5;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 

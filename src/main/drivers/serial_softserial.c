@@ -77,7 +77,7 @@ typedef struct softSerial_s {
 extern timerHardware_t* serialTimerHardware;
 extern softSerial_t softSerialPorts[];
 
-extern const struct serialPortVTable softSerialVTable[];
+extern const struct serial_port_ops soft_serial_ops[];
 
 
 softSerial_t softSerialPorts[MAX_SOFTSERIAL_PORTS];
@@ -204,7 +204,7 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e portIndex, serialReceiveCallb
     }
 #endif
 
-    softSerial->port.vTable = softSerialVTable;
+    softSerial->port.vTable = soft_serial_ops;
     softSerial->port.baudRate = baud;
     softSerial->port.mode = MODE_RXTX;
     softSerial->port.options = options;
@@ -476,16 +476,18 @@ bool isSoftSerialTransmitBufferEmpty(serialPort_t *instance)
     return instance->txBufferHead == instance->txBufferTail;
 }
 
-const struct serialPortVTable softSerialVTable[] = {
+const struct serial_port_ops soft_serial_ops[] = {
     {
-        softSerialWriteByte,
-        softSerialRxBytesWaiting,
-        softSerialTxBytesFree,
-        softSerialReadByte,
-        softSerialSetBaudRate,
-        isSoftSerialTransmitBufferEmpty,
-        softSerialSetMode,
+        .put = softSerialWriteByte,
+        .serialTotalRxWaiting = softSerialRxBytesWaiting,
+        .serialTotalTxFree = softSerialTxBytesFree,
+        .serialRead = softSerialReadByte,
+        .serialSetBaudRate = softSerialSetBaudRate,
+        .isSerialTransmitBufferEmpty = isSoftSerialTransmitBufferEmpty,
+        .setMode = softSerialSetMode,
         .writeBuf = NULL,
+		.beginWrite = NULL, 
+		.endWrite = NULL
     }
 };
 

@@ -36,7 +36,6 @@
 #include "serial.h"
 #include "serial_uart.h"
 #include "serial_uart_impl.h"
-#include "serial_uart_stm32f30x.h"
 
 
 // Using RX DMA disables the use of receive callbacks
@@ -62,6 +61,29 @@ static uartPort_t uartPort4;
 static uartPort_t uartPort5;
 #endif
 
+void usartInitAllIOSignals(void){
+    // Set TX for UART1, UART2 and UART3 to input with pull-up to prevent floating TX outputs.
+    gpio_config_t gpio;
+
+    gpio.mode = Mode_IPU;
+    gpio.speed = Speed_2MHz;
+
+#ifdef USE_UART1
+    gpio.pin = UART1_TX_PIN;
+    gpioInit(UART1_GPIO, &gpio);
+#endif
+
+//#ifdef USE_UART2
+//    gpio.pin = UART2_TX_PIN;
+//    gpioInit(UART2_GPIO, &gpio);
+//#endif
+
+#ifdef USE_UART3
+    gpio.pin = UART3_TX_PIN;
+    gpioInit(UART3_GPIO, &gpio);
+#endif
+}
+
 #ifdef USE_UART1
 uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t options)
 {
@@ -72,7 +94,6 @@ uartPort_t *serialUART1(uint32_t baudRate, portMode_t mode, portOptions_t option
     GPIO_InitTypeDef  GPIO_InitStructure;
 
     s = &uartPort1;
-    s->port.vTable = uartVTable;
     
     s->port.baudRate = baudRate;
     
@@ -149,7 +170,6 @@ uartPort_t *serialUART2(uint32_t baudRate, portMode_t mode, portOptions_t option
     GPIO_InitTypeDef  GPIO_InitStructure;
 
     s = &uartPort2;
-    s->port.vTable = uartVTable;
     
     s->port.baudRate = baudRate;
     
@@ -232,7 +252,6 @@ uartPort_t *serialUART3(uint32_t baudRate, portMode_t mode, portOptions_t option
     GPIO_InitTypeDef  GPIO_InitStructure;
 
     s = &uartPort3;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 
@@ -418,7 +437,6 @@ uartPort_t *serialUART4(uint32_t baudRate, portMode_t mode, portOptions_t option
     GPIO_InitTypeDef  GPIO_InitStructure;
 
     s = &uartPort4;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 
@@ -491,7 +509,6 @@ uartPort_t *serialUART5(uint32_t baudRate, portMode_t mode, portOptions_t option
     GPIO_InitTypeDef  GPIO_InitStructure;
 
     s = &uartPort5;
-    s->port.vTable = uartVTable;
 
     s->port.baudRate = baudRate;
 
