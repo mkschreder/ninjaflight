@@ -150,7 +150,8 @@ typedef struct {
     USART_TypeDef *USARTx;
 } uartPort_t;
 
-serialPort_t *uartOpen(USART_TypeDef *USARTx, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options);
+// id starts from 1 (id 0 is invalid)!
+serialPort_t *uartOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options);
 
 void usartInitAllIOSignals(void);
 

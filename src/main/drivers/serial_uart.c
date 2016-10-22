@@ -246,30 +246,36 @@ const struct serial_port_ops uart_serial_ops = {
 	.endWrite = NULL,
 };
 
-serialPort_t *uartOpen(USART_TypeDef *USARTx, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options)
+serialPort_t *uartOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options)
 {
     uartPort_t *s = NULL;
 
-    if (USARTx == USART1) {
-        s = serialUART1(baudRate, mode, options);
+    switch(id){
+		case 1: 
+        	s = serialUART1(baudRate, mode, options);
+			break; 
 #ifdef USE_UART2
-    } else if (USARTx == USART2) {
-        s = serialUART2(baudRate, mode, options);
+		case 2: 
+        	s = serialUART2(baudRate, mode, options);
+			break; 
 #endif
 #ifdef USE_UART3
-    } else if (USARTx == USART3) {
-        s = serialUART3(baudRate, mode, options);
+		case 3: 
+        	s = serialUART3(baudRate, mode, options);
+			break; 
 #endif
 #ifdef USE_UART4
-    } else if (USARTx == UART4) {
-        s = serialUART4(baudRate, mode, options);
+		case 4: 
+        	s = serialUART4(baudRate, mode, options);
+			break; 
 #endif
 #ifdef USE_UART5
-    } else if (USARTx == UART5) {
-        s = serialUART5(baudRate, mode, options);
+		case 5: 
+        	s = serialUART5(baudRate, mode, options);
+			break; 
 #endif
-    } else {
-        return NULL;
+		default: 
+        	return NULL;
     }
 
 	s->port.vTable = &uart_serial_ops; 

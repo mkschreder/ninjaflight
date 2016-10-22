@@ -322,27 +322,27 @@ serialPort_t *openSerialPort(
 #endif
 #ifdef USE_UART1
         case SERIAL_PORT_UART1:
-            serialPort = uartOpen(USART1, callback, baudRate, mode, options);
+            serialPort = uartOpen(1, callback, baudRate, mode, options);
             break;
 #endif
 #ifdef USE_UART2
         case SERIAL_PORT_UART2:
-            serialPort = uartOpen(USART2, callback, baudRate, mode, options);
+            serialPort = uartOpen(2, callback, baudRate, mode, options);
             break;
 #endif
 #ifdef USE_UART3
         case SERIAL_PORT_UART3:
-            serialPort = uartOpen(USART3, callback, baudRate, mode, options);
+            serialPort = uartOpen(3, callback, baudRate, mode, options);
             break;
 #endif
 #ifdef USE_UART4
         case SERIAL_PORT_UART4:
-            serialPort = uartOpen(UART4, callback, baudRate, mode, options);
+            serialPort = uartOpen(4, callback, baudRate, mode, options);
             break;
 #endif
 #ifdef USE_UART5
         case SERIAL_PORT_UART5:
-            serialPort = uartOpen(UART5, callback, baudRate, mode, options);
+            serialPort = uartOpen(5, callback, baudRate, mode, options);
             break;
 #endif
 #ifdef USE_SOFTSERIAL1
