@@ -181,6 +181,15 @@ STATIC_UNIT_TESTED void resetConf(void)
     currentControlRateProfile->rates[YAW] = 20;
     parseRcChannels("TAER1234", rxConfig());
 
+#if 0
+	// TODO: finish porting this
+	tiltConfig->flagEnabled = TILT_ARM_ENABLE_PITCH_DIVIDER;
+	tiltConfig->pitchDivisior = 30;
+	tiltConfig->thrustLiftoffPercent = 0;
+	tiltConfig->gearRatioPercent = 100;
+	tiltConfig->channel = AUX1;
+#endif
+
     *customMotorMixer(0) = (struct motor_mixer){ 1.0f, -0.414178f,  1.0f, -1.0f };    // REAR_R
     *customMotorMixer(1) = (struct motor_mixer){ 1.0f, -0.414178f, -1.0f,  1.0f };    // FRONT_R
     *customMotorMixer(2) = (struct motor_mixer){ 1.0f,  0.414178f,  1.0f,  1.0f };    // REAR_L

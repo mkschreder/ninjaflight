@@ -301,6 +301,8 @@ const struct mixer_mode mixers[] = {
     { 2, true,  mixerDualcopter },     // MIXER_DUALCOPTER
     { 1, true,  NULL },                // MIXER_SINGLECOPTER
     { 4, false, mixerAtail4 },         // MIXER_ATAIL4
+    { 4, true, mixerQuadX },           // MIXER_QUADX_TILT1
+    { 4, true, mixerQuadX },            // MIXER_QUADX_TILT2
     { 0, false, NULL },                // MIXER_CUSTOM
     { 2, true,  NULL },                // MIXER_CUSTOM_AIRPLANE
     { 3, true,  NULL },                // MIXER_CUSTOM_TRI
@@ -399,6 +401,136 @@ void mixer_stop_pwm_all_motors(struct mixer *self)
 static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_t motorIndex)
 {
     return constrain(self->motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
+}
+
+// TODO: get rid of these and put them into a config
+const float servo_angle_min = -45; 
+const float servo_angle_max = 45; 
+
+/*
+static int16_t _tilt_radians_to_pwm(float angle_radians) {
+    // normalize angle to range -PI to PI
+    while (angle_radians > M_PIf)
+        angle_radians -= M_PIf * 2;
+    while (angle_radians < -M_PIf)
+        angle_radians += M_PIf * 2;
+
+    //remap input value (RX limit) to output value (Servo limit), also take into account eventual non-linearity of the two half range
+    if (angle_radians > 0) {
+        angle_radians = scaleRangef(angle_radians, 0, degreesToRadians(servo_angle_max), 0, 500);
+    } else {
+        angle_radians = scaleRangef(angle_radians, 0, -degreesToRadians(servo_angle_min), 0, -500);
+    }
+
+    //just to be sure it is in range, because float
+    return constrain(angle_radians, -500, 500);
+}
+*/
+
+static float _tilt_pwm_to_radians(int16_t channel) {
+    //check input
+    channel = constrain(channel, -500, 500);
+
+    float angle;
+    //take into account eventual non-linearity of the range
+    if (channel > 0){
+        angle = scaleRangef(channel, 0, 500, 0,  degreesToRadians(servo_angle_max) );
+    }else{
+        angle = scaleRangef(channel, 0, -500, 0, -degreesToRadians(servo_angle_min) );
+    }
+
+    return angle;
+}
+
+/*
+ * return a float in range [-PI/2:+PI/2] witch represent the actual servo inclination wanted
+ */
+static float _mixer_calc_tilt_angle(struct mixer *self) {
+    int16_t userInput = 0;
+    uint8_t isFixedPitch = false;
+	const float gearRatio = 100.0f; 
+    //get wanted position of the tilting servo
+	// TODO: if servo is enabled
+    //if (rc_get_channel_value(PITCH) >= rxConfig()->midrc) {
+        //userInput = rc_get_channel_value(PITCH) - 1500;
+        //isFixedPitch = true;
+    //} else {
+        userInput = rcCommand[PITCH]; //use rcCommand so we get expo and deadband
+    //}
+
+    if ( !FLIGHT_MODE(ANGLE_MODE) && !FLIGHT_MODE(HORIZON_MODE) && !isFixedPitch) {
+
+        //TODO: change this hardcoded value to something user can select; those affect the speed of the servo in rate mode
+        //user input is from -500 to 500, we want to scale it from -10deg to +10deg
+        float servoSpeed;
+        if (userInput > 0) {
+            servoSpeed = scaleRangef( userInput, 0, 500, 0, 0.017f );
+        } else {
+            servoSpeed = scaleRangef( userInput, 0, -500, 0, -0.017f);
+        }
+
+        self->lastServoAngleTilt += (servoSpeed * gearRatio) / 100.0f;
+
+        // prevent overshot and overflow/windup
+        self->lastServoAngleTilt = constrainf(self->lastServoAngleTilt, -degreesToRadians(servo_angle_min), degreesToRadians(servo_angle_max));
+
+        return self->lastServoAngleTilt;
+    } else {
+        self->lastServoAngleTilt = 0; //reset
+
+        return (_tilt_pwm_to_radians(userInput) * gearRatio) / 100.0f;
+    }
+	
+	return 0; 
+}
+
+static void _mixer_mix_tilt(struct mixer *self) {
+    float angleTilt = _mixer_calc_tilt_angle(self);
+    float tmpCosine = cos_approx(angleTilt);
+	// TODO: make this a config var
+	static const bool thrust_compensation = true; 
+	static const bool yaw_roll_compensation = true; 
+	static const bool body_compensation = true; 
+	int16_t liftoff_thrust = 0; 
+
+    if (thrust_compensation) {
+        // compensate the throttle because motor orientation
+        float pitchToCompensate = angleTilt;
+
+        float bodyPitch = degreesToRadians(attitude.values.pitch);
+        if (body_compensation) {
+            pitchToCompensate += bodyPitch;
+        }
+
+        pitchToCompensate = ABS(pitchToCompensate); //we compensate in the same way if up or down.
+
+        if (pitchToCompensate > 0 && angleTilt + bodyPitch < M_PIf / 2) { //if there is something to compensate, and only from 0 to 90, otherwise it will push you into the ground
+            uint16_t liftOffTrust = ((rxConfig()->maxcheck - rxConfig()->mincheck) * liftoff_thrust) / 100; //force this order so we don't need float!
+            uint16_t liftOffLimit = ((rcCommand[THROTTLE] - (rxConfig()->maxcheck - rxConfig()->mincheck)) * 80) / 100; //we will artificially limit the trust compensation to 80% of remaining trust
+
+            float tmp_cos_compensate = cos_approx(pitchToCompensate);
+            if (tmp_cos_compensate != 0) { //it may be zero if the pitchToCOmpensate is 90°, also if it is very close due to float approximation.
+                float compensation = liftOffTrust / tmp_cos_compensate; //absolute value because we want to increase power even if breaking
+
+                if (compensation > 0) { //prevent overflow
+                    rcCommand[THROTTLE] += (compensation < liftOffLimit) ? compensation : liftOffLimit;
+                }
+            }
+        }
+    }
+
+    //compensate the roll and yaw because motor orientation
+    if (yaw_roll_compensation) {
+
+        // ***** quick and dirty compensation to test *****
+        float rollCompensation = axisPID[ROLL] * tmpCosine;
+        float rollCompensationInv = axisPID[ROLL] - rollCompensation;
+        float yawCompensation = axisPID[YAW] * tmpCosine;
+        float yawCompensationInv = axisPID[YAW] - yawCompensation;
+
+        axisPID[ROLL] = yawCompensationInv + rollCompensation;
+        axisPID[YAW] = yawCompensation + rollCompensationInv;
+    }
 }
 
 void mixer_update(struct mixer *self)
@@ -559,6 +691,9 @@ void mixer_update(struct mixer *self)
         }
     }
 
+	if(mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2){
+		_mixer_mix_tilt(self); 
+	}
 
     /* Disarmed for all mixers */
 	// TODO: this should be moved higher up in this function. Need to evaluate effects of doing that. 

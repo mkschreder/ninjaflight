@@ -125,8 +125,8 @@ struct rxConfig_s;
 
 extern int16_t servo[MAX_SUPPORTED_SERVOS];
 bool isMixerUsingServos(void);
-void writeServos(void);
-void filterServos(void);
+void writeServos(struct mixer *self);
+void filterServos(struct mixer *self);
 void mixerInitServos(servoMixer_t *customServoMixers);
 void mixerUseConfigs(servoParam_t *servoConfToUse);
 void servoMixerLoadMix(int index, servoMixer_t *customServoMixers);

@@ -55,9 +55,11 @@ typedef enum mixerMode
     MIXER_DUALCOPTER = 20,
     MIXER_SINGLECOPTER = 21,
     MIXER_ATAIL4 = 22,
-    MIXER_CUSTOM = 23,
-    MIXER_CUSTOM_AIRPLANE = 24,
-    MIXER_CUSTOM_TRI = 25
+    MIXER_QUADX_TILT1 = 23,
+    MIXER_QUADX_TILT2 = 24,
+    MIXER_CUSTOM,
+    MIXER_CUSTOM_AIRPLANE,
+    MIXER_CUSTOM_TRI
 } mixerMode_e;
 
 // Custom mixer data per motor
@@ -88,6 +90,9 @@ struct mixer {
 	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
 
 	struct motor_mixer *customMixers;
+
+	float lastServoAngleTilt; 
+	int16_t tilt_pwm; 
 };
 
 // TODO: this is very bad way so remove this later once refactoring is done.

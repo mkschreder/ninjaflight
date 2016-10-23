@@ -706,21 +706,42 @@ static void taskMainPidLoop(void)
         }
     }
 #endif
+	if(mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2){
+		int16_t tmpPitch = rcCommand[PITCH];
+		/*
+		if ( (masterConfig.mixerMode == MIXER_QUADX_TILT || masterConfig.mixerMode == MIXER_OCTOX_TILT) && (currentProfile->tiltArm.flagEnabled & TILT_ARM_ENABLE_PITCH_DIVIDER) ) {
+			// compensate the pitch if in dynamic mode to be less aggressive
+			if (rcData[currentProfile->tiltArm.channel] < masterConfig.rxConfig.midrc) {
+				rcCommand[PITCH] /= currentProfile->tiltArm.pitchDivisior;
+			}
+		}*/
 
-    // PID - note this is function pointer set by setPIDController()
-    pid_controller(
-        pidProfile(),
-        currentControlRateProfile,
-        imuConfig()->max_angle_inclination,
-        &accelerometerConfig()->accelerometerTrims,
-        rxConfig()
-    );
+		// run pid controller with modified pitch 
+		pid_controller(
+			pidProfile(),
+			currentControlRateProfile,
+			imuConfig()->max_angle_inclination,
+			&accelerometerConfig()->accelerometerTrims,
+			rxConfig()
+		);
+		
+		rcCommand[PITCH] = tmpPitch; 
+	} else {
+		// PID - note this is function pointer set by setPIDController()
+		pid_controller(
+			pidProfile(),
+			currentControlRateProfile,
+			imuConfig()->max_angle_inclination,
+			&accelerometerConfig()->accelerometerTrims,
+			rxConfig()
+		);
+	}
 
     mixer_update(&default_mixer);
 
 #ifdef USE_SERVOS
-    filterServos();
-    writeServos();
+    filterServos(&default_mixer);
+    writeServos(&default_mixer);
 #endif
 
     if (motorControlEnable) {

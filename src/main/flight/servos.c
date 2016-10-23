@@ -342,7 +342,7 @@ static void updateGimbalServos(uint8_t firstServoIndex)
     pwmWriteServo(firstServoIndex + 1, servo[SERVO_GIMBAL_ROLL]);
 }
 
-void writeServos(void)
+void writeServos(struct mixer *self)
 {
     uint8_t servoIndex = 0;
 
@@ -388,7 +388,13 @@ void writeServos(void)
                 pwmWriteServo(servoIndex++, servo[i]);
             }
             break;
-
+		case MIXER_QUADX_TILT1: 
+        	pwmWriteServo(servoIndex++, 1500 + self->tilt_pwm);
+			break; 
+		case MIXER_QUADX_TILT2: 
+        	pwmWriteServo(servoIndex++, 1500 + self->tilt_pwm);
+        	pwmWriteServo(servoIndex++, 1500 - self->tilt_pwm);
+			break; 
         default:
             break;
     }
@@ -534,15 +540,14 @@ void mixer_update_servos(struct mixer *self)
     }
 }
 
-
-
 bool isMixerUsingServos(void)
 {
     return useServo;
 }
 
-void filterServos(void)
+void filterServos(struct mixer *self)
 {
+	UNUSED(self); 
     int16_t servoIdx;
 
 #if defined(MIXER_DEBUG)
