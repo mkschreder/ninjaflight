@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "common/maths.h"
+
 extern int16_t throttleAngleCorrection;
 extern uint32_t accTimeSum;
 extern int accSumCount;

@@ -21,6 +21,7 @@
 #include <math.h>
 
 #include <platform.h>
+
 #include "scheduler.h"
 #include "debug.h"
 
@@ -37,7 +38,7 @@
 #include "drivers/compass.h"
 #include "drivers/light_led.h"
 
-#include "drivers/gpio.h"
+//#include "drivers/gpio.h"
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
@@ -745,7 +746,7 @@ void taskMainPidLoopChecker(void) {
 
     if (imuConfig()->gyroSync) {
         while (1) {
-            if (gyroSyncCheckUpdate() || ((currentDeltaTime + (micros() - currentTime)) >= (targetLooptime + GYRO_WATCHDOG_DELAY))) {
+            if (gyroSyncCheckUpdate() || ((currentDeltaTime + (micros() - currentTime)) >= (gyro_sync_get_looptime() + GYRO_WATCHDOG_DELAY))) {
                 break;
             }
         }

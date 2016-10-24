@@ -114,7 +114,7 @@ void pidFilterIsSetCheck(const pidProfile_t *pidProfile)
     static bool deltaStateIsSet = false;
     if (!deltaStateIsSet && pidProfile->dterm_cut_hz) {
         for (int axis = 0; axis < 3; axis++) {
-            BiQuadNewLpf(pidProfile->dterm_cut_hz, &deltaFilterState[axis], targetLooptime);
+            BiQuadNewLpf(pidProfile->dterm_cut_hz, &deltaFilterState[axis], gyro_sync_get_looptime());
         }
         deltaStateIsSet = true;
     }

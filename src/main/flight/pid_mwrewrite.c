@@ -84,7 +84,8 @@ STATIC_UNIT_TESTED int16_t pidMultiWiiRewriteCore(int axis, const pidProfile_t *
     // Precision is critical, as I prevents from long-time drift. Thus, 32 bits integrator (Q19.13 format) is used.
     // Time correction (to avoid different I scaling for different builds based on average cycle time)
     // is normalized to cycle time = 2048 (2^11).
-    int32_t ITerm = lastITerm[axis] + ((rateError * (uint16_t)targetLooptime) >> 11) * pidProfile->I8[axis];
+	// TODO: why is loop time cast from 32 bit to 16 bit??
+    int32_t ITerm = lastITerm[axis] + ((rateError * (uint16_t)gyro_sync_get_looptime()) >> 11) * pidProfile->I8[axis];
     // limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
     // I coefficient (I8) moved before integration to make limiting independent from PID settings
     ITerm = constrain(ITerm, (int32_t)(-PID_MAX_I << 13), (int32_t)(PID_MAX_I << 13));
@@ -109,7 +110,7 @@ STATIC_UNIT_TESTED int16_t pidMultiWiiRewriteCore(int axis, const pidProfile_t *
         int32_t delta = -(gyroRate - lastRateForDelta[axis]);
         lastRateForDelta[axis] = gyroRate;
         // Divide delta by targetLooptime to get differential (ie dr/dt)
-        delta = (delta * ((uint16_t)0xFFFF / ((uint16_t)targetLooptime >> 4))) >> 5;
+        delta = (delta * ((uint16_t)0xFFFF / ((uint16_t)gyro_sync_get_looptime() >> 4))) >> 5;
         if (pidProfile->dterm_cut_hz) {
             // DTerm delta low pass filter
             delta = lrintf(applyBiQuadFilter((float)delta, &deltaFilterState[axis]));

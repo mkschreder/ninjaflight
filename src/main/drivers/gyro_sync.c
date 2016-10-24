@@ -33,8 +33,13 @@
 
 extern gyro_t gyro;
 
-uint32_t targetLooptime;
+static uint32_t targetLooptime;
 static uint8_t mpuDividerDrops;
+
+// TODO: this is bad
+uint32_t gyro_sync_get_looptime(void){
+	return targetLooptime; 
+}
 
 bool gyroSyncCheckUpdate(void)
 {

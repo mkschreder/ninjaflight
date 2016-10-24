@@ -43,7 +43,7 @@
 
 #include "io/beeper.h"
 
-#if FLASH_SIZE > 64
+#if defined(FLASH_SIZE) && FLASH_SIZE > 64
 #define BEEPER_NAMES
 #endif
 

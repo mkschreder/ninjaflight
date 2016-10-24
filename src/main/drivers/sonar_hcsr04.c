@@ -38,12 +38,14 @@
 
 #if defined(SONAR)
 
+// TODO: double check that sonar works (this code looks very messy and we also change things) 
+// TODO: make sure we use workaround for cheap hcsr04 sonars that have locking issue
+
 #define SONAR_GPIO GPIOB
 
 #define HCSR04_MAX_RANGE_CM 400 // 4m, from HC-SR04 spec sheet
 #define HCSR04_DETECTION_CONE_DECIDEGREES 300 // recommended cone angle30 degrees, from HC-SR04 spec sheet
 #define HCSR04_DETECTION_CONE_EXTENDED_DECIDEGREES 450 // in practice 45 degrees seems to work well
-
 
 // TODO: this is being abused in sensors/sonar.c 
 struct sonar_hardware {
@@ -87,19 +89,18 @@ static void ECHO_EXTI_IRQHandler(void)
 }
 
 void EXTI0_IRQHandler(void); 
-void EXTI1_IRQHandler(void); 
-void EXTI9_5_IRQHandler(void); 
-
 void EXTI0_IRQHandler(void)
 {
     ECHO_EXTI_IRQHandler();
 }
 
+void EXTI1_IRQHandler(void); 
 void EXTI1_IRQHandler(void)
 {
     ECHO_EXTI_IRQHandler();
 }
 
+void EXTI9_5_IRQHandler(void); 
 void EXTI9_5_IRQHandler(void)
 {
     ECHO_EXTI_IRQHandler();

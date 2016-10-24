@@ -44,7 +44,7 @@
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
 #include "drivers/gpio.h"
-#include "drivers/pwm_mapping.h"
+//#include "drivers/pwm_mapping.h"
 #include "drivers/serial.h"
 #include "drivers/bus_i2c.h"
 #include "drivers/sdcard.h"

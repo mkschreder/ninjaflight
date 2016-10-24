@@ -70,7 +70,7 @@ static void initGyroFilterCoefficients(void)
     if (gyroConfig()->soft_gyro_lpf_hz) {
         // Initialisation needs to happen once sampling rate is known
         for (int axis = 0; axis < 3; axis++) {
-            BiQuadNewLpf(gyroConfig()->soft_gyro_lpf_hz, &gyroFilterState[axis], targetLooptime);
+            BiQuadNewLpf(gyroConfig()->soft_gyro_lpf_hz, &gyroFilterState[axis], gyro_sync_get_looptime());
         }
         gyroFilterStateIsSet = true;
     }

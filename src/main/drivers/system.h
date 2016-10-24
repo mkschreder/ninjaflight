@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 void systemInit(void);
 void delayMicroseconds(uint32_t us);
 void delay(uint32_t ms);

@@ -31,6 +31,24 @@
 
 #ifndef SOFT_I2C
 
+// Copy of peripheral address for IRQ routines
+static I2C_TypeDef *I2Cx = NULL;
+// Copy of device index for reinit, etc purposes
+static I2CDevice I2Cx_index;
+static bool i2cOverClock;
+static volatile uint16_t i2cErrorCount = 0;
+
+static volatile bool error = false;
+static volatile bool busy;
+
+static volatile uint8_t addr;
+static volatile uint8_t reg;
+static volatile uint8_t bytes;
+static volatile uint8_t writing;
+static volatile uint8_t reading;
+static volatile uint8_t* write_p;
+static volatile uint8_t* read_p;
+
 // I2C2
 // SCL  PB10
 // SDA  PB11
@@ -42,7 +60,7 @@ static void i2c_er_handler(void);
 static void i2c_ev_handler(void);
 static void i2cUnstick(void);
 
-typedef struct i2cDevice_s {
+struct i2c_hardware {
     I2C_TypeDef *dev;
     GPIO_TypeDef *gpio;
     uint16_t scl;
@@ -50,18 +68,12 @@ typedef struct i2cDevice_s {
     uint8_t ev_irq;
     uint8_t er_irq;
     uint32_t peripheral;
-} i2cDevice_t;
+};
 
-static const i2cDevice_t i2cHardwareMap[] = {
+static const struct i2c_hardware _i2c_hardware[] = {
     { I2C1, GPIOB, Pin_6, Pin_7, I2C1_EV_IRQn, I2C1_ER_IRQn, RCC_APB1Periph_I2C1 },
     { I2C2, GPIOB, Pin_10, Pin_11, I2C2_EV_IRQn, I2C2_ER_IRQn, RCC_APB1Periph_I2C2 },
 };
-
-// Copy of peripheral address for IRQ routines
-static I2C_TypeDef *I2Cx = NULL;
-// Copy of device index for reinit, etc purposes
-static I2CDevice I2Cx_index;
-static bool i2cOverClock;
 
 void i2cSetOverclock(uint8_t OverClock)
 {
@@ -92,19 +104,6 @@ void I2C2_EV_IRQHandler(void)
 {
     i2c_ev_handler();
 }
-
-static volatile uint16_t i2cErrorCount = 0;
-
-static volatile bool error = false;
-static volatile bool busy;
-
-static volatile uint8_t addr;
-static volatile uint8_t reg;
-static volatile uint8_t bytes;
-static volatile uint8_t writing;
-static volatile uint8_t reading;
-static volatile uint8_t* write_p;
-static volatile uint8_t* read_p;
 
 static bool i2cHandleHardwareFailure(void)
 {
@@ -331,9 +330,9 @@ void i2cInit(I2CDevice index)
         index = I2CDEV_MAX;
 
     // Turn on peripheral clock, save device and index
-    I2Cx = i2cHardwareMap[index].dev;
+    I2Cx = _i2c_hardware[index].dev;
     I2Cx_index = index;
-    RCC_APB1PeriphClockCmd(i2cHardwareMap[index].peripheral, ENABLE);
+    RCC_APB1PeriphClockCmd(_i2c_hardware[index].peripheral, ENABLE);
 
     // diable I2C interrrupts first to avoid ER handler triggering
     I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, DISABLE);
@@ -361,14 +360,14 @@ void i2cInit(I2CDevice index)
     I2C_Init(I2Cx, &i2c);
 
     // I2C ER Interrupt
-    nvic.NVIC_IRQChannel = i2cHardwareMap[index].er_irq;
+    nvic.NVIC_IRQChannel = _i2c_hardware[index].er_irq;
     nvic.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_I2C_ER);
     nvic.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_I2C_ER);
     nvic.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&nvic);
 
     // I2C EV Interrupt
-    nvic.NVIC_IRQChannel = i2cHardwareMap[index].ev_irq;
+    nvic.NVIC_IRQChannel = _i2c_hardware[index].ev_irq;
     nvic.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_I2C_EV);
     nvic.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_I2C_EV);
     NVIC_Init(&nvic);
@@ -387,9 +386,9 @@ static void i2cUnstick(void)
     int i;
 
     // prepare pins
-    gpio = i2cHardwareMap[I2Cx_index].gpio;
-    scl = i2cHardwareMap[I2Cx_index].scl;
-    sda = i2cHardwareMap[I2Cx_index].sda;
+    gpio = _i2c_hardware[I2Cx_index].gpio;
+    scl = _i2c_hardware[I2Cx_index].scl;
+    sda = _i2c_hardware[I2Cx_index].sda;
 
     digitalHi(gpio, scl | sda);
 

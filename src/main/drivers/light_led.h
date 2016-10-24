@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 void led_toggle(int id); 
 void led_on(int id); 
 void led_off(int id); 

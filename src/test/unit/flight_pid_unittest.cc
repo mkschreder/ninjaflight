@@ -62,6 +62,7 @@ extern "C" {
     extern uint32_t rcModeActivationMask;
     float dT; // dT for pidLuxFloat
     int32_t targetLooptime; // targetLooptime for pidMultiWiiRewrite
+	int32_t gyro_sync_get_looptime(void){ return targetLooptime; }
     float unittest_pidLuxFloatCore_lastRateForDelta[3];
     int32_t unittest_pidLuxFloatCore_deltaState[3][DTERM_AVERAGE_COUNT];
     float unittest_pidLuxFloatCore_PTerm[3];

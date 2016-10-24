@@ -27,11 +27,9 @@
 
 #include "sound_beeper.h"
 
+#ifdef BEEPER
 void initBeeperHardware(beeperConfig_t *config)
 {
-#ifndef BEEPER
-    UNUSED(config);
-#else
     gpio_config_t gpioConfig = {
         config->gpioPin,
         config->gpioMode,
@@ -41,5 +39,5 @@ void initBeeperHardware(beeperConfig_t *config)
     RCC_AHBPeriphClockCmd(config->gpioPeripheral, ENABLE);
 
     gpioInit(config->gpioPort, &gpioConfig);
-#endif
 }
+#endif

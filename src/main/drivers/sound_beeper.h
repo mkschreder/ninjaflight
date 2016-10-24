@@ -27,6 +27,7 @@
 #define BEEP_ON
 #endif
 
+#ifdef BEEPER
 typedef struct beeperConfig_s {
     uint32_t gpioPeripheral;
     uint16_t gpioPin;
@@ -35,7 +36,9 @@ typedef struct beeperConfig_s {
     bool isInverted;
 } beeperConfig_t;
 
-void systemBeep(bool onoff);
-void beeperInit(beeperConfig_t *beeperConfig);
-
 void initBeeperHardware(beeperConfig_t *config);
+void beeperInit(beeperConfig_t *beeperConfig);
+#endif
+
+void systemBeep(bool onoff);
+

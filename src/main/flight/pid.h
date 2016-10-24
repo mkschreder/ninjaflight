@@ -27,6 +27,12 @@
 
 #define DTERM_AVERAGE_COUNT 4
 
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "common/axis.h"
+#include "config/parameter_group.h"
+
 typedef enum {
     PIDROLL,
     PIDPITCH,

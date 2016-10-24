@@ -27,7 +27,7 @@
 
 #include "common/axis.h"
 #include "common/color.h"
-#include "common/atomic.h"
+//#include "common/atomic.h"
 #include "common/maths.h"
 #include "common/printf.h"
 #include "common/streambuf.h"
@@ -513,7 +513,7 @@ static void init(void)
     flashLedsAndBeep();
 
 #ifdef USE_SERVOS
-    mixer_init_servo_filtering(&default_mixer, targetLooptime);
+    mixer_init_servo_filtering(&default_mixer, gyro_sync_get_looptime());
 #endif
 
 #ifdef MAG
@@ -682,7 +682,7 @@ int main(void) {
     // Setup scheduler
     schedulerInit();
     setTaskEnabled(TASK_GYROPID, true);
-    rescheduleTask(TASK_GYROPID, imuConfig()->gyroSync ? targetLooptime - INTERRUPT_WAIT_TIME : targetLooptime);
+    rescheduleTask(TASK_GYROPID, imuConfig()->gyroSync ? gyro_sync_get_looptime() - INTERRUPT_WAIT_TIME : gyro_sync_get_looptime());
     setTaskEnabled(TASK_ACCEL, sensors(SENSOR_ACC));
     setTaskEnabled(TASK_SERIAL, true);
 #ifdef BEEPER
