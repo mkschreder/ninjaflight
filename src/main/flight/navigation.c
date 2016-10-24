@@ -96,8 +96,8 @@ PG_RESET_TEMPLATE(gpsProfile_t, gpsProfile,
 
 // When using PWM input GPS usage reduces number of available channels by 2 - see pwm_common.c/pwmInit()
 // TODO: this one is abused elsewhere. 
-void navigationInit(pidProfile_t *pidProfile); 
-void navigationInit(pidProfile_t *pidProfile)
+void navigationInit(struct pid_config *pidProfile); 
+void navigationInit(struct pid_config *pidProfile)
 {
     gpsUsePIDs(pidProfile);
 }
@@ -397,7 +397,7 @@ void GPS_reset_nav(void)
 }
 
 // Get the relevant P I D values and set the PID controllers
-void gpsUsePIDs(pidProfile_t *pidProfile)
+void gpsUsePIDs(struct pid_config *pidProfile)
 {
     posholdPID_PARAM.kP = (float)pidProfile->P8[PIDPOS] / 100.0f;
     posholdPID_PARAM.kI = (float)pidProfile->I8[PIDPOS] / 100.0f;

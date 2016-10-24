@@ -41,7 +41,6 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 
-#include "io/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 #include "io/beeper.h"
@@ -53,6 +52,7 @@
 
 #include "telemetry/telemetry.h"
 
+#include "flight/rate_profile.h"
 #include "flight/mixer.h"
 #include "flight/servos.h"
 #include "flight/imu.h"
@@ -70,7 +70,62 @@
 #define DEFAULT_RX_FEATURE FEATURE_RX_PARALLEL_PWM
 #endif
 
+PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
 
+PG_RESET_TEMPLATE(struct pid_config, pidProfile,
+    .pidController = PID_CONTROLLER_MWREWRITE,
+    .P8[PIDROLL] = 40,
+    .I8[PIDROLL] = 30,
+    .D8[PIDROLL] = 23,
+    .P8[PIDPITCH] = 40,
+    .I8[PIDPITCH] = 30,
+    .D8[PIDPITCH] = 23,
+    .P8[PIDYAW] = 85,
+    .I8[PIDYAW] = 45,
+    .D8[PIDYAW] = 0,
+    .P8[PIDALT] = 50,
+    .I8[PIDALT] = 0,
+    .D8[PIDALT] = 0,
+    .P8[PIDPOS] = 15,   // POSHOLD_P * 100
+    .I8[PIDPOS] = 0,    // POSHOLD_I * 100
+    .D8[PIDPOS] = 0,
+    .P8[PIDPOSR] = 34,  // POSHOLD_RATE_P * 10
+    .I8[PIDPOSR] = 14,  // POSHOLD_RATE_I * 100
+    .D8[PIDPOSR] = 53,  // POSHOLD_RATE_D * 1000
+    .P8[PIDNAVR] = 25,  // NAV_P * 10
+    .I8[PIDNAVR] = 33,  // NAV_I * 100
+    .D8[PIDNAVR] = 83,  // NAV_D * 1000
+    .P8[PIDLEVEL] = 20,
+    .I8[PIDLEVEL] = 10,
+    .D8[PIDLEVEL] = 100,
+    .P8[PIDMAG] = 40,
+    .P8[PIDVEL] = 120,
+    .I8[PIDVEL] = 45,
+    .D8[PIDVEL] = 1,
+
+    .yaw_p_limit = YAW_P_LIMIT_MAX,
+    .dterm_cut_hz = 0,
+);
+
+#include "flight/rate_profile.h"
+
+static void pgResetFn_controlRateProfiles(struct rate_config *instance){
+    for (int i = 0; i < MAX_CONTROL_RATE_PROFILE_COUNT; i++) {
+        RESET_CONFIG(struct rate_config, &instance[i],
+            .rcRate8 = 90,
+            .rcExpo8 = 65,
+            .thrMid8 = 50,
+            .tpa_breakpoint = 1500,
+        );
+    }
+}
+
+PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
+PG_REGISTER_ARR_WITH_RESET_FN(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
+
+static void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex){
+    rateProfileSelection_Storage[profileIndex].defaultRateProfileIndex = rateProfileIndex % MAX_CONTROL_RATE_PROFILE_COUNT;
+}
 // Default settings
 STATIC_UNIT_TESTED void resetConf(void)
 {

@@ -47,7 +47,7 @@ extern "C" {
     #include "rx/rx.h"
 
     #include "io/rc_controls.h"
-    #include "io/rate_profile.h"
+    #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
     #include "io/gps.h"
     #include "io/gimbal.h"
@@ -111,8 +111,8 @@ extern "C" {
     PG_REGISTER(telemetryConfig_t, telemetryConfig, PG_TELEMETRY_CONFIG, 0);
     PG_REGISTER(frskyTelemetryConfig_t, frskyTelemetryConfig, PG_FRSKY_TELEMETRY_CONFIG, 0);
 
-    PG_REGISTER_PROFILE_WITH_RESET_FN(pidProfile_t, pidProfile, PG_PID_PROFILE, 0);
-    void pgResetFn_pidProfile(pidProfile_t *) {}
+    PG_REGISTER_PROFILE_WITH_RESET_FN(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
+    void pgResetFn_pidProfile(struct pid_config *) {}
 
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
     PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
@@ -499,9 +499,9 @@ int32_t mAhDrawn = 0;               // milliampere hours drawn from the battery 
 // from compass.c
 int32_t magADC[XYZ_AXIS_COUNT];
 // from config.c
-controlRateConfig_t controlRateProfile;
-controlRateConfig_t *currentControlRateProfile = &controlRateProfile;
-void resetPidProfile(pidProfile_t *pidProfile) {UNUSED(pidProfile);}
+struct rate_config controlRateProfile;
+struct rate_config *currentControlRateProfile = &controlRateProfile;
+void resetPidProfile(struct pid_config *pidProfile) {UNUSED(pidProfile);}
 void handleOneshotFeatureChangeOnRestart(void) {}
 void readEEPROM(void) {}
 void resetEEPROM(void) {}
@@ -559,7 +559,7 @@ int16_t GPS_directionToHome;        // direction to home or hol point in degrees
 navigationMode_e nav_mode = NAV_MODE_NONE;    // Navigation mode
 void GPS_set_next_wp(int32_t *, int32_t *) {}
 // from pid.c
-void pidSetController(pidControllerType_e) {}
+void pidSetController(pid_controller_type_t t) {}
 // from rc_controls.c
 uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }

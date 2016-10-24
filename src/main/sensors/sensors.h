@@ -82,7 +82,3 @@ typedef struct sensorTrims_s {
     flightDynamicsTrims_t magZero;
 } sensorTrims_t;
 
-PG_DECLARE(sensorSelectionConfig_t, sensorSelectionConfig);
-PG_DECLARE(sensorAlignmentConfig_t, sensorAlignmentConfig);
-PG_DECLARE(sensorTrims_t, sensorTrims);
-

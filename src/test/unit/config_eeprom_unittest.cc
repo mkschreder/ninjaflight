@@ -40,7 +40,7 @@ extern "C" {
     #include "drivers/serial.h"
 
     #include "io/rc_controls.h"
-    #include "io/rate_profile.h"
+    #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
     #include "io/motor_and_servo.h"
     #include "io/gimbal.h"
@@ -79,9 +79,9 @@ extern "C" {
     PG_REGISTER(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);
     PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-    PG_REGISTER_PROFILE(pidProfile_t, pidProfile, PG_PID_PROFILE, 0);
+    //PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
     PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
+    //PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
     PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
     PG_REGISTER_PROFILE(throttleCorrectionConfig_t, throttleCorrectionConfig, PG_THROTTLE_CORRECTION_CONFIG, 0);
     PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
@@ -93,7 +93,7 @@ extern "C" {
     PG_REGISTER(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
     PG_REGISTER(sensorTrims_t, sensorTrims, PG_SENSOR_TRIMS, 0);
     PG_REGISTER(batteryConfig_t, batteryConfig, PG_BATTERY_CONFIG, 0);
-    PG_REGISTER_ARR(controlRateConfig_t, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
+    //PG_REGISTER_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
     PG_REGISTER(serialConfig_t, serialConfig, PG_SERIAL_CONFIG, 0);
     PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
     PG_REGISTER(armingConfig_t, armingConfig, PG_ARMING_CONFIG, 0);
@@ -413,7 +413,7 @@ void setAccelerationTrims(flightDynamicsTrims_t *) {}
 void resumeRxSignal(void) {}
 void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *) {}
 void resetAdjustmentStates(void) {}
-void pidSetController(pidControllerType_e) {}
+void pidSetController(pid_controller_type_t) {}
 void parseRcChannels(const char *, rxConfig_t *) {}
 #ifdef USE_SERVOS
 void mixerUseConfigs(servoParam_t *) {}
@@ -423,14 +423,14 @@ void mixerUseConfigs(void) {}
 bool isSerialConfigValid(serialConfig_t *) {return true;}
 void imuConfigure(imuRuntimeConfig_t *, accDeadband_t *,float ,uint16_t) {}
 void gpsUseProfile(gpsProfile_t *) {}
-void gpsUsePIDs(pidProfile_t *) {}
-void generateYawCurve(controlRateConfig_t *) {}
-void generatePitchRollCurve(controlRateConfig_t *) {}
-void generateThrottleCurve(controlRateConfig_t *) {}
+void gpsUsePIDs(struct pid_config *) {}
+void generateYawCurve(struct rate_config *) {}
+void generatePitchRollCurve(struct rate_config *) {}
+void generateThrottleCurve(struct rate_config *) {}
 void delay(uint32_t) {}
 
 void setControlRateProfile(uint8_t) {}
-void resetControlRateConfig(controlRateConfig_t *) {}
+void resetControlRateConfig(struct rate_config *) {}
 void configureRateProfileSelection(uint8_t, uint8_t) {}
 void activateControlRateConfig() {}
 

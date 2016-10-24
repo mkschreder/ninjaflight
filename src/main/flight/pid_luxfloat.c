@@ -34,6 +34,7 @@
 
 #include "config/parameter_group.h"
 #include "config/runtime_config.h"
+#include "config/config_unittest.h"
 
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
@@ -46,10 +47,9 @@
 #include "rx/rx.h"
 
 #include "io/rc_controls.h"
-#include "io/rate_profile.h"
 
+#include "flight/rate_profile.h"
 #include "flight/pid.h"
-#include "config/config_unittest.h"
 #include "flight/imu.h"
 #include "flight/navigation.h"
 #include "flight/gtune.h"
@@ -71,7 +71,7 @@ static const float luxITermScale = 1000000.0f / 0x1000000;
 static const float luxDTermScale = (0.000001f * (float)0xFFFF) / 512;
 static const float luxGyroScale = 16.4f / 4; // the 16.4 is needed because mwrewrite does not scale according to the gyro model gyro.scale
 
-STATIC_UNIT_TESTED int16_t pidLuxFloatCore(int axis, const pidProfile_t *pidProfile, float gyroRate, float angleRate)
+STATIC_UNIT_TESTED int16_t pidLuxFloatCore(int axis, const struct pid_config *pidProfile, float gyroRate, float angleRate)
 {
     static float lastRateForDelta[3];
     static float deltaState[3][DTERM_AVERAGE_COUNT];
@@ -134,7 +134,7 @@ STATIC_UNIT_TESTED int16_t pidLuxFloatCore(int axis, const pidProfile_t *pidProf
     return lrintf(PTerm + ITerm + DTerm);
 }
 
-void pidLuxFloat(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidLuxFloat(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig)
 {
     pidFilterIsSetCheck(pidProfile);

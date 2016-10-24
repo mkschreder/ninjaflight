@@ -31,7 +31,8 @@
 #include <stdbool.h>
 
 #include "common/axis.h"
-#include "config/parameter_group.h"
+
+#include "rate_profile.h"
 
 typedef enum {
     PIDROLL,
@@ -45,55 +46,52 @@ typedef enum {
     PIDMAG,
     PIDVEL,
     PID_ITEM_COUNT
-} pidIndex_e;
+} pid_index_t;
 
 typedef enum {
 	PID_CONTROLLER_MW23 = 0,
     PID_CONTROLLER_MWREWRITE,
     PID_CONTROLLER_LUX_FLOAT,
     PID_COUNT
-} pidControllerType_e;
+} pid_controller_type_t;
 
-#define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
-
-typedef struct pidProfile_s {
+struct pid_config {
     uint8_t P8[PID_ITEM_COUNT];
     uint8_t I8[PID_ITEM_COUNT];
     uint8_t D8[PID_ITEM_COUNT];
     uint8_t pidController;
     uint16_t yaw_p_limit;                   // set P term limit (fixed value was 300)
     uint16_t dterm_cut_hz;                  // dterm filtering
-} pidProfile_t;
+};
 
-PG_DECLARE_PROFILE(pidProfile_t, pidProfile);
+#define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
 
-struct controlRateConfig_s;
 union rollAndPitchTrims_u;
 struct rxConfig_s;
-typedef void (*pidControllerFuncPtr)(const pidProfile_t *pidProfile, const struct controlRateConfig_s *controlRateConfig,
+typedef void (*pidControllerFuncPtr)(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const union rollAndPitchTrims_u *angleTrim, const struct rxConfig_s *rxConfig);            // pid controller function prototype
 
 extern int16_t axisPID[FD_INDEX_COUNT];
 extern int32_t axisPID_P[FD_INDEX_COUNT], axisPID_I[FD_INDEX_COUNT], axisPID_D[FD_INDEX_COUNT];
 
 float pidScaleITermToRcInput(int axis);
-void pidFilterIsSetCheck(const pidProfile_t *pidProfile);
+void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
-void pidSetController(pidControllerType_e type);
+void pidSetController(pid_controller_type_t type);
 void pidResetITermAngle(void);
 void pidResetITerm(void);
 
 // TODO: remove these dependencies because this is awful
 #include "rx/rx.h"
-#include "io/rate_profile.h" 
+#include "flight/rate_profile.h" 
 #include "drivers/accgyro.h" 
 #include "sensors/acceleration.h" 
 
-void pidMultiWiiRewrite(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidMultiWiiRewrite(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
-void pidMultiWii23(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidMultiWii23(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
-void pidLuxFloat(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidLuxFloat(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);
 
 

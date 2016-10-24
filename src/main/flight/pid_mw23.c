@@ -45,8 +45,8 @@
 #include "rx/rx.h"
 
 #include "io/rc_controls.h"
-#include "io/rate_profile.h"
 
+#include "flight/rate_profile.h"
 #include "flight/pid.h"
 #include "flight/imu.h"
 #include "flight/navigation.h"
@@ -71,7 +71,7 @@ void pidResetITermAngle(void)
     ITermAngle[AI_PITCH] = 0;
 }
 
-void pidMultiWii23(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidMultiWii23(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig)
 {
     UNUSED(rxConfig);

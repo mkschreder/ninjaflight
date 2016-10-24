@@ -39,7 +39,7 @@ extern "C" {
     #include "io/beeper.h"
     #include "io/motor_and_servo.h"
     #include "io/rc_controls.h"
-    #include "io/rate_profile.h"
+    #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
 
     #include "rx/rx.h"
@@ -50,7 +50,7 @@ extern "C" {
 
     void useRcControlsConfig(modeActivationCondition_t *);
 
-    PG_REGISTER_PROFILE(pidProfile_t, pidProfile, PG_PID_PROFILE, 0);
+    PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
 }
@@ -199,7 +199,7 @@ static int callCounts[CALL_COUNT_ITEM_COUNT];
 #define CALL_COUNTER(item) (callCounts[item])
 
 extern "C" {
-void generatePitchRollCurve(controlRateConfig_t *) {
+void generatePitchRollCurve(struct rate_config *) {
     callCounts[COUNTER_GENERATE_PITCH_ROLL_CURVE]++;
 }
 
@@ -242,7 +242,7 @@ extern adjustmentState_t adjustmentStates[MAX_SIMULTANEOUS_ADJUSTMENT_COUNT];
 
 class RcControlsAdjustmentsTest : public ::testing::Test {
 protected:
-    controlRateConfig_t controlRateConfig = {
+    struct rate_config controlRateConfig = {
             .rcRate8 = 90,
             .rcExpo8 = 0,
             .thrMid8 = 0,
@@ -317,7 +317,7 @@ TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsSticksInMiddle)
 TEST_F(RcControlsAdjustmentsTest, processRcAdjustmentsWithRcRateFunctionSwitchUp)
 {
     // given
-    controlRateConfig_t controlRateConfig = {
+    struct rate_config controlRateConfig = {
             .rcRate8 = 90,
             .rcExpo8 = 0,
             .thrMid8 = 0,
@@ -539,7 +539,7 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController0) // uses inte
     pidProfile()->D8[YAW] = 27;
 
     // and
-    controlRateConfig_t controlRateConfig;
+    struct rate_config controlRateConfig;
     memset(&controlRateConfig, 0, sizeof (controlRateConfig));
 
     adjustmentRange_t adjustmentRange1 = {
@@ -660,7 +660,7 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController2) // uses floa
     pidProfile()->D_f[PIDYAW] = 27.0f;
 */
     // and
-    controlRateConfig_t controlRateConfig;
+    struct rate_config controlRateConfig;
     memset(&controlRateConfig, 0, sizeof (controlRateConfig));
 
     adjustmentRange_t adjustmentRange1 = {
@@ -766,7 +766,7 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController2) // uses floa
 
 extern "C" {
 void saveConfigAndNotify(void) {}
-void generateThrottleCurve(controlRateConfig_t *, motorAndServoConfig_t *) {}
+void generateThrottleCurve(struct rate_config *, motorAndServoConfig_t *) {}
 void changeProfile(uint8_t) {}
 void accSetCalibrationCycles(uint16_t) {}
 void gyroSetCalibrationCycles(uint16_t) {}

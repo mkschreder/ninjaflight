@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "flight/pid.h"
+
 #ifdef SRC_MAIN_SCHEDULER_C_
 #ifdef UNIT_TEST
 

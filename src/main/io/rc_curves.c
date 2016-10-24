@@ -21,7 +21,7 @@
 #include "config/parameter_group.h"
 
 #include "rx/rx.h"
-#include "io/rate_profile.h"
+#include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/motor_and_servo.h"
 

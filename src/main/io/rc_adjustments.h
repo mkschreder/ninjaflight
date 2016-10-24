@@ -129,9 +129,10 @@ PG_DECLARE_PROFILE(adjustmentProfile_t, adjustmentProfile);
 #define MAX_SIMULTANEOUS_ADJUSTMENT_COUNT 4 // enough for 4 x 3position switches / 4 aux channel
 #endif
 
-
+// TODO: remove this include 
+#include "flight/rate_profile.h"
 void resetAdjustmentStates(void);
 void configureAdjustmentState(adjustmentRange_t *adjustmentRange);
 void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges);
-void processRcAdjustments(controlRateConfig_t *controlRateConfig, rxConfig_t *rxConfig);
+void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxConfig);
 

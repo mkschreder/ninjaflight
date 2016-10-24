@@ -42,7 +42,7 @@
 
 #include "io/beeper.h"
 
-#include "io/rate_profile.h"
+#include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_curves.h"
 #include "io/rc_adjustments.h"
@@ -124,7 +124,7 @@ static void setAdjustment(uint8_t* ptr, uint8_t adjustment, int delta, uint8_t m
     blackboxLogInflightAdjustmentEvent(adjustment, *ptr);
 }
 
-static void applyStepAdjustment(controlRateConfig_t *controlRateConfig, uint8_t adjustmentFunction, int delta)
+static void applyStepAdjustment(struct rate_config *controlRateConfig, uint8_t adjustmentFunction, int delta)
 {
 
     if (delta > 0) {
@@ -277,7 +277,7 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
 
 #define RESET_FREQUENCY_2HZ (1000 / 2)
 
-void processRcAdjustments(controlRateConfig_t *controlRateConfig, rxConfig_t *rxConfig)
+void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxConfig)
 {
     uint8_t adjustmentIndex;
     uint32_t now = millis();

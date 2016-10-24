@@ -17,7 +17,7 @@
 
 #pragma once
 
-typedef struct controlRateConfig_s {
+struct rate_config {
     uint8_t rcRate8;
     uint8_t rcExpo8;
     uint8_t thrMid8;
@@ -26,23 +26,18 @@ typedef struct controlRateConfig_s {
     uint8_t dynThrPID;
     uint8_t rcYawExpo8;
     uint16_t tpa_breakpoint;                // Breakpoint at which TPA is activated
-} controlRateConfig_t;
+};
 
-#define MAX_CONTROL_RATE_PROFILE_COUNT 3
-PG_DECLARE_ARR(controlRateConfig_t, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles);
-
-extern controlRateConfig_t *currentControlRateProfile;
+extern struct rate_config *currentControlRateProfile;
 
 typedef struct rateProfileSelection_s {
     uint8_t defaultRateProfileIndex;
 } rateProfileSelection_t;
 
-PG_DECLARE_PROFILE(rateProfileSelection_t, rateProfileSelection);
 
 void setControlRateProfile(uint8_t profileIndex);
 uint8_t getCurrentControlRateProfile(void);
-controlRateConfig_t *getControlRateConfig(uint8_t profileIndex);
-void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex);
-void resetControlRateConfig(controlRateConfig_t *controlRateConfig);
+struct rate_config *getControlRateConfig(uint8_t profileIndex);
+void resetControlRateConfig(struct rate_config *controlRateConfig);
 
 void activateControlRateConfig(void);

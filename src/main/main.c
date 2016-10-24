@@ -119,7 +119,7 @@ serialPort_t *loopbackPort;
 void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
 void rxInit(modeActivationCondition_t *modeActivationConditions);
 
-void navigationInit(pidProfile_t *pidProfile);
+void navigationInit(struct pid_config *pidProfile);
 const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType);
 
 #ifdef STM32F303xC

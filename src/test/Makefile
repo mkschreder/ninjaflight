@@ -427,9 +427,9 @@ $(OBJECT_DIR)/telemetry_hott_unittest : \
 
 
 
-$(OBJECT_DIR)/io/rate_profile.o : \
-	$(USER_DIR)/io/rate_profile.c \
-	$(USER_DIR)/io/rate_profile.h \
+$(OBJECT_DIR)/flight/rate_profile.o : \
+	$(USER_DIR)/flight/rate_profile.c \
+	$(USER_DIR)/flight/rate_profile.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)

@@ -46,7 +46,6 @@
 #include "config/feature.h"
 #include "config/profile.h"
 
-#include "io/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/display.h"
 #include "io/gps.h"
@@ -58,6 +57,7 @@
 #include "sensors/gyro.h"
 #include "sensors/sonar.h"
 
+#include "flight/rate_profile.h"
 #include "flight/pid.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
@@ -338,7 +338,7 @@ static void showProfilePage(void)
     i2c_OLED_set_line(rowIndex++);
     i2c_OLED_send_string(lineBuffer);
 
-    const controlRateConfig_t *controlRateConfig = getControlRateConfig(currentRateProfileIndex);
+    const struct rate_config *controlRateConfig = getControlRateConfig(currentRateProfileIndex);
     tfp_sprintf(lineBuffer, "RCE: %d, RCR: %d",
         controlRateConfig->rcExpo8,
         controlRateConfig->rcRate8

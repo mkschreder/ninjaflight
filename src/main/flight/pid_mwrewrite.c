@@ -44,10 +44,10 @@
 #include "rx/rx.h"
 
 #include "io/rc_controls.h"
-#include "io/rate_profile.h"
 
 #include "flight/pid.h"
 #include "config/config_unittest.h"
+#include "flight/rate_profile.h"
 #include "flight/imu.h"
 #include "flight/navigation.h"
 #include "flight/gtune.h"
@@ -63,7 +63,7 @@ extern int32_t axisPID_P[3], axisPID_I[3], axisPID_D[3];
 #endif
 
 
-STATIC_UNIT_TESTED int16_t pidMultiWiiRewriteCore(int axis, const pidProfile_t *pidProfile, int32_t gyroRate, int32_t angleRate)
+STATIC_UNIT_TESTED int16_t pidMultiWiiRewriteCore(int axis, const struct pid_config *pidProfile, int32_t gyroRate, int32_t angleRate)
 {
     static int32_t lastRateForDelta[3];
     static int32_t deltaState[3][DTERM_AVERAGE_COUNT];
@@ -132,7 +132,7 @@ STATIC_UNIT_TESTED int16_t pidMultiWiiRewriteCore(int axis, const pidProfile_t *
     return PTerm + ITerm + DTerm;
 }
 
-void pidMultiWiiRewrite(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+void pidMultiWiiRewrite(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
         uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig)
 {
     pidFilterIsSetCheck(pidProfile);

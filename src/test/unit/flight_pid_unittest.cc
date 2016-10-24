@@ -36,25 +36,25 @@ extern "C" {
 
     #include "rx/rx.h"
     #include "io/rc_controls.h"
-    #include "io/rate_profile.h"
+    #include "flight/rate_profile.h"
 
     #include "flight/pid.h"
     #include "config/config_unittest.h"
     #include "flight/imu.h"
 	#include "flight/mixer.h"
 
-    pidProfile_t testPidProfile;
+    struct pid_config testPidProfile;
 }
 
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
 extern "C" {
-    void pidSetController(pidControllerType_e type);
-    typedef void (*pidControllerFuncPtr)(const pidProfile_t *pidProfile, const controlRateConfig_t *controlRateConfig,
+    void pidSetController(pid_controller_type_t type);
+    typedef void (*pidControllerFuncPtr)(const struct pid_config *pidProfile, const struct rate_config *controlRateConfig,
             uint16_t max_angle_inclination, const rollAndPitchTrims_t *angleTrim, const rxConfig_t *rxConfig);            // pid controller function prototype
-    int16_t pidLuxFloatCore(int axis, const pidProfile_t *pidProfile, float gyroRate, float AngleRate);
-    int16_t pidMultiWiiRewriteCore(int axis, const pidProfile_t *pidProfile, int32_t gyroRate, int32_t AngleRate);
+    int16_t pidLuxFloatCore(int axis, const struct pid_config *pidProfile, float gyroRate, float AngleRate);
+    int16_t pidMultiWiiRewriteCore(int axis, const struct pid_config *pidProfile, int32_t gyroRate, int32_t AngleRate);
     void pidResetITerm(void);
     extern pidControllerFuncPtr pid_controller;
     extern uint8_t PIDweight[3];
@@ -89,7 +89,7 @@ static const int mwrGyroScaleDenom = 1;
 
 static const int DTermAverageCount = 4;
 
-void resetPidProfile(pidProfile_t *pidProfile)
+void resetPidProfile(struct pid_config *pidProfile)
 {
     pidProfile->pidController = PID_CONTROLLER_MWREWRITE;
 
@@ -165,7 +165,7 @@ void pidControllerInitLuxFloatCore(void)
     }
 }
 
-void pidControllerInitLuxFloat(controlRateConfig_t *controlRate, uint16_t max_angle_inclination, rollAndPitchTrims_t *rollAndPitchTrims, rxConfig_t *rxConfig)
+void pidControllerInitLuxFloat(struct rate_config *controlRate, uint16_t max_angle_inclination, rollAndPitchTrims_t *rollAndPitchTrims, rxConfig_t *rxConfig)
 {
     UNUSED(max_angle_inclination);
     UNUSED(rxConfig);
@@ -181,56 +181,56 @@ void pidControllerInitLuxFloat(controlRateConfig_t *controlRate, uint16_t max_an
 /*
  * calculate the value of rcCommand[ROLL] required to give a desired rateError
  */
-int16_t calcLuxRcCommandRoll(float rateError, const controlRateConfig_t *controlRate) {
+int16_t calcLuxRcCommandRoll(float rateError, const struct rate_config *controlRate) {
     return 16.0f * rateError / ((float)controlRate->rates[ROLL] + 27.0f);
 }
 
 /*
  * calculate the angleRate as done in pidLuxFloat, used for cross checking
  */
-float calcLuxAngleRateRoll(const controlRateConfig_t *controlRate) {
+float calcLuxAngleRateRoll(const struct rate_config *controlRate) {
     return ((controlRate->rates[ROLL] + 27.0f) * rcCommand[ROLL]) / 16.0f;
 }
 
 /*
  * calculate the value of rcCommand[PITCH] required to give a desired rateError
  */
-int16_t calcLuxRcCommandPitch(float rateError, const controlRateConfig_t *controlRate) {
+int16_t calcLuxRcCommandPitch(float rateError, const struct rate_config *controlRate) {
     return 16.0f * rateError / (controlRate->rates[PITCH] + 27.0f);
 }
 
 /*
  * calculate the angleRate as done in pidLuxFloat, used for cross checking
  */
-float calcLuxAngleRatePitch(const controlRateConfig_t *controlRate) {
+float calcLuxAngleRatePitch(const struct rate_config *controlRate) {
     return ((controlRate->rates[PITCH] + 27.0f) * rcCommand[PITCH]) / 16.0f;
 }
 
 /*
  * calculate the value of rcCommand[YAW] required to give a desired rateError
  */
-int16_t calcLuxRcCommandYaw(float rateError, const controlRateConfig_t *controlRate) {
+int16_t calcLuxRcCommandYaw(float rateError, const struct rate_config *controlRate) {
     return 32.0f * rateError / (controlRate->rates[YAW] + 27.0f);
 }
 
 /*
  * calculate the angleRate as done in pidLuxFloat, used for cross checking
  */
-float calcLuxAngleRateYaw(const controlRateConfig_t *controlRate) {
+float calcLuxAngleRateYaw(const struct rate_config *controlRate) {
     return ((controlRate->rates[YAW] + 27.0f) * rcCommand[YAW]) / 32.0f;
 }
 
-float calcLuxPTerm(pidProfile_t *pidProfile, flight_dynamics_index_t axis, float rateError) {
+float calcLuxPTerm(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
     return luxPTermScale * rateError * pidProfile->P8[axis];
 }
 
-float calcLuxITermDelta(pidProfile_t *pidProfile, flight_dynamics_index_t axis, float rateError) {
+float calcLuxITermDelta(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
     float ret = luxITermScale * rateError * dT * pidProfile->I8[axis];
     ret = constrainf(ret, -PID_MAX_I, PID_MAX_I);
     return ret;
 }
 
-float calcLuxDTerm(pidProfile_t *pidProfile, flight_dynamics_index_t axis, float rateError) {
+float calcLuxDTerm(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
     float ret = luxDTermScale * rateError * pidProfile->D8[axis] / dT;
     ret = constrainf(ret, -PID_MAX_D, PID_MAX_D);
     return ret;
@@ -239,12 +239,12 @@ float calcLuxDTerm(pidProfile_t *pidProfile, flight_dynamics_index_t axis, float
 
 TEST(PIDUnittest, TestPidLuxFloat)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
 
     // set up a rateError of zero on all axes
@@ -338,12 +338,12 @@ TEST(PIDUnittest, TestPidLuxFloat)
 
 TEST(PIDUnittest, TestPidLuxFloatIntegrationForLinearFunction)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
     dT = 0.1f; // set large dT so constraints on PID values are not invoked
@@ -387,12 +387,12 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForLinearFunction)
 
 TEST(PIDUnittest, TestPidLuxFloatIntegrationForQuadraticFunction)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
     resetRcCommands();
@@ -435,12 +435,12 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForQuadraticFunction)
 
 TEST(PIDUnittest, TestPidLuxFloatITermConstrain)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
     // set rateError to zero, ITerm should be zero
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
@@ -471,12 +471,12 @@ TEST(PIDUnittest, TestPidLuxFloatITermConstrain)
 
 TEST(PIDUnittest, TestPidLuxFloatDTermConstrain)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
     // set rateError to zero, DTerm should be zero
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
@@ -555,7 +555,7 @@ void pidControllerInitMultiWiiRewriteCore(void)
     }
 }
 
-void pidControllerInitMultiWiiRewrite(controlRateConfig_t *controlRate, uint16_t max_angle_inclination, rollAndPitchTrims_t *rollAndPitchTrims, rxConfig_t *rxConfig)
+void pidControllerInitMultiWiiRewrite(struct rate_config *controlRate, uint16_t max_angle_inclination, rollAndPitchTrims_t *rollAndPitchTrims, rxConfig_t *rxConfig)
 {
     UNUSED(max_angle_inclination);
     UNUSED(rxConfig);
@@ -570,56 +570,56 @@ void pidControllerInitMultiWiiRewrite(controlRateConfig_t *controlRate, uint16_t
 /*
  * calculate the value of rcCommand[ROLL] required to give a desired rateError
  */
-int16_t calcMwrRcCommandRoll(int rateError, const controlRateConfig_t *controlRate) {
+int16_t calcMwrRcCommandRoll(int rateError, const struct rate_config *controlRate) {
     return (rateError << 4) / ((int32_t)(controlRate->rates[ROLL] + 27));
 }
 
 /*
  * calculate the angleRate as done in pidMultiWiiRewrite, used for cross checking
  */
-int32_t calcMwrAngleRateRoll(const controlRateConfig_t *controlRate) {
+int32_t calcMwrAngleRateRoll(const struct rate_config *controlRate) {
     return ((int32_t)(controlRate->rates[ROLL] + 27) * rcCommand[ROLL]) >> 4;
 }
 
 /*
  * calculate the value of rcCommand[PITCH] required to give a desired rateError
  */
-int16_t calcMwrRcCommandPitch(int rateError, const controlRateConfig_t *controlRate) {
+int16_t calcMwrRcCommandPitch(int rateError, const struct rate_config *controlRate) {
     return (rateError << 4) / ((int32_t)(controlRate->rates[PITCH] + 27));
 }
 
 /*
  * calculate the angleRate as done in pidMultiWiiRewrite, used for cross checking
  */
-int32_t calcMwrAngleRatePitch(const controlRateConfig_t *controlRate) {
+int32_t calcMwrAngleRatePitch(const struct rate_config *controlRate) {
     return ((int32_t)(controlRate->rates[PITCH] + 27) * rcCommand[PITCH]) >> 4;
 }
 
 /*
  * calculate the value of rcCommand[YAW] required to give a desired rateError
  */
-int16_t calcMwrRcCommandYaw(int rateError, const controlRateConfig_t *controlRate) {
+int16_t calcMwrRcCommandYaw(int rateError, const struct rate_config *controlRate) {
     return (rateError << 5) / ((int32_t)(controlRate->rates[YAW] + 27));
 }
 
 /*
  * calculate the angleRate as done in pidMultiWiiRewrite, used for cross checking
  */
-int32_t calcMwrAngleRateYaw(const controlRateConfig_t *controlRate) {
+int32_t calcMwrAngleRateYaw(const struct rate_config *controlRate) {
     return ((int32_t)(controlRate->rates[YAW] + 27) * rcCommand[YAW]) >> 5;
 }
 
-int32_t calcMwrPTerm(pidProfile_t *pidProfile, pidIndex_e axis, int rateError) {
+int32_t calcMwrPTerm(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
     return (pidProfile->P8[axis] * rateError) >> 7;
 }
 
-int32_t calcMwrITermDelta(pidProfile_t *pidProfile, pidIndex_e axis, int rateError) {
+int32_t calcMwrITermDelta(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
     int32_t ret = pidProfile->I8[axis] * (rateError * targetLooptime >> 11) >> 13;
     ret = constrain(ret, -PID_MAX_I, PID_MAX_I);
     return ret;
 }
 
-int32_t calcMwrDTerm(pidProfile_t *pidProfile, pidIndex_e axis, int rateError) {
+int32_t calcMwrDTerm(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
     int32_t ret = (rateError * ((uint16_t)0xFFFF / ((uint16_t)targetLooptime >> 4))) >> 5;
     ret =  (ret * pidProfile->D8[axis]) >> 8;
     ret /= DTermAverageCount;
@@ -629,10 +629,10 @@ int32_t calcMwrDTerm(pidProfile_t *pidProfile, pidIndex_e axis, int rateError) {
 
 TEST(PIDUnittest, TestPidMultiWiiRewrite)
 {
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
     resetPidProfile(pidProfile);
 
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
 
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
@@ -681,12 +681,12 @@ TEST(PIDUnittest, TestPidMultiWiiRewrite)
 
 TEST(PIDUnittest, TestPidMultiWiiRewriteITermConstrain)
 {
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
     rxConfig_t rxConfig;
 
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
     // set rateError to zero, ITerm should be zero
     pidControllerInitMultiWiiRewrite(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
@@ -716,7 +716,7 @@ TEST(PIDUnittest, TestPidMultiWiiRewriteITermConstrain)
 
 TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatCoreEquivalence)
 {
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
     const int angleRate = 200;
 
     pidControllerInitLuxFloatCore();
@@ -749,9 +749,9 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatCoreEquivalence)
 
 TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
 {
-    pidProfile_t *pidProfile = &testPidProfile;
+    struct pid_config *pidProfile = &testPidProfile;
 
-    controlRateConfig_t controlRate;
+    struct rate_config controlRate;
 
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;

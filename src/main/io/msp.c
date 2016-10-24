@@ -54,7 +54,7 @@
 #include "rx/msp.h"
 
 #include "io/motor_and_servo.h"
-#include "io/rate_profile.h"
+#include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 #include "io/gps.h"
@@ -99,7 +99,7 @@
 #include "io/msp.h"
 
 extern uint16_t cycleTime; // FIXME dependency on mw.c
-extern void resetPidProfile(pidProfile_t *pidProfile);
+extern void resetPidProfile(struct pid_config *pidProfile);
 
 static const char * const flightControllerIdentifier = CLEANFLIGHT_IDENTIFIER; // 4 UPPER CASE alpha numeric characters that identify the flight controller.
 static const char * const boardIdentifier = TARGET_BOARD_IDENTIFIER;

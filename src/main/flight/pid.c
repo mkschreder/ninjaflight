@@ -28,12 +28,6 @@
 #include "common/maths.h"
 #include "common/filter.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-#include "config/runtime_config.h"
-#include "config/config.h"
-#include "config/config_reset.h"
-
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
 #include "drivers/gyro_sync.h"
@@ -44,8 +38,8 @@
 #include "rx/rx.h"
 
 #include "io/rc_controls.h"
-#include "io/rate_profile.h"
 
+#include "flight/rate_profile.h"
 #include "flight/pid.h"
 
 int16_t axisPID[3];
@@ -60,44 +54,8 @@ uint8_t PIDweight[3];
 int32_t lastITerm[3], ITermLimit[3];
 float lastITermf[3], ITermLimitf[3];
 
+biquad_t deltaFilterState[3];
 pidControllerFuncPtr pid_controller = pidMultiWiiRewrite;
-
-PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(pidProfile_t, pidProfile, PG_PID_PROFILE, 0);
-
-PG_RESET_TEMPLATE(pidProfile_t, pidProfile,
-    .pidController = PID_CONTROLLER_MWREWRITE,
-    .P8[PIDROLL] = 40,
-    .I8[PIDROLL] = 30,
-    .D8[PIDROLL] = 23,
-    .P8[PIDPITCH] = 40,
-    .I8[PIDPITCH] = 30,
-    .D8[PIDPITCH] = 23,
-    .P8[PIDYAW] = 85,
-    .I8[PIDYAW] = 45,
-    .D8[PIDYAW] = 0,
-    .P8[PIDALT] = 50,
-    .I8[PIDALT] = 0,
-    .D8[PIDALT] = 0,
-    .P8[PIDPOS] = 15,   // POSHOLD_P * 100
-    .I8[PIDPOS] = 0,    // POSHOLD_I * 100
-    .D8[PIDPOS] = 0,
-    .P8[PIDPOSR] = 34,  // POSHOLD_RATE_P * 10
-    .I8[PIDPOSR] = 14,  // POSHOLD_RATE_I * 100
-    .D8[PIDPOSR] = 53,  // POSHOLD_RATE_D * 1000
-    .P8[PIDNAVR] = 25,  // NAV_P * 10
-    .I8[PIDNAVR] = 33,  // NAV_I * 100
-    .D8[PIDNAVR] = 83,  // NAV_D * 1000
-    .P8[PIDLEVEL] = 20,
-    .I8[PIDLEVEL] = 10,
-    .D8[PIDLEVEL] = 100,
-    .P8[PIDMAG] = 40,
-    .P8[PIDVEL] = 120,
-    .I8[PIDVEL] = 45,
-    .D8[PIDVEL] = 1,
-
-    .yaw_p_limit = YAW_P_LIMIT_MAX,
-    .dterm_cut_hz = 0,
-);
 
 void pidResetITerm(void)
 {
@@ -107,9 +65,8 @@ void pidResetITerm(void)
     }
 }
 
-biquad_t deltaFilterState[3];
 
-void pidFilterIsSetCheck(const pidProfile_t *pidProfile)
+void pidFilterIsSetCheck(const struct pid_config *pidProfile)
 {
     static bool deltaStateIsSet = false;
     if (!deltaStateIsSet && pidProfile->dterm_cut_hz) {
@@ -120,7 +77,7 @@ void pidFilterIsSetCheck(const pidProfile_t *pidProfile)
     }
 }
 
-void pidSetController(pidControllerType_e type)
+void pidSetController(pid_controller_type_t type)
 {
     switch (type) {
         default:

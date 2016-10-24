@@ -31,32 +31,18 @@
 #include "config/config_reset.h"
 
 #include "io/rc_curves.h"
-#include "io/rate_profile.h"
 
-PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(controlRateConfig_t, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
+#include "flight/rate_profile.h"
 
 static uint8_t currentControlRateProfileIndex = 0;
-controlRateConfig_t *currentControlRateProfile;
-
-void pgResetFn_controlRateProfiles(controlRateConfig_t *instance)
-{
-    for (int i = 0; i < MAX_CONTROL_RATE_PROFILE_COUNT; i++) {
-        RESET_CONFIG(controlRateConfig_t, &instance[i],
-            .rcRate8 = 90,
-            .rcExpo8 = 65,
-            .thrMid8 = 50,
-            .tpa_breakpoint = 1500,
-        );
-    }
-}
+struct rate_config *currentControlRateProfile;
 
 uint8_t getCurrentControlRateProfile(void)
 {
     return currentControlRateProfileIndex;
 }
 
-controlRateConfig_t *getControlRateConfig(uint8_t profileIndex)
+struct rate_config *getControlRateConfig(uint8_t profileIndex)
 {
     return controlRateProfiles(profileIndex);
 }
@@ -83,7 +69,3 @@ void changeControlRateProfile(uint8_t profileIndex)
     activateControlRateConfig();
 }
 
-void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex)
-{
-    rateProfileSelection_Storage[profileIndex].defaultRateProfileIndex = rateProfileIndex % MAX_CONTROL_RATE_PROFILE_COUNT;
-}

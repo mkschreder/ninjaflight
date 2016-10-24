@@ -43,7 +43,6 @@
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
 #include "io/rc_controls.h"
-#include "io/rate_profile.h"
 #include "io/rc_adjustments.h"
 
 #include "sensors/sensors.h"
@@ -72,6 +71,7 @@
 #include "telemetry/telemetry.h"
 #include "blackbox/blackbox.h"
 
+#include "flight/rate_profile.h"
 #include "flight/mixer.h"
 #include "flight/servos.h"
 #include "flight/pid.h"
