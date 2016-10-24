@@ -38,8 +38,8 @@ extern uint32_t hse_value;
 
 typedef void extiCallbackHandlerFunc(void);
 
-void registerExtiCallbackHandler(IRQn_Type irqn, extiCallbackHandlerFunc *fn);
-void unregisterExtiCallbackHandler(IRQn_Type irqn, extiCallbackHandlerFunc *fn);
+void registerExtiCallbackHandler(int irqn, extiCallbackHandlerFunc *fn);
+void unregisterExtiCallbackHandler(int irqn, extiCallbackHandlerFunc *fn);
 
 extern uint32_t cachedRccCsrValue;
 

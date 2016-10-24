@@ -1049,8 +1049,8 @@ void gpsEnablePassthrough(serialPort_t *gpsPassthroughPort)
     if(!(gpsPort->mode & MODE_TX))
         serialSetMode(gpsPort, gpsPort->mode | MODE_TX);
 
-    LED0_OFF;
-    LED1_OFF;
+    led_off(0);
+    led_off(1);
 
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {
@@ -1060,17 +1060,17 @@ void gpsEnablePassthrough(serialPort_t *gpsPassthroughPort)
     char c;
     while(1) {
         if (serialRxBytesWaiting(gpsPort)) {
-            LED0_ON;
+            led_on(0);
             c = serialRead(gpsPort);
             gpsNewData(c);
             serialWrite(gpsPassthroughPort, c);
-            LED0_OFF;
+            led_on(0);
         }
         if (serialRxBytesWaiting(gpsPassthroughPort)) {
-            LED1_ON;
+            led_on(1);
             c = serialRead(gpsPassthroughPort);
             serialWrite(gpsPort, c);
-            LED1_OFF;
+            led_on(1);
         }
 #ifdef DISPLAY
         if (feature(FEATURE_DISPLAY)) {
@@ -1085,7 +1085,7 @@ void updateGpsIndicator(uint32_t currentTime)
     static uint32_t GPSLEDTime;
     if ((int32_t)(currentTime - GPSLEDTime) >= 0 && (GPS_numSat >= 5)) {
         GPSLEDTime = currentTime + 150000;
-        LED1_TOGGLE;
+        led_toggle(1);
     }
 }
 #endif

@@ -27,7 +27,103 @@
 
 #include "light_led.h"
 
-void ledInit(bool alternative_led)
+struct {
+    GPIO_TypeDef *gpio;
+    uint16_t pin;
+} led_config[3];
+
+// TODO: clean up this mess
+// Helpful macros
+#ifdef LED0
+#define LED0_TOGGLE              digitalToggle(led_config[0].gpio, led_config[0].pin)
+#ifndef LED0_INVERTED
+#define LED0_OFF                 digitalHi(led_config[0].gpio, led_config[0].pin)
+#define LED0_ON                  digitalLo(led_config[0].gpio, led_config[0].pin)
+#else
+#define LED0_OFF                 digitalLo(led_config[0].gpio, led_config[0].pin)
+#define LED0_ON                  digitalHi(led_config[0].gpio, led_config[0].pin)
+#endif // inverted
+#else
+#define LED0_TOGGLE              do {} while(0)
+#define LED0_OFF                 do {} while(0)
+#define LED0_ON                  do {} while(0)
+#endif
+
+#ifdef LED1
+#define LED1_TOGGLE              digitalToggle(led_config[1].gpio, led_config[1].pin)
+#ifndef LED1_INVERTED
+#define LED1_OFF                 digitalHi(led_config[1].gpio, led_config[1].pin)
+#define LED1_ON                  digitalLo(led_config[1].gpio, led_config[1].pin)
+#else
+#define LED1_OFF                 digitalLo(led_config[1].gpio, led_config[1].pin)
+#define LED1_ON                  digitalHi(led_config[1].gpio, led_config[1].pin)
+#endif // inverted
+#else
+#define LED1_TOGGLE              do {} while(0)
+#define LED1_OFF                 do {} while(0)
+#define LED1_ON                  do {} while(0)
+#endif
+
+
+#ifdef LED2
+#define LED2_TOGGLE              digitalToggle(led_config[2].gpio, led_config[2].pin)
+#ifndef LED2_INVERTED
+#define LED2_OFF                 digitalHi(led_config[2].gpio, led_config[2].pin)
+#define LED2_ON                  digitalLo(led_config[2].gpio, led_config[2].pin)
+#else
+#define LED2_OFF                 digitalLo(led_config[2].gpio, led_config[2].pin)
+#define LED2_ON                  digitalHi(led_config[2].gpio, led_config[2].pin)
+#endif // inverted
+#else
+#define LED2_TOGGLE              do {} while(0)
+#define LED2_OFF                 do {} while(0)
+#define LED2_ON                  do {} while(0)
+#endif
+
+void led_toggle(int id){
+	switch(id){
+		case 0: 
+			LED0_TOGGLE; 
+			break; 
+		case 1: 
+			LED1_TOGGLE; 
+			break; 
+		case 2: 
+			LED2_TOGGLE; 
+			break; 
+	}
+}
+
+void led_on(int id){
+	switch(id){
+		case 0: 
+			LED0_ON; 
+			break; 
+		case 1: 
+			LED1_ON; 
+			break; 
+		case 2: 
+			LED2_ON; 
+			break; 
+	}
+}
+
+void led_off(int id){
+	switch(id){
+		case 0: 
+			LED0_OFF; 
+			break; 
+		case 1: 
+			LED1_OFF; 
+			break; 
+		case 2: 
+			LED2_OFF; 
+			break; 
+	}
+}
+
+
+void led_init(bool alternative_led)
 {
 #if defined(LED0) || defined(LED1) || defined(LED2)
     gpio_config_t cfg;

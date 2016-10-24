@@ -41,10 +41,11 @@
 
 // Sonar measurements are in cm, a value of SONAR_OUT_OF_RANGE indicates sonar is not in range.
 // Inclination is adjusted by imu
-    float baro_cf_vel;                      // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity)
-    float baro_cf_alt;                      // apply CF to use ACC for height estimation
+//    float baro_cf_vel;                      // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity)
+//    float baro_cf_alt;                      // apply CF to use ACC for height estimation
 
 #ifdef SONAR
+/*
 int16_t sonarMaxRangeCm;
 int16_t sonarMaxAltWithTiltCm;
 int16_t sonarCfAltCm; // Complimentary Filter altitude
@@ -52,8 +53,9 @@ STATIC_UNIT_TESTED int16_t sonarMaxTiltDeciDegrees;
 float sonarMaxTiltCos;
 
 static int32_t calculatedAltitude;
-
+*/
 // TODO: this is being abused elsewhere. Make it static
+#if 0
 const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType); 
 const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType)
 {
@@ -99,18 +101,18 @@ const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  curr
 #endif
 }
 
-void sonarInit(const struct sonar_hardware *sonarHardware)
-{
-    sonarRange_t sonarRange;
+#endif
 
-    hcsr04_init(sonarHardware, &sonarRange);
+struct sonar default_sonar; 
+
+void sonar_init(struct sonar *self){
+    hcsr04_init(self);
+	self->distance = SONAR_OUT_OF_RANGE; 
     sensorsSet(SENSOR_SONAR);
-    sonarMaxRangeCm = sonarRange.maxRangeCm;
-    sonarCfAltCm = sonarMaxRangeCm / 2;
-    sonarMaxTiltDeciDegrees =  sonarRange.detectionConeExtendedDeciDegrees / 2;
-    sonarMaxTiltCos = cos_approx(sonarMaxTiltDeciDegrees / 10.0f * RAD);
-    sonarMaxAltWithTiltCm = sonarMaxRangeCm * sonarMaxTiltCos;
-    calculatedAltitude = SONAR_OUT_OF_RANGE;
+    self->cf_alt_cm = self->max_range_cm / 2;
+    self->max_tilt_deci_degrees =  self->detection_cone_extended_deci_degrees / 2;
+    self->max_tilt_cos = cos_approx(self->max_tilt_deci_degrees / 10.0f * RAD);
+    self->max_alt_with_tilt = self->max_range_cm * self->max_tilt_cos;
 }
 
 #define DISTANCE_SAMPLES_MEDIAN 5
@@ -139,21 +141,21 @@ static int32_t applySonarMedianFilter(int32_t newSonarReading)
         return newSonarReading;
 }
 
-void sonarUpdate(void)
+void sonar_update(struct sonar *self)
 {
-    hcsr04_start_reading();
+    hcsr04_start_reading(self);
 }
 
 /**
  * Get the last distance measured by the sonar in centimeters. When the ground is too far away, SONAR_OUT_OF_RANGE is returned.
  */
-int32_t sonarRead(void)
+int32_t sonar_read(struct sonar *self)
 {
-    int32_t distance = hcsr04_get_distance();
-    if (distance > HCSR04_MAX_RANGE_CM)
-        distance = SONAR_OUT_OF_RANGE;
+    hcsr04_get_distance(self);
+    if (self->distance > self->max_range_cm)
+        self->distance = SONAR_OUT_OF_RANGE;
 
-    return applySonarMedianFilter(distance);
+    return applySonarMedianFilter(self->distance);
 }
 
 /**
@@ -162,24 +164,24 @@ int32_t sonarRead(void)
  *
  * When the ground is too far away or the tilt is too large, SONAR_OUT_OF_RANGE is returned.
  */
-int32_t sonarCalculateAltitude(int32_t sonarDistance, float cosTiltAngle)
+int32_t sonar_calc_altitude(struct sonar *self, float cosTiltAngle)
 {
     // calculate sonar altitude only if the ground is in the sonar cone
-    if (cosTiltAngle <= sonarMaxTiltCos)
-        calculatedAltitude = SONAR_OUT_OF_RANGE;
+    if (cosTiltAngle <= self->max_tilt_cos)
+        self->altitude = SONAR_OUT_OF_RANGE;
     else
         // altitude = distance * cos(tiltAngle), use approximation
-        calculatedAltitude = sonarDistance * cosTiltAngle;
-    return calculatedAltitude;
+        self->altitude = self->distance * cosTiltAngle;
+    return self->altitude;
 }
 
 /**
  * Get the latest altitude that was computed by a call to sonarCalculateAltitude(), or SONAR_OUT_OF_RANGE if sonarCalculateAltitude
  * has never been called.
  */
-int32_t sonarGetLatestAltitude(void)
+int32_t sonar_get_altitude(struct sonar *self)
 {
-    return calculatedAltitude;
+    return self->altitude;
 }
 
 #endif

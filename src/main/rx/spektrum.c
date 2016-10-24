@@ -195,7 +195,7 @@ void spektrumBind(rxConfig_t *rxConfig)
         return;
     }
 
-    LED1_ON;
+    led_on(1);
 
     gpio_config_t cfg = {
         BIND_PIN,
@@ -209,18 +209,18 @@ void spektrumBind(rxConfig_t *rxConfig)
 
     // Bind window is around 20-140ms after powerup
     delay(60);
-    LED1_OFF;
+    led_off(1);
 
     for (i = 0; i < rxConfig->spektrum_sat_bind; i++) {
 
-        LED0_OFF;
-        LED2_OFF;
+        led_off(0);
+        led_off(2);
         // RX line, drive low for 120us
         digitalLo(BIND_PORT, BIND_PIN);
         delayMicroseconds(120);
 
-        LED0_ON;
-        LED2_ON;
+        led_on(0);
+        led_on(2);
         // RX line, drive high for 120us
         digitalHi(BIND_PORT, BIND_PIN);
         delayMicroseconds(120);

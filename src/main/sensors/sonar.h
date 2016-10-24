@@ -20,13 +20,38 @@
 #define SONAR_OUT_OF_RANGE (-1)
 
 struct sonar_hardware; 
+struct sonar; 
+
+struct sonar_ops {
+	void (*start_reading)(struct sonar *self); 
+}; 
+
+struct sonar {
+	int16_t distance; 
+	int16_t altitude; 
+	uint16_t max_range_cm; 
+	uint16_t detection_cone_deci_degrees; 
+	uint16_t detection_cone_extended_deci_degrees; 
+	int16_t max_alt_with_tilt_cm; 
+	int16_t cf_alt_cm; 
+	int16_t max_tilt_deci_degrees; 
+	float max_tilt_cos; 
+	int16_t max_alt_with_tilt; 
+	struct sonar_ops *ops; 
+	const struct sonar_hardware *hw; 
+}; 
+
+// TODO: remove after refactoring
+extern struct sonar default_sonar; 
+/*
 extern int16_t sonarMaxRangeCm;
 extern int16_t sonarCfAltCm;
 extern int16_t sonarMaxAltWithTiltCm;
+*/
 
-void sonarInit(const struct sonar_hardware *sonarHardware);
-void sonarUpdate(void);
-int32_t sonarRead(void);
-int32_t sonarCalculateAltitude(int32_t sonarDistance, float cosTiltAngle);
-int32_t sonarGetLatestAltitude(void);
+void sonar_init(struct sonar *self);
+void sonar_update(struct sonar *self);
+int32_t sonar_read(struct sonar *self);
+int32_t sonar_calc_altitude(struct sonar *self, float cosTiltAngle);
+int32_t sonar_get_altitude(struct sonar *self);
 

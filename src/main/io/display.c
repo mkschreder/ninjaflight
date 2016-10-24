@@ -532,7 +532,7 @@ static void showSensorsPage(void)
 #ifdef SONAR
     if (sensors(SENSOR_SONAR)) {
         static const char *sonarFormat = "%s             %5d";
-        tfp_sprintf(lineBuffer, sonarFormat, "SNR", sonarGetLatestAltitude());
+        tfp_sprintf(lineBuffer, sonarFormat, "SNR", sonar_get_altitude(&default_sonar));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);

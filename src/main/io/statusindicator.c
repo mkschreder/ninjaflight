@@ -62,13 +62,13 @@ void warningLedRefresh(void)
 {
     switch (warningLedState) {
         case WARNING_LED_OFF:
-            LED0_OFF;
+            led_off(0);
             break;
         case WARNING_LED_ON:
-            LED0_ON;
+            led_on(0);
             break;
         case WARNING_LED_FLASH:
-            LED0_TOGGLE;
+            led_toggle(0);
             break;
     }
 

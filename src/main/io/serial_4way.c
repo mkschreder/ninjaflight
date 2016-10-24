@@ -45,14 +45,14 @@
 #define USE_TXRX_LED
 
 #if defined(USE_TXRX_LED) && defined(LED0)
-# define RX_LED_OFF   LED0_OFF
-# define RX_LED_ON    LED0_ON
+# define RX_LED_OFF   led_off(0)
+# define RX_LED_ON    led_on(0)
 # ifdef  LED1
-#  define TX_LED_OFF  LED1_OFF
-#  define TX_LED_ON   LED1_ON
+#  define TX_LED_OFF  led_off(1)
+#  define TX_LED_ON   led_on(1)
 # else
-#  define TX_LED_OFF  LED0_OFF
-#  define TX_LED_ON   LED0_ON
+#  define TX_LED_OFF  led_off(0)
+#  define TX_LED_ON   led_on(0)
 # endif
 #else
 # define RX_LED_OFF   do {} while(0)

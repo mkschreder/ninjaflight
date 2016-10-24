@@ -32,6 +32,7 @@ extern "C" {
 
 #define DECIDEGREES_TO_RADIANS(angle) (((angle) / 10.0f) * 0.0174532925f)
 
+#if 0
 TEST(SonarUnittest, TestConstants)
 {
     sonarInit(0);
@@ -106,7 +107,7 @@ TEST(SonarUnittest, TestAltitude)
     EXPECT_NEAR(sonarCalculateAltitude(sonarMaxRangeCm, cosf(DECIDEGREES_TO_RADIANS(sonarMaxTiltDeciDegrees - 1))), sonarMaxAltWithTiltCm, 1);
     EXPECT_NEAR(sonarGetLatestAltitude(), sonarMaxAltWithTiltCm, 1);
 }
-
+#endif
 // STUBS
 extern "C" {
 void sensorsSet(uint32_t mask) {UNUSED(mask);}

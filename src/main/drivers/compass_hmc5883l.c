@@ -266,7 +266,7 @@ void hmc5883lInit(void)
             bret = false;
             break;              // Breaks out of the for loop.  No sense in continuing if we saturated.
         }
-        LED1_TOGGLE;
+        led_toggle(1);
     }
 
     // Apply the negative bias. (Same gain)
@@ -286,7 +286,7 @@ void hmc5883lInit(void)
             bret = false;
             break;              // Breaks out of the for loop.  No sense in continuing if we saturated.
         }
-        LED1_TOGGLE;
+        led_toggle(1);
     }
 
     magGain[X] = fabsf(660.0f * HMC58X3_X_SELF_TEST_GAUSS * 2.0f * 10.0f / xyz_total[X]);

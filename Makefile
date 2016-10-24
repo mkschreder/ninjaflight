@@ -43,6 +43,7 @@ FORKNAME			 = cleanflight
 F3_TARGETS = ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE IRCFUSIONF3 LUX_RACE MOTOLAB NAZE32PRO RMDO SPARKY SPRACINGF3 SPRACINGF3EVO SPRACINGF3MINI STM32F3DISCOVERY
 
 VALID_TARGETS = $(64K_TARGETS) $(128K_TARGETS) $(256K_TARGETS)
+#VALID_TARGETS += SITL
 
 VCP_TARGETS = CC3D ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE LUX_RACE MOTOLAB NAZE32PRO SPARKY SPRACINGF3EVO SPRACINGF3MINI STM32F3DISCOVERY
 
@@ -54,6 +55,8 @@ else ifeq ($(TARGET),$(filter $(TARGET),$(128K_TARGETS)))
 FLASH_SIZE = 128
 else ifeq ($(TARGET),$(filter $(TARGET),$(256K_TARGETS)))
 FLASH_SIZE = 256
+else ifeq ($(TARGET),SITL)
+#skip
 else
 $(error FLASH_SIZE not configured for target $(TARGET))
 endif
@@ -151,6 +154,8 @@ TARGET_FLAGS = -D$(TARGET) -pedantic
 DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
+
+else ifeq ($(TARGET),SITL)
 
 else
 # F1 TARGETS
@@ -720,6 +725,71 @@ IRCFUSIONF3_SRC = \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
+SITL_SRC = \
+		   flight/altitudehold.c \
+		   flight/failsafe.c \
+		   flight/pid.c \
+		   flight/pid_luxfloat.c \
+		   flight/pid_mwrewrite.c \
+		   flight/pid_mw23.c \
+		   flight/imu.c \
+		   flight/mixer.c \
+		   flight/servos.c \
+		   mw.c \
+		   sitl_main.c
+
+SITL_SRC_OLD = \
+		    build_config.c \
+		   debug.c \
+		   version.c \
+		   config/config.c \
+		   config/runtime_config.c \
+		   config/config_streamer.c \
+		   config/config_eeprom.c \
+		   config/parameter_group.c \
+		   config/feature.c \
+		   config/profile.c \
+		   common/maths.c \
+		   common/printf.c \
+		   common/typeconversion.c \
+		   common/encoding.c \
+		   common/filter.c \
+		   common/streambuf.c \
+		   scheduler.c \
+           scheduler_tasks.c \
+		   main.c \
+		   mw.c \
+		   flight/altitudehold.c \
+		   flight/failsafe.c \
+		   flight/pid.c \
+		   flight/pid_luxfloat.c \
+		   flight/pid_mwrewrite.c \
+		   flight/pid_mw23.c \
+		   flight/imu.c \
+		   flight/mixer.c \
+		   flight/servos.c \
+		   io/gimbal.c \
+		   io/motor_and_servo.c \
+		   io/rate_profile.c \
+		   io/rc_adjustments.c \
+		   io/rc_controls.c \
+		   io/rc_curves.c \
+		   io/serial.c \
+		   io/serial_4way.c \
+		   io/serial_4way_avrootloader.c \
+		   io/serial_4way_stk500v2.c \
+		   io/serial_cli.c \
+		   io/serial_msp.c \
+		   io/statusindicator.c \
+		   io/msp.c \
+		   rx/rx.c \
+		   sensors/sensors.c \
+		   sensors/acceleration.c \
+		   sensors/boardalignment.c \
+		   sensors/compass.c \
+		   sensors/gyro.c \
+		   sensors/initialisation.c 
+
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
@@ -728,9 +798,18 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 #
 
 # Tool names
+ifeq ($(TARGET),SITL)
+
+else
 CC		 = arm-none-eabi-gcc
 OBJCOPY		 = arm-none-eabi-objcopy
 SIZE		 = arm-none-eabi-size
+LDFLAGS += -nostartfiles \
+		   --specs=nano.specs \
+		   -lc \
+		   -static \
+		   -lnosys 
+endif
 
 #
 # Tool options.
@@ -776,20 +855,15 @@ ASFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		  -MMD -MP
 
-LDFLAGS		 = -lm \
-		   -nostartfiles \
-		   --specs=nano.specs \
-		   -lc \
-		   -lnosys \
-		   $(ARCH_FLAGS) \
+LDFLAGS	+= -lm \
+			$(ARCH_FLAGS) \
 		   $(LTO_FLAGS) \
 		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
-		   -static \
 		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
 		   -Wl,-L$(LINKER_DIR) \
 		   -Wl,--cref \
-		   -T$(LD_SCRIPT)
+		   $(if $(LD_SCRIPT),-T$(LD_SCRIPT),)
 
 ###############################################################################
 # No user-serviceable parts below
@@ -817,11 +891,15 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 
 ## Default make goal:
 ## hex         : Make filetype hex only
-.DEFAULT_GOAL := hex
+#.DEFAULT_GOAL := hex
 
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
+ifeq ($(TARGET),SITL)
+all: $(TARGET_ELF)
+else
 all: hex bin
+endif 
 
 ## binary      : Make binary filetype
 ## bin         : Alias of 'binary'

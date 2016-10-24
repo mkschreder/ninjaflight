@@ -44,7 +44,7 @@ typedef struct extiCallbackHandlerConfig_s {
 
 static extiCallbackHandlerConfig_t extiHandlerConfigs[EXTI_CALLBACK_HANDLER_COUNT];
 
-void registerExtiCallbackHandler(IRQn_Type irqn, extiCallbackHandlerFunc *fn)
+void registerExtiCallbackHandler(int irqn, extiCallbackHandlerFunc *fn)
 {
     for (int index = 0; index < EXTI_CALLBACK_HANDLER_COUNT; index++) {
         extiCallbackHandlerConfig_t *candidate = &extiHandlerConfigs[index];
@@ -57,7 +57,7 @@ void registerExtiCallbackHandler(IRQn_Type irqn, extiCallbackHandlerFunc *fn)
     failureMode(FAILURE_DEVELOPER); // EXTI_CALLBACK_HANDLER_COUNT is too low for the amount of handlers required.
 }
 
-void unregisterExtiCallbackHandler(IRQn_Type irqn, extiCallbackHandlerFunc *fn)
+void unregisterExtiCallbackHandler(int irqn, extiCallbackHandlerFunc *fn)
 {
     for (int index = 0; index < EXTI_CALLBACK_HANDLER_COUNT; index++) {
         extiCallbackHandlerConfig_t *candidate = &extiHandlerConfigs[index];
@@ -236,20 +236,20 @@ void failureMode(failureMode_e mode)
     int shortFlashesRemaining;
 
     while (codeRepeatsRemaining--) {
-        LED1_ON;
-        LED0_OFF;
+        led_on(1);
+        led_off(0);
         shortFlashesRemaining = 5;
         codeFlashesRemaining = mode + 1;
         uint8_t flashDuration = SHORT_FLASH_DURATION;
 
         while (shortFlashesRemaining || codeFlashesRemaining) {
-            LED1_TOGGLE;
-            LED0_TOGGLE;
+            led_toggle(1);
+            led_toggle(0);
             BEEP_ON;
             delay(flashDuration);
 
-            LED1_TOGGLE;
-            LED0_TOGGLE;
+            led_toggle(1);
+            led_toggle(0);
             BEEP_OFF;
             delay(flashDuration);
 

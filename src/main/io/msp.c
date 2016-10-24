@@ -660,7 +660,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_SONAR_ALTITUDE:
 #if defined(SONAR)
-            sbufWriteU32(dst, sonarGetLatestAltitude());
+            sbufWriteU32(dst, sonar_get_altitude(&default_sonar));
 #else
             sbufWriteU32(dst, 0);
 #endif

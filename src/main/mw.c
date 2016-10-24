@@ -41,7 +41,6 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
-
 #include "io/rc_controls.h"
 #include "io/rate_profile.h"
 #include "io/rc_adjustments.h"
@@ -252,7 +251,7 @@ static void updateRcCommands(void)
 static void updateLEDs(void)
 {
     if (ARMING_FLAG(ARMED)) {
-        LED0_ON;
+        led_on(0);
     } else {
         if (rcModeIsActive(BOXARM) == 0) {
             ENABLE_ARMING_FLAG(OK_TO_ARM);
@@ -537,9 +536,9 @@ static void processRx(void)
     }
 
     if (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)) {
-        LED1_ON;
+        led_on(1);
     } else {
-        LED1_OFF;
+        led_on(1);
     }
 
 #ifdef  MAG
@@ -869,7 +868,7 @@ void taskUpdateBaro(void)
 void taskUpdateSonar(void)
 {
     if (sensors(SENSOR_SONAR)) {
-        sonarUpdate();
+        sonar_update(&default_sonar);
     }
 }
 #endif

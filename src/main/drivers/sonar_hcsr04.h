@@ -19,30 +19,8 @@
 
 #include <platform.h>
 
-// TODO: this is being abused in sensors/sonar.c 
-struct sonar_hardware {
-    uint16_t trigger_pin;
-	GPIO_TypeDef* trigger_gpio;
-    uint16_t echo_pin;
-	GPIO_TypeDef* echo_gpio;
-    uint32_t exti_line;
-    uint8_t exti_pin_source;
-    IRQn_Type exti_irqn;
-};
+#include "sensors/sonar.h"
 
-typedef struct sonarRange_s {
-    int16_t maxRangeCm;
-    // these are full detection cone angles, maximum tilt is half of this
-    int16_t detectionConeDeciDegrees; // detection cone angle as in HC-SR04 device spec
-    int16_t detectionConeExtendedDeciDegrees; // device spec is conservative, in practice have slightly larger detection cone
-} sonarRange_t;
-
-#define SONAR_GPIO GPIOB
-
-#define HCSR04_MAX_RANGE_CM 400 // 4m, from HC-SR04 spec sheet
-#define HCSR04_DETECTION_CONE_DECIDEGREES 300 // recommended cone angle30 degrees, from HC-SR04 spec sheet
-#define HCSR04_DETECTION_CONE_EXTENDED_DECIDEGREES 450 // in practice 45 degrees seems to work well
-
-void hcsr04_init(const struct sonar_hardware *sonarHardware, sonarRange_t *sonarRange);
-void hcsr04_start_reading(void);
-int32_t hcsr04_get_distance(void);
+void hcsr04_init(struct sonar *self);
+void hcsr04_start_reading(struct sonar *self);
+int32_t hcsr04_get_distance(struct sonar *self);

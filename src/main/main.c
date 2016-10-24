@@ -131,8 +131,6 @@ void SetSysClock(void);
 void SetSysClock(bool overclock);
 #endif
 
-struct mixer mixer; 
-
 PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
 PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
 
@@ -154,18 +152,18 @@ static uint8_t systemState = SYSTEM_STATE_INITIALISING;
 
 static void flashLedsAndBeep(void)
 {
-    LED1_ON;
-    LED0_OFF;
+    led_on(1);
+    led_off(0);
     for (uint8_t i = 0; i < 10; i++) {
-        LED1_TOGGLE;
-        LED0_TOGGLE;
+        led_toggle(1);
+        led_toggle(0);
         delay(25);
         BEEP_ON;
         delay(25);
         BEEP_OFF;
     }
-    LED0_OFF;
-    LED1_OFF;
+    led_off(0);
+    led_off(1);
 }
 
 #ifdef BUTTONS
@@ -206,10 +204,10 @@ static void buttonsHandleColdBootButtonPresses(void)
             } else {
                 // flash quicker after a few seconds
                 delay(500);
-                LED0_TOGGLE;
+                led_toggle(0);
                 delay(500);
             }
-            LED0_TOGGLE;
+            led_toggle(0);
         }
     } while (bothButtonsHeld);
 
@@ -264,12 +262,12 @@ static void init(void)
     latchActiveFeatures();
 #ifdef ALIENFLIGHTF3
     if (hardwareRevision == AFF3_REV_1) {
-        ledInit(false);
+        led_init(false);
     } else {
-        ledInit(true);
+        led_init(true);
     }
 #else
-    ledInit(false);
+    led_init(false);
 #endif
 
 #ifdef BEEPER
@@ -327,7 +325,7 @@ static void init(void)
 
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    mixer_init(&mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 #ifdef USE_SERVOS
     mixerInitServos(customServoMixer(0));
 #endif
@@ -335,9 +333,11 @@ static void init(void)
     memset(&pwm_params, 0, sizeof(pwm_params));
 
 #ifdef SONAR
-    const struct sonar_hardware *sonarHardware = NULL;
 
     if (feature(FEATURE_SONAR)) {
+		sonar_init(&default_sonar); 
+		// TODO: fix this
+		/*
         sonarHardware = sonarGetHardwareConfiguration(batteryConfig()->currentMeterType);
         sonarGPIOConfig_t sonarGPIOConfig = {
             .gpio = SONAR_GPIO,
@@ -345,6 +345,7 @@ static void init(void)
             .echoPin = sonarHardware->trigger_pin,
         };
         pwm_params.sonarGPIOConfig = &sonarGPIOConfig;
+		*/
     }
 #endif
 
@@ -542,7 +543,7 @@ static void init(void)
 
 #ifdef SONAR
     if (feature(FEATURE_SONAR)) {
-        sonarInit(sonarHardware);
+        sonar_init(&default_sonar);
     }
 #endif
 
@@ -651,7 +652,7 @@ static void init(void)
 #endif
 
 #ifdef CJMCU
-    LED2_ON;
+    led_on(2);
 #endif
 
     // Latch active features AGAIN since some may be modified by init().

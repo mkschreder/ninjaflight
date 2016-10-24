@@ -969,7 +969,7 @@ static void loadMainState(void)
 
 #ifdef SONAR
     // Store the raw sonar value without applying tilt correction
-    blackboxCurrent->sonarRaw = sonarRead();
+    blackboxCurrent->sonarRaw = sonar_read(&default_sonar);
 #endif
 
     blackboxCurrent->rssi = rc_get_rssi();

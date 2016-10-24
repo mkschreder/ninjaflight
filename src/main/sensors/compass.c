@@ -65,9 +65,9 @@ static uint8_t magInit = 0;
 void compassInit(void)
 {
     // initialize and calibration. turn on led during mag calibration (calibration routine blinks it)
-    LED1_ON;
+    led_on(1);
     mag.init();
-    LED1_OFF;
+    led_off(1);
     magInit = 1;
 }
 
@@ -100,7 +100,7 @@ void updateCompass(flightDynamicsTrims_t *magZero)
 
     if (tCal != 0) {
         if ((currentTime - tCal) < 30000000) {    // 30s: you have 30s to turn the multi in all directions
-            LED0_TOGGLE;
+            led_toggle(0);
             for (axis = 0; axis < 3; axis++) {
                 if (magADC[axis] < magZeroTempMin.raw[axis])
                     magZeroTempMin.raw[axis] = magADC[axis];
