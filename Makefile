@@ -43,7 +43,7 @@ FORKNAME			 = ninjaflight
 F3_TARGETS = ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE IRCFUSIONF3 LUX_RACE MOTOLAB NAZE32PRO RMDO SPARKY SPRACINGF3 SPRACINGF3EVO SPRACINGF3MINI STM32F3DISCOVERY
 
 VALID_TARGETS = $(64K_TARGETS) $(128K_TARGETS) $(256K_TARGETS)
-#VALID_TARGETS += SITL
+VALID_TARGETS += SITL
 
 VCP_TARGETS = CC3D ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE LUX_RACE MOTOLAB NAZE32PRO SPARKY SPRACINGF3EVO SPRACINGF3MINI STM32F3DISCOVERY
 
@@ -723,66 +723,52 @@ IRCFUSIONF3_SRC = \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
-		   flight/altitudehold.c \
-		   flight/failsafe.c \
-		   flight/anglerate_controller.c \
-		   flight/imu.c \
-		   flight/mixer.c \
-		   flight/servos.c \
-		   mw.c \
-		   sitl_main.c
-
-SITL_SRC_OLD = \
-		    build_config.c \
-		   debug.c \
-		   version.c \
-		   config/config.c \
-		   config/runtime_config.c \
-		   config/config_streamer.c \
-		   config/config_eeprom.c \
-		   config/parameter_group.c \
-		   config/feature.c \
-		   config/profile.c \
-		   common/maths.c \
-		   common/printf.c \
-		   common/typeconversion.c \
-		   common/encoding.c \
-		   common/filter.c \
-		   common/streambuf.c \
-		   scheduler.c \
-           scheduler_tasks.c \
-		   main.c \
-		   mw.c \
-		   flight/altitudehold.c \
-		   flight/failsafe.c \
-		   flight/pid.c \
-		   flight/pid_luxfloat.c \
-		   flight/pid_mwrewrite.c \
-		   flight/pid_mw23.c \
-		   flight/imu.c \
-		   flight/mixer.c \
-		   flight/servos.c \
-		   io/gimbal.c \
-		   io/motor_and_servo.c \
-		   io/rate_profile.c \
-		   io/rc_adjustments.c \
-		   io/rc_controls.c \
-		   io/rc_curves.c \
-		   io/serial.c \
-		   io/serial_4way.c \
-		   io/serial_4way_avrootloader.c \
-		   io/serial_4way_stk500v2.c \
-		   io/serial_cli.c \
-		   io/serial_msp.c \
-		   io/statusindicator.c \
-		   io/msp.c \
-		   rx/rx.c \
-		   sensors/sensors.c \
-		   sensors/acceleration.c \
-		   sensors/boardalignment.c \
-		   sensors/compass.c \
-		   sensors/gyro.c \
-		   sensors/initialisation.c 
+			common/maths.c \
+			common/printf.c \
+			common/typeconversion.c \
+			common/encoding.c \
+			common/filter.c \
+			common/streambuf.c \
+			config/config.c \
+			config/runtime_config.c \
+			config/config_eeprom.c \
+			config/parameter_group.c \
+			config/feature.c \
+			config/profile.c \
+			flight/altitudehold.c \
+			flight/failsafe.c \
+			flight/pid.c \
+			flight/pid_luxfloat.c \
+			flight/pid_mwrewrite.c \
+			flight/pid_mw23.c \
+			flight/imu.c \
+			flight/mixer.c \
+			flight/servos.c \
+			drivers/gyro_sync.c \
+			io/beeper.c \
+			io/gimbal.c \
+			io/motor_and_servo.c \
+			io/rate_profile.c \
+			io/rc_adjustments.c \
+			io/rc_controls.c \
+			io/rc_curves.c \
+			io/serial.c \
+			io/serial_cli.c \
+			io/serial_msp.c \
+			io/statusindicator.c \
+			sensors/sensors.c \
+			sensors/acceleration.c \
+			sensors/battery.c \
+			sensors/boardalignment.c \
+			sensors/gyro.c \
+			scheduler.c \
+			scheduler_tasks.c \
+			sitl/flash.c \
+			sitl/rx.c \
+			sitl/time.c \
+			sitl/led.c \
+			mw.c \
+			sitl_main.c
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src

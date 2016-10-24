@@ -64,13 +64,6 @@ STATIC_UNIT_TESTED void queueClear(void)
     taskQueueSize = 0;
 }
 
-#ifdef UNIT_TEST
-STATIC_UNIT_TESTED int queueSize(void)
-{
-    return taskQueueSize;
-}
-#endif
-
 STATIC_UNIT_TESTED bool queueContains(cfTask_t *task)
 {
     for (int ii = 0; ii < taskQueueSize; ++ii) {
