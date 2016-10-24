@@ -50,6 +50,8 @@
 #ifndef __STM32F10x_H
 #define __STM32F10x_H
 
+#include <stdint.h>
+
 #ifdef __cplusplus
  extern "C" {
 #endif 
@@ -112,6 +114,7 @@
    Tip: To avoid modifying this file each time you need to use different HSE, you
         can define the HSE value in your toolchain compiler preprocessor.
   */           
+#if 0
 #if !defined  HSE_VALUE
  #ifdef STM32F10X_CL   
   #define HSE_VALUE    ((uint32_t)25000000) /*!< Value of the External oscillator in Hz */
@@ -119,7 +122,13 @@
   #define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
  #endif /* STM32F10X_CL */
 #endif /* HSE_VALUE */
+#endif
 
+#ifdef HSE_VALUE
+#error "HSE_VALUE should be set in code!"
+#endif
+
+extern uint32_t HSE_VALUE; 
 
 /**
  * @brief In the following line adjust the External High Speed oscillator (HSE) Startup 
