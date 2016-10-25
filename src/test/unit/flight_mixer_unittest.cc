@@ -340,7 +340,7 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
     // when
     mixer_update(&default_mixer);
-    writeServos();
+    writeServos(&default_mixer);
 
     // then
     EXPECT_EQ(1, updatedServoCount);
@@ -472,7 +472,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
     // when
     mixer_update(&default_mixer);
     mixer_write_pwm(&default_mixer);
-    writeServos();
+    writeServos(&default_mixer);
 
     // then
     EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, updatedMotorCount);

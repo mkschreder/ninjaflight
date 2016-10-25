@@ -348,7 +348,7 @@ $(OBJECT_DIR)/flight/mixer.o : \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/mixer.c -o $@
+	$(CC) $(C_FLAGS) -DUSE_TILT=0 $(TEST_CFLAGS) -c $(USER_DIR)/flight/mixer.c -o $@
 
 $(OBJECT_DIR)/flight/servos.o : \
 	$(USER_DIR)/flight/servos.c \
