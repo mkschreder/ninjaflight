@@ -64,6 +64,11 @@ extern "C" {
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
 
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
+
+    PG_REGISTER(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
+    PG_REGISTER(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
+    PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
+	PG_REGISTER(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
 }
 
 #include "unittest_macros.h"
