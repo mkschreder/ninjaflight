@@ -32,6 +32,12 @@ PG_DECLARE_PROFILE(accelerometerConfig_t, accelerometerConfig);
 PG_DECLARE_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles);
 PG_DECLARE_PROFILE(rateProfileSelection_t, rateProfileSelection);
 
+#include "flight/mixer.h"
+PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
+PG_DECLARE(struct mixer_tilt_config, mixerTiltConfig);
+PG_DECLARE(struct mixer_config, mixerConfig);
+PG_DECLARE(struct motor_3d_config, motor3DConfig);
+
 // Keep synchronized with featureNames[] in serial_cli.c
 typedef enum {
     FEATURE_RX_PPM = 1 << 0,

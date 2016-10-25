@@ -107,8 +107,7 @@ PG_RESET_TEMPLATE(struct pid_config, pidProfile,
     .dterm_cut_hz = 0,
 );
 
-#include "flight/rate_profile.h"
-
+// RATE PROFILE
 static void pgResetFn_controlRateProfiles(struct rate_config *instance){
     for (int i = 0; i < MAX_CONTROL_RATE_PROFILE_COUNT; i++) {
         RESET_CONFIG(struct rate_config, &instance[i],
@@ -122,6 +121,43 @@ static void pgResetFn_controlRateProfiles(struct rate_config *instance){
 
 PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
 PG_REGISTER_ARR_WITH_RESET_FN(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
+
+// MIXER
+PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
+
+PG_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig,
+    .deadband3d_low = 1406,
+    .deadband3d_high = 1514,
+    .neutral3d = 1460,
+);
+
+#ifdef USE_SERVOS
+PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
+    .mixerMode = MIXER_QUADX,
+    .pid_at_min_throttle = 1,
+    .yaw_motor_direction = 1,
+    .yaw_jump_prevention_limit = 200,
+
+    .tri_unarmed_servo = 1,
+    .servo_lowpass_freq = 400.0f,
+);
+#else
+PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
+    .mixerMode = MIXER_QUADX,
+    .pid_at_min_throttle = 1,
+    .yaw_motor_direction = 1,
+    .yaw_jump_prevention_limit = 200,
+);
+#endif
+
+PG_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig,
+	.mode = MIXER_TILT_MODE_DYNAMIC, 
+	.control_channel = AUX1,
+	.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY 
+); 
 
 static void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex){
     rateProfileSelection_Storage[profileIndex].defaultRateProfileIndex = rateProfileIndex % MAX_CONTROL_RATE_PROFILE_COUNT;

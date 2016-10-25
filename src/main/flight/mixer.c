@@ -58,38 +58,12 @@
 #include "config/feature.h"
 #include "config/config_reset.h"
 
+#include "servos.h"
+
 //#define MIXER_DEBUG
 struct mixer default_mixer; 
-
-PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
-PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
-PG_REGISTER_WITH_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
-
-PG_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig,
-    .deadband3d_low = 1406,
-    .deadband3d_high = 1514,
-    .neutral3d = 1460,
-);
-
-
-#ifdef USE_SERVOS
-PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
-    .mixerMode = MIXER_QUADX,
-    .pid_at_min_throttle = 1,
-    .yaw_motor_direction = 1,
-    .yaw_jump_prevention_limit = 200,
-
-    .tri_unarmed_servo = 1,
-    .servo_lowpass_freq = 400.0f,
-);
-#else
-PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
-    .mixerMode = MIXER_QUADX,
-    .pid_at_min_throttle = 1,
-    .yaw_motor_direction = 1,
-    .yaw_jump_prevention_limit = 200,
-);
-#endif
+// TODO: remove this once we have refactored servo code
+extern int16_t servo[];
 
 /* QuadX
 4CW   2CCW
@@ -427,78 +401,26 @@ static int16_t _tilt_radians_to_pwm(float angle_radians) {
 }
 */
 
-static float _tilt_pwm_to_radians(int16_t channel) {
-    //check input
-    channel = constrain(channel, -500, 500);
-
-    float angle;
-    //take into account eventual non-linearity of the range
-    if (channel > 0){
-        angle = scaleRangef(channel, 0, 500, 0,  degreesToRadians(servo_angle_max) );
-    }else{
-        angle = scaleRangef(channel, 0, -500, 0, -degreesToRadians(servo_angle_min) );
-    }
-
-    return angle;
-}
-
-/*
- * return a float in range [-PI/2:+PI/2] witch represent the actual servo inclination wanted
- */
-static float _mixer_calc_tilt_angle(struct mixer *self) {
-    int16_t userInput = 0;
-    uint8_t isFixedPitch = false;
-	const float gearRatio = 100.0f; 
-    //get wanted position of the tilting servo
-	// TODO: if servo is enabled
-    //if (rc_get_channel_value(PITCH) >= rxConfig()->midrc) {
-        //userInput = rc_get_channel_value(PITCH) - 1500;
-        //isFixedPitch = true;
-    //} else {
-        userInput = rcCommand[PITCH]; //use rcCommand so we get expo and deadband
-    //}
-
-    if ( !FLIGHT_MODE(ANGLE_MODE) && !FLIGHT_MODE(HORIZON_MODE) && !isFixedPitch) {
-
-        //TODO: change this hardcoded value to something user can select; those affect the speed of the servo in rate mode
-        //user input is from -500 to 500, we want to scale it from -10deg to +10deg
-        float servoSpeed;
-        if (userInput > 0) {
-            servoSpeed = scaleRangef( userInput, 0, 500, 0, 0.017f );
-        } else {
-            servoSpeed = scaleRangef( userInput, 0, -500, 0, -0.017f);
-        }
-
-        self->lastServoAngleTilt += (servoSpeed * gearRatio) / 100.0f;
-
-        // prevent overshot and overflow/windup
-        self->lastServoAngleTilt = constrainf(self->lastServoAngleTilt, -degreesToRadians(servo_angle_min), degreesToRadians(servo_angle_max));
-
-        return self->lastServoAngleTilt;
-    } else {
-        self->lastServoAngleTilt = 0; //reset
-
-        return (_tilt_pwm_to_radians(userInput) * gearRatio) / 100.0f;
-    }
-	
-	return 0; 
-}
-
 static void _mixer_mix_tilt(struct mixer *self) {
-    float angleTilt = _mixer_calc_tilt_angle(self);
+    float angleTilt = degreesToRadians(self->motor_pitch * 0.1f);
     float tmpCosine = cos_approx(angleTilt);
-	// TODO: make this a config var
-	static const bool thrust_compensation = true; 
-	static const bool yaw_roll_compensation = true; 
-	static const bool body_compensation = true; 
+	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
+	// TODO: rewrite code that uses this. For now zero. 
 	int16_t liftoff_thrust = 0; 
 
-    if (thrust_compensation) {
+	// if static mode then for now we just set servos to middle and exit
+	if(tilt->mode == MIXER_TILT_MODE_STATIC){
+		servo[SERVO_TILT_P] = 1500; 
+		servo[SERVO_TILT_N] = 1500; 
+		return; 
+	}
+
+    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
         // compensate the throttle because motor orientation
         float pitchToCompensate = angleTilt;
 
         float bodyPitch = degreesToRadians(attitude.values.pitch);
-        if (body_compensation) {
+        if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) {
             pitchToCompensate += bodyPitch;
         }
 
@@ -519,10 +441,9 @@ static void _mixer_mix_tilt(struct mixer *self) {
         }
     }
 
-    //compensate the roll and yaw because motor orientation
-    if (yaw_roll_compensation) {
-
-        // ***** quick and dirty compensation to test *****
+    //compensate the roll and yaw because of motor orientation
+	// TODO: add support for quads that have props tilting in both roll and pitch direction
+    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
         float rollCompensation = axisPID[ROLL] * tmpCosine;
         float rollCompensationInv = axisPID[ROLL] - rollCompensation;
         float yawCompensation = axisPID[YAW] * tmpCosine;
@@ -531,6 +452,9 @@ static void _mixer_mix_tilt(struct mixer *self) {
         axisPID[ROLL] = yawCompensationInv + rollCompensation;
         axisPID[YAW] = yawCompensation + rollCompensationInv;
     }
+
+	servo[SERVO_TILT_P] = 1500 + self->motor_pitch; 
+	servo[SERVO_TILT_N] = 1500 - self->motor_pitch; 
 }
 
 void mixer_update(struct mixer *self)
@@ -708,6 +632,10 @@ void mixer_update(struct mixer *self)
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
     mixer_update_servos(self);
 #endif
+}
+
+void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd){
+	self->motor_pitch = constrain(pitch_angle_dd, -4500, 4500); 
 }
 
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value){

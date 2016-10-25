@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
 #include <math.h>
@@ -177,6 +178,8 @@ static void cliFlashRead(char *cmdline);
 static void cliSdInfo(char *cmdline);
 #endif
 
+static void cliTilt(char *cmdline); 
+
 // buffer
 static char cliBuffer[48];
 static uint32_t bufferIndex = 0;
@@ -189,7 +192,7 @@ static const char * const mixerNames[] = {
     "FLYING_WING", "Y4", "HEX6X", "OCTOX8", "OCTOFLATP", "OCTOFLATX",
     "AIRPLANE", "HELI_120_CCPM", "HELI_90_DEG", "VTAIL4",
     "HEX6H", "PPM_TO_SERVO", "DUALCOPTER", "SINGLECOPTER",
-    "ATAIL4", "CUSTOM", "CUSTOMAIRPLANE", "CUSTOMTRI", NULL
+    "ATAIL4", "TILT1", "TILT2", "CUSTOM", "CUSTOMAIRPLANE", "CUSTOMTRI", NULL
 };
 #endif
 
@@ -291,6 +294,11 @@ const clicmd_t cmdTable[] = {
         "\t<name>", cliMixer),
 #endif
     CLI_COMMAND_DEF("mmix", "custom motor mixer", NULL, cliMotorMix),
+	CLI_COMMAND_DEF("tilt", "Dynamic tilting arm configuration", 
+		"mode <dynamic|static>\n"
+		"in <AUX1|AUX2>\n"
+		"out1 <servo channel>\n"
+		"out2 <servo channel>\n", cliTilt),
     CLI_COMMAND_DEF("motor",  "get/set motor",
        "<index> [<value>]", cliMotor),
     CLI_COMMAND_DEF("play_sound", NULL,
@@ -1159,6 +1167,81 @@ static void cliMotorMix(char *cmdline)
         }
     }
 #endif
+}
+
+static const char *_channel_name(uint8_t chan){
+	switch(chan){
+		case ROLL: return "ROLL"; 
+		case PITCH: return "PITCH"; 
+		case YAW: return "YAW"; 
+		case THROTTLE: return "THROTTLE";
+		case AUX1: return "AUX1"; 
+		case AUX2: return "AUX2"; 
+		default: return "UNKNOWN";
+	}
+}
+
+static void cliTilt(char *cmdline)
+{
+    struct mixer_tilt_config *tilt = mixerTiltConfig();
+
+    if (isEmpty(cmdline)) {
+        // print out settings
+		cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
+		cliPrintf("control channel: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"Not used in dynamic mode":_channel_name(tilt->control_channel)); 
+		cliPrintf("compensate: "); 
+		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
+		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
+		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) cliPrintf("BODY "); 
+		cliPrintf("\n"); 
+    } else {
+		char params[4][16]; 
+		if(sscanf(cmdline, "%s %s", params[0], params[1]) == 2){
+			if(strcmp(params[0], "mode") == 0){
+				if(strcmp(params[1], "dynamic") == 0){
+					tilt->mode = MIXER_TILT_MODE_DYNAMIC; 
+				} else if(strcmp(params[1], "static") == 0){
+					tilt->mode = MIXER_TILT_MODE_STATIC; 
+				} else {
+					cliPrintf("Valid values: static,dynamic\n"); 
+				}
+			} else if(strcmp(params[0], "in") == 0){
+				if(strcmp(params[1], "PITCH") == 0){
+					tilt->control_channel = PITCH; 
+				} else if(strcmp(params[1], "ROLL") == 0){
+					tilt->control_channel = ROLL; 
+				} else if(strcmp(params[1], "AUX1") == 0){
+					tilt->control_channel = AUX1; 
+				} else if(strcmp(params[1], "AUX2") == 0){
+					tilt->control_channel = AUX2; 
+				} else {
+					cliPrintf("Unsupported control channel!\n"); 
+				}
+			} else if(strcmp(params[0], "compon") == 0){
+				if(strcmp(params[1], "body") == 0)
+					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_BODY; 
+				else if(strcmp(params[1], "thrust") == 0)
+					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_THRUST; 
+				else if(strcmp(params[1], "tilt") == 0)
+					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_TILT; 
+				else
+					cliPrintf("Invalid argument!\n"); 
+			} else if(strcmp(params[0], "compoff") == 0){
+				if(strcmp(params[1], "body") == 0)
+					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_BODY; 
+				else if(strcmp(params[1], "thrust") == 0)
+					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_THRUST; 
+				else if(strcmp(params[1], "tilt") == 0)
+					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_TILT; 
+				else
+					cliPrintf("Invalid argument!\n"); 
+			} else {
+				cliPrintf("Invalid argument!\n"); 
+			}
+		} else {
+			cliPrintf("Invalid argument!\n"); 
+		}
+    }
 }
 
 static void cliRxRange(char *cmdline)

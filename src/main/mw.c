@@ -706,36 +706,35 @@ static void taskMainPidLoop(void)
         }
     }
 #endif
-	if(mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2){
-		int16_t tmpPitch = rcCommand[PITCH];
-		/*
-		if ( (masterConfig.mixerMode == MIXER_QUADX_TILT || masterConfig.mixerMode == MIXER_OCTOX_TILT) && (currentProfile->tiltArm.flagEnabled & TILT_ARM_ENABLE_PITCH_DIVIDER) ) {
-			// compensate the pitch if in dynamic mode to be less aggressive
-			if (rcData[currentProfile->tiltArm.channel] < masterConfig.rxConfig.midrc) {
-				rcCommand[PITCH] /= currentProfile->tiltArm.pitchDivisior;
-			}
-		}*/
 
-		// run pid controller with modified pitch 
-		pid_controller(
-			pidProfile(),
-			currentControlRateProfile,
-			imuConfig()->max_angle_inclination,
-			&accelerometerConfig()->accelerometerTrims,
-			rxConfig()
-		);
-		
-		rcCommand[PITCH] = tmpPitch; 
-	} else {
-		// PID - note this is function pointer set by setPIDController()
-		pid_controller(
-			pidProfile(),
-			currentControlRateProfile,
-			imuConfig()->max_angle_inclination,
-			&accelerometerConfig()->accelerometerTrims,
-			rxConfig()
-		);
+	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
+	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2; 
+	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
+
+	// this makes sure that the control channel passed to the pid control is zero if we are using that channel for tilt
+	// NOTE: this can have funny effects for channels other than pitch and roll. For now I'll leave it this way. 
+	int16_t user_control = 0; 
+	if(is_tilt) {
+		user_control = rcCommand[tilt->control_channel]; 
+		rcCommand[tilt->control_channel] = 0; 
 	}
+
+	// run pid controller with modified pitch 
+	pid_controller(
+		pidProfile(),
+		currentControlRateProfile,
+		imuConfig()->max_angle_inclination,
+		&accelerometerConfig()->accelerometerTrims,
+		rxConfig()
+	);
+	
+	// restore tilt control channel
+	if(is_tilt){
+		rcCommand[tilt->control_channel] = user_control; 
+	}
+	
+	// TODO: move this somewhere else
+	mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 
     mixer_update(&default_mixer);
 

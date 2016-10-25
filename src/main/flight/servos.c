@@ -139,7 +139,11 @@ static const servoMixer_t servoMixerGimbal[] = {
     { SERVO_GIMBAL_PITCH, INPUT_GIMBAL_PITCH, 125, 0, 0, 100, 0 },
     { SERVO_GIMBAL_ROLL, INPUT_GIMBAL_ROLL,  125, 0, 0, 100, 0 },
 };
-
+ 
+static const servoMixer_t servoMixerTilt[] = {
+    { SERVO_TILT_P, INPUT_RC_AUX1, 100, 0, 0, 100, 0 },
+    { SERVO_TILT_N, INPUT_RC_AUX1, 100, 0, 0, 100, 0 },
+};
 
 const mixerRules_t servoMixers[] = {
     { 0, NULL },                // entry 0
@@ -165,6 +169,8 @@ const mixerRules_t servoMixers[] = {
     { COUNT_SERVO_RULES(servoMixerDual), servoMixerDual },      // MULTITYPE_DUALCOPTER
     { COUNT_SERVO_RULES(servoMixerSingle), servoMixerSingle },    // MULTITYPE_SINGLECOPTER
     { 0, NULL },                // MULTITYPE_ATAIL4
+    { COUNT_SERVO_RULES(servoMixerTilt), servoMixerTilt }, // TILT1
+    { COUNT_SERVO_RULES(servoMixerTilt), servoMixerTilt }, // TILT2
     { 0, NULL },                // MULTITYPE_CUSTOM
     { 0, NULL },                // MULTITYPE_CUSTOM_PLANE
     { 0, NULL },                // MULTITYPE_CUSTOM_TRI
@@ -344,6 +350,7 @@ static void updateGimbalServos(uint8_t firstServoIndex)
 
 void writeServos(struct mixer *self)
 {
+	UNUSED(self); 
     uint8_t servoIndex = 0;
 
     switch (mixerConfig()->mixerMode) {
@@ -389,11 +396,11 @@ void writeServos(struct mixer *self)
             }
             break;
 		case MIXER_QUADX_TILT1: 
-        	pwmWriteServo(servoIndex++, 1500 + self->tilt_pwm);
+        	pwmWriteServo(servoIndex++, servo[SERVO_TILT_P]);
 			break; 
 		case MIXER_QUADX_TILT2: 
-        	pwmWriteServo(servoIndex++, 1500 + self->tilt_pwm);
-        	pwmWriteServo(servoIndex++, 1500 - self->tilt_pwm);
+        	pwmWriteServo(servoIndex++, servo[SERVO_TILT_P]);
+        	pwmWriteServo(servoIndex++, servo[SERVO_TILT_N]);
 			break; 
         default:
             break;

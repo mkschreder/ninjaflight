@@ -70,7 +70,6 @@ struct motor_mixer {
     float yaw;
 };
 
-PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
 
 // Custom mixer configuration
 struct mixer_mode {
@@ -90,8 +89,8 @@ struct mixer {
 	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
 
 	struct motor_mixer *customMixers;
-
-	float lastServoAngleTilt; 
+	
+	int16_t motor_pitch; 
 	int16_t tilt_pwm; 
 };
 
@@ -110,15 +109,27 @@ struct mixer_config {
 #endif
 };
 
-PG_DECLARE(struct mixer_config, mixerConfig);
+typedef enum {
+	MIXER_TILT_MODE_STATIC,
+	MIXER_TILT_MODE_DYNAMIC
+} mixer_tilt_mode_t; 
+
+#define MIXER_TILT_COMPENSATE_THRUST (1 << 0)
+#define MIXER_TILT_COMPENSATE_TILT (1 << 1)
+#define MIXER_TILT_COMPENSATE_BODY (1 << 2)
+
+struct mixer_tilt_config {
+	uint8_t mode; 
+	uint8_t compensation_flags;  
+	uint8_t control_channel; 
+}; 
+
 
 struct motor_3d_config {
     uint16_t deadband3d_low;                // min 3d value
     uint16_t deadband3d_high;               // max 3d value
     uint16_t neutral3d;                     // center 3d value
 };
-
-PG_DECLARE(struct motor_3d_config, motor3DConfig);
 
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
 
@@ -132,6 +143,8 @@ void mixer_write_pwm(struct mixer *self);
 void mixer_stop_motors(struct mixer *self);
 void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
+
+void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd); 
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
 struct pwmIOConfiguration_s; // TODO: remove this kind of dependency 
 void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration); 
