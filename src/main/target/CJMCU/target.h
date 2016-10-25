@@ -33,6 +33,7 @@
 #define LED2
 #define LED2_PERIPHERAL RCC_APB2Periph_GPIOC
 
+#define USE_TILT 0
 
 #define ACC
 #define USE_ACC_MPU6050

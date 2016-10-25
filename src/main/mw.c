@@ -708,15 +708,17 @@ static void taskMainPidLoop(void)
 #endif
 
 	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
+	int16_t user_control = 0; 
 	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2; 
 	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
 
-	// this makes sure that the control channel passed to the pid control is zero if we are using that channel for tilt
-	// NOTE: this can have funny effects for channels other than pitch and roll. For now I'll leave it this way. 
-	int16_t user_control = 0; 
-	if(is_tilt) {
-		user_control = rcCommand[tilt->control_channel]; 
-		rcCommand[tilt->control_channel] = 0; 
+	if(USE_TILT){
+		// this makes sure that the control channel passed to the pid control is zero if we are using that channel for tilt
+		// NOTE: this can have funny effects for channels other than pitch and roll. For now I'll leave it this way. 
+		if(is_tilt) {
+			user_control = rcCommand[tilt->control_channel]; 
+			rcCommand[tilt->control_channel] = 0; 
+		}
 	}
 
 	// run pid controller with modified pitch 
@@ -727,14 +729,16 @@ static void taskMainPidLoop(void)
 		&accelerometerConfig()->accelerometerTrims,
 		rxConfig()
 	);
-	
-	// restore tilt control channel
-	if(is_tilt){
-		rcCommand[tilt->control_channel] = user_control; 
+
+	if(USE_TILT){
+		// restore tilt control channel
+		if(is_tilt){
+			rcCommand[tilt->control_channel] = user_control; 
+		}
+		
+		// TODO: move this somewhere else
+		mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 	}
-	
-	// TODO: move this somewhere else
-	mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 
     mixer_update(&default_mixer);
 

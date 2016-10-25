@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "SRFM"
 
+#define USE_TILT 0
 // early prototype had slightly different pin mappings.
 //#define SPRACINGF3MINI_MKII_REVA
 

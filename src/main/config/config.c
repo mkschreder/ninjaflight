@@ -126,7 +126,6 @@ PG_REGISTER_ARR_WITH_RESET_FN(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT
 PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
 PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
 PG_REGISTER_WITH_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
-PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
 
 PG_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig,
     .deadband3d_low = 1406,
@@ -153,6 +152,7 @@ PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
 );
 #endif
 
+PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
 PG_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig,
 	.mode = MIXER_TILT_MODE_DYNAMIC, 
 	.control_channel = AUX1,

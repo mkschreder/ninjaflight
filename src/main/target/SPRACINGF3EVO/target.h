@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "SPEV"
 
+#define USE_TILT 0
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_8
 #define LED0_PERIPHERAL RCC_AHBPeriph_GPIOB

@@ -19,6 +19,7 @@
 
 #pragma once
 
+#define USE_TILT 0
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_12
 #define LED0_PERIPHERAL RCC_AHBPeriph_GPIOB

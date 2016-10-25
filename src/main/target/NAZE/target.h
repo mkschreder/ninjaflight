@@ -197,6 +197,7 @@
 #define SERIAL_RX
 #define USE_SERVOS
 #define USE_CLI
+#define USE_TILT 1
 
 #define SPEKTRUM_BIND
 // UART2, PA3

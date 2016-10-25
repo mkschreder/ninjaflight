@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "CLBR"
 
+#define USE_TILT 0
 #define LED0_GPIO   GPIOC
 #define LED0_PIN    Pin_15
 #define LED0_PERIPHERAL RCC_AHBPeriph_GPIOC

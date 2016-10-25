@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define USE_TILT 0
 #define TARGET_BOARD_IDENTIFIER "LUX"
 #define BOARD_HAS_VOLTAGE_DIVIDER
 

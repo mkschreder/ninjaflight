@@ -62,8 +62,6 @@
 
 //#define MIXER_DEBUG
 struct mixer default_mixer; 
-// TODO: remove this once we have refactored servo code
-extern int16_t servo[];
 
 /* QuadX
 4CW   2CCW
@@ -381,27 +379,7 @@ static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_
 const float servo_angle_min = -45; 
 const float servo_angle_max = 45; 
 
-/*
-static int16_t _tilt_radians_to_pwm(float angle_radians) {
-    // normalize angle to range -PI to PI
-    while (angle_radians > M_PIf)
-        angle_radians -= M_PIf * 2;
-    while (angle_radians < -M_PIf)
-        angle_radians += M_PIf * 2;
-
-    //remap input value (RX limit) to output value (Servo limit), also take into account eventual non-linearity of the two half range
-    if (angle_radians > 0) {
-        angle_radians = scaleRangef(angle_radians, 0, degreesToRadians(servo_angle_max), 0, 500);
-    } else {
-        angle_radians = scaleRangef(angle_radians, 0, -degreesToRadians(servo_angle_min), 0, -500);
-    }
-
-    //just to be sure it is in range, because float
-    return constrain(angle_radians, -500, 500);
-}
-*/
-
-static void _mixer_mix_tilt(struct mixer *self) {
+static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self) {
     float angleTilt = degreesToRadians(self->motor_pitch * 0.1f);
     float tmpCosine = cos_approx(angleTilt);
 	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
@@ -411,10 +389,11 @@ static void _mixer_mix_tilt(struct mixer *self) {
 	// if static mode then for now we just set servos to middle and exit
 	if(tilt->mode == MIXER_TILT_MODE_STATIC){
 		servo[SERVO_TILT_P] = 1500; 
+	#if MAX_SUPPORTED_SERVOS > 1
 		servo[SERVO_TILT_N] = 1500; 
+	#endif
 		return; 
 	}
-
     if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
         // compensate the throttle because motor orientation
         float pitchToCompensate = angleTilt;
@@ -452,9 +431,11 @@ static void _mixer_mix_tilt(struct mixer *self) {
         axisPID[ROLL] = yawCompensationInv + rollCompensation;
         axisPID[YAW] = yawCompensation + rollCompensationInv;
     }
-
+	
 	servo[SERVO_TILT_P] = 1500 + self->motor_pitch; 
+	#if MAX_SUPPORTED_SERVOS > 1
 	servo[SERVO_TILT_N] = 1500 - self->motor_pitch; 
+	#endif
 }
 
 void mixer_update(struct mixer *self)
@@ -615,10 +596,6 @@ void mixer_update(struct mixer *self)
         }
     }
 
-	if(mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2){
-		_mixer_mix_tilt(self); 
-	}
-
     /* Disarmed for all mixers */
 	// TODO: this should be moved higher up in this function. Need to evaluate effects of doing that. 
     if (!ARMING_FLAG(ARMED)) {
@@ -630,7 +607,12 @@ void mixer_update(struct mixer *self)
     // motor outputs are used as sources for servo mixing, so motors must be calculated before servos.
 
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-    mixer_update_servos(self);
+	//if(!USE_QUAD_MIXER_ONLY && USE_SERVOS){
+		if(USE_TILT && (mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2)){
+			_mixer_mix_tilt(self); 
+		}
+		mixer_update_servos(self);
+	//}
 #endif
 }
 

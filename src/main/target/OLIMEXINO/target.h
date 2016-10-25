@@ -37,6 +37,7 @@
 #define LED1
 #endif
 
+#define USE_TILT 0
 #define GYRO
 #define USE_FAKE_GYRO
 //#define USE_GYRO_L3G4200D

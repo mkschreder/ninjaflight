@@ -1169,7 +1169,7 @@ static void cliMotorMix(char *cmdline)
 #endif
 }
 
-static const char *_channel_name(uint8_t chan){
+static const __unused char *_channel_name(uint8_t chan){
 	switch(chan){
 		case ROLL: return "ROLL"; 
 		case PITCH: return "PITCH"; 
@@ -1185,63 +1185,67 @@ static void cliTilt(char *cmdline)
 {
     struct mixer_tilt_config *tilt = mixerTiltConfig();
 
-    if (isEmpty(cmdline)) {
-        // print out settings
-		cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
-		cliPrintf("control channel: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"Not used in dynamic mode":_channel_name(tilt->control_channel)); 
-		cliPrintf("compensate: "); 
-		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
-		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
-		if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) cliPrintf("BODY "); 
-		cliPrintf("\n"); 
-    } else {
-		char params[4][16]; 
-		if(sscanf(cmdline, "%s %s", params[0], params[1]) == 2){
-			if(strcmp(params[0], "mode") == 0){
-				if(strcmp(params[1], "dynamic") == 0){
-					tilt->mode = MIXER_TILT_MODE_DYNAMIC; 
-				} else if(strcmp(params[1], "static") == 0){
-					tilt->mode = MIXER_TILT_MODE_STATIC; 
+	if(!USE_TILT){
+		cliPrintf("Not supported!\n"); 
+	} else {
+		if (isEmpty(cmdline)) {
+			// print out settings
+			cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
+			cliPrintf("control channel: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"Not used in dynamic mode":_channel_name(tilt->control_channel)); 
+			cliPrintf("compensate: "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) cliPrintf("BODY "); 
+			cliPrintf("\n"); 
+		} else {
+			char params[4][16]; 
+			if(sscanf(cmdline, "%s %s", params[0], params[1]) == 2){
+				if(strcmp(params[0], "mode") == 0){
+					if(strcmp(params[1], "dynamic") == 0){
+						tilt->mode = MIXER_TILT_MODE_DYNAMIC; 
+					} else if(strcmp(params[1], "static") == 0){
+						tilt->mode = MIXER_TILT_MODE_STATIC; 
+					} else {
+						cliPrintf("Valid values: static,dynamic\n"); 
+					}
+				} else if(strcmp(params[0], "in") == 0){
+					if(strcmp(params[1], "PITCH") == 0){
+						tilt->control_channel = PITCH; 
+					} else if(strcmp(params[1], "ROLL") == 0){
+						tilt->control_channel = ROLL; 
+					} else if(strcmp(params[1], "AUX1") == 0){
+						tilt->control_channel = AUX1; 
+					} else if(strcmp(params[1], "AUX2") == 0){
+						tilt->control_channel = AUX2; 
+					} else {
+						cliPrintf("Unsupported control channel!\n"); 
+					}
+				} else if(strcmp(params[0], "compon") == 0){
+					if(strcmp(params[1], "body") == 0)
+						tilt->compensation_flags |= MIXER_TILT_COMPENSATE_BODY; 
+					else if(strcmp(params[1], "thrust") == 0)
+						tilt->compensation_flags |= MIXER_TILT_COMPENSATE_THRUST; 
+					else if(strcmp(params[1], "tilt") == 0)
+						tilt->compensation_flags |= MIXER_TILT_COMPENSATE_TILT; 
+					else
+						cliPrintf("Invalid argument!\n"); 
+				} else if(strcmp(params[0], "compoff") == 0){
+					if(strcmp(params[1], "body") == 0)
+						tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_BODY; 
+					else if(strcmp(params[1], "thrust") == 0)
+						tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_THRUST; 
+					else if(strcmp(params[1], "tilt") == 0)
+						tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_TILT; 
+					else
+						cliPrintf("Invalid argument!\n"); 
 				} else {
-					cliPrintf("Valid values: static,dynamic\n"); 
-				}
-			} else if(strcmp(params[0], "in") == 0){
-				if(strcmp(params[1], "PITCH") == 0){
-					tilt->control_channel = PITCH; 
-				} else if(strcmp(params[1], "ROLL") == 0){
-					tilt->control_channel = ROLL; 
-				} else if(strcmp(params[1], "AUX1") == 0){
-					tilt->control_channel = AUX1; 
-				} else if(strcmp(params[1], "AUX2") == 0){
-					tilt->control_channel = AUX2; 
-				} else {
-					cliPrintf("Unsupported control channel!\n"); 
-				}
-			} else if(strcmp(params[0], "compon") == 0){
-				if(strcmp(params[1], "body") == 0)
-					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_BODY; 
-				else if(strcmp(params[1], "thrust") == 0)
-					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_THRUST; 
-				else if(strcmp(params[1], "tilt") == 0)
-					tilt->compensation_flags |= MIXER_TILT_COMPENSATE_TILT; 
-				else
 					cliPrintf("Invalid argument!\n"); 
-			} else if(strcmp(params[0], "compoff") == 0){
-				if(strcmp(params[1], "body") == 0)
-					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_BODY; 
-				else if(strcmp(params[1], "thrust") == 0)
-					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_THRUST; 
-				else if(strcmp(params[1], "tilt") == 0)
-					tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_TILT; 
-				else
-					cliPrintf("Invalid argument!\n"); 
+				}
 			} else {
 				cliPrintf("Invalid argument!\n"); 
 			}
-		} else {
-			cliPrintf("Invalid argument!\n"); 
 		}
-    }
+	}
 }
 
 static void cliRxRange(char *cmdline)

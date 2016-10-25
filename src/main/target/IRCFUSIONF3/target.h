@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "IFF3"
 
+#define USE_TILT 0
 #define LED0
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_3
