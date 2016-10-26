@@ -40,7 +40,6 @@ typedef struct gyroConfig_s {
     uint16_t soft_gyro_lpf_hz;                  // Software based gyro filter in hz
 } gyroConfig_t;
 
-PG_DECLARE(gyroConfig_t, gyroConfig);
 
 void gyroSetCalibrationCycles(uint16_t calibrationCyclesRequired);
 void gyroUpdate(void);

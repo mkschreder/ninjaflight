@@ -49,7 +49,7 @@
 #include "io/gps.h"
 
 #include "flight/gps_conversion.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/navigation.h"
 
 

@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 
 #ifdef SRC_MAIN_SCHEDULER_C_
 #ifdef UNIT_TEST
@@ -44,6 +44,8 @@ bool unittest_outsideRealtimeGuardInterval;
 #endif
 #endif
 
+#if 0
+// NOTE: this is retarded
 
 #ifdef SRC_MAIN_FLIGHT_PID_LUXFLOAT_C_
 #ifdef UNIT_TEST
@@ -117,4 +119,5 @@ int32_t unittest_pidMultiWiiRewriteCore_DTerm[3];
 
 #endif // UNIT_TEST
 #endif // SRC_MAIN_FLIGHT_PID_MWREWRITE_C_
+#endif
 

@@ -63,7 +63,7 @@
 #include "rx/rx.h"
 
 #include "flight/mixer.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/altitudehold.h"

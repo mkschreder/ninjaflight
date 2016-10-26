@@ -42,7 +42,7 @@ extern "C" {
     #include "sensors/acceleration.h"
 
     #include "rx/rx.h"
-    #include "flight/pid.h"
+    #include "flight/anglerate_controller.h"
     #include "flight/imu.h"
     #include "flight/mixer.h"
     #include "flight/servos.h"
@@ -107,7 +107,7 @@ extern "C" {
 attitudeEulerAngles_t attitude;
 rxRuntimeConfig_t rxRuntimeConfig;
 
-int16_t axisPID[XYZ_AXIS_COUNT];
+pid_controller_output_t pid_output; 
 int16_t rcCommand[4];
 int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
 // TODO: proper way to do this is to write a mock receiver
@@ -287,7 +287,7 @@ protected:
 
         memset(rcData, 0, sizeof(rcData));
         memset(rcCommand, 0, sizeof(rcCommand));
-        memset(axisPID, 0, sizeof(axisPID));
+        memset(&pid_output, 0, sizeof(pid_output));
         memset(customMotorMixer_arr(), 0, sizeof(*customMotorMixer_arr()));
     }
 
@@ -341,10 +341,10 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
     mixerUsePWMIOConfiguration(&default_mixer, &pwmIOConfiguration);
 
     // and
-    axisPID[FD_YAW] = 0;
+	pid_output.axis[FD_YAW] = 0;
 
     // when
-    mixer_update(&default_mixer);
+    mixer_update(&default_mixer, &pid_output);
     writeServos(&default_mixer);
 
     // then
@@ -378,12 +378,11 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
     memset(rcCommand, 0, sizeof(rcCommand));
 
     // and
-    memset(axisPID, 0, sizeof(axisPID));
-    axisPID[FD_YAW] = 0;
-
+    memset(&pid_output, 0, sizeof(pid_output));
+	pid_output.axis[FD_YAW] = 0; 
 
     // when
-    mixer_update(&default_mixer);
+    mixer_update(&default_mixer, &pid_output);
     mixer_write_pwm(&default_mixer);
 
     // then
@@ -470,12 +469,10 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
     rcData[AUX1] = 2000;
 
     // and
-    memset(axisPID, 0, sizeof(axisPID));
-    axisPID[FD_YAW] = 0;
-
+    memset(&pid_output, 0, sizeof(pid_output));
 
     // when
-    mixer_update(&default_mixer);
+    mixer_update(&default_mixer, &pid_output);
     mixer_write_pwm(&default_mixer);
     writeServos(&default_mixer);
 

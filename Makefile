@@ -253,10 +253,7 @@ COMMON_SRC = build_config.c \
 		   mw.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
-		   flight/pid.c \
-		   flight/pid_luxfloat.c \
-		   flight/pid_mwrewrite.c \
-		   flight/pid_mw23.c \
+		   flight/anglerate_controller.c \
 		   flight/rate_profile.c \
 		   flight/imu.c \
 		   flight/mixer.c \
@@ -728,10 +725,7 @@ IRCFUSIONF3_SRC = \
 SITL_SRC = \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
-		   flight/pid.c \
-		   flight/pid_luxfloat.c \
-		   flight/pid_mwrewrite.c \
-		   flight/pid_mw23.c \
+		   flight/anglerate_controller.c \
 		   flight/imu.c \
 		   flight/mixer.c \
 		   flight/servos.c \

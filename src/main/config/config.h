@@ -20,11 +20,15 @@
 #define MAX_PROFILE_COUNT 3
 #define ONESHOT_FEATURE_CHANGED_DELAY_ON_BOOT_MS 1500
 
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 PG_DECLARE_PROFILE(struct pid_config, pidProfile);
+
+#include "sensors/sensors.h"
 PG_DECLARE(sensorSelectionConfig_t, sensorSelectionConfig);
 PG_DECLARE(sensorAlignmentConfig_t, sensorAlignmentConfig);
 PG_DECLARE(sensorTrims_t, sensorTrims);
+
+#include "sensors/acceleration.h"
 PG_DECLARE_PROFILE(accelerometerConfig_t, accelerometerConfig);
 
 #include "flight/rate_profile.h"
@@ -38,6 +42,9 @@ PG_DECLARE(struct mixer_config, mixerConfig);
 PG_DECLARE(struct motor_3d_config, motor3DConfig);
 
 PG_DECLARE(struct mixer_tilt_config, mixerTiltConfig);
+
+#include "sensors/gyro.h"
+PG_DECLARE(gyroConfig_t, gyroConfig);
 
 // Keep synchronized with featureNames[] in serial_cli.c
 typedef enum {

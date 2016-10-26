@@ -92,7 +92,7 @@
 #include "telemetry/telemetry.h"
 #include "blackbox/blackbox.h"
 
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/servos.h"
@@ -529,6 +529,9 @@ static void init(void)
 #ifdef USE_CLI
     cliInit();
 #endif
+
+	// is this ok here? 
+	anglerate_controller_init(&default_controller); 
 
     failsafeInit();
 

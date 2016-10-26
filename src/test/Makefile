@@ -236,57 +236,27 @@ $(OBJECT_DIR)/flight_imu_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-$(OBJECT_DIR)/flight/pid.o : \
-	$(USER_DIR)/flight/pid.c \
-	$(USER_DIR)/flight/pid.h \
+$(OBJECT_DIR)/flight/anglerate_controller.o : \
+	$(USER_DIR)/flight/anglerate_controller.c \
+	$(USER_DIR)/flight/anglerate_controller.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/pid.c -o $@
-
-$(OBJECT_DIR)/flight/pid_luxfloat.o : \
-	$(USER_DIR)/flight/pid_luxfloat.c \
-	$(USER_DIR)/flight/pid.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/pid_luxfloat.c -o $@
-
-$(OBJECT_DIR)/flight/pid_mwrewrite.o : \
-	$(USER_DIR)/flight/pid_mwrewrite.c \
-	$(USER_DIR)/flight/pid.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/pid_mwrewrite.c -o $@
-
-$(OBJECT_DIR)/flight/pid_mw23.o : \
-	$(USER_DIR)/flight/pid_mw23.c \
-	$(USER_DIR)/flight/pid.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/pid_mw23.c -o $@
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/anglerate_controller.c -o $@
 
 $(OBJECT_DIR)/flight_pid_unittest.o : \
 	$(TEST_DIR)/flight_pid_unittest.cc \
-	$(USER_DIR)/flight/pid.h \
-	$(USER_DIR)/flight/pid.c \
-	$(USER_DIR)/flight/pid_luxfloat.c \
-	$(USER_DIR)/flight/pid_mwrewrite.c \
-	$(USER_DIR)/flight/pid_mw23.c \
+	$(USER_DIR)/flight/anglerate_controller.h \
+	$(USER_DIR)/flight/anglerate_controller.c \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_pid_unittest.cc -o $@
+	$(CXX) $(CXX_FLAGS) -DBLACKBOX $(TEST_CFLAGS) -c $(TEST_DIR)/flight_pid_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/flight/pid.o \
-	$(OBJECT_DIR)/flight/pid_luxfloat.o \
-	$(OBJECT_DIR)/flight/pid_mwrewrite.o \
-	$(OBJECT_DIR)/flight/pid_mw23.o \
+	$(OBJECT_DIR)/flight/anglerate_controller.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 

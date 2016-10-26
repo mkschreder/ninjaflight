@@ -57,7 +57,7 @@
 #include "flight/servos.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/navigation.h"
 
 
@@ -131,6 +131,16 @@ PG_RESET_TEMPLATE(struct motor_3d_config, motor3DConfig,
     .deadband3d_low = 1406,
     .deadband3d_high = 1514,
     .neutral3d = 1460,
+);
+
+// GYRO
+PG_REGISTER_WITH_RESET_TEMPLATE(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
+
+PG_RESET_TEMPLATE(gyroConfig_t, gyroConfig,
+    .gyro_lpf = 1,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
+    .soft_gyro_lpf_hz = 60,        // Software based lpf filter for gyro
+
+    .gyroMovementCalibrationThreshold = 32,
 );
 
 #ifdef USE_SERVOS
@@ -255,7 +265,7 @@ static void activateConfig(void)
 
     useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
 
-    pidSetController(pidProfile()->pidController);
+    anglerate_controller_set_algo(&default_controller, pidProfile()->pidController);
 
 #ifdef GPS
     gpsUsePIDs(pidProfile());

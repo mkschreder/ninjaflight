@@ -56,7 +56,7 @@ extern "C" {
     #include "io/rc_controls.h"
 
     #include "flight/mixer.h"
-    #include "flight/pid.h"
+    #include "flight/anglerate_controller.h"
     #include "flight/imu.h"
 
     PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);

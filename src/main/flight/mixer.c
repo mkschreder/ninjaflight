@@ -49,7 +49,7 @@
 
 #include "flight/mixer.h"
 #include "flight/failsafe.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 
 #include "config/parameter_group_ids.h"
@@ -379,7 +379,7 @@ static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_
 const float servo_angle_min = -45; 
 const float servo_angle_max = 45; 
 
-static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self) {
+static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self, int16_t axis[3]) {
     float angleTilt = degreesToRadians(self->motor_pitch * 0.1f);
     float tmpCosine = cos_approx(angleTilt);
 	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
@@ -423,13 +423,13 @@ static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self) {
     //compensate the roll and yaw because of motor orientation
 	// TODO: add support for quads that have props tilting in both roll and pitch direction
     if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
-        float rollCompensation = axisPID[ROLL] * tmpCosine;
-        float rollCompensationInv = axisPID[ROLL] - rollCompensation;
-        float yawCompensation = axisPID[YAW] * tmpCosine;
-        float yawCompensationInv = axisPID[YAW] - yawCompensation;
+        float rollCompensation = axis[ROLL] * tmpCosine;
+        float rollCompensationInv = axis[ROLL] - rollCompensation;
+        float yawCompensation = axis[YAW] * tmpCosine;
+        float yawCompensationInv = axis[YAW] - yawCompensation;
 
-        axisPID[ROLL] = yawCompensationInv + rollCompensation;
-        axisPID[YAW] = yawCompensation + rollCompensationInv;
+        axis[ROLL] = yawCompensationInv + rollCompensation;
+        axis[YAW] = yawCompensation + rollCompensationInv;
     }
 	
 	servo[SERVO_TILT_P] = 1500 + self->motor_pitch; 
@@ -438,15 +438,15 @@ static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self) {
 	#endif
 }
 
-void mixer_update(struct mixer *self)
-{
+void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis){
     uint32_t i;
+	int16_t axis[3] = {pid_axis->axis[0], pid_axis->axis[1], pid_axis->axis[2]}; 
 
     bool isFailsafeActive = failsafeIsActive();
 
     if (self->motorCount >= 4 && mixerConfig()->yaw_jump_prevention_limit < YAW_JUMP_PREVENTION_LIMIT_HIGH) {
         // prevent "yaw jump" during yaw correction
-        axisPID[FD_YAW] = constrain(axisPID[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
+        axis[FD_YAW] = constrain(axis[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
     }
 
     if (rcModeIsActive(BOXAIRMODE)) {
@@ -458,9 +458,9 @@ void mixer_update(struct mixer *self)
         // Find roll/pitch/yaw desired output
         for (i = 0; i < self->motorCount; i++) {
             rollPitchYawMix[i] =
-                axisPID[FD_PITCH] * self->currentMixer[i].pitch +
-                axisPID[FD_ROLL] * self->currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * self->currentMixer[i].yaw;
+                axis[FD_PITCH] * self->currentMixer[i].pitch +
+                axis[FD_ROLL] * self->currentMixer[i].roll +
+                -mixerConfig()->yaw_motor_direction * axis[FD_YAW] * self->currentMixer[i].yaw;
 
             if (rollPitchYawMix[i] > rollPitchYawMixMax) rollPitchYawMixMax = rollPitchYawMix[i];
             if (rollPitchYawMix[i] < rollPitchYawMixMin) rollPitchYawMixMin = rollPitchYawMix[i];
@@ -535,9 +535,9 @@ void mixer_update(struct mixer *self)
         for (i = 0; i < self->motorCount; i++) {
             self->motor[i] =
                 rcCommand[THROTTLE] * self->currentMixer[i].throttle +
-                axisPID[FD_PITCH] * self->currentMixer[i].pitch +
-                axisPID[FD_ROLL] * self->currentMixer[i].roll +
-                -mixerConfig()->yaw_motor_direction * axisPID[FD_YAW] * self->currentMixer[i].yaw;
+                axis[FD_PITCH] * self->currentMixer[i].pitch +
+                axis[FD_ROLL] * self->currentMixer[i].roll +
+                -mixerConfig()->yaw_motor_direction * axis[FD_YAW] * self->currentMixer[i].yaw;
         }
 
         // Find the maximum motor output.
@@ -609,9 +609,9 @@ void mixer_update(struct mixer *self)
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
 	//if(!USE_QUAD_MIXER_ONLY && USE_SERVOS){
 		if(USE_TILT && (mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2)){
-			_mixer_mix_tilt(self); 
+			_mixer_mix_tilt(self, axis); 
 		}
-		mixer_update_servos(self);
+		mixer_update_servos(self, pid_axis);
 	//}
 #endif
 }

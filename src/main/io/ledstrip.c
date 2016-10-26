@@ -41,7 +41,7 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/failsafe.h"
 
 #include "io/rc_controls.h"

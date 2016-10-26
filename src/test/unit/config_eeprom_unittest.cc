@@ -30,7 +30,7 @@ extern "C" {
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
 
-    #include "flight/pid.h"
+    #include "flight/anglerate_controller.h"
 
     #include "drivers/sensor.h"
     #include "drivers/timer.h"
@@ -90,7 +90,7 @@ extern "C" {
     PG_REGISTER_PROFILE(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
 
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-    PG_REGISTER(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
+    //PG_REGISTER(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
     PG_REGISTER(sensorTrims_t, sensorTrims, PG_SENSOR_TRIMS, 0);
     PG_REGISTER(batteryConfig_t, batteryConfig, PG_BATTERY_CONFIG, 0);
     //PG_REGISTER_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
@@ -113,6 +113,9 @@ extern "C" {
     PG_REGISTER(sensorSelectionConfig_t, sensorSelectionConfig, PG_SENSOR_SELECTION_CONFIG, 0);
     PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
     //PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
+	
+	struct anglerate_controller default_controller; 
+	void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo);}
 
     typedef struct someSystemData_s {
         uint32_t uint32;

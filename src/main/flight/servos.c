@@ -58,7 +58,7 @@
 #include "flight/mixer.h"
 #include "flight/servos.h"
 #include "flight/failsafe.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 
 extern struct mixer_mode mixers[];
@@ -419,8 +419,9 @@ void writeServos(struct mixer *self)
     }
 }
 
-STATIC_UNIT_TESTED void servoMixer(void)
+STATIC_UNIT_TESTED void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis)
 {
+	UNUSED(self); 
     int16_t input[INPUT_SOURCE_COUNT]; // Range [-500:+500]
     static int16_t currentOutput[MAX_SERVO_RULES];
     uint8_t i;
@@ -432,9 +433,9 @@ STATIC_UNIT_TESTED void servoMixer(void)
         input[INPUT_STABILIZED_YAW] = rcCommand[YAW];
     } else {
         // Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
-        input[INPUT_STABILIZED_ROLL] = axisPID[FD_ROLL];
-        input[INPUT_STABILIZED_PITCH] = axisPID[FD_PITCH];
-        input[INPUT_STABILIZED_YAW] = axisPID[FD_YAW];
+        input[INPUT_STABILIZED_ROLL] = pid_axis->axis[FD_ROLL];
+        input[INPUT_STABILIZED_PITCH] = pid_axis->axis[FD_PITCH];
+        input[INPUT_STABILIZED_YAW] = pid_axis->axis[FD_YAW];
 
         // Reverse yaw servo when inverted in 3D mode
         if (feature(FEATURE_3D) && (rc_get_channel_value(THROTTLE) < rxConfig()->midrc)) {
@@ -497,8 +498,7 @@ STATIC_UNIT_TESTED void servoMixer(void)
 }
 
 // airplane / servo mixes
-void mixer_update_servos(struct mixer *self)
-{
+void mixer_update_servos(struct mixer *self, const pid_controller_output_t *pid_axis){
 	(void)self; 
     switch (mixerConfig()->mixerMode) {
         case MIXER_CUSTOM_AIRPLANE:
@@ -510,7 +510,7 @@ void mixer_update_servos(struct mixer *self)
         case MIXER_DUALCOPTER:
         case MIXER_SINGLECOPTER:
         case MIXER_GIMBAL:
-            servoMixer();
+            servoMixer(self, pid_axis);
             break;
 
         /*

@@ -928,14 +928,15 @@ static void loadMainState(void)
 
     blackboxCurrent->time = currentTime;
 
+	const pid_controller_output_t *out = anglerate_controller_get_output_ptr(&default_controller); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->axisPID_P[i] = axisPID_P[i];
+        blackboxCurrent->axisPID_P[i] = out->axis_P[i];
     }
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->axisPID_I[i] = axisPID_I[i];
+        blackboxCurrent->axisPID_I[i] = out->axis_I[i];
     }
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->axisPID_D[i] = axisPID_D[i];
+        blackboxCurrent->axisPID_D[i] = out->axis_D[i];
     }
 
     for (i = 0; i < 4; i++) {

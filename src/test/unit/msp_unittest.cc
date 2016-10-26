@@ -69,7 +69,7 @@ extern "C" {
 
     #include "flight/mixer.h"
     #include "flight/servos.h"
-    #include "flight/pid.h"
+    #include "flight/anglerate_controller.h"
     #include "flight/navigation.h"
     #include "flight/imu.h"
     #include "flight/failsafe.h"
@@ -559,7 +559,8 @@ int16_t GPS_directionToHome;        // direction to home or hol point in degrees
 navigationMode_e nav_mode = NAV_MODE_NONE;    // Navigation mode
 void GPS_set_next_wp(int32_t *, int32_t *) {}
 // from pid.c
-void pidSetController(pid_controller_type_t t) {}
+struct anglerate_controller default_controller; 
+void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo); }
 // from rc_controls.c
 uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }

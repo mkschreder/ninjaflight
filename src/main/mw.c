@@ -74,7 +74,7 @@
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
 #include "flight/servos.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 #include "flight/altitudehold.h"
 #include "flight/failsafe.h"
@@ -115,13 +115,10 @@ static uint32_t disarmAt;     // Time of automatic disarm when "Don't spin the m
 
 extern uint32_t currentTime;
 extern uint8_t PIDweight[3];
-extern uint8_t dynP8[3], dynI8[3], dynD8[3];
 
 static bool isRXDataNew;
 static filterStatePt1_t filteredCycleTimeState;
 uint16_t filteredCycleTime;
-
-extern pidControllerFuncPtr pid_controller;
 
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta)
 {
@@ -218,16 +215,15 @@ static void updateRcCommands(void)
         }
 #ifndef SKIP_PID_MW23
         // FIXME axis indexes into pids.  use something like lookupPidIndex(rc_alias_e alias) to reduce coupling.
-        dynP8[axis] = (uint16_t)pidProfile()->P8[axis] * prop1 / 100;
-        dynI8[axis] = (uint16_t)pidProfile()->I8[axis] * prop1 / 100;
-        dynD8[axis] = (uint16_t)pidProfile()->D8[axis] * prop1 / 100;
+		// TODO: move this kind of shit into pid controller module
+		anglerate_controller_set_pid_axis_scale(&default_controller, axis, prop1);
 #endif
         // non coupled PID reduction scaler used in PID controller 1 and PID controller 2. YAW TPA disabled. 100 means 100% of the pids
         if (axis == YAW) {
-            PIDweight[axis] = 100;
+			anglerate_controller_set_pid_axis_weight(&default_controller, axis, 100); 
         }
         else {
-            PIDweight[axis] = prop2;
+			anglerate_controller_set_pid_axis_weight(&default_controller, axis, prop2); 
         }
 
         if (rc_get_channel_value(axis) < rxConfig()->midrc)
@@ -441,9 +437,9 @@ static void processRx(void)
             }
         } else {
 #ifndef SKIP_PID_MW23
-            pidResetITermAngle();
+            anglerate_controller_reset_angle_i(&default_controller);
 #endif
-            pidResetITerm();
+            anglerate_controller_reset_rate_i(&default_controller);
         }
     } else {
         DISABLE_STATE(ANTI_WINDUP);
@@ -514,7 +510,7 @@ static void processRx(void)
 
         if (!FLIGHT_MODE(ANGLE_MODE)) {
 #ifndef SKIP_PID_MW23
-            pidResetITermAngle();
+            anglerate_controller_reset_angle_i(&default_controller);
 #endif
             ENABLE_FLIGHT_MODE(ANGLE_MODE);
         }
@@ -528,7 +524,7 @@ static void processRx(void)
 
         if (!FLIGHT_MODE(HORIZON_MODE)) {
 #ifndef SKIP_PID_MW23
-            pidResetITermAngle();
+            anglerate_controller_reset_angle_i(&default_controller);
 #endif
             ENABLE_FLIGHT_MODE(HORIZON_MODE);
         }
@@ -721,14 +717,17 @@ static void taskMainPidLoop(void)
 		}
 	}
 
-	// run pid controller with modified pitch 
-	pid_controller(
+	// TODO: move this once we have tested current refactored code 
+	anglerate_controller_set_configs(&default_controller, 
 		pidProfile(),
 		currentControlRateProfile,
 		imuConfig()->max_angle_inclination,
 		&accelerometerConfig()->accelerometerTrims,
 		rxConfig()
-	);
+	); 
+
+	// run pid controller with modified pitch 
+	anglerate_controller_update(&default_controller);
 
 	if(USE_TILT){
 		// restore tilt control channel
@@ -740,7 +739,7 @@ static void taskMainPidLoop(void)
 		mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 	}
 
-    mixer_update(&default_mixer);
+    mixer_update(&default_mixer, anglerate_controller_get_output_ptr(&default_controller));
 
 #ifdef USE_SERVOS
     filterServos(&default_mixer);

@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "SPKY" // SParKY
 
+#define USE_TILT 0
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_4  // Blue (Rev 1 & 2) - PB4
 #define LED0_PERIPHERAL RCC_AHBPeriph_GPIOB

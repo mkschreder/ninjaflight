@@ -81,7 +81,7 @@
 
 #include "flight/mixer.h"
 #include "flight/servos.h"
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
@@ -1091,7 +1091,7 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_SET_PID_CONTROLLER:
             pidProfile()->pidController = sbufReadU8(src);
-            pidSetController(pidProfile()->pidController);
+            anglerate_controller_set_algo(&default_controller, pidProfile()->pidController);
             break;
 
         case MSP_SET_PID:

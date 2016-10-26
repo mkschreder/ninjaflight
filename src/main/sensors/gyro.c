@@ -26,6 +26,7 @@
 #include "common/maths.h"
 #include "common/filter.h"
 
+#include "config/config.h"
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
 #include "config/config_reset.h"
@@ -55,15 +56,6 @@ static int32_t gyroZero[XYZ_AXIS_COUNT] = { 0, 0, 0 };
 
 static biquad_t gyroFilterState[3];
 static bool gyroFilterStateIsSet;
-
-PG_REGISTER_WITH_RESET_TEMPLATE(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
-
-PG_RESET_TEMPLATE(gyroConfig_t, gyroConfig,
-    .gyro_lpf = 1,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
-    .soft_gyro_lpf_hz = 60,        // Software based lpf filter for gyro
-
-    .gyroMovementCalibrationThreshold = 32,
-);
 
 static void initGyroFilterCoefficients(void)
 {

@@ -44,7 +44,7 @@
 #include "sensors/gyro.h"
 #include "sensors/acceleration.h"
 
-#include "flight/pid.h"
+#include "flight/anglerate_controller.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
 

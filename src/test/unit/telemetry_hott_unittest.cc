@@ -44,7 +44,7 @@ extern "C" {
     #include "telemetry/telemetry.h"
     #include "telemetry/hott.h"
 
-    #include "flight/pid.h"
+    #include "flight/anglerate_controller.h"
     #include "flight/gps_conversion.h"
 }
 

@@ -50,8 +50,8 @@
 #include "sensors/sonar.h"
 
 #include "flight/mixer.h"
-#include "flight/pid.h"
 #include "flight/imu.h"
+#include "flight/anglerate_controller.h"
 
 #include "io/gps.h"
 

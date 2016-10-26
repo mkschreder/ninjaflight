@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "anglerate_controller.h"
+
 #if defined(USE_QUAD_MIXER_ONLY)
 #define MAX_SUPPORTED_MOTORS 4
 
@@ -137,8 +139,8 @@ void mixer_init(struct mixer *self, struct motor_mixer *custom_mixers, uint8_t c
 void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc);
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
 void mixer_reset_disarmed_pwm_values(struct mixer *self);
-void mixer_update(struct mixer *self);
-void mixer_update_servos(struct mixer *self);
+void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis);
+void mixer_update_servos(struct mixer *self, const pid_controller_output_t *pid_axis); 
 void mixer_write_pwm(struct mixer *self);
 void mixer_stop_motors(struct mixer *self);
 void mixer_stop_pwm_all_motors(struct mixer *self);
