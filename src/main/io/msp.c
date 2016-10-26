@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <stdbool.h>
@@ -756,11 +756,11 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
 #ifdef GPS
             sbufWriteU8(dst, gpsConfig()->provider); // gps_type
-            sbufWriteU8(dst, 0); // TODO gps_baudrate (an index, cleanflight uses a uint32_t
+            sbufWriteU8(dst, 0); // TODO gps_baudrate (an index, ninjaflight uses a uint32_t
             sbufWriteU8(dst, gpsConfig()->sbasMode); // gps_ubx_sbas
 #else
             sbufWriteU8(dst, 0); // gps_type
-            sbufWriteU8(dst, 0); // TODO gps_baudrate (an index, cleanflight uses a uint32_t
+            sbufWriteU8(dst, 0); // TODO gps_baudrate (an index, ninjaflight uses a uint32_t
             sbufWriteU8(dst, 0); // gps_ubx_sbas
 #endif
             sbufWriteU8(dst, batteryConfig()->multiwiiCurrentMeterOutput);

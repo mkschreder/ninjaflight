@@ -5,7 +5,7 @@
 # this stuff is worth it, you can buy me a beer in return
 ###############################################################################
 #
-# Makefile for building the cleanflight firmware.
+# Makefile for building the ninjaflight firmware.
 #
 # Invoke this with 'make help' to see the list of supported targets.
 #
@@ -34,7 +34,7 @@ FLASH_SIZE ?=
 # Things that need to be maintained as the source changes
 #
 
-FORKNAME			 = cleanflight
+FORKNAME			 = ninjaflight
 
 64K_TARGETS  = CJMCU
 128K_TARGETS = ALIENFLIGHTF1 CC3D NAZE OLIMEXINO RMDO
@@ -960,8 +960,8 @@ help: Makefile
 	@echo ""
 	@sed -n 's/^## //p' $<
 
-## test        : run the cleanflight test suite
-## junittest   : run the cleanflight test suite, producing Junit XML result files.
+## test        : run the ninjaflight test suite
+## junittest   : run the ninjaflight test suite, producing Junit XML result files.
 test junittest:
 	cd src/test && $(MAKE) $@
 

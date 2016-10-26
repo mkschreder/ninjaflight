@@ -1,6 +1,6 @@
 /*
  * SmartPort Telemetry implementation by frank26080115
- * see https://github.com/frank26080115/cleanflight/wiki/Using-Smart-Port
+ * see https://github.com/frank26080115/ninjaflight/wiki/Using-Smart-Port
  */
 #include <stdbool.h>
 #include <stdint.h>

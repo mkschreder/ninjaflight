@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -97,7 +97,7 @@
 #define MSP_BUILD_INFO                  5    //out message
 
 //
-// MSP commands for Cleanflight original features
+// MSP commands for Ninjaflight original features
 //
 #define MSP_MODE_RANGES                 34    //out message         Returns all mode ranges
 #define MSP_SET_MODE_RANGE              35    //in message          Sets a single mode range
@@ -169,13 +169,13 @@
 #define MSP_SET_LED_STRIP_MODECOLOR     87 //in  message         Set LED strip mode_color settings
 
 //
-// Baseflight MSP commands (if enabled they exist in Cleanflight)
+// Baseflight MSP commands (if enabled they exist in Ninjaflight)
 //
 #define MSP_RX_MAP                      64 //out message get channel map (also returns number of channels total)
 #define MSP_SET_RX_MAP                  65 //in message set rx map, numchannels to set comes from MSP_RX_MAP
 
 // FIXME - Provided for backwards compatibility with configurator code until configurator is updated.
-// DEPRECATED - DO NOT USE "MSP_BF_CONFIG" and MSP_SET_BF_CONFIG.  In Cleanflight, isolated commands already exist and should be used instead.
+// DEPRECATED - DO NOT USE "MSP_BF_CONFIG" and MSP_SET_BF_CONFIG.  In Ninjaflight, isolated commands already exist and should be used instead.
 #define MSP_BF_CONFIG                   66 //out message baseflight-specific settings that aren't covered elsewhere
 #define MSP_SET_BF_CONFIG               67 //in message baseflight-specific settings save
 

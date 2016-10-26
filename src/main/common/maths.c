@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <stdint.h>
@@ -26,7 +26,7 @@
 
 // http://lolengine.net/blog/2011/12/21/better-function-approximations
 // Chebyshev http://stackoverflow.com/questions/345085/how-do-trigonometric-functions-work/345117#345117
-// Thanks for ledvinap for making such accuracy possible! See: https://github.com/cleanflight/cleanflight/issues/940#issuecomment-110323384
+// Thanks for ledvinap for making such accuracy possible! See: https://github.com/ninjaflight/ninjaflight/issues/940#issuecomment-110323384
 // https://github.com/Crashpilot1000/HarakiriWebstore1/blob/master/src/mw.c#L1235
 // sin_approx maximum absolute error = 2.305023e-06
 // cos_approx maximum absolute error = 2.857298e-06

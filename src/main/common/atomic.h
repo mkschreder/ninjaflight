@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -69,7 +69,7 @@ static inline uint8_t __basepriSetRetVal(uint8_t prio)
 
 // Run block with elevated BASEPRI (using BASEPRI_MAX), but do not create any (explicit) memory barrier.
 // Be careful when using this, you must use some method to prevent optimizer form breaking things
-// - lto is used for Cleanflight compilation, so function call is not memory barrier
+// - lto is used for Ninjaflight compilation, so function call is not memory barrier
 // - use ATOMIC_BARRIER or proper volatile to protect used variables
 // - gcc 4.8.4 does write all values in registers to memory before 'asm volatile', so this optimization does not help much
 //    but that can change in future versions

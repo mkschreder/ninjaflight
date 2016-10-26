@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <stdbool.h>
@@ -127,9 +127,9 @@ struct sbusFrame_s {
     /**
      * The endByte is 0x00 on FrSky and some futaba RX's, on Some SBUS2 RX's the value indicates the telemetry byte that is sent after every 4th sbus frame.
      *
-     * See https://github.com/cleanflight/cleanflight/issues/590#issuecomment-101027349
+     * See https://github.com/ninjaflight/ninjaflight/issues/590#issuecomment-101027349
      * and
-     * https://github.com/cleanflight/cleanflight/issues/590#issuecomment-101706023
+     * https://github.com/ninjaflight/ninjaflight/issues/590#issuecomment-101706023
      */
     uint8_t endByte;
 } __attribute__ ((__packed__));

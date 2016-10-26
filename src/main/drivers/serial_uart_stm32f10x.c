@@ -1,23 +1,23 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
  * Authors:
- * Dominic Clifton/Hydra - Various cleanups for Cleanflight
+ * Dominic Clifton/Hydra - Various cleanups for Ninjaflight
  * Bill Nesbitt - Code from AutoQuad
  * Hamasaki/Timecop - Initial baseflight code
 */
@@ -66,7 +66,7 @@ static uartPort_t uartPort5;
 void usartInitAllIOSignals(void)
 {
     // Set UART1 TX to output and high state to prevent a rs232 break condition on reset.
-    // See issue https://github.com/cleanflight/cleanflight/issues/1433
+    // See issue https://github.com/ninjaflight/ninjaflight/issues/1433
     gpio_config_t gpio;
 
     gpio.mode = Mode_Out_PP;

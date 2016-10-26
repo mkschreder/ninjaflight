@@ -1,18 +1,18 @@
 /*
- * This file is part of Cleanflight.
+ * This file is part of Ninjaflight.
  *
- * Cleanflight is free software: you can redistribute it and/or modify
+ * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Cleanflight is distributed in the hope that it will be useful,
+ * Ninjaflight is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Cleanflight.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <stdint.h>
@@ -402,7 +402,7 @@ TEST_F(MspTest, TestMspCommands)
         MSP_FC_VERSION,                 // 3    //out message
         MSP_BOARD_INFO,                 // 4    //out message
         MSP_BUILD_INFO,                 // 5    //out message
-        // MSP commands for Cleanflight original features
+        // MSP commands for Ninjaflight original features
         MSP_MODE_RANGES,                // 34    //out message         Returns all mode ranges
         MSP_FEATURE,                    // 36
         MSP_BOARD_ALIGNMENT,            // 38
@@ -429,9 +429,9 @@ TEST_F(MspTest, TestMspCommands)
         MSP_TRANSPONDER_CONFIG,         // 82 //out message         Get transponder settings
         MSP_LED_STRIP_MODECOLOR,        // 85 //out message         Get LED strip mode_color settings
         MSP_SET_LED_STRIP_MODECOLOR,    // 86 //out message         Set LED strip mode_color settings
-        // Baseflight MSP commands (if enabled they exist in Cleanflight)
+        // Baseflight MSP commands (if enabled they exist in Ninjaflight)
         MSP_RX_MAP,                     // 64 //out message get channel map (also returns number of channels total)
-        // DEPRECATED - DO NOT USE "MSP_BF_CONFIG" and MSP_SET_BF_CONFIG.  In Cleanflight, isolated commands already exist and should be used instead.
+        // DEPRECATED - DO NOT USE "MSP_BF_CONFIG" and MSP_SET_BF_CONFIG.  In Ninjaflight, isolated commands already exist and should be used instead.
         MSP_BF_CONFIG,                  // 66 //out message baseflight-specific settings that aren't covered elsewhere
         // DEPRECATED - Use MSP_BUILD_INFO instead
         MSP_BF_BUILD_INFO,              // 69 //out message build date as well as some space for future expansion
