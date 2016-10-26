@@ -68,6 +68,11 @@ introducing these changes.
   devices on any port, softserial too.
 - And many more minor bug fixes.
 
+Ninjaflight also supports: 
+
+- Tilted propeller racing drones with dynamic and static tilting. Throttle
+  compensation and yaw/roll compensation is also supported. 
+
 ## Most popular supported boards
 
 ![NAZE](media/board-naze32.jpg)
