@@ -502,7 +502,9 @@ static void showSensorsPage(void)
     i2c_OLED_send_string("        X     Y     Z");
 
     if (sensors(SENSOR_ACC)) {
-        tfp_sprintf(lineBuffer, format, "ACC", accSmooth[X], accSmooth[Y], accSmooth[Z]);
+		union imu_accel_reading acc; 
+		imu_get_raw_accel(&default_imu, &acc); 
+        tfp_sprintf(lineBuffer, format, "ACC", acc.values.x, acc.values.y, acc.values.z);
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
@@ -524,7 +526,7 @@ static void showSensorsPage(void)
     }
 #endif
 
-    tfp_sprintf(lineBuffer, format, "I&H", attitude.values.roll, attitude.values.pitch, DECIDEGREES_TO_DEGREES(attitude.values.yaw));
+    tfp_sprintf(lineBuffer, format, "I&H", imu_get_roll_dd(&default_imu), imu_get_pitch_dd(&default_imu), DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
     padLineBuffer();
     i2c_OLED_set_line(rowIndex++);
     i2c_OLED_send_string(lineBuffer);

@@ -521,7 +521,16 @@ static void init(void)
         compassInit();
 #endif
 
-    imuInit();
+	// TODO: refactor this so that configure is not called from readEEPROM further up during boot
+	// for now this is fine (as long as we call imu_configure here once again)
+    imu_init(&default_imu);
+
+	imu_configure(
+		&default_imu, 
+		imuConfig(),
+		accelerometerConfig(),
+		throttleCorrectionConfig()
+	); 
 
     mspInit();
     mspSerialInit();

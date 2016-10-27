@@ -63,6 +63,7 @@ extern "C" {
 
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
 
+	struct imu default_imu; 
     extern uint32_t rcModeActivationMask;
 }
 
@@ -74,12 +75,12 @@ extern "C" {
 
 
 extern "C" {
-    bool isThrustFacingDownwards(attitudeEulerAngles_t * attitude);
-    uint16_t calculateTiltAngle(attitudeEulerAngles_t * attitude);
+    bool isThrustFacingDownwards(union attitude_euler_angles * attitude);
+    uint16_t calculateTiltAngle(union attitude_euler_angles * attitude);
 }
 
 typedef struct inclinationExpectation_s {
-    attitudeEulerAngles_t attitude;
+    union attitude_euler_angles attitude;
     bool expectDownwardsThrust;
 } inclinationExpectation_t;
 
@@ -159,8 +160,10 @@ uint32_t accTimeSum ;        // keep track for integration of acc
 int accSumCount;
 float accVelScale;
 
-attitudeEulerAngles_t attitude;
+union attitude_euler_angles attitude;
 
+int16_t imu_get_roll_dd(struct imu *self){ return attitude.values.roll; }
+int16_t imu_get_pitch_dd(struct imu *self){ return attitude.values.pitch; }
 //uint16_t acc_1G;
 //int16_t heading;
 //gyro_t gyro;

@@ -143,6 +143,25 @@ PG_RESET_TEMPLATE(gyroConfig_t, gyroConfig,
     .gyroMovementCalibrationThreshold = 32,
 );
 
+// IMU
+PG_REGISTER_WITH_RESET_TEMPLATE(struct imu_config, imuConfig, PG_IMU_CONFIG, 0);
+PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(struct throttle_correction_config, throttleCorrectionConfig, PG_THROTTLE_CORRECTION_CONFIG, 0);
+
+PG_RESET_TEMPLATE(struct imu_config, imuConfig,
+    .dcm_kp = 2500,                // 1.0 * 10000
+    .looptime = 2000,
+    .gyroSync = 1,
+    .gyroSyncDenominator = 1,
+    .small_angle = 25,
+    .max_angle_inclination = 500,    // 50 degrees
+);
+
+PG_RESET_TEMPLATE(struct throttle_correction_config, throttleCorrectionConfig,
+    .throttle_correction_value = 0,      // could 10 with althold or 40 for fpv
+    .throttle_correction_angle = 800,    // could be 80.0 deg with atlhold or 45.0 for fpv
+);
+
+// MIXER
 #ifdef USE_SERVOS
 PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
     .mixerMode = MIXER_QUADX,
@@ -257,6 +276,8 @@ STATIC_UNIT_TESTED void resetConf(void)
     }
 }
 
+// TODO: remove
+extern struct imu_runtime_config imuRuntimeConfig;
 static void activateConfig(void)
 {
     activateControlRateConfig();
@@ -280,19 +301,13 @@ static void activateConfig(void)
 
     recalculateMagneticDeclination();
 
-    static imuRuntimeConfig_t imuRuntimeConfig;
-    imuRuntimeConfig.dcm_kp = imuConfig()->dcm_kp / 10000.0f;
-    imuRuntimeConfig.dcm_ki = imuConfig()->dcm_ki / 10000.0f;
-    imuRuntimeConfig.acc_cut_hz = accelerometerConfig()->acc_cut_hz;
-    imuRuntimeConfig.acc_unarmedcal = accelerometerConfig()->acc_unarmedcal;
-    imuRuntimeConfig.small_angle = imuConfig()->small_angle;
-
-    imuConfigure(
-        &imuRuntimeConfig,
-        &accelerometerConfig()->accDeadband,
-        accelerometerConfig()->accz_lpf_cutoff,
-        throttleCorrectionConfig()->throttle_correction_angle
-    );
+	// TODO: this is called on boot for an imu structure that has not been initialized yet. We initialize it later. 
+	imu_configure(
+		&default_imu, 
+		imuConfig(),
+		accelerometerConfig(),
+		throttleCorrectionConfig()
+	); 
 }
 
 static void validateAndFixConfig(void)

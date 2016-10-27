@@ -34,6 +34,7 @@
 #include "common/filter.h"
 
 #include "sensors/acceleration.h"
+#include "imu.h"
 
 #include "rx/rx.h"
 
@@ -90,7 +91,8 @@ struct anglerate_controller {
 
 	biquad_t deltaFilterState[3];
 
-	void (*update)(struct anglerate_controller *self); 
+	// update outputs based on current attitude information
+	void (*update)(struct anglerate_controller *self, union attitude_euler_angles *att); 
 	
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -126,7 +128,7 @@ void anglerate_controller_set_algo(struct anglerate_controller *self, pid_contro
 void anglerate_controller_reset_angle_i(struct anglerate_controller *self);
 void anglerate_controller_reset_rate_i(struct anglerate_controller *self);
 const pid_controller_output_t *anglerate_controller_get_output_ptr(struct anglerate_controller *self); 
-void anglerate_controller_update(struct anglerate_controller *self); 
+void anglerate_controller_update(struct anglerate_controller *self, union attitude_euler_angles *att); 
 
 void anglerate_controller_set_pid_axis_scale(struct anglerate_controller *self, uint8_t axis, int32_t scale); 
 void anglerate_controller_set_pid_axis_weight(struct anglerate_controller *self, uint8_t axis, int32_t weight); 

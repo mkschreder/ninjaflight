@@ -398,7 +398,7 @@ static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self, int16_t 
         // compensate the throttle because motor orientation
         float pitchToCompensate = angleTilt;
 
-        float bodyPitch = degreesToRadians(attitude.values.pitch);
+        float bodyPitch = degreesToRadians(imu_get_pitch_dd(&default_imu));
         if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) {
             pitchToCompensate += bodyPitch;
         }

@@ -278,6 +278,9 @@ void handleSmartPortTelemetry(void)
         return;
     }
 
+	union imu_accel_reading raw_acc; 
+	imu_get_raw_accel(&default_imu, &raw_acc); 
+
     while (smartPortHasRequest) {
         // Ensure we won't get stuck in the loop if there happens to be nothing available to send in a timely manner - dump the slot if we loop in there for too long.
         if ((millis() - smartPortLastServiceTime) > SMARTPORT_SERVICE_TIMEOUT_MS) {
@@ -362,22 +365,22 @@ void handleSmartPortTelemetry(void)
                 }
                 break;
             case FSSP_DATAID_HEADING    :
-                smartPortSendPackage(id, attitude.values.yaw * 10); // given in 10*deg, requested in 10000 = 100 deg
+                smartPortSendPackage(id, imu_get_yaw_dd(&default_imu) * 10); // given in 10*deg, requested in 10000 = 100 deg
                 smartPortHasRequest = 0;
                 break;
-            case FSSP_DATAID_ACCX       :
-                smartPortSendPackage(id, accSmooth[X] / 44);
+            case FSSP_DATAID_ACCX       : 
+				smartPortSendPackage(id, raw_acc.values.x / 44);
                 // unknown input and unknown output unit
                 // we can only show 00.00 format, another digit won't display right on Taranis
                 // dividing by roughly 44 will give acceleration in G units
                 smartPortHasRequest = 0;
                 break;
             case FSSP_DATAID_ACCY       :
-                smartPortSendPackage(id, accSmooth[Y] / 44);
+                smartPortSendPackage(id, raw_acc.values.y / 44);
                 smartPortHasRequest = 0;
                 break;
             case FSSP_DATAID_ACCZ       :
-                smartPortSendPackage(id, accSmooth[Z] / 44);
+                smartPortSendPackage(id, raw_acc.values.z / 44);
                 smartPortHasRequest = 0;
                 break;
             case FSSP_DATAID_T1         :

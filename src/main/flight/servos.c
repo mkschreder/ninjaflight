@@ -443,8 +443,8 @@ STATIC_UNIT_TESTED void servoMixer(struct mixer *self, const pid_controller_outp
         }
     }
 
-    input[INPUT_GIMBAL_PITCH] = scaleRange(attitude.values.pitch, -1800, 1800, -500, +500);
-    input[INPUT_GIMBAL_ROLL] = scaleRange(attitude.values.roll, -1800, 1800, -500, +500);
+    input[INPUT_GIMBAL_PITCH] = scaleRange(imu_get_pitch_dd(&default_imu), -1800, 1800, -500, +500);
+    input[INPUT_GIMBAL_ROLL] = scaleRange(imu_get_roll_dd(&default_imu), -1800, 1800, -500, +500);
 
     input[INPUT_STABILIZED_THROTTLE] = mixer_get_motor_value(&default_mixer, 0) - 1000 - 500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
 
@@ -532,11 +532,11 @@ void mixer_update_servos(struct mixer *self, const pid_controller_output_t *pid_
 
         if (rcModeIsActive(BOXCAMSTAB)) {
             if (gimbalConfig()->mode == GIMBAL_MODE_MIXTILT) {
-                servo[SERVO_GIMBAL_PITCH] -= (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * attitude.values.pitch / 50 - (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * attitude.values.roll / 50;
-                servo[SERVO_GIMBAL_ROLL] += (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * attitude.values.pitch / 50 + (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * attitude.values.roll / 50;
+                servo[SERVO_GIMBAL_PITCH] -= (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * imu_get_pitch_dd(&default_imu) / 50 - (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu) / 50;
+                servo[SERVO_GIMBAL_ROLL] += (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * imu_get_pitch_dd(&default_imu) / 50 + (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu) / 50;
             } else {
-                servo[SERVO_GIMBAL_PITCH] += (int32_t)servoConf[SERVO_GIMBAL_PITCH].rate * attitude.values.pitch / 50;
-                servo[SERVO_GIMBAL_ROLL] += (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * attitude.values.roll  / 50;
+                servo[SERVO_GIMBAL_PITCH] += (int32_t)servoConf[SERVO_GIMBAL_PITCH].rate * imu_get_pitch_dd(&default_imu) / 50;
+                servo[SERVO_GIMBAL_ROLL] += (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu)  / 50;
             }
         }
     }

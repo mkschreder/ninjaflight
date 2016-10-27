@@ -83,7 +83,7 @@ extern "C" {
     PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
     //PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
     PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(throttleCorrectionConfig_t, throttleCorrectionConfig, PG_THROTTLE_CORRECTION_CONFIG, 0);
+    //PG_REGISTER_PROFILE(throttleCorrectionConfig_t, throttleCorrectionConfig, PG_THROTTLE_CORRECTION_CONFIG, 0);
     PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
     PG_REGISTER_PROFILE(gpsProfile_t, gpsProfile, PG_NAVIGATION_CONFIG, 0);
     PG_REGISTER_PROFILE(modeActivationProfile_t, modeActivationProfile, PG_MODE_ACTIVATION_PROFILE, 0);
@@ -100,7 +100,7 @@ extern "C" {
     PG_REGISTER(transponderConfig_t, transponderConfig, PG_TRANSPONDER_CONFIG, 0);
     PG_REGISTER(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
     //PG_REGISTER(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
-    PG_REGISTER(imuConfig_t, imuConfig, PG_IMU_CONFIG, 0);
+    //PG_REGISTER(imuConfig_t, imuConfig, PG_IMU_CONFIG, 0);
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
     //PG_REGISTER(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
     PG_REGISTER(airplaneConfig_t, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
@@ -115,6 +115,8 @@ extern "C" {
     //PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
 	
 	struct anglerate_controller default_controller; 
+	struct imu default_imu; 
+
 	void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo);}
 
     typedef struct someSystemData_s {
@@ -424,7 +426,7 @@ void mixerUseConfigs(servoParam_t *) {}
 void mixerUseConfigs(void) {}
 #endif
 bool isSerialConfigValid(serialConfig_t *) {return true;}
-void imuConfigure(imuRuntimeConfig_t *, accDeadband_t *,float ,uint16_t) {}
+void imu_configure(struct imu*,struct imu_runtime_config *, accDeadband_t *,float ,uint16_t) {}
 void gpsUseProfile(gpsProfile_t *) {}
 void gpsUsePIDs(struct pid_config *) {}
 void generateYawCurve(struct rate_config *) {}

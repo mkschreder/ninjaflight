@@ -36,6 +36,10 @@ PG_DECLARE_PROFILE(accelerometerConfig_t, accelerometerConfig);
 PG_DECLARE_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles);
 PG_DECLARE_PROFILE(rateProfileSelection_t, rateProfileSelection);
 
+#include "flight/imu.h"
+PG_DECLARE(struct imu_config, imuConfig);
+PG_DECLARE_PROFILE(struct throttle_correction_config, throttleCorrectionConfig);
+
 #include "flight/mixer.h"
 PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
 PG_DECLARE(struct mixer_config, mixerConfig);
