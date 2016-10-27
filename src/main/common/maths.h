@@ -103,4 +103,9 @@ float acos_approx(float x);
 #define tan_approx(x)       tanf(x)
 #endif
 
+#define DEGREES_TO_DECIDEGREES(angle) (angle * 10)
+#define DECIDEGREES_TO_DEGREES(angle) (angle / 10)
+#define DECIDEGREES_TO_RADIANS(angle) ((angle / 10.0f) * 0.0174532925f)
+#define DEGREES_TO_RADIANS(angle) ((angle) * 0.0174532925f)
+
 void arraySubInt32(int32_t *dest, int32_t *array1, int32_t *array2, int count);

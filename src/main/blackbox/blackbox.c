@@ -947,8 +947,10 @@ static void loadMainState(void)
         blackboxCurrent->gyroADC[i] = gyroADC[i];
     }
 
+	union imu_accel_reading accel; 
+	imu_get_raw_accel(&default_imu, &accel); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->accSmooth[i] = accSmooth[i];
+        blackboxCurrent->accSmooth[i] = accel.raw[i];
     }
 
     for (i = 0; i < mixer_get_motor_count(&default_mixer); i++) {

@@ -590,9 +590,11 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_RAW_IMU: {
             // Hack scale due to choice of units for sensor data in multiwii
             unsigned scale_shift = (acc.acc_1G > 1024) ? 3 : 0;
+			union imu_accel_reading acc; 
+			imu_get_raw_accel(&default_imu, &acc); 
 
             for (unsigned i = 0; i < 3; i++)
-                sbufWriteU16(dst, accSmooth[i] >> scale_shift);
+                sbufWriteU16(dst, acc.raw[i] >> scale_shift);
             for (unsigned i = 0; i < 3; i++)
                 sbufWriteU16(dst, gyroADC[i]);
             for (unsigned i = 0; i < 3; i++)
@@ -643,9 +645,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ATTITUDE:
-            sbufWriteU16(dst, attitude.values.roll);
-            sbufWriteU16(dst, attitude.values.pitch);
-            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(attitude.values.yaw));
+            sbufWriteU16(dst, imu_get_roll_dd(&default_imu));
+            sbufWriteU16(dst, imu_get_pitch_dd(&default_imu));
+            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
             break;
 
         case MSP_ALTITUDE:

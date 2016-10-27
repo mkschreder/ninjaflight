@@ -166,9 +166,8 @@ void updateSonarAltHoldState(void)
     }
 }
 
-bool isThrustFacingDownwards(attitudeEulerAngles_t *attitude)
-{
-    return ABS(attitude->values.roll) < DEGREES_80_IN_DECIDEGREES && ABS(attitude->values.pitch) < DEGREES_80_IN_DECIDEGREES;
+static bool isThrustFacingDownwards(struct imu *imu){
+    return ABS(imu_get_roll_dd(imu)) < DEGREES_80_IN_DECIDEGREES && ABS(imu_get_pitch_dd(imu)) < DEGREES_80_IN_DECIDEGREES;
 }
 
 static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tmp, float accZ_old)
@@ -177,7 +176,7 @@ static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tm
     int32_t error;
     int32_t setVel;
 
-    if (!isThrustFacingDownwards(&attitude)) {
+    if (!isThrustFacingDownwards(&default_imu)) {
         return result;
     }
 
@@ -215,7 +214,6 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     float dt;
     float vel_acc;
     int32_t vel_tmp;
-    float accZ_tmp;
     static float accZ_old = 0.0f;
     static float vel = 0.0f;
     static float accAlt = 0.0f;
@@ -247,7 +245,7 @@ void calculateEstimatedAltitude(uint32_t currentTime)
 
 #ifdef SONAR
     sonarAlt = sonar_read(&default_sonar);
-    sonarAlt = sonar_calc_altitude(&default_sonar, getCosTiltAngle());
+    sonarAlt = sonar_calc_altitude(&default_sonar, imu_get_cos_tilt_angle(&default_imu));
 
     if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
         // just use the SONAR
@@ -263,15 +261,8 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     }
 #endif
 
-    dt = accTimeSum * 1e-6f; // delta acc reading time in seconds
-
-    // Integrator - velocity, cm/sec
-    if (accSumCount) {
-        accZ_tmp = (float)accSum[2] / (float)accSumCount;
-    } else {
-        accZ_tmp = 0;
-    }
-    vel_acc = accZ_tmp * accVelScale * (float)accTimeSum;
+	dt = imu_get_velocity_integration_time(&default_imu); 
+	vel_acc = imu_get_est_vertical_vel_cms(&default_imu); 
 
     // Integrator - Altitude in cm
     accAlt += (vel_acc * 0.5f) * dt + vel * dt;                                                                 // integrate velocity to get distance (x= a/2 * t^2)
@@ -284,7 +275,7 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     debug[3] = accAlt;                  // height
 #endif
 
-    imuResetAccelerationSum();
+    imu_reset_velocity_estimate(&default_imu);
 
 #ifdef BARO
     if (!isBaroCalibrationComplete()) {
@@ -317,9 +308,12 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     // set vario
     vario = applyDeadband(vel_tmp, 5);
 
-    altHoldThrottleAdjustment = calculateAltHoldThrottleAdjustment(vel_tmp, accZ_tmp, accZ_old);
+	// TODO: below line gets average vertical acceleration. It is nonsense. We should fix this once done refactoring (when the change can be tested)
 
-    accZ_old = accZ_tmp;
+	float acc_z = imu_get_avg_vertical_accel_cmss(&default_imu); 
+    altHoldThrottleAdjustment = calculateAltHoldThrottleAdjustment(vel_tmp, acc_z, accZ_old);
+
+    accZ_old = acc_z;
 }
 
 int32_t altitudeHoldGetEstimatedAltitude(void)

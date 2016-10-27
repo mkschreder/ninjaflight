@@ -19,19 +19,18 @@
 
 #include "common/maths.h"
 
-extern int16_t throttleAngleCorrection;
-extern uint32_t accTimeSum;
-extern int accSumCount;
-extern float accVelScale;
-extern int16_t accSmooth[XYZ_AXIS_COUNT];
-extern int32_t accSum[XYZ_AXIS_COUNT];
+struct imu_quaternion {
+	float w, x, y, z; 
+}; 
 
-#define DEGREES_TO_DECIDEGREES(angle) (angle * 10)
-#define DECIDEGREES_TO_DEGREES(angle) (angle / 10)
-#define DECIDEGREES_TO_RADIANS(angle) ((angle / 10.0f) * 0.0174532925f)
-#define DEGREES_TO_RADIANS(angle) ((angle) * 0.0174532925f)
+union imu_accel_reading {
+	int16_t raw[3]; 
+	struct {
+		int16_t x, y, z; 
+	} values; 
+}; 
 
-typedef union {
+union attitude_euler_angles {
     int16_t raw[XYZ_AXIS_COUNT];
     struct {
         // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
@@ -39,11 +38,9 @@ typedef union {
         int16_t pitch;
         int16_t yaw;
     } values;
-} attitudeEulerAngles_t;
+};
 
-extern attitudeEulerAngles_t attitude;
-
-typedef struct imuConfig_s {
+struct imu_config {
     // IMU configuration
     uint16_t looptime;                      // imu loop time in us
     uint8_t gyroSync;                       // Enable interrupt based loop
@@ -52,45 +49,82 @@ typedef struct imuConfig_s {
     uint16_t dcm_ki;                        // DCM filter integral gain ( x 10000)
     uint8_t small_angle;                    // Angle used for mag hold threshold.
     uint16_t max_angle_inclination;         // max inclination allowed in angle (level) mode. default 500 (50 degrees).
-} imuConfig_t;
+};
 
-PG_DECLARE(imuConfig_t, imuConfig);
 
-typedef struct throttleCorrectionConfig_s {
+struct throttle_correction_config {
     uint16_t throttle_correction_angle;     // the angle when the throttle correction is maximal. in 0.1 degres, ex 225 = 22.5 ,30.0, 450 = 45.0 deg
     uint8_t throttle_correction_value;      // the correction that will be applied at throttle_correction_angle.
-} throttleCorrectionConfig_t;
+};
 
-PG_DECLARE_PROFILE(throttleCorrectionConfig_t, throttleCorrectionConfig);
-
-typedef struct imuRuntimeConfig_s {
+struct imu_runtime_config {
     uint8_t acc_cut_hz;
     uint8_t acc_unarmedcal;
     float dcm_ki;
     float dcm_kp;
     uint8_t small_angle;
-} imuRuntimeConfig_t;
+};
 
-void imuInit(void);
+struct imu {
+	int16_t acc[XYZ_AXIS_COUNT]; 
+	int16_t gyro[XYZ_AXIS_COUNT]; 
 
-void imuConfigure(
-    imuRuntimeConfig_t *initialImuRuntimeConfig,
+	int16_t accSmooth[XYZ_AXIS_COUNT];
+	int32_t accSum[XYZ_AXIS_COUNT];
+
+	float accTimeSum;        // keep track for integration of acc
+	int accSumCount;
+	float accVelScale;
+
+	float throttleAngleScale;
+	float fc_acc;
+	float smallAngleCosZ;
+
+	bool isAccelUpdatedAtLeastOnce;
+
+	struct imu_runtime_config *imuRuntimeConfig;
+	accDeadband_t *accDeadband;
+
+	// TODO: replace with a math library quaternion 
+	struct imu_quaternion q; 
+	float rMat[3][3];
+
+	union attitude_euler_angles attitude;     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
+
+	float gyroScale;
+}; 
+
+// TODO: remove once we are done refactoring
+extern struct imu default_imu; 
+
+void imu_init(struct imu *self);
+void imu_configure(
+	struct imu *self, 
+    struct imu_runtime_config *initialImuRuntimeConfig,
     accDeadband_t *initialAccDeadband,
     float accz_lpf_cutoff,
     uint16_t throttle_correction_angle
 );
 
-void imuUpdateAccelerometer(rollAndPitchTrims_t *accelerometerTrims);
-void imuUpdateGyroAndAttitude(void);
-float calculateThrottleAngleScale(uint16_t throttle_correction_angle);
-int16_t calculateThrottleAngleCorrection(uint8_t throttle_correction_value);
-float calculateAccZLowPassFilterRCTimeConstant(float accz_lpf_cutoff);
+void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);
+void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z);
+void imu_update(struct imu *self);
 
-int16_t imuCalculateHeading(t_fp_vector *vec);
+int16_t imu_calc_throttle_angle_correction(struct imu *self, uint8_t throttle_correction_value);
+int16_t imu_calc_heading(struct imu *self, t_fp_vector *vec);
+float imu_get_cos_tilt_angle(struct imu *self);
+bool imu_is_leveled(struct imu *self, uint8_t max_angle);
 
-float getCosTiltAngle(void);
+void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att); 
+void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc); 
 
-void imuResetAccelerationSum(void);
+// helper functions to extract a specific component from the attitude
+int16_t imu_get_roll_dd(struct imu *self); 
+int16_t imu_get_pitch_dd(struct imu *self); 
+int16_t imu_get_yaw_dd(struct imu *self); 
 
-bool imuIsAircraftArmable(uint8_t arming_angle);
+float imu_get_avg_vertical_accel_cmss(struct imu *self); 
+float imu_get_est_vertical_vel_cms(struct imu *self); 
+float imu_get_velocity_integration_time(struct imu *self); 
+void imu_reset_velocity_estimate(struct imu *self);
 

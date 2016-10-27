@@ -236,7 +236,7 @@ static void updateRcCommands(void)
     rcCommand[THROTTLE] = lookupThrottleRC[tmp2] + (tmp - tmp2 * 100) * (lookupThrottleRC[tmp2 + 1] - lookupThrottleRC[tmp2]) / 100;    // [0;1000] -> expo -> [MINTHROTTLE;MAXTHROTTLE]
 
     if (FLIGHT_MODE(HEADFREE_MODE)) {
-        float radDiff = degreesToRadians(DECIDEGREES_TO_DEGREES(attitude.values.yaw) - headFreeModeHold);
+        float radDiff = degreesToRadians(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) - headFreeModeHold);
         float cosDiff = cos_approx(radDiff);
         float sinDiff = sin_approx(radDiff);
         int16_t rcCommand_PITCH = rcCommand[PITCH] * cosDiff + rcCommand[ROLL] * sinDiff;
@@ -254,7 +254,7 @@ static void updateLEDs(void)
             ENABLE_ARMING_FLAG(OK_TO_ARM);
         }
 
-        if (!imuIsAircraftArmable(armingConfig()->max_arm_angle)) {
+        if (!imu_is_leveled(&default_imu, armingConfig()->max_arm_angle)) {
             DISABLE_ARMING_FLAG(OK_TO_ARM);
         }
 
@@ -311,7 +311,7 @@ void mwArm(void)
         }
         if (!ARMING_FLAG(PREVENT_ARMING)) {
             ENABLE_ARMING_FLAG(ARMED);
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
+            headFreeModeHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
 
 #ifdef BLACKBOX
             if (feature(FEATURE_BLACKBOX)) {
@@ -386,7 +386,7 @@ static void updateInflightCalibrationState(void)
 static void updateMagHold(void)
 {
     if (ABS(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
-        int16_t dif = DECIDEGREES_TO_DEGREES(attitude.values.yaw) - magHold;
+        int16_t dif = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) - magHold;
         if (dif <= -180)
             dif += 360;
         if (dif >= +180)
@@ -395,7 +395,7 @@ static void updateMagHold(void)
         if (STATE(SMALL_ANGLE))
             rcCommand[YAW] -= dif * pidProfile()->P8[PIDMAG] / 30;    // 18 deg
     } else
-        magHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
+        magHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
 }
 #endif
 
@@ -543,7 +543,7 @@ static void processRx(void)
         if (rcModeIsActive(BOXMAG)) {
             if (!FLIGHT_MODE(MAG_MODE)) {
                 ENABLE_FLIGHT_MODE(MAG_MODE);
-                magHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw);
+                magHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
             }
         } else {
             DISABLE_FLIGHT_MODE(MAG_MODE);
@@ -556,7 +556,7 @@ static void processRx(void)
             DISABLE_FLIGHT_MODE(HEADFREE_MODE);
         }
         if (rcModeIsActive(BOXHEADADJ)) {
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(attitude.values.yaw); // acquire new heading
+            headFreeModeHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)); // acquire new heading
         }
     }
 #endif
@@ -640,7 +640,9 @@ static void taskMainPidLoop(void)
     debug[0] = cycleTime;
     debug[1] = cycleTime - filteredCycleTime;
 
-    imuUpdateGyroAndAttitude();
+    gyroUpdate();
+    imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
+	imu_update(&default_imu); 
 
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 
@@ -692,7 +694,7 @@ static void taskMainPidLoop(void)
     }
 
     if (throttleCorrectionConfig()->throttle_correction_value && (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE))) {
-        rcCommand[THROTTLE] += calculateThrottleAngleCorrection(throttleCorrectionConfig()->throttle_correction_value);
+        rcCommand[THROTTLE] += imu_calc_throttle_angle_correction(&default_imu, throttleCorrectionConfig()->throttle_correction_value);
     }
 
 #ifdef GPS
@@ -707,6 +709,10 @@ static void taskMainPidLoop(void)
 	int16_t user_control = 0; 
 	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2; 
 	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
+
+	// read attitude from imu
+	union attitude_euler_angles att; 
+	imu_get_attitude_dd(&default_imu, &att); 
 
 	if(USE_TILT){
 		// this makes sure that the control channel passed to the pid control is zero if we are using that channel for tilt
@@ -727,7 +733,7 @@ static void taskMainPidLoop(void)
 	); 
 
 	// run pid controller with modified pitch 
-	anglerate_controller_update(&default_controller);
+	anglerate_controller_update(&default_controller, &att);
 
 	if(USE_TILT){
 		// restore tilt control channel
@@ -780,7 +786,10 @@ void taskMainPidLoopChecker(void) {
 
 void taskUpdateAccelerometer(void)
 {
-    imuUpdateAccelerometer(&accelerometerConfig()->accelerometerTrims);
+	if (sensors(SENSOR_ACC)) {
+        updateAccelerationReadings(&accelerometerConfig()->accelerometerTrims);
+		imu_input_accelerometer(&default_imu, accADC[X], accADC[Y], accADC[Z]);
+	}
 }
 
 void taskHandleSerial(void)

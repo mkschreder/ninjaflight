@@ -160,9 +160,11 @@ static void serialize16(int16_t a)
 
 static void sendAccel(void)
 {
+	union imu_accel_reading a; 
+	imu_get_raw_accel(&default_imu, &a); 
     for (int i = 0; i < 3; i++) {
         sendDataHead(ID_ACC_X + i);
-        serialize16(1000 * (int32_t)accSmooth[i] / acc.acc_1G);
+        serialize16(1000 * (int32_t)a.raw[i] / acc.acc_1G);
     }
 }
 
@@ -430,7 +432,7 @@ static void sendFuelLevel(void)
 static void sendHeading(void)
 {
     sendDataHead(ID_COURSE_BP);
-    serialize16(DECIDEGREES_TO_DEGREES(attitude.values.yaw));
+    serialize16(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
     sendDataHead(ID_COURSE_AP);
     serialize16(0);
 }
