@@ -89,17 +89,16 @@ static void _imu_update_dcm(struct imu *self){
 
 void imu_configure(
 	struct imu *self,
-    struct imu_runtime_config *initialImuRuntimeConfig,
-    accDeadband_t *initialAccDeadband,
-    float accz_lpf_cutoff,
-    uint16_t throttle_correction_angle
+	struct imu_config *imu_config,
+	accelerometerConfig_t *acc_config,
+	struct throttle_correction_config *thr_config
 ){
-    self->imuRuntimeConfig = initialImuRuntimeConfig;
-    self->accDeadband = initialAccDeadband;
+	self->config = imu_config; 
+	self->acc_config = acc_config; 
 	// calculate lpf time constant
-    self->fc_acc = 0.5f / (M_PIf * accz_lpf_cutoff);
-    self->throttleAngleScale = (1800.0f / M_PIf) * (900.0f / throttle_correction_angle);
-    self->smallAngleCosZ = cos_approx(degreesToRadians(initialImuRuntimeConfig->small_angle));
+    self->fc_acc = 0.5f / (M_PIf * acc_config->accz_lpf_cutoff);
+    self->throttleAngleScale = (1800.0f / M_PIf) * (900.0f / thr_config->throttle_correction_angle);
+    self->smallAngleCosZ = cos_approx(degreesToRadians(imu_config->small_angle));
 }
 
 void imu_init(struct imu *self){
@@ -150,7 +149,7 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 
     _imu_vector_bf_to_ef(self, &accel_ned);
 
-    if (self->imuRuntimeConfig->acc_unarmedcal == 1) {
+    if (self->acc_config->acc_unarmedcal == 1) {
         if (!ARMING_FLAG(ARMED)) {
             accZoffset -= accZoffset / 64;
             accZoffset += accel_ned.V.Z;
@@ -162,9 +161,9 @@ static void _imu_update_acceleration(struct imu *self, float dT){
     accz_smooth = accz_smooth + (dT / (self->fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
 
     // apply Deadband to reduce integration drift and vibration influence
-    self->accSum[X] += applyDeadband(lrintf(accel_ned.V.X), self->accDeadband->xy);
-    self->accSum[Y] += applyDeadband(lrintf(accel_ned.V.Y), self->accDeadband->xy);
-    self->accSum[Z] += applyDeadband(lrintf(accz_smooth), self->accDeadband->z);
+    self->accSum[X] += applyDeadband(lrintf(accel_ned.V.X), self->acc_config->accDeadband.xy);
+    self->accSum[Y] += applyDeadband(lrintf(accel_ned.V.Y), self->acc_config->accDeadband.xy);
+    self->accSum[Z] += applyDeadband(lrintf(accz_smooth), self->acc_config->accDeadband.z);
 
     // sum up Values for later integration to get velocity and distance
     self->accTimeSum += dT;
@@ -176,7 +175,6 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     float recipNorm;
     float hx, hy, bx;
     float ex = 0, ey = 0, ez = 0;
-    float qa, qb, qc;
 	float gx, gy, gz; 
 	float ax, ay, az; 
 	float mx, my, mz; 
@@ -247,13 +245,13 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     }
 
     // Compute and apply integral feedback if enabled
-    if(self->imuRuntimeConfig->dcm_ki > 0.0f) {
+	float dcm_ki = self->config->dcm_ki / 10000.0f; 
+    if(dcm_ki > 0.0f) {
         // Stop integrating if spinning beyond the certain limit
         if (spin_rate < DEGREES_TO_RADIANS(SPIN_RATE_LIMIT)) {
-            float dcmKiGain = self->imuRuntimeConfig->dcm_ki;
-            integralFBx += dcmKiGain * ex * dt;    // integral error scaled by Ki
-            integralFBy += dcmKiGain * ey * dt;
-            integralFBz += dcmKiGain * ez * dt;
+            integralFBx += dcm_ki * ex * dt;    // integral error scaled by Ki
+            integralFBy += dcm_ki * ey * dt;
+            integralFBz += dcm_ki * ez * dt;
         }
     }
     else {
@@ -266,21 +264,25 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float p_gain = (!ARMING_FLAG(ARMED) && millis() < 20000)?10.0f:1.0f; 
 
     // Calculate kP gain. If we are acquiring initial attitude (not armed and within 20 sec from powerup) scale the kP to converge faster
-    float dcmKpGain = self->imuRuntimeConfig->dcm_kp * p_gain;
+    float dcmKpGain = (self->config->dcm_kp / 10000.0f) * p_gain;
 
     // Apply proportional and integral feedback
     gx += dcmKpGain * ex + integralFBx;
     gy += dcmKpGain * ey + integralFBy;
     gz += dcmKpGain * ez + integralFBz;
 
+	// rate integration is done using quaternion integration formula
+	// qnew = qold + (qold * q(0, w, w, w) * 0.5) * dt; 
+
     // Integrate rate of change of quaternion
     gx *= (0.5f * dt);
     gy *= (0.5f * dt);
     gz *= (0.5f * dt);
 
-    qa = self->q.w;
-    qb = self->q.x;
-    qc = self->q.y;
+	// q = q + q * g * 0.5 * dt
+    float qa = self->q.w;
+    float qb = self->q.x;
+    float qc = self->q.y;
     self->q.w += (-qb * gx - qc * gy - self->q.z * gz);
     self->q.x += (qa * gx + qc * gz - self->q.z * gy);
     self->q.y += (qa * gy - qb * gz + self->q.z * gx);
@@ -299,9 +301,14 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 
 static void _imu_update_euler_angles(struct imu *self){
     /* Compute pitch/roll angles */
-    self->attitude.values.roll = lrintf(atan2_approx(self->rMat[2][1], self->rMat[2][2]) * (1800.0f / M_PIf));
-    self->attitude.values.pitch = lrintf(((0.5f * M_PIf) - acos_approx(-self->rMat[2][0])) * (1800.0f / M_PIf));
-    self->attitude.values.yaw = lrintf((-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + magneticDeclination));
+	float px = self->rMat[2][0]; 
+	float py = self->rMat[2][1]; 
+	float pz = self->rMat[2][2]; 
+	float sign_z = (pz > 0) - (pz < 0); 
+
+	self->attitude.values.roll = lrintf(atan2_approx(py, sign_z * sqrtf(pz * pz + 0.01f * px * px)) * (1800.0f / M_PIf)); 
+	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf)); 
+    self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + magneticDeclination);
 
     if (self->attitude.values.yaw < 0)
         self->attitude.values.yaw += 3600;
@@ -360,14 +367,13 @@ static void _imu_calc_estimated_attitude(struct imu *self){
 	// update smoothed acceleration
     // Smooth and use only valid accelerometer readings
     for (axis = 0; axis < 3; axis++) {
-        if (self->imuRuntimeConfig->acc_cut_hz > 0) {
-            self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &accLPFState[axis], self->imuRuntimeConfig->acc_cut_hz, dt);
+        if (self->acc_config->acc_cut_hz > 0) {
+            self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &accLPFState[axis], self->acc_config->acc_cut_hz, dt);
         } else {
             self->accSmooth[axis] = self->acc[axis];
         }
     }
 
-    _imu_update_acceleration(self, dt); // rotate acc vector into earth frame
 
     if (sensors(SENSOR_ACC) && _imu_acc_healthy(self)) {
         useAcc = true;
@@ -386,9 +392,14 @@ static void _imu_calc_estimated_attitude(struct imu *self){
     }
 #endif
 
+	// updates quaternion from sensors and then updates dcm
     _imu_mahony_update(self, dt, useAcc, useMag, useYaw, rawYawError);
 
+	// updates attitude from dcm
     _imu_update_euler_angles(self);
+
+	// updates accSum from accSmooth
+    _imu_update_acceleration(self, dt); // rotate acc vector into earth frame
 }
 
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z){
@@ -405,6 +416,7 @@ void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z){
 }
 
 void imu_update(struct imu *self){
+	// update attitude estimate if we have at least once accelerometer reading
     if (self->isAccelUpdatedAtLeastOnce) {
         _imu_calc_estimated_attitude(self);
 	}  

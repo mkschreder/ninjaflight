@@ -525,21 +525,12 @@ static void init(void)
 	// for now this is fine (as long as we call imu_configure here once again)
     imu_init(&default_imu);
 
-	// TODO: refactor this and remove runtime config completely
-    static struct imu_runtime_config imuRuntimeConfig;
-    imuRuntimeConfig.dcm_kp = imuConfig()->dcm_kp / 10000.0f;
-    imuRuntimeConfig.dcm_ki = imuConfig()->dcm_ki / 10000.0f;
-    imuRuntimeConfig.acc_cut_hz = accelerometerConfig()->acc_cut_hz;
-    imuRuntimeConfig.acc_unarmedcal = accelerometerConfig()->acc_unarmedcal;
-    imuRuntimeConfig.small_angle = imuConfig()->small_angle;
-
 	imu_configure(
 		&default_imu, 
-        &imuRuntimeConfig,
-        &accelerometerConfig()->accDeadband,
-        accelerometerConfig()->accz_lpf_cutoff,
-        throttleCorrectionConfig()->throttle_correction_angle
-    );
+		imuConfig(),
+		accelerometerConfig(),
+		throttleCorrectionConfig()
+	); 
 
     mspInit();
     mspSerialInit();

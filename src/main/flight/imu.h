@@ -57,14 +57,6 @@ struct throttle_correction_config {
     uint8_t throttle_correction_value;      // the correction that will be applied at throttle_correction_angle.
 };
 
-struct imu_runtime_config {
-    uint8_t acc_cut_hz;
-    uint8_t acc_unarmedcal;
-    float dcm_ki;
-    float dcm_kp;
-    uint8_t small_angle;
-};
-
 struct imu {
 	int16_t acc[XYZ_AXIS_COUNT]; 
 	int16_t gyro[XYZ_AXIS_COUNT]; 
@@ -82,8 +74,8 @@ struct imu {
 
 	bool isAccelUpdatedAtLeastOnce;
 
-	struct imu_runtime_config *imuRuntimeConfig;
-	accDeadband_t *accDeadband;
+	struct imu_config *config; 
+	accelerometerConfig_t *acc_config;
 
 	// TODO: replace with a math library quaternion 
 	struct imu_quaternion q; 
@@ -100,10 +92,9 @@ extern struct imu default_imu;
 void imu_init(struct imu *self);
 void imu_configure(
 	struct imu *self, 
-    struct imu_runtime_config *initialImuRuntimeConfig,
-    accDeadband_t *initialAccDeadband,
-    float accz_lpf_cutoff,
-    uint16_t throttle_correction_angle
+	struct imu_config *config, 
+	accelerometerConfig_t *acc_config,
+	struct throttle_correction_config *thr_config
 );
 
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);

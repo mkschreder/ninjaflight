@@ -276,6 +276,8 @@ STATIC_UNIT_TESTED void resetConf(void)
     }
 }
 
+// TODO: remove
+extern struct imu_runtime_config imuRuntimeConfig;
 static void activateConfig(void)
 {
     activateControlRateConfig();
@@ -299,21 +301,13 @@ static void activateConfig(void)
 
     recalculateMagneticDeclination();
 
-    static struct imu_runtime_config imuRuntimeConfig;
-    imuRuntimeConfig.dcm_kp = imuConfig()->dcm_kp / 10000.0f;
-    imuRuntimeConfig.dcm_ki = imuConfig()->dcm_ki / 10000.0f;
-    imuRuntimeConfig.acc_cut_hz = accelerometerConfig()->acc_cut_hz;
-    imuRuntimeConfig.acc_unarmedcal = accelerometerConfig()->acc_unarmedcal;
-    imuRuntimeConfig.small_angle = imuConfig()->small_angle;
-
 	// TODO: this is called on boot for an imu structure that has not been initialized yet. We initialize it later. 
-    imu_configure(
+	imu_configure(
 		&default_imu, 
-        &imuRuntimeConfig,
-        &accelerometerConfig()->accDeadband,
-        accelerometerConfig()->accz_lpf_cutoff,
-        throttleCorrectionConfig()->throttle_correction_angle
-    );
+		imuConfig(),
+		accelerometerConfig(),
+		throttleCorrectionConfig()
+	); 
 }
 
 static void validateAndFixConfig(void)
