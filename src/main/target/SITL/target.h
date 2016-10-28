@@ -7,4 +7,5 @@
 #define U_ID_1 'I'
 #define U_ID_2 'M'
 
+#define USE_TILT 0
 #define SERIAL_PORT_COUNT 1

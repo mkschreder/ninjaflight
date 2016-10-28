@@ -156,7 +156,7 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
-
+LD_SCRIPT = ./src/test/unit/parameter_group.ld
 else
 # F1 TARGETS
 
@@ -278,7 +278,7 @@ COMMON_SRC = build_config.c \
 		   io/serial_cli.c \
 		   io/serial_msp.c \
 		   io/statusindicator.c \
-		   io/msp.c \
+		   rx/msp.c \
 		   rx/rx.c \
 		   rx/pwm.c \
 		   rx/msp.c \
@@ -723,52 +723,22 @@ IRCFUSIONF3_SRC = \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
-			common/maths.c \
-			common/printf.c \
-			common/typeconversion.c \
-			common/encoding.c \
 			common/filter.c \
-			common/streambuf.c \
+			common/maths.c \
 			config/config.c \
-			config/runtime_config.c \
-			config/config_eeprom.c \
-			config/parameter_group.c \
-			config/feature.c \
-			config/profile.c \
 			flight/altitudehold.c \
 			flight/failsafe.c \
-			flight/pid.c \
-			flight/pid_luxfloat.c \
-			flight/pid_mwrewrite.c \
-			flight/pid_mw23.c \
+			flight/anglerate_controller.c \
 			flight/imu.c \
 			flight/mixer.c \
 			flight/servos.c \
-			drivers/gyro_sync.c \
-			io/beeper.c \
-			io/gimbal.c \
-			io/motor_and_servo.c \
-			io/rate_profile.c \
-			io/rc_adjustments.c \
-			io/rc_controls.c \
-			io/rc_curves.c \
-			io/serial.c \
-			io/serial_cli.c \
-			io/serial_msp.c \
-			io/statusindicator.c \
-			sensors/sensors.c \
-			sensors/acceleration.c \
-			sensors/battery.c \
-			sensors/boardalignment.c \
-			sensors/gyro.c \
-			scheduler.c \
-			scheduler_tasks.c \
 			sitl/flash.c \
 			sitl/rx.c \
 			sitl/time.c \
 			sitl/led.c \
-			mw.c \
-			sitl_main.c
+			sitl/sitl.c \
+			sitl/main.c \
+			mw.c
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
@@ -779,7 +749,7 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 
 # Tool names
 ifeq ($(TARGET),SITL)
-
+SIZE = size
 else
 CC		 = arm-none-eabi-gcc
 OBJCOPY		 = arm-none-eabi-objcopy

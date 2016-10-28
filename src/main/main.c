@@ -521,7 +521,10 @@ static void init(void)
 		&default_imu, 
 		imuConfig(),
 		accelerometerConfig(),
-		throttleCorrectionConfig()
+		throttleCorrectionConfig(),
+		// TODO: refactor these
+		gyro.scale, 
+		acc.acc_1G
 	); 
 
     mspInit();
