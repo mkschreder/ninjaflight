@@ -23,7 +23,7 @@
 
 #include "build_config.h"
 
-#include "config/parameter_group.h"
+#include "config/config.h"
 
 #include "drivers/system.h"
 

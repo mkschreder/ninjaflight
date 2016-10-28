@@ -640,6 +640,9 @@ pwmIOConfiguration_t *pwmGetOutputConfiguration(void){
     return &pwmIOConfiguration;
 }
 
+// TODO: this is an odd dependency from pwm_rx.c
+void ppmAvoidPWMTimerClash(const timerHardware_t *timerHardwarePtr, TIM_TypeDef *sharedPwmTimer); 
+
 pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
 {
     int i = 0;

@@ -47,8 +47,6 @@
 #include "io/rc_curves.h"
 #include "io/rc_adjustments.h"
 
-PG_REGISTER_PROFILE(adjustmentProfile_t, adjustmentProfile, PG_ADJUSTMENT_PROFILE, 0);
-
 uint8_t adjustmentStateMask = 0;
 
 #define MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex) adjustmentStateMask |= (1 << adjustmentIndex)

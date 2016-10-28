@@ -25,7 +25,6 @@ typedef struct blackboxConfig_s {
     uint8_t device;
 } blackboxConfig_t;
 
-PG_DECLARE(blackboxConfig_t, blackboxConfig);
 
 void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data);
 

@@ -131,14 +131,6 @@ void SetSysClock(void);
 void SetSysClock(bool overclock);
 #endif
 
-PG_REGISTER_WITH_RESET_TEMPLATE(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
-PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
-
-PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
-    .i2c_highspeed = 1,
-);
-
-
 typedef enum {
     SYSTEM_STATE_INITIALISING        = 0,
     SYSTEM_STATE_CONFIG_LOADED       = (1 << 0),

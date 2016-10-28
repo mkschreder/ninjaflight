@@ -65,8 +65,6 @@ static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);
 
 bool sumhInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
 {
-    UNUSED(rxConfig);
-
     if (callback)
         *callback = sumhReadRawRC;
 

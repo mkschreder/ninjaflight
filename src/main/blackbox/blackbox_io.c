@@ -27,7 +27,7 @@
 #include "common/maths.h"
 #include "common/encoding.h"
 
-#include "config/parameter_group.h"
+#include "config/config.h"
 
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"

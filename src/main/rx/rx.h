@@ -126,11 +126,6 @@ typedef struct rxConfig_s {
     uint16_t rx_max_usec;
 }  rxConfig_t;
 
-PG_DECLARE(rxConfig_t, rxConfig);
-
-PG_DECLARE_ARR(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, failsafeChannelConfigs);
-PG_DECLARE_ARR(rxChannelRangeConfiguration_t, NON_AUX_CHANNEL_COUNT, channelRanges);
-
 typedef struct rxRuntimeConfig_s {
     uint8_t channelCount;                  // number of rc channels as reported by current input driver
 } rxRuntimeConfig_t;

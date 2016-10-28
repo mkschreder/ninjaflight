@@ -47,8 +47,6 @@ typedef struct batteryConfig_s {
     uint16_t batteryCapacity;               // mAh
 } batteryConfig_t;
 
-PG_DECLARE(batteryConfig_t, batteryConfig);
-
 typedef enum {
     BATTERY_OK = 0,
     BATTERY_WARNING,

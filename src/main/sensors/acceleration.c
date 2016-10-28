@@ -44,26 +44,12 @@
 
 #include "sensors/acceleration.h"
 
-PG_REGISTER_PROFILE_WITH_RESET_FN(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
-
 void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims)
 {
     RESET_CONFIG_2(rollAndPitchTrims_t, rollAndPitchTrims,
         .values.roll = 0,
         .values.pitch = 0,
     );
-}
-
-void pgResetFn_accelerometerConfig(accelerometerConfig_t *instance)
-{
-    RESET_CONFIG_2(accelerometerConfig_t, instance,
-        .acc_cut_hz = 15,
-        .accz_lpf_cutoff = 5.0f,
-        .accDeadband.z = 40,
-        .accDeadband.xy = 40,
-        .acc_unarmedcal = 1,
-    );
-    resetRollAndPitchTrims(&instance->accelerometerTrims);
 }
 
 int32_t accADC[XYZ_AXIS_COUNT];

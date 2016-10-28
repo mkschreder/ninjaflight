@@ -71,25 +71,6 @@ STATIC_UNIT_TESTED uint8_t servoCount;
 static servoParam_t *servoConf;
 static biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
 
-PG_REGISTER_ARR(servoMixer_t, MAX_SERVO_RULES, customServoMixer, PG_SERVO_MIXER, 0);
-
-PG_REGISTER_PROFILE_WITH_RESET_FN(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
-
-void pgResetFn_servoProfile(servoProfile_t *instance)
-{
-    for (int i = 0; i < MAX_SUPPORTED_SERVOS; i++) {
-        RESET_CONFIG(servoParam_t, &instance->servoConf[i],
-            .min = DEFAULT_SERVO_MIN,
-            .max = DEFAULT_SERVO_MAX,
-            .middle = DEFAULT_SERVO_MIDDLE,
-            .rate = 100,
-            .angleAtMin = DEFAULT_SERVO_MIN_ANGLE,
-            .angleAtMax = DEFAULT_SERVO_MAX_ANGLE,
-            .forwardFromChannel = CHANNEL_FORWARDING_DISABLED,
-        );
-    }
-}
-
 #define COUNT_SERVO_RULES(rules) (sizeof(rules) / sizeof(servoMixer_t))
 // mixer rule format servo, input, rate, speed, min, max, box
 static const servoMixer_t servoMixerAirplane[] = {

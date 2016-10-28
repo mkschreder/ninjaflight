@@ -96,8 +96,6 @@ typedef struct servoMixer_s {
 #define MAX_SERVO_SPEED UINT8_MAX
 #define MAX_SERVO_BOXES 3
 
-PG_DECLARE_ARR(servoMixer_t, MAX_SERVO_RULES, customServoMixer);
-
 // Custom mixer configuration
 typedef struct mixerRules_s {
     uint8_t servoRuleCount;
@@ -118,8 +116,6 @@ typedef struct servoParam_s {
 typedef struct servoProfile_s {
     servoParam_t servoConf[MAX_SUPPORTED_SERVOS];
 } servoProfile_t;
-
-PG_DECLARE_PROFILE(servoProfile_t, servoProfile);
 
 struct gimbalConfig_s;
 struct motorAndServoConfig_s;

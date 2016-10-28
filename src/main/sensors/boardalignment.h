@@ -21,9 +21,7 @@ typedef struct boardAlignment_s {
     int16_t rollDegrees;
     int16_t pitchDegrees;
     int16_t yawDegrees;
-} PG_PACKED boardAlignment_t;
-
-PG_DECLARE(boardAlignment_t, boardAlignment);
+} __attribute__((packed)) boardAlignment_t;
 
 void alignSensors(int32_t *src, int32_t *dest, uint8_t rotation);
 void initBoardAlignment(void);

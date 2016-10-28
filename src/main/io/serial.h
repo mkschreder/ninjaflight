@@ -17,6 +17,10 @@
 
 #pragma once
 
+// TODO: remove dependency on serial driver
+#include "drivers/serial.h"
+#include "target.h"
+
 typedef enum {
     PORTSHARING_UNUSED = 0,
     PORTSHARING_NOT_SHARED,
@@ -97,7 +101,6 @@ typedef struct serialConfig_s {
     serialPortConfig_t portConfigs[SERIAL_PORT_COUNT];
 } serialConfig_t;
 
-PG_DECLARE(serialConfig_t, serialConfig);
 
 //
 // configuration

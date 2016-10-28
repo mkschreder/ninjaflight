@@ -43,13 +43,6 @@
 #ifdef NAZE
 #include "hardware_revision.h"
 #endif
-
-PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
-
-PG_RESET_TEMPLATE(compassConfig_t, compassConfig,
-    .mag_declination = 0,
-);
-
 mag_t mag;                   // mag access functions
 
 float magneticDeclination = 0.0f;

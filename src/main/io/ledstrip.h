@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 #define LED_MAX_STRIP_LENGTH           32
 #define LED_CONFIGURABLE_COLOR_COUNT   16
 #define LED_MODE_COUNT                  6
@@ -103,14 +105,25 @@ static inline void ledSetXY(ledConfig_t *lcfg, int x, int y) {
 }
 #define CALCULATE_LED_XY(x, y) ((((x) & LED_XY_MASK) << LED_X_BIT_OFFSET) | (((y) & LED_XY_MASK) << LED_Y_BIT_OFFSET))
 
+typedef enum {
+    COLOR_BLACK = 0,
+    COLOR_WHITE,
+    COLOR_RED,
+    COLOR_ORANGE,
+    COLOR_YELLOW,
+    COLOR_LIME_GREEN,
+    COLOR_GREEN,
+    COLOR_MINT_GREEN,
+    COLOR_CYAN,
+    COLOR_LIGHT_BLUE,
+    COLOR_BLUE,
+    COLOR_DARK_VIOLET,
+    COLOR_MAGENTA,
+    COLOR_DEEP_PINK,
+} colorId_e;
+
 extern uint8_t ledCount;
 extern uint8_t ledRingCount;
-
-PG_DECLARE_ARR(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs);
-PG_DECLARE_ARR(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors);
-PG_DECLARE_ARR(modeColorIndexes_t, LED_MODE_COUNT, modeColors);
-PG_DECLARE_ARR(specialColorIndexes_t, 1, specialColors);
-
 void ledStripInit(void);
 
 bool parseLedStripConfig(int ledIndex, const char *config);

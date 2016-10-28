@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
 #include "io/motor_and_servo.h"
 #include "io/rc_controls.h"
@@ -28,8 +29,6 @@ extern int32_t vario;
 typedef struct airplaneConfig_s {
     int8_t fixedwing_althold_dir;           // +1 or -1 for pitch/althold gain. later check if need more than just sign
 } airplaneConfig_t;
-
-PG_DECLARE(airplaneConfig_t, airplaneConfig);
 
 void calculateEstimatedAltitude(uint32_t currentTime);
 

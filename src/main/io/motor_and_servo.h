@@ -29,4 +29,3 @@ typedef struct motorAndServoConfig_s {
     uint16_t servo_pwm_rate;                // The update rate of servo outputs (50-498Hz)
 } motorAndServoConfig_t;
 
-PG_DECLARE(motorAndServoConfig_t, motorAndServoConfig);

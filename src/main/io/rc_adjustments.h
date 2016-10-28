@@ -123,8 +123,6 @@ typedef struct adjustmentProfile_s {
     adjustmentRange_t adjustmentRanges[MAX_ADJUSTMENT_RANGE_COUNT];
 } adjustmentProfile_t;
 
-PG_DECLARE_PROFILE(adjustmentProfile_t, adjustmentProfile);
-
 #ifndef MAX_SIMULTANEOUS_ADJUSTMENT_COUNT
 #define MAX_SIMULTANEOUS_ADJUSTMENT_COUNT 4 // enough for 4 x 3position switches / 4 aux channel
 #endif

@@ -32,6 +32,4 @@
 
 #ifdef USE_SERVOS
 
-PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
-
 #endif

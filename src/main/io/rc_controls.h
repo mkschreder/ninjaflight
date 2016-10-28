@@ -130,8 +130,6 @@ typedef struct modeActivationProfile_s {
     modeActivationCondition_t modeActivationConditions[MAX_MODE_ACTIVATION_CONDITION_COUNT];
 } modeActivationProfile_t;
 
-PG_DECLARE_PROFILE(modeActivationProfile_t, modeActivationProfile);
-
 extern int16_t rcCommand[4];
 
 typedef struct rcControlsConfig_s {
@@ -152,8 +150,6 @@ typedef struct armingConfig_s {
     uint8_t auto_disarm_delay;              // allow automatically disarming multicopters after auto_disarm_delay seconds of zero throttle. Disabled when 0
     uint8_t max_arm_angle;                  // specifies the maximum angle allow arming at.
 } armingConfig_t;
-
-PG_DECLARE(armingConfig_t, armingConfig);
 
 bool areUsingSticksToArm(void);
 

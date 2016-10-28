@@ -62,8 +62,6 @@
 #include "telemetry/telemetry.h"
 #include "telemetry/frsky.h"
 
-PG_REGISTER(frskyTelemetryConfig_t, frskyTelemetryConfig, PG_FRSKY_TELEMETRY_CONFIG, 0);
-
 static serialPort_t *frskyPort = NULL;
 static serialPortConfig_t *portConfig;
 

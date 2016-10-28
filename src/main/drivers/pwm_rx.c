@@ -27,6 +27,7 @@
 #include "common/utils.h"
 
 #include "config/parameter_group.h"
+#include "config/config.h"
 
 #include "system.h"
 
@@ -112,6 +113,14 @@ ppmDevice_t ppmDev;
 #define PPM_IN_MIN_NUM_CHANNELS     4
 #define PPM_IN_MAX_NUM_CHANNELS     PWM_PORTS_OR_PPM_CAPTURE_COUNT
 
+// TODO: move this somewhere so that we don't need to have it here while it is only being called from pwm_mapping.c
+void ppmAvoidPWMTimerClash(const timerHardware_t *timerHardwarePtr, TIM_TypeDef *sharedPwmTimer); 
+void ppmAvoidPWMTimerClash(const timerHardware_t *timerHardwarePtr, TIM_TypeDef *sharedPwmTimer)
+{
+    if (timerHardwarePtr->tim == sharedPwmTimer) {
+        ppmCountShift = 3;  // Divide by 8 if the timer is running at 8 MHz
+    }
+}
 
 bool isPPMDataBeingReceived(void)
 {
@@ -387,13 +396,6 @@ void pwmInConfig(const timerHardware_t *timerHardwarePtr, uint8_t channel)
 
 #define UNUSED_PPM_TIMER_REFERENCE 0
 #define FIRST_PWM_PORT 0
-
-void ppmAvoidPWMTimerClash(const timerHardware_t *timerHardwarePtr, TIM_TypeDef *sharedPwmTimer)
-{
-    if (timerHardwarePtr->tim == sharedPwmTimer) {
-        ppmCountShift = 3;  // Divide by 8 if the timer is running at 8 MHz
-    }
-}
 
 void ppmInConfig(const timerHardware_t *timerHardwarePtr)
 {

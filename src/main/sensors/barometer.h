@@ -40,8 +40,6 @@ typedef struct barometerConfig_s {
     float baro_cf_alt;                      // apply CF to use ACC for height estimation
 } barometerConfig_t;
 
-PG_DECLARE_PROFILE(barometerConfig_t, barometerConfig);
-
 bool isBaroCalibrationComplete(void);
 void baroSetCalibrationCycles(uint16_t calibrationCyclesRequired);
 uint32_t baroUpdate(void);

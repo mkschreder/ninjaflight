@@ -23,14 +23,12 @@
 #include "common/maths.h"
 #include "common/axis.h"
 
-#include "config/parameter_group.h"
+#include "config/config.h"
 #include "config/parameter_group_ids.h"
 
 #include "sensors.h"
 
 #include "boardalignment.h"
-
-PG_REGISTER(boardAlignment_t, boardAlignment, PG_BOARD_ALIGNMENT, 0);
 
 static bool standardBoardAlignment = true;     // board orientation correction
 static float boardRotation[3][3];              // matrix

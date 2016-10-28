@@ -18,14 +18,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "config/parameter_group.h"
-
 #include "rx/rx.h"
 #include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/motor_and_servo.h"
 
 #include "io/rc_curves.h"
+
+#include "config/config.h"
 
 int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     // lookup table for expo & RC rate PITCH+ROLL
 int16_t lookupYawRC[YAW_LOOKUP_LENGTH];     // lookup table for expo & RC rate YAW

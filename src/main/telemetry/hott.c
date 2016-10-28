@@ -64,6 +64,7 @@
 
 #include "common/axis.h"
 
+#include "config/config.h"
 #include "config/runtime_config.h"
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
@@ -85,12 +86,6 @@
 #include "telemetry/hott.h"
 
 //#define HOTT_DEBUG
-
-PG_REGISTER_WITH_RESET_TEMPLATE(hottTelemetryConfig_t, hottTelemetryConfig, PG_HOTT_TELEMETRY_CONFIG, 0);
-
-PG_RESET_TEMPLATE(hottTelemetryConfig_t, hottTelemetryConfig,
-    .hottAlarmSoundInterval = 5,
-);
 
 #define HOTT_MESSAGE_PREPARATION_FREQUENCY_5_HZ ((1000 * 1000) / 5)
 #define HOTT_RX_SCHEDULE 4000

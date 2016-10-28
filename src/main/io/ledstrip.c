@@ -57,11 +57,6 @@
 #include "config/config.h"
 #include "config/feature.h"
 
-PG_REGISTER_ARR_WITH_RESET_FN(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs, PG_LED_STRIP_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors, PG_COLOR_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(modeColorIndexes_t, LED_MODE_COUNT, modeColors, PG_MODE_COLOR_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(specialColorIndexes_t, 1, specialColors, PG_SPECIAL_COLOR_CONFIG, 0);
-
 static bool ledStripInitialised = false;
 static bool ledStripEnabled = true;
 
@@ -77,40 +72,6 @@ static void ledStripDisable(void);
 # error "Led strip length must match driver"
 #endif
 
-typedef enum {
-    COLOR_BLACK = 0,
-    COLOR_WHITE,
-    COLOR_RED,
-    COLOR_ORANGE,
-    COLOR_YELLOW,
-    COLOR_LIME_GREEN,
-    COLOR_GREEN,
-    COLOR_MINT_GREEN,
-    COLOR_CYAN,
-    COLOR_LIGHT_BLUE,
-    COLOR_BLUE,
-    COLOR_DARK_VIOLET,
-    COLOR_MAGENTA,
-    COLOR_DEEP_PINK,
-} colorId_e;
-
-const hsvColor_t hsv[] = {
-    //                        H    S    V
-    [COLOR_BLACK] =        {  0,   0,   0},
-    [COLOR_WHITE] =        {  0, 255, 255},
-    [COLOR_RED] =          {  0,   0, 255},
-    [COLOR_ORANGE] =       { 30,   0, 255},
-    [COLOR_YELLOW] =       { 60,   0, 255},
-    [COLOR_LIME_GREEN] =   { 90,   0, 255},
-    [COLOR_GREEN] =        {120,   0, 255},
-    [COLOR_MINT_GREEN] =   {150,   0, 255},
-    [COLOR_CYAN] =         {180,   0, 255},
-    [COLOR_LIGHT_BLUE] =   {210,   0, 255},
-    [COLOR_BLUE] =         {240,   0, 255},
-    [COLOR_DARK_VIOLET] =  {270,   0, 255},
-    [COLOR_MAGENTA] =      {300,   0, 255},
-    [COLOR_DEEP_PINK] =    {330,   0, 255},
-};
 // macro to save typing on default colors
 #define HSV(color) (hsv[COLOR_ ## color])
 
@@ -125,98 +86,6 @@ STATIC_UNIT_TESTED uint8_t lowestXValueForEast;
 uint8_t ledCount;
 uint8_t ledRingCount;
 static uint8_t ledRingSeqLen;
-
-// macro for initializer
-#define LF(name) LED_FLAG_FUNCTION(LED_FUNCTION_ ## name)
-#define LD(name) LED_FLAG_DIRECTION(LED_DIRECTION_ ## name)
-
-#ifdef USE_LED_RING_DEFAULT_CONFIG
-static const ledConfig_t defaultLedStripConfig[] = {
-    { CALCULATE_LED_XY( 2,  2), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 2,  1), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 2,  0), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  0), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 0,  0), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 0,  1), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 0,  2), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  2), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  1), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  1), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  1), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 1,  1), 3, LF(THRUST_RING)},
-};
-#else
-static const ledConfig_t defaultLedStripConfig[] = {
-    { CALCULATE_LED_XY(15, 15), 0, LD(SOUTH) | LD(EAST) | LF(INDICATOR) | LF(ARM_STATE) },
-
-    { CALCULATE_LED_XY(15,  8), 0, LD(EAST)             | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY(15,  7), 0, LD(EAST)             | LF(FLIGHT_MODE) | LF(WARNING) },
-
-    { CALCULATE_LED_XY(15,  0), 0, LD(NORTH) | LD(EAST) | LF(INDICATOR) | LF(ARM_STATE) },
-
-    { CALCULATE_LED_XY( 8,  0), 0, LD(NORTH)            | LF(FLIGHT_MODE) },
-    { CALCULATE_LED_XY( 7,  0), 0, LD(NORTH)            | LF(FLIGHT_MODE) },
-
-    { CALCULATE_LED_XY( 0,  0), 0, LD(NORTH) | LD(WEST) | LF(INDICATOR) | LF(ARM_STATE) },
-
-    { CALCULATE_LED_XY( 0,  7), 0, LD(WEST)             | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY( 0,  8), 0, LD(WEST)             | LF(FLIGHT_MODE) | LF(WARNING) },
-
-    { CALCULATE_LED_XY( 0, 15), 0, LD(SOUTH) | LD(WEST) | LF(INDICATOR) | LF(ARM_STATE) },
-
-    { CALCULATE_LED_XY( 7, 15), 0, LD(SOUTH)            | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY( 8, 15), 0, LD(SOUTH)            | LF(FLIGHT_MODE) | LF(WARNING) },
-
-    { CALCULATE_LED_XY( 7,  7), 0, LD(UP)               | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY( 8,  7), 0, LD(UP)               | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY( 7,  8), 0, LD(DOWN)             | LF(FLIGHT_MODE) | LF(WARNING) },
-    { CALCULATE_LED_XY( 8,  8), 0, LD(DOWN)             | LF(FLIGHT_MODE) | LF(WARNING) },
-
-    { CALCULATE_LED_XY( 8,  9), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 9, 10), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY(10, 11), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY(10, 12), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 9, 13), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 8, 14), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 7, 14), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 6, 13), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 5, 12), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 5, 11), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 6, 10), 3, LF(THRUST_RING)},
-    { CALCULATE_LED_XY( 7,  9), 3, LF(THRUST_RING)},
-
-};
-#endif
-
-#undef LD
-#undef LF
-
-static const modeColorIndexes_t defaultModeColors[] = {
-    //                          NORTH             EAST               SOUTH            WEST             UP          DOWN
-    [LED_MODE_ORIENTATION] = {{ COLOR_WHITE,      COLOR_DARK_VIOLET, COLOR_RED,       COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-    [LED_MODE_HEADFREE]    = {{ COLOR_LIME_GREEN, COLOR_DARK_VIOLET, COLOR_ORANGE,    COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-    [LED_MODE_HORIZON]     = {{ COLOR_BLUE,       COLOR_DARK_VIOLET, COLOR_YELLOW,    COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-    [LED_MODE_ANGLE]       = {{ COLOR_CYAN,       COLOR_DARK_VIOLET, COLOR_YELLOW,    COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-    [LED_MODE_MAG]         = {{ COLOR_MINT_GREEN, COLOR_DARK_VIOLET, COLOR_ORANGE,    COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-    [LED_MODE_BARO]        = {{ COLOR_LIGHT_BLUE, COLOR_DARK_VIOLET, COLOR_RED,       COLOR_DEEP_PINK, COLOR_BLUE, COLOR_ORANGE }},
-};
-
-static const specialColorIndexes_t defaultSpecialColors[] = {
-    {{ [LED_SCOLOR_DISARMED]        = COLOR_GREEN,
-       [LED_SCOLOR_ARMED]           = COLOR_BLUE,
-       [LED_SCOLOR_ANIMATION]       = COLOR_WHITE,
-       [LED_SCOLOR_BACKGROUND]      = COLOR_BLACK,
-       [LED_SCOLOR_BLINKBACKGROUND] = COLOR_BLACK,
-       [LED_SCOLOR_GPSNOSATS]       = COLOR_RED,
-       [LED_SCOLOR_GPSNOLOCK]       = COLOR_ORANGE,
-       [LED_SCOLOR_GPSLOCKED]       = COLOR_GREEN,
-    }}
-};
-
-void pgResetFn_ledConfigs(ledConfig_t *instance)
-{
-    memcpy_fn(instance, &defaultLedStripConfig, sizeof(defaultLedStripConfig));
-}
 
 /*
  * 6 coords @nn,nn
@@ -541,6 +410,23 @@ typedef enum {
     WARNING_FAILSAFE,
 } warningFlags_e;
 
+const hsvColor_t hsv[] = {
+    //                        H    S    V
+    [COLOR_BLACK] =        {  0,   0,   0},
+    [COLOR_WHITE] =        {  0, 255, 255},
+    [COLOR_RED] =          {  0,   0, 255},
+    [COLOR_ORANGE] =       { 30,   0, 255},
+    [COLOR_YELLOW] =       { 60,   0, 255},
+    [COLOR_LIME_GREEN] =   { 90,   0, 255},
+    [COLOR_GREEN] =        {120,   0, 255},
+    [COLOR_MINT_GREEN] =   {150,   0, 255},
+    [COLOR_CYAN] =         {180,   0, 255},
+    [COLOR_LIGHT_BLUE] =   {210,   0, 255},
+    [COLOR_BLUE] =         {240,   0, 255},
+    [COLOR_DARK_VIOLET] =  {270,   0, 255},
+    [COLOR_MAGENTA] =      {300,   0, 255},
+    [COLOR_DEEP_PINK] =    {330,   0, 255},
+};
 
 static void applyLedWarningLayer(bool updateNow, uint32_t *timer)
 {
@@ -958,27 +844,6 @@ bool setModeColor(ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex)
     }
     return true;
 }
-
-void pgResetFn_colors(hsvColor_t *instance)
-{
-    // copy hsv colors as default
-    BUILD_BUG_ON(ARRAYLEN(*colors_arr()) <= ARRAYLEN(hsv));
-
-    for (unsigned colorIndex = 0; colorIndex < ARRAYLEN(hsv); colorIndex++) {
-        *instance++ = hsv[colorIndex];
-    }
-}
-
-void pgResetFn_modeColors(modeColorIndexes_t *instance)
-{
-    memcpy_fn(instance, &defaultModeColors, sizeof(defaultModeColors));
-}
-
-void pgResetFn_specialColors(specialColorIndexes_t *instance)
-{
-    memcpy_fn(instance, &defaultSpecialColors, sizeof(defaultSpecialColors));
-}
-
 
 void ledStripInit(void)
 {
