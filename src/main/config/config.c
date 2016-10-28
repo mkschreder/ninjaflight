@@ -598,6 +598,34 @@ PG_RESET_TEMPLATE(systemConfig_t, systemConfig,
 // SERIAL
 PG_REGISTER_WITH_RESET_FN(serialConfig_t, serialConfig, PG_SERIAL_CONFIG, 0);
 
+const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
+#ifdef USE_VCP
+    SERIAL_PORT_USB_VCP,
+#endif
+#ifdef USE_UART1
+    SERIAL_PORT_UART1,
+#endif
+#ifdef USE_UART2
+    SERIAL_PORT_UART2,
+#endif
+#ifdef USE_UART3
+    SERIAL_PORT_UART3,
+#endif
+#ifdef USE_UART4
+    SERIAL_PORT_UART4,
+#endif
+#ifdef USE_UART5
+    SERIAL_PORT_UART5,
+#endif
+#ifdef USE_SOFTSERIAL1
+    SERIAL_PORT_SOFTSERIAL1,
+#endif
+#ifdef USE_SOFTSERIAL2
+    SERIAL_PORT_SOFTSERIAL2,
+#endif
+};
+
+
 void pgResetFn_serialConfig(serialConfig_t *serialConfig)
 {
     memset(serialConfig, 0, sizeof(serialConfig_t));
@@ -744,7 +772,9 @@ static void activateConfig(void)
 		&default_imu, 
 		imuConfig(),
 		accelerometerConfig(),
-		throttleCorrectionConfig()
+		throttleCorrectionConfig(),
+		gyro.scale, 
+		acc.acc_1G
 	); 
 }
 

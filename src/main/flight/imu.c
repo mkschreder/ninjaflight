@@ -91,7 +91,9 @@ void imu_configure(
 	struct imu *self,
 	struct imu_config *imu_config,
 	accelerometerConfig_t *acc_config,
-	struct throttle_correction_config *thr_config
+	struct throttle_correction_config *thr_config,
+	float gyro_scale, 
+	uint16_t acc_1G
 ){
 	self->config = imu_config; 
 	self->acc_config = acc_config; 
@@ -99,14 +101,17 @@ void imu_configure(
     self->fc_acc = 0.5f / (M_PIf * acc_config->accz_lpf_cutoff);
     self->throttleAngleScale = (1800.0f / M_PIf) * (900.0f / thr_config->throttle_correction_angle);
     self->smallAngleCosZ = cos_approx(degreesToRadians(imu_config->small_angle));
+    self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
+    self->accVelScale = (9.80665f / acc_1G) * 100.0f; // acc vel scaled to cm/s
+	self->acc_1G = acc_1G; 
 }
 
 void imu_init(struct imu *self){
 	memset(self, 0, sizeof(struct imu)); 
 
+	self->gyroScale = 1; 
+	self->accVelScale = 1; 
     self->smallAngleCosZ = 0; //cos_approx(degreesToRadians(imuRuntimeConfig->small_angle));
-    self->gyroScale = gyro.scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
-    self->accVelScale = (9.80665f / acc.acc_1G) * 100.0f; // acc vel scaled to cm/s
 	
 	self->q.w = 1.0f; 
 	self->q.x = 0.0f; 
@@ -156,7 +161,7 @@ static void _imu_update_acceleration(struct imu *self, float dT){
         }
         accel_ned.V.Z -= accZoffset / 64;  // compensate for gravitation on z-axis
     } else
-        accel_ned.V.Z -= acc.acc_1G;
+        accel_ned.V.Z -= self->acc_1G;
 
     accz_smooth = accz_smooth + (dT / (self->fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
 
@@ -338,7 +343,7 @@ static bool _imu_acc_healthy(struct imu *self)
         accMagnitude += (int32_t)self->accSmooth[axis] * self->accSmooth[axis];
     }
 
-    accMagnitude = accMagnitude * 100 / (sq((int32_t)acc.acc_1G));
+    accMagnitude = accMagnitude * 100 / (sq((int32_t)self->acc_1G));
 
     // Accept accel readings only in range 0.90g - 1.10g
     return (81 < accMagnitude) && (accMagnitude < 121);

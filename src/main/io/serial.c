@@ -55,34 +55,6 @@
 #endif
 
 static serialPortUsage_t serialPortUsageList[SERIAL_PORT_COUNT];
-
-const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
-#ifdef USE_VCP
-    SERIAL_PORT_USB_VCP,
-#endif
-#ifdef USE_UART1
-    SERIAL_PORT_UART1,
-#endif
-#ifdef USE_UART2
-    SERIAL_PORT_UART2,
-#endif
-#ifdef USE_UART3
-    SERIAL_PORT_UART3,
-#endif
-#ifdef USE_UART4
-    SERIAL_PORT_UART4,
-#endif
-#ifdef USE_UART5
-    SERIAL_PORT_UART5,
-#endif
-#ifdef USE_SOFTSERIAL1
-    SERIAL_PORT_SOFTSERIAL1,
-#endif
-#ifdef USE_SOFTSERIAL2
-    SERIAL_PORT_SOFTSERIAL2,
-#endif
-};
-
 STATIC_UNIT_TESTED uint8_t serialPortCount;
 
 const uint32_t baudRates[] = {0, 9600, 19200, 38400, 57600, 115200, 230400, 250000}; // see baudRate_e

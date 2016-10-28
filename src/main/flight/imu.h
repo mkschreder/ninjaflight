@@ -84,6 +84,7 @@ struct imu {
 	union attitude_euler_angles attitude;     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
 
 	float gyroScale;
+	uint16_t acc_1G; 
 }; 
 
 // TODO: remove once we are done refactoring
@@ -94,7 +95,10 @@ void imu_configure(
 	struct imu *self, 
 	struct imu_config *config, 
 	accelerometerConfig_t *acc_config,
-	struct throttle_correction_config *thr_config
+	struct throttle_correction_config *thr_config,
+	// TODO: refactor these
+	float gyro_scale, 
+	uint16_t acc_1G
 );
 
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);
