@@ -271,6 +271,7 @@ COMMON_SRC = build_config.c \
 		   io/rc_adjustments.c \
 		   io/rc_controls.c \
 		   io/rc_curves.c \
+		   io/msp.c \
 		   io/serial.c \
 		   io/serial_4way.c \
 		   io/serial_4way_avrootloader.c \
