@@ -63,28 +63,29 @@ struct imu default_imu;
 // http://gentlenav.googlecode.com/files/fastRotations.pdf
 #define SPIN_RATE_LIMIT 20
 static void _imu_update_dcm(struct imu *self){
+    float q0q0 = sq(self->q.w);
     float q1q1 = sq(self->q.x);
     float q2q2 = sq(self->q.y);
     float q3q3 = sq(self->q.z);
 
-    float q0q1 = self->q.w * self->q.x;
-    float q0q2 = self->q.w * self->q.y;
-    float q0q3 = self->q.w * self->q.z;
-    float q1q2 = self->q.x * self->q.y;
-    float q1q3 = self->q.x * self->q.z;
-    float q2q3 = self->q.y * self->q.z;
+    float q0q1 = self->q.w * self->q.x; 
+    float q0q2 = self->q.w * self->q.y; 
+    float q0q3 = self->q.w * self->q.z; 
+    float q1q2 = self->q.x * self->q.y; 
+    float q1q3 = self->q.x * self->q.z; 
+    float q2q3 = self->q.y * self->q.z; 
 
-    self->rMat[0][0] = 1.0f - 2.0f * q2q2 - 2.0f * q3q3;
-    self->rMat[0][1] = 2.0f * (q1q2 + -q0q3);
-    self->rMat[0][2] = 2.0f * (q1q3 - -q0q2);
+    self->rMat[0][0] = q0q0 + q1q1 - q2q2 - q3q3;
+    self->rMat[0][1] = 2.0f * (q1q2 - q0q3); 
+    self->rMat[0][2] = 2.0f * (q1q3 + q0q2); 
 
-    self->rMat[1][0] = 2.0f * (q1q2 - -q0q3);
-    self->rMat[1][1] = 1.0f - 2.0f * q1q1 - 2.0f * q3q3;
-    self->rMat[1][2] = 2.0f * (q2q3 + -q0q1);
+    self->rMat[1][0] = 2.0f * (q1q2 + q0q3); 
+    self->rMat[1][1] = q0q0 - q1q1 + q2q2 - q3q3;
+    self->rMat[1][2] = 2.0f * (q2q3 - q0q1); 
 
-    self->rMat[2][0] = 2.0f * (q1q3 + -q0q2);
-    self->rMat[2][1] = 2.0f * (q2q3 - -q0q1);
-    self->rMat[2][2] = 1.0f - 2.0f * q1q1 - 2.0f * q2q2;
+    self->rMat[2][0] = 2.0f * (q1q3 - q0q2); 
+    self->rMat[2][1] = 2.0f * (q2q3 + q0q1); 
+    self->rMat[2][2] = q0q0 - q1q1 - q2q2 + q3q3;
 }
 
 void imu_configure(
@@ -294,7 +295,12 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     self->q.z += (qa * gz + qb * gy - qc * gx);
 
     // Normalise quaternion
-    recipNorm = 1.0f / (sq(self->q.w) + sq(self->q.x) + sq(self->q.y) + sq(self->q.z));
+	recipNorm = sq(self->q.w) + sq(self->q.x) + sq(self->q.y) + sq(self->q.z);
+    if(fabsf(1.0f - recipNorm) < 2.107342e-08){
+        recipNorm = 2.0f / (1.0f + recipNorm);
+    } else {
+        recipNorm = 1.0f / sqrtf(recipNorm);
+    }
     self->q.w *= recipNorm;
     self->q.x *= recipNorm;
     self->q.y *= recipNorm;
