@@ -109,3 +109,7 @@ float acos_approx(float x);
 #define DEGREES_TO_RADIANS(angle) ((angle) * 0.0174532925f)
 
 void arraySubInt32(int32_t *dest, int32_t *array1, int32_t *array2, int count);
+
+typedef float matrix_3x3_t[3][3]; 
+void matrix_set_identity(matrix_3x3_t mat); 
+

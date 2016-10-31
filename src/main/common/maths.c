@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
 
 #include "axis.h"
 #include "maths.h"
@@ -187,6 +188,13 @@ void normalizeV(struct fp_vector *src, struct fp_vector *dest)
         dest->Y = src->Y / length;
         dest->Z = src->Z / length;
     }
+}
+
+void matrix_set_identity(matrix_3x3_t mat){
+	memset(mat, 0, sizeof(matrix_3x3_t)); 
+	mat[0][0] = 1.0f; 
+	mat[1][1] = 1.0f; 
+	mat[2][2] = 1.0f; 
 }
 
 void buildRotationMatrix(fp_angles_t *delta, float matrix[3][3])
