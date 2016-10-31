@@ -296,7 +296,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 
     // Normalise quaternion
 	recipNorm = sq(self->q.w) + sq(self->q.x) + sq(self->q.y) + sq(self->q.z);
-    if(fabsf(1.0f - recipNorm) < 2.107342e-08){
+    if(fabsf(1.0f - recipNorm) < 2.107342e-08f){
         recipNorm = 2.0f / (1.0f + recipNorm);
     } else {
         recipNorm = 1.0f / sqrtf(recipNorm);
