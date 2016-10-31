@@ -485,7 +485,7 @@ static void init(void)
     adcInit(&adc_params);
 #endif
 
-    initBoardAlignment();
+    board_alignment_init(&default_alignment, boardAlignment());
 
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {

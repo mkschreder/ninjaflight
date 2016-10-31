@@ -30,43 +30,42 @@
 
 #include "boardalignment.h"
 
-static bool standardBoardAlignment = true;     // board orientation correction
-static float boardRotation[3][3];              // matrix
+// TODO: remove
+struct board_alignment default_alignment; 
 
-static bool isBoardAlignmentStandard(boardAlignment_t *boardAlignment)
-{
-    return !boardAlignment->rollDegrees && !boardAlignment->pitchDegrees && !boardAlignment->yawDegrees;
-}
+void board_alignment_init(struct board_alignment *self, struct board_alignment_config *config){ 
+	memset(self, 0, sizeof(struct board_alignment)); 
+	self->config = config; 
+	self->standardBoardAlignment = true; 
+	matrix_set_identity(self->rMat); 
 
-void initBoardAlignment(void)
-{
-    if (isBoardAlignmentStandard(boardAlignment())) {
+	// check if standard alignment
+    if(!config || (!config->rollDegrees && !config->pitchDegrees && !config->yawDegrees)){
         return;
     }
 
-    standardBoardAlignment = false;
+    self->standardBoardAlignment = false;
 
     fp_angles_t rotationAngles;
-    rotationAngles.angles.roll = degreesToRadians(boardAlignment()->rollDegrees);
-    rotationAngles.angles.pitch = degreesToRadians(boardAlignment()->pitchDegrees);
-    rotationAngles.angles.yaw = degreesToRadians(boardAlignment()->yawDegrees);
+    rotationAngles.angles.roll = degreesToRadians(config->rollDegrees);
+    rotationAngles.angles.pitch = degreesToRadians(config->pitchDegrees);
+    rotationAngles.angles.yaw = degreesToRadians(config->yawDegrees);
 
-    buildRotationMatrix(&rotationAngles, boardRotation);
+    buildRotationMatrix(&rotationAngles, self->rMat);
 }
 
-static void alignBoard(int32_t *vec)
-{
+static void _calc_alignment(struct board_alignment *self, int32_t *vec){
     int32_t x = vec[X];
     int32_t y = vec[Y];
     int32_t z = vec[Z];
 
-    vec[X] = lrintf(boardRotation[0][X] * x + boardRotation[1][X] * y + boardRotation[2][X] * z);
-    vec[Y] = lrintf(boardRotation[0][Y] * x + boardRotation[1][Y] * y + boardRotation[2][Y] * z);
-    vec[Z] = lrintf(boardRotation[0][Z] * x + boardRotation[1][Z] * y + boardRotation[2][Z] * z);
+	// matrix multiplication
+    vec[X] = lrintf(self->rMat[0][X] * x + self->rMat[1][X] * y + self->rMat[2][X] * z);
+    vec[Y] = lrintf(self->rMat[0][Y] * x + self->rMat[1][Y] * y + self->rMat[2][Y] * z);
+    vec[Z] = lrintf(self->rMat[0][Z] * x + self->rMat[1][Z] * y + self->rMat[2][Z] * z);
 }
 
-void alignSensors(int32_t *src, int32_t *dest, uint8_t rotation)
-{
+void board_alignment_rotate_vector(struct board_alignment *self, int32_t *src, int32_t *dest, uint8_t rotation){
     static uint32_t swap[3];
     memcpy(swap, src, sizeof(swap));
 
@@ -114,6 +113,6 @@ void alignSensors(int32_t *src, int32_t *dest, uint8_t rotation)
             break;
     }
 
-    if (!standardBoardAlignment)
-        alignBoard(dest);
+    if (!self->standardBoardAlignment)
+        _calc_alignment(self, dest);
 }

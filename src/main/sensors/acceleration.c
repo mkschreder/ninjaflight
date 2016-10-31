@@ -199,7 +199,7 @@ void updateAccelerationReadings(rollAndPitchTrims_t *rollAndPitchTrims)
 
     convertRawACCADCReadingsToInternalType(accADCRaw);
 
-    alignSensors(accADC, accADC, accAlign);
+    board_alignment_rotate_vector(&default_alignment, accADC, accADC, accAlign);
 
     if (!isAccelerationCalibrationComplete()) {
         performAcclerationCalibration(rollAndPitchTrims);

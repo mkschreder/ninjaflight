@@ -145,7 +145,7 @@ void gyroUpdate(void)
         gyroADC[axis] = gyroADCRaw[axis];
     }
 
-    alignSensors(gyroADC, gyroADC, gyroAlign);
+    board_alignment_rotate_vector(&default_alignment, gyroADC, gyroADC, gyroAlign);
 
     if (gyroConfig()->soft_gyro_lpf_hz) {
         if (!gyroFilterStateIsSet) {

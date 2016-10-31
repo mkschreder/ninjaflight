@@ -105,7 +105,7 @@ PG_DECLARE_PROFILE(barometerConfig_t, barometerConfig);
 PG_DECLARE(batteryConfig_t, batteryConfig);
 
 #include "sensors/boardalignment.h"
-PG_DECLARE(boardAlignment_t, boardAlignment);
+PG_DECLARE(struct board_alignment_config, boardAlignment);
 
 #include "sensors/compass.h"
 PG_DECLARE_PROFILE(compassConfig_t, compassConfig);

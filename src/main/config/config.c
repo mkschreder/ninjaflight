@@ -99,7 +99,7 @@ PG_RESET_TEMPLATE(batteryConfig_t, batteryConfig,
 );
 
 // BOARD
-PG_REGISTER(boardAlignment_t, boardAlignment, PG_BOARD_ALIGNMENT, 0);
+PG_REGISTER(struct board_alignment_config, boardAlignment, PG_BOARD_ALIGNMENT, 0);
 
 // PID 
 #ifndef DEFAULT_RX_FEATURE
