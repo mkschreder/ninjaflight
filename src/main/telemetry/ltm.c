@@ -182,7 +182,7 @@ static void ltm_sframe(void)
     if (failsafeIsActive())
         lt_statemode |= 2;
     ltm_initialise_packet('S');
-    ltm_serialise_16(vbat * 100);    //vbat converted to mv
+    ltm_serialise_16(battery_get_voltage(&default_battery) * 100);    //vbat converted to mv
     ltm_serialise_16(0);             //  current, not implemented
     ltm_serialise_8((uint8_t)((rc_get_rssi() * 254) / 1023));        // scaled RSSI (uchar)
     ltm_serialise_8(0);              // no airspeed

@@ -812,7 +812,7 @@ void startBlackbox(void)
         blackboxHistory[1] = &blackboxHistoryRing[1];
         blackboxHistory[2] = &blackboxHistoryRing[2];
 
-        vbatReference = vbatLatestADC;
+        vbatReference = battery_get_voltage(&default_battery);
 
         //No need to clear the content of blackboxHistoryRing since our first frame will be an intra which overwrites it
 
@@ -912,7 +912,7 @@ static void loadMainState(void)
 
     blackboxCurrent->time = currentTime;
 
-	const pid_controller_output_t *out = anglerate_controller_get_output_ptr(&default_controller); 
+	const pid_controller_output_t *out = anglerate_get_output_ptr(&default_controller); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
         blackboxCurrent->axisPID_P[i] = out->axis_P[i];
     }
@@ -941,8 +941,8 @@ static void loadMainState(void)
         blackboxCurrent->motor[i] = mixer_get_motor_value(&default_mixer, i);
     }
 
-    blackboxCurrent->vbatLatest = vbatLatestADC;
-    blackboxCurrent->amperageLatest = amperageLatestADC;
+    blackboxCurrent->vbatLatest = battery_get_voltage(&default_battery);
+    blackboxCurrent->amperageLatest = battery_get_current(&default_battery);
 
 #ifdef MAG
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {

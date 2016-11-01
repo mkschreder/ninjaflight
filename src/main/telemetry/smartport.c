@@ -310,13 +310,13 @@ void handleSmartPortTelemetry(void)
 #endif
             case FSSP_DATAID_VFAS       :
                 if (feature(FEATURE_VBAT)) {
-                    smartPortSendPackage(id, vbat * 10); // given in 0.1V, convert to volts
+                    smartPortSendPackage(id, battery_get_voltage(&default_battery) * 10); // given in 0.1V, convert to volts
                     smartPortHasRequest = 0;
                 }
                 break;
             case FSSP_DATAID_CURRENT    :
                 if (feature(FEATURE_CURRENT_METER)) {
-                    smartPortSendPackage(id, amperage / 10); // given in 10mA steps, unknown requested unit
+                    smartPortSendPackage(id, battery_get_current(&default_battery) / 10); // given in 10mA steps, unknown requested unit
                     smartPortHasRequest = 0;
                 }
                 break;
@@ -329,7 +329,7 @@ void handleSmartPortTelemetry(void)
                 break;
             case FSSP_DATAID_FUEL       :
                 if (feature(FEATURE_CURRENT_METER)) {
-                    smartPortSendPackage(id, mAhDrawn); // given in mAh, unknown requested unit
+                    smartPortSendPackage(id, battery_get_spent_capacity(&default_battery)); // given in mAh, unknown requested unit
                     smartPortHasRequest = 0;
                 }
                 break;

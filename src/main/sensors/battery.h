@@ -84,6 +84,7 @@ uint8_t battery_get_remaining_percent(struct battery *self);
 uint8_t battery_get_remaining_capacity(struct battery *self);
 uint16_t battery_get_voltage(struct battery *self);
 uint8_t battery_get_cell_count(struct battery *self);
+uint16_t battery_get_cell_voltage(struct battery *self);
 int32_t battery_get_current(struct battery *self);
 int32_t battery_get_spent_capacity(struct battery *self);
 

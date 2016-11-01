@@ -71,6 +71,10 @@ int32_t battery_get_spent_capacity(struct battery *self){
 	return self->mAhDrawn;
 }
 
+uint16_t battery_get_cell_voltage(struct battery *self){
+	return ((uint32_t)self->vbat * 100 + self->batteryCellCount) / (self->batteryCellCount * 2);
+}
+
 // TODO: make static after we refactor unit tests
 uint16_t _battery_adc_to_voltage(struct battery *self, uint16_t src);
 uint16_t _battery_adc_to_voltage(struct battery *self, uint16_t src){

@@ -371,7 +371,7 @@ static void sendVoltage(void)
      * The actual value sent for cell voltage has resolution of 0.002 volts
      * Since vbat has resolution of 0.1 volts it has to be multiplied by 50
      */
-    cellVoltage = ((uint32_t)vbat * 100 + batteryCellCount) / (batteryCellCount * 2);
+    cellVoltage = battery_get_cell_voltage(&default_battery);
 
     // Cell number is at bit 9-12
     payload = (currentCell << 4);
@@ -386,7 +386,7 @@ static void sendVoltage(void)
     serialize16(payload);
 
     currentCell++;
-    currentCell %= batteryCellCount;
+    currentCell %= battery_get_cell_count(&default_battery);
 }
 
 /*
@@ -399,9 +399,9 @@ static void sendVoltageAmp(void)
          * Use new ID 0x39 to send voltage directly in 0.1 volts resolution
          */
         sendDataHead(ID_VOLTAGE_AMP);
-        serialize16(vbat);
+        serialize16(battery_get_voltage(&default_battery));
     } else {
-        uint16_t voltage = (vbat * 110) / 21;
+        uint16_t voltage = (battery_get_voltage(&default_battery) * 110) / 21;
 
         sendDataHead(ID_VOLTAGE_AMP_BP);
         serialize16(voltage / 100);
@@ -413,7 +413,7 @@ static void sendVoltageAmp(void)
 static void sendAmperage(void)
 {
     sendDataHead(ID_CURRENT);
-    serialize16((uint16_t)(amperage / 10));
+    serialize16((uint16_t)(battery_get_current(&default_battery) / 10));
 }
 
 static void sendFuelLevel(void)
@@ -421,9 +421,9 @@ static void sendFuelLevel(void)
     sendDataHead(ID_FUEL_LEVEL);
 
     if (batteryConfig()->batteryCapacity > 0) {
-        serialize16((uint16_t)calculateBatteryCapacityRemainingPercentage());
+        serialize16((uint16_t)battery_get_remaining_percent(&default_battery));
     } else {
-        serialize16((uint16_t)constrain(mAhDrawn, 0, 0xFFFF));
+        serialize16((uint16_t)constrain(battery_get_spent_capacity(&default_battery), 0, 0xFFFF));
     }
 }
 
