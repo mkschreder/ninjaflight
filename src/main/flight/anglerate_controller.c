@@ -50,12 +50,12 @@
 #include "gtune.h"
 
 // TODO: remove later (see comment in header)
-struct anglerate_controller default_controller; 
+struct anglerate default_controller; 
 
 // TODO: remove this after refactoring
 extern float dT;
 
-static void _anglerate_delta_state_update(struct anglerate_controller *self) {
+static void _anglerate_delta_state_update(struct anglerate *self) {
     if (!self->_delta_state_set && self->config->dterm_cut_hz) {
         for (int axis = 0; axis < 3; axis++) {
             BiQuadNewLpf(self->config->dterm_cut_hz, &self->deltaFilterState[axis], gyro_sync_get_looptime());
@@ -64,7 +64,7 @@ static void _anglerate_delta_state_update(struct anglerate_controller *self) {
     }
 }
 
-static int16_t _multiwii_rewrite_calc_axis(struct anglerate_controller *self, int axis, int32_t gyroRate, int32_t angleRate)
+static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int32_t gyroRate, int32_t angleRate)
 {
     const int32_t rateError = angleRate - gyroRate;
 
@@ -128,7 +128,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate_controller *self, in
     return PTerm + ITerm + DTerm;
 }
 
-static void _multiwii_rewrite_update(struct anglerate_controller *self, union attitude_euler_angles *att) {
+static void _multiwii_rewrite_update(struct anglerate *self, union attitude_euler_angles *att) {
     _anglerate_delta_state_update(self);
 
     int8_t horizonLevelStrength = 0;
@@ -199,7 +199,7 @@ static const float luxITermScale = 1000000.0f / 0x1000000;
 static const float luxDTermScale = (0.000001f * (float)0xFFFF) / 512;
 static const float luxGyroScale = 16.4f / 4; // the 16.4 is needed because mwrewrite does not scale according to the gyro model gyro.scale
 
-static int16_t _luxfloat_calc_axis(struct anglerate_controller *self, int axis, float gyroRate, float angleRate){
+static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroRate, float angleRate){
     const float rateError = angleRate - gyroRate;
 
     // -----calculate P component
@@ -255,7 +255,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate_controller *self, int axis, 
     return lrintf(PTerm + ITerm + DTerm);
 }
 
-static void _luxfloat_update(struct anglerate_controller *self, union attitude_euler_angles *att){
+static void _luxfloat_update(struct anglerate *self, union attitude_euler_angles *att){
     _anglerate_delta_state_update(self);
 
     float horizonLevelStrength = 0;
@@ -320,7 +320,7 @@ static void _luxfloat_update(struct anglerate_controller *self, union attitude_e
     }
 }
 
-static void _multiwii23_update(struct anglerate_controller *self, union attitude_euler_angles *att){
+static void _multiwii23_update(struct anglerate *self, union attitude_euler_angles *att){
     int axis, prop = 0;
     int32_t rc, error, errorAngle, delta, gyroError;
     int32_t PTerm, ITerm, PTermACC, ITermACC, DTerm;
@@ -452,12 +452,12 @@ static void _multiwii23_update(struct anglerate_controller *self, union attitude
 }
 
 
-void anglerate_controller_init(struct anglerate_controller *self) {
-	memset(self, 0, sizeof(struct anglerate_controller)); 
+void anglerate_init(struct anglerate *self) {
+	memset(self, 0, sizeof(struct anglerate)); 
 	self->update = _multiwii_rewrite_update; 
 }
 
-void anglerate_controller_set_configs(struct anglerate_controller *self,
+void anglerate_set_configs(struct anglerate *self,
 	const struct pid_config *config,
 	const struct rate_config *rate_config, 
 	uint16_t max_angle_inclination, 
@@ -470,7 +470,7 @@ void anglerate_controller_set_configs(struct anglerate_controller *self,
 	self->rx_config = rx_config; 
 }
 
-void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t type){
+void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){
 	switch (type) {
         default:
         case PID_CONTROLLER_MWREWRITE:
@@ -490,31 +490,31 @@ void anglerate_controller_set_algo(struct anglerate_controller *self, pid_contro
 
 }
 
-void anglerate_controller_reset_angle_i(struct anglerate_controller *self){
+void anglerate_reset_angle_i(struct anglerate *self){
     self->ITermAngle[AI_ROLL] = 0;
     self->ITermAngle[AI_PITCH] = 0;
 }
 
-void anglerate_controller_reset_rate_i(struct anglerate_controller *self) {
+void anglerate_reset_rate_i(struct anglerate *self) {
 	memset(self->lastITerm, 0, sizeof(self->lastITerm)); 
 	memset(self->lastITermf, 0, sizeof(self->lastITermf)); 
 }
 
-const pid_controller_output_t *anglerate_controller_get_output_ptr(struct anglerate_controller *self){
+const pid_controller_output_t *anglerate_get_output_ptr(struct anglerate *self){
 	return &self->output; 
 }
 
-void anglerate_controller_update(struct anglerate_controller *self, union attitude_euler_angles *att){
+void anglerate_update(struct anglerate *self, union attitude_euler_angles *att){
 	self->update(self, att); 
 }
 
-void anglerate_controller_set_pid_axis_scale(struct anglerate_controller *self, uint8_t axis, int32_t scale){
+void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale){
 	self->dynP8[axis] = (uint16_t)self->config->P8[axis] * scale / 100;
 	self->dynI8[axis] = (uint16_t)self->config->I8[axis] * scale / 100;
 	self->dynD8[axis] = (uint16_t)self->config->D8[axis] * scale / 100;
 }
 
-void anglerate_controller_set_pid_axis_weight(struct anglerate_controller *self, uint8_t axis, int32_t weight){
+void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight){
 	self->PIDweight[axis] = weight;
 }
 

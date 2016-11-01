@@ -757,7 +757,7 @@ static void activateConfig(void)
 
     useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
 
-    anglerate_controller_set_algo(&default_controller, pidProfile()->pidController);
+    anglerate_set_algo(&default_controller, pidProfile()->pidController);
 
 #ifdef GPS
     gpsUsePIDs(pidProfile());

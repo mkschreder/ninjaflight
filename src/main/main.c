@@ -540,7 +540,7 @@ static void init(void)
 #endif
 
 	// is this ok here? 
-	anglerate_controller_init(&default_controller); 
+	anglerate_init(&default_controller); 
 
     failsafeInit();
 

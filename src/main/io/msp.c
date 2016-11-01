@@ -1093,7 +1093,7 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_SET_PID_CONTROLLER:
             pidProfile()->pidController = sbufReadU8(src);
-            anglerate_controller_set_algo(&default_controller, pidProfile()->pidController);
+            anglerate_set_algo(&default_controller, pidProfile()->pidController);
             break;
 
         case MSP_SET_PID:

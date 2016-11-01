@@ -216,14 +216,14 @@ static void updateRcCommands(void)
 #ifndef SKIP_PID_MW23
         // FIXME axis indexes into pids.  use something like lookupPidIndex(rc_alias_e alias) to reduce coupling.
 		// TODO: move this kind of shit into pid controller module
-		anglerate_controller_set_pid_axis_scale(&default_controller, axis, prop1);
+		anglerate_set_pid_axis_scale(&default_controller, axis, prop1);
 #endif
         // non coupled PID reduction scaler used in PID controller 1 and PID controller 2. YAW TPA disabled. 100 means 100% of the pids
         if (axis == YAW) {
-			anglerate_controller_set_pid_axis_weight(&default_controller, axis, 100); 
+			anglerate_set_pid_axis_weight(&default_controller, axis, 100); 
         }
         else {
-			anglerate_controller_set_pid_axis_weight(&default_controller, axis, prop2); 
+			anglerate_set_pid_axis_weight(&default_controller, axis, prop2); 
         }
 
         if (rc_get_channel_value(axis) < rxConfig()->midrc)
@@ -437,9 +437,9 @@ static void processRx(void)
             }
         } else {
 #ifndef SKIP_PID_MW23
-            anglerate_controller_reset_angle_i(&default_controller);
+            anglerate_reset_angle_i(&default_controller);
 #endif
-            anglerate_controller_reset_rate_i(&default_controller);
+            anglerate_reset_rate_i(&default_controller);
         }
     } else {
         DISABLE_STATE(ANTI_WINDUP);
@@ -510,7 +510,7 @@ static void processRx(void)
 
         if (!FLIGHT_MODE(ANGLE_MODE)) {
 #ifndef SKIP_PID_MW23
-            anglerate_controller_reset_angle_i(&default_controller);
+            anglerate_reset_angle_i(&default_controller);
 #endif
             ENABLE_FLIGHT_MODE(ANGLE_MODE);
         }
@@ -524,7 +524,7 @@ static void processRx(void)
 
         if (!FLIGHT_MODE(HORIZON_MODE)) {
 #ifndef SKIP_PID_MW23
-            anglerate_controller_reset_angle_i(&default_controller);
+            anglerate_reset_angle_i(&default_controller);
 #endif
             ENABLE_FLIGHT_MODE(HORIZON_MODE);
         }
@@ -715,7 +715,7 @@ static void taskMainPidLoop(void)
 	imu_get_attitude_dd(&default_imu, &att); 
 
 	// TODO: move this once we have tested current refactored code 
-	anglerate_controller_set_configs(&default_controller, 
+	anglerate_set_configs(&default_controller, 
 		pidProfile(),
 		currentControlRateProfile,
 		imuConfig()->max_angle_inclination,
@@ -732,13 +732,13 @@ static void taskMainPidLoop(void)
 				user_control = rcCommand[tilt->control_channel]; 
 				rcCommand[tilt->control_channel] = 0; 
 				// run pid controller with modified pitch 
-				anglerate_controller_update(&default_controller, &att);
+				anglerate_update(&default_controller, &att);
 				rcCommand[tilt->control_channel] = user_control; 
 
 				mixer_input_motor_pitch_angle(&default_mixer, user_control);
 			} else {
 				// otherwise we keep user input and just run the anglerate controller 
-				anglerate_controller_update(&default_controller, &att);
+				anglerate_update(&default_controller, &att);
 				// get the control input for the tilt from the control channel
 				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 			}	
@@ -750,19 +750,19 @@ static void taskMainPidLoop(void)
 				user_control = rcCommand[tilt->control_channel]; 
 				rcCommand[tilt->control_channel] = user_control >> 1; 
 				// run pid controller with modified pitch 
-				anglerate_controller_update(&default_controller, &att);
+				anglerate_update(&default_controller, &att);
 				rcCommand[tilt->control_channel] = user_control; 
 
 				mixer_input_motor_pitch_angle(&default_mixer, user_control >> 1);
 			} else {
 				// otherwise we keep user input and just run the anglerate controller 
-				anglerate_controller_update(&default_controller, &att);
+				anglerate_update(&default_controller, &att);
 				// get the control input for the tilt from the control channel
 				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 			}	
 		} else {
 			// in rate mode we only allow manual tilting using one of the aux channels
-			anglerate_controller_update(&default_controller, &att);
+			anglerate_update(&default_controller, &att);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
 				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
 			} else {
@@ -771,10 +771,10 @@ static void taskMainPidLoop(void)
 		} 
 	} else {
 		// without tilting we just run the anglerate controller
-		anglerate_controller_update(&default_controller, &att);
+		anglerate_update(&default_controller, &att);
 	}
 
-    mixer_update(&default_mixer, anglerate_controller_get_output_ptr(&default_controller));
+    mixer_update(&default_mixer, anglerate_get_output_ptr(&default_controller));
 
 #ifdef USE_SERVOS
     filterServos(&default_mixer);

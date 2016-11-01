@@ -160,7 +160,9 @@ void updateSonarAltHoldState(void)
     }
 }
 
-static bool isThrustFacingDownwards(struct imu *imu){
+// TODO: remove once we are done refactoring unit tests
+bool isThrustFacingDownwards(struct imu *imu);
+bool isThrustFacingDownwards(struct imu *imu){
     return ABS(imu_get_roll_dd(imu)) < DEGREES_80_IN_DECIDEGREES && ABS(imu_get_pitch_dd(imu)) < DEGREES_80_IN_DECIDEGREES;
 }
 

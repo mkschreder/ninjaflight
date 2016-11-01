@@ -82,7 +82,7 @@ typedef struct {
 #endif
 } pid_controller_output_t; 
 
-struct anglerate_controller {
+struct anglerate {
 	// PIDweight is a scale factor for PIDs which is derived from the throttle and TPA setting, and 100 = 100% scale means no PID reduction
 	uint8_t PIDweight[3];
 
@@ -92,7 +92,7 @@ struct anglerate_controller {
 	biquad_t deltaFilterState[3];
 
 	// update outputs based on current attitude information
-	void (*update)(struct anglerate_controller *self, union attitude_euler_angles *att); 
+	void (*update)(struct anglerate *self, union attitude_euler_angles *att); 
 	
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -117,24 +117,24 @@ struct anglerate_controller {
 }; 
 
 // TODO: remove when done refactoring. This should be a member of a higher level struct.  
-extern struct anglerate_controller default_controller; 
+extern struct anglerate default_controller; 
 
 #define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
 //float pidScaleITermToRcInput(int axis);
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
-void anglerate_controller_init(struct anglerate_controller *self); 
-void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t type);
-void anglerate_controller_reset_angle_i(struct anglerate_controller *self);
-void anglerate_controller_reset_rate_i(struct anglerate_controller *self);
-const pid_controller_output_t *anglerate_controller_get_output_ptr(struct anglerate_controller *self); 
-void anglerate_controller_update(struct anglerate_controller *self, union attitude_euler_angles *att); 
+void anglerate_init(struct anglerate *self); 
+void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
+void anglerate_reset_angle_i(struct anglerate *self);
+void anglerate_reset_rate_i(struct anglerate *self);
+const pid_controller_output_t *anglerate_get_output_ptr(struct anglerate *self); 
+void anglerate_update(struct anglerate *self, union attitude_euler_angles *att); 
 
-void anglerate_controller_set_pid_axis_scale(struct anglerate_controller *self, uint8_t axis, int32_t scale); 
-void anglerate_controller_set_pid_axis_weight(struct anglerate_controller *self, uint8_t axis, int32_t weight); 
+void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale); 
+void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight); 
 
 // TODO: this should be removed
-void anglerate_controller_set_configs(struct anglerate_controller *self,
+void anglerate_set_configs(struct anglerate *self,
 	const struct pid_config *config,
 	const struct rate_config *rate_config, 
 	uint16_t max_angle_inclination, 
