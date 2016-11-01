@@ -53,18 +53,23 @@ static int taskQueuePos = 0;
 static int taskQueueSize = 0;
 // No need for a linked list for the queue, since items are only inserted at startup
 #ifdef UNIT_TEST
-STATIC_UNIT_TESTED cfTask_t* taskQueueArray[TASK_COUNT + 2]; // 1 extra space so test code can check for buffer overruns
+cfTask_t* taskQueueArray[TASK_COUNT + 2]; // 1 extra space so test code can check for buffer overruns
 #else
 static cfTask_t* taskQueueArray[TASK_COUNT + 1]; // extra item for NULL pointer at end of queue
 #endif
-STATIC_UNIT_TESTED void queueClear(void)
+
+// TODO: make this static after refactoring unit tests
+void queueClear(void);
+void queueClear(void)
 {
     memset(taskQueueArray, 0, sizeof(taskQueueArray));
     taskQueuePos = 0;
     taskQueueSize = 0;
 }
 
-STATIC_UNIT_TESTED bool queueContains(cfTask_t *task)
+// TODO: make this static after refactoring unit tests
+bool queueContains(cfTask_t *task); 
+bool queueContains(cfTask_t *task)
 {
     for (int ii = 0; ii < taskQueueSize; ++ii) {
         if (taskQueueArray[ii] == task) {
@@ -74,7 +79,9 @@ STATIC_UNIT_TESTED bool queueContains(cfTask_t *task)
     return false;
 }
 
-STATIC_UNIT_TESTED bool queueAdd(cfTask_t *task)
+// TODO: make this static after refactoring unit tests
+bool queueAdd(cfTask_t *task); 
+bool queueAdd(cfTask_t *task)
 {
     if ((taskQueueSize >= TASK_COUNT) || queueContains(task)) {
         return false;
@@ -90,7 +97,9 @@ STATIC_UNIT_TESTED bool queueAdd(cfTask_t *task)
     return false;
 }
 
-STATIC_UNIT_TESTED bool queueRemove(cfTask_t *task)
+// TODO: make this static after refactoring unit tests
+bool queueRemove(cfTask_t *task); 
+bool queueRemove(cfTask_t *task)
 {
     for (int ii = 0; ii < taskQueueSize; ++ii) {
         if (taskQueueArray[ii] == task) {
@@ -105,7 +114,9 @@ STATIC_UNIT_TESTED bool queueRemove(cfTask_t *task)
 /*
  * Returns first item queue or NULL if queue empty
  */
-STATIC_INLINE_UNIT_TESTED cfTask_t *queueFirst(void)
+// TODO: make this static after refactoring unit tests
+cfTask_t *queueFirst(void); 
+cfTask_t *queueFirst(void)
 {
     taskQueuePos = 0;
     return taskQueueArray[0]; // guaranteed to be NULL if queue is empty
@@ -114,7 +125,9 @@ STATIC_INLINE_UNIT_TESTED cfTask_t *queueFirst(void)
 /*
  * Returns next item in queue or NULL if at end of queue
  */
-STATIC_INLINE_UNIT_TESTED cfTask_t *queueNext(void)
+// TODO: make this static after refactoring unit tests
+cfTask_t *queueNext(void); 
+cfTask_t *queueNext(void)
 {
     return taskQueueArray[++taskQueuePos]; // guaranteed to be NULL at end of queue
 }

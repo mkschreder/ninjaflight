@@ -34,9 +34,9 @@ extern "C" {
 #include "gtest/gtest.h"
 
 extern "C" {
-STATIC_UNIT_TESTED extern uint16_t dmaBufferOffset;
+extern uint16_t dmaBufferOffset;
 
-STATIC_UNIT_TESTED void fastUpdateLEDDMABuffer(uint8_t **dst, rgbColor24bpp_t color);
+void fastUpdateLEDDMABuffer(uint8_t **dst, rgbColor24bpp_t color);
 }
 
 TEST(WS2812, updateDMABuffer) {

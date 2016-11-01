@@ -184,7 +184,7 @@ extern const uint8_t __pg_resetdata_end[];
 
 // register profile config
 #define PG_REGISTER_PROFILE_I(_type, _name, _pgn, _version, _reset)     \
-    STATIC_UNIT_TESTED _type _name ## _Storage[MAX_PROFILE_COUNT];      \
+    _type _name ## _Storage[MAX_PROFILE_COUNT];      \
     _PG_PROFILE_CURRENT_DECL(_type, _name)                              \
     extern const pgRegistry_t _name ## _Registry;                       \
     const pgRegistry_t _name ## _Registry PG_REGISTER_ATTRIBUTES = {    \

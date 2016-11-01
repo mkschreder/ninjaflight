@@ -67,7 +67,7 @@ static uint8_t servoRuleCount = 0;
 static servoMixer_t currentServoMixer[MAX_SERVO_RULES];
 int16_t servo[MAX_SUPPORTED_SERVOS];
 static int useServo;
-STATIC_UNIT_TESTED uint8_t servoCount;
+uint8_t servoCount;
 static servoParam_t *servoConf;
 static biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
 
@@ -312,7 +312,9 @@ void servoMixerLoadMix(int index, servoMixer_t *customServoMixers)
         customServoMixers[i] = servoMixers[index].rule[i];
 }
 
-STATIC_UNIT_TESTED void forwardAuxChannelsToServos(uint8_t firstServoIndex)
+// TODO: make this static after refactoring unit tests
+void forwardAuxChannelsToServos(uint8_t firstServoIndex);
+void forwardAuxChannelsToServos(uint8_t firstServoIndex)
 {
     // start forwarding from this channel
     uint8_t channelOffset = AUX1;
@@ -400,7 +402,9 @@ void writeServos(struct mixer *self)
     }
 }
 
-STATIC_UNIT_TESTED void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis)
+// TODO: make this static after refactoring unit tests
+void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis);
+void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis)
 {
 	UNUSED(self); 
     int16_t input[INPUT_SOURCE_COUNT]; // Range [-500:+500]

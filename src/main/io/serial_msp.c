@@ -41,7 +41,7 @@
 #include "io/serial_msp.h"
 #include "io/serial_4way.h"
 
-STATIC_UNIT_TESTED mspPort_t mspPorts[MAX_MSP_PORT_COUNT];
+mspPort_t mspPorts[MAX_MSP_PORT_COUNT];
 
 // assign serialPort to mspPort
 // free mspPort when serialPort is NULL
@@ -131,7 +131,9 @@ static void mspSerialResponse(mspPort_t *msp, mspPacket_t *reply)
     serialEndWrite(msp->port);
 }
 
-STATIC_UNIT_TESTED void mspSerialProcessReceivedCommand(mspPort_t *msp)
+// TODO: make this static after refactoring unit tests
+void mspSerialProcessReceivedCommand(mspPort_t *msp);
+void mspSerialProcessReceivedCommand(mspPort_t *msp)
 {
     mspPacket_t command = {
         .buf = {

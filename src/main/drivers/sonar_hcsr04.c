@@ -65,7 +65,7 @@ typedef struct sonarRange_s {
     int16_t detectionConeExtendedDeciDegrees; // device spec is conservative, in practice have slightly larger detection cone
 } sonarRange_t;
 
-STATIC_UNIT_TESTED volatile int32_t measurement = -1;
+volatile int32_t measurement = -1;
 static uint32_t lastMeasurementAt;
 
 static const struct sonar_hardware *sonar_hardware; 

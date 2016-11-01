@@ -16,6 +16,7 @@
  */
 #include <stdint.h>
 
+#include "target.h"
 
 extern "C" {
     #include <platform.h>

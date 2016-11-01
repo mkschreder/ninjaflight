@@ -75,13 +75,13 @@ static void ledStripDisable(void);
 // macro to save typing on default colors
 #define HSV(color) (hsv[COLOR_ ## color])
 
-STATIC_UNIT_TESTED uint8_t ledGridWidth;
-STATIC_UNIT_TESTED uint8_t ledGridHeight;
+uint8_t ledGridWidth;
+uint8_t ledGridHeight;
 // grid offsets
-STATIC_UNIT_TESTED uint8_t highestYValueForNorth;
-STATIC_UNIT_TESTED uint8_t lowestYValueForSouth;
-STATIC_UNIT_TESTED uint8_t highestXValueForWest;
-STATIC_UNIT_TESTED uint8_t lowestXValueForEast;
+uint8_t highestYValueForNorth;
+uint8_t lowestYValueForSouth;
+uint8_t highestXValueForWest;
+uint8_t lowestXValueForEast;
 
 uint8_t ledCount;
 uint8_t ledRingCount;
@@ -101,7 +101,9 @@ static uint8_t ledRingSeqLen;
 
 static void updateLedRingCounts(void);
 
-STATIC_UNIT_TESTED void determineLedStripDimensions(void)
+// TODO: make this static after refactoring unit tests
+void determineLedStripDimensions(void); 
+void determineLedStripDimensions(void)
 {
     int maxX = 0;
     int maxY = 0;
@@ -116,7 +118,9 @@ STATIC_UNIT_TESTED void determineLedStripDimensions(void)
     ledGridHeight = maxY + 1;
 }
 
-STATIC_UNIT_TESTED void determineOrientationLimits(void)
+// TODO: make this static after refactoring unit tests
+void determineOrientationLimits(void); 
+void determineOrientationLimits(void)
 {
     highestYValueForNorth = (ledGridHeight / 2) - 1;
     lowestYValueForSouth = ((ledGridHeight + 1) / 2);

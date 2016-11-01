@@ -97,7 +97,9 @@ bool isWS2811LedStripReady(void)
     return !ws2811LedDataTransferInProgress;
 }
 
-STATIC_UNIT_TESTED void fastUpdateLEDDMABuffer(uint8_t **buffer, rgbColor24bpp_t color)
+// TODO: make this static after refactoring the unit tests
+void fastUpdateLEDDMABuffer(uint8_t **buffer, rgbColor24bpp_t color); 
+void fastUpdateLEDDMABuffer(uint8_t **buffer, rgbColor24bpp_t color)
 {
     uint32_t grb = (color.rgb.g << 16) | (color.rgb.r << 8) | (color.rgb.b);
 //    uint32_t grb = (color.rgb.r << 16) | (color.rgb.g << 8) | (color.rgb.b);

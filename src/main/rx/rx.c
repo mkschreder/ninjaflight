@@ -127,24 +127,32 @@ void serialRxInit(rxConfig_t *rxConfig);
 
 static uint8_t validFlightChannelMask;
 
-STATIC_UNIT_TESTED void rxResetFlightChannelStatus(void)
+// TODO: make this static after refactoring unit tests
+void rxResetFlightChannelStatus(void);
+void rxResetFlightChannelStatus(void)
 {
     validFlightChannelMask = REQUIRED_CHANNEL_MASK;
 }
 
-STATIC_UNIT_TESTED bool rxHaveValidFlightChannels(void)
+// TODO: make this static after refactoring unit tests
+bool rxHaveValidFlightChannels(void);
+bool rxHaveValidFlightChannels(void)
 {
     return (validFlightChannelMask == REQUIRED_CHANNEL_MASK);
 }
 
-STATIC_UNIT_TESTED bool isPulseValid(uint16_t pulseDuration)
+// TODO: make this static after refactoring unit tests
+bool isPulseValid(uint16_t pulseDuration);
+bool isPulseValid(uint16_t pulseDuration)
 {
     return  pulseDuration >= rxConfig()->rx_min_usec &&
             pulseDuration <= rxConfig()->rx_max_usec;
 }
 
 // pulse duration is in micro seconds (usec)
-STATIC_UNIT_TESTED void rxUpdateFlightChannelStatus(uint8_t channel, bool valid)
+// TODO: make this static after refactoring unit tests
+void rxUpdateFlightChannelStatus(uint8_t channel, bool valid);
+void rxUpdateFlightChannelStatus(uint8_t channel, bool valid)
 {
     if (channel < NON_AUX_CHANNEL_COUNT && !valid) {
         // if signal is invalid - mark channel as BAD
@@ -435,7 +443,9 @@ static uint16_t getRxfailValue(uint8_t channel)
     }
 }
 
-STATIC_UNIT_TESTED uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t *range)
+// TODO: make this static after refactoring unit tests
+uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t *range);
+uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t *range)
 {
     // Avoid corruption of channel with a value of PPM_RCVR_TIMEOUT
     if (sample == PPM_RCVR_TIMEOUT) {

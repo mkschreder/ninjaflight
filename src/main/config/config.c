@@ -660,7 +660,10 @@ static void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProf
     rateProfileSelection_Storage[profileIndex].defaultRateProfileIndex = rateProfileIndex % MAX_CONTROL_RATE_PROFILE_COUNT;
 }
 // Default settings
-STATIC_UNIT_TESTED void resetConf(void)
+
+// TODO: make this static after refactoring unit tests
+void resetConf(void); 
+void resetConf(void)
 {
     pgResetAll(MAX_PROFILE_COUNT);
 
