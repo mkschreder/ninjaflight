@@ -212,6 +212,8 @@ void mixerInitServos(servoMixer_t *initialCustomServoMixers)
 }
 
 // TODO: this is abused elsewhere. Stop the abuse. 
+/*
+// TODO: figure out why we are not using this anymore (using mixer_set_pwmio_config)
 void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration); 
 void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration)
 {
@@ -278,7 +280,7 @@ void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOC
 
     mixer_reset_disarmed_pwm_values(&default_mixer);
 }
-
+*/
 void loadCustomServoMixer(void)
 {
     uint8_t i;
@@ -403,8 +405,8 @@ void writeServos(struct mixer *self)
 }
 
 // TODO: make this static after refactoring unit tests
-void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis);
-void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis)
+void servoMixer(struct mixer *self, const struct pid_controller_output *pid_axis);
+void servoMixer(struct mixer *self, const struct pid_controller_output *pid_axis)
 {
 	UNUSED(self); 
     int16_t input[INPUT_SOURCE_COUNT]; // Range [-500:+500]
@@ -483,7 +485,7 @@ void servoMixer(struct mixer *self, const pid_controller_output_t *pid_axis)
 }
 
 // airplane / servo mixes
-void mixer_update_servos(struct mixer *self, const pid_controller_output_t *pid_axis){
+void mixer_update_servos(struct mixer *self, const struct pid_controller_output *pid_axis){
 	(void)self; 
     switch (mixerConfig()->mixerMode) {
         case MIXER_CUSTOM_AIRPLANE:

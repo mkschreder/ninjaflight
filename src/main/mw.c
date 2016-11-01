@@ -431,9 +431,9 @@ static void processRx(void)
     if (throttleStatus == THROTTLE_LOW) {
         if (rcModeIsActive(BOXAIRMODE) && !failsafeIsActive() && ARMING_FLAG(ARMED)) {
             if (rollPitchStatus == CENTERED) {
-                ENABLE_STATE(ANTI_WINDUP);
+				anglerate_enable_antiwindup(&default_controller, true);
             } else {
-                DISABLE_STATE(ANTI_WINDUP);
+				anglerate_enable_antiwindup(&default_controller, false);
             }
         } else {
 #ifndef SKIP_PID_MW23
@@ -441,9 +441,18 @@ static void processRx(void)
 #endif
             anglerate_reset_rate_i(&default_controller);
         }
-    } else {
-        DISABLE_STATE(ANTI_WINDUP);
+    } else if(mixer_motor_limit_reached(&default_mixer)){
+		// when motor limit reached then we always enable antiwindup (this is taken from cleanflight pid code)
+		anglerate_enable_antiwindup(&default_controller, true);
+	} else {
+		anglerate_enable_antiwindup(&default_controller, false);
     }
+
+	// plimit is enabled in cleanflight for some reason based on number of motors
+	if(mixer_get_motor_count(&default_mixer) >= 4)
+		anglerate_enable_plimit(&default_controller, true);
+	else
+		anglerate_enable_plimit(&default_controller, false);
 
     // When armed and motors aren't spinning, do beeps and then disarm
     // board after delay so users without buzzer won't lose fingers.

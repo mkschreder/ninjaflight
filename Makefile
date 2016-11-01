@@ -727,12 +727,16 @@ SITL_SRC = \
 			common/filter.c \
 			common/maths.c \
 			config/config.c \
+			config/parameter_group.c \
+			config/profile.c \
+			config/feature.c \
 			flight/altitudehold.c \
 			flight/failsafe.c \
 			flight/anglerate_controller.c \
 			flight/imu.c \
 			flight/mixer.c \
 			flight/servos.c \
+			flight/rate_profile.c \
 			sitl/flash.c \
 			sitl/rx.c \
 			sitl/time.c \

@@ -104,7 +104,7 @@ extern "C" {
     PG_REGISTER(sensorSelectionConfig_t, sensorSelectionConfig, PG_SENSOR_SELECTION_CONFIG, 0);
     PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
 */
-	struct anglerate_controller default_controller; 
+	struct anglerate default_controller; 
 	struct imu default_imu; 
 	acc_t acc;
 	gyro_t gyro;

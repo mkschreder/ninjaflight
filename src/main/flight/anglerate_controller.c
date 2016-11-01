@@ -49,8 +49,8 @@
 #include "mixer.h"
 #include "gtune.h"
 
-// TODO: remove later (see comment in header)
-struct anglerate default_controller; 
+#define ANGLERATE_FLAG_ANTIWINDUP (1 << 0)
+#define ANGLERATE_FLAG_PLIMIT (1 << 0)
 
 // TODO: remove this after refactoring
 extern float dT;
@@ -71,7 +71,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
     // -----calculate P component
     int32_t PTerm = (rateError * self->config->P8[axis] * self->PIDweight[axis] / 100) >> 7;
     // Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-    if (axis == YAW && self->config->yaw_p_limit && mixer_get_motor_count(&default_mixer) >= 4) {
+    if (axis == YAW && self->config->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
         PTerm = constrain(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
     }
 
@@ -88,7 +88,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
     // Anti windup protection
     if (rcModeIsActive(BOXAIRMODE)) {
 		// TODO: state here is defined in runtime_config.h, which is nonsense. Move it into this module when done refactoring. 
-        if (STATE(ANTI_WINDUP) || mixer_motor_limit_reached(&default_mixer)) {
+        if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
             ITerm = constrain(ITerm, -self->ITermLimit[axis], self->ITermLimit[axis]);
         } else {
             self->ITermLimit[axis] = ABS(ITerm);
@@ -205,7 +205,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
     // -----calculate P component
     float PTerm = luxPTermScale * rateError * self->config->P8[axis] * self->PIDweight[axis] / 100;
     // Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-    if (axis == YAW && self->config->yaw_p_limit && mixer_get_motor_count(&default_mixer) >= 4) {
+    if (axis == YAW && self->config->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
         PTerm = constrainf(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
     }
 
@@ -216,7 +216,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
     ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
     // Anti windup protection
     if (rcModeIsActive(BOXAIRMODE)) {
-        if (STATE(ANTI_WINDUP) || mixer_motor_limit_reached(&default_mixer)) {
+        if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
             ITerm = constrainf(ITerm, -self->ITermLimitf[axis], self->ITermLimitf[axis]);
         } else {
             self->ITermLimitf[axis] = ABS(ITerm);
@@ -349,7 +349,7 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
 
         // Anti windup protection
         if (rcModeIsActive(BOXAIRMODE)) {
-            if (STATE(ANTI_WINDUP) || mixer_motor_limit_reached(&default_mixer)) {
+            if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
                 self->lastITerm[axis] = constrain(self->lastITerm[axis], -self->ITermLimit[axis], self->ITermLimit[axis]);
             } else {
                 self->ITermLimit[axis] = ABS(self->lastITerm[axis]);
@@ -430,7 +430,7 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
     PTerm = (int32_t)error * self->config->P8[FD_YAW] >> 6; // TODO: Bitwise shift on a signed integer is not recommended
 
     // Constrain YAW by D value if not servo driven in that case servolimits apply
-    if(mixer_get_motor_count(&default_mixer) >= 4 && self->config->yaw_p_limit < YAW_P_LIMIT_MAX) {
+    if((self->flags & ANGLERATE_FLAG_PLIMIT) && self->config->yaw_p_limit < YAW_P_LIMIT_MAX) {
         PTerm = constrain(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
     }
 
@@ -500,12 +500,22 @@ void anglerate_reset_rate_i(struct anglerate *self) {
 	memset(self->lastITermf, 0, sizeof(self->lastITermf)); 
 }
 
-const pid_controller_output_t *anglerate_get_output_ptr(struct anglerate *self){
+const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self){
 	return &self->output; 
 }
 
 void anglerate_update(struct anglerate *self, union attitude_euler_angles *att){
 	self->update(self, att); 
+}
+
+void anglerate_enable_plimit(struct anglerate *self, bool on){
+	if(on) self->flags |= ANGLERATE_FLAG_PLIMIT; 
+	else self->flags &= ~ANGLERATE_FLAG_PLIMIT;
+}
+
+void anglerate_enable_antiwindup(struct anglerate *self, bool on){
+	if(on) self->flags |= ANGLERATE_FLAG_ANTIWINDUP; 
+	else self->flags &= ~ANGLERATE_FLAG_ANTIWINDUP;
 }
 
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale){

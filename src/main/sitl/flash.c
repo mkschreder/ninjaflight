@@ -6,8 +6,8 @@
 
 uint8_t __config_start[8192] __attribute__((aligned(1024)));
 uint8_t __config_end[1]; // TODO
-
 /*
+
 static const int Capacity = 8192;
 static const int PageSize = 1024;
 

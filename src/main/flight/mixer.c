@@ -292,7 +292,7 @@ void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uin
 void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration)
 {
     UNUSED(pwmIOConfiguration);
-    self->motorCount = 4;
+	self->motorCount = 4; 
     uint8_t i;
     for (i = 0; i < self->motorCount; i++) {
         self->currentMixer[i] = mixerQuadX[i];
@@ -432,7 +432,7 @@ static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self, int16_t 
 	#endif
 }
 
-void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis){
+void mixer_update(struct mixer *self, const struct pid_controller_output *pid_axis){
     uint32_t i;
 	int16_t axis[3] = {pid_axis->axis[0], pid_axis->axis[1], pid_axis->axis[2]}; 
 
@@ -608,6 +608,10 @@ void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis){
 	mixer_update_servos(self, pid_axis);
 #endif
 
+}
+
+void mixer_enable_3d_mode(struct mixer *self, bool on){
+	self->mode3d = on;
 }
 
 void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd){

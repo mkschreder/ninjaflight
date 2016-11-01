@@ -73,14 +73,14 @@ struct pid_config {
 union rollAndPitchTrims_u;
 struct rxConfig_s;
 
-typedef struct {
+struct pid_controller_output{
 	int16_t axis[3]; 
 #ifdef BLACKBOX
 	float axis_P[3]; 
 	float axis_I[3]; 
 	float axis_D[3]; 
 #endif
-} pid_controller_output_t; 
+}; 
 
 struct anglerate {
 	// PIDweight is a scale factor for PIDs which is derived from the throttle and TPA setting, and 100 = 100% scale means no PID reduction
@@ -106,7 +106,7 @@ struct anglerate {
 	int32_t lastRateForDeltai[3];
 	int32_t deltaStatei[3][DTERM_AVERAGE_COUNT]; 
 
-	pid_controller_output_t output; 
+	struct pid_controller_output output; 
 
 	bool _delta_state_set; 
 	const struct rate_config *rate_config; 
@@ -114,6 +114,8 @@ struct anglerate {
 	uint16_t max_angle_inclination;  
 	const rollAndPitchTrims_t *angle_trim;  
 	const rxConfig_t *rx_config; 
+
+	uint8_t flags;
 }; 
 
 // TODO: remove when done refactoring. This should be a member of a higher level struct.  
@@ -127,9 +129,11 @@ void anglerate_init(struct anglerate *self);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
-const pid_controller_output_t *anglerate_get_output_ptr(struct anglerate *self); 
+const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self); 
 void anglerate_update(struct anglerate *self, union attitude_euler_angles *att); 
 
+void anglerate_enable_antiwindup(struct anglerate *self, bool on);
+void anglerate_enable_plimit(struct anglerate *self, bool on);
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale); 
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight); 
 

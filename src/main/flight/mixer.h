@@ -94,6 +94,8 @@ struct mixer {
 	
 	int16_t motor_pitch; 
 	int16_t tilt_pwm; 
+
+	bool mode3d;
 };
 
 // TODO: this is very bad way so remove this later once refactoring is done.
@@ -141,13 +143,14 @@ void mixer_init(struct mixer *self, struct motor_mixer *custom_mixers, uint8_t c
 void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc);
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
 void mixer_reset_disarmed_pwm_values(struct mixer *self);
-void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis);
-void mixer_update_servos(struct mixer *self, const pid_controller_output_t *pid_axis); 
+void mixer_update(struct mixer *self, const struct pid_controller_output *pid_axis);
+void mixer_update_servos(struct mixer *self, const struct pid_controller_output *pid_axis); 
 void mixer_write_pwm(struct mixer *self);
 void mixer_stop_motors(struct mixer *self);
 void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 
+void mixer_enable_3d_mode(struct mixer *self, bool on);
 void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd); 
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
 struct pwmIOConfiguration_s; // TODO: remove this kind of dependency 
