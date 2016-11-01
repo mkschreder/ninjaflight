@@ -52,7 +52,6 @@ extern uint32_t currentTime; // FIXME dependency on global variable, pass it in 
 int16_t magADCRaw[XYZ_AXIS_COUNT];
 int32_t magADC[XYZ_AXIS_COUNT];
 sensor_align_e magAlign = 0;
-#ifdef MAG
 static uint8_t magInit = 0;
 
 void compassInit(void)
@@ -73,7 +72,7 @@ void updateCompass(flightDynamicsTrims_t *magZero)
 
     mag.read(magADCRaw);
     for (axis = 0; axis < XYZ_AXIS_COUNT; axis++) magADC[axis] = magADCRaw[axis];  // int32_t copy to work with
-    alignSensors(magADC, magADC, magAlign);
+    board_alignment_rotate_vector(&default_alignment, magADC, magADC, magAlign);
 
     if (STATE(CALIBRATE_MAG)) {
         tCal = currentTime;
@@ -110,7 +109,6 @@ void updateCompass(flightDynamicsTrims_t *magZero)
         }
     }
 }
-#endif
 
 void recalculateMagneticDeclination(void)
 {
