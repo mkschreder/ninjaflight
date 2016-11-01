@@ -714,15 +714,6 @@ static void taskMainPidLoop(void)
 	union attitude_euler_angles att; 
 	imu_get_attitude_dd(&default_imu, &att); 
 
-	if(USE_TILT){
-		// this makes sure that the control channel passed to the pid control is zero if we are using that channel for tilt
-		// NOTE: this can have funny effects for channels other than pitch and roll. For now I'll leave it this way. 
-		if(is_tilt) {
-			user_control = rcCommand[tilt->control_channel]; 
-			rcCommand[tilt->control_channel] = 0; 
-		}
-	}
-
 	// TODO: move this once we have tested current refactored code 
 	anglerate_controller_set_configs(&default_controller, 
 		pidProfile(),
@@ -732,17 +723,55 @@ static void taskMainPidLoop(void)
 		rxConfig()
 	); 
 
-	// run pid controller with modified pitch 
-	anglerate_controller_update(&default_controller, &att);
+	if(USE_TILT && is_tilt){
+		// TODO: refactor this once we have refactored rcCommand
+		// in angle mode we set control channel value in RC command to zero. 
+		if(FLIGHT_MODE(ANGLE_MODE)){
+			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
+			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
+				user_control = rcCommand[tilt->control_channel]; 
+				rcCommand[tilt->control_channel] = 0; 
+				// run pid controller with modified pitch 
+				anglerate_controller_update(&default_controller, &att);
+				rcCommand[tilt->control_channel] = user_control; 
 
-	if(USE_TILT){
-		// restore tilt control channel
-		if(is_tilt){
-			rcCommand[tilt->control_channel] = user_control; 
-		}
-		
-		// TODO: move this somewhere else
-		mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
+				mixer_input_motor_pitch_angle(&default_mixer, user_control);
+			} else {
+				// otherwise we keep user input and just run the anglerate controller 
+				anglerate_controller_update(&default_controller, &att);
+				// get the control input for the tilt from the control channel
+				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
+			}	
+		} else if(FLIGHT_MODE(HORIZON_MODE)){
+			// in horizon mode we do not deprive the anglerate controller of user input but we need to divide the pitch value so that anglerate controller pitches the body half way while we also tilt the propellers
+			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.  
+			// TODO: this mode currently is far from perfect.  Needs testing. 
+			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
+				user_control = rcCommand[tilt->control_channel]; 
+				rcCommand[tilt->control_channel] = user_control >> 1; 
+				// run pid controller with modified pitch 
+				anglerate_controller_update(&default_controller, &att);
+				rcCommand[tilt->control_channel] = user_control; 
+
+				mixer_input_motor_pitch_angle(&default_mixer, user_control >> 1);
+			} else {
+				// otherwise we keep user input and just run the anglerate controller 
+				anglerate_controller_update(&default_controller, &att);
+				// get the control input for the tilt from the control channel
+				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
+			}	
+		} else {
+			// in rate mode we only allow manual tilting using one of the aux channels
+			anglerate_controller_update(&default_controller, &att);
+			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
+				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
+			} else {
+				mixer_input_motor_pitch_angle(&default_mixer, 0); 
+			}
+		} 
+	} else {
+		// without tilting we just run the anglerate controller
+		anglerate_controller_update(&default_controller, &att);
 	}
 
     mixer_update(&default_mixer, anglerate_controller_get_output_ptr(&default_controller));

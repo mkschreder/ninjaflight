@@ -566,7 +566,9 @@ PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig, PG_MI
 PG_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig,
 	.mode = MIXER_TILT_MODE_DYNAMIC, 
 	.control_channel = AUX1,
-	.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY 
+	.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY, 
+	.servo_angle_min = -45, 
+	.servo_angle_max = 45
 ); 
 
 // FAILSAFE

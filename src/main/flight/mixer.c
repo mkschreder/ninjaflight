@@ -375,10 +375,6 @@ static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_
     return constrain(self->motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
 }
 
-// TODO: get rid of these and put them into a config
-const float servo_angle_min = -45; 
-const float servo_angle_max = 45; 
-
 static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self, int16_t axis[3]) {
     float angleTilt = degreesToRadians(self->motor_pitch * 0.1f);
     float tmpCosine = cos_approx(angleTilt);
@@ -448,6 +444,12 @@ void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis){
         // prevent "yaw jump" during yaw correction
         axis[FD_YAW] = constrain(axis[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
     }
+
+#if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
+	if(USE_TILT && (mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2)){
+		_mixer_mix_tilt(self, axis); 
+	}
+#endif
 
     if (rcModeIsActive(BOXAIRMODE)) {
         // Initial mixer concept by bdoiron74 reused and optimized for Air Mode
@@ -604,16 +606,10 @@ void mixer_update(struct mixer *self, const pid_controller_output_t *pid_axis){
         }
     }
 
-    // motor outputs are used as sources for servo mixing, so motors must be calculated before servos.
-
 #if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-	//if(!USE_QUAD_MIXER_ONLY && USE_SERVOS){
-		if(USE_TILT && (mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2)){
-			_mixer_mix_tilt(self, axis); 
-		}
-		mixer_update_servos(self, pid_axis);
-	//}
+	mixer_update_servos(self, pid_axis);
 #endif
+
 }
 
 void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd){

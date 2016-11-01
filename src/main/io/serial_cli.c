@@ -1191,7 +1191,7 @@ static void cliTilt(char *cmdline)
 		if (isEmpty(cmdline)) {
 			// print out settings
 			cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
-			cliPrintf("control channel: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"Not used in dynamic mode":_channel_name(tilt->control_channel)); 
+			cliPrintf("control channel: %s\n", _channel_name(tilt->control_channel)); 
 			cliPrintf("compensate: "); 
 			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
 			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
