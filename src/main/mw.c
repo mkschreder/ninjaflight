@@ -841,7 +841,7 @@ void taskUpdateBattery(void)
     if (feature(FEATURE_VBAT)) {
         if (cmp32(currentTime, vbatLastServiced) >= VBATINTERVAL) {
             vbatLastServiced = currentTime;
-            updateBattery();
+            battery_update(&default_battery);
         }
     }
 
@@ -853,7 +853,7 @@ void taskUpdateBattery(void)
 
             throttleStatus_e throttleStatus = calculateThrottleStatus(rxConfig(), rcControlsConfig()->deadband3d_throttle);
 
-            updateCurrentMeter(ibatTimeSinceLastServiced, throttleStatus);
+            battery_update_current_meter(&default_battery, ibatTimeSinceLastServiced, throttleStatus);
         }
     }
 }

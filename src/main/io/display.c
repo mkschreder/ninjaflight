@@ -471,23 +471,23 @@ static void showBatteryPage(void)
     uint8_t rowIndex = PAGE_TITLE_LINE_COUNT;
 
     if (feature(FEATURE_VBAT)) {
-        tfp_sprintf(lineBuffer, "Volts: %d.%1d Cells: %d", vbat / 10, vbat % 10, batteryCellCount);
+        tfp_sprintf(lineBuffer, "Volts: %d.%1d Cells: %d", battery_get_voltage(&default_battery) / 10, battery_get_voltage(&default_battery) % 10, battery_get_cell_count(&default_battery));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
 
-        uint8_t batteryPercentage = calculateBatteryPercentage();
+        uint8_t batteryPercentage = battery_get_remaining_percent(&default_battery);
         i2c_OLED_set_line(rowIndex++);
         drawHorizonalPercentageBar(SCREEN_CHARACTER_COLUMN_COUNT, batteryPercentage);
     }
 
     if (feature(FEATURE_CURRENT_METER)) {
-        tfp_sprintf(lineBuffer, "Amps: %d.%2d mAh: %d", amperage / 100, amperage % 100, mAhDrawn);
+        tfp_sprintf(lineBuffer, "Amps: %d.%2d mAh: %d", battery_get_current(&default_battery) / 100, battery_get_current(&default_battery) % 100, battery_get_spent_capacity(&default_battery));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
 
-        uint8_t capacityPercentage = calculateBatteryCapacityRemainingPercentage();
+        uint8_t capacityPercentage = battery_get_remaining_capacity(&default_battery);
         i2c_OLED_set_line(rowIndex++);
         drawHorizonalPercentageBar(SCREEN_CHARACTER_COLUMN_COUNT, capacityPercentage);
     }

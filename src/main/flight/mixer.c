@@ -60,8 +60,6 @@
 
 #include "servos.h"
 
-//#define MIXER_DEBUG
-struct mixer default_mixer; 
 
 /* QuadX
 4CW   2CCW

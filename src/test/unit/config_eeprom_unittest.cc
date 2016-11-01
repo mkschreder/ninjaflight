@@ -76,48 +76,41 @@ extern "C" {
 
     #include "platform.h"
 
+/*
     PG_REGISTER(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);
     PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-    //PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
     PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
-    //PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
     PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
-    //PG_REGISTER_PROFILE(throttleCorrectionConfig_t, throttleCorrectionConfig, PG_THROTTLE_CORRECTION_CONFIG, 0);
     PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
     PG_REGISTER_PROFILE(gpsProfile_t, gpsProfile, PG_NAVIGATION_CONFIG, 0);
     PG_REGISTER_PROFILE(modeActivationProfile_t, modeActivationProfile, PG_MODE_ACTIVATION_PROFILE, 0);
     PG_REGISTER_PROFILE(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
 
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-    //PG_REGISTER(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
     PG_REGISTER(sensorTrims_t, sensorTrims, PG_SENSOR_TRIMS, 0);
-    PG_REGISTER(batteryConfig_t, batteryConfig, PG_BATTERY_CONFIG, 0);
-    //PG_REGISTER_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
     PG_REGISTER(serialConfig_t, serialConfig, PG_SERIAL_CONFIG, 0);
     PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
     PG_REGISTER(armingConfig_t, armingConfig, PG_ARMING_CONFIG, 0);
     PG_REGISTER(transponderConfig_t, transponderConfig, PG_TRANSPONDER_CONFIG, 0);
     PG_REGISTER(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
-    //PG_REGISTER(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
-    //PG_REGISTER(imuConfig_t, imuConfig, PG_IMU_CONFIG, 0);
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
-    //PG_REGISTER(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
     PG_REGISTER(airplaneConfig_t, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
     PG_REGISTER(gpsConfig_t, gpsConfig, PG_GPS_CONFIG, 0);
     PG_REGISTER(telemetryConfig_t, telemetryConfig, PG_TELEMETRY_CONFIG, 0);
     PG_REGISTER(frskyTelemetryConfig_t, frskyTelemetryConfig, PG_FRSKY_TELEMETRY_CONFIG, 0);
     PG_REGISTER(hottTelemetryConfig_t, hottTelemetryConfig, PG_HOTT_TELEMETRY_CONFIG, 0);
 
-    PG_REGISTER(boardAlignment_t, boardAlignment, PG_BOARD_ALIGNMENT, 1);
     PG_REGISTER(sensorSelectionConfig_t, sensorSelectionConfig, PG_SENSOR_SELECTION_CONFIG, 0);
     PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
-    //PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
-	
+*/
 	struct anglerate_controller default_controller; 
 	struct imu default_imu; 
+	acc_t acc;
+	gyro_t gyro;
 
 	void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo);}
+	void resetRollAndPitchTrims(rollAndPitchTrims_t *trims){UNUSED(trims);}
 
     typedef struct someSystemData_s {
         uint32_t uint32;
@@ -426,7 +419,7 @@ void mixerUseConfigs(servoParam_t *) {}
 void mixerUseConfigs(void) {}
 #endif
 bool isSerialConfigValid(serialConfig_t *) {return true;}
-void imu_configure(struct imu*,struct imu_runtime_config *, accDeadband_t *,float ,uint16_t) {}
+void imu_configure(struct imu*,struct imu_config *, accelerometerConfig_t *, struct throttle_correction_config *,float ,uint16_t) {}
 void gpsUseProfile(gpsProfile_t *) {}
 void gpsUsePIDs(struct pid_config *) {}
 void generateYawCurve(struct rate_config *) {}
@@ -442,26 +435,5 @@ void activateControlRateConfig() {}
 void recalculateMagneticDeclination(void) {}
 
 void pgReset_serialConfig(serialConfig_t *) {}
-
-const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
-#ifdef USE_VCP
-    SERIAL_PORT_USB_VCP,
-#endif
-#ifdef USE_UART1
-    SERIAL_PORT_UART1,
-#endif
-#ifdef USE_UART2
-    SERIAL_PORT_UART2,
-#endif
-#ifdef USE_UART3
-    SERIAL_PORT_UART3,
-#endif
-#ifdef USE_SOFTSERIAL1
-    SERIAL_PORT_SOFTSERIAL1,
-#endif
-#ifdef USE_SOFTSERIAL2
-    SERIAL_PORT_SOFTSERIAL2,
-#endif
-};
 }
 

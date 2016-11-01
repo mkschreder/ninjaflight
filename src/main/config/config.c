@@ -85,9 +85,9 @@ PG_RESET_TEMPLATE(blackboxConfig_t, blackboxConfig,
 );
 
 // BATTERY
-PG_REGISTER_WITH_RESET_TEMPLATE(batteryConfig_t, batteryConfig, PG_BATTERY_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct battery_config, batteryConfig, PG_BATTERY_CONFIG, 0);
 
-PG_RESET_TEMPLATE(batteryConfig_t, batteryConfig,
+PG_RESET_TEMPLATE(struct battery_config, batteryConfig,
     .vbatscale = VBAT_SCALE_DEFAULT,
     .vbatresdivval = VBAT_RESDIVVAL_DEFAULT,
     .vbatresdivmultiplier = VBAT_RESDIVMULTIPLIER_DEFAULT,

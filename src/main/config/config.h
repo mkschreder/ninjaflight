@@ -102,7 +102,7 @@ PG_DECLARE_PROFILE(barometerConfig_t, barometerConfig);
 #endif
 
 #include "sensors/battery.h"
-PG_DECLARE(batteryConfig_t, batteryConfig);
+PG_DECLARE(struct battery_config, batteryConfig);
 
 #include "sensors/boardalignment.h"
 PG_DECLARE(struct board_alignment_config, boardAlignment);

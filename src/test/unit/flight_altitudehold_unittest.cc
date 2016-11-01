@@ -160,10 +160,8 @@ uint32_t accTimeSum ;        // keep track for integration of acc
 int accSumCount;
 float accVelScale;
 
-union attitude_euler_angles attitude;
-
-int16_t imu_get_roll_dd(struct imu *self){ return attitude.values.roll; }
-int16_t imu_get_pitch_dd(struct imu *self){ return attitude.values.pitch; }
+int16_t imu_get_roll_dd(struct imu *self){ return self->attitude.values.roll; }
+int16_t imu_get_pitch_dd(struct imu *self){ return self->attitude.values.pitch; }
 //uint16_t acc_1G;
 //int16_t heading;
 //gyro_t gyro;

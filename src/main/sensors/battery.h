@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "common/filter.h"
+
 #define VBAT_SCALE_DEFAULT 110
 #define VBAT_RESDIVVAL_DEFAULT 10
 #define VBAT_RESDIVMULTIPLIER_DEFAULT 1
@@ -28,9 +30,9 @@ typedef enum {
     CURRENT_SENSOR_ADC,
     CURRENT_SENSOR_VIRTUAL,
     CURRENT_SENSOR_MAX = CURRENT_SENSOR_VIRTUAL
-} currentSensor_e;
+} current_sensor_type_t;
 
-typedef struct batteryConfig_s {
+struct battery_config {
     uint8_t vbatscale;                      // adjust this to match battery voltage to reported value
     uint8_t vbatresdivval;                  // resistor divider R2 (default NAZE 10(K))
     uint8_t vbatresdivmultiplier;           // multiplier for scale (e.g. 2.5:1 ratio with multiplier of 4 can use '100' instead of '25' in ratio) to get better precision
@@ -40,37 +42,49 @@ typedef struct batteryConfig_s {
 
     int16_t currentMeterScale;             // scale the current sensor output voltage to milliamps. Value in 1/10th mV/A
     uint16_t currentMeterOffset;            // offset of the current sensor in millivolt steps
-    currentSensor_e  currentMeterType;      // type of current meter used, either ADC or virtual
+    current_sensor_type_t  currentMeterType;      // type of current meter used, either ADC or virtual
 
     // FIXME this doesn't belong in here since it's a concern of MSP, not of the battery code.
     uint8_t multiwiiCurrentMeterOutput;     // if set to 1 output the amperage in milliamp steps instead of 0.01A steps via msp
     uint16_t batteryCapacity;               // mAh
-} batteryConfig_t;
+};
 
 typedef enum {
     BATTERY_OK = 0,
     BATTERY_WARNING,
     BATTERY_CRITICAL,
     BATTERY_NOT_PRESENT
-} batteryState_e;
+} battery_state_t;
 
-extern uint16_t vbat;
-extern uint16_t vbatRaw;
-extern uint16_t vbatLatestADC;
-extern uint8_t batteryCellCount;
-extern uint16_t batteryWarningVoltage;
-extern uint16_t amperageLatestADC;
-extern int32_t amperage;
-extern int32_t mAhDrawn;
+struct battery {
+	uint16_t vbat;
+	uint16_t vbatRaw;
+	uint16_t vbatLatestADC;
+	uint8_t batteryCellCount;
+	uint16_t batteryWarningVoltage;
+	uint16_t batteryCriticalVoltage;
+	uint16_t amperageLatestADC;
+	int32_t amperage;
+	int32_t mAhDrawn;
 
-uint16_t batteryAdcToVoltage(uint16_t src);
-batteryState_e getBatteryState(void);
-const  char * getBatteryStateString(void);
-void updateBattery(void);
-void batteryInit(void);
+	battery_state_t batteryState;
+	biquad_t vbatFilterState;
 
-void updateCurrentMeter(int32_t lastUpdateAt, throttleStatus_e throttleStatus);
-int32_t currentMeterToCentiamps(uint16_t src);
+	struct battery_config *config;
+};
 
-uint8_t calculateBatteryPercentage(void);
-uint8_t calculateBatteryCapacityRemainingPercentage(void);
+// TODO: remove after we are done refactoring
+extern struct battery default_battery;
+
+void battery_init(struct battery *self, struct battery_config *config);
+battery_state_t battery_get_state(struct battery *self);
+const char *battery_get_state_str(struct battery *self);
+void battery_update(struct battery *self);
+uint8_t battery_get_remaining_percent(struct battery *self);
+uint8_t battery_get_remaining_capacity(struct battery *self);
+uint16_t battery_get_voltage(struct battery *self);
+uint8_t battery_get_cell_count(struct battery *self);
+int32_t battery_get_current(struct battery *self);
+int32_t battery_get_spent_capacity(struct battery *self);
+
+void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt, throttleStatus_e throttleStatus);

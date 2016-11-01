@@ -55,8 +55,6 @@
 
 #include "io/gps.h"
 
-struct imu default_imu; 
-
 // the limit (in degrees/second) beyond which we stop integrating
 // omega_I. At larger spin rates the DCM PI controller can get 'dizzy'
 // which results in false gyro drift. See

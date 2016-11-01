@@ -110,6 +110,11 @@
 
 #include "scheduler.h"
 
+// TODO: remove when we are done refactoring
+struct battery default_battery;
+struct mixer default_mixer;
+struct imu default_imu;
+
 extern uint8_t motorControlEnable;
 
 #ifdef SOFTSERIAL_LOOPBACK
@@ -120,7 +125,7 @@ void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOC
 void rxInit(modeActivationCondition_t *modeActivationConditions);
 
 void navigationInit(struct pid_config *pidProfile);
-const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  currentMeterType);
+const struct sonar_hardware *sonarGetHardwareConfiguration(current_sensor_type_t  currentMeterType);
 
 #ifdef STM32F303xC
 // from system_stm32f30x.c
@@ -645,7 +650,7 @@ static void init(void)
     // Now that everything has powered up the voltage and cell count be determined.
 
     if (feature(FEATURE_VBAT | FEATURE_CURRENT_METER))
-        batteryInit();
+        battery_init(&default_battery, batteryConfig());
 
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {
