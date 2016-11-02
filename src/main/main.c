@@ -142,7 +142,7 @@ static void taskPidLoop(void){
     uint32_t currentDeltaTime = getTaskDeltaTime(TASK_SELF);
 
     if (imuConfig()->gyroSync) {
-		if (gyroSyncCheckUpdate() || ((currentDeltaTime + (micros() - currentTime)) >= (gyro_sync_get_looptime() + GYRO_WATCHDOG_DELAY))) {
+		if(gyroSyncCheckUpdate() || ((currentDeltaTime + (micros() - currentTime)) >= (gyro_sync_get_looptime() + GYRO_WATCHDOG_DELAY))) {
 			ninja_run_pid_loop(&ninja, dT);
 		}
     } else {
@@ -694,17 +694,14 @@ static void init(void)
 
 	// TODO: refactor this so that configure is not called from readEEPROM further up during boot
 	// for now this is fine (as long as we call imu_configure here once again)
-    imu_init(&default_imu);
-
-	imu_configure(
-		&default_imu, 
+    imu_init(&default_imu,
 		imuConfig(),
 		accelerometerConfig(),
 		throttleCorrectionConfig(),
 		// TODO: refactor these
-		gyro.scale, 
+		gyro.scale,
 		acc.acc_1G
-	); 
+	);
 
     mspInit();
     mspSerialInit();

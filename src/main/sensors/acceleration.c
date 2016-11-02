@@ -44,14 +44,6 @@
 
 #include "sensors/acceleration.h"
 
-void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims)
-{
-    RESET_CONFIG_2(rollAndPitchTrims_t, rollAndPitchTrims,
-        .values.roll = 0,
-        .values.pitch = 0,
-    );
-}
-
 int32_t accADC[XYZ_AXIS_COUNT];
 
 acc_t acc;                       // acc access functions
@@ -66,6 +58,12 @@ extern bool AccInflightCalibrationSavetoEEProm;
 extern bool AccInflightCalibrationActive;
 
 static flightDynamicsTrims_t *accelerationTrims;
+
+// TODO: remove this function completely after refactoring
+static void resetRollAndPitchTrims(rollAndPitchTrims_t *trims){
+	trims->values.roll = 0;
+	trims->values.pitch = 0;
+}
 
 void accSetCalibrationCycles(uint16_t calibrationCyclesRequired)
 {

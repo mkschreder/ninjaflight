@@ -19,6 +19,11 @@
 
 #include <stdbool.h>
 #include "config/parameter_group.h"
+#include "target.h"
+
+#ifndef DEFAULT_RX_FEATURE
+#define DEFAULT_RX_FEATURE FEATURE_RX_PARALLEL_PWM
+#endif
 
 #define STICK_CHANNEL_COUNT 4
 

@@ -638,9 +638,14 @@ static bool haveUpdatedRcCommandsOnce = false;
 void ninja_run_pid_loop(struct ninja *self, float dT){
 	UNUSED(self);
 
+    uint32_t currentTime = micros();
+	static uint32_t previousIMUUpdateTime = 0;
+    float dt = (currentTime - previousIMUUpdateTime) * 1e-6f;
+    previousIMUUpdateTime = currentTime;
+
     gyroUpdate();
     imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
-	imu_update(&default_imu); 
+	imu_update(&default_imu, dt);
 
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 

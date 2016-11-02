@@ -55,6 +55,9 @@
 
 #include "io/gps.h"
 
+#define IMU_FLAG_USE_ACC (1 << 0)
+#define IMU_FLAG_USE_MAG (1 << 0)
+
 // the limit (in degrees/second) beyond which we stop integrating
 // omega_I. At larger spin rates the DCM PI controller can get 'dizzy'
 // which results in false gyro drift. See
@@ -86,38 +89,36 @@ static void _imu_update_dcm(struct imu *self){
     self->rMat[2][2] = q0q0 - q1q1 - q2q2 + q3q3;
 }
 
-void imu_configure(
-	struct imu *self,
+void imu_reset(struct imu *self){
+	self->q.w = 1.0f;
+	self->q.x = 0.0f;
+	self->q.y = 0.0f;
+	self->q.z = 0.0f;
+
+    _imu_update_dcm(self);
+}
+
+void imu_init(struct imu *self,
 	struct imu_config *imu_config,
 	accelerometerConfig_t *acc_config,
 	struct throttle_correction_config *thr_config,
-	float gyro_scale, 
+	float gyro_scale,
 	uint16_t acc_1G
 ){
+	memset(self, 0, sizeof(struct imu)); 
+
 	self->config = imu_config; 
 	self->acc_config = acc_config; 
-	// calculate lpf time constant
-    self->fc_acc = 0.5f / (M_PIf * acc_config->accz_lpf_cutoff);
-    self->throttleAngleScale = (1800.0f / M_PIf) * (900.0f / thr_config->throttle_correction_angle);
-    self->smallAngleCosZ = cos_approx(degreesToRadians(imu_config->small_angle));
-    self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
-    self->accVelScale = (9.80665f / acc_1G) * 100.0f; // acc vel scaled to cm/s
+	self->thr_config = thr_config;
 	self->acc_1G = acc_1G; 
-}
-
-void imu_init(struct imu *self){
-	memset(self, 0, sizeof(struct imu)); 
+    self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
+    self->accVelScale = (9.80665f / self->acc_1G) * 100.0f; // acc vel scaled to cm/s
+	// calculate lpf time constant
 
 	self->gyroScale = 1; 
 	self->accVelScale = 1; 
-    self->smallAngleCosZ = 0; //cos_approx(degreesToRadians(imuRuntimeConfig->small_angle));
 	
-	self->q.w = 1.0f; 
-	self->q.x = 0.0f; 
-	self->q.y = 0.0f; 
-	self->q.z = 0.0f; 
-
-    _imu_update_dcm(self);
+	imu_reset(self);
 }
 
 void imu_reset_velocity_estimate(struct imu *self){
@@ -162,7 +163,8 @@ static void _imu_update_acceleration(struct imu *self, float dT){
     } else
         accel_ned.V.Z -= self->acc_1G;
 
-    accz_smooth = accz_smooth + (dT / (self->fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
+	float fc_acc = 0.5f / (M_PIf * self->acc_config->accz_lpf_cutoff);
+    accz_smooth = accz_smooth + (dT / (fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
 
     // apply Deadband to reduce integration drift and vibration influence
     self->accSum[X] += applyDeadband(lrintf(accel_ned.V.X), self->acc_config->accDeadband.xy);
@@ -187,9 +189,9 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	gy = self->gyro[Y] * self->gyroScale;
 	gz = self->gyro[Z] * self->gyroScale; 
     
-	ax = self->accSmooth[X];
-	ay = self->accSmooth[Y];
-	az = self->accSmooth[Z]; 
+	ax = self->accSmooth[X] * 0.001f;
+	ay = self->accSmooth[Y] * 0.001f;
+	az = self->accSmooth[Z] * 0.001f; 
     
 	mx = magADC[X];
 	my = magADC[Y];
@@ -323,7 +325,8 @@ static void _imu_update_euler_angles(struct imu *self){
         self->attitude.values.yaw += 3600;
 
     /* Update small angle state */
-    if (self->rMat[2][2] > self->smallAngleCosZ) {
+    float smallAngleCosZ = cos_approx(degreesToRadians(self->config->small_angle));
+    if (self->rMat[2][2] > smallAngleCosZ) {
         ENABLE_STATE(SMALL_ANGLE);
     } else {
         DISABLE_STATE(SMALL_ANGLE);
@@ -360,18 +363,12 @@ static bool _imu_mag_healthy(struct imu *self){
 }
 #endif
 
-static void _imu_calc_estimated_attitude(struct imu *self){
+void imu_update(struct imu *self, float dt){
     static filterStatePt1_t accLPFState[3];
-    static uint32_t previousIMUUpdateTime;
     float rawYawError = 0;
     int32_t axis;
-    bool useAcc = false;
     bool useMag = false;
     bool useYaw = false;
-
-    uint32_t currentTime = micros();
-    float dt = (currentTime - previousIMUUpdateTime) * 1e-6f;
-    previousIMUUpdateTime = currentTime;
 
 	// update smoothed acceleration
     // Smooth and use only valid accelerometer readings
@@ -381,11 +378,6 @@ static void _imu_calc_estimated_attitude(struct imu *self){
         } else {
             self->accSmooth[axis] = self->acc[axis];
         }
-    }
-
-
-    if (sensors(SENSOR_ACC) && _imu_acc_healthy(self)) {
-        useAcc = true;
     }
 
 #ifdef MAG
@@ -400,9 +392,12 @@ static void _imu_calc_estimated_attitude(struct imu *self){
         useYaw = true;
     }
 #endif
-
+	bool useAcc = (self->flags & IMU_FLAG_USE_ACC) && _imu_acc_healthy(self);
 	// updates quaternion from sensors and then updates dcm
-    _imu_mahony_update(self, dt, useAcc, useMag, useYaw, rawYawError);
+    _imu_mahony_update(self, dt, 
+		useAcc, 
+		useMag, 
+		useYaw, rawYawError);
 
 	// updates attitude from dcm
     _imu_update_euler_angles(self);
@@ -415,20 +410,13 @@ void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z){
 	self->acc[X] = x; 
 	self->acc[Y] = y; 
 	self->acc[Z] = z; 
-	self->isAccelUpdatedAtLeastOnce = true;
+	self->flags |= IMU_FLAG_USE_ACC;
 }
 
 void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z){
 	self->gyro[X] = x; 
 	self->gyro[Y] = y; 
 	self->gyro[Z] = z; 
-}
-
-void imu_update(struct imu *self){
-	// update attitude estimate if we have at least once accelerometer reading
-    if (self->isAccelUpdatedAtLeastOnce) {
-        _imu_calc_estimated_attitude(self);
-	}  
 }
 
 float imu_get_cos_tilt_angle(struct imu *self){
@@ -445,7 +433,8 @@ int16_t imu_calc_throttle_angle_correction(struct imu *self, uint8_t throttle_co
     if (self->rMat[2][2] <= 0.015f) {
         return 0;
     }
-    int angle = lrintf(acos_approx(self->rMat[2][2]) * self->throttleAngleScale);
+    float throttleAngleScale = (1800.0f / M_PIf) * (900.0f / self->thr_config->throttle_correction_angle);
+    int angle = lrintf(acos_approx(self->rMat[2][2]) * throttleAngleScale);
     if (angle > 900)
         angle = 900;
     return lrintf(throttle_correction_value * sin_approx(angle / (900.0f * M_PIf / 2.0f)));

@@ -235,6 +235,7 @@ COMMON_SRC = build_config.c \
 		   version.c \
 		   $(TARGET_SRC) \
 		   config/config.c \
+		   config/vars.c \
 		   config/runtime_config.c \
 		   config/config_streamer.c \
 		   config/config_eeprom.c \

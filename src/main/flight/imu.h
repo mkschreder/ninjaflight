@@ -68,14 +68,11 @@ struct imu {
 	int accSumCount;
 	float accVelScale;
 
-	float throttleAngleScale;
-	float fc_acc;
-	float smallAngleCosZ;
-
-	bool isAccelUpdatedAtLeastOnce;
+	uint8_t flags;
 
 	struct imu_config *config; 
 	accelerometerConfig_t *acc_config;
+	struct throttle_correction_config *thr_config;
 
 	// TODO: replace with a math library quaternion 
 	struct imu_quaternion q; 
@@ -90,9 +87,7 @@ struct imu {
 // TODO: remove once we are done refactoring
 extern struct imu default_imu; 
 
-void imu_init(struct imu *self);
-void imu_configure(
-	struct imu *self, 
+void imu_init(struct imu *self,
 	struct imu_config *config, 
 	accelerometerConfig_t *acc_config,
 	struct throttle_correction_config *thr_config,
@@ -101,10 +96,12 @@ void imu_configure(
 	uint16_t acc_1G
 );
 
+void imu_reload_config(struct imu *self);
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);
 void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z);
-void imu_update(struct imu *self);
+void imu_update(struct imu *self, float dt);
 
+void imu_reset(struct imu *self);
 int16_t imu_calc_throttle_angle_correction(struct imu *self, uint8_t throttle_correction_value);
 int16_t imu_calc_heading(struct imu *self, t_fp_vector *vec);
 float imu_get_cos_tilt_angle(struct imu *self);

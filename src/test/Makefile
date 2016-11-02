@@ -228,9 +228,9 @@ $(OBJECT_DIR)/flight_imu_unittest.o : \
 
 $(OBJECT_DIR)/flight_imu_unittest : \
 	$(OBJECT_DIR)/flight/imu.o \
-	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/flight/altitudehold.o \
 	$(OBJECT_DIR)/flight_imu_unittest.o \
+	$(OBJECT_DIR)/config/vars.o \
+	$(OBJECT_DIR)/common/filter.o \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/gtest_main.a
 
@@ -837,6 +837,15 @@ $(OBJECT_DIR)/config/config.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/config/config.c -o $@
 
+$(OBJECT_DIR)/config/vars.o : \
+	$(USER_DIR)/config/vars.c \
+	$(USER_DIR)/config/config.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/config/vars.c -o $@
+
+
 $(OBJECT_DIR)/config/config_eeprom.o : \
 	$(USER_DIR)/config/config_eeprom.c \
 	$(USER_DIR)/config/config_eeprom.h \
@@ -882,6 +891,7 @@ $(OBJECT_DIR)/config_eeprom_unittest : \
 	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/config/config.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/config/config_streamer.o \
 	$(OBJECT_DIR)/config/feature.o \
 	$(OBJECT_DIR)/config/profile.o \

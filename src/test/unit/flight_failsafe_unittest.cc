@@ -45,6 +45,10 @@ extern "C" {
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
 
+	PG_REGISTER_WITH_RESET_TEMPLATE(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);
+
+	PG_RESET_TEMPLATE(failsafeConfig_t, failsafeConfig, 10, 200, 1000, 100, 0, 0); 
+
     extern uint32_t rcModeActivationMask;
 }
 

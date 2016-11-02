@@ -31,6 +31,7 @@ extern "C" {
     #include "common/axis.h"
     #include "common/maths.h"
 
+	#include "config/config.h"
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
 
@@ -56,31 +57,30 @@ extern "C" {
     #include "io/rc_controls.h"
 
     #include "flight/mixer.h"
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
     #include "flight/imu.h"
-
-    PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
-    PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-    PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
-    PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-
 }
 
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
-extern float q0, q1, q2, q3;
 extern "C" {
 void imuComputeRotationMatrix(void);
 void imuUpdateEulerAngles(void);
 
+struct imu default_imu; 
 int16_t cycleTime = 2000;
 
 }
 
-void imuComputeQuaternionFromRPY(int16_t initialRoll, int16_t initialPitch, int16_t initialYaw)
-{
+void input_imu_accel(int16_t x, int16_t y, int16_t z){
+	imu_reset(&default_imu);
+	imu_input_accelerometer(&default_imu, x, y, z);
+	imu_input_gyro(&default_imu, 0, 0, 0);
+	for(unsigned int c = 0; c < 10000UL; c++){
+		imu_update(&default_imu, 0.001);
+	}
+/*
     if (initialRoll > 1800) initialRoll -= 3600;
     if (initialPitch > 1800) initialPitch -= 3600;
     if (initialYaw > 1800) initialYaw -= 3600;
@@ -100,51 +100,57 @@ void imuComputeQuaternionFromRPY(int16_t initialRoll, int16_t initialPitch, int1
     q3 = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
 
     imuComputeRotationMatrix();
+*/
 }
 
-TEST(FlightImuTest, TestEulerAngleCalculation)
-{
-    imuComputeQuaternionFromRPY(0, 0, 0);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, 0);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 0);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 0);
+TEST(FlightImuTest, TestEulerAngleCalculation){
+	imuConfig()->dcm_kp = 2500;
+    imuConfig()->looptime = 2000;
+    imuConfig()->gyroSync = 1;
+    imuConfig()->gyroSyncDenominator = 1;
+    imuConfig()->small_angle = 25;
+    imuConfig()->max_angle_inclination = 500;
 
-    imuComputeQuaternionFromRPY(450, 450, 0);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, 450);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 450);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 0);
+	imu_init(&default_imu,
+		imuConfig(),
+		accelerometerConfig(),
+		throttleCorrectionConfig(),
+		1.0f/16.4f,
+		1024
+	);
+    input_imu_accel(0, 0, 1024);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    imuComputeQuaternionFromRPY(-450, -450, 0);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, -450);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, -450);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 0);
+    input_imu_accel(1024, 0, 0);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -900);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    imuComputeQuaternionFromRPY(1790, 0, 0);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, 1790);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 0);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 0);
+    input_imu_accel(724, 0, 724);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    imuComputeQuaternionFromRPY(-1790, 0, 0);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, -1790);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 0);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 0);
+    input_imu_accel(0, 724, 724);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 450);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    imuComputeQuaternionFromRPY(0, 0, 900);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, 0);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 0);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 900);
+    input_imu_accel(724, 724, 0);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 843);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 450);
 
-    imuComputeQuaternionFromRPY(0, 0, 2700);
-    imuUpdateEulerAngles();
-    EXPECT_FLOAT_EQ(attitude.values.roll, 0);
-    EXPECT_FLOAT_EQ(attitude.values.pitch, 0);
-    EXPECT_FLOAT_EQ(attitude.values.yaw, 2700);
+    input_imu_accel(0, 1024, 0);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 900);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
+
+    input_imu_accel(1024, 0, 0);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -900);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 }
 
 // STUBS
@@ -174,9 +180,9 @@ int16_t sonarMaxAltWithTiltCm;
 int32_t accADC[XYZ_AXIS_COUNT];
 int32_t gyroADC[XYZ_AXIS_COUNT];
 
-int16_t GPS_speed;
-int16_t GPS_ground_course;
-int16_t GPS_numSat;
+uint16_t GPS_speed;
+uint16_t GPS_ground_course;
+uint8_t GPS_numSat;
 
 float magneticDeclination = 0.0f;
 

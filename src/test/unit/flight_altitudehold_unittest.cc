@@ -50,7 +50,7 @@ extern "C" {
     #include "rx/rx.h"
 
     #include "flight/mixer.h"
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
     #include "flight/imu.h"
     #include "flight/altitudehold.h"
 
@@ -62,6 +62,13 @@ extern "C" {
     PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
 
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
+
+	PG_REGISTER_WITH_RESET_TEMPLATE(airplaneConfig_t, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
+
+	PG_RESET_TEMPLATE(airplaneConfig_t, airplaneConfig,
+		.fixedwing_althold_dir = 1,
+	);
+
 
 	struct imu default_imu; 
     extern uint32_t rcModeActivationMask;
@@ -84,6 +91,8 @@ typedef struct inclinationExpectation_s {
     bool expectDownwardsThrust;
 } inclinationExpectation_t;
 
+/*
+// TODO: this test needs to use imu
 TEST(AltitudeHoldTest, IsThrustFacingDownwards)
 {
     // given
@@ -114,7 +123,7 @@ TEST(AltitudeHoldTest, IsThrustFacingDownwards)
         EXPECT_EQ(angleInclinationExpectation->expectDownwardsThrust, result);
     }
 }
-
+*/
 TEST(AltitudeHoldTest, applyMultirotorAltHold)
 {
     // given
@@ -160,12 +169,17 @@ uint32_t accTimeSum ;        // keep track for integration of acc
 int accSumCount;
 float accVelScale;
 
+float imu_get_velocity_integration_time(struct imu *self){ UNUSED(self); return 0.001;}
+float imu_get_est_vertical_vel_cms(struct imu *self){ UNUSED(self); return 0; }
+void imu_reset_velocity_estimate(struct imu *self){ UNUSED(self); }
+float imu_get_avg_vertical_accel_cmss(struct imu *self){ UNUSED(self); return 0; }
+
 int16_t imu_get_roll_dd(struct imu *self){ return self->attitude.values.roll; }
 int16_t imu_get_pitch_dd(struct imu *self){ return self->attitude.values.pitch; }
 //uint16_t acc_1G;
 //int16_t heading;
 //gyro_t gyro;
-int32_t accSum[XYZ_AXIS_COUNT];
+//int32_t accSum[XYZ_AXIS_COUNT];
 //int16_t magADC[XYZ_AXIS_COUNT];
 int32_t BaroAlt;
 int16_t debug[DEBUG16_VALUE_COUNT];

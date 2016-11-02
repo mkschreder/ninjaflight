@@ -30,7 +30,7 @@ extern "C" {
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
 
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
 
     #include "drivers/sensor.h"
     #include "drivers/timer.h"
@@ -420,6 +420,7 @@ void mixerUseConfigs(void) {}
 #endif
 bool isSerialConfigValid(serialConfig_t *) {return true;}
 void imu_configure(struct imu*,struct imu_config *, accelerometerConfig_t *, struct throttle_correction_config *,float ,uint16_t) {}
+void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){ UNUSED(self); UNUSED(type); }
 void gpsUseProfile(gpsProfile_t *) {}
 void gpsUsePIDs(struct pid_config *) {}
 void generateYawCurve(struct rate_config *) {}
@@ -429,7 +430,6 @@ void delay(uint32_t) {}
 
 void setControlRateProfile(uint8_t) {}
 void resetControlRateConfig(struct rate_config *) {}
-void configureRateProfileSelection(uint8_t, uint8_t) {}
 void activateControlRateConfig() {}
 
 void recalculateMagneticDeclination(void) {}
