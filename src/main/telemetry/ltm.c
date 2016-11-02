@@ -57,7 +57,7 @@
 #include "io/gps.h"
 
 #include "flight/mixer.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/altitudehold.h"

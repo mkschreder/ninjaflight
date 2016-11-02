@@ -78,7 +78,7 @@
 #include "sensors/sensors.h"
 #include "sensors/battery.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/navigation.h"
 #include "io/gps.h"
 
