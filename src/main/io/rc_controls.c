@@ -55,7 +55,7 @@
 
 #include "io/display.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/navigation.h"
 #include "flight/failsafe.h"
 

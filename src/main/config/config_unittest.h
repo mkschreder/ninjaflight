@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 
 #ifdef SRC_MAIN_SCHEDULER_C_
 #ifdef UNIT_TEST

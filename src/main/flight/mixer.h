@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "anglerate_controller.h"
+#include "anglerate.h"
 
 #if defined(USE_QUAD_MIXER_ONLY)
 #define MAX_SUPPORTED_MOTORS 4

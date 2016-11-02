@@ -42,7 +42,7 @@
 
 #include "io/rc_controls.h"
 
-#include "anglerate_controller.h"
+#include "anglerate.h"
 #include "imu.h"
 #include "rate_profile.h"
 #include "navigation.h"

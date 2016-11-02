@@ -25,7 +25,7 @@
 #include "blackbox/blackbox.h"
 PG_DECLARE(blackboxConfig_t, blackboxConfig);
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 PG_DECLARE_PROFILE(struct pid_config, pidProfile);
 
 #include "sensors/sensors.h"

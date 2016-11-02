@@ -58,7 +58,7 @@
 #include "flight/mixer.h"
 #include "flight/servos.h"
 #include "flight/failsafe.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 
 extern struct mixer_mode mixers[];

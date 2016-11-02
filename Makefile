@@ -252,7 +252,7 @@ COMMON_SRC = build_config.c \
 		   ninjaflight.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
-		   flight/anglerate_controller.c \
+		   flight/anglerate.c \
 		   flight/rate_profile.c \
 		   flight/imu.c \
 		   flight/mixer.c \
@@ -731,7 +731,7 @@ SITL_SRC = \
 			config/feature.c \
 			flight/altitudehold.c \
 			flight/failsafe.c \
-			flight/anglerate_controller.c \
+			flight/anglerate.c \
 			flight/imu.c \
 			flight/mixer.c \
 			flight/servos.c \

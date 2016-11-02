@@ -36,7 +36,7 @@
 #include "config/config.h"
 #include "config/feature.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 
 #include "blackbox/blackbox.h"
 

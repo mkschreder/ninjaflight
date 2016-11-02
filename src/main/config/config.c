@@ -58,7 +58,7 @@
 #include "flight/servos.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/navigation.h"
 
 

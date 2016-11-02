@@ -45,7 +45,7 @@
 #include "sensors/boardalignment.h"
 #include "sensors/acceleration.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/navigation.h"
 #include "flight/gps_conversion.h"
 #include "flight/imu.h"

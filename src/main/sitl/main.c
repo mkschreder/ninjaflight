@@ -62,7 +62,7 @@
 #include "telemetry/telemetry.h"
 #include "blackbox/blackbox.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/servos.h"
@@ -181,28 +181,28 @@ static void application_init(struct application *self){
 	pidProfile()->D8[PIDROLL] = 20;
 	pidProfile()->D8[PIDPITCH] = 20;
 	pidProfile()->D8[PIDYAW] = 5;
-	anglerate_set_configs(&self->controller, 
+	anglerate_set_configs(&self->controller,
 		pidProfile(),
 		&rateConfig,
 		imuConfig()->max_angle_inclination,
 		&accelerometerConfig()->accelerometerTrims,
 		rxConfig()
-	); 
+	);
 
 	for(int c = 0; c < 3; c++){
 		anglerate_set_pid_axis_scale(&self->controller, c, 100);
 		anglerate_set_pid_axis_weight(&self->controller, c, 100);
 	}
 
-	imu_init(&self->imu); 
+	imu_init(&self->imu);
 	imu_configure(
-		&self->imu, 
+		&self->imu,
 		imuConfig(),
 		accelerometerConfig(),
 		throttleCorrectionConfig(),
-		1.0f/16.4f, 
+		1.0f/16.4f,
 		512
-	); 
+	);
 }
 
 // TODO: these should be part of a struct (defined in flight controller)

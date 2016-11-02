@@ -49,7 +49,7 @@
 
 #include "flight/mixer.h"
 #include "flight/failsafe.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 
 #include "config/parameter_group_ids.h"

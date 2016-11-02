@@ -49,7 +49,7 @@
 #include "io/motor_and_servo.h"
 
 #include "flight/mixer.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 
 #include "flight/altitudehold.h"

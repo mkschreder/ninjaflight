@@ -78,7 +78,7 @@
 
 #include "blackbox/blackbox.h"
 
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/gtune.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"

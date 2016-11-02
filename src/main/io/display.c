@@ -58,7 +58,7 @@
 #include "sensors/sonar.h"
 
 #include "flight/rate_profile.h"
-#include "flight/anglerate_controller.h"
+#include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
