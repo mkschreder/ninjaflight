@@ -283,12 +283,20 @@ const struct mixer_mode mixers[] = {
 // TODO: fix the self reference and remove all externs 
 void mixer_init(struct mixer *self, struct motor_mixer *initialCustomMixers, uint8_t count){
 	(void)count; 
-	self->motorCount = 0; 
+
+	// set quadx mixer by default
+	self->motorCount = 4; 
+	for (int i = 0; i < self->motorCount; i++) {
+        self->currentMixer[i] = mixerQuadX[i];
+    }
+    mixer_reset_disarmed_pwm_values(self);
+
     self->customMixers = initialCustomMixers;
 }
 
 //#if !defined(USE_SERVOS) || defined(USE_QUAD_MIXER_ONLY)
 // TODO: what is this useful for exactly? 
+/*
 void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration)
 {
     UNUSED(pwmIOConfiguration);
@@ -299,6 +307,7 @@ void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwm
     }
     mixer_reset_disarmed_pwm_values(self);
 }
+*/
 //#endif
 
 

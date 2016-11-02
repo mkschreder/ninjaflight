@@ -162,7 +162,6 @@ static void application_init(struct application *self){
 	resetEEPROM();
 	sitl_init(); 
 	mixer_init(&self->mixer, customMotorMixer(0), 4);
-	mixer_use_pwmio_config(&self->mixer, NULL);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 0, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 1, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 2, 1000);

@@ -85,7 +85,7 @@
 #include "config/config.h"
 #include "config/feature.h"
 
-#include "mw.h"
+#include "ninjaflight.h"
 
 // June 2013     V2.2-dev
 
@@ -99,9 +99,7 @@ enum {
 #define VBATINTERVAL (6 * 3500)
 /* IBat monitoring interval (in microseconds) - 6 default looptimes */
 #define IBATINTERVAL (6 * 3500)
-#define GYRO_WATCHDOG_DELAY 100  // Watchdog for boards without interrupt for gyro
 
-uint16_t cycleTime = 0;         // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
 
 float dT;
 
@@ -117,8 +115,10 @@ extern uint32_t currentTime;
 extern uint8_t PIDweight[3];
 
 static bool isRXDataNew;
-static filterStatePt1_t filteredCycleTimeState;
-uint16_t filteredCycleTime;
+
+void ninja_init(struct ninja *self){
+	self->placeholder = 0;
+}
 
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta)
 {
@@ -601,16 +601,13 @@ static void processRx(void)
 
 }
 
-static void filterRc(void){
+static void filterRc(float dt){
     static int16_t lastCommand[4] = { 0, 0, 0, 0 };
     static int16_t deltaRC[4] = { 0, 0, 0, 0 };
     static int16_t factor, rcInterpolationFactor;
-    uint16_t rxRefreshRate;
+    uint16_t rxRefreshRate = rc_get_refresh_rate();
 
-    // Set RC refresh rate for sampling and channels to filter
-    initRxRefreshRate(&rxRefreshRate);
-
-    rcInterpolationFactor = rxRefreshRate / filteredCycleTime + 1;
+    rcInterpolationFactor = rxRefreshRate / (dt * 1000000UL);
 
     if (isRXDataNew) {
         for (int channel=0; channel < 4; channel++) {
@@ -638,16 +635,8 @@ static void filterRc(void){
 static bool haveUpdatedRcCommandsOnce = false;
 #endif
 
-static void taskMainPidLoop(void)
-{
-    cycleTime = getTaskDeltaTime(TASK_SELF);
-    dT = (float)cycleTime * 0.000001f;
-
-    // Calculate average cycle time and average jitter
-    filteredCycleTime = filterApplyPt1(cycleTime, &filteredCycleTimeState, 1, dT);
-
-    debug[0] = cycleTime;
-    debug[1] = cycleTime - filteredCycleTime;
+void ninja_run_pid_loop(struct ninja *self, float dT){
+	UNUSED(self);
 
     gyroUpdate();
     imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
@@ -656,7 +645,7 @@ static void taskMainPidLoop(void)
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 
     if (rxConfig()->rcSmoothing) {
-        filterRc();
+        filterRc(dT);
     }
 
 #if defined(BARO) || defined(SONAR)
@@ -803,23 +792,6 @@ static void taskMainPidLoop(void)
         handleBlackbox();
     }
 #endif
-}
-
-// Function for loop trigger
-void taskMainPidLoopChecker(void) {
-    // getTaskDeltaTime() returns delta time freezed at the moment of entering the scheduler. currentTime is freezed at the very same point.
-    // To make busy-waiting timeout work we need to account for time spent within busy-waiting loop
-    uint32_t currentDeltaTime = getTaskDeltaTime(TASK_SELF);
-
-    if (imuConfig()->gyroSync) {
-        while (1) {
-            if (gyroSyncCheckUpdate() || ((currentDeltaTime + (micros() - currentTime)) >= (gyro_sync_get_looptime() + GYRO_WATCHDOG_DELAY))) {
-                break;
-            }
-        }
-    }
-
-    taskMainPidLoop();
 }
 
 void taskUpdateAccelerometer(void)
@@ -989,8 +961,8 @@ void taskLedStrip(void)
 #endif
 
 #ifdef TRANSPONDER
-void taskTransponder(void)
-{
+void ninja_update_transponder(struct ninja *self){
+	UNUSED(self);
     if (feature(FEATURE_TRANSPONDER)) {
         updateTransponder();
     }

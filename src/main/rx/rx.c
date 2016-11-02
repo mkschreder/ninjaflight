@@ -629,9 +629,8 @@ void updateRSSI(uint32_t currentTime)
     }
 }
 
-void initRxRefreshRate(uint16_t *rxRefreshRatePtr)
-{
-    *rxRefreshRatePtr = rxRefreshRate;
+uint16_t rc_get_refresh_rate(void){
+    return rxRefreshRate;
 }
 
 uint16_t rc_get_rssi(void){

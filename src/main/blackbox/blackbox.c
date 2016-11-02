@@ -912,7 +912,7 @@ static void loadMainState(void)
 
     blackboxCurrent->time = currentTime;
 
-	const pid_controller_output_t *out = anglerate_get_output_ptr(&default_controller); 
+	const struct pid_controller_output *out = anglerate_get_output_ptr(&default_controller); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
         blackboxCurrent->axisPID_P[i] = out->axis_P[i];
     }

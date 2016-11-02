@@ -89,7 +89,7 @@
 
 #include "blackbox/blackbox.h"
 
-#include "mw.h"
+#include "ninjaflight.h"
 
 #include "version.h"
 #ifdef USE_HARDWARE_REVISION_DETECTION

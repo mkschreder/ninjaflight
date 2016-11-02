@@ -74,7 +74,7 @@
 
 #include "mavlink/common/mavlink.h"
 
-#include "mw.h"
+#include "ninjaflight.h"
 
 #define TELEMETRY_MAVLINK_INITIAL_PORT_MODE MODE_TX
 #define TELEMETRY_MAVLINK_MAXRATE 50

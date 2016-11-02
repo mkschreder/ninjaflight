@@ -59,7 +59,7 @@
 #include "flight/navigation.h"
 #include "flight/failsafe.h"
 
-#include "mw.h"
+#include "ninjaflight.h"
 
 #define AIRMODE_DEADBAND 12
 

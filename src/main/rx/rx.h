@@ -149,7 +149,7 @@ void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *rxChann
 void suspendRxSignal(void);
 void resumeRxSignal(void);
 
-void initRxRefreshRate(uint16_t *rxRefreshRatePtr);
+uint16_t rc_get_refresh_rate(void);
 
 uint16_t rc_get_rssi(void); 
 int16_t rc_get_channel_value(uint8_t chan); 

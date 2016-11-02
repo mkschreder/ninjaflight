@@ -248,9 +248,8 @@ COMMON_SRC = build_config.c \
 		   common/filter.c \
 		   common/streambuf.c \
 		   scheduler.c \
-           scheduler_tasks.c \
 		   main.c \
-		   mw.c \
+		   ninjaflight.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate_controller.c \
@@ -743,7 +742,7 @@ SITL_SRC = \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
-			mw.c
+			ninjaflight.c
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
