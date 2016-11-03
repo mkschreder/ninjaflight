@@ -48,7 +48,8 @@ before_install:
 
 install:
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_9-2015q2/bin
-
+after_success:
+  - coveralls
 before_script: arm-none-eabi-gcc --version
 script: ./.travis.sh
 
