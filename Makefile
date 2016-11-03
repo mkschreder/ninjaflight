@@ -925,6 +925,10 @@ help: Makefile
 ## junittest   : run the ninjaflight test suite, producing Junit XML result files.
 test junittest:
 	cd src/test && $(MAKE) $@
+	# visualize coverage
+	lcov --directory . -b src/test --capture --output-file coverage.info
+	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' --output-file coverage.info
+	lcov --list coverage.info
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
