@@ -1,6 +1,7 @@
 # NinjaFlight
 
 [![Build Status](https://travis-ci.org/mkschreder/ninjaflight.svg?branch=master)](https://travis-ci.org/mkschreder/ninjaflight)
+[![Coverage Status](https://coveralls.io/repos/github/mkschreder/ninjaflight/badge.svg?branch=master)](https://coveralls.io/github/mkschreder/ninjaflight?branch=master)
 
 An even cleaner version of cleanflight flight-controller - flight controllers
 are used to fly multi-rotor craft and fixed wing craft. 
