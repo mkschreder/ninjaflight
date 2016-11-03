@@ -55,8 +55,7 @@
 
 static failsafeState_t failsafeState;
 
-static void failsafeReset(void)
-{
+void failsafeReset(void){
     failsafeState.rxDataFailurePeriod = PERIOD_RXDATA_FAILURE + failsafeConfig()->failsafe_delay * MILLIS_PER_TENTH_SECOND;
     failsafeState.validRxDataReceivedAt = 0;
     failsafeState.validRxDataFailedAt = 0;
@@ -66,11 +65,6 @@ static void failsafeReset(void)
     failsafeState.receivingRxDataPeriodPreset = 0;
     failsafeState.phase = FAILSAFE_IDLE;
     failsafeState.rxLinkState = FAILSAFE_RXLINK_DOWN;
-}
-
-void useFailsafeConfig()
-{
-    failsafeReset();
 }
 
 void failsafeInit(void)

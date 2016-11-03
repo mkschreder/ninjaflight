@@ -74,13 +74,13 @@ union rollAndPitchTrims_u;
 struct rxConfig_s;
 
 struct pid_controller_output{
-	int16_t axis[3]; 
+	int16_t axis[3];
 #ifdef BLACKBOX
-	float axis_P[3]; 
-	float axis_I[3]; 
-	float axis_D[3]; 
+	float axis_P[3];
+	float axis_I[3];
+	float axis_D[3];
 #endif
-}; 
+};
 
 struct anglerate {
 	// PIDweight is a scale factor for PIDs which is derived from the throttle and TPA setting, and 100 = 100% scale means no PID reduction
@@ -92,8 +92,8 @@ struct anglerate {
 	biquad_t deltaFilterState[3];
 
 	// update outputs based on current attitude information
-	void (*update)(struct anglerate *self, union attitude_euler_angles *att); 
-	
+	void (*update)(struct anglerate *self, union attitude_euler_angles *att, float dT);
+
 	// used for luxfloat
 	float lastRateForDelta[3];
     float deltaStatef[3][DTERM_AVERAGE_COUNT];
@@ -104,43 +104,47 @@ struct anglerate {
 
 	// used for mwiirewrite
 	int32_t lastRateForDeltai[3];
-	int32_t deltaStatei[3][DTERM_AVERAGE_COUNT]; 
+	int32_t deltaStatei[3][DTERM_AVERAGE_COUNT];
 
-	struct pid_controller_output output; 
+	struct pid_controller_output output;
 
-	bool _delta_state_set; 
-	const struct rate_config *rate_config; 
-	const struct pid_config *config; 
-	uint16_t max_angle_inclination;  
-	const rollAndPitchTrims_t *angle_trim;  
-	const rxConfig_t *rx_config; 
+	bool _delta_state_set;
+	const struct rate_config *rate_config;
+	const struct pid_config *config;
+	uint16_t max_angle_inclination;
+	const rollAndPitchTrims_t *angle_trim;
+	const rxConfig_t *rx_config;
+
+	// gyro data used for stabilization
+	int16_t gyro[3];
 
 	uint8_t flags;
-}; 
+};
 
-// TODO: remove when done refactoring. This should be a member of a higher level struct.  
-extern struct anglerate default_controller; 
+// TODO: remove when done refactoring. This should be a member of a higher level struct.
+extern struct anglerate default_controller;
 
 #define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
 //float pidScaleITermToRcInput(int axis);
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
-void anglerate_init(struct anglerate *self); 
+void anglerate_init(struct anglerate *self);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
-const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self); 
-void anglerate_update(struct anglerate *self, union attitude_euler_angles *att); 
+const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self);
+void anglerate_input_gyro(struct anglerate *self, int16_t x, int16_t y, int16_t z);
+void anglerate_update(struct anglerate *self, union attitude_euler_angles *att, float dT);
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on);
 void anglerate_enable_plimit(struct anglerate *self, bool on);
-void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale); 
-void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight); 
+void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);
+void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight);
 
 // TODO: this should be removed
 void anglerate_set_configs(struct anglerate *self,
 	const struct pid_config *config,
-	const struct rate_config *rate_config, 
-	uint16_t max_angle_inclination, 
-	const rollAndPitchTrims_t *angleTrim, 
-	const rxConfig_t *rxConfig); 
+	const struct rate_config *rate_config,
+	uint16_t max_angle_inclination,
+	const rollAndPitchTrims_t *angleTrim,
+	const rxConfig_t *rxConfig);

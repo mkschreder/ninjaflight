@@ -168,13 +168,11 @@ static void activateConfig(void)
 
     useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
 
-    anglerate_set_algo(&default_controller, pidProfile()->pidController);
-
 #ifdef GPS
     gpsUsePIDs(pidProfile());
 #endif
 
-    useFailsafeConfig();
+    failsafeReset();
     setAccelerationTrims(&sensorTrims()->accZero);
 
 #ifdef USE_SERVOS

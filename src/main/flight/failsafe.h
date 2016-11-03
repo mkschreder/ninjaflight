@@ -73,11 +73,10 @@ typedef struct failsafeState_s {
 
 void failsafeInit(void);
 
-void useFailsafeConfig(void);
-
 void failsafeStartMonitoring(void);
 void failsafeUpdateState(void);
 
+void failsafeReset(void);
 failsafePhase_e failsafePhase(void);
 bool failsafeIsMonitoring(void);
 bool failsafeIsActive(void);

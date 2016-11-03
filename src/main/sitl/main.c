@@ -150,7 +150,7 @@ static void _application_fc_run(struct application *self){
 	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500) >> 2; 
 	rcCommand[THROTTLE] = rc_get_channel_value(2); 
 	rcCommand[YAW] = (rc_get_channel_value(3) - 1500) >> 2; 
-	anglerate_update(&self->controller, &att);
+	anglerate_update(&self->controller, &att, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
 	mixer_update(&self->mixer, anglerate_get_output_ptr(&self->controller));
@@ -262,14 +262,32 @@ int config_streamer_finish(config_streamer_t *c){
 	return 0;
 }
 
+void scanEEPROM(void);
+void scanEEPROM(void){}
+void validateAndFixConfig(void);
+void validateAndFixConfig(void){}
+bool isSerialConfigValid(serialConfig_t *);
+bool isSerialConfigValid(serialConfig_t *c){(void)c; return true;}
+void resetAdjustmentStates(void);
+void resetAdjustmentStates(void){}
+void setAccelerationTrims(flightDynamicsTrims_t *trims);
+void setAccelerationTrims(flightDynamicsTrims_t *trims){(void)trims;}
+void recalculateMagneticDeclination(void);
+void recalculateMagneticDeclination(void){}
+void beeperConfirmationBeeps(void);
+void beeperConfirmationBeeps(void){}
 void writeConfigToEEPROM(void);
 void writeConfigToEEPROM(void){}
-
+void useRcControlsConfig(modeActivationCondition_t *);
+void useRcControlsConfig(modeActivationCondition_t *c){(void)c;}
 void parseRcChannels(const char *input, rxConfig_t *rxConfig){UNUSED(input);UNUSED(rxConfig);}
 void suspendRxSignal(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
 void resumeRxSignal(void){}
-
+void failsafeReset(void);
+void failsafeReset(void){}
+bool isEEPROMContentValid(void);
+bool isEEPROMContentValid(void){ return true; }
 // exported from the shared object
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){

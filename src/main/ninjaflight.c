@@ -221,10 +221,10 @@ static void updateRcCommands(void)
 #endif
         // non coupled PID reduction scaler used in PID controller 1 and PID controller 2. YAW TPA disabled. 100 means 100% of the pids
         if (axis == YAW) {
-			anglerate_set_pid_axis_weight(&default_controller, axis, 100); 
+			anglerate_set_pid_axis_weight(&default_controller, axis, 100);
         }
         else {
-			anglerate_set_pid_axis_weight(&default_controller, axis, prop2); 
+			anglerate_set_pid_axis_weight(&default_controller, axis, prop2);
         }
 
         if (rc_get_channel_value(axis) < rxConfig()->midrc)
@@ -299,7 +299,7 @@ static void releaseSharedTelemetryPorts(void) {
          sharedPort = findNextSharedSerialPort(TELEMETRY_FUNCTION_MASK, FUNCTION_MSP);
      }
 }
-#endif 
+#endif
 
 void mwArm(void)
 {
@@ -640,17 +640,17 @@ static void __attribute__((unused)) _tilt_apply_compensation(struct anglerate *s
     float angleTilt = degreesToRadians(DECIDEGREES_TO_DEGREES(motor_pitch));
 	float bodyPitch = degreesToRadians(imu_get_pitch_dd(&default_imu) * 0.1f);
     float tmpCosine = cos_approx(angleTilt);
-	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
-	// TODO: rewrite code that uses this. For now zero. 
-	int16_t liftoff_thrust = 0; 
+	struct mixer_tilt_config *tilt = mixerTiltConfig();
+	// TODO: rewrite code that uses this. For now zero.
+	int16_t liftoff_thrust = 0;
 
 	// if static mode then for now we just set servos to middle and exit
 	if(tilt->mode == MIXER_TILT_MODE_STATIC){
-		servo[SERVO_TILT_P] = 1500; 
+		servo[SERVO_TILT_P] = 1500;
 	#if MAX_SUPPORTED_SERVOS > 1
-		servo[SERVO_TILT_N] = 1500; 
+		servo[SERVO_TILT_N] = 1500;
 	#endif
-		return; 
+		return;
 	}
     if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
         // compensate the throttle because motor orientation
@@ -679,7 +679,7 @@ static void __attribute__((unused)) _tilt_apply_compensation(struct anglerate *s
 
     //compensate the roll and yaw because of motor orientation
 	// TODO: add support for quads that have props tilting in both roll and pitch direction
-	// TODO: here we are modifying variables that are internal to anglerate controller. 
+	// TODO: here we are modifying variables that are internal to anglerate controller.
 	// find a cleaner way to implement tilt
     if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
         float rollCompensation = self->output.axis[ROLL] * tmpCosine;
@@ -773,64 +773,68 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 #endif
 
 	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
-	int16_t user_control = 0; 
-	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2; 
-	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
+	int16_t user_control = 0;
+	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
+	struct mixer_tilt_config *tilt = mixerTiltConfig();
 
 	// read attitude from imu
-	union attitude_euler_angles att; 
-	imu_get_attitude_dd(&default_imu, &att); 
+	union attitude_euler_angles att;
+	imu_get_attitude_dd(&default_imu, &att);
 
-	// TODO: move this once we have tested current refactored code 
-	anglerate_set_configs(&default_controller, 
+	// TODO: move this once we have tested current refactored code
+    anglerate_set_algo(&default_controller, pidProfile()->pidController);
+	anglerate_set_configs(&default_controller,
 		pidProfile(),
 		currentControlRateProfile,
 		imuConfig()->max_angle_inclination,
 		&accelerometerConfig()->accelerometerTrims,
 		rxConfig()
-	); 
+	);
+
+	// give anglerate controller our current sensor data
+	anglerate_input_gyro(&default_controller, gyroADC[X], gyroADC[Y], gyroADC[Z]);
 
 	if(USE_TILT && is_tilt){
 		// TODO: refactor this once we have refactored rcCommand
-		// in angle mode we set control channel value in RC command to zero. 
+		// in angle mode we set control channel value in RC command to zero.
 		int16_t motor_pitch = 0;
 		if(FLIGHT_MODE(ANGLE_MODE)){
 			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				user_control = rcCommand[tilt->control_channel]; 
-				rcCommand[tilt->control_channel] = 0; 
-				// run pid controller with modified pitch 
-				anglerate_update(&default_controller, &att);
-				rcCommand[tilt->control_channel] = user_control; 
+				user_control = rcCommand[tilt->control_channel];
+				rcCommand[tilt->control_channel] = 0;
+				// run pid controller with modified pitch
+				anglerate_update(&default_controller, &att, dt);
+				rcCommand[tilt->control_channel] = user_control;
 
 				motor_pitch = user_control;
 			} else {
-				// otherwise we keep user input and just run the anglerate controller 
-				anglerate_update(&default_controller, &att);
+				// otherwise we keep user input and just run the anglerate controller
+				anglerate_update(&default_controller, &att, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
 		} else if(FLIGHT_MODE(HORIZON_MODE)){
 			// in horizon mode we do not deprive the anglerate controller of user input but we need to divide the pitch value so that anglerate controller pitches the body half way while we also tilt the propellers
-			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.  
-			// TODO: this mode currently is far from perfect.  Needs testing. 
+			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.
+			// TODO: this mode currently is far from perfect.  Needs testing.
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				user_control = rcCommand[tilt->control_channel]; 
-				rcCommand[tilt->control_channel] = user_control >> 1; 
-				// run pid controller with modified pitch 
-				anglerate_update(&default_controller, &att);
-				rcCommand[tilt->control_channel] = user_control; 
+				user_control = rcCommand[tilt->control_channel];
+				rcCommand[tilt->control_channel] = user_control >> 1;
+				// run pid controller with modified pitch
+				anglerate_update(&default_controller, &att, dt);
+				rcCommand[tilt->control_channel] = user_control;
 
 				motor_pitch = user_control >> 1;
 			} else {
-				// otherwise we keep user input and just run the anglerate controller 
-				anglerate_update(&default_controller, &att);
+				// otherwise we keep user input and just run the anglerate controller
+				anglerate_update(&default_controller, &att, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
 		} else {
 			// in rate mode we only allow manual tilting using one of the aux channels
-			anglerate_update(&default_controller, &att);
+			anglerate_update(&default_controller, &att, dt);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			} else {
@@ -839,7 +843,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		_tilt_apply_compensation(&default_controller, motor_pitch);
 	} else {
 		// without tilting we just run the anglerate controller
-		anglerate_update(&default_controller, &att);
+		anglerate_update(&default_controller, &att, dt);
 	}
 
 	//TODO: move gimbal code out of the mixer and place it externally
