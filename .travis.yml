@@ -53,8 +53,8 @@ install:
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_9-2015q2/bin
 after_success:
   - cd ${TRAVIS_BUILD_DIR}
-  - lcov --directory . --capture --output-file coverage.info # capture coverage info
-  - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
+  - lcov --directory . -b src/test --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info 'lib/test/*' 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
   - lcov --list coverage.info # debug before upload
   - coveralls-lcov coverage.info # uploads to coveralls
 before_script: arm-none-eabi-gcc --version
