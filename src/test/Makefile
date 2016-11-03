@@ -48,7 +48,7 @@ CXX_FLAGS = $(COMMON_FLAGS) \
 	-std=gnu++11
 
 # Compiler flags for coverage instrumentation
-COVERAGE_FLAGS := --coverage
+COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage -lgcov --coverage
 
 C_FLAGS   += $(COVERAGE_FLAGS)
 CXX_FLAGS += $(COVERAGE_FLAGS)
