@@ -88,8 +88,19 @@ struct application {
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
 }; 
-#if 0
+
 static void _application_send_state(struct application *self){
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	printf("pwm: ");
+	for(int c = 0; c < 4; c++){
+		printf("%d ", mixer_get_motor_value(&self->mixer, c));
+		cl->write_pwm(cl, c, mixer_get_motor_value(&self->mixer, c));
+	}
+	for(int c = 4; c < FC_SITL_PWM_CHANNELS; c++){
+		cl->write_pwm(cl, c, 1500);
+	}
+	printf("\n");
+#if 0
 	struct sitl_server_packet pkt; 
 	memset(&pkt, 0, sizeof(pkt)); 
 	pkt.mode = SITL_MODE_PHYSICS_ON_CLIENT; 
@@ -113,36 +124,40 @@ static void _application_send_state(struct application *self){
 		mixer_get_motor_value(&self->mixer,3)
 	); 
 	sitl_send_state(&pkt); 
+#endif
 }
-
 static void _application_recv_state(struct application *self){
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	printf("rc: ");
+	for(int c = 0; c < 8; c++){
+		uint16_t pwm = cl->read_rc(cl, c);
+		rc_set_channel_value(c, pwm);
+		printf("%d ", pwm);
+	}
+	printf("\n");
+	
+	float accel[3], gyro[3];
+
+	cl->read_accel(cl, accel);
+	cl->read_gyro(cl, gyro);
+	imu_input_accelerometer(&self->imu, 
+		(accel[0] / 9.82f) * 512, 
+		(accel[1] / 9.82f) * 512, 
+		(accel[2] / 9.82f) * 512); 
+		
+	gyroADC[0] = gyro[0] * 4096;
+	gyroADC[1] = -gyro[1] * 4096;
+	gyroADC[2] = -gyro[2] * 4096;
+
+	imu_input_gyro(&self->imu, gyroADC[0], gyroADC[1], gyroADC[2]); 
+	imu_update(&self->imu, 0.001); 
+
+#if 0
 	struct sitl_client_packet pkt; 
 	sitl_recv_state(&pkt); 
 	//imu_input_accelerometer(&self->imu, pkt.accel[0], pkt.accel[1], pkt.accel[2]); 
-	imu_input_accelerometer(&self->imu, 
-		(pkt.accel[0] / 9.82f) * 512, 
-		(pkt.accel[1] / 9.82f) * 512, 
-		(pkt.accel[2] / 9.82f) * 512); 
-	gyroADC[0] = pkt.gyro[0] * 4096;
-	gyroADC[1] = -pkt.gyro[1] * 4096;
-	gyroADC[2] = -pkt.gyro[2] * 4096;
-
-	imu_input_gyro(&self->imu, gyroADC[0], gyroADC[1], gyroADC[2]); 
-	imu_update(&self->imu); 
-	for(int c = 0; c < 4; c++){
-		rc_set_channel_value(c, 1000 + pkt.rcin[c] * 1000);
-	}
-	printf("gyro: %f %f %f ",(double) pkt.gyro[0], (double)pkt.gyro[1], (double)pkt.gyro[2]); 
-	printf("acc: %f %f %f\n", (double)pkt.accel[0], (double)pkt.accel[1], (double)pkt.accel[2]); 
-	printf("rx: %d %d %d %d\n", 
-		rc_get_channel_value(0),
-		rc_get_channel_value(1),
-		rc_get_channel_value(2),
-		rc_get_channel_value(3)
-	); 
-	printf("pids: %d\n", pidProfile()->P8[PIDROLL]);
+	#endif
 }
-#endif
 static void _application_fc_run(struct application *self){
 	union attitude_euler_angles att;
 	imu_get_attitude_dd(&self->imu, &att);
@@ -153,13 +168,15 @@ static void _application_fc_run(struct application *self){
 	anglerate_update(&self->controller, &att, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
+
+	mixer_enable_motor_outputs(&self->mixer, true);
 	mixer_update(&self->mixer, anglerate_get_output_ptr(&self->controller));
 }
 
 static void application_run(struct application *self){
-	//_application_recv_state(self);
+	_application_recv_state(self);
 	_application_fc_run(self);
-	//_application_send_state(self);
+	_application_send_state(self);
 }
 
 static void *_application_thread(void *param){
@@ -293,6 +310,7 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_i
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
 	UNUSED(cl);
 	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
+	server->client = cl;
 
 	struct application *app = malloc(sizeof(struct application));
 	application_init(app, server);
