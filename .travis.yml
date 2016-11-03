@@ -25,11 +25,12 @@ env:
   - TARGET=IRCFUSIONF3
 
 # use new docker environment
-sudo: false
+sudo: true
 
 addons:
   apt:
     packages:
+      - lcov
       - build-essential
       - git
       - libc6-i386
@@ -45,12 +46,17 @@ compiler: clang
 
 before_install:
   - pip install --user cpp-coveralls
+  - gem install coveralls-lcov
   - curl --retry 10 --retry-max-time 120 -L "https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q2-update/+download/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2" | tar xfj -
 
 install:
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_9-2015q2/bin
 after_success:
-  - coveralls
+  - cd ${TRAVIS_BUILD_DIR}
+  - lcov --directory . --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info # filter out system and test code
+  - lcov --list coverage.info # debug before upload
+  - coveralls-lcov coverage.info # uploads to coveralls
 before_script: arm-none-eabi-gcc --version
 script: ./.travis.sh
 
