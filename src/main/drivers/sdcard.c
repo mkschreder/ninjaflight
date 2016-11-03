@@ -536,7 +536,7 @@ void sdcard_init(bool useDMA)
     spiSetDivisor(SDCARD_SPI_INSTANCE, SDCARD_SPI_INITIALIZATION_CLOCK_DIVIDER);
 
     // SDCard wants 1ms minimum delay after power is applied to it
-    delay(1000);
+    usleep(1000000);
 
     // Transmit at least 74 dummy clock cycles with CS high so the SD card can start up
     SET_CS_HIGH;

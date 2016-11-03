@@ -61,7 +61,7 @@ bool l3g4200dDetect(gyro_t *gyro)
 {
     uint8_t deviceid;
 
-    delay(25);
+    usleep(25000);
 
     i2cRead(L3G4200D_ADDRESS, L3G4200D_WHO_AM_I, 1, &deviceid);
     if (deviceid != L3G4200D_ID)
@@ -99,13 +99,13 @@ static void l3g4200dInit(uint8_t lpf)
             break;
     }
 
-    delay(100);
+    usleep(100000);
 
     ack = i2cWrite(L3G4200D_ADDRESS, L3G4200D_CTRL_REG4, L3G4200D_FS_SEL_2000DPS);
     if (!ack)
         failureMode(FAILURE_ACC_INIT);
 
-    delay(5);
+    usleep(5000);
     i2cWrite(L3G4200D_ADDRESS, L3G4200D_CTRL_REG1, L3G4200D_POWER_ON | mpuLowPassFilter);
 }
 

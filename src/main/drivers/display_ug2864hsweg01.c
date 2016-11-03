@@ -289,7 +289,7 @@ void ug2864hsweg01InitI2C(void)
     i2c_OLED_send_cmd(0xae);    //display off
     i2c_OLED_send_cmd(0xa4);          //SET All pixels OFF
 //  i2c_OLED_send_cmd(0xa5);            //SET ALL pixels ON
-    delay(50);
+    usleep(50000);
 
 //    i2c_OLED_send_cmd(0x8D); // charge pump
 //    i2c_OLED_send_cmd(0x14); // enable
@@ -305,9 +305,9 @@ void ug2864hsweg01InitI2C(void)
     i2c_OLED_send_cmd(0xaf); // contrast value between 1 ( == dull) to 256 ( == bright)
 //  i2c_OLED_send_cmd(0xd3);            // Display Offset :
 //  i2c_OLED_send_cmd(0x0);            // 0
-//  delay(20);
+//  usleep(20000);
 //  i2c_OLED_send_cmd(0x40);            // Display start line [0;63] -> [0x40;0x7f]
-//  delay(20);
+//  usleep(20000);
 #ifdef DISPLAY_FONT_DSIZE
     i2c_OLED_send_cmd(0xd6);            // zoom
     i2c_OLED_send_cmd(0x01);// on
@@ -315,9 +315,9 @@ void ug2864hsweg01InitI2C(void)
 //    i2c_OLED_send_cmd(0xd6);            // zoom
 //    i2c_OLED_send_cmd(0x00);            // off
 #endif
-    delay(20);
+    usleep(20000);
     i2c_OLED_send_cmd(0xaf);          //display on
-    delay(20);
+    usleep(20000);
     i2c_OLED_clear_display();
 }
 

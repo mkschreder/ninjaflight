@@ -193,7 +193,7 @@ bool bmp085Detect(const bmp085Config_t *config, baro_t *baro)
     UNUSED(config);
 #endif
 
-    delay(20); // datasheet says 10ms, we'll be careful and do 20.
+    usleep(20000); // datasheet says 10ms, we'll be careful and do 20.
 
     ack = i2cRead(BMP085_I2C_ADDR, BMP085_CHIP_ID__REG, 1, &data); /* read Chip Id */ 
     if (ack) {
@@ -386,7 +386,7 @@ bool bmp085TestEOCConnected(const bmp085Config_t *config)
 {
     if (!bmp085InitDone) {
         bmp085_start_ut();
-        delayMicroseconds(UT_DELAY * 2); // wait twice as long as normal, just to be sure
+        usleep(UT_DELAY * 2); // wait twice as long as normal, just to be sure
 
         // conversion should have finished now so check if EOC is high
         uint8_t status = GPIO_ReadInputDataBit(config->eocGpioPort, config->eocGpioPin);

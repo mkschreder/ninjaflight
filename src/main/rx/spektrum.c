@@ -170,7 +170,7 @@ static bool spekShouldBind(uint8_t spektrum_sat_bind)
     gpioInit(BINDPLUG_PORT, &cfg);
 
     // Check status of bind plug and exit if not active
-    delayMicroseconds(10);  // allow configuration to settle
+    usleep(10);  // allow configuration to settle
     if (digitalIn(BINDPLUG_PORT, BINDPLUG_PIN)) {
         return false;
     }
@@ -208,7 +208,7 @@ void spektrumBind(rxConfig_t *rxConfig)
     digitalHi(BIND_PORT, BIND_PIN);
 
     // Bind window is around 20-140ms after powerup
-    delay(60);
+    usleep(60000);
     led_off(1);
 
     for (i = 0; i < rxConfig->spektrum_sat_bind; i++) {
@@ -217,13 +217,13 @@ void spektrumBind(rxConfig_t *rxConfig)
         led_off(2);
         // RX line, drive low for 120us
         digitalLo(BIND_PORT, BIND_PIN);
-        delayMicroseconds(120);
+        usleep(120);
 
         led_on(0);
         led_on(2);
         // RX line, drive high for 120us
         digitalHi(BIND_PORT, BIND_PIN);
-        delayMicroseconds(120);
+        usleep(120);
 
     }
 

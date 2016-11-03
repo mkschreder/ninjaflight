@@ -368,7 +368,7 @@ void mixer_stop_motors(struct mixer *self)
     mixer_set_all_motors_pwm(self, feature(FEATURE_3D) ? motor3DConfig()->neutral3d : motorAndServoConfig()->mincommand);
 
 	// TODO: remove this delay
-    delay(50); // give the timers and ESCs a chance to react.
+    usleep(50000); // give the timers and ESCs a chance to react.
 }
 
 // TODO: all pwm functions need to be moved outside of mixer!

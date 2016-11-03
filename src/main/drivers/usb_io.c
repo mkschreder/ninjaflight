@@ -91,7 +91,7 @@ void usbGenerateDisconnectPulse(void)
 
     GPIO_ResetBits(GPIOA, GPIO_Pin_12);
 
-    delay(200);
+    usleep(200000);
 
     GPIO_SetBits(GPIOA, GPIO_Pin_12);
 }

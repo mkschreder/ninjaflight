@@ -216,7 +216,7 @@ void hcsr04_start_reading(struct sonar *self)
 
     digitalHi(self->hw->trigger_gpio, self->hw->trigger_pin);
     //  The width of trig signal must be greater than 10us
-    delayMicroseconds(11);
+    usleep(11);
     digitalLo(self->hw->trigger_gpio, self->hw->trigger_pin);
 #else
 	UNUSED(self); 

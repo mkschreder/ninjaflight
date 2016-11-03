@@ -106,7 +106,7 @@ void battery_update(struct battery *self){
 		(using the filtered value takes a long time to ramp up) 
 		We only do this on the ground so don't care if we do block, not
 		worse than original code anyway*/
-		delay(VBATTERY_STABLE_DELAY);
+		usleep(VBATTERY_STABLE_DELAY * 1000);
 		_battery_update_voltage(self);
 
 		unsigned cells = (_battery_adc_to_voltage(self, self->vbatLatestADC) / self->config->vbatmaxcellvoltage) + 1;

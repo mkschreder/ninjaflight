@@ -135,7 +135,7 @@ static bool m25p16_readIdentification(void)
     uint8_t in[4];
     uint32_t chipID;
 
-    delay(50); // short delay required after initialisation of SPI device instance.
+    usleep(50000); // short delay required after initialisation of SPI device instance.
 
     /* Just in case transfer fails and writes nothing, so we don't try to verify the ID against random garbage
      * from the stack:

@@ -400,25 +400,25 @@ static void i2cUnstick(void)
     for (i = 0; i < 8; i++) {
         // Wait for any clock stretching to finish
         while (!digitalIn(gpio, scl))
-            delayMicroseconds(10);
+            usleep(10);
 
         // Pull low
         digitalLo(gpio, scl); // Set bus low
-        delayMicroseconds(10);
+        usleep(10);
         // Release high again
         digitalHi(gpio, scl); // Set bus high
-        delayMicroseconds(10);
+        usleep(10);
     }
 
     // Generate a start then stop condition
     // SCL  PB10
     // SDA  PB11
     digitalLo(gpio, sda); // Set bus data low
-    delayMicroseconds(10);
+    usleep(10);
     digitalLo(gpio, scl); // Set bus scl low
-    delayMicroseconds(10);
+    usleep(10);
     digitalHi(gpio, scl); // Set bus scl high
-    delayMicroseconds(10);
+    usleep(10);
     digitalHi(gpio, sda); // Set bus sda high
 
     // Init pins

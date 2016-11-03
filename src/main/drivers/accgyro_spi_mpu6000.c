@@ -131,7 +131,7 @@ static void mpu6000SpiGyroInit(uint8_t lpf)
 
     // Accel and Gyro DLPF Setting
     mpu6000WriteRegister(MPU6000_CONFIG, lpf);
-    delayMicroseconds(1);
+    usleep(1);
 
     int16_t data[3];
     mpuGyroRead(data);
@@ -158,7 +158,7 @@ bool mpu6000SpiDetect(void)
     mpu6000WriteRegister(MPU_RA_PWR_MGMT_1, BIT_H_RESET);
 
     do {
-        delay(150);
+        usleep(150000);
 
         mpu6000ReadRegister(MPU_RA_WHO_AM_I, 1, &in);
         if (in == MPU6000_WHO_AM_I_CONST) {
@@ -205,42 +205,42 @@ static void mpu6000AccAndGyroInit(void)
 
     // Device Reset
     mpu6000WriteRegister(MPU_RA_PWR_MGMT_1, BIT_H_RESET);
-    delay(150);
+    usleep(150000);
 
     mpu6000WriteRegister(MPU_RA_SIGNAL_PATH_RESET, BIT_GYRO | BIT_ACC | BIT_TEMP);
-    delay(150);
+    usleep(150000);
 
     // Clock Source PPL with Z axis gyro reference
     mpu6000WriteRegister(MPU_RA_PWR_MGMT_1, MPU_CLK_SEL_PLLGYROZ);
-    delayMicroseconds(1);
+    usleep(1);
 
     // Disable Primary I2C Interface
     mpu6000WriteRegister(MPU_RA_USER_CTRL, BIT_I2C_IF_DIS);
-    delayMicroseconds(1);
+    usleep(1);
 
     mpu6000WriteRegister(MPU_RA_PWR_MGMT_2, 0x00);
-    delayMicroseconds(1);
+    usleep(1);
 
     // Accel Sample Rate 1kHz
     // Gyroscope Output Rate =  1kHz when the DLPF is enabled
     mpu6000WriteRegister(MPU_RA_SMPLRT_DIV, gyroMPU6xxxCalculateDivider());
-    delayMicroseconds(1);
+    usleep(1);
 
     // Gyro +/- 1000 DPS Full Scale
     mpu6000WriteRegister(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);
-    delayMicroseconds(1);
+    usleep(1);
 
     // Accel +/- 8 G Full Scale
     mpu6000WriteRegister(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
-    delayMicroseconds(1);
+    usleep(1);
 
 
     mpu6000WriteRegister(MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 1 << 4 | 0 << 3 | 0 << 2 | 0 << 1 | 0 << 0);  // INT_ANYRD_2CLEAR
-    delayMicroseconds(1);
+    usleep(1);
 
 #ifdef USE_MPU_DATA_READY_SIGNAL
     mpu6000WriteRegister(MPU_RA_INT_ENABLE, MPU_RF_DATA_RDY_EN);
-    delayMicroseconds(1);
+    usleep(1);
 #endif
 
     spiSetDivisor(MPU6000_SPI_INSTANCE, SPI_18MHZ_CLOCK_DIVIDER);  // 18 MHz SPI clock

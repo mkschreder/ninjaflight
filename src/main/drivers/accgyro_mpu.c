@@ -75,7 +75,7 @@ mpuDetectionResult_t *detectMpu(const extiConfig_t *configToUse)
     uint8_t inquiryResult;
 
     // MPU datasheet specifies 30ms.
-    delay(35);
+    usleep(35000);
 
     ack = mpuReadRegisterI2C(MPU_RA_WHO_AM_I, 1, &sig);
     if (ack) {

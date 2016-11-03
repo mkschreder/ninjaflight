@@ -145,7 +145,6 @@ TEST(baroBmp280Test, TestBmp280CalculateZeroP)
 
 extern "C" {
 
-    void delay(uint32_t) {}
     bool i2cWrite(uint8_t, uint8_t, uint8_t) {
         return 1;
     }

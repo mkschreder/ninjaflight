@@ -75,11 +75,11 @@ void mpu6500GyroInit(uint8_t lpf)
     mpuIntExtiInit();
 
     mpuConfiguration.write(MPU_RA_PWR_MGMT_1, MPU6500_BIT_RESET);
-    delay(100);
+    usleep(100000);
     mpuConfiguration.write(MPU_RA_SIGNAL_PATH_RESET, 0x07);
-    delay(100);
+    usleep(100000);
     mpuConfiguration.write(MPU_RA_PWR_MGMT_1, 0);
-    delay(100);
+    usleep(100000);
     mpuConfiguration.write(MPU_RA_PWR_MGMT_1, INV_CLK_PLL);
     mpuConfiguration.write(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);
     mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);

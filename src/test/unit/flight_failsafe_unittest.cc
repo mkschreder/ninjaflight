@@ -443,8 +443,6 @@ throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband
     return throttleStatus;
 }
 
-void delay(uint32_t) {}
-
 bool feature(uint32_t mask) {
     return (mask & testFeatureMask);
 }

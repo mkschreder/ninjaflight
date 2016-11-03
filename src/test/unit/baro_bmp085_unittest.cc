@@ -187,8 +187,6 @@ extern "C" {
 
     void gpioInit() {}
     void RCC_APB2PeriphClockCmd() {}
-    void delay(uint32_t) {}
-    void delayMicroseconds(uint32_t) {}
     bool i2cWrite(uint8_t, uint8_t, uint8_t) {
         return 1;
     }

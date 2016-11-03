@@ -106,7 +106,7 @@ bool bmp280Detect(baro_t *baro)
     if (bmp280InitDone)
         return true;
 
-    delay(20);
+    usleep(20000);
 
     i2cRead(BMP280_I2C_ADDR, BMP280_CHIP_ID_REG, 1, &bmp280_chip_id);  /* read Chip Id */
     if (bmp280_chip_id != BMP280_DEFAULT_CHIP_ID)

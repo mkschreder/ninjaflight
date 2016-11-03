@@ -328,9 +328,9 @@ static void flashLedsAndBeep(void)
     for (uint8_t i = 0; i < 10; i++) {
         led_toggle(1);
         led_toggle(0);
-        delay(25);
+        usleep(25000);
         BEEP_ON;
-        delay(25);
+        usleep(25000);
         BEEP_OFF;
     }
     led_off(0);
@@ -355,7 +355,7 @@ static void buttonsInit(void)
     };
     gpioInit(BUTTON_B_PORT, &buttonBGpioConfig);
 
-    delayMicroseconds(10);  // allow GPIO configuration to settle
+    usleep(10);  // allow GPIO configuration to settle
 }
 
 static void buttonsHandleColdBootButtonPresses(void)
@@ -371,12 +371,12 @@ static void buttonsHandleColdBootButtonPresses(void)
             }
 
             if (secondsRemaining > 5) {
-                delay(1000);
+                usleep(1000000UL);
             } else {
                 // flash quicker after a few seconds
-                delay(500);
+                usleep(500000);
                 led_toggle(0);
-                delay(500);
+                usleep(500000);
             }
             led_toggle(0);
         }
@@ -487,7 +487,7 @@ static void init(void)
     }
 #endif
 
-    delay(100);
+    usleep(100000);
 
     timerInit();  // timer must be initialized before any channel is allocated
 

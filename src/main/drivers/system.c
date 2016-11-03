@@ -186,14 +186,16 @@ void systemInit(void)
     SysTick_Config(SystemCoreClock / 1000);
 }
 
+
 #if 1
-void delayMicroseconds(uint32_t us)
+// TODO: make this use timestamp routines same as in linux kernel
+void usleep(uint32_t us)
 {
-    uint32_t now = micros();
-    while (micros() - now < us);
+	uint32_t now = micros();
+	while (micros() - now < us);
 }
 #else
-void delayMicroseconds(uint32_t us)
+void usleep(uint32_t us)
 {
     uint32_t elapsed = 0;
     uint32_t lastCount = SysTick->VAL;
@@ -220,12 +222,6 @@ void delayMicroseconds(uint32_t us)
 }
 #endif
 
-void delay(uint32_t ms)
-{
-    while (ms--)
-        delayMicroseconds(1000);
-}
-
 #define SHORT_FLASH_DURATION 50
 #define CODE_FLASH_DURATION 250
 
@@ -246,24 +242,24 @@ void failureMode(failureMode_e mode)
             led_toggle(1);
             led_toggle(0);
             BEEP_ON;
-            delay(flashDuration);
+            usleep(flashDuration * 1000);
 
             led_toggle(1);
             led_toggle(0);
             BEEP_OFF;
-            delay(flashDuration);
+            usleep(flashDuration * 1000);
 
             if (shortFlashesRemaining) {
                 shortFlashesRemaining--;
                 if (shortFlashesRemaining == 0) {
-                    delay(500);
+                    usleep(500000);
                     flashDuration = CODE_FLASH_DURATION;
                 }
             } else {
                 codeFlashesRemaining--;
             }
         }
-        delay(1000);
+        usleep(1000000);
     }
 
 #ifdef DEBUG

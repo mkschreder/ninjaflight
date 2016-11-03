@@ -117,15 +117,15 @@ static void lsm303dlhcAccInit(acc_t *acc)
 {
     i2cWrite(LSM303DLHC_ACCEL_ADDRESS, CTRL_REG5_A, BOOT);
 
-    delay(100);
+    usleep(100000);
 
     i2cWrite(LSM303DLHC_ACCEL_ADDRESS, CTRL_REG1_A, ODR_1344_HZ | AXES_ENABLE);
 
-    delay(10);
+    usleep(10000);
 
     i2cWrite(LSM303DLHC_ACCEL_ADDRESS, CTRL_REG4_A, FULLSCALE_4G);
 
-    delay(100);
+    usleep(100000);
 
     acc->acc_1G = 512 * 8;
 }

@@ -87,7 +87,6 @@ extern "C" {
 //    return (mask & testFeatureMask);
 //}s
 
-void delay(uint32_t) {}
 void cliEnter(serialPort_t *) {}
 void cliProcess(void) {}
 bool isSerialTransmitBufferEmpty(serialPort_t *) {

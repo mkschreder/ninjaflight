@@ -131,7 +131,7 @@ void adcInit(drv_adc_config_t *init)
     // calibrate
 
     ADC_VoltageRegulatorCmd(ADC_INSTANCE, ENABLE);
-    delay(10);
+    usleep(10000);
     ADC_SelectCalibrationMode(ADC_INSTANCE, ADC_CalibrationMode_Single);
     ADC_StartCalibration(ADC_INSTANCE);
     while(ADC_GetCalibrationStatus(ADC_INSTANCE) != RESET);

@@ -400,7 +400,7 @@ void handleSerial(void)
 void waitForSerialPortToFinishTransmitting(serialPort_t *serialPort)
 {
     while (!isSerialTransmitBufferEmpty(serialPort)) {
-        delay(10);
+        usleep(10000);
     };
 }
 

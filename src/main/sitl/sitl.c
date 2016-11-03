@@ -23,11 +23,13 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <errno.h>
 #include <memory.h>
-
 #include "sitl.h"
+
+#if 0
 struct sitl {
 	char *_shmout;  
 	char *_shmin; 
@@ -67,3 +69,4 @@ int sitl_recv_state(struct sitl_client_packet *pkt){
 	memcpy(pkt, self->_shmin, sizeof(struct sitl_client_packet)); 
 	return 0; 
 }
+#endif

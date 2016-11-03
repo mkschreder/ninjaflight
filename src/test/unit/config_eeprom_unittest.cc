@@ -426,7 +426,6 @@ void gpsUsePIDs(struct pid_config *) {}
 void generateYawCurve(struct rate_config *) {}
 void generatePitchRollCurve(struct rate_config *) {}
 void generateThrottleCurve(struct rate_config *) {}
-void delay(uint32_t) {}
 
 void setControlRateProfile(uint8_t) {}
 void resetControlRateConfig(struct rate_config *) {}

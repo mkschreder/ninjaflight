@@ -307,12 +307,6 @@ uint16_t adcGetChannel(uint8_t channel)
 	return currentADCReading;
 }
 
-void delay(uint32_t ms)
-{
-	UNUSED(ms);
-	return;
-}
-
 void beeper(beeperMode_e mode)
 {
 	UNUSED(mode);

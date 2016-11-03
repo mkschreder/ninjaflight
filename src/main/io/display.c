@@ -707,9 +707,9 @@ static void displaySetPage(pageId_e pageId)
 
 void displayInit(void)
 {
-    delay(200);
+    usleep(200000);
     resetDisplay();
-    delay(200);
+    usleep(200000);
 
     memset(&pageState, 0, sizeof(pageState));
     displaySetPage(PAGE_WELCOME);

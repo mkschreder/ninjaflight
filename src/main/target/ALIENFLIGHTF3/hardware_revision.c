@@ -43,7 +43,7 @@ void detectHardwareRevision(void)
     gpioInit(HW_GPIO, &cfg);
 
     // Check hardware revision
-    delayMicroseconds(10);  // allow configuration to settle
+    usleep(10);  // allow configuration to settle
     if (digitalIn(HW_GPIO, HW_PIN)) {
         hardwareRevision = AFF3_REV_1;
     } else {

@@ -83,7 +83,6 @@ static uint8_t ckSumOut;
 #define EnterIspCmd2            0x53
 #define SPI_SIGNATURE_READ      0x30
 
-#define delay_us(x) delayMicroseconds(x)
 #define IRQ_OFF // dummy
 #define IRQ_ON  // dummy
 
@@ -94,19 +93,19 @@ static void StkSendByte(uint8_t dat)
         if (dat & 0x01) {
             // 1-bits are encoded as 64.0us high, 72.8us low (135.8us total).
             ESC_SET_HI;
-            delay_us(BIT_HI_US);
+            usleep(BIT_HI_US);
             ESC_SET_LO;
-            delay_us(BIT_HI_US);
+            usleep(BIT_HI_US);
         } else {
             // 0-bits are encoded as 27.8us high, 34.5us low, 34.4us high, 37.9 low (134.6us total)
             ESC_SET_HI;
-            delay_us(BIT_LO_US);
+            usleep(BIT_LO_US);
             ESC_SET_LO;
-            delay_us(BIT_LO_US);
+            usleep(BIT_LO_US);
             ESC_SET_HI;
-            delay_us(BIT_LO_US);
+            usleep(BIT_LO_US);
             ESC_SET_LO;
-            delay_us(BIT_LO_US);
+            usleep(BIT_LO_US);
         }
         dat >>= 1;
     }
@@ -131,7 +130,7 @@ static void StkSendPacketFooter(void)
 {
     StkSendByte(ckSumOut);
     ESC_SET_HI;
-    delay_us(BIT_LO_US);
+    usleep(BIT_LO_US);
     ESC_INPUT;
     IRQ_ON;
 }

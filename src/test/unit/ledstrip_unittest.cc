@@ -398,12 +398,6 @@ void setStripColors(const hsvColor_t *colors) {
 
 bool isWS2811LedStripReady(void) { return false; }
 
-void delay(uint32_t ms)
-{
-    UNUSED(ms);
-    return;
-}
-
 uint32_t micros(void) { return 0; }
 bool shouldSoundBatteryAlarm(void) { return false; }
 bool feature(uint32_t mask) {

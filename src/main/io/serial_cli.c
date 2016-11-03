@@ -1705,7 +1705,7 @@ static void cliFlashErase(char *cmdline)
     flashfsEraseCompletely();
 
     while (!flashfsIsReady()) {
-        delay(100);
+        usleep(100000);
     }
 
     cliPrintf("Done.\r\n");

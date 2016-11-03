@@ -111,8 +111,6 @@ uint8_t armingFlags;
 
 uint32_t targetLooptime;
 
-void delay(uint32_t) {}
-
 float applyBiQuadFilter(float sample, biquad_t *state) {UNUSED(state);return sample;}
 void BiQuadNewLpf(float filterCutFreq, biquad_t *newState, uint32_t refreshRate) {UNUSED(filterCutFreq);UNUSED(newState);UNUSED(refreshRate);}
 

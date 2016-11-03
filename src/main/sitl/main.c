@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
+#include <pthread.h>
 #include <unistd.h>
 
 #include <platform.h>
@@ -85,8 +85,10 @@ struct application {
 	struct imu imu; 
 	struct mixer mixer; 
 	struct anglerate controller; 
+	struct fc_sitl_server_interface *sitl;
+	pthread_t thread;
 }; 
-
+#if 0
 static void _application_send_state(struct application *self){
 	struct sitl_server_packet pkt; 
 	memset(&pkt, 0, sizeof(pkt)); 
@@ -94,7 +96,9 @@ static void _application_send_state(struct application *self){
 	pkt.frame = (uint8_t)SITL_FRAME_QUAD_X; 
 	union attitude_euler_angles att; 
 	imu_get_attitude_dd(&self->imu, &att); 
-	pkt.euler[0] = att.values.roll * 0.1f; pkt.euler[1] = att.values.pitch * 0.1f; pkt.euler[2] = att.values.yaw * 0.1f; 
+	//pkt.euler[0] = att.values.roll * 0.1f; pkt.euler[1] = att.values.pitch * 0.1f; pkt.euler[2] = att.values.yaw * 0.1f; 
+	for(int c = 0; c < 4; c++){
+		self->sitl
 	pkt.servo[0] = mixer_get_motor_value(&self->mixer, 1); 
 	pkt.servo[1] = mixer_get_motor_value(&self->mixer, 2); 
 	pkt.servo[2] = mixer_get_motor_value(&self->mixer, 3); 
@@ -138,7 +142,7 @@ static void _application_recv_state(struct application *self){
 	); 
 	printf("pids: %d\n", pidProfile()->P8[PIDROLL]);
 }
-
+#endif
 static void _application_fc_run(struct application *self){
 	union attitude_euler_angles att;
 	imu_get_attitude_dd(&self->imu, &att);
@@ -153,14 +157,23 @@ static void _application_fc_run(struct application *self){
 }
 
 static void application_run(struct application *self){
-	_application_recv_state(self);
+	//_application_recv_state(self);
 	_application_fc_run(self);
-	_application_send_state(self);
+	//_application_send_state(self);
 }
 
-static void application_init(struct application *self){
+static void *_application_thread(void *param){
+	struct application *app = (struct application*)param;
+	while (true) {
+		application_run(app);
+		usleep(1000);
+    }
+	return NULL;
+}
+
+static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
-	sitl_init(); 
+	self->sitl = server;
 	mixer_init(&self->mixer, customMotorMixer(0), 4);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 0, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 1, 1000);
@@ -194,15 +207,15 @@ static void application_init(struct application *self){
 		anglerate_set_pid_axis_weight(&self->controller, c, 100);
 	}
 
-	imu_init(&self->imu);
-	imu_configure(
-		&self->imu,
+	imu_init(&self->imu,
 		imuConfig(),
 		accelerometerConfig(),
 		throttleCorrectionConfig(),
 		1.0f/16.4f,
 		512
 	);
+
+	pthread_create(&self->thread, NULL, _application_thread, self);
 }
 
 // TODO: these should be part of a struct (defined in flight controller)
@@ -213,7 +226,7 @@ int32_t gyroADC[3];
 int32_t magADC[3]; 
 uint32_t rcModeActivationMask = 0; 
 float magneticDeclination = 0; 
-void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
+//void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
 bool sensors(uint32_t mask) { UNUSED(mask); return true; }
@@ -250,17 +263,15 @@ void suspendRxSignal(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
 void resumeRxSignal(void){}
 
-int main(int argc, char **argv){
-	(void)argc; 
-	(void)argv; 
-	struct application app; 
-	application_init(&app); 
-	
-	while (true) {
-		application_run(&app); 
-		usleep(1000); 
-    }
+// exported from the shared object
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
+	UNUSED(cl);
+	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
 
-	return 0; 
+	struct application *app = malloc(sizeof(struct application));
+	application_init(app, server);
+
+	return server;
 }
 

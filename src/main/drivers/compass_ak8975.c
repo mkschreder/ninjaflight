@@ -88,16 +88,16 @@ void ak8975Init()
     UNUSED(ack);
 
     ack = i2cWrite(AK8975_MAG_I2C_ADDRESS, AK8975_MAG_REG_CNTL, 0x00); // power down before entering fuse mode
-    delay(20);
+    usleep(20000);
 
     ack = i2cWrite(AK8975_MAG_I2C_ADDRESS, AK8975_MAG_REG_CNTL, 0x0F); // Enter Fuse ROM access mode
-    delay(10);
+    usleep(10000);
 
     ack = i2cRead(AK8975_MAG_I2C_ADDRESS, AK8975A_ASAX, 3, &buffer[0]); // Read the x-, y-, and z-axis calibration values
-    delay(10);
+    usleep(10000);
 
     ack = i2cWrite(AK8975_MAG_I2C_ADDRESS, AK8975_MAG_REG_CNTL, 0x00); // power down after reading.
-    delay(10);
+    usleep(10000);
 
     // Clear status registers
     ack = i2cRead(AK8975_MAG_I2C_ADDRESS, AK8975_MAG_REG_STATUS1, 1, &status);

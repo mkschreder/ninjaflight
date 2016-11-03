@@ -226,7 +226,7 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e portIndex, serialReceiveCallb
     serialInputPortConfig(softSerial->rxTimerHardware);
 
     setTxSignal(softSerial, ENABLE);
-    delay(50);
+    usleep(50000);
 
     serialTimerTxConfig(softSerial->txTimerHardware, portIndex, baud);
     serialTimerRxConfig(softSerial->rxTimerHardware, portIndex, options);

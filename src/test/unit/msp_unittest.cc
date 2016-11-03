@@ -546,8 +546,6 @@ int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
 void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
 uint16_t rc_get_rssi(void){ return rssi; }
 rxRuntimeConfig_t rxRuntimeConfig;
-// from system.c
-void delay(uint32_t ms) {UNUSED(ms);}
 // from system_stm32fN0x.c
 void systemReset(void) {}
 void systemResetToBootloader(void) {}

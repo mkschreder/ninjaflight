@@ -99,7 +99,7 @@ static void l3gd20GyroInit(uint8_t lpf)
 
     GPIO_SetBits(L3GD20_CS_GPIO, L3GD20_CS_PIN);
 
-    delayMicroseconds(100);
+    usleep(100);
 
     GPIO_ResetBits(L3GD20_CS_GPIO, L3GD20_CS_PIN);
 
@@ -110,7 +110,7 @@ static void l3gd20GyroInit(uint8_t lpf)
 
     GPIO_SetBits(L3GD20_CS_GPIO, L3GD20_CS_PIN);
 
-    delayMicroseconds(1);
+    usleep(1);
 
     GPIO_ResetBits(L3GD20_CS_GPIO, L3GD20_CS_PIN);
 
@@ -119,7 +119,7 @@ static void l3gd20GyroInit(uint8_t lpf)
 
     GPIO_SetBits(L3GD20_CS_GPIO, L3GD20_CS_PIN);
 
-    delay(100);
+    usleep(100000);
 }
 
 static bool l3gd20GyroRead(int16_t *gyroADC)

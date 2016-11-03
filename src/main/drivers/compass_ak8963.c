@@ -122,7 +122,7 @@ static bool ak8963SensorRead(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t 
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_ADDR, addr_ | READ_FLAG);   // set I2C slave address for read
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_REG, reg_);                 // set I2C slave register
     verifympu9250WriteRegister(MPU_RA_I2C_SLV0_CTRL, len_ | 0x80);         // read number of bytes
-    delay(8);
+    usleep(8000);
     __disable_irq();
     mpu9250ReadRegister(MPU_RA_EXT_SENS_DATA_00, len_, buf);               // read I2C
     __enable_irq();
@@ -178,7 +178,7 @@ static bool ak8963SensorCompleteRead(uint8_t *buf)
     uint32_t timeRemaining = ak8963SensorQueuedReadTimeRemaining();
 
     if (timeRemaining > 0) {
-        delayMicroseconds(timeRemaining);
+        usleep(timeRemaining);
     }
 
     queuedRead.waiting = false;
@@ -207,13 +207,13 @@ bool ak8963Detect(mag_t *mag)
     // initialze I2C master via SPI bus (MPU9250)
 
     ack = verifympu9250WriteRegister(MPU_RA_INT_PIN_CFG, 0x10);               // INT_ANYRD_2CLEAR
-    delay(10);
+    usleep(10000);
 
     ack = verifympu9250WriteRegister(MPU_RA_I2C_MST_CTRL, 0x0D);              // I2C multi-master / 400kHz
-    delay(10);
+    usleep(10000);
 
     ack = verifympu9250WriteRegister(MPU_RA_USER_CTRL, 0x30);                 // I2C master mode, SPI mode only
-    delay(10);
+    usleep(10000);
 #endif
 
     // check for AK8963
@@ -236,20 +236,20 @@ void ak8963Init()
     uint8_t status;
 
     ack = ak8963SensorWrite(AK8963_MAG_I2C_ADDRESS, AK8963_MAG_REG_CNTL, CNTL_MODE_POWER_DOWN); // power down before entering fuse mode
-    delay(20);
+    usleep(20000);
 
     ack = ak8963SensorWrite(AK8963_MAG_I2C_ADDRESS, AK8963_MAG_REG_CNTL, CNTL_MODE_FUSE_ROM); // Enter Fuse ROM access mode
-    delay(10);
+    usleep(10000);
 
     ack = ak8963SensorRead(AK8963_MAG_I2C_ADDRESS, AK8963_MAG_REG_ASAX, sizeof(calibration), calibration); // Read the x-, y-, and z-axis calibration values
-    delay(10);
+    usleep(10000);
 
     magGain[X] = (((((float)(int8_t)calibration[X] - 128) / 256) + 1) * 30);
     magGain[Y] = (((((float)(int8_t)calibration[Y] - 128) / 256) + 1) * 30);
     magGain[Z] = (((((float)(int8_t)calibration[Z] - 128) / 256) + 1) * 30);
 
     ack = ak8963SensorWrite(AK8963_MAG_I2C_ADDRESS, AK8963_MAG_REG_CNTL, CNTL_MODE_POWER_DOWN); // power down after reading.
-    delay(10);
+    usleep(10000);
 
     // Clear status registers
     ack = ak8963SensorRead(AK8963_MAG_I2C_ADDRESS, AK8963_MAG_REG_STATUS1, 1, &status);
