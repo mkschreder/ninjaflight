@@ -358,43 +358,13 @@ void mixer_reset_disarmed_pwm_values(struct mixer *self)
         self->motor_disarmed[i] = (self->flags & MIXER_FLAG_3D_MODE) ? self->motor_3d_config->neutral3d : self->motor_servo_config->mincommand;
 }
 
-void mixer_write_pwm(struct mixer *self)
-{
-    uint8_t i;
-
-    for (i = 0; i < self->motorCount; i++)
-        pwmWriteMotor(i, self->motor[i]);
-
-
-    if (feature(FEATURE_ONESHOT125)) {
-        pwmCompleteOneshotMotorUpdate(self->motorCount);
-    }
-}
-
-void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc)
-{
-    uint8_t i;
-
-    // Sends commands to all motors
-    for (i = 0; i < self->motorCount; i++)
-        self->motor[i] = mc;
-    mixer_write_pwm(self);
-}
-
-void mixer_stop_motors(struct mixer *self)
-{
-    mixer_set_all_motors_pwm(self, (self->flags & MIXER_FLAG_3D_MODE) ? self->motor_3d_config->neutral3d : self->motor_servo_config->mincommand);
-
-	// TODO: remove this delay
-    usleep(50000); // give the timers and ESCs a chance to react.
-}
-
 // TODO: all pwm functions need to be moved outside of mixer!
+/*
 void mixer_stop_pwm_all_motors(struct mixer *self)
 {
     pwmShutdownPulsesForAllMotors(self->motorCount);
 }
-
+*/
 static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_t motorIndex)
 {
     return constrain(self->motor[motorIndex], self->motor_servo_config->mincommand, self->motor_servo_config->maxthrottle);

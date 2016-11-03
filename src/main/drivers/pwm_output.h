@@ -21,6 +21,8 @@ void pwmWriteMotor(uint8_t index, uint16_t value);
 void pwmShutdownPulsesForAllMotors(uint8_t motorCount);
 void pwmCompleteOneshotMotorUpdate(uint8_t motorCount);
 
+void pwmStopMotors(bool oneshot);
+void pwmWriteAllMotors(int motorCount, uint16_t mc, bool oneshot);
 void pwmWriteServo(uint8_t index, uint16_t value);
 
 bool isMotorBrushed(uint16_t motorPwmRate);

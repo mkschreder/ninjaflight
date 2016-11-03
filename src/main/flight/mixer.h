@@ -168,9 +168,6 @@ void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *c
 void mixer_reset_disarmed_pwm_values(struct mixer *self);
 void mixer_update(struct mixer *self, const struct pid_controller_output *pid_axis);
 void mixer_update_servos(struct mixer *self, const struct pid_controller_output *pid_axis); 
-void mixer_write_pwm(struct mixer *self);
-void mixer_stop_motors(struct mixer *self);
-void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 
 void mixer_enable_failsafe_mode(struct mixer *self, bool on);

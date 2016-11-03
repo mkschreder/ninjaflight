@@ -22,11 +22,12 @@
 
 #include <platform.h>
 
+#include "target.h"
 #include "gpio.h"
 #include "timer.h"
 
+#include "system.h"
 #include "pwm_mapping.h"
-
 #include "pwm_output.h"
 
 #include "common/maths.h"
@@ -159,6 +160,28 @@ void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
         // Set the compare register to 0, which stops the output pulsing if the timer overflows
         *motors[index]->ccr = 0;
     }
+}
+
+void pwmStopMotors(bool oneshot){
+	// TODO: this needs to be tested
+	for(int c = 0; c < 8; c++){
+		pwmWriteMotor(c, 1000);
+	}
+	if(oneshot){
+		pwmCompleteOneshotMotorUpdate(8);
+	}
+}
+
+void pwmWriteAllMotors(int motorCount, uint16_t mc, bool oneshot){
+    for (int i = 0; i < motorCount; i++){
+		pwmWriteMotor(i, mc);
+	}
+    if (oneshot) {
+        pwmCompleteOneshotMotorUpdate(motorCount);
+    }
+
+	// TODO: remove this delay
+    usleep(50000); // give the timers and ESCs a chance to react.
 }
 
 void pwmDisableMotors(void)

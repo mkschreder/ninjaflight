@@ -29,10 +29,12 @@
 
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
+#include "config/feature.h"
 #include "config/config.h"
 
 #include "drivers/serial.h"
 #include "drivers/system.h"
+#include "drivers/pwm_output.h"
 
 #include "flight/mixer.h"
 
@@ -241,7 +243,7 @@ void mspSerialProcess(void)
 #endif
         if (isRebootScheduled) {
             waitForSerialPortToFinishTransmitting(msp->port);  // TODO - postpone reboot, allow all modules to react
-            mixer_stop_motors(&default_mixer);
+            pwmStopMotors(feature(FEATURE_ONESHOT125));
             handleOneshotFeatureChangeOnRestart();
             systemReset();
         }

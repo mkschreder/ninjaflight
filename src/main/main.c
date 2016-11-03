@@ -34,6 +34,7 @@
 
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
+#include "config/feature.h"
 
 #include "drivers/nvic.h"
 
@@ -55,6 +56,7 @@
 #include "drivers/bus_i2c.h"
 #include "drivers/bus_spi.h"
 #include "drivers/inverter.h"
+#include "drivers/pwm_output.h"
 #include "drivers/flash_m25p16.h"
 #include "drivers/sonar_hcsr04.h"
 #include "drivers/sdcard.h"
@@ -925,7 +927,13 @@ void HardFault_Handler(void)
     // fall out of the sky
     uint8_t requiredStateForMotors = SYSTEM_STATE_CONFIG_LOADED | SYSTEM_STATE_MOTORS_READY;
     if ((systemState & requiredStateForMotors) == requiredStateForMotors) {
-        mixer_stop_motors(&default_mixer);
+		// TODO: there was a wierd dependency on motorCount value that was set for the mixer
+		// debug the motorCount so that pwm always knows it implicitly
+		for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
+			// we may write below mincommand but in this case it should be ok
+			// also we write this to all motors
+			pwmWriteMotor(c, 1000);
+		}
     }
 #ifdef TRANSPONDER
     // prevent IR LEDs from burning out.

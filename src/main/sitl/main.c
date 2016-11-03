@@ -174,7 +174,7 @@ static void *_application_thread(void *param){
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
 	self->sitl = server;
-    mixer_init(&default_mixer, 
+    mixer_init(&self->mixer, 
 		mixerConfig(),
 		motor3DConfig(),
 		motorAndServoConfig(),

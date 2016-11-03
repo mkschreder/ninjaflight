@@ -51,7 +51,7 @@
 #include "drivers/timer.h"
 #include "drivers/pwm_rx.h"
 #include "drivers/sdcard.h"
-
+#include "drivers/pwm_output.h"
 #include "drivers/buf_writer.h"
 
 #include "io/gps.h"
@@ -2288,7 +2288,7 @@ static void cliReboot(void)
     cliPrint("\r\nRebooting");
     bufWriterFlush(cliWriter);
     waitForSerialPortToFinishTransmitting(cliPort);
-    mixer_stop_motors(&default_mixer);
+	pwmStopMotors(feature(FEATURE_ONESHOT125));
     handleOneshotFeatureChangeOnRestart();
     systemReset();
 }

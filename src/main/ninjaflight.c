@@ -42,6 +42,7 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
+#include "drivers/pwm_output.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 
@@ -860,7 +861,13 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 #endif
 
     if (motorControlEnable) {
-        mixer_write_pwm(&default_mixer);
+		int motorCount = mixer_get_motor_count(&default_mixer);
+		for (int i = 0; i < motorCount; i++){
+			pwmWriteMotor(i, mixer_get_motor_value(&default_mixer, i));
+		}
+		if (feature(FEATURE_ONESHOT125)) {
+			pwmCompleteOneshotMotorUpdate(motorCount);
+		}
     }
 
 #ifdef USE_SDCARD
