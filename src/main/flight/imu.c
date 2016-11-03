@@ -113,11 +113,7 @@ void imu_init(struct imu *self,
 	self->acc_1G = acc_1G; 
     self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
     self->accVelScale = (9.80665f / self->acc_1G) * 100.0f; // acc vel scaled to cm/s
-	// calculate lpf time constant
 
-	self->gyroScale = 1; 
-	self->accVelScale = 1; 
-	
 	imu_reset(self);
 }
 
