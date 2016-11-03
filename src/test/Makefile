@@ -236,18 +236,18 @@ $(OBJECT_DIR)/flight_imu_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-$(OBJECT_DIR)/flight/anglerate_controller.o : \
-	$(USER_DIR)/flight/anglerate_controller.c \
-	$(USER_DIR)/flight/anglerate_controller.h \
+$(OBJECT_DIR)/flight/anglerate.o : \
+	$(USER_DIR)/flight/anglerate.c \
+	$(USER_DIR)/flight/anglerate.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/anglerate_controller.c -o $@
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/anglerate.c -o $@
 
 $(OBJECT_DIR)/flight_pid_unittest.o : \
 	$(TEST_DIR)/flight_pid_unittest.cc \
-	$(USER_DIR)/flight/anglerate_controller.h \
-	$(USER_DIR)/flight/anglerate_controller.c \
+	$(USER_DIR)/flight/anglerate.h \
+	$(USER_DIR)/flight/anglerate.c \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
@@ -256,7 +256,7 @@ $(OBJECT_DIR)/flight_pid_unittest.o : \
 $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/flight/anglerate_controller.o \
+	$(OBJECT_DIR)/flight/anglerate.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
@@ -340,6 +340,7 @@ $(OBJECT_DIR)/flight_mixer_unittest : \
 	$(OBJECT_DIR)/flight/mixer.o \
 	$(OBJECT_DIR)/flight/servos.o \
 	$(OBJECT_DIR)/flight_mixer_unittest.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/gtest_main.a
 
@@ -388,6 +389,8 @@ $(OBJECT_DIR)/telemetry_hott_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/telemetry_hott_unittest.cc -o $@
 
 $(OBJECT_DIR)/telemetry_hott_unittest : \
+	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/telemetry/hott.o \
 	$(OBJECT_DIR)/telemetry_hott_unittest.o \
 	$(OBJECT_DIR)/flight/gps_conversion.o \
@@ -456,6 +459,8 @@ $(OBJECT_DIR)/ledstrip_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ledstrip_unittest.cc -o $@
 
 $(OBJECT_DIR)/ledstrip_unittest : \
+	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/io/ledstrip.o \
 	$(OBJECT_DIR)/ledstrip_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
@@ -504,6 +509,8 @@ $(OBJECT_DIR)/io_serial_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/io_serial_unittest.cc -o $@
 
 $(OBJECT_DIR)/io_serial_unittest : \
+	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/io/serial.o \
 	$(OBJECT_DIR)/io_serial_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
@@ -530,6 +537,7 @@ $(OBJECT_DIR)/rx_rx_unittest : \
 	$(OBJECT_DIR)/rx/rx.o \
 	$(OBJECT_DIR)/rx_rx_unittest.o \
 	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
@@ -546,6 +554,7 @@ $(OBJECT_DIR)/rx_ranges_unittest : \
 	$(OBJECT_DIR)/rx/rx.o \
 	$(OBJECT_DIR)/rx_ranges_unittest.o \
 	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
@@ -749,6 +758,7 @@ $(OBJECT_DIR)/serial_msp_unittest.o : \
 $(OBJECT_DIR)/serial_msp_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/streambuf.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/version.o \
 	$(OBJECT_DIR)/io/serial.o \
 	$(OBJECT_DIR)/io/serial_msp.o \
@@ -769,6 +779,7 @@ $(OBJECT_DIR)/msp_unittest.o : \
 $(OBJECT_DIR)/msp_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/streambuf.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/version.o \
 	$(OBJECT_DIR)/io/serial.o \
 	$(OBJECT_DIR)/io/msp.o \
@@ -778,14 +789,6 @@ $(OBJECT_DIR)/msp_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-
-$(OBJECT_DIR)/scheduler_tasks.o : \
-	$(USER_DIR)/scheduler_tasks.c \
-	$(USER_DIR)/scheduler.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/scheduler_tasks.c -o $@
 
 $(OBJECT_DIR)/scheduler.o : \
 	$(USER_DIR)/scheduler.c \
@@ -803,9 +806,17 @@ $(OBJECT_DIR)/scheduler_unittest.o : \
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/scheduler_unittest.cc -o $@
 
+$(OBJECT_DIR)/dummy_tasks.o : \
+	$(TEST_DIR)/dummy_tasks.c \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/dummy_tasks.c -o $@
+
+
 $(OBJECT_DIR)/scheduler_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/scheduler_tasks.o \
+	$(OBJECT_DIR)/dummy_tasks.o \
 	$(OBJECT_DIR)/scheduler.o \
 	$(OBJECT_DIR)/scheduler_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a

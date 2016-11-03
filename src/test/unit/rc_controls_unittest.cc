@@ -46,7 +46,7 @@ extern "C" {
 
     #include "config/config.h"
 
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
 
     void useRcControlsConfig(modeActivationCondition_t *);
 

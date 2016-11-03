@@ -67,6 +67,11 @@ void queueClear(void)
     taskQueueSize = 0;
 }
 
+int queueSize(void);
+int queueSize(void){
+	return taskQueueSize;
+}
+
 // TODO: make this static after refactoring unit tests
 bool queueContains(cfTask_t *task); 
 bool queueContains(cfTask_t *task)

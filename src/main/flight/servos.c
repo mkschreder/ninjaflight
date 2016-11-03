@@ -211,12 +211,8 @@ void mixerInitServos(servoMixer_t *initialCustomServoMixers)
     }
 }
 
-// TODO: this is abused elsewhere. Stop the abuse. 
-/*
-// TODO: figure out why we are not using this anymore (using mixer_set_pwmio_config)
-void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration); 
-void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration)
-{
+// TODO: this is a really odd way of having a special case for servo controls. Needs refactoring.
+void mixer_set_pwmio_config(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration){
     int i;
 
     self->motorCount = 0;
@@ -280,7 +276,7 @@ void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOC
 
     mixer_reset_disarmed_pwm_values(&default_mixer);
 }
-*/
+
 void loadCustomServoMixer(void)
 {
     uint8_t i;
@@ -430,8 +426,8 @@ void servoMixer(struct mixer *self, const struct pid_controller_output *pid_axis
         }
     }
 
-    input[INPUT_GIMBAL_PITCH] = scaleRange(imu_get_pitch_dd(&default_imu), -1800, 1800, -500, +500);
-    input[INPUT_GIMBAL_ROLL] = scaleRange(imu_get_roll_dd(&default_imu), -1800, 1800, -500, +500);
+    input[INPUT_GIMBAL_PITCH] = scaleRange(self->gimbal_angles[PITCH], -1800, 1800, -500, +500);
+    input[INPUT_GIMBAL_ROLL] = scaleRange(self->gimbal_angles[ROLL], -1800, 1800, -500, +500);
 
     input[INPUT_STABILIZED_THROTTLE] = mixer_get_motor_value(&default_mixer, 0) - 1000 - 500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
 
@@ -519,11 +515,11 @@ void mixer_update_servos(struct mixer *self, const struct pid_controller_output 
 
         if (rcModeIsActive(BOXCAMSTAB)) {
             if (gimbalConfig()->mode == GIMBAL_MODE_MIXTILT) {
-                servo[SERVO_GIMBAL_PITCH] -= (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * imu_get_pitch_dd(&default_imu) / 50 - (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu) / 50;
-                servo[SERVO_GIMBAL_ROLL] += (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * imu_get_pitch_dd(&default_imu) / 50 + (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu) / 50;
+                servo[SERVO_GIMBAL_PITCH] -= (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * self->gimbal_angles[PITCH] / 50 - (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * self->gimbal_angles[ROLL] / 50;
+                servo[SERVO_GIMBAL_ROLL] += (-(int32_t)servoConf[SERVO_GIMBAL_PITCH].rate) * self->gimbal_angles[PITCH] / 50 + (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * self->gimbal_angles[ROLL] / 50;
             } else {
-                servo[SERVO_GIMBAL_PITCH] += (int32_t)servoConf[SERVO_GIMBAL_PITCH].rate * imu_get_pitch_dd(&default_imu) / 50;
-                servo[SERVO_GIMBAL_ROLL] += (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * imu_get_roll_dd(&default_imu)  / 50;
+                servo[SERVO_GIMBAL_PITCH] += (int32_t)servoConf[SERVO_GIMBAL_PITCH].rate * self->gimbal_angles[PITCH] / 50;
+                servo[SERVO_GIMBAL_ROLL] += (int32_t)servoConf[SERVO_GIMBAL_ROLL].rate * self->gimbal_angles[ROLL]  / 50;
             }
         }
     }

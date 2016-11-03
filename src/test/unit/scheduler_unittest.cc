@@ -54,24 +54,6 @@ extern "C" {
 // set up micros() to simulate time
     uint32_t simulatedTime = 0;
     uint32_t micros(void) {return simulatedTime;}
-// set up tasks to take a simulated representative time to execute
-    void taskMainPidLoopChecker(void) {simulatedTime+=pidLoopCheckerTime;}
-    void taskUpdateAccelerometer(void) {simulatedTime+=updateAccelerometerTime;}
-    void taskHandleSerial(void) {simulatedTime+=handleSerialTime;}
-    void taskUpdateBeeper(void) {simulatedTime+=updateBeeperTime;}
-    void taskUpdateBattery(void) {simulatedTime+=updateBatteryTime;}
-    bool taskUpdateRxCheck(uint32_t currentDeltaTime) {UNUSED(currentDeltaTime);simulatedTime+=updateRxCheckTime;return false;}
-    void taskUpdateRxMain(void) {simulatedTime+=updateRxMainTime;}
-    void taskProcessGPS(void) {simulatedTime+=processGPSTime;}
-    void taskUpdateCompass(void) {simulatedTime+=updateCompassTime;}
-    void taskUpdateBaro(void) {simulatedTime+=updateBaroTime;}
-    void taskUpdateSonar(void) {simulatedTime+=updateSonarTime;}
-    void taskCalculateAltitude(void) {simulatedTime+=calculateAltitudeTime;}
-    void taskUpdateDisplay(void) {simulatedTime+=updateDisplayTime;}
-    void taskTelemetry(void) {simulatedTime+=telemetryTime;}
-    void taskLedStrip(void) {simulatedTime+=ledStripTime;}
-    void taskTransponder(void) {simulatedTime+=transponderTime;}
-
     extern cfTask_t* taskQueueArray[];
 
     extern void queueClear(void);
@@ -106,6 +88,9 @@ TEST(SchedulerUnittest, TestQueueInit)
 }
 
 cfTask_t *deadBeefPtr = reinterpret_cast<cfTask_t*>(0xDEADBEEF);
+
+
+
 
 TEST(SchedulerUnittest, TestQueue)
 {

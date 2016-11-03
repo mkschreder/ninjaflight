@@ -287,7 +287,7 @@ struct battery default_battery;
 struct mixer default_mixer;
 struct imu default_imu;
 struct anglerate default_controller; 
-
+struct battery default_battery;
 
 extern uint8_t motorControlEnable;
 

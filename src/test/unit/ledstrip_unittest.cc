@@ -359,7 +359,8 @@ uint16_t rc_get_rssi(void){ return 1000; }
 
 uint32_t rcModeActivationMask;
 
-batteryState_e getBatteryState(void) {
+battery_state_t battery_get_state(struct battery *self) {
+	UNUSED(self);
     return BATTERY_OK;
 }
 
@@ -411,16 +412,6 @@ bool feature(uint32_t mask) {
 }
 
 void tfp_sprintf(char *, char*, ...) { }
-
-int scaleRange(int x, int srcMin, int srcMax, int destMin, int destMax) {
-    UNUSED(x);
-    UNUSED(srcMin);
-    UNUSED(srcMax);
-    UNUSED(destMin);
-    UNUSED(destMax);
-
-    return 0;
-}
 
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 bool failsafeIsActive() { return false; }

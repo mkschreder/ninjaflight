@@ -69,7 +69,7 @@ extern "C" {
 
     #include "flight/mixer.h"
     #include "flight/servos.h"
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
     #include "flight/navigation.h"
     #include "flight/imu.h"
     #include "flight/failsafe.h"
@@ -88,38 +88,6 @@ extern "C" {
 extern "C" {
     uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria);
     uint8_t pgMatcherForMSP(const pgRegistry_t *candidate, const void *criteria);
-
-    PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-    PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
-    PG_REGISTER(batteryConfig_t, batteryConfig, PG_BATTERY_CONFIG, 0);
-    PG_REGISTER(armingConfig_t, armingConfig, PG_ARMING_CONFIG, 0);
-    PG_REGISTER(transponderConfig_t, transponderConfig, PG_TRANSPONDER_CONFIG, 0);
-    PG_REGISTER(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
-    PG_REGISTER(boardAlignment_t, boardAlignment, PG_BOARD_ALIGNMENT, 0);
-    PG_REGISTER_ARR(servoMixer_t, MAX_SERVO_RULES, customServoMixer, PG_SERVO_MIXER, 0);
-    PG_REGISTER(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);
-    PG_REGISTER(imuConfig_t, imuConfig, PG_IMU_CONFIG, 0);
-    PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
-    PG_REGISTER_ARR(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, failsafeChannelConfigs, PG_FAILSAFE_CHANNEL_CONFIG, 0);
-    PG_REGISTER_ARR(rxChannelRangeConfiguration_t, NON_AUX_CHANNEL_COUNT, channelRanges, PG_CHANNEL_RANGE_CONFIG, 0);
-    PG_REGISTER(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
-    PG_REGISTER_ARR(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs, PG_LED_STRIP_CONFIG, 0);
-    PG_REGISTER_ARR(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors, PG_COLOR_CONFIG, 0);
-    PG_REGISTER_ARR(modeColorIndexes_t, LED_MODE_COUNT, modeColors, PG_MODE_COLOR_CONFIG, 0);
-    PG_REGISTER_ARR(specialColorIndexes_t, 1, specialColors, PG_SPECIAL_COLOR_CONFIG, 0);
-    PG_REGISTER(gpsConfig_t, gpsConfig, PG_GPS_CONFIG, 0);
-    PG_REGISTER(telemetryConfig_t, telemetryConfig, PG_TELEMETRY_CONFIG, 0);
-    PG_REGISTER(frskyTelemetryConfig_t, frskyTelemetryConfig, PG_FRSKY_TELEMETRY_CONFIG, 0);
-
-    PG_REGISTER_PROFILE_WITH_RESET_FN(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
-    void pgResetFn_pidProfile(struct pid_config *) {}
-
-    PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-    PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(adjustmentProfile_t, adjustmentProfile, PG_ADJUSTMENT_PROFILE, 0);
-    PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
-    PG_REGISTER_PROFILE(modeActivationProfile_t, modeActivationProfile, PG_MODE_ACTIVATION_PROFILE, 0);
-    PG_REGISTER_PROFILE(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
 }
 
 
@@ -356,9 +324,9 @@ TEST_F(MspTest, TestParameterGroup_BOARD_ALIGNMENT)
     // check that pgRegistry mapping is setup correctly
     const pgRegistry_t *reg = pgMatcher(pgMatcherForMSP, (void*)(intptr_t)MSP_BOARD_ALIGNMENT);
     EXPECT_NE(static_cast<const pgRegistry_t*>(0), reg);
-    EXPECT_EQ(reinterpret_cast<boardAlignment_t*>(reg->address), boardAlignment());
+    EXPECT_EQ(reinterpret_cast<struct board_alignment_config*>(reg->address), boardAlignment());
 
-    const boardAlignment_t testBoardAlignment = {295, 147, -202};
+    const struct board_alignment_config testBoardAlignment = {295, 147, -202};
 
     *boardAlignment() = testBoardAlignment;
     // use the MSP to write out the test values
@@ -367,7 +335,7 @@ TEST_F(MspTest, TestParameterGroup_BOARD_ALIGNMENT)
 
     EXPECT_GT(mspProcess(&cmd, &reply), 0);
 
-    EXPECT_EQ(sizeof(boardAlignment_t), reply.buf.ptr - rbuf) << "Reply size";
+    EXPECT_EQ(sizeof(struct board_alignment_config), reply.buf.ptr - rbuf) << "Reply size";
     EXPECT_EQ(MSP_BOARD_ALIGNMENT, reply.cmd);
     EXPECT_EQ(testBoardAlignment.rollDegrees & 0xff, rbuf[0]);
     EXPECT_EQ(testBoardAlignment.rollDegrees >> 8, rbuf[1]);
@@ -378,7 +346,7 @@ TEST_F(MspTest, TestParameterGroup_BOARD_ALIGNMENT)
     // check that pgRegistry mapping is setup correctly
     const pgRegistry_t *regSet = pgMatcher(pgMatcherForMSPSet, (void*)(intptr_t)MSP_SET_BOARD_ALIGNMENT);
     EXPECT_NE(static_cast<const pgRegistry_t*>(0), regSet);
-    EXPECT_EQ(reinterpret_cast<boardAlignment_t*>(regSet->address), boardAlignment());
+    EXPECT_EQ(reinterpret_cast<struct board_alignment_config*>(regSet->address), boardAlignment());
 
     // now use the MSP to set the values and check they are the same
     cmd.cmd = MSP_SET_BOARD_ALIGNMENT;
@@ -530,9 +498,6 @@ uint8_t GPS_svinfo_quality[GPS_SV_MAXSATS]; // Bitfield Qualtity
 uint8_t GPS_svinfo_cno[GPS_SV_MAXSATS];     // Carrier to Noise Ratio (Signal Strength)
 // from gyro.c
 int32_t gyroADC[XYZ_AXIS_COUNT];
-// form imu.c
-attitudeEulerAngles_t attitude = { { 0, 0, 0 } };     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
-int16_t accSmooth[XYZ_AXIS_COUNT];
 // from ledstrip.c
 void reevalulateLedConfig(void) {}
 bool setModeColor(ledModeIndex_e , int , int ) { return true; }
@@ -559,8 +524,10 @@ int16_t GPS_directionToHome;        // direction to home or hol point in degrees
 navigationMode_e nav_mode = NAV_MODE_NONE;    // Navigation mode
 void GPS_set_next_wp(int32_t *, int32_t *) {}
 // from pid.c
-struct anglerate_controller default_controller; 
-void anglerate_controller_set_algo(struct anglerate_controller *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo); }
+struct anglerate default_controller; 
+void anglerate_set_algo(struct anglerate *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo); }
+struct battery default_battery;
+struct imu default_imu;
 // from rc_controls.c
 uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
@@ -593,6 +560,45 @@ serialPort_t *usbVcpOpen(void) { return NULL; }
 serialPort_t *uartOpen(USART_TypeDef *, serialReceiveCallbackPtr, uint32_t, portMode_t, portOptions_t) { return NULL; }
 serialPort_t *openSoftSerial(softSerialPortIndex_e, serialReceiveCallbackPtr, uint32_t, portOptions_t) { return NULL; }
 void serialSetMode(serialPort_t *, portMode_t) {}
+
+void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc){
+	acc->values.x = self->accSmooth[X]; 
+	acc->values.y = self->accSmooth[Y]; 
+	acc->values.z = self->accSmooth[Z]; 
+}
+
+int16_t imu_get_roll_dd(struct imu *self){
+	return self->attitude.values.roll; 
+}
+
+int16_t imu_get_pitch_dd(struct imu *self){
+	return self->attitude.values.pitch; 
+}
+
+int16_t imu_get_yaw_dd(struct imu *self){
+	return self->attitude.values.yaw; 
+}
+
+uint16_t battery_get_voltage(struct battery *self){
+	return self->vbat;
+}
+
+uint8_t battery_get_cell_count(struct battery *self){
+	return self->batteryCellCount;
+}
+
+int32_t battery_get_current(struct battery *self){
+	return self->amperage;
+}
+
+int32_t battery_get_spent_capacity(struct battery *self){
+	return self->mAhDrawn;
+}
+
+uint16_t battery_get_cell_voltage(struct battery *self){
+	return ((uint32_t)self->vbat * 100 + self->batteryCellCount) / (self->batteryCellCount * 2);
+}
+
 
 void mspSerialProcess() {}
 bool isSerialTransmitBufferEmpty(serialPort_t *) { return true; }

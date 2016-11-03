@@ -96,6 +96,10 @@ struct mixer {
 	int16_t tilt_pwm; 
 
 	bool mode3d;
+
+	// TODO: gimbal stuff should be above mixer code not part of it
+	// move when we have refactored gimbal code
+	int16_t gimbal_angles[3];
 };
 
 // TODO: this is very bad way so remove this later once refactoring is done.
@@ -151,10 +155,13 @@ void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 
 void mixer_enable_3d_mode(struct mixer *self, bool on);
-void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd); 
+void mixer_input_gimbal_angles(struct mixer *self, int16_t roll_dd, int16_t pitch_dd, int16_t yaw_dd);
+
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
+
 struct pwmIOConfiguration_s; // TODO: remove this kind of dependency 
-void mixer_use_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration); 
+void mixer_set_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration); 
+
 int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id); 
 uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id); 
 bool mixer_motor_limit_reached(struct mixer *self); 

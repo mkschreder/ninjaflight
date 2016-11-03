@@ -44,7 +44,7 @@ extern "C" {
     #include "telemetry/telemetry.h"
     #include "telemetry/hott.h"
 
-    #include "flight/anglerate_controller.h"
+    #include "flight/anglerate.h"
     #include "flight/gps_conversion.h"
 }
 
@@ -239,9 +239,32 @@ portSharing_e determinePortSharing(serialPortConfig_t *, serialPortFunction_e) {
     return PORTSHARING_NOT_SHARED;
 }
 
-batteryState_e getBatteryState(void) {
+battery_state_t battery_get_state(struct battery *self) {
+	(void)self;
 	return BATTERY_OK;
 }
+
+struct battery default_battery;
+uint16_t battery_get_voltage(struct battery *self){
+	return self->vbat;
+}
+
+uint8_t battery_get_cell_count(struct battery *self){
+	return self->batteryCellCount;
+}
+
+int32_t battery_get_current(struct battery *self){
+	return self->amperage;
+}
+
+int32_t battery_get_spent_capacity(struct battery *self){
+	return self->mAhDrawn;
+}
+
+uint16_t battery_get_cell_voltage(struct battery *self){
+	return ((uint32_t)self->vbat * 100 + self->batteryCellCount) / (self->batteryCellCount * 2);
+}
+
 
 }
 

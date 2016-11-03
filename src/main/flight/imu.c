@@ -382,7 +382,7 @@ void imu_update(struct imu *self, float dt){
     }
 #endif
 #if defined(GPS)
-    else if (STATE(FIXED_WING) && sensors(SENSOR_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5 && GPS_speed >= 300) {
+    if (STATE(FIXED_WING) && sensors(SENSOR_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5 && GPS_speed >= 300) {
         // In case of a fixed-wing aircraft we can use GPS course over ground to correct heading
         rawYawError = DECIDEGREES_TO_RADIANS(self->attitude.values.yaw - GPS_ground_course);
         useYaw = true;

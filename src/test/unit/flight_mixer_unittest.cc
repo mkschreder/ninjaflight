@@ -58,17 +58,6 @@ extern "C" {
 
     void mixerInitServos(servoMixer_t *initialCustomServoMixers);
     //void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
-
-    PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
-    PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-    PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
-
-    PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-
-    PG_REGISTER(struct motor_3d_config, motor3DConfig, PG_MOTOR_3D_CONFIG, 0);
-    PG_REGISTER(struct mixer_config, mixerConfig, PG_MIXER_CONFIG, 0);
-    PG_REGISTER_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer, PG_MOTOR_MIXER, 0);
-	PG_REGISTER(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
 }
 
 #include "unittest_macros.h"
@@ -451,7 +440,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
     mixerInitServos(customServoMixer(0));
-/*
+
     pwmIOConfiguration_t pwmIOConfiguration = {
             .servoCount = 6,
             .motorCount = 2,
@@ -461,8 +450,8 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
             .ioConfigurations = {}
     };
 
-    mixerUsePWMIOConfiguration(&default_mixer, &pwmIOConfiguration);
-*/
+    mixer_set_pwmio_config(&default_mixer, &pwmIOConfiguration);
+
     // and
     rcCommand[THROTTLE] = 1000;
 

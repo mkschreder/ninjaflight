@@ -73,7 +73,7 @@ struct battery {
 	struct battery_config *config;
 };
 
-// TODO: remove after we are done refactoring
+// TODO: remove after done refactoring
 extern struct battery default_battery;
 
 void battery_init(struct battery *self, struct battery_config *config);

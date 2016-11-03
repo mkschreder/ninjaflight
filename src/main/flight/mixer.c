@@ -382,65 +382,6 @@ static uint16_t mixConstrainMotorForFailsafeCondition(struct mixer *self, uint8_
     return constrain(self->motor[motorIndex], motorAndServoConfig()->mincommand, motorAndServoConfig()->maxthrottle);
 }
 
-static void __attribute__((unused)) _mixer_mix_tilt(struct mixer *self, int16_t axis[3]) {
-    float angleTilt = degreesToRadians(self->motor_pitch * 0.1f);
-    float tmpCosine = cos_approx(angleTilt);
-	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
-	// TODO: rewrite code that uses this. For now zero. 
-	int16_t liftoff_thrust = 0; 
-
-	// if static mode then for now we just set servos to middle and exit
-	if(tilt->mode == MIXER_TILT_MODE_STATIC){
-		servo[SERVO_TILT_P] = 1500; 
-	#if MAX_SUPPORTED_SERVOS > 1
-		servo[SERVO_TILT_N] = 1500; 
-	#endif
-		return; 
-	}
-    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
-        // compensate the throttle because motor orientation
-        float pitchToCompensate = angleTilt;
-
-        float bodyPitch = degreesToRadians(imu_get_pitch_dd(&default_imu));
-        if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) {
-            pitchToCompensate += bodyPitch;
-        }
-
-        pitchToCompensate = ABS(pitchToCompensate); //we compensate in the same way if up or down.
-
-        if (pitchToCompensate > 0 && angleTilt + bodyPitch < M_PIf / 2) { //if there is something to compensate, and only from 0 to 90, otherwise it will push you into the ground
-            uint16_t liftOffTrust = ((rxConfig()->maxcheck - rxConfig()->mincheck) * liftoff_thrust) / 100; //force this order so we don't need float!
-            uint16_t liftOffLimit = ((rcCommand[THROTTLE] - (rxConfig()->maxcheck - rxConfig()->mincheck)) * 80) / 100; //we will artificially limit the trust compensation to 80% of remaining trust
-
-            float tmp_cos_compensate = cos_approx(pitchToCompensate);
-            if (tmp_cos_compensate != 0) { //it may be zero if the pitchToCOmpensate is 90°, also if it is very close due to float approximation.
-                float compensation = liftOffTrust / tmp_cos_compensate; //absolute value because we want to increase power even if breaking
-
-                if (compensation > 0) { //prevent overflow
-                    rcCommand[THROTTLE] += (compensation < liftOffLimit) ? compensation : liftOffLimit;
-                }
-            }
-        }
-    }
-
-    //compensate the roll and yaw because of motor orientation
-	// TODO: add support for quads that have props tilting in both roll and pitch direction
-    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
-        float rollCompensation = axis[ROLL] * tmpCosine;
-        float rollCompensationInv = axis[ROLL] - rollCompensation;
-        float yawCompensation = axis[YAW] * tmpCosine;
-        float yawCompensationInv = axis[YAW] - yawCompensation;
-
-        axis[ROLL] = yawCompensationInv + rollCompensation;
-        axis[YAW] = yawCompensation + rollCompensationInv;
-    }
-	
-	servo[SERVO_TILT_P] = 1500 + self->motor_pitch; 
-	#if MAX_SUPPORTED_SERVOS > 1
-	servo[SERVO_TILT_N] = 1500 - self->motor_pitch; 
-	#endif
-}
-
 void mixer_update(struct mixer *self, const struct pid_controller_output *pid_axis){
     uint32_t i;
 	int16_t axis[3] = {pid_axis->axis[0], pid_axis->axis[1], pid_axis->axis[2]}; 
@@ -451,12 +392,6 @@ void mixer_update(struct mixer *self, const struct pid_controller_output *pid_ax
         // prevent "yaw jump" during yaw correction
         axis[FD_YAW] = constrain(axis[FD_YAW], -mixerConfig()->yaw_jump_prevention_limit - ABS(rcCommand[YAW]), mixerConfig()->yaw_jump_prevention_limit + ABS(rcCommand[YAW]));
     }
-
-#if !defined(USE_QUAD_MIXER_ONLY) && defined(USE_SERVOS)
-	if(USE_TILT && (mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2)){
-		_mixer_mix_tilt(self, axis); 
-	}
-#endif
 
     if (rcModeIsActive(BOXAIRMODE)) {
         // Initial mixer concept by bdoiron74 reused and optimized for Air Mode
@@ -623,8 +558,10 @@ void mixer_enable_3d_mode(struct mixer *self, bool on){
 	self->mode3d = on;
 }
 
-void mixer_input_motor_pitch_angle(struct mixer *self, int16_t pitch_angle_dd){
-	self->motor_pitch = constrain(pitch_angle_dd, -4500, 4500); 
+void mixer_input_gimbal_angles(struct mixer *self, int16_t roll_dd, int16_t pitch_dd, int16_t yaw_dd){
+	self->gimbal_angles[ROLL] = roll_dd;
+	self->gimbal_angles[PITCH] = pitch_dd;
+	self->gimbal_angles[YAW] = yaw_dd;
 }
 
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value){

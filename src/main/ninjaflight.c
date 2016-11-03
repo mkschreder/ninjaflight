@@ -635,6 +635,69 @@ static void filterRc(float dt){
 static bool haveUpdatedRcCommandsOnce = false;
 #endif
 
+static void __attribute__((unused)) _tilt_apply_compensation(struct anglerate *self, int16_t motor_pitch) {
+    float angleTilt = degreesToRadians(DECIDEGREES_TO_DEGREES(motor_pitch));
+	float bodyPitch = degreesToRadians(imu_get_pitch_dd(&default_imu) * 0.1f);
+    float tmpCosine = cos_approx(angleTilt);
+	struct mixer_tilt_config *tilt = mixerTiltConfig(); 
+	// TODO: rewrite code that uses this. For now zero. 
+	int16_t liftoff_thrust = 0; 
+
+	// if static mode then for now we just set servos to middle and exit
+	if(tilt->mode == MIXER_TILT_MODE_STATIC){
+		servo[SERVO_TILT_P] = 1500; 
+	#if MAX_SUPPORTED_SERVOS > 1
+		servo[SERVO_TILT_N] = 1500; 
+	#endif
+		return; 
+	}
+    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
+        // compensate the throttle because motor orientation
+        float pitchToCompensate = angleTilt;
+
+        if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) {
+            pitchToCompensate += bodyPitch;
+        }
+
+        pitchToCompensate = ABS(pitchToCompensate); //we compensate in the same way if up or down.
+
+        if (pitchToCompensate > 0 && angleTilt + bodyPitch < M_PIf / 2) { //if there is something to compensate, and only from 0 to 90, otherwise it will push you into the ground
+            uint16_t liftOffTrust = ((rxConfig()->maxcheck - rxConfig()->mincheck) * liftoff_thrust) / 100; //force this order so we don't need float!
+            uint16_t liftOffLimit = ((rcCommand[THROTTLE] - (rxConfig()->maxcheck - rxConfig()->mincheck)) * 80) / 100; //we will artificially limit the trust compensation to 80% of remaining trust
+
+            float tmp_cos_compensate = cos_approx(pitchToCompensate);
+            if (tmp_cos_compensate != 0) { //it may be zero if the pitchToCOmpensate is 90°, also if it is very close due to float approximation.
+                float compensation = liftOffTrust / tmp_cos_compensate; //absolute value because we want to increase power even if breaking
+
+                if (compensation > 0) { //prevent overflow
+                    rcCommand[THROTTLE] += (compensation < liftOffLimit) ? compensation : liftOffLimit;
+                }
+            }
+        }
+    }
+
+    //compensate the roll and yaw because of motor orientation
+	// TODO: add support for quads that have props tilting in both roll and pitch direction
+	// TODO: here we are modifying variables that are internal to anglerate controller. 
+	// find a cleaner way to implement tilt
+    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
+        float rollCompensation = self->output.axis[ROLL] * tmpCosine;
+        float rollCompensationInv = self->output.axis[ROLL] - rollCompensation;
+        float yawCompensation = self->output.axis[YAW] * tmpCosine;
+        float yawCompensationInv = self->output.axis[YAW] - yawCompensation;
+
+        self->output.axis[ROLL] = yawCompensationInv + rollCompensation;
+        self->output.axis[YAW] = yawCompensation + rollCompensationInv;
+    }
+
+	motor_pitch = constrain(motor_pitch, -500, 500);
+	servo[SERVO_TILT_P] = 1500 + motor_pitch;
+	#if MAX_SUPPORTED_SERVOS > 1
+	servo[SERVO_TILT_N] = 1500 - motor_pitch;
+	#endif
+}
+
+
 void ninja_run_pid_loop(struct ninja *self, float dT){
 	UNUSED(self);
 
@@ -729,6 +792,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 	if(USE_TILT && is_tilt){
 		// TODO: refactor this once we have refactored rcCommand
 		// in angle mode we set control channel value in RC command to zero. 
+		int16_t motor_pitch = 0;
 		if(FLIGHT_MODE(ANGLE_MODE)){
 			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
@@ -738,13 +802,13 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 				anglerate_update(&default_controller, &att);
 				rcCommand[tilt->control_channel] = user_control; 
 
-				mixer_input_motor_pitch_angle(&default_mixer, user_control);
+				motor_pitch = user_control;
 			} else {
 				// otherwise we keep user input and just run the anglerate controller 
 				anglerate_update(&default_controller, &att);
 				// get the control input for the tilt from the control channel
-				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
-			}	
+				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
+			}
 		} else if(FLIGHT_MODE(HORIZON_MODE)){
 			// in horizon mode we do not deprive the anglerate controller of user input but we need to divide the pitch value so that anglerate controller pitches the body half way while we also tilt the propellers
 			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.  
@@ -756,26 +820,32 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 				anglerate_update(&default_controller, &att);
 				rcCommand[tilt->control_channel] = user_control; 
 
-				mixer_input_motor_pitch_angle(&default_mixer, user_control >> 1);
+				motor_pitch = user_control >> 1;
 			} else {
 				// otherwise we keep user input and just run the anglerate controller 
 				anglerate_update(&default_controller, &att);
 				// get the control input for the tilt from the control channel
-				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
-			}	
+				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
+			}
 		} else {
 			// in rate mode we only allow manual tilting using one of the aux channels
 			anglerate_update(&default_controller, &att);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
-				mixer_input_motor_pitch_angle(&default_mixer, rc_get_channel_value(tilt->control_channel) - 1500);  
+				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			} else {
-				mixer_input_motor_pitch_angle(&default_mixer, 0); 
 			}
-		} 
+		}
+		_tilt_apply_compensation(&default_controller, motor_pitch);
 	} else {
 		// without tilting we just run the anglerate controller
 		anglerate_update(&default_controller, &att);
 	}
+
+	//TODO: move gimbal code out of the mixer and place it externally
+	mixer_input_gimbal_angles(&default_mixer,
+		imu_get_roll_dd(&default_imu),
+		imu_get_pitch_dd(&default_imu),
+		imu_get_yaw_dd(&default_imu));
 
     mixer_update(&default_mixer, anglerate_get_output_ptr(&default_controller));
 

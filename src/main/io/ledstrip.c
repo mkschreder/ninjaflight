@@ -56,11 +56,14 @@
 #include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
+#include "sensors/battery.h"
 
 static bool ledStripInitialised = false;
 static bool ledStripEnabled = true;
 
 static void ledStripDisable(void);
+
+struct battery default_battery;
 
 //#define USE_LED_ANIMATION
 //#define USE_LED_RING_DEFAULT_CONFIG
@@ -445,6 +448,7 @@ static void applyLedWarningLayer(bool updateNow, uint32_t *timer)
         }
         if (warningFlashCounter == 0) {      // update when old flags was processed
             warningFlags = 0;
+			// TODO: refactor. This type of battery logic should be outside of ledstrip module!
             if (feature(FEATURE_VBAT) && battery_get_state(&default_battery) != BATTERY_OK)
                 warningFlags |= 1 << WARNING_LOW_BATTERY;
             if (feature(FEATURE_FAILSAFE) && failsafeIsActive())
