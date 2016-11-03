@@ -20,7 +20,12 @@
 #include <stdbool.h>
 
 void systemInit(void);
+
+#ifndef __linux__
 void usleep(uint32_t us);
+#else
+#include <unistd.h>
+#endif
 
 uint32_t micros(void);
 uint32_t millis(void);

@@ -174,7 +174,14 @@ static void *_application_thread(void *param){
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
 	self->sitl = server;
-	mixer_init(&self->mixer, customMotorMixer(0), 4);
+    mixer_init(&default_mixer, 
+		mixerConfig(),
+		motor3DConfig(),
+		motorAndServoConfig(),
+		rxConfig(),
+		rcControlsConfig(),
+		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+
 	mixer_set_motor_disarmed_pwm(&self->mixer, 0, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 1, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 2, 1000);

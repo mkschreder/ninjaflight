@@ -19,6 +19,10 @@
 
 #include "anglerate.h"
 
+// TODO: motor_and_servo probably does not belong in io folder..
+#include "io/motor_and_servo.h"
+#include "io/rc_controls.h"
+
 #if defined(USE_QUAD_MIXER_ONLY)
 #define MAX_SUPPORTED_MOTORS 4
 
@@ -80,28 +84,6 @@ struct mixer_mode {
     const struct motor_mixer *motor;
 }; 
 
-struct mixer {
-	uint8_t motorCount; 
-
-	int16_t motor[MAX_SUPPORTED_MOTORS];
-	int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-
-	bool motorLimitReached;
-
-	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
-
-	struct motor_mixer *customMixers;
-	
-	int16_t motor_pitch; 
-	int16_t tilt_pwm; 
-
-	bool mode3d;
-
-	// TODO: gimbal stuff should be above mixer code not part of it
-	// move when we have refactored gimbal code
-	int16_t gimbal_angles[3];
-};
-
 // TODO: this is very bad way so remove this later once refactoring is done.
 extern struct mixer default_mixer; 
 
@@ -127,12 +109,12 @@ typedef enum {
 #define MIXER_TILT_COMPENSATE_BODY (1 << 2)
 
 struct mixer_tilt_config {
-	uint8_t mode; 
-	uint8_t compensation_flags;  
-	uint8_t control_channel; 
-	int8_t servo_angle_min; 
-	int8_t servo_angle_max; 
-}; 
+	uint8_t mode;
+	uint8_t compensation_flags;
+	uint8_t control_channel;
+	int8_t servo_angle_min;
+	int8_t servo_angle_max;
+};
 
 
 struct motor_3d_config {
@@ -143,7 +125,44 @@ struct motor_3d_config {
 
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
 
-void mixer_init(struct mixer *self, struct motor_mixer *custom_mixers, uint8_t count);
+struct mixer {
+	uint8_t motorCount; 
+
+	int16_t motor[MAX_SUPPORTED_MOTORS];
+	int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
+
+	bool motorLimitReached;
+
+	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
+
+	struct motor_mixer *customMixers;
+	
+	int16_t motor_pitch; 
+	int16_t tilt_pwm; 
+
+	// TODO: gimbal stuff should be above mixer code not part of it
+	// move when we have refactored gimbal code
+	int16_t gimbal_angles[3];
+
+	uint8_t flags;
+	
+	// TODO: mixer should not need so many configs. Need to factor out control logic out of the mixer!
+	struct mixer_config *mixer_config;
+	struct motor_3d_config *motor_3d_config;
+	motorAndServoConfig_t *motor_servo_config;
+	rxConfig_t *rx_config;
+	rcControlsConfig_t *rc_controls_config;
+};
+
+
+void mixer_init(struct mixer *self,
+	struct mixer_config *mixer_config,
+	struct motor_3d_config *mixer_3d_config,
+	motorAndServoConfig_t *motor_servo_config,
+	rxConfig_t *rx_config,
+	rcControlsConfig_t *rc_controls_config,
+	struct motor_mixer *custom_mixers,
+	uint8_t count);
 void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc);
 void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
 void mixer_reset_disarmed_pwm_values(struct mixer *self);
@@ -154,7 +173,11 @@ void mixer_stop_motors(struct mixer *self);
 void mixer_stop_pwm_all_motors(struct mixer *self);
 void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 
+void mixer_enable_failsafe_mode(struct mixer *self, bool on);
 void mixer_enable_3d_mode(struct mixer *self, bool on);
+void mixer_enable_air_mode(struct mixer *self, bool on);
+void mixer_enable_motor_outputs(struct mixer *self, bool on);
+
 void mixer_input_gimbal_angles(struct mixer *self, int16_t roll_dd, int16_t pitch_dd, int16_t yaw_dd);
 
 void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 

@@ -847,6 +847,11 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		imu_get_pitch_dd(&default_imu),
 		imu_get_yaw_dd(&default_imu));
 
+	mixer_enable_failsafe_mode(&default_mixer, failsafeIsActive());
+	mixer_enable_3d_mode(&default_mixer, feature(FEATURE_3D));
+    mixer_enable_air_mode(&default_mixer, rcModeIsActive(BOXAIRMODE));
+	mixer_enable_motor_outputs(&default_mixer, ARMING_FLAG(ARMED));
+
     mixer_update(&default_mixer, anglerate_get_output_ptr(&default_controller));
 
 #ifdef USE_SERVOS

@@ -311,7 +311,14 @@ TEST_F(BasicMixerIntegrationTest, TestTricopterServo)
 
     configureMixer(MIXER_TRI);
 
-    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, 
+		mixerConfig(),
+		motor3DConfig(),
+		motorAndServoConfig(),
+		rxConfig(),
+		rcControlsConfig(),
+		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -346,7 +353,15 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 
     configureMixer(MIXER_QUADX);
 
-    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+	mixer_init(&default_mixer, 
+		mixerConfig(),
+		motor3DConfig(),
+		motorAndServoConfig(),
+		rxConfig(),
+		rcControlsConfig(),
+		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+
+
     mixerInitServos(customServoMixer(0));
 
     // and
@@ -436,7 +451,15 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     configureMixer(MIXER_CUSTOM_AIRPLANE);
 
-    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, 
+		mixerConfig(),
+		motor3DConfig(),
+		motorAndServoConfig(),
+		rxConfig(),
+		rcControlsConfig(),
+		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+
+
     mixerInitServos(customServoMixer(0));
 
     pwmIOConfiguration_t pwmIOConfiguration = {

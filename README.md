@@ -6,6 +6,8 @@
 An even cleaner version of cleanflight flight-controller - flight controllers
 are used to fly multi-rotor craft and fixed wing craft. 
 
+Latest release: 1.16.10 (Codename: "Panic In The Sewers")
+
 This fork differs from cleanflight in that it attempts to use modern software
 development practices which result in:
 

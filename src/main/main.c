@@ -496,7 +496,13 @@ static void init(void)
 
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    mixer_init(&default_mixer, customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+    mixer_init(&default_mixer, 
+		mixerConfig(),
+		motor3DConfig(),
+		motorAndServoConfig(),
+		rxConfig(),
+		rcControlsConfig(),
+		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 #ifdef USE_SERVOS
     mixerInitServos(customServoMixer(0));
 #endif

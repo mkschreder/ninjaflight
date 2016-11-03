@@ -156,6 +156,7 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
+ARCH_FLAGS = -fPIC
 LD_SCRIPT = ./src/test/unit/parameter_group.ld
 else
 # F1 TARGETS
@@ -730,20 +731,21 @@ SITL_SRC = \
 			config/parameter_group.c \
 			config/profile.c \
 			config/feature.c \
+			config/vars.c \
 			flight/altitudehold.c \
-			flight/failsafe.c \
 			flight/anglerate.c \
 			flight/imu.c \
 			flight/mixer.c \
 			flight/servos.c \
 			flight/rate_profile.c \
+			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \
 			sitl/time.c \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
-			ninjaflight.c
+			../../ninjarace/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
@@ -839,6 +841,7 @@ endif
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
+TARGET_SITL	 = ninjarace/fc_$(FORKNAME).so
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
@@ -851,7 +854,7 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
 ifeq ($(TARGET),SITL)
-all: $(TARGET_ELF)
+all: $(TARGET_SITL)
 else
 all: hex bin
 endif 
@@ -941,6 +944,10 @@ $(TARGET_HEX): $(TARGET_ELF)
 
 $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
+
+$(TARGET_SITL): $(TARGET_OBJS)
+	$(CC) -shared -Wl,--no-undefined -o $@ $^ $(LDFLAGS) -ldl -lpthread
+	$(SIZE) $(TARGET_SITL)
 
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
