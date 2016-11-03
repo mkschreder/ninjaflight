@@ -13,6 +13,8 @@ development practices which result in:
 - Easier maintenance through code cleanliness.
 - Easier to develop new features. 
 - Easier to re-use code through code de-coupling and modularisation.
+- Code coverage driven unit test design that results in more exhaustive unit
+  tests that are more exhaustive than before.
 
 Even though cleanflight project cleaned up a lot of the horrible mess of
 MultiWii software, it still fails to live up to a lot of good coding practices
@@ -21,11 +23,14 @@ even further by:
 
 - eliminating all "extern" variables in C files
 - objectifying everything into structs and methods that operate on specific
-  sets of objects
+  sets of objects. Thus improving data flow by eliminating global data as much
+  as possible.
 - making the code reentrant (using global variables kills reentrancy more than
   anything else)
 - separating things even more so that we can simulate the flight control
   software on desktop as we develop it. 
+- test as many lines of code as possible by making code coverage standard step
+  in developing unit tests. 
 
 At all times we will try to keep the software in fully functional state while
 introducing these changes.  
