@@ -125,11 +125,12 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
     return PTerm + ITerm + DTerm;
 }
 
-static void _multiwii_rewrite_update(struct anglerate *self, union attitude_euler_angles *att, float dt) {
+static void _multiwii_rewrite_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dt) {
 	UNUSED(dt); // TODO: maybe we should use dt?
+    int8_t horizonLevelStrength = 0;
+
     _anglerate_delta_state_update(self);
 
-    int8_t horizonLevelStrength = 0;
     if (FLIGHT_MODE(HORIZON_MODE)) {
         // Figure out the most deflected stick position
         const int32_t stickPosAil = ABS(getRcStickDeflection(ROLL, self->rx_config->midrc));
@@ -145,6 +146,7 @@ static void _multiwii_rewrite_update(struct anglerate *self, union attitude_eule
         horizonLevelStrength = constrain((10 * (horizonLevelStrength - 100) * (10 * self->config->D8[PIDLEVEL] / 80) / 100) + 100, 0, 100);
     }
 
+	
     // ----------PID controller----------
     for (int axis = 0; axis < 3; axis++) {
         const uint8_t rate = self->rate_config->rates[axis];
@@ -180,7 +182,7 @@ static void _multiwii_rewrite_update(struct anglerate *self, union attitude_eule
         }
 
         // --------low-level gyro-based PID. ----------
-        const int32_t gyroRate = self->gyro[axis] / 4;
+        const int32_t gyroRate = gyro[axis] / 4;
         self->output.axis[axis] = _multiwii_rewrite_calc_axis(self, axis, gyroRate, angleRate);
 
 #ifdef GTUNE
@@ -202,6 +204,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 
     // -----calculate P component
     float PTerm = luxPTermScale * rateError * self->config->P8[axis] * self->PIDweight[axis] / 100;
+
     // Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
     if (axis == YAW && self->config->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
         PTerm = constrainf(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
@@ -245,7 +248,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
     }
 
 #ifdef BLACKBOX
-   	self->output.axis_P[axis] = PTerm;
+	self->output.axis_P[axis] = PTerm;
     self->output.axis_I[axis] = ITerm;
     self->output.axis_D[axis] = DTerm;
 #endif
@@ -253,7 +256,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
     return lrintf(PTerm + ITerm + DTerm);
 }
 
-static void _luxfloat_update(struct anglerate *self, union attitude_euler_angles *att, float dT){
+static void _luxfloat_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dT){
     _anglerate_delta_state_update(self);
 
     float horizonLevelStrength = 0;
@@ -307,7 +310,8 @@ static void _luxfloat_update(struct anglerate *self, union attitude_euler_angles
         }
 
         // --------low-level gyro-based PID. ----------
-        const float gyroRate = luxGyroScale * self->gyro[axis];// TODO: gyro rates should be scaled by default! // * gyro.scale;
+		// TODO: refactor this so that we always have gyro scaled to rad/s
+        const float gyroRate = luxGyroScale * gyro[axis] * (imu_get_gyro_scale(self->imu) / RAD);
         self->output.axis[axis] = _luxfloat_calc_axis(self, axis, gyroRate, angleRate, dT);
         //output->axis[axis] = constrain(output->axis[axis], -PID_LUX_FLOAT_MAX_PID, PID_LUX_FLOAT_MAX_PID);
 #ifdef GTUNE
@@ -318,7 +322,7 @@ static void _luxfloat_update(struct anglerate *self, union attitude_euler_angles
     }
 }
 
-static void _multiwii23_update(struct anglerate *self, union attitude_euler_angles *att, float dt){
+static void _multiwii23_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dt){
 	UNUSED(dt);
     int axis, prop = 0;
     int32_t rc, error, errorAngle, delta, gyroError;
@@ -337,12 +341,12 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
 
         rc = rcCommand[axis] << 1;
 
-        gyroError = self->gyro[axis] / 4;
+        gyroError = gyro[axis] / 4;
 
         error = rc - gyroError;
         self->lastITerm[axis]  = constrain(self->lastITerm[axis] + error, -16000, +16000);   // WindUp   16 bits is ok here
 
-        if (ABS(self->gyro[axis]) > (640 * 4)) {
+        if (ABS(gyro[axis]) > (640 * 4)) {
             self->lastITerm[axis] = 0;
         }
 
@@ -422,9 +426,9 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
     //YAW
     rc = (int32_t)rcCommand[YAW] * (2 * self->rate_config->rates[YAW] + 30)  >> 5;
 #ifdef ALIENWFLIGHT
-    error = rc - self->gyro[FD_YAW];
+    error = rc - gyro[FD_YAW];
 #else
-    error = rc - (self->gyro[FD_YAW] / 4);
+    error = rc - (gyro[FD_YAW] / 4);
 #endif
     self->lastITerm[FD_YAW]  += (int32_t)error * self->config->I8[FD_YAW];
     self->lastITerm[FD_YAW]  = constrain(self->lastITerm[FD_YAW], 2 - ((int32_t)1 << 28), -2 + ((int32_t)1 << 28));
@@ -456,15 +460,20 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
 
 
 void anglerate_init(struct anglerate *self,
+	struct imu *imu,
 	const struct pid_config *config,
 	const struct rate_config *rate_config,
 	uint16_t max_angle_inclination,
 	const rollAndPitchTrims_t *angle_trim,
 	const rxConfig_t *rx_config){
 	memset(self, 0, sizeof(struct anglerate));
+	self->imu = imu;
 	self->update = _multiwii_rewrite_update;
-	for(int c = 0; c < 3; c++) self->pidScale[c] = 100;
-		self->config = config;
+	for(int c = 0; c < 3; c++) {
+		self->pidScale[c] = 100;
+		self->PIDweight[c] = 100;
+	}
+	self->config = config;
 	self->rate_config = rate_config;
 	self->max_angle_inclination = max_angle_inclination;
 	self->angle_trim = angle_trim;
@@ -505,8 +514,16 @@ const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *s
 	return &self->output;
 }
 
-void anglerate_update(struct anglerate *self, union attitude_euler_angles *att, float dt){
-	self->update(self, att, dt);
+void anglerate_update(struct anglerate *self, float dt){
+	int16_t gyro[3];
+	union attitude_euler_angles att;
+	imu_get_gyro(self->imu, gyro);
+	imu_get_attitude_dd(self->imu, &att);
+
+	// always update pid controller setting from config
+	anglerate_set_algo(self, self->config->pidController);
+
+	self->update(self, gyro, &att, dt);
 }
 
 void anglerate_enable_plimit(struct anglerate *self, bool on){
@@ -522,12 +539,6 @@ void anglerate_enable_antiwindup(struct anglerate *self, bool on){
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale){
 	if(axis > 2) return;
 	self->pidScale[axis] = scale;
-}
-
-void anglerate_input_gyro(struct anglerate *self, int16_t x, int16_t y, int16_t z){
-	self->gyro[X] = x;
-	self->gyro[Y] = y;
-	self->gyro[Z] = z;
 }
 
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight){

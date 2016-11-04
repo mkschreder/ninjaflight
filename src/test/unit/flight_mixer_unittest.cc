@@ -386,15 +386,14 @@ TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
 
     // when
     mixer_update(&default_mixer, &pid_output);
-    mixer_write_pwm(&default_mixer);
 
     // then
-    EXPECT_EQ(4, updatedMotorCount);
+    EXPECT_EQ(4, mixer_get_motor_count(&default_mixer));
 
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[0].value);
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[1].value);
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[2].value);
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[3].value);
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 0));
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 1));
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 2));
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 3));
 }
 
 
@@ -484,14 +483,13 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     // when
     mixer_update(&default_mixer, &pid_output);
-    mixer_write_pwm(&default_mixer);
     writeServos(&default_mixer);
 
     // then
-    EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, updatedMotorCount);
+    EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, mixer_get_motor_count(&default_mixer));
 
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[0].value);
-    EXPECT_EQ(TEST_MIN_COMMAND, motors[1].value);
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 0));
+    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 1));
 
     EXPECT_EQ(EXPECTED_SERVOS_TO_MIX_COUNT, updatedServoCount);
 

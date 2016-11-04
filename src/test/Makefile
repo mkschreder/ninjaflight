@@ -36,6 +36,9 @@ COMMON_FLAGS = \
 	-ggdb3 \
 	-O0 \
 	-DUNIT_TEST \
+	-ffunction-sections \
+	-fdata-sections \
+	-Wl,--gc-sections \
 	-isystem $(GTEST_DIR)/inc \
 	-MMD -MP
 
@@ -256,7 +259,10 @@ $(OBJECT_DIR)/flight_pid_unittest.o : \
 $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/filter.o \
+	$(OBJECT_DIR)/config/vars.o \
+	$(OBJECT_DIR)/config/parameter_group.o \
 	$(OBJECT_DIR)/flight/anglerate.o \
+	$(OBJECT_DIR)/flight/imu.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 

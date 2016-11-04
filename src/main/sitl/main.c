@@ -91,15 +91,14 @@ struct application {
 
 static void _application_send_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
-	printf("pwm: ");
-	for(int c = 0; c < 4; c++){
-		printf("%d ", mixer_get_motor_value(&self->mixer, c));
-		cl->write_pwm(cl, c, mixer_get_motor_value(&self->mixer, c));
-	}
+	// TODO: motor mapping is different in sim compared to ninjaflight. Need to standardize it.
+	cl->write_pwm(cl, 0, mixer_get_motor_value(&self->mixer, 1));
+	cl->write_pwm(cl, 1, mixer_get_motor_value(&self->mixer, 2));
+	cl->write_pwm(cl, 2, mixer_get_motor_value(&self->mixer, 3));
+	cl->write_pwm(cl, 3, mixer_get_motor_value(&self->mixer, 0));
 	for(int c = 4; c < FC_SITL_PWM_CHANNELS; c++){
 		cl->write_pwm(cl, c, 1500);
 	}
-	printf("\n");
 #if 0
 	struct sitl_server_packet pkt;
 	memset(&pkt, 0, sizeof(pkt));
@@ -140,16 +139,17 @@ static void _application_recv_state(struct application *self){
 
 	cl->read_accel(cl, accel);
 	cl->read_gyro(cl, gyro);
+
 	imu_input_accelerometer(&self->imu,
 		(accel[0] / 9.82f) * 512,
 		(accel[1] / 9.82f) * 512,
 		(accel[2] / 9.82f) * 512);
 
-	gyroADC[0] = gyro[0] * 4096;
-	gyroADC[1] = -gyro[1] * 4096;
-	gyroADC[2] = -gyro[2] * 4096;
+	imu_input_gyro(&self->imu,
+		gyro[0] * 4096,
+		-gyro[1] * 4096,
+		-gyro[2] * 4096);
 
-	imu_input_gyro(&self->imu, gyroADC[0], gyroADC[1], gyroADC[2]);
 	imu_update(&self->imu, 0.001);
 
 #if 0
@@ -161,12 +161,15 @@ static void _application_recv_state(struct application *self){
 static void _application_fc_run(struct application *self){
 	union attitude_euler_angles att;
 	imu_get_attitude_dd(&self->imu, &att);
-	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500) >> 2;
-	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500) >> 2;
+
+	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
+	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
+	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
 	rcCommand[THROTTLE] = rc_get_channel_value(2);
-	rcCommand[YAW] = (rc_get_channel_value(3) - 1500) >> 2;
-	anglerate_update(&self->controller, &att, 0.001);
+	rcCommand[YAW] = -(rc_get_channel_value(3) - 1500);
+	anglerate_update(&self->controller, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
+	printf("rcCommand: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[THROTTLE], rcCommand[YAW]);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
 
 	mixer_enable_motor_outputs(&self->mixer, true);
@@ -207,7 +210,8 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 
 	static struct rate_config rateConfig;
 	memset(&rateConfig, 0, sizeof(struct rate_config));
-	pidProfile()->pidController = 1;
+
+	pidProfile()->pidController = PID_CONTROLLER_LUX_FLOAT;
 	pidProfile()->P8[PIDROLL] = 10;
 	pidProfile()->P8[PIDPITCH] = 10;
 	pidProfile()->P8[PIDYAW] = 60;
@@ -221,12 +225,14 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	pidProfile()->D8[PIDYAW] = 5;
 
 	anglerate_init(&self->controller,
+		&self->imu,
 		pidProfile(),
 		&rateConfig,
 		imuConfig()->max_angle_inclination,
 		&accelerometerConfig()->accelerometerTrims,
 		rxConfig()
 	);
+	anglerate_set_algo(&self->controller, PID_CONTROLLER_MWREWRITE);
 
 	for(int c = 0; c < 3; c++){
 		anglerate_set_pid_axis_scale(&self->controller, c, 100);
@@ -265,8 +271,8 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_i
 uint8_t stateFlags;
 uint16_t flightModeFlags;
 uint8_t armingFlags = 0xff;
-int32_t gyroADC[3];
-int32_t magADC[3];
+//int32_t gyroADC[3];
+//int32_t magADC[3];
 uint32_t rcModeActivationMask = 0;
 float magneticDeclination = 0;
 //void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};

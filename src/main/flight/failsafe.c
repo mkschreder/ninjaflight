@@ -71,7 +71,7 @@ void failsafeInit(void)
 {
     failsafeState.events = 0;
     failsafeState.monitoring = false;
-
+	failsafeReset();
     return;
 }
 

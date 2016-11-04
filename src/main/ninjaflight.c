@@ -215,10 +215,11 @@ static void updateRcCommands(void)
             prop1 = 100 - (uint16_t)currentControlRateProfile->rates[axis] * ABS(tmp) / 500;
         }
 #ifndef SKIP_PID_MW23
-        // FIXME axis indexes into pids.  use something like lookupPidIndex(rc_alias_e alias) to reduce coupling.
+		// FIXME axis indexes into pids.  use something like lookupPidIndex(rc_alias_e alias) to reduce coupling.
 		// TODO: move this kind of shit into pid controller module
 		anglerate_set_pid_axis_scale(&default_controller, axis, prop1);
 #endif
+
         // non coupled PID reduction scaler used in PID controller 1 and PID controller 2. YAW TPA disabled. 100 means 100% of the pids
         if (axis == YAW) {
 			anglerate_set_pid_axis_weight(&default_controller, axis, 100);
@@ -709,6 +710,24 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 
     gyroUpdate();
     imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
+
+	// if we are not armed and just starting up then we need to converge with accelerometer faster
+	if(!ARMING_FLAG(ARMED) && millis() < 20000){
+		imu_enable_fast_dcm_convergence(&default_imu, true);
+	else
+		imu_enable_fast_dcm_convergence(&default_imu, false);
+
+#ifdef MAG
+	imu_input_magnetometer(&default_imu, magADC[X], magADC[Y], magADC[Z], magneticDeclination);
+#endif
+
+#if defined(GPS)
+    if (STATE(FIXED_WING) && sensors(SENSOR_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5 && GPS_speed >= 300) {
+        // In case of a fixed-wing aircraft we can use GPS course over ground to correct heading
+        imu_input_yaw_dd(&default_imu, GPS_ground_course);
+    }
+#endif
+
 	imu_update(&default_imu, dt);
 
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
@@ -777,15 +796,8 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
 	struct mixer_tilt_config *tilt = mixerTiltConfig();
 
-	// read attitude from imu
-	union attitude_euler_angles att;
-	imu_get_attitude_dd(&default_imu, &att);
-
 	// TODO: move this once we have tested current refactored code
     anglerate_set_algo(&default_controller, pidProfile()->pidController);
-	
-	// give anglerate controller our current sensor data
-	anglerate_input_gyro(&default_controller, gyroADC[X], gyroADC[Y], gyroADC[Z]);
 
 	if(USE_TILT && is_tilt){
 		// TODO: refactor this once we have refactored rcCommand
@@ -797,13 +809,13 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 				user_control = rcCommand[tilt->control_channel];
 				rcCommand[tilt->control_channel] = 0;
 				// run pid controller with modified pitch
-				anglerate_update(&default_controller, &att, dt);
+				anglerate_update(&default_controller, dt);
 				rcCommand[tilt->control_channel] = user_control;
 
 				motor_pitch = user_control;
 			} else {
 				// otherwise we keep user input and just run the anglerate controller
-				anglerate_update(&default_controller, &att, dt);
+				anglerate_update(&default_controller, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
@@ -815,19 +827,19 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 				user_control = rcCommand[tilt->control_channel];
 				rcCommand[tilt->control_channel] = user_control >> 1;
 				// run pid controller with modified pitch
-				anglerate_update(&default_controller, &att, dt);
+				anglerate_update(&default_controller, dt);
 				rcCommand[tilt->control_channel] = user_control;
 
 				motor_pitch = user_control >> 1;
 			} else {
 				// otherwise we keep user input and just run the anglerate controller
-				anglerate_update(&default_controller, &att, dt);
+				anglerate_update(&default_controller, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
 		} else {
 			// in rate mode we only allow manual tilting using one of the aux channels
-			anglerate_update(&default_controller, &att, dt);
+			anglerate_update(&default_controller, dt);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			} else {
@@ -836,7 +848,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		_tilt_apply_compensation(&default_controller, motor_pitch);
 	} else {
 		// without tilting we just run the anglerate controller
-		anglerate_update(&default_controller, &att, dt);
+		anglerate_update(&default_controller, dt);
 	}
 
 	//TODO: move gimbal code out of the mixer and place it externally

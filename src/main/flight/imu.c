@@ -55,8 +55,12 @@
 
 #include "io/gps.h"
 
-#define IMU_FLAG_USE_ACC (1 << 0)
-#define IMU_FLAG_USE_MAG (1 << 0)
+enum {
+	IMU_FLAG_USE_ACC = (1 << 0),
+	IMU_FLAG_USE_MAG = (1 << 1),
+	IMU_FLAG_USE_YAW = (1 << 2),
+	IMU_FLAG_DCM_CONVERGE_FASTER = (1 << 3)
+};
 
 // the limit (in degrees/second) beyond which we stop integrating
 // omega_I. At larger spin rates the DCM PI controller can get 'dizzy'
@@ -69,23 +73,23 @@ static void _imu_update_dcm(struct imu *self){
     float q2q2 = sq(self->q.y);
     float q3q3 = sq(self->q.z);
 
-    float q0q1 = self->q.w * self->q.x; 
-    float q0q2 = self->q.w * self->q.y; 
-    float q0q3 = self->q.w * self->q.z; 
-    float q1q2 = self->q.x * self->q.y; 
-    float q1q3 = self->q.x * self->q.z; 
-    float q2q3 = self->q.y * self->q.z; 
+    float q0q1 = self->q.w * self->q.x;
+    float q0q2 = self->q.w * self->q.y;
+    float q0q3 = self->q.w * self->q.z;
+    float q1q2 = self->q.x * self->q.y;
+    float q1q3 = self->q.x * self->q.z;
+    float q2q3 = self->q.y * self->q.z;
 
     self->rMat[0][0] = q0q0 + q1q1 - q2q2 - q3q3;
-    self->rMat[0][1] = 2.0f * (q1q2 - q0q3); 
-    self->rMat[0][2] = 2.0f * (q1q3 + q0q2); 
+    self->rMat[0][1] = 2.0f * (q1q2 - q0q3);
+    self->rMat[0][2] = 2.0f * (q1q3 + q0q2);
 
-    self->rMat[1][0] = 2.0f * (q1q2 + q0q3); 
+    self->rMat[1][0] = 2.0f * (q1q2 + q0q3);
     self->rMat[1][1] = q0q0 - q1q1 + q2q2 - q3q3;
-    self->rMat[1][2] = 2.0f * (q2q3 - q0q1); 
+    self->rMat[1][2] = 2.0f * (q2q3 - q0q1);
 
-    self->rMat[2][0] = 2.0f * (q1q3 - q0q2); 
-    self->rMat[2][1] = 2.0f * (q2q3 + q0q1); 
+    self->rMat[2][0] = 2.0f * (q1q3 - q0q2);
+    self->rMat[2][1] = 2.0f * (q2q3 + q0q1);
     self->rMat[2][2] = q0q0 - q1q1 - q2q2 + q3q3;
 }
 
@@ -105,12 +109,12 @@ void imu_init(struct imu *self,
 	float gyro_scale,
 	uint16_t acc_1G
 ){
-	memset(self, 0, sizeof(struct imu)); 
+	memset(self, 0, sizeof(struct imu));
 
-	self->config = imu_config; 
-	self->acc_config = acc_config; 
+	self->config = imu_config;
+	self->acc_config = acc_config;
 	self->thr_config = thr_config;
-	self->acc_1G = acc_1G; 
+	self->acc_1G = acc_1G;
     self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
     self->accVelScale = (9.80665f / self->acc_1G) * 100.0f; // acc vel scaled to cm/s
 
@@ -177,21 +181,21 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     float recipNorm;
     float hx, hy, bx;
     float ex = 0, ey = 0, ez = 0;
-	float gx, gy, gz; 
-	float ax, ay, az; 
-	float mx, my, mz; 
+	float gx, gy, gz;
+	float ax, ay, az;
+	float mx, my, mz;
 
 	gx = self->gyro[X] * self->gyroScale;
 	gy = self->gyro[Y] * self->gyroScale;
-	gz = self->gyro[Z] * self->gyroScale; 
-    
+	gz = self->gyro[Z] * self->gyroScale;
+
 	ax = self->accSmooth[X] * 0.001f;
 	ay = self->accSmooth[Y] * 0.001f;
-	az = self->accSmooth[Z] * 0.001f; 
-    
-	mx = magADC[X];
-	my = magADC[Y];
-	mz = magADC[Z]; 
+	az = self->accSmooth[Z] * 0.001f;
+
+	mx = self->mag[X];
+	my = self->mag[Y];
+	mz = self->mag[Z];
 
     // Calculate general spin rate (rad/s)
     float spin_rate = sqrtf(sq(gx) + sq(gy) + sq(gz));
@@ -247,7 +251,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     }
 
     // Compute and apply integral feedback if enabled
-	float dcm_ki = self->config->dcm_ki / 10000.0f; 
+	float dcm_ki = self->config->dcm_ki / 10000.0f;
     if(dcm_ki > 0.0f) {
         // Stop integrating if spinning beyond the certain limit
         if (spin_rate < DEGREES_TO_RADIANS(SPIN_RATE_LIMIT)) {
@@ -263,7 +267,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     }
 
 	// pgain is larger if not armed and just starting up (why?)
-	float p_gain = (!ARMING_FLAG(ARMED) && millis() < 20000)?10.0f:1.0f; 
+	float p_gain = (self->flags & IMU_FLAG_DCM_CONVERGE_FASTER)?10.0f:1.0f;
 
     // Calculate kP gain. If we are acquiring initial attitude (not armed and within 20 sec from powerup) scale the kP to converge faster
     float dcmKpGain = (self->config->dcm_kp / 10000.0f) * p_gain;
@@ -274,7 +278,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
     gz += dcmKpGain * ez + integralFBz;
 
 	// rate integration is done using quaternion integration formula
-	// qnew = qold + (qold * q(0, w, w, w) * 0.5) * dt; 
+	// qnew = qold + (qold * q(0, w, w, w) * 0.5) * dt;
 
     // Integrate rate of change of quaternion
     gx *= (0.5f * dt);
@@ -308,14 +312,14 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 
 static void _imu_update_euler_angles(struct imu *self){
     /* Compute pitch/roll angles */
-	float px = self->rMat[2][0]; 
-	float py = self->rMat[2][1]; 
-	float pz = self->rMat[2][2]; 
-	float sign_z = (pz > 0) - (pz < 0); 
+	float px = self->rMat[2][0];
+	float py = self->rMat[2][1];
+	float pz = self->rMat[2][2];
+	float sign_z = (pz > 0) - (pz < 0);
 
-	self->attitude.values.roll = lrintf(atan2_approx(py, sign_z * sqrtf(pz * pz + 0.01f * px * px)) * (1800.0f / M_PIf)); 
-	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf)); 
-    self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + magneticDeclination);
+	self->attitude.values.roll = lrintf(atan2_approx(py, sign_z * sqrtf(pz * pz + 0.01f * px * px)) * (1800.0f / M_PIf));
+	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf));
+    self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + self->magneticDeclination);
 
     if (self->attitude.values.yaw < 0)
         self->attitude.values.yaw += 3600;
@@ -331,9 +335,9 @@ static void _imu_update_euler_angles(struct imu *self){
 
 bool imu_is_leveled(struct imu *self, uint8_t max_angle){
     /* Update small angle state */
-    
+
     float armingAngleCosZ = cos_approx(degreesToRadians(max_angle));
-    
+
     return (self->rMat[2][2] > armingAngleCosZ);
 }
 
@@ -352,19 +356,15 @@ static bool _imu_acc_healthy(struct imu *self)
     return (81 < accMagnitude) && (accMagnitude < 121);
 }
 
-#ifdef MAG
 static bool _imu_mag_healthy(struct imu *self){
-	UNUSED(self); 
-    return (magADC[X] != 0) && (magADC[Y] != 0) && (magADC[Z] != 0);
+	UNUSED(self);
+    return (self->mag[X] != 0) && (self->mag[Y] != 0) && (self->mag[Z] != 0);
 }
-#endif
 
 void imu_update(struct imu *self, float dt){
     static filterStatePt1_t accLPFState[3];
     float rawYawError = 0;
     int32_t axis;
-    bool useMag = false;
-    bool useYaw = false;
 
 	// update smoothed acceleration
     // Smooth and use only valid accelerometer readings
@@ -376,24 +376,21 @@ void imu_update(struct imu *self, float dt){
         }
     }
 
-#ifdef MAG
-    if (sensors(SENSOR_MAG) && _imu_mag_healthy(self)) {
-        useMag = true;
-    }
-#endif
-#if defined(GPS)
-    if (STATE(FIXED_WING) && sensors(SENSOR_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5 && GPS_speed >= 300) {
-        // In case of a fixed-wing aircraft we can use GPS course over ground to correct heading
-        rawYawError = DECIDEGREES_TO_RADIANS(self->attitude.values.yaw - GPS_ground_course);
-        useYaw = true;
-    }
-#endif
 	bool useAcc = (self->flags & IMU_FLAG_USE_ACC) && _imu_acc_healthy(self);
+	bool useMag = (self->flags & IMU_FLAG_USE_MAG) && _imu_mag_healthy(self);
+	bool useYaw = (self->flags & IMU_FLAG_USE_YAW);
+
+    if(useYaw)
+		rawYawError = DECIDEGREES_TO_RADIANS(self->attitude.values.yaw - self->yaw);
+
 	// updates quaternion from sensors and then updates dcm
-    _imu_mahony_update(self, dt, 
-		useAcc, 
-		useMag, 
+    _imu_mahony_update(self, dt,
+		useAcc,
+		useMag,
 		useYaw, rawYawError);
+
+	// reset yaw after we are done because we only use it if latest value has been provided
+	self->flags &= ~IMU_FLAG_USE_YAW;
 
 	// updates attitude from dcm
     _imu_update_euler_angles(self);
@@ -403,16 +400,29 @@ void imu_update(struct imu *self, float dt){
 }
 
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z){
-	self->acc[X] = x; 
-	self->acc[Y] = y; 
-	self->acc[Z] = z; 
+	self->acc[X] = x;
+	self->acc[Y] = y;
+	self->acc[Z] = z;
 	self->flags |= IMU_FLAG_USE_ACC;
 }
 
+void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z, float magneticDeclination){
+	self->mag[X] = x;
+	self->mag[Y] = y;
+	self->mag[Z] = z;
+	self->magneticDeclination = magneticDeclination;
+	self->flags |= IMU_FLAG_USE_MAG;
+}
+
 void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z){
-	self->gyro[X] = x; 
-	self->gyro[Y] = y; 
-	self->gyro[Z] = z; 
+	self->gyro[X] = x;
+	self->gyro[Y] = y;
+	self->gyro[Z] = z;
+}
+
+void imu_input_yaw_dd(struct imu *self, int16_t yaw){
+	self->yaw = yaw;
+	self->flags |= IMU_FLAG_USE_YAW;
 }
 
 float imu_get_cos_tilt_angle(struct imu *self){
@@ -437,25 +447,35 @@ int16_t imu_calc_throttle_angle_correction(struct imu *self, uint8_t throttle_co
 }
 
 void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att){
-	memcpy(att, &self->attitude, sizeof(union attitude_euler_angles)); 
+	memcpy(att, &self->attitude, sizeof(union attitude_euler_angles));
+}
+
+void imu_get_gyro(struct imu *self, int16_t gyro[3]){
+	gyro[0] = self->gyro[0];
+	gyro[1] = self->gyro[1];
+	gyro[2] = self->gyro[2];
+}
+
+float imu_get_gyro_scale(struct imu *self){
+	return self->gyroScale;
 }
 
 void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc){
-	acc->values.x = self->accSmooth[X]; 
-	acc->values.y = self->accSmooth[Y]; 
-	acc->values.z = self->accSmooth[Z]; 
+	acc->values.x = self->accSmooth[X];
+	acc->values.y = self->accSmooth[Y];
+	acc->values.z = self->accSmooth[Z];
 }
 
 int16_t imu_get_roll_dd(struct imu *self){
-	return self->attitude.values.roll; 
+	return self->attitude.values.roll;
 }
 
 int16_t imu_get_pitch_dd(struct imu *self){
-	return self->attitude.values.pitch; 
+	return self->attitude.values.pitch;
 }
 
 int16_t imu_get_yaw_dd(struct imu *self){
-	return self->attitude.values.yaw; 
+	return self->attitude.values.yaw;
 }
 
 float imu_get_velocity_integration_time(struct imu *self){
@@ -464,15 +484,19 @@ float imu_get_velocity_integration_time(struct imu *self){
 
 // TODO: remove this function completely once althold has been refactored
 float imu_get_avg_vertical_accel_cmss(struct imu *self){
-	float acc_z = 0; 
+	float acc_z = 0;
     // Integrator - velocity, cm/sec
     if (self->accSumCount) {
         acc_z = (float)self->accSum[2] / (float)self->accSumCount;
     }
-	return acc_z; 
+	return acc_z;
 }
 
 float imu_get_est_vertical_vel_cms(struct imu *self){
 	return imu_get_avg_vertical_accel_cmss(self) * self->accVelScale * (float)self->accTimeSum;
 }
 
+void imu_enable_fast_dcm_convergence(struct imu *self, bool on){
+	if(on) self->flags |= IMU_FLAG_DCM_CONVERGE_FASTER;
+	else self->flags &= ~IMU_FLAG_DCM_CONVERGE_FASTER;
+}

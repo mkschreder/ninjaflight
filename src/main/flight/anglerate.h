@@ -92,7 +92,7 @@ struct anglerate {
 	biquad_t deltaFilterState[3];
 
 	// update outputs based on current attitude information
-	void (*update)(struct anglerate *self, union attitude_euler_angles *att, float dT);
+	void (*update)(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dT);
 
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -115,10 +115,9 @@ struct anglerate {
 	const rollAndPitchTrims_t *angle_trim;
 	const rxConfig_t *rx_config;
 
-	// gyro data used for stabilization
-	int16_t gyro[3];
-
 	uint8_t flags;
+
+	struct imu *imu;
 };
 
 // TODO: remove when done refactoring. This should be a member of a higher level struct.
@@ -129,6 +128,7 @@ extern struct anglerate default_controller;
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
 void anglerate_init(struct anglerate *self,
+	struct imu *imu,
 	const struct pid_config *config,
 	const struct rate_config *rate_config,
 	uint16_t max_angle_inclination,
@@ -138,11 +138,13 @@ void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self);
-void anglerate_input_gyro(struct anglerate *self, int16_t x, int16_t y, int16_t z);
-void anglerate_update(struct anglerate *self, union attitude_euler_angles *att, float dT);
+
+void anglerate_update(struct anglerate *self, float dT);
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on);
 void anglerate_enable_plimit(struct anglerate *self, bool on);
+
+// TODO: unify pid scaling so we have just one call for all pid controllers (axis scale is only used in mw23)
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight);
 

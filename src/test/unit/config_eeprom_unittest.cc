@@ -418,6 +418,7 @@ void mixerUseConfigs(servoParam_t *) {}
 #else
 void mixerUseConfigs(void) {}
 #endif
+void failsafeReset(void){}
 bool isSerialConfigValid(serialConfig_t *) {return true;}
 void imu_configure(struct imu*,struct imu_config *, accelerometerConfig_t *, struct throttle_correction_config *,float ,uint16_t) {}
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){ UNUSED(self); UNUSED(type); }

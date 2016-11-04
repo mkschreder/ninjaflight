@@ -720,6 +720,7 @@ static void init(void)
 
 	// is this ok here?
 	anglerate_init(&default_controller,
+		&default_imu,
 		pidProfile(),
 		currentControlRateProfile,
 		imuConfig()->max_angle_inclination,

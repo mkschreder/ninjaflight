@@ -20,15 +20,15 @@
 #include "common/maths.h"
 
 struct imu_quaternion {
-	float w, x, y, z; 
-}; 
+	float w, x, y, z;
+};
 
 union imu_accel_reading {
-	int16_t raw[3]; 
+	int16_t raw[3];
 	struct {
-		int16_t x, y, z; 
-	} values; 
-}; 
+		int16_t x, y, z;
+	} values;
+};
 
 union attitude_euler_angles {
     int16_t raw[XYZ_AXIS_COUNT];
@@ -58,8 +58,9 @@ struct throttle_correction_config {
 };
 
 struct imu {
-	int16_t acc[XYZ_AXIS_COUNT]; 
-	int16_t gyro[XYZ_AXIS_COUNT]; 
+	int16_t acc[XYZ_AXIS_COUNT];
+	int16_t gyro[XYZ_AXIS_COUNT];
+	int16_t mag[XYZ_AXIS_COUNT];
 
 	int16_t accSmooth[XYZ_AXIS_COUNT];
 	int32_t accSum[XYZ_AXIS_COUNT];
@@ -70,35 +71,43 @@ struct imu {
 
 	uint8_t flags;
 
-	struct imu_config *config; 
+	struct imu_config *config;
 	accelerometerConfig_t *acc_config;
 	struct throttle_correction_config *thr_config;
 
-	// TODO: replace with a math library quaternion 
-	struct imu_quaternion q; 
+	// TODO: replace with a math library quaternion
+	struct imu_quaternion q;
 	float rMat[3][3];
 
 	union attitude_euler_angles attitude;     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
 
+	// TODO: investigate if we can refactor this so that we can pass already precomputed mag data without need to speficy this
+	float magneticDeclination;
+
+	// this is yaw that we are currently inputing from gps or some other source
+	int16_t yaw;
+
 	float gyroScale;
-	uint16_t acc_1G; 
-}; 
+	uint16_t acc_1G;
+};
 
 // TODO: remove once we are done refactoring
-extern struct imu default_imu; 
+extern struct imu default_imu;
 
 void imu_init(struct imu *self,
-	struct imu_config *config, 
+	struct imu_config *config,
 	accelerometerConfig_t *acc_config,
 	struct throttle_correction_config *thr_config,
 	// TODO: refactor these
-	float gyro_scale, 
+	float gyro_scale,
 	uint16_t acc_1G
 );
 
 void imu_reload_config(struct imu *self);
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);
 void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z);
+void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z, float magneticDeclination);
+void imu_input_yaw_dd(struct imu *self, int16_t yaw);
 void imu_update(struct imu *self, float dt);
 
 void imu_reset(struct imu *self);
@@ -107,16 +116,24 @@ int16_t imu_calc_heading(struct imu *self, t_fp_vector *vec);
 float imu_get_cos_tilt_angle(struct imu *self);
 bool imu_is_leveled(struct imu *self, uint8_t max_angle);
 
-void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att); 
-void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc); 
+void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att);
+void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc);
+
+// TODO: replace with get_angular_velocity once we have refactored pids to use radians/s
+void imu_get_gyro(struct imu *self, int16_t gyro[3]);
+
+// TODO: this needs to be removed since it is only used in anglerate controller. Leaving for now since don't want to make too many changes.
+float imu_get_gyro_scale(struct imu *self);
 
 // helper functions to extract a specific component from the attitude
-int16_t imu_get_roll_dd(struct imu *self); 
-int16_t imu_get_pitch_dd(struct imu *self); 
-int16_t imu_get_yaw_dd(struct imu *self); 
+int16_t imu_get_roll_dd(struct imu *self);
+int16_t imu_get_pitch_dd(struct imu *self);
+int16_t imu_get_yaw_dd(struct imu *self);
 
-float imu_get_avg_vertical_accel_cmss(struct imu *self); 
-float imu_get_est_vertical_vel_cms(struct imu *self); 
-float imu_get_velocity_integration_time(struct imu *self); 
+void imu_enable_fast_dcm_convergence(struct imu *self, bool on);
+
+float imu_get_avg_vertical_accel_cmss(struct imu *self);
+float imu_get_est_vertical_vel_cms(struct imu *self);
+float imu_get_velocity_integration_time(struct imu *self);
 void imu_reset_velocity_estimate(struct imu *self);
 

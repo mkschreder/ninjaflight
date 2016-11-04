@@ -78,7 +78,7 @@ void input_imu_accel(int16_t x, int16_t y, int16_t z){
 	imu_input_accelerometer(&default_imu, x, y, z);
 	imu_input_gyro(&default_imu, 0, 0, 0);
 	for(unsigned int c = 0; c < 10000UL; c++){
-		imu_update(&default_imu, 0.001);
+		imu_update(&default_imu, 0.01);
 	}
 /*
     if (initialRoll > 1800) initialRoll -= 3600;
