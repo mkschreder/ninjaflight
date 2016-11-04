@@ -712,7 +712,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
     imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
 
 	// if we are not armed and just starting up then we need to converge with accelerometer faster
-	if(!ARMING_FLAG(ARMED) && millis() < 20000){
+	if(!ARMING_FLAG(ARMED) && millis() < 20000)
 		imu_enable_fast_dcm_convergence(&default_imu, true);
 	else
 		imu_enable_fast_dcm_convergence(&default_imu, false);

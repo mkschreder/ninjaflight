@@ -243,7 +243,10 @@ void mspSerialProcess(void)
 #endif
         if (isRebootScheduled) {
             waitForSerialPortToFinishTransmitting(msp->port);  // TODO - postpone reboot, allow all modules to react
+			// TODO: remove the ifdef once we have refactored pwm
+#ifndef UNIT_TEST
             pwmStopMotors(feature(FEATURE_ONESHOT125));
+#endif
             handleOneshotFeatureChangeOnRestart();
             systemReset();
         }

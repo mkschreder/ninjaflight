@@ -43,7 +43,7 @@
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
-#include "drivers/gpio.h"
+//#include "drivers/gpio.h"
 //#include "drivers/pwm_mapping.h"
 #include "drivers/serial.h"
 #include "drivers/bus_i2c.h"
@@ -1093,7 +1093,6 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_SET_PID_CONTROLLER:
             pidProfile()->pidController = sbufReadU8(src);
-            anglerate_set_algo(&default_controller, pidProfile()->pidController);
             break;
 
         case MSP_SET_PID:
@@ -1195,7 +1194,7 @@ static int processInCommand(mspPacket_t *cmd)
             for (int i = 0; i < 8; i++) {
                 const int16_t disarmed = sbufReadU16(src);
                 if (i < MAX_SUPPORTED_MOTORS) {
-                   	mixer_set_motor_disarmed_pwm(&default_mixer, i, disarmed);
+					mixer_set_motor_disarmed_pwm(&default_mixer, i, disarmed);
                 }
             }
             break;

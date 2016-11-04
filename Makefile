@@ -727,6 +727,7 @@ IRCFUSIONF3_SRC = \
 SITL_SRC = \
 			common/filter.c \
 			common/maths.c \
+			common/streambuf.c \
 			config/config.c \
 			config/parameter_group.c \
 			config/profile.c \
@@ -738,6 +739,8 @@ SITL_SRC = \
 			flight/mixer.c \
 			flight/servos.c \
 			flight/rate_profile.c \
+			io/msp.c \
+			io/serial_msp.c \
 			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \
@@ -932,6 +935,7 @@ test junittest:
 	lcov --directory . -b src/test --capture --output-file coverage.info
 	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' --output-file coverage.info
 	lcov --list coverage.info
+	if [ "$$(which genhtml)" != "" ]; then genhtml coverage.info --output-directory coverage-html; fi
 
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
