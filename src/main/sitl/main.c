@@ -82,12 +82,12 @@
 #include "sitl.h"
 
 struct application {
-	struct imu imu; 
-	struct mixer mixer; 
-	struct anglerate controller; 
+	struct imu imu;
+	struct mixer mixer;
+	struct anglerate controller;
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
-}; 
+};
 
 static void _application_send_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
@@ -101,29 +101,29 @@ static void _application_send_state(struct application *self){
 	}
 	printf("\n");
 #if 0
-	struct sitl_server_packet pkt; 
-	memset(&pkt, 0, sizeof(pkt)); 
-	pkt.mode = SITL_MODE_PHYSICS_ON_CLIENT; 
-	pkt.frame = (uint8_t)SITL_FRAME_QUAD_X; 
-	union attitude_euler_angles att; 
-	imu_get_attitude_dd(&self->imu, &att); 
-	//pkt.euler[0] = att.values.roll * 0.1f; pkt.euler[1] = att.values.pitch * 0.1f; pkt.euler[2] = att.values.yaw * 0.1f; 
+	struct sitl_server_packet pkt;
+	memset(&pkt, 0, sizeof(pkt));
+	pkt.mode = SITL_MODE_PHYSICS_ON_CLIENT;
+	pkt.frame = (uint8_t)SITL_FRAME_QUAD_X;
+	union attitude_euler_angles att;
+	imu_get_attitude_dd(&self->imu, &att);
+	//pkt.euler[0] = att.values.roll * 0.1f; pkt.euler[1] = att.values.pitch * 0.1f; pkt.euler[2] = att.values.yaw * 0.1f;
 	for(int c = 0; c < 4; c++){
 		self->sitl
-	pkt.servo[0] = mixer_get_motor_value(&self->mixer, 1); 
-	pkt.servo[1] = mixer_get_motor_value(&self->mixer, 2); 
-	pkt.servo[2] = mixer_get_motor_value(&self->mixer, 3); 
-	pkt.servo[3] = mixer_get_motor_value(&self->mixer, 0); 
+	pkt.servo[0] = mixer_get_motor_value(&self->mixer, 1);
+	pkt.servo[1] = mixer_get_motor_value(&self->mixer, 2);
+	pkt.servo[2] = mixer_get_motor_value(&self->mixer, 3);
+	pkt.servo[3] = mixer_get_motor_value(&self->mixer, 0);
 	for(int c = 4; c < 8; c++){
 		pkt.servo[c] = 1500;
 	}
-	printf("motors: %d %d %d %d\n", 
+	printf("motors: %d %d %d %d\n",
 		mixer_get_motor_value(&self->mixer,0),
 		mixer_get_motor_value(&self->mixer,1),
 		mixer_get_motor_value(&self->mixer,2),
 		mixer_get_motor_value(&self->mixer,3)
-	); 
-	sitl_send_state(&pkt); 
+	);
+	sitl_send_state(&pkt);
 #endif
 }
 static void _application_recv_state(struct application *self){
@@ -135,36 +135,36 @@ static void _application_recv_state(struct application *self){
 		printf("%d ", pwm);
 	}
 	printf("\n");
-	
+
 	float accel[3], gyro[3];
 
 	cl->read_accel(cl, accel);
 	cl->read_gyro(cl, gyro);
-	imu_input_accelerometer(&self->imu, 
-		(accel[0] / 9.82f) * 512, 
-		(accel[1] / 9.82f) * 512, 
-		(accel[2] / 9.82f) * 512); 
-		
+	imu_input_accelerometer(&self->imu,
+		(accel[0] / 9.82f) * 512,
+		(accel[1] / 9.82f) * 512,
+		(accel[2] / 9.82f) * 512);
+
 	gyroADC[0] = gyro[0] * 4096;
 	gyroADC[1] = -gyro[1] * 4096;
 	gyroADC[2] = -gyro[2] * 4096;
 
-	imu_input_gyro(&self->imu, gyroADC[0], gyroADC[1], gyroADC[2]); 
-	imu_update(&self->imu, 0.001); 
+	imu_input_gyro(&self->imu, gyroADC[0], gyroADC[1], gyroADC[2]);
+	imu_update(&self->imu, 0.001);
 
 #if 0
-	struct sitl_client_packet pkt; 
-	sitl_recv_state(&pkt); 
-	//imu_input_accelerometer(&self->imu, pkt.accel[0], pkt.accel[1], pkt.accel[2]); 
+	struct sitl_client_packet pkt;
+	sitl_recv_state(&pkt);
+	//imu_input_accelerometer(&self->imu, pkt.accel[0], pkt.accel[1], pkt.accel[2]);
 	#endif
 }
 static void _application_fc_run(struct application *self){
 	union attitude_euler_angles att;
 	imu_get_attitude_dd(&self->imu, &att);
 	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500) >> 2;
-	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500) >> 2; 
-	rcCommand[THROTTLE] = rc_get_channel_value(2); 
-	rcCommand[YAW] = (rc_get_channel_value(3) - 1500) >> 2; 
+	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500) >> 2;
+	rcCommand[THROTTLE] = rc_get_channel_value(2);
+	rcCommand[YAW] = (rc_get_channel_value(3) - 1500) >> 2;
 	anglerate_update(&self->controller, &att, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
@@ -179,6 +179,7 @@ static void application_run(struct application *self){
 	_application_send_state(self);
 }
 
+// main thread for the application that reads user inputs and runs the flight controller
 static void *_application_thread(void *param){
 	struct application *app = (struct application*)param;
 	while (true) {
@@ -191,7 +192,7 @@ static void *_application_thread(void *param){
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
 	self->sitl = server;
-    mixer_init(&self->mixer, 
+    mixer_init(&self->mixer,
 		mixerConfig(),
 		motor3DConfig(),
 		motorAndServoConfig(),
@@ -203,7 +204,7 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	mixer_set_motor_disarmed_pwm(&self->mixer, 1, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 2, 1000);
 	mixer_set_motor_disarmed_pwm(&self->mixer, 3, 1000);
-	anglerate_init(&self->controller); 
+
 	static struct rate_config rateConfig;
 	memset(&rateConfig, 0, sizeof(struct rate_config));
 	pidProfile()->pidController = 1;
@@ -218,7 +219,8 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	pidProfile()->D8[PIDROLL] = 20;
 	pidProfile()->D8[PIDPITCH] = 20;
 	pidProfile()->D8[PIDYAW] = 5;
-	anglerate_set_configs(&self->controller,
+
+	anglerate_init(&self->controller,
 		pidProfile(),
 		&rateConfig,
 		imuConfig()->max_angle_inclination,
@@ -242,14 +244,31 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }
 
+// shared library entry point used by client to instantiate a flight controller
+// client is allocated by the client and passed to us as a pointer so we safe it within the server object
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
+	UNUSED(cl);
+	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
+
+	// save client interface pointer so we can send pwm to it and read rc inputs
+	server->client = cl;
+
+	// start a flight controller application for this client
+	struct application *app = malloc(sizeof(struct application));
+	application_init(app, server);
+
+	return server;
+}
+
 // TODO: these should be part of a struct (defined in flight controller)
 uint8_t stateFlags;
 uint16_t flightModeFlags;
 uint8_t armingFlags = 0xff;
-int32_t gyroADC[3]; 
-int32_t magADC[3]; 
-uint32_t rcModeActivationMask = 0; 
-float magneticDeclination = 0; 
+int32_t gyroADC[3];
+int32_t magADC[3];
+uint32_t rcModeActivationMask = 0;
+float magneticDeclination = 0;
 //void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
@@ -261,7 +280,7 @@ void parseRcChannels(const char *input, rxConfig_t *rxConfig);
 void config_streamer_init(config_streamer_t *c){UNUSED(c); }
 
 void config_streamer_start(config_streamer_t *c, uintptr_t base, int size){
-	UNUSED(c); UNUSED(base); UNUSED(size);	
+	UNUSED(c); UNUSED(base); UNUSED(size);
 }
 
 int config_streamer_write(config_streamer_t *c, const uint8_t *p, uint32_t size){
@@ -270,7 +289,7 @@ int config_streamer_write(config_streamer_t *c, const uint8_t *p, uint32_t size)
 }
 
 int config_streamer_flush(config_streamer_t *c){
-	UNUSED(c); 
+	UNUSED(c);
 	return 0;
 }
 
@@ -305,16 +324,4 @@ void failsafeReset(void);
 void failsafeReset(void){}
 bool isEEPROMContentValid(void);
 bool isEEPROMContentValid(void){ return true; }
-// exported from the shared object
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
-	UNUSED(cl);
-	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
-	server->client = cl;
-
-	struct application *app = malloc(sizeof(struct application));
-	application_init(app, server);
-
-	return server;
-}
 

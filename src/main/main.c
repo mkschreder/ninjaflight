@@ -116,7 +116,7 @@
 static struct ninja ninja;
 
 // TODO: refactor this to use proper timeouts
-extern uint32_t currentTime; 
+extern uint32_t currentTime;
 static filterStatePt1_t filteredCycleTimeState;
 uint16_t filteredCycleTime;
 uint16_t cycleTime;
@@ -288,7 +288,7 @@ cfTask_t cfTasks[TASK_COUNT] = {
 struct battery default_battery;
 struct mixer default_mixer;
 struct imu default_imu;
-struct anglerate default_controller; 
+struct anglerate default_controller;
 struct battery default_battery;
 
 extern uint8_t motorControlEnable;
@@ -498,7 +498,7 @@ static void init(void)
 
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    mixer_init(&default_mixer, 
+    mixer_init(&default_mixer,
 		mixerConfig(),
 		motor3DConfig(),
 		motorAndServoConfig(),
@@ -514,7 +514,7 @@ static void init(void)
 #ifdef SONAR
 
     if (feature(FEATURE_SONAR)) {
-		sonar_init(&default_sonar); 
+		sonar_init(&default_sonar);
 		// TODO: fix this
 		/*
         sonarHardware = sonarGetHardwareConfiguration(batteryConfig()->currentMeterType);
@@ -718,8 +718,14 @@ static void init(void)
     cliInit();
 #endif
 
-	// is this ok here? 
-	anglerate_init(&default_controller); 
+	// is this ok here?
+	anglerate_init(&default_controller,
+		pidProfile(),
+		currentControlRateProfile,
+		imuConfig()->max_angle_inclination,
+		&accelerometerConfig()->accelerometerTrims,
+		rxConfig()
+	);
 
     failsafeInit();
 
@@ -846,7 +852,7 @@ static void init(void)
     led_on(2);
 #endif
 
-	ninja_init(&ninja); 
+	ninja_init(&ninja);
 
     // Latch active features AGAIN since some may be modified by init().
     latchActiveFeatures();
@@ -921,7 +927,7 @@ int main(void) {
     }
 }
 
-void HardFault_Handler(void); 
+void HardFault_Handler(void);
 void HardFault_Handler(void)
 {
     // fall out of the sky

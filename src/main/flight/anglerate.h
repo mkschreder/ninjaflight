@@ -100,7 +100,7 @@ struct anglerate {
 
 	// used for mwii23
 	int32_t ITermAngle[2];
-	uint8_t dynP8[3], dynI8[3], dynD8[3];
+	uint8_t pidScale[3];
 
 	// used for mwiirewrite
 	int32_t lastRateForDeltai[3];
@@ -128,7 +128,12 @@ extern struct anglerate default_controller;
 //float pidScaleITermToRcInput(int axis);
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
-void anglerate_init(struct anglerate *self);
+void anglerate_init(struct anglerate *self,
+	const struct pid_config *config,
+	const struct rate_config *rate_config,
+	uint16_t max_angle_inclination,
+	const rollAndPitchTrims_t *angleTrim,
+	const rxConfig_t *rxConfig);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
@@ -141,10 +146,3 @@ void anglerate_enable_plimit(struct anglerate *self, bool on);
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight);
 
-// TODO: this should be removed
-void anglerate_set_configs(struct anglerate *self,
-	const struct pid_config *config,
-	const struct rate_config *rate_config,
-	uint16_t max_angle_inclination,
-	const rollAndPitchTrims_t *angleTrim,
-	const rxConfig_t *rxConfig);

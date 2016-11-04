@@ -84,7 +84,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
     ITerm = constrain(ITerm, (int32_t)(-PID_MAX_I << 13), (int32_t)(PID_MAX_I << 13));
     // Anti windup protection
     if (rcModeIsActive(BOXAIRMODE)) {
-		// TODO: state here is defined in runtime_config.h, which is nonsense. Move it into this module when done refactoring. 
+		// TODO: state here is defined in runtime_config.h, which is nonsense. Move it into this module when done refactoring.
         if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
             ITerm = constrain(ITerm, -self->ITermLimit[axis], self->ITermLimit[axis]);
         } else {
@@ -382,7 +382,9 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
             PTerm = PTermACC + ((PTerm - PTermACC) * prop >> 9);
         }
 
-        PTerm -= ((int32_t)gyroError * self->dynP8[axis]) >> 6;   // 32 bits is needed for calculation
+		uint16_t P = (uint16_t)self->config->P8[axis] * self->pidScale[axis] / 100;
+
+        PTerm -= ((int32_t)gyroError * P) >> 6;   // 32 bits is needed for calculation
 
         //-----calculate D-term based on the configured approach (delta from measurement or deltafromError)
         // Delta from measurement
@@ -398,7 +400,9 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
             delta2[axis] = delta1[axis];
             delta1[axis] = delta;
         }
-        DTerm = ((int32_t)DTerm * self->dynD8[axis]) >> 5;   // 32 bits is needed for calculation
+
+		uint16_t D = (uint16_t)self->config->D8[axis] * self->pidScale[axis] / 100;
+        DTerm = ((int32_t)DTerm * D) >> 5;   // 32 bits is needed for calculation
 
         self->output.axis[axis] = PTerm + ITerm + DTerm;
 
@@ -451,22 +455,20 @@ static void _multiwii23_update(struct anglerate *self, union attitude_euler_angl
 }
 
 
-void anglerate_init(struct anglerate *self) {
-	memset(self, 0, sizeof(struct anglerate)); 
-	self->update = _multiwii_rewrite_update; 
-}
-
-void anglerate_set_configs(struct anglerate *self,
+void anglerate_init(struct anglerate *self,
 	const struct pid_config *config,
-	const struct rate_config *rate_config, 
-	uint16_t max_angle_inclination, 
-	const rollAndPitchTrims_t *angle_trim, 
+	const struct rate_config *rate_config,
+	uint16_t max_angle_inclination,
+	const rollAndPitchTrims_t *angle_trim,
 	const rxConfig_t *rx_config){
-	self->config = config; 
-	self->rate_config = rate_config; 
-	self->max_angle_inclination = max_angle_inclination; 
-	self->angle_trim = angle_trim; 
-	self->rx_config = rx_config; 
+	memset(self, 0, sizeof(struct anglerate));
+	self->update = _multiwii_rewrite_update;
+	for(int c = 0; c < 3; c++) self->pidScale[c] = 100;
+		self->config = config;
+	self->rate_config = rate_config;
+	self->max_angle_inclination = max_angle_inclination;
+	self->angle_trim = angle_trim;
+	self->rx_config = rx_config;
 }
 
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){
@@ -495,32 +497,31 @@ void anglerate_reset_angle_i(struct anglerate *self){
 }
 
 void anglerate_reset_rate_i(struct anglerate *self) {
-	memset(self->lastITerm, 0, sizeof(self->lastITerm)); 
-	memset(self->lastITermf, 0, sizeof(self->lastITermf)); 
+	memset(self->lastITerm, 0, sizeof(self->lastITerm));
+	memset(self->lastITermf, 0, sizeof(self->lastITermf));
 }
 
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self){
-	return &self->output; 
+	return &self->output;
 }
 
 void anglerate_update(struct anglerate *self, union attitude_euler_angles *att, float dt){
-	self->update(self, att, dt); 
+	self->update(self, att, dt);
 }
 
 void anglerate_enable_plimit(struct anglerate *self, bool on){
-	if(on) self->flags |= ANGLERATE_FLAG_PLIMIT; 
+	if(on) self->flags |= ANGLERATE_FLAG_PLIMIT;
 	else self->flags &= ~ANGLERATE_FLAG_PLIMIT;
 }
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on){
-	if(on) self->flags |= ANGLERATE_FLAG_ANTIWINDUP; 
+	if(on) self->flags |= ANGLERATE_FLAG_ANTIWINDUP;
 	else self->flags &= ~ANGLERATE_FLAG_ANTIWINDUP;
 }
 
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale){
-	self->dynP8[axis] = (uint16_t)self->config->P8[axis] * scale / 100;
-	self->dynI8[axis] = (uint16_t)self->config->I8[axis] * scale / 100;
-	self->dynD8[axis] = (uint16_t)self->config->D8[axis] * scale / 100;
+	if(axis > 2) return;
+	self->pidScale[axis] = scale;
 }
 
 void anglerate_input_gyro(struct anglerate *self, int16_t x, int16_t y, int16_t z){

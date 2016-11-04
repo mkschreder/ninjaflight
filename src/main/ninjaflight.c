@@ -783,14 +783,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 
 	// TODO: move this once we have tested current refactored code
     anglerate_set_algo(&default_controller, pidProfile()->pidController);
-	anglerate_set_configs(&default_controller,
-		pidProfile(),
-		currentControlRateProfile,
-		imuConfig()->max_angle_inclination,
-		&accelerometerConfig()->accelerometerTrims,
-		rxConfig()
-	);
-
+	
 	// give anglerate controller our current sensor data
 	anglerate_input_gyro(&default_controller, gyroADC[X], gyroADC[Y], gyroADC[Z]);
 
