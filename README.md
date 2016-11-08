@@ -3,39 +3,27 @@
 [![Build Status](https://travis-ci.org/mkschreder/ninjaflight.svg?branch=master)](https://travis-ci.org/mkschreder/ninjaflight)
 [![Coverage Status](https://coveralls.io/repos/github/mkschreder/ninjaflight/badge.svg?branch=master)](https://coveralls.io/github/mkschreder/ninjaflight?branch=master)
 
-An even cleaner version of cleanflight flight-controller - flight controllers
-are used to fly multi-rotor craft and fixed wing craft. 
+An even cleaner version of cleanflight flight-controller. Flight controllers
+are used to fly multi-rotor craft and fixed wing aircraft. 
 
 Latest release: 1.16.10 (Codename: "Panic In The Sewers")
 
-This fork differs from cleanflight in that it attempts to use modern software
-development practices which result in:
+This fork differs from cleanflight in that it introduces SITL (software in the
+loop) support that is able to simulate the flight controller in a simulated
+physics environment powered by Bullet physics. It also adds support for tilted
+motor quads and uses modern development practices to simplify maintainability
+and improve quality of the firmware.
 
-- Greater reliability through code robustness and automated testing. 
-- Easier maintenance through code cleanliness.
-- Easier to develop new features. 
-- Easier to re-use code through code de-coupling and modularisation.
-- Code coverage driven unit test design that results in more exhaustive unit
-  tests that are more exhaustive than before.
+This is done by:
+- Using code coverage to write better unit tests (aiming at 100% coverage for all code).
+- Using object oriented design in C with minimal use of static/global data
+- Separating modules into as small modules as possible each of which can be
+  unit tested separately.
+- Testing on SITL, through unit tests and on real hardware in parallel to
+  achieve greater robustness.
 
-Even though cleanflight project cleaned up a lot of the horrible mess of
-MultiWii software, it still fails to live up to a lot of good coding practices
-that are present in high quality C code. This project aims to clean things up
-even further by: 
-
-- eliminating all "extern" variables in C files
-- objectifying everything into structs and methods that operate on specific
-  sets of objects. Thus improving data flow by eliminating global data as much
-  as possible.
-- making the code reentrant (using global variables kills reentrancy more than
-  anything else)
-- separating things even more so that we can simulate the flight control
-  software on desktop as we develop it. 
-- test as many lines of code as possible by making code coverage standard step
-  in developing unit tests. 
-
-At all times we will try to keep the software in fully functional state while
-introducing these changes.  
+At all times we will try to keep master branch in fully functional state while
+introducing new changes.
 
 ## Features
 
@@ -80,6 +68,7 @@ introducing these changes.
 
 Ninjaflight also supports: 
 
+- SITL simulation support
 - Tilted propeller racing drones with dynamic and static tilting. Throttle
   compensation and yaw/roll compensation is also supported. 
 
