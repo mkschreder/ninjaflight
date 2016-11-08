@@ -258,7 +258,7 @@ COMMON_SRC = build_config.c \
 		   flight/rate_profile.c \
 		   flight/imu.c \
 		   flight/mixer.c \
-		   flight/servos.c \
+		   flight/tilt.c \
 		   drivers/bus_i2c_soft.c \
 		   drivers/serial.c \
 		   drivers/sound_beeper.c \
@@ -737,10 +737,8 @@ SITL_SRC = \
 			flight/anglerate.c \
 			flight/imu.c \
 			flight/mixer.c \
-			flight/servos.c \
+			flight/tilt.c \
 			flight/rate_profile.c \
-			io/msp.c \
-			io/serial_msp.c \
 			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \

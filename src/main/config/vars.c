@@ -55,11 +55,11 @@
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
+#include "flight/tilt.h"
 
 
 // FIXME remove the includes below when target specific configuration is moved out of this file
@@ -208,14 +208,14 @@ PG_RESET_TEMPLATE(motorAndServoConfig_t, motorAndServoConfig,
 );
 
 
-PG_REGISTER_ARR(servoMixer_t, MAX_SERVO_RULES, customServoMixer, PG_SERVO_MIXER, 0);
+PG_REGISTER_ARR(struct servo_mixer, MAX_SERVO_RULES, customServoMixer, PG_SERVO_MIXER, 0);
 
-PG_REGISTER_PROFILE_WITH_RESET_FN(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
+PG_REGISTER_PROFILE_WITH_RESET_FN(struct servo_profile, servoProfile, PG_SERVO_PROFILE, 0);
 
-void pgResetFn_servoProfile(servoProfile_t *instance)
+void pgResetFn_servoProfile(struct servo_profile *instance)
 {
     for (int i = 0; i < MAX_SUPPORTED_SERVOS; i++) {
-        RESET_CONFIG(servoParam_t, &instance->servoConf[i],
+        RESET_CONFIG(struct servo_config, &instance->servoConf[i],
             .min = DEFAULT_SERVO_MIN,
             .max = DEFAULT_SERVO_MAX,
             .middle = DEFAULT_SERVO_MIDDLE,
@@ -559,14 +559,14 @@ PG_RESET_TEMPLATE(struct mixer_config, mixerConfig,
 );
 #endif
 
-PG_REGISTER_WITH_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig, PG_MIXER_TILT_CONFIG, 0); 
-PG_RESET_TEMPLATE(struct mixer_tilt_config, mixerTiltConfig,
-	.mode = MIXER_TILT_MODE_DYNAMIC, 
+PG_REGISTER_WITH_RESET_TEMPLATE(struct tilt_config, tiltConfig, PG_MIXER_TILT_CONFIG, 0);
+PG_RESET_TEMPLATE(struct tilt_config, tiltConfig,
+	.mode = MIXER_TILT_MODE_DYNAMIC,
 	.control_channel = AUX1,
-	.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY, 
-	.servo_angle_min = -45, 
+	.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY,
+	.servo_angle_min = -45,
 	.servo_angle_max = 45
-); 
+);
 
 // FAILSAFE
 PG_REGISTER_WITH_RESET_TEMPLATE(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);

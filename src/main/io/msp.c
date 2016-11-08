@@ -80,7 +80,6 @@
 #include "sensors/gyro.h"
 
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/failsafe.h"
@@ -604,7 +603,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
 #ifdef USE_SERVOS
         case MSP_SERVO:
-            sbufWriteData(dst, &servo, MAX_SUPPORTED_SERVOS * 2);
+			for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
+				sbufWriteU16(dst, mixer_get_servo_value(&default_mixer, c));
+			}
             break;
 
         case MSP_SERVO_CONFIGURATIONS:
@@ -1191,17 +1192,15 @@ static int processInCommand(mspPacket_t *cmd)
         }
 
         case MSP_SET_MOTOR:
-            for (int i = 0; i < 8; i++) {
-                const int16_t disarmed = sbufReadU16(src);
-                if (i < MAX_SUPPORTED_MOTORS) {
-					mixer_set_motor_disarmed_pwm(&default_mixer, i, disarmed);
-                }
+            for (int i = 0; i < MIXER_MAX_MOTORS; i++) {
+                const int16_t value = sbufReadU16(src);
+				mixer_input_command(&default_mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
             }
             break;
 
         case MSP_SET_SERVO_CONFIGURATION: {
 #ifdef USE_SERVOS
-            if (len != 1 + sizeof(servoParam_t))
+            if (len != 1 + sizeof(struct servo_config))
                 return -1;
             unsigned i = sbufReadU8(src);
             if (i >= MAX_SUPPORTED_SERVOS)
@@ -1232,7 +1231,8 @@ static int processInCommand(mspPacket_t *cmd)
             customServoMixer(i)->min = sbufReadU8(src);
             customServoMixer(i)->max = sbufReadU8(src);
             customServoMixer(i)->box = sbufReadU8(src);
-            loadCustomServoMixer();
+			//TODO: make this use standard mixer rules
+            //loadCustomServoMixer();
 #endif
             break;
         }

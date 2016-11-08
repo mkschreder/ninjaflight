@@ -24,6 +24,15 @@
 #include "io/rc_controls.h"
 
 #if defined(USE_QUAD_MIXER_ONLY)
+#define MAX_SUPPORTED_SERVOS 1
+#else
+#define MAX_SUPPORTED_SERVOS 8
+#endif
+#define MAX_SERVO_RULES (2 * MAX_SUPPORTED_SERVOS)
+#define MAX_SERVO_SPEED UINT8_MAX
+#define MAX_SERVO_BOXES 3
+
+#if defined(USE_QUAD_MIXER_ONLY)
 #define MAX_SUPPORTED_MOTORS 4
 
 #elif defined(TARGET_MOTOR_COUNT)
@@ -36,9 +45,103 @@
 #define YAW_JUMP_PREVENTION_LIMIT_LOW 80
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
-// Note: this is called MultiType/MULTITYPE_* in baseflight.
-typedef enum mixerMode
-{
+struct servo_mixer {
+	uint8_t targetChannel;                  //!< servo that receives the output of the rule
+	uint8_t inputSource;                    //!< input channel for this rule
+	int8_t rate;                            //!< range [-125;+125] ; can be used to adjust a rate 0-125% and a direction
+	uint8_t speed;                          //!< reduces the speed of the rule, 0=unlimited speed
+	int8_t min;                             //!< lower bound of rule range [0;100]% of servo max-min
+	int8_t max;                             //!< lower bound of rule range [0;100]% of servo max-min
+	uint8_t box;                            //!< active rule if box is enabled, range [0;3], 0=no box, 1=BOXSERVO1, 2=BOXSERVO2, 3=BOXSERVO3
+};
+
+//! Configuration for each servo which is editable by the user
+struct servo_config {
+    int16_t min;                            //!< Minimum pwm value that is sent to the servo
+    int16_t max;                            //!< Maximum pwm value that is sent to the servo
+    int16_t middle;                         //!< PWM value that is sent to center the servo (usually 1500)
+    int8_t rate;                            //!< range [-125;+125] ; can be used to adjust a rate 0-125% and a direction
+    uint8_t angleAtMin;                     //!< range [0;180] the measured angle in degrees from the middle when the servo is at the 'min' value.
+    uint8_t angleAtMax;                     //!< range [0;180] the measured angle in degrees from the middle when the servo is at the 'max' value.
+    int8_t forwardFromChannel;              //!< RX channel index, 0 based.  See CHANNEL_FORWARDING_DISABLED
+    uint32_t reversedSources;               //!< the direction of servo movement for each input source of the servo mixer, bit set=inverted
+} __attribute__ ((__packed__));
+
+struct servo_profile {
+    struct servo_config servoConf[MAX_SUPPORTED_SERVOS];
+};
+
+/**
+ * Mixer input commands that command the mixer to either spin or translate the frame in specific direction.
+ * All movement is in body frame and movements that are not physically supported by the frame will be ignored.
+ */
+typedef enum {
+	MIXER_INPUT_GROUP_FC = 0,
+	MIXER_INPUT_G0_ROLL = 0,	//!< flight control angular rate for x axis
+	MIXER_INPUT_G0_PITCH,		//!< flight control angular rate for y axis
+	MIXER_INPUT_G0_YAW,			//!< flight control angular rate for z axis
+	MIXER_INPUT_G0_THROTTLE,	//!< flight control throttle
+	MIXER_INPUT_G0_FLAPS,		//!< flight control flaps
+	MIXER_INPUT_G0_SPOILERS,	//!< flight control spoilers
+	MIXER_INPUT_G0_AIRBREAKS,	//!< flight control airbreaks
+	MIXER_INPUT_G0_LANDINGGEAR, //!< flight control landing gear
+	MIXER_INPUT_GROUP_1 = (1 << 3),
+	MIXER_INPUT_G1_ROLL = MIXER_INPUT_GROUP_1,
+	MIXER_INPUT_G1_PITCH,
+	MIXER_INPUT_G1_YAW,
+	MIXER_INPUT_GROUP_GIMBAL = (2 << 3),
+	MIXER_INPUT_G2_GIMBAL_ROLL = MIXER_INPUT_GROUP_GIMBAL, //!< gimbal roll
+	MIXER_INPUT_G2_GIMBAL_PITCH,	//!< gimbal pitch
+	MIXER_INPUT_G2_GIMBAL_YAW,		//!< gimbal yaw
+	MIXER_INPUT_G2_GIMBAL_SHUTTER,	//!< gimbal shutter
+	MIXER_INPUT_GROUP_RC = (3 << 3),
+	MIXER_INPUT_G3_RC_ROLL = MIXER_INPUT_GROUP_RC, //!< rc roll input
+	MIXER_INPUT_G3_RC_PITCH,
+	MIXER_INPUT_G3_RC_YAW,
+	MIXER_INPUT_G3_RC_THROTTLE,
+	MIXER_INPUT_G3_RC_MODE,
+	MIXER_INPUT_G3_RC_AUX1,
+	MIXER_INPUT_G3_RC_AUX2,
+	MIXER_INPUT_G3_RC_AUX3,
+	MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH = (4 << 3),
+	MIXER_INPUT_G4_M1 = MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH,
+	MIXER_INPUT_G4_M2,
+	MIXER_INPUT_G4_M3,
+	MIXER_INPUT_G4_M4,
+	MIXER_INPUT_G4_M5,
+	MIXER_INPUT_G4_M6,
+	MIXER_INPUT_G4_M7,
+	MIXER_INPUT_G4_M8,
+	MIXER_INPUT_COUNT
+} mixer_input_t;
+
+//! Mixer output channels
+typedef enum {
+	MIXER_OUTPUT_MOTORS = 0,
+	MIXER_OUTPUT_M1 = MIXER_OUTPUT_MOTORS,
+	MIXER_OUTPUT_M2,
+	MIXER_OUTPUT_M3,
+	MIXER_OUTPUT_M4,
+	MIXER_OUTPUT_M5,
+	MIXER_OUTPUT_M6,
+	MIXER_OUTPUT_M7,
+	MIXER_OUTPUT_M8,
+	MIXER_MAX_MOTORS = MIXER_OUTPUT_M8 - MIXER_OUTPUT_MOTORS + 1,
+	MIXER_OUTPUT_SERVOS = MIXER_OUTPUT_M8 + 1,
+	MIXER_OUTPUT_S1 = MIXER_OUTPUT_SERVOS,
+	MIXER_OUTPUT_S2,
+	MIXER_OUTPUT_S3,
+	MIXER_OUTPUT_S4,
+	MIXER_OUTPUT_S5,
+	MIXER_OUTPUT_S6,
+	MIXER_OUTPUT_S7,
+	MIXER_OUTPUT_S8,
+	MIXER_MAX_SERVOS = MIXER_OUTPUT_S8 - MIXER_OUTPUT_SERVOS + 1,
+	MIXER_OUTPUT_COUNT = MIXER_OUTPUT_S8 + 1
+} mixer_output_t;
+
+//! sets mixer frame configuration
+typedef enum {
     MIXER_TRI = 1,
     MIXER_QUADP = 2,
     MIXER_QUADX = 3,
@@ -65,10 +168,11 @@ typedef enum mixerMode
     MIXER_QUADX_TILT2 = 24,
     MIXER_CUSTOM,
     MIXER_CUSTOM_AIRPLANE,
-    MIXER_CUSTOM_TRI
-} mixerMode_e;
+    MIXER_CUSTOM_TRI,
+	MIXER_MODE_COUNT,
+} mixer_mode_t;
 
-// Custom mixer data per motor
+//! Custom mixer data per motor
 struct motor_mixer {
     float throttle;
     float roll;
@@ -76,84 +180,88 @@ struct motor_mixer {
     float yaw;
 };
 
-
-// Custom mixer configuration
+//! Custom mixer configuration
 struct mixer_mode {
-    uint8_t motorCount;
-    uint8_t useServo;
-    const struct motor_mixer *motor;
-}; 
+    const struct mixer_rule_def *rules;
+    uint8_t rule_count;
+};
 
 // TODO: this is very bad way so remove this later once refactoring is done.
-extern struct mixer default_mixer; 
+extern struct mixer default_mixer;
 
+//! general mixer settings
 struct mixer_config {
-    uint8_t mixerMode;
-    uint8_t pid_at_min_throttle;            // when enabled pids are used at minimum throttle
-    int8_t yaw_motor_direction;
-    uint16_t yaw_jump_prevention_limit;      // make limit configurable (original fixed value was 100)
+    uint8_t mixerMode;				//!< one of the mixer_mode_t values
+    uint8_t pid_at_min_throttle;	//!< when enabled pids are used at minimum throttle (valid values 0 or 1)
+	int8_t yaw_motor_direction;		//!< allows reversing yaw direction (values -1 or 1)
+    uint16_t yaw_jump_prevention_limit; //!< make limit configurable (original fixed value was 100)
 #ifdef USE_SERVOS
-    uint8_t tri_unarmed_servo;              // send tail servo correction pulses even when unarmed
-    float servo_lowpass_freq;             // lowpass servo filter frequency selection; 1/1000ths of loop freq
-    int8_t servo_lowpass_enable;            // enable/disable lowpass filter
+    uint8_t tri_unarmed_servo;		//!< send tail servo correction pulses even when unarmed
+    float servo_lowpass_freq;		//!< lowpass servo filter frequency selection; 1/1000ths of loop freq
+    int8_t servo_lowpass_enable;	//!< enable/disable lowpass filter for servo output
 #endif
 };
 
-typedef enum {
-	MIXER_TILT_MODE_STATIC,
-	MIXER_TILT_MODE_DYNAMIC
-} mixer_tilt_mode_t; 
-
-#define MIXER_TILT_COMPENSATE_THRUST (1 << 0)
-#define MIXER_TILT_COMPENSATE_TILT (1 << 1)
-#define MIXER_TILT_COMPENSATE_BODY (1 << 2)
-
-struct mixer_tilt_config {
-	uint8_t mode;
-	uint8_t compensation_flags;
-	uint8_t control_channel;
-	int8_t servo_angle_min;
-	int8_t servo_angle_max;
-};
-
-
+//! 3d mode mixer settings (used when mixer_enable_3d_mode is called with true)
 struct motor_3d_config {
     uint16_t deadband3d_low;                // min 3d value
     uint16_t deadband3d_high;               // max 3d value
     uint16_t neutral3d;                     // center 3d value
 };
 
+struct mixer_rule_def {
+	uint8_t output;
+	uint8_t input;
+	int16_t scale;
+} __attribute__((packed));
+
+struct mixer_output_def {
+	int8_t rate;
+	uint8_t speed;
+	int8_t min;
+	int8_t max;
+};
+
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
 
+#define MIXER_MAX_RULES 48
+
 struct mixer {
-	uint8_t motorCount; 
+	int16_t input[MIXER_INPUT_COUNT];
+	int16_t output[MIXER_OUTPUT_COUNT];
 
-	int16_t motor[MAX_SUPPORTED_MOTORS];
-	int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-
-	bool motorLimitReached;
-
-	struct motor_mixer currentMixer[MAX_SUPPORTED_MOTORS];
-
-	struct motor_mixer *customMixers;
-	
-	int16_t motor_pitch; 
-	int16_t tilt_pwm; 
+	//struct motor_mixer *customMixers;
 
 	// TODO: gimbal stuff should be above mixer code not part of it
 	// move when we have refactored gimbal code
-	int16_t gimbal_angles[3];
+	//int16_t gimbal_angles[3];
 
 	uint8_t flags;
-	
+
+	//! output count in current configuration being used by the mixer
+	uint8_t motorCount;
+	uint8_t servoCount;
+	uint8_t ruleCount;
+
+	bool motorLimitReached;
+
+	struct mixer_rule_def active_rules[MIXER_MAX_RULES];
+
+	//! output offset, min and max for motors
+	int16_t midthrottle, minthrottle, maxthrottle;
+
+	//struct servo_mixer currentServoMixer[MAX_SERVO_RULES];
+	biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
+	//struct servo_mixer *customServoMixers;
+
 	// TODO: mixer should not need so many configs. Need to factor out control logic out of the mixer!
 	struct mixer_config *mixer_config;
 	struct motor_3d_config *motor_3d_config;
 	motorAndServoConfig_t *motor_servo_config;
 	rxConfig_t *rx_config;
 	rcControlsConfig_t *rc_controls_config;
+	struct servo_config *servo_config;
 };
-
 
 void mixer_init(struct mixer *self,
 	struct mixer_config *mixer_config,
@@ -161,28 +269,24 @@ void mixer_init(struct mixer *self,
 	motorAndServoConfig_t *motor_servo_config,
 	rxConfig_t *rx_config,
 	rcControlsConfig_t *rc_controls_config,
+	struct servo_config *servo_config,
 	struct motor_mixer *custom_mixers,
 	uint8_t count);
-void mixer_set_all_motors_pwm(struct mixer *self, int16_t mc);
-void mixer_load_motor_mixer(struct mixer *self, int index, struct motor_mixer *custom_mixers);
-void mixer_reset_disarmed_pwm_values(struct mixer *self);
-void mixer_update(struct mixer *self, const struct pid_controller_output *pid_axis);
-void mixer_update_servos(struct mixer *self, const struct pid_controller_output *pid_axis); 
-void mixer_init_servo_filtering(struct mixer *self, uint32_t targetLooptime);
 
-void mixer_enable_failsafe_mode(struct mixer *self, bool on);
-void mixer_enable_3d_mode(struct mixer *self, bool on);
-void mixer_enable_air_mode(struct mixer *self, bool on);
-void mixer_enable_motor_outputs(struct mixer *self, bool on);
+void mixer_input_command(struct mixer *self, mixer_input_t i, int16_t value);
+void mixer_load_preset(struct mixer *self, mixer_mode_t preset);
+void mixer_update(struct mixer *self);
 
-void mixer_input_gimbal_angles(struct mixer *self, int16_t roll_dd, int16_t pitch_dd, int16_t yaw_dd);
+void mixer_enable_armed(struct mixer *self, bool on);
 
-void mixer_set_motor_disarmed_pwm(struct mixer *self, uint8_t id, int16_t value); 
+bool mixer_motor_limit_reached(struct mixer *self);
 
-struct pwmIOConfiguration_s; // TODO: remove this kind of dependency 
-void mixer_set_pwmio_config(struct mixer *self, struct pwmIOConfiguration_s *pwmIOConfiguration); 
+void mixer_set_throttle_range(struct mixer *self, int16_t mid, int16_t min, int16_t max);
 
-int16_t mixer_get_motor_disarmed_pwm(struct mixer *self, uint8_t id); 
-uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id); 
-bool mixer_motor_limit_reached(struct mixer *self); 
-uint8_t mixer_get_motor_count(struct mixer *self); 
+uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id);
+uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id);
+uint8_t mixer_get_motor_count(struct mixer *self);
+uint8_t mixer_get_servo_count(struct mixer *self);
+
+void mixer_reset(struct mixer *self);
+

@@ -82,10 +82,10 @@
 #include "flight/gtune.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/navigation.h"
 #include "flight/failsafe.h"
 #include "flight/altitudehold.h"
+#include "flight/tilt.h"
 
 #include "telemetry/telemetry.h"
 #include "telemetry/frsky.h"
@@ -1126,7 +1126,8 @@ static void cliMotorMix(char *cmdline)
                     break;
                 }
                 if (strncasecmp(ptr, mixerNames[i], len) == 0) {
-                    mixer_load_motor_mixer(&mixer, i, customMotorMixer(0));
+					// TODO: fix this once we have fixed custom mixer support
+                    //mixer_copy_rules(&mixer, i, customMotorMixer(0), MIXER_MAX_RULES);
                     cliPrintf("Loaded %s\r\n", mixerNames[i]);
                     cliMotorMix("");
                     break;
@@ -1183,7 +1184,7 @@ static const __unused char *_channel_name(uint8_t chan){
 
 static void cliTilt(char *cmdline)
 {
-    struct mixer_tilt_config *tilt = mixerTiltConfig();
+    struct tilt_config *tilt = tiltConfig();
 
 	if(!USE_TILT){
 		cliPrintf("Not supported!\n"); 
@@ -1393,7 +1394,7 @@ static void cliServo(char *cmdline)
     enum { SERVO_ARGUMENT_COUNT = 8 };
     int16_t arguments[SERVO_ARGUMENT_COUNT];
 
-    servoParam_t *servo;
+    struct servo_config *servo;
 
     int i;
     char *ptr;
@@ -1525,7 +1526,8 @@ static void cliServoMix(char *cmdline)
                     break;
                 }
                 if (strncasecmp(ptr, mixerNames[i], len) == 0) {
-                    servoMixerLoadMix(i, customServoMixer(0));
+					// TODO: this needs to be fixed
+                    //servoMixerLoadMix(i, customServoMixer(0));
                     cliPrintf("Loaded %s\r\n", mixerNames[i]);
                     cliServoMix("");
                     break;
@@ -1534,22 +1536,25 @@ static void cliServoMix(char *cmdline)
         }
     } else if (strncasecmp(cmdline, "reverse", 7) == 0) {
         enum {SERVO = 0, INPUT, REVERSE, ARGS_COUNT};
-        int servoIndex, inputSource;
+        //int servoIndex;
+		int inputSource;
         ptr = strchr(cmdline, ' ');
 
         len = strlen(ptr);
         if (len == 0) {
             cliPrintf("s");
-            for (inputSource = 0; inputSource < INPUT_SOURCE_COUNT; inputSource++)
+            for (inputSource = 0; inputSource < MIXER_INPUT_COUNT; inputSource++)
                 cliPrintf("\ti%d", inputSource);
             cliPrintf("\r\n");
-
+			// TODO: this does not work currently
+			/*
             for (servoIndex = 0; servoIndex < MAX_SUPPORTED_SERVOS; servoIndex++) {
                 cliPrintf("%d", servoIndex);
                 for (inputSource = 0; inputSource < INPUT_SOURCE_COUNT; inputSource++)
                     cliPrintf("\t%s  ", (servoProfile()->servoConf[servoIndex].reversedSources & (1 << inputSource)) ? "r" : "n");
                 cliPrintf("\r\n");
             }
+			*/
             return;
         }
 
@@ -1563,7 +1568,8 @@ static void cliServoMix(char *cmdline)
             cliShowParseError();
             return;
         }
-
+		//TODO: this does not work right now.
+		/*
         if (args[SERVO] >= 0 && args[SERVO] < MAX_SUPPORTED_SERVOS
                 && args[INPUT] >= 0 && args[INPUT] < INPUT_SOURCE_COUNT
                 && (*ptr == 'r' || *ptr == 'n')) {
@@ -1573,7 +1579,7 @@ static void cliServoMix(char *cmdline)
                 servoProfile()->servoConf[args[SERVO]].reversedSources &= ~(1 << args[INPUT]);
         } else
             cliShowParseError();
-
+		*/
         cliServoMix("reverse");
     } else {
         enum {RULE = 0, TARGET, INPUT, RATE, SPEED, MIN, MAX, BOX, ARGS_COUNT};
@@ -1591,7 +1597,7 @@ static void cliServoMix(char *cmdline)
         i = args[RULE];
         if (i >= 0 && i < MAX_SERVO_RULES &&
             args[TARGET] >= 0 && args[TARGET] < MAX_SUPPORTED_SERVOS &&
-            args[INPUT] >= 0 && args[INPUT] < INPUT_SOURCE_COUNT &&
+            args[INPUT] >= 0 && args[INPUT] < MIXER_INPUT_COUNT &&
             args[RATE] >= -100 && args[RATE] <= 100 &&
             args[SPEED] >= 0 && args[SPEED] <= MAX_SERVO_SPEED &&
             args[MIN] >= 0 && args[MIN] <= 100 &&
@@ -1946,15 +1952,18 @@ static void cliDump(char *cmdline)
         cliServo("");
 
         // print servo directions
-        unsigned int channel;
 
+		/*
+		// TODO: this currently does not work
+        unsigned int channel;
         for (i = 0; i < MAX_SUPPORTED_SERVOS; i++) {
-            for (channel = 0; channel < INPUT_SOURCE_COUNT; channel++) {
-                if (servoDirection(i, channel) < 0) {
+            for (channel = 0; channel < MIXER_INPUT_COUNT; channel++) {
+                //if (servoDirection(i, channel) < 0) {
                     cliPrintf("smix reverse %d %d r\r\n", i , channel);
-                }
+                //}
             }
         }
+		*/
 #endif
 
         printSectionBreak();
@@ -1999,8 +2008,8 @@ static void cliExit(char *cmdline)
     *cliBuffer = '\0';
     bufferIndex = 0;
     cliMode = 0;
-    // incase a motor was left running during motortest, clear it here
-    mixer_reset_disarmed_pwm_values(&default_mixer);
+	// will basically reset the mixer (stopping all motors if any of them have been left running during test)
+    mixer_reset(&default_mixer);
     cliReboot();
 
     cliWriter = NULL;
@@ -2207,11 +2216,14 @@ static void cliMotor(char *cmdline)
             cliShowArgumentRangeError("value", 1000, 2000);
             return;
         } else {
-			mixer_set_motor_disarmed_pwm(&default_mixer, motor_index,  motor_value); 
+			mixer_input_command(&default_mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
         }
     }
 
-    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_disarmed_pwm(&default_mixer, motor_index));
+	// needed in order to get the value out to the outputs
+	mixer_update(&default_mixer);
+
+    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_value(&default_mixer, motor_index));
 }
 
 static void cliPlaySound(char *cmdline)

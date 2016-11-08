@@ -74,13 +74,13 @@
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/altitudehold.h"
 #include "flight/failsafe.h"
 #include "flight/gtune.h"
 #include "flight/navigation.h"
+#include "flight/tilt.h"
 
 #include "config/runtime_config.h"
 #include "config/config.h"
@@ -278,6 +278,9 @@ static void updateLEDs(void)
 void mwDisarm(void)
 {
     if (ARMING_FLAG(ARMED)) {
+		// reset mixer minimum values in case something else has changed them
+		mixer_enable_armed(&default_mixer, false);
+
         DISABLE_ARMING_FLAG(ARMED);
 
 #ifdef BLACKBOX
@@ -314,6 +317,7 @@ void mwArm(void)
         if (!ARMING_FLAG(PREVENT_ARMING)) {
             ENABLE_ARMING_FLAG(ARMED);
             headFreeModeHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
+			mixer_enable_armed(&default_mixer, true);
 
 #ifdef BLACKBOX
             if (feature(FEATURE_BLACKBOX)) {
@@ -637,67 +641,6 @@ static void filterRc(float dt){
 static bool haveUpdatedRcCommandsOnce = false;
 #endif
 
-static void __attribute__((unused)) _tilt_apply_compensation(struct anglerate *self, int16_t motor_pitch) {
-    float angleTilt = degreesToRadians(DECIDEGREES_TO_DEGREES(motor_pitch));
-	float bodyPitch = degreesToRadians(imu_get_pitch_dd(&default_imu) * 0.1f);
-    float tmpCosine = cos_approx(angleTilt);
-	struct mixer_tilt_config *tilt = mixerTiltConfig();
-	// TODO: rewrite code that uses this. For now zero.
-	int16_t liftoff_thrust = 0;
-
-	// if static mode then for now we just set servos to middle and exit
-	if(tilt->mode == MIXER_TILT_MODE_STATIC){
-		servo[SERVO_TILT_P] = 1500;
-	#if MAX_SUPPORTED_SERVOS > 1
-		servo[SERVO_TILT_N] = 1500;
-	#endif
-		return;
-	}
-    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) {
-        // compensate the throttle because motor orientation
-        float pitchToCompensate = angleTilt;
-
-        if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) {
-            pitchToCompensate += bodyPitch;
-        }
-
-        pitchToCompensate = ABS(pitchToCompensate); //we compensate in the same way if up or down.
-
-        if (pitchToCompensate > 0 && angleTilt + bodyPitch < M_PIf / 2) { //if there is something to compensate, and only from 0 to 90, otherwise it will push you into the ground
-            uint16_t liftOffTrust = ((rxConfig()->maxcheck - rxConfig()->mincheck) * liftoff_thrust) / 100; //force this order so we don't need float!
-            uint16_t liftOffLimit = ((rcCommand[THROTTLE] - (rxConfig()->maxcheck - rxConfig()->mincheck)) * 80) / 100; //we will artificially limit the trust compensation to 80% of remaining trust
-
-            float tmp_cos_compensate = cos_approx(pitchToCompensate);
-            if (tmp_cos_compensate != 0) { //it may be zero if the pitchToCOmpensate is 90°, also if it is very close due to float approximation.
-                float compensation = liftOffTrust / tmp_cos_compensate; //absolute value because we want to increase power even if breaking
-
-                if (compensation > 0) { //prevent overflow
-                    rcCommand[THROTTLE] += (compensation < liftOffLimit) ? compensation : liftOffLimit;
-                }
-            }
-        }
-    }
-
-    //compensate the roll and yaw because of motor orientation
-	// TODO: add support for quads that have props tilting in both roll and pitch direction
-	// TODO: here we are modifying variables that are internal to anglerate controller.
-	// find a cleaner way to implement tilt
-    if (tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) {
-        float rollCompensation = self->output.axis[ROLL] * tmpCosine;
-        float rollCompensationInv = self->output.axis[ROLL] - rollCompensation;
-        float yawCompensation = self->output.axis[YAW] * tmpCosine;
-        float yawCompensationInv = self->output.axis[YAW] - yawCompensation;
-
-        self->output.axis[ROLL] = yawCompensationInv + rollCompensation;
-        self->output.axis[YAW] = yawCompensation + rollCompensationInv;
-    }
-
-	motor_pitch = constrain(motor_pitch, -500, 500);
-	servo[SERVO_TILT_P] = 1500 + motor_pitch;
-	#if MAX_SUPPORTED_SERVOS > 1
-	servo[SERVO_TILT_N] = 1500 - motor_pitch;
-	#endif
-}
 
 
 void ninja_run_pid_loop(struct ninja *self, float dT){
@@ -794,7 +737,6 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
 	int16_t user_control = 0;
 	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
-	struct mixer_tilt_config *tilt = mixerTiltConfig();
 
 	// TODO: move this once we have tested current refactored code
     anglerate_set_algo(&default_controller, pidProfile()->pidController);
@@ -803,6 +745,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		// TODO: refactor this once we have refactored rcCommand
 		// in angle mode we set control channel value in RC command to zero.
 		int16_t motor_pitch = 0;
+		struct tilt_config *tilt = tiltConfig();
 		if(FLIGHT_MODE(ANGLE_MODE)){
 			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
@@ -845,39 +788,68 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 			} else {
 			}
 		}
-		_tilt_apply_compensation(&default_controller, motor_pitch);
+		(void)motor_pitch;
+		//_tilt_apply_compensation(&default_controller, motor_pitch);
 	} else {
 		// without tilting we just run the anglerate controller
 		anglerate_update(&default_controller, dt);
 	}
 
 	//TODO: move gimbal code out of the mixer and place it externally
+/*
 	mixer_input_gimbal_angles(&default_mixer,
 		imu_get_roll_dd(&default_imu),
 		imu_get_pitch_dd(&default_imu),
 		imu_get_yaw_dd(&default_imu));
+*/
+	// TODO: make sure we readd the 3d mode support and unit test it
 
-	mixer_enable_failsafe_mode(&default_mixer, failsafeIsActive());
-	mixer_enable_3d_mode(&default_mixer, feature(FEATURE_3D));
-    mixer_enable_air_mode(&default_mixer, rcModeIsActive(BOXAIRMODE));
-	mixer_enable_motor_outputs(&default_mixer, ARMING_FLAG(ARMED));
+	const struct pid_controller_output *stab = anglerate_get_output_ptr(&default_controller);
 
-    mixer_update(&default_mixer, anglerate_get_output_ptr(&default_controller));
+	if (FLIGHT_MODE(PASSTHRU_MODE)) {
+		// Direct passthru from RX
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
+	} else {
+		// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_ROLL, stab->axis[FD_ROLL]);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_PITCH, stab->axis[FD_PITCH]);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_YAW, stab->axis[FD_YAW]);
+	}
 
-#ifdef USE_SERVOS
-    filterServos(&default_mixer);
-    writeServos(&default_mixer);
-#endif
+	// TODO: gimbal should be driven directly through the aux channels when enabled.
+	//input[INPUT_GIMBAL_PITCH] = scaleRange(self->gimbal_angles[PITCH], -1800, 1800, -500, +500);
+	//input[INPUT_GIMBAL_ROLL] = scaleRange(self->gimbal_angles[ROLL], -1800, 1800, -500, +500);
 
-    if (motorControlEnable) {
-		int motorCount = mixer_get_motor_count(&default_mixer);
-		for (int i = 0; i < motorCount; i++){
-			pwmWriteMotor(i, mixer_get_motor_value(&default_mixer, i));
-		}
-		if (feature(FEATURE_ONESHOT125)) {
-			pwmCompleteOneshotMotorUpdate(motorCount);
-		}
-    }
+	//input[INPUT_STABILIZED_THROTTLE] = mixer_get_motor_value(&default_mixer, 0) - 1500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
+
+	// center the RC input value around the RC middle value
+	// by subtracting the RC middle value from the RC input value, we get:
+	// data - middle = input
+	// 2000 - 1500 = +500
+	// 1500 - 1500 = 0
+	// 1000 - 1500 = -500
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_ROLL, rc_get_channel_value(ROLL) - rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_PITCH, rc_get_channel_value(PITCH)	- rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_YAW, rc_get_channel_value(YAW)	  - rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_THROTTLE, rc_get_channel_value(THROTTLE) - rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX1, rc_get_channel_value(AUX1)	 - rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX2, rc_get_channel_value(AUX2)	 - rxConfig()->midrc);
+	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX3, rc_get_channel_value(AUX3)	 - rxConfig()->midrc);
+
+    mixer_update(&default_mixer);
+
+	// write out all motors and servos
+	for (int i = 0; i < MIXER_MAX_MOTORS; i++){
+		pwmWriteMotor(i, mixer_get_motor_value(&default_mixer, i));
+	}
+	for (int i = 0; i < MIXER_MAX_SERVOS; i++){
+		pwmWriteServo(i, mixer_get_servo_value(&default_mixer, i));
+	}
+	if (feature(FEATURE_ONESHOT125)) {
+		pwmCompleteOneshotMotorUpdate(MIXER_MAX_MOTORS);
+	}
 
 #ifdef USE_SDCARD
         afatfs_poll();

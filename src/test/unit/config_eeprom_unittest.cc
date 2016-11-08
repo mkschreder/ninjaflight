@@ -58,7 +58,6 @@ extern "C" {
     #include "sensors/boardalignment.h"
 
     #include "flight/mixer.h"
-    #include "flight/servos.h"
     #include "flight/imu.h"
     #include "flight/navigation.h"
     #include "flight/failsafe.h"
@@ -414,7 +413,7 @@ void resetAdjustmentStates(void) {}
 void pidSetController(pid_controller_type_t) {}
 void parseRcChannels(const char *, rxConfig_t *) {}
 #ifdef USE_SERVOS
-void mixerUseConfigs(servoParam_t *) {}
+void mixerUseConfigs(struct servo_config *) {}
 #else
 void mixerUseConfigs(void) {}
 #endif

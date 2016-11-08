@@ -50,7 +50,7 @@ PG_DECLARE_ARR(struct motor_mixer, MAX_SUPPORTED_MOTORS, customMotorMixer);
 PG_DECLARE(struct mixer_config, mixerConfig);
 PG_DECLARE(struct motor_3d_config, motor3DConfig);
 
-PG_DECLARE(struct mixer_tilt_config, mixerTiltConfig);
+PG_DECLARE(struct tilt_config, tiltConfig);
 
 #include "flight/altitudehold.h"
 PG_DECLARE(airplaneConfig_t, airplaneConfig);
@@ -64,10 +64,9 @@ PG_DECLARE_PROFILE(gtuneConfig_t, gtuneConfig);
 #endif
 
 #include "io/motor_and_servo.h"
-#include "flight/servos.h"
 PG_DECLARE(motorAndServoConfig_t, motorAndServoConfig);
-PG_DECLARE_ARR(servoMixer_t, MAX_SERVO_RULES, customServoMixer);
-PG_DECLARE_PROFILE(servoProfile_t, servoProfile);
+PG_DECLARE_ARR(struct servo_mixer, MAX_SERVO_RULES, customServoMixer);
+PG_DECLARE_PROFILE(struct servo_profile, servoProfile);
 
 #include "io/gps.h"
 PG_DECLARE(gpsConfig_t, gpsConfig);

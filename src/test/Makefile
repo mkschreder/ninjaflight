@@ -23,7 +23,7 @@ USER_INCLUDE_DIR = $(USER_DIR)
 
 OBJECT_DIR = ../../obj/test
 
-WARN_FLAGS	= -Wall -Wextra
+WARN_FLAGS	= -Wall -Wextra -Wunused-function
 
 ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
 WARN_FLAGS      += -Werror
@@ -326,13 +326,14 @@ $(OBJECT_DIR)/flight/mixer.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) -DUSE_TILT=0 $(TEST_CFLAGS) -c $(USER_DIR)/flight/mixer.c -o $@
 
-$(OBJECT_DIR)/flight/servos.o : \
-	$(USER_DIR)/flight/servos.c \
-	$(USER_DIR)/flight/servos.h \
+$(OBJECT_DIR)/flight/tilt.o : \
+	$(USER_DIR)/flight/tilt.c \
+	$(USER_DIR)/flight/tilt.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/servos.c -o $@
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/tilt.c -o $@
+
 
 $(OBJECT_DIR)/flight_mixer_unittest.o : \
 	$(TEST_DIR)/flight_mixer_unittest.cc \
@@ -342,9 +343,25 @@ $(OBJECT_DIR)/flight_mixer_unittest.o : \
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_mixer_unittest.cc -o $@
 
+$(OBJECT_DIR)/flight_tilt_unittest.o : \
+	$(TEST_DIR)/flight_tilt_unittest.cc \
+	$(USER_DIR)/flight/tilt.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_tilt_unittest.cc -o $@
+
+$(OBJECT_DIR)/flight_tilt_unittest : \
+	$(OBJECT_DIR)/flight/tilt.o \
+	$(OBJECT_DIR)/flight_tilt_unittest.o \
+	$(OBJECT_DIR)/config/vars.o \
+	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+
 $(OBJECT_DIR)/flight_mixer_unittest : \
 	$(OBJECT_DIR)/flight/mixer.o \
-	$(OBJECT_DIR)/flight/servos.o \
 	$(OBJECT_DIR)/flight_mixer_unittest.o \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/common/maths.o \

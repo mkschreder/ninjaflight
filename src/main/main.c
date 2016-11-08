@@ -97,7 +97,6 @@
 #include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
@@ -504,10 +503,8 @@ static void init(void)
 		motorAndServoConfig(),
 		rxConfig(),
 		rcControlsConfig(),
+		servoProfile()->servoConf,
 		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
-#ifdef USE_SERVOS
-    mixerInitServos(customServoMixer(0));
-#endif
 
     memset(&pwm_params, 0, sizeof(pwm_params));
 
@@ -561,7 +558,7 @@ static void init(void)
 #endif
 
 #ifdef USE_SERVOS
-    pwm_params.useServos = isMixerUsingServos();
+    pwm_params.useServos = mixer_get_servo_count(&default_mixer) || feature(FEATURE_SERVO_TILT);
     pwm_params.useChannelForwarding = feature(FEATURE_CHANNEL_FORWARDING);
     pwm_params.servoCenterPulse = motorAndServoConfig()->servoCenterPulse;
     pwm_params.servoPwmRate = motorAndServoConfig()->servo_pwm_rate;
@@ -578,9 +575,9 @@ static void init(void)
     pwmRxInit();
 
     // pwmInit() needs to be called as soon as possible for ESC compatibility reasons
-    pwmInit(&pwm_params);
+	pwmInit(&pwm_params);
     //pwmIOConfiguration_t *pwmIOConfiguration = pwmInit(&pwm_params);
-    //mixer_use_pwmio_config(&default_mixer, pwmIOConfiguration);
+	//mixer_use_pwmio_config(&default_mixer, pwmIOConfiguration);
 
 #ifdef DEBUG_PWM_CONFIGURATION
     debug[2] = pwmIOConfiguration->pwmInputCount;
@@ -692,7 +689,8 @@ static void init(void)
     flashLedsAndBeep();
 
 #ifdef USE_SERVOS
-    mixer_init_servo_filtering(&default_mixer, gyro_sync_get_looptime());
+	// TODO: readd servo filtering if we really need it
+    //mixer_init_servo_filtering(&default_mixer, gyro_sync_get_looptime());
 #endif
 
 #ifdef MAG
