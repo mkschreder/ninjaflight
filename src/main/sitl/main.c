@@ -65,7 +65,6 @@
 #include "flight/anglerate.h"
 #include "flight/imu.h"
 #include "flight/mixer.h"
-#include "flight/servos.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
@@ -165,15 +164,19 @@ static void _application_fc_run(struct application *self){
 	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
 	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
 	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
-	rcCommand[THROTTLE] = rc_get_channel_value(2);
+	rcCommand[THROTTLE] = rc_get_channel_value(2) - 1000;
 	rcCommand[YAW] = -(rc_get_channel_value(3) - 1500);
 	anglerate_update(&self->controller, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("rcCommand: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[THROTTLE], rcCommand[YAW]);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
 
-	mixer_enable_motor_outputs(&self->mixer, true);
-	mixer_update(&self->mixer, anglerate_get_output_ptr(&self->controller));
+	mixer_enable_armed(&self->mixer, true);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, out->axis[ROLL]);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, out->axis[PITCH]);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -out->axis[YAW]);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rcCommand[THROTTLE] - 500);
+	mixer_update(&self->mixer);
 }
 
 static void application_run(struct application *self){
@@ -201,12 +204,8 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		motorAndServoConfig(),
 		rxConfig(),
 		rcControlsConfig(),
+		servoProfile()->servoConf,
 		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
-
-	mixer_set_motor_disarmed_pwm(&self->mixer, 0, 1000);
-	mixer_set_motor_disarmed_pwm(&self->mixer, 1, 1000);
-	mixer_set_motor_disarmed_pwm(&self->mixer, 2, 1000);
-	mixer_set_motor_disarmed_pwm(&self->mixer, 3, 1000);
 
 	static struct rate_config rateConfig;
 	memset(&rateConfig, 0, sizeof(struct rate_config));
@@ -250,11 +249,37 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }
 
+#include <fcntl.h>
+#include <termio.h>
+#include <sys/stat.h>
 // shared library entry point used by client to instantiate a flight controller
 // client is allocated by the client and passed to us as a pointer so we safe it within the server object
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
 	UNUSED(cl);
+/*	
+	int fd = open("/dev/ptmx", O_RDWR);
+	if(fd <= 0){
+		perror("opening serial terminal");
+		return NULL;
+	}
+	int nr;
+	if(ioctl(fd, TIOCGPTN, &nr) != 0){
+		return NULL;
+	}
+	char ptsname[32]; 
+	sprintf(ptsname, "/dev/pts/%d", nr);
+	printf("opened serial device %s\n", ptsname);
+	grantpt(fd);
+	unlockpt(fd);
+	int sfd = open(ptsname, O_RDWR);
+	if(sfd <= 0) perror("open");
+	//if(write(sfd, "Hello", 6) < 0) perror("write");
+	if(read(fd, ptsname, 6) < 0) perror("read");
+
+	printf("Got: %s\n", ptsname);
+	exit(0);
+*/
 	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
 
 	// save client interface pointer so we can send pwm to it and read rc inputs
@@ -263,7 +288,6 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_i
 	// start a flight controller application for this client
 	struct application *app = malloc(sizeof(struct application));
 	application_init(app, server);
-
 	return server;
 }
 
