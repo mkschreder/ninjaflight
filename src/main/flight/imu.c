@@ -30,6 +30,7 @@
 
 #include "common/axis.h"
 #include "common/filter.h"
+#include "common/quaternion.h"
 
 #include "config/runtime_config.h"
 #include "config/parameter_group_ids.h"
@@ -280,31 +281,12 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	// rate integration is done using quaternion integration formula
 	// qnew = qold + (qold * q(0, w, w, w) * 0.5) * dt;
 
-    // Integrate rate of change of quaternion
-    gx *= (0.5f * dt);
-    gy *= (0.5f * dt);
-    gz *= (0.5f * dt);
+	quat_t qdelta = { 0, gx, gy, gz };
+	qdelta = quat_scale(&qdelta, 0.5f * dt);
 
-	// q = q + q * g * 0.5 * dt
-    float qa = self->q.w;
-    float qb = self->q.x;
-    float qc = self->q.y;
-    self->q.w += (-qb * gx - qc * gy - self->q.z * gz);
-    self->q.x += (qa * gx + qc * gz - self->q.z * gy);
-    self->q.y += (qa * gy - qb * gz + self->q.z * gx);
-    self->q.z += (qa * gz + qb * gy - qc * gx);
-
-    // Normalise quaternion
-	recipNorm = sq(self->q.w) + sq(self->q.x) + sq(self->q.y) + sq(self->q.z);
-    if(fabsf(1.0f - recipNorm) < 2.107342e-08f){
-        recipNorm = 2.0f / (1.0f + recipNorm);
-    } else {
-        recipNorm = 1.0f / sqrtf(recipNorm);
-    }
-    self->q.w *= recipNorm;
-    self->q.x *= recipNorm;
-    self->q.y *= recipNorm;
-    self->q.z *= recipNorm;
+	quat_t qnew = quat_mul(&self->q, &qdelta);
+	self->q = quat_add(&self->q, &qnew);
+	self->q = quat_normalize(&self->q);
 
     // Pre-compute rotation matrix from quaternion
     _imu_update_dcm(self);

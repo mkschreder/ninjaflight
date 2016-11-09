@@ -235,6 +235,7 @@ $(OBJECT_DIR)/flight_imu_unittest : \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/common/filter.o \
 	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/common/quaternion.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
@@ -246,6 +247,14 @@ $(OBJECT_DIR)/flight/anglerate.o : \
 
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/anglerate.c -o $@
+
+$(OBJECT_DIR)/common/quaternion.o : \
+	$(USER_DIR)/common/quaternion.c \
+	$(USER_DIR)/common/quaternion.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/common/quaternion.c -o $@
 
 $(OBJECT_DIR)/flight_pid_unittest.o : \
 	$(TEST_DIR)/flight_pid_unittest.cc \
@@ -259,6 +268,7 @@ $(OBJECT_DIR)/flight_pid_unittest.o : \
 $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/common/filter.o \
+	$(OBJECT_DIR)/common/quaternion.o \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/config/parameter_group.o \
 	$(OBJECT_DIR)/flight/anglerate.o \

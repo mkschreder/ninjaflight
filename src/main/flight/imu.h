@@ -18,6 +18,7 @@
 #pragma once
 
 #include "common/maths.h"
+#include "common/quaternion.h"
 
 struct imu_quaternion {
 	float w, x, y, z;
@@ -81,8 +82,11 @@ struct imu {
 	accelerometerConfig_t *acc_config;
 	struct throttle_correction_config *thr_config;
 
-	// TODO: replace with a math library quaternion
-	struct imu_quaternion q;
+	quat_t q;
+
+	//! Error quaternion for the reference rotation.
+	quat_t qerr;
+
 	float rMat[3][3];
 
 	union attitude_euler_angles attitude;     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
