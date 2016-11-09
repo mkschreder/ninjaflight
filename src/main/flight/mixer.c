@@ -603,31 +603,40 @@ const struct mixer_mode mixers[] = {
 	[MIXER_DUALCOPTER]	 = MIXER_DEF(mixerDualcopter),
 	[MIXER_SINGLECOPTER] = MIXER_DEF(mixerSingleCopter),
 	[MIXER_ATAIL4]		 = MIXER_DEF(mixerAtail4),
+	[MIXER_QUADX_TILT1]		 = NULL_MIXER,
+	[MIXER_QUADX_TILT2]		 = NULL_MIXER,
 	[MIXER_CUSTOM]		 = NULL_MIXER,
+	[MIXER_CUSTOM_AIRPLANE]		 = NULL_MIXER,
+	[MIXER_CUSTOM_TRI]		 = NULL_MIXER,
 };
 #endif
 
 #undef SERVO_RULE_REF
 #undef COUNT_SERVO_RULES
 
-void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
-	const struct mixer_mode *mode = &mixers[preset];
+static void _update_motor_and_servo_count(struct mixer *self){
 	self->motorCount = 0;
 	self->servoCount = 0;
-	self->ruleCount = mode->rule_count;
 	uint8_t motor[MIXER_OUTPUT_COUNT] = {0};
 	uint8_t servo[MIXER_OUTPUT_COUNT] = {0};
-	for(int c = 0; c < mode->rule_count; c++){
-		if(mode->rules[c].output < MIXER_OUTPUT_SERVOS) motor[mode->rules[c].output] = true;
-		else servo[mode->rules[c].output] = true;
+	for(int c = 0; c < self->ruleCount; c++){
+		struct mixer_rule_def *rule = &self->active_rules[c];
+		if(rule->output < MIXER_OUTPUT_SERVOS) motor[rule->output] = true;
+		else servo[rule->output] = true;
 	}
 	for(int c = 0; c < MIXER_OUTPUT_COUNT; c++){
 		if(motor[c]) self->motorCount++;
 		if(servo[c]) self->servoCount++;
 	}
+}
+
+void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
+	const struct mixer_mode *mode = &mixers[preset];
+	self->ruleCount = mode->rule_count;
 	int count = mode->rule_count;
 	if(count > MIXER_MAX_RULES) count = MIXER_MAX_RULES;
 	memcpy(self->active_rules, mode->rules, sizeof(struct mixer_rule_def) * count);
+	_update_motor_and_servo_count(self);
 }
 
 void mixer_reset(struct mixer *self){
@@ -715,6 +724,7 @@ void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors
 		if(!found[2] && rule->yaw) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_YAW, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->yaw * 1000.0f };
 		if(!found[3] && rule->throttle) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_THROTTLE, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->throttle * 1000.0f };
 	}
+	_update_motor_and_servo_count(self);
 }
 
 /**
@@ -736,6 +746,7 @@ void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos
 		if(!found)
 			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = rule->inputSource, .output = rule->targetChannel, .scale = rule->rate * 10.0f };
 	}
+	_update_motor_and_servo_count(self);
 }
 /**
  * Exports servo settings from the internal rules representation into config servo_mixer
