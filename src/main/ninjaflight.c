@@ -804,7 +804,45 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		imu_get_pitch_dd(&default_imu),
 		imu_get_yaw_dd(&default_imu));
 */
-	// TODO: make sure we readd the 3d mode support and unit test it
+	// TODO: make sure we unit test 3d mode support
+	if(feature(FEATURE_3D)){
+        // Scale roll/pitch/yaw uniformly to fit within throttle range
+        int16_t throttleRange, throttle;
+        int16_t throttleMin, throttleMax;
+        static int16_t throttlePrevious = 0;   // Store the last throttle direction for deadband transitions in 3D.
+
+        // Find min and max throttle based on condition. Use rcData for 3D to prevent loss of power due to min_check
+        if (feature(FEATURE_3D)) {
+            if (!ARMING_FLAG(ARMED)) throttlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
+
+            if ((rc_get_channel_value(THROTTLE) <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
+                throttleMax = motor3DConfig()->deadband3d_low;
+                throttleMin = motorAndServoConfig()->minthrottle;
+                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
+            } else if (rc_get_channel_value(THROTTLE) >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
+                throttleMax = motorAndServoConfig()->maxthrottle;
+                throttleMin = motor3DConfig()->deadband3d_high;
+                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
+            } else if ((throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)))  { // Deadband handling from negative to positive
+                throttle = throttleMax = motor3DConfig()->deadband3d_low;
+                throttleMin = motorAndServoConfig()->minthrottle;
+            } else {  // Deadband handling from positive to negative
+                throttleMax = motorAndServoConfig()->maxthrottle;
+                throttle = throttleMin = motor3DConfig()->deadband3d_high;
+            }
+        } else {
+            throttle = rcCommand[THROTTLE];
+            throttleMin = motorAndServoConfig()->minthrottle;
+            throttleMax = motorAndServoConfig()->maxthrottle;
+        }
+
+        throttleRange = throttleMax - throttleMin;
+		mixer_set_throttle_range(&default_mixer, throttleMin + throttleRange / 2, throttleMin, throttleMax);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_THROTTLE, throttle - 500);
+	} else {
+		mixer_set_throttle_range(&default_mixer, 1500, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+		mixer_input_command(&default_mixer, MIXER_INPUT_G0_THROTTLE, rcCommand[THROTTLE] - 500);
+	}
 
 	const struct pid_controller_output *stab = anglerate_get_output_ptr(&default_controller);
 
