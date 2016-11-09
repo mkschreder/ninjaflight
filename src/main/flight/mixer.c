@@ -670,6 +670,103 @@ void mixer_init(struct mixer *self,
 }
 
 /**
+ * Saves current motor mixer motor settings into the motor_mixer struct which
+ * is exposed through the config
+ */
+int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output){
+	int ret = 0;
+	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
+		output[c].throttle = 0;
+	}
+	for(int c = 0; c < self->ruleCount; c++){
+		struct mixer_rule_def *rule = &self->active_rules[c];
+		if(rule->output > MIXER_OUTPUT_M8) continue;
+		int i = rule->output - MIXER_OUTPUT_M1;
+		if(i > MAX_SUPPORTED_MOTORS) continue;
+		switch(rule->input){
+			case MIXER_INPUT_G0_ROLL: output[i].roll = (float)rule->scale / 1000.0f; break;
+			case MIXER_INPUT_G0_PITCH: output[i].pitch = (float)rule->scale / 1000.0f; break;
+			case MIXER_INPUT_G0_YAW: output[i].yaw = (float)rule->scale / 1000.0f; break;
+			case MIXER_INPUT_G0_THROTTLE: output[i].throttle = (float)rule->scale / 1000.0f; break;
+		}
+		ret++;
+	}
+	return ret;
+}
+
+/**
+ * Loads motor mixer from the config into internal ruleset format
+ */
+void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors){
+	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
+		const struct motor_mixer *rule = &motors[c];
+		if(rule->throttle == 0) break;
+		char found[4] = {0, 0, 0, 0};
+		// note that this is very inefficient search, but we only do this rather rarely so it's ok
+		for(int j = 0; j < self->ruleCount; j++){
+			struct mixer_rule_def *ar = &self->active_rules[j];
+			if(ar->input == MIXER_INPUT_G0_ROLL && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->roll * 1000.0f; found[0] = 1; }
+			if(ar->input == MIXER_INPUT_G0_PITCH && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->pitch * 1000.0f; found[1] = 1; }
+			if(ar->input == MIXER_INPUT_G0_YAW && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->yaw * 1000.0f; found[2] = 1; }
+			if(ar->input == MIXER_INPUT_G0_THROTTLE && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->throttle * 1000.0f; found[3] = 1; }
+		}
+		if(!found[0] && rule->roll) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_ROLL, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->roll * 1000.0f };
+		if(!found[1] && rule->pitch) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_PITCH, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->pitch * 1000.0f };
+		if(!found[2] && rule->yaw) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_YAW, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->yaw * 1000.0f };
+		if(!found[3] && rule->throttle) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_THROTTLE, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->throttle * 1000.0f };
+	}
+}
+
+/**
+ * Loads servo mixer from mixer config
+ */
+void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos){
+	for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
+		const struct servo_mixer *rule = &servos[c];
+		if(rule->rate == 0) break;
+		bool found = false;
+		// note that this is very inefficient search, but we only do this rather rarely so it's ok
+		for(int j = 0; j < self->ruleCount; j++){
+			if(self->active_rules[j].input == rule->inputSource && self->active_rules[j].output == rule->targetChannel){
+				self->active_rules[j].scale = rule->rate * 10.0f;
+				found = true;
+				break;
+			}
+		}
+		if(!found)
+			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = rule->inputSource, .output = rule->targetChannel, .scale = rule->rate * 10.0f };
+	}
+}
+/**
+ * Exports servo settings from the internal rules representation into config servo_mixer
+ */
+int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output){
+	int ret = 0;
+	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
+		output[c].rate = 0;
+	}
+	for(int c = 0; c < self->ruleCount; c++){
+		struct mixer_rule_def *rule = &self->active_rules[c];
+		if(rule->output < MIXER_OUTPUT_S1 || rule->output > MIXER_OUTPUT_S8) continue;
+		int i = rule->output - MIXER_OUTPUT_S1;
+		if(i > MAX_SUPPORTED_SERVOS) continue;
+		output[i].inputSource = rule->input;
+		output[i].targetChannel = rule->output;
+		output[i].rate = (float)rule->scale / 10.0f;
+		output[i].speed = 0;
+		output[i].min = 0;
+		output[i].max = 100;
+		ret ++;
+	}
+	return ret;
+}
+
+void mixer_clear_rules(struct mixer *self){
+	self->ruleCount = 0;
+	memset(self->active_rules, 0, sizeof(self->active_rules));
+}
+
+/**
  * Inputs a command into the mixer. Valid range is [-500 to 500];
  *
  * @param channel the channel to set
@@ -756,6 +853,7 @@ void mixer_update(struct mixer *self){
 	for (int i = 0; i < MIXER_MAX_SERVOS; i++) {
 		struct servo_config *conf = &self->servo_config[i];
 		uint16_t servo_width = conf->max - conf->min;
+		// TODO: the 0 and 100 were supposed to be part of servo mixer rule but never seemed to be used so replaced by constants for now.
 		int16_t min = 0 * servo_width / 100 - servo_width / 2;
 		int16_t max = 100 * servo_width / 100 - servo_width / 2;
 		output[MIXER_OUTPUT_SERVOS + i] = conf->middle + constrain((output[MIXER_OUTPUT_SERVOS + i] * (int32_t)conf->rate) / 100L, min, max);

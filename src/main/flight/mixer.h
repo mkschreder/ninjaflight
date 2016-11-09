@@ -288,5 +288,12 @@ uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id);
 uint8_t mixer_get_motor_count(struct mixer *self);
 uint8_t mixer_get_servo_count(struct mixer *self);
 
+int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output);
+void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors);
+int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output);
+void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos);
+
+void mixer_clear_rules(struct mixer *self);
+
 void mixer_reset(struct mixer *self);
 
