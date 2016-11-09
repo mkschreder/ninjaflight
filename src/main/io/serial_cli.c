@@ -1192,6 +1192,7 @@ static void cliTilt(char *cmdline)
 			// print out settings
 			cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
 			cliPrintf("control channel: %s\n", _channel_name(tilt->control_channel)); 
+			cliPrintf("rate: %d decidegrees/sec\n", tilt->rate);
 			cliPrintf("compensate: "); 
 			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
 			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
@@ -1207,6 +1208,13 @@ static void cliTilt(char *cmdline)
 						tilt->mode = MIXER_TILT_MODE_STATIC; 
 					} else {
 						cliPrintf("Valid values: static,dynamic\n"); 
+					}
+				} else if(strcmp(params[0], "rate") == 0){
+					int rate = atoi(params[1]);
+					if(rate < 100 || rate > 1800){
+						cliPrintf("rate must be between 100 (10 degrees / sec) to 1800 (180 degrees / sec)\n");
+					} else {
+						tilt->rate = rate;
 					}
 				} else if(strcmp(params[0], "in") == 0){
 					if(strcmp(params[1], "PITCH") == 0){

@@ -828,12 +828,17 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
 		} else {
-			// in rate mode we only allow manual tilting using one of the aux channels
-			anglerate_update(&default_controller, &att);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
-			} else {
+			} else if(tilt->control_channel == PITCH){
+				static float tiltAngle = 0;
+				tiltAngle += ((float)rcCommand[PITCH]/500.0f) * tilt->rate * dT;
+				if(tiltAngle > 450) tiltAngle = 450;
+				if(tiltAngle < -450) tiltAngle = -450;
+				motor_pitch = tiltAngle;
+				rcCommand[PITCH] = rcCommand[PITCH] >> 1;
 			}
+			anglerate_update(&default_controller, &att);
 		}
 		_tilt_apply_compensation(&default_controller, motor_pitch);
 	} else {

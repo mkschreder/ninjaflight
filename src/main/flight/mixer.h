@@ -130,6 +130,7 @@ struct mixer_tilt_config {
 	uint8_t mode; 
 	uint8_t compensation_flags;  
 	uint8_t control_channel; 
+	uint16_t rate;
 	int8_t servo_angle_min; 
 	int8_t servo_angle_max; 
 }; 
