@@ -29,3 +29,7 @@ quat_t quat_mul(const quat_t *a, const quat_t *b){
 	};
 }
 
+quat_t quat_inv(const quat_t *q){
+	return (quat_t){ q->w, -q->x, -q->y, -q->z };
+}
+

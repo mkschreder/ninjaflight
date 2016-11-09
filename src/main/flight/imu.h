@@ -20,10 +20,6 @@
 #include "common/maths.h"
 #include "common/quaternion.h"
 
-struct imu_quaternion {
-	float w, x, y, z;
-};
-
 union imu_accel_reading {
 	int16_t raw[3];
 	struct {
@@ -44,7 +40,6 @@ union attitude_euler_angles {
 // TODO: move these into math lib
 typedef int32_t gyro_rates_t[3];
 typedef int32_t acc_rates_t[3];
-typedef float quaternion_t[4];
 typedef union attitude_euler_angles euler_angles_t;
 
 struct imu_config {
@@ -83,9 +78,6 @@ struct imu {
 	struct throttle_correction_config *thr_config;
 
 	quat_t q;
-
-	//! Error quaternion for the reference rotation.
-	quat_t qerr;
 
 	float rMat[3][3];
 
@@ -139,6 +131,8 @@ float imu_get_gyro_scale(struct imu *self);
 int16_t imu_get_roll_dd(struct imu *self);
 int16_t imu_get_pitch_dd(struct imu *self);
 int16_t imu_get_yaw_dd(struct imu *self);
+
+void imu_get_rotation(struct imu *self, quat_t *q);
 
 void imu_enable_fast_dcm_convergence(struct imu *self, bool on);
 

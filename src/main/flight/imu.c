@@ -407,6 +407,10 @@ void imu_input_yaw_dd(struct imu *self, int16_t yaw){
 	self->flags |= IMU_FLAG_USE_YAW;
 }
 
+void imu_get_rotation(struct imu *self, quat_t *q){
+	*q = self->q;
+}
+
 float imu_get_cos_tilt_angle(struct imu *self){
     return self->rMat[2][2];
 }
