@@ -474,6 +474,55 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	testedModes++;
 }
 
+TEST_F(MixerBasicTest, TestMixerLoadSave){
+	// set up some config defaults
+	rxConfig()->mincheck = 1010;
+	rxConfig()->midrc = 1500;
+	motorAndServoConfig()->mincommand = 1000;
+	motorAndServoConfig()->minthrottle = 1050;
+	motorAndServoConfig()->maxthrottle = 1850;
+
+	_init_mixer_defaults(MIXER_AIRPLANE);
+
+	EXPECT_EQ(1, mixer_get_motor_count(&mixer));
+	EXPECT_EQ(5, mixer_get_servo_count(&mixer));
+
+	struct motor_mixer motors[8], motors2[8];
+	struct servo_mixer servos[8], servos2[8];
+
+	memset(motors, 0, sizeof(motors));
+	memset(motors2, 0, sizeof(motors2));
+	memset(servos, 0, sizeof(servos));
+	memset(servos2, 0, sizeof(servos2));
+
+	struct mixer_rule_def rules[sizeof(mixer.active_rules) / sizeof(struct mixer_rule_def)];
+	EXPECT_EQ(sizeof(rules), sizeof(mixer.active_rules));
+	EXPECT_EQ(6, mixer.ruleCount);
+
+	memcpy(rules, mixer.active_rules, sizeof(mixer.active_rules));
+
+	EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors), 1);
+	EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos), 5);
+	
+	mixer_clear_rules(&mixer);
+	
+	mixer_load_motor_mixer(&mixer, motors);
+	mixer_load_servo_mixer(&mixer, servos);
+	
+	mixer_load_motor_mixer(&mixer, motors);
+	mixer_load_servo_mixer(&mixer, servos);
+
+	EXPECT_EQ(6, mixer.ruleCount);
+	EXPECT_EQ(memcmp(rules, mixer.active_rules, sizeof(rules)), 0);
+
+	// try saving again and compare
+	mixer_save_motor_mixer(&mixer, motors2);
+	mixer_save_servo_mixer(&mixer, servos2);
+	
+	EXPECT_EQ(memcmp(motors, motors2, sizeof(motors)), 0);
+	EXPECT_EQ(memcmp(servos, servos2, sizeof(servos)), 0);
+}
+
 
 TEST_F(MixerBasicTest, TestAllModesTested){
 	//EXPECT_EQ(MIXER_MODE_COUNT, testedModes);
