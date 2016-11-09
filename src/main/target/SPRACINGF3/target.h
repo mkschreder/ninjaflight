@@ -19,7 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "SRF3"
 
-#define USE_TILT 0
+#define USE_TILT 1
 #define LED0_GPIO   GPIOB
 #define LED0_PIN    Pin_3
 #define LED0_PERIPHERAL RCC_AHBPeriph_GPIOB

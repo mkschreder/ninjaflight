@@ -125,7 +125,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
     return PTerm + ITerm + DTerm;
 }
 
-static void _multiwii_rewrite_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dt) {
+static void _multiwii_rewrite_update(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dt) {
 	UNUSED(dt); // TODO: maybe we should use dt?
     int8_t horizonLevelStrength = 0;
 
@@ -164,10 +164,10 @@ static void _multiwii_rewrite_update(struct anglerate *self, int16_t gyro[3], un
                 // multiplication of rcCommand corresponds to changing the sticks scaling here
 #ifdef GPS
                 const int32_t errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-                        - att->raw[axis] + self->angle_trim->raw[axis];
+                        - att.raw[axis] + self->angle_trim->raw[axis];
 #else
                 const int32_t errorAngle = constrain(2 * rcCommand[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-                        - att->raw[axis] + self->angle_trim->raw[axis];
+                        - att.raw[axis] + self->angle_trim->raw[axis];
 #endif
                 if (FLIGHT_MODE(ANGLE_MODE)) {
                     // ANGLE mode
@@ -256,7 +256,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
     return lrintf(PTerm + ITerm + DTerm);
 }
 
-static void _luxfloat_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dT){
+static void _luxfloat_update(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dT){
     _anglerate_delta_state_update(self);
 
     float horizonLevelStrength = 0;
@@ -292,10 +292,10 @@ static void _luxfloat_update(struct anglerate *self, int16_t gyro[3], union atti
                 // multiplication of rcCommand corresponds to changing the sticks scaling here
 #ifdef GPS
                 const float errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-                        - att->raw[axis] + self->angle_trim->raw[axis];
+                        - att.raw[axis] + self->angle_trim->raw[axis];
 #else
                 const float errorAngle = constrain(2 * rcCommand[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-                        - att->raw[axis] + self->angle_trim->raw[axis];
+                        - att.raw[axis] + self->angle_trim->raw[axis];
 #endif
                 if (FLIGHT_MODE(ANGLE_MODE)) {
                     // ANGLE mode
@@ -322,7 +322,7 @@ static void _luxfloat_update(struct anglerate *self, int16_t gyro[3], union atti
     }
 }
 
-static void _multiwii23_update(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dt){
+static void _multiwii23_update(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dt){
 	UNUSED(dt);
     int axis, prop = 0;
     int32_t rc, error, errorAngle, delta, gyroError;
@@ -367,10 +367,10 @@ static void _multiwii23_update(struct anglerate *self, int16_t gyro[3], union at
             // 50 degrees max inclination
 #ifdef GPS
             errorAngle = constrain(2 * rcCommand[axis] + GPS_angle[axis], -((int) self->max_angle_inclination),
-                +self->max_angle_inclination) - att->raw[axis] + self->angle_trim->raw[axis];
+                +self->max_angle_inclination) - att.raw[axis] + self->angle_trim->raw[axis];
 #else
             errorAngle = constrain(2 * rcCommand[axis], -((int) self->max_angle_inclination),
-                +self->max_angle_inclination) - att->raw[axis] + self->angle_trim->raw[axis];
+                +self->max_angle_inclination) - att.raw[axis] + self->angle_trim->raw[axis];
 #endif
 
             self->ITermAngle[axis]  = constrain(self->ITermAngle[axis] + errorAngle, -10000, +10000);                                                // WindUp     //16 bits is ok here
@@ -514,16 +514,8 @@ const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *s
 	return &self->output;
 }
 
-void anglerate_update(struct anglerate *self, float dt){
-	int16_t gyro[3];
-	union attitude_euler_angles att;
-	imu_get_gyro(self->imu, gyro);
-	imu_get_attitude_dd(self->imu, &att);
-
-	// always update pid controller setting from config
-	anglerate_set_algo(self, self->config->pidController);
-
-	self->update(self, gyro, &att, dt);
+void anglerate_update(struct anglerate *self, const gyro_rates_t measured_rates, const euler_angles_t measured_att, float dt){
+	self->update(self, measured_rates, measured_att, dt);
 }
 
 void anglerate_enable_plimit(struct anglerate *self, bool on){

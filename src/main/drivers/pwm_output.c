@@ -162,16 +162,6 @@ void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
     }
 }
 
-void pwmStopMotors(bool oneshot){
-	// TODO: this needs to be tested
-	for(int c = 0; c < 8; c++){
-		pwmWriteMotor(c, 1000);
-	}
-	if(oneshot){
-		pwmCompleteOneshotMotorUpdate(8);
-	}
-}
-
 void pwmWriteAllMotors(int motorCount, uint16_t mc, bool oneshot){
     for (int i = 0; i < motorCount; i++){
 		pwmWriteMotor(i, mc);
@@ -182,6 +172,11 @@ void pwmWriteAllMotors(int motorCount, uint16_t mc, bool oneshot){
 
 	// TODO: remove this delay
     usleep(50000); // give the timers and ESCs a chance to react.
+}
+
+void pwmStopMotors(bool oneshot){
+	// TODO: this needs to be tested
+	pwmWriteAllMotors(8, 1000, oneshot);
 }
 
 void pwmDisableMotors(void)

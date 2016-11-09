@@ -40,6 +40,12 @@ union attitude_euler_angles {
     } values;
 };
 
+// TODO: move these into math lib
+typedef int32_t gyro_rates_t[3];
+typedef int32_t acc_rates_t[3];
+typedef float quaternion_t[4];
+typedef union attitude_euler_angles euler_angles_t;
+
 struct imu_config {
     // IMU configuration
     uint16_t looptime;                      // imu loop time in us

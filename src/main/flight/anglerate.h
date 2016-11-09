@@ -92,7 +92,7 @@ struct anglerate {
 	biquad_t deltaFilterState[3];
 
 	// update outputs based on current attitude information
-	void (*update)(struct anglerate *self, int16_t gyro[3], union attitude_euler_angles *att, float dT);
+	void (*update)(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dT);
 
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -139,7 +139,7 @@ void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self);
 
-void anglerate_update(struct anglerate *self, float dT);
+void anglerate_update(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dT);
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on);
 void anglerate_enable_plimit(struct anglerate *self, bool on);

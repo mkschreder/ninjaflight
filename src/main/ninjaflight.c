@@ -101,6 +101,9 @@ enum {
 /* IBat monitoring interval (in microseconds) - 6 default looptimes */
 #define IBATINTERVAL (6 * 3500)
 
+// TODO: remove this once we have refactored enough to pass self to this module
+//static struct ninja _default_fc;
+//static struct ninja *self = &_default_fc;
 
 float dT;
 
@@ -673,6 +676,9 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 
 	imu_update(&default_imu, dt);
 
+	union attitude_euler_angles att;
+	imu_get_attitude_dd(&default_imu, &att);
+
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 
     if (rxConfig()->rcSmoothing) {
@@ -735,7 +741,6 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 #endif
 
 	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
-	int16_t user_control = 0;
 	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
 
 	// TODO: move this once we have tested current refactored code
@@ -749,16 +754,9 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		if(FLIGHT_MODE(ANGLE_MODE)){
 			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				user_control = rcCommand[tilt->control_channel];
+				motor_pitch = rcCommand[tilt->control_channel];
 				rcCommand[tilt->control_channel] = 0;
-				// run pid controller with modified pitch
-				anglerate_update(&default_controller, dt);
-				rcCommand[tilt->control_channel] = user_control;
-
-				motor_pitch = user_control;
 			} else {
-				// otherwise we keep user input and just run the anglerate controller
-				anglerate_update(&default_controller, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
@@ -767,34 +765,38 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.
 			// TODO: this mode currently is far from perfect.  Needs testing.
 			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				user_control = rcCommand[tilt->control_channel];
-				rcCommand[tilt->control_channel] = user_control >> 1;
-				// run pid controller with modified pitch
-				anglerate_update(&default_controller, dt);
-				rcCommand[tilt->control_channel] = user_control;
-
-				motor_pitch = user_control >> 1;
+				motor_pitch = rcCommand[tilt->control_channel] >> 1;
+				rcCommand[tilt->control_channel] = motor_pitch;
 			} else {
-				// otherwise we keep user input and just run the anglerate controller
-				anglerate_update(&default_controller, dt);
 				// get the control input for the tilt from the control channel
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			}
 		} else {
 			// in rate mode we only allow manual tilting using one of the aux channels
-			anglerate_update(&default_controller, dt);
 			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
 				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
 			} else {
+				motor_pitch = 0;
 			}
 		}
-		(void)motor_pitch;
-		//_tilt_apply_compensation(&default_controller, motor_pitch);
-	} else {
-		// without tilting we just run the anglerate controller
-		anglerate_update(&default_controller, dt);
+
+		struct tilt_input_params input = {
+			.motor_pitch_dd = motor_pitch,
+			.body_pitch_dd = imu_get_pitch_dd(&default_imu),
+			.roll = rcCommand[ROLL],
+			.pitch = rcCommand[PITCH],
+			.yaw = rcCommand[YAW],
+			.throttle = rcCommand[THROTTLE]
+		};
+		struct tilt_output_params output = {0};
+		tilt_calculate_compensation(tiltConfig(), &input, &output);
+		rcCommand[ROLL] = output.roll;
+		rcCommand[PITCH] = output.pitch;
+		rcCommand[YAW] = output.yaw;
+		rcCommand[THROTTLE] = output.throttle;
 	}
 
+	anglerate_update(&default_controller, gyroADC, att, dt);
 	//TODO: move gimbal code out of the mixer and place it externally
 /*
 	mixer_input_gimbal_angles(&default_mixer,
