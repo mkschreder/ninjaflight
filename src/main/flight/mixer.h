@@ -53,7 +53,7 @@ struct servo_mixer {
 	int8_t min;                             //!< lower bound of rule range [0;100]% of servo max-min
 	int8_t max;                             //!< lower bound of rule range [0;100]% of servo max-min
 	uint8_t box;                            //!< active rule if box is enabled, range [0;3], 0=no box, 1=BOXSERVO1, 2=BOXSERVO2, 3=BOXSERVO3
-};
+} __attribute__((packed));
 
 //! Configuration for each servo which is editable by the user
 struct servo_config {
@@ -178,7 +178,7 @@ struct motor_mixer {
     float roll;
     float pitch;
     float yaw;
-};
+} __attribute__((packed));
 
 //! Custom mixer configuration
 struct mixer_mode {

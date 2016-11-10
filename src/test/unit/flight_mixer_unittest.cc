@@ -588,11 +588,11 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 	mixer_load_servo_mixer(&mixer, servos);
 
 	EXPECT_EQ(6, mixer.ruleCount);
-	EXPECT_EQ(memcmp(rules, mixer.active_rules, sizeof(rules)), 0);
+	EXPECT_EQ(memcmp(rules, mixer.active_rules, sizeof(struct mixer_rule_def) * mixer.ruleCount), 0);
 
 	// try saving again and compare
-	mixer_save_motor_mixer(&mixer, motors2);
-	mixer_save_servo_mixer(&mixer, servos2);
+	EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors2), 1);
+	EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos2), 5);
 	
 	EXPECT_EQ(memcmp(motors, motors2, sizeof(motors)), 0);
 	EXPECT_EQ(memcmp(servos, servos2, sizeof(servos)), 0);

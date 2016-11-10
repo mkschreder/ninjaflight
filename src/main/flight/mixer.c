@@ -588,7 +588,7 @@ const struct mixer_mode mixers[] = {
 #else
 	[MIXER_OCTOX8]		 = NULL_MIXER,
 	[MIXER_OCTOFLATP]	 = NULL_MIXER,
-	[MIXER_OCTOFLATX]	 = MULL_MIXER,
+	[MIXER_OCTOFLATX]	 = NULL_MIXER,
 #endif
 	[MIXER_AIRPLANE]	 = MIXER_DEF(mixerAirplane),
 	[MIXER_HELI_120_CCPM] = NULL_MIXER,
