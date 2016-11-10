@@ -244,6 +244,7 @@ COMMON_SRC = build_config.c \
 		   config/feature.c \
 		   config/profile.c \
 		   common/maths.c \
+		   common/quaternion.c \
 		   common/printf.c \
 		   common/typeconversion.c \
 		   common/encoding.c \
@@ -728,6 +729,7 @@ SITL_SRC = \
 			common/filter.c \
 			common/maths.c \
 			common/streambuf.c \
+			common/quaternion.c \
 			config/config.c \
 			config/parameter_group.c \
 			config/profile.c \

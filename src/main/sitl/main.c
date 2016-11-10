@@ -86,6 +86,9 @@ struct application {
 	struct anglerate controller;
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
+
+	gyro_rates_t gyro;
+	euler_angles_t attitude;
 };
 
 static void _application_send_state(struct application *self){
@@ -139,15 +142,16 @@ static void _application_recv_state(struct application *self){
 	cl->read_accel(cl, accel);
 	cl->read_gyro(cl, gyro);
 
+	self->gyro[0] = gyro[0] * 4096;
+	self->gyro[1] = -gyro[1] * 4096;
+	self->gyro[2] = -gyro[2] * 4096;
+
 	imu_input_accelerometer(&self->imu,
 		(accel[0] / 9.82f) * 512,
 		(accel[1] / 9.82f) * 512,
 		(accel[2] / 9.82f) * 512);
 
-	imu_input_gyro(&self->imu,
-		gyro[0] * 4096,
-		-gyro[1] * 4096,
-		-gyro[2] * 4096);
+	imu_input_gyro(&self->imu, self->gyro[0], self->gyro[1], self->gyro[2]);
 
 	imu_update(&self->imu, 0.001);
 
@@ -158,15 +162,15 @@ static void _application_recv_state(struct application *self){
 	#endif
 }
 static void _application_fc_run(struct application *self){
-	union attitude_euler_angles att;
-	imu_get_attitude_dd(&self->imu, &att);
+	//union attitude_euler_angles att;
+	imu_get_attitude_dd(&self->imu, &self->attitude);
 
 	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
 	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
 	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
 	rcCommand[THROTTLE] = rc_get_channel_value(2) - 1000;
 	rcCommand[YAW] = -(rc_get_channel_value(3) - 1500);
-	anglerate_update(&self->controller, 0.001);
+	anglerate_update(&self->controller, self->gyro, self->attitude, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("rcCommand: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[THROTTLE], rcCommand[YAW]);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
@@ -211,17 +215,21 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	memset(&rateConfig, 0, sizeof(struct rate_config));
 
 	pidProfile()->pidController = PID_CONTROLLER_LUX_FLOAT;
-	pidProfile()->P8[PIDROLL] = 10;
-	pidProfile()->P8[PIDPITCH] = 10;
-	pidProfile()->P8[PIDYAW] = 60;
+	pidProfile()->P8[PIDROLL] = 30;
+	pidProfile()->P8[PIDPITCH] = 30;
+	pidProfile()->P8[PIDYAW] = 85;
 
-	pidProfile()->I8[PIDROLL] = 5;
-	pidProfile()->I8[PIDPITCH] = 5;
-	pidProfile()->I8[PIDYAW] = 10;
+	pidProfile()->I8[PIDROLL] = 20;
+	pidProfile()->I8[PIDPITCH] = 20;
+	pidProfile()->I8[PIDYAW] = 35;
 
-	pidProfile()->D8[PIDROLL] = 20;
-	pidProfile()->D8[PIDPITCH] = 20;
+	pidProfile()->D8[PIDROLL] = 5;
+	pidProfile()->D8[PIDPITCH] = 5;
 	pidProfile()->D8[PIDYAW] = 5;
+
+	rateConfig.rates[ROLL] = 173;
+    rateConfig.rates[PITCH] = 173;
+    rateConfig.rates[YAW] = 173;
 
 	anglerate_init(&self->controller,
 		&self->imu,
@@ -355,3 +363,6 @@ void failsafeReset(void){}
 bool isEEPROMContentValid(void);
 bool isEEPROMContentValid(void){ return true; }
 
+bool isAccelerationCalibrationComplete(void){ return true; }
+bool isGyroCalibrationComplete(void){ return true; }
+void calculateRxChannelsAndUpdateFailsafe(uint32_t t){ (void)t;}
