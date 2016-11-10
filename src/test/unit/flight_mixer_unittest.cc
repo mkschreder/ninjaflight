@@ -348,6 +348,81 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 	EXPECT_EQ(motorAndServoConfig()->mincommand, mixer_get_servo_value(&mixer, 2));
 }
 
+TEST_F(MixerBasicTest, TestMixerExtremes){
+	// set up some config defaults
+	rxConfig()->mincheck = 1010;
+	rxConfig()->midrc = 1500;
+	motorAndServoConfig()->mincommand = 1000;
+	motorAndServoConfig()->minthrottle = 1100;
+	motorAndServoConfig()->maxthrottle = 1850;
+
+	_init_mixer_defaults(MIXER_QUADX);
+
+	// we have 4 motors and 0 managed servos
+	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
+	EXPECT_EQ(0, mixer_get_servo_count(&mixer));
+
+	mixer_enable_armed(&mixer, true);
+
+	// test throttle response without giving any commands
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -500);
+	mixer_update(&mixer);
+
+	// expect minthrottle on motors
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 0));
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 1));
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 2));
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 3));
+
+	// input some throttle
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -200);
+	mixer_update(&mixer);
+
+	// we expect all motors to be at 1100 throttle range
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 0));
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 1));
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 2));
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 3));
+
+	// try pitching forward 100 (1/5 of half throttle range)
+	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, 0);
+	mixer_update(&mixer);
+
+	// we expect differential thrust for quadx to be increased by 100 units on back motors and decreased by the same ammount on front motors
+	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 0));
+	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 1));
+	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 2));
+	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 3));
+
+	// try pitching forward 100 with maxthrottle
+	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, 500);
+	mixer_update(&mixer);
+
+	// we expect the response to be moved down in the throttle range to fit into maxthrottle
+	EXPECT_EQ(1850, mixer_get_motor_value(&mixer, 0));
+	EXPECT_EQ(1650, mixer_get_motor_value(&mixer, 1));
+	EXPECT_EQ(1850, mixer_get_motor_value(&mixer, 2));
+	EXPECT_EQ(1650, mixer_get_motor_value(&mixer, 3));
+
+	// now test the same thing but with minimum throttle
+	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -500);
+	mixer_update(&mixer);
+
+	// we expect the response to be moved down in the throttle range to fit into maxthrottle
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 0));
+	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 1));
+	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 2));
+	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 3));
+
+
+	// attempt to provide full pitch and check that we get motor limit reached flag set
+	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 500);
+	mixer_update(&mixer);
+}
+
 TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	// set up some config defaults
 	rxConfig()->mincheck = 1010;

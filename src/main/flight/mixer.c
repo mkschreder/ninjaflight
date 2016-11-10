@@ -813,11 +813,25 @@ static void _scale_motors(struct mixer *self, int16_t *output, uint16_t count){
 	}
 	int16_t motorrange = maxmotor - minmotor;
 	int16_t throttlerange = self->maxthrottle - self->minthrottle;
-	if(motorrange > throttlerange){
+	if(motorrange > throttlerange && motorrange > 0){
 		self->motorLimitReached = true;
 		float scale = (float)throttlerange / motorrange;
 		for(uint16_t c = 0; c < count; c++){
 			output[c] = lrintf(output[c] * scale);
+		}
+	} else if((self->midthrottle + maxmotor) > self->maxthrottle) {
+		self->motorLimitReached = true;
+		// if we went over the top limit we move the throttle down
+		int16_t offset = (self->midthrottle + maxmotor) - self->maxthrottle;
+		for(uint16_t c = 0; c < count; c++){
+			output[c] -= offset;
+		}
+	} else if((self->midthrottle + minmotor) < self->minthrottle){
+		self->motorLimitReached = true;
+		// if we went below the minimum throttle then we move the throttle up
+		int16_t offset = self->minthrottle - (self->midthrottle + minmotor);
+		for(uint16_t c = 0; c < count; c++){
+			output[c] += offset;
 		}
 	} else {
 		self->motorLimitReached = false;
