@@ -242,7 +242,7 @@ void pwmServoConfig(const timerHardware_t *timerHardware, uint8_t servoIndex, ui
 
 void pwmWriteServo(uint8_t index, uint16_t value)
 {
-    if (servos[index] && index < MAX_SERVOS)
+    if (index < MAX_PWM_SERVOS && servos[index])
         *servos[index]->ccr = value;
 }
 #endif
