@@ -25,43 +25,7 @@
 #include "build_config.h"
 
 #include "mixer.h"
-/*
-#include "debug.h"
 
-
-#include "common/axis.h"
-#include "common/maths.h"
-#include "common/filter.h"
-
-#include "config/parameter_group.h"
-
-#include "drivers/system.h"
-#include "drivers/pwm_output.h"
-#include "drivers/pwm_mapping.h"
-#include "drivers/sensor.h"
-#include "drivers/accgyro.h"
-#include "drivers/system.h"
-
-#include "rx/rx.h"
-
-#include "io/gimbal.h"
-#include "io/motor_and_servo.h"
-#include "io/rc_controls.h"
-
-#include "sensors/sensors.h"
-#include "sensors/acceleration.h"
-
-#include "flight/mixer.h"
-#include "flight/failsafe.h"
-#include "flight/anglerate.h"
-#include "flight/imu.h"
-
-#include "config/parameter_group_ids.h"
-#include "config/runtime_config.h"
-#include "config/config.h"
-#include "config/feature.h"
-#include "config/config_reset.h"
-*/
 enum mixer_flags {
 	//! mixer has to be armed in order to make motor calculations. Motor values are set to either mincommand or minthrottle depending on whether motor stop is enabled
 	MIXER_FLAG_ARMED =		(1 << 3),
@@ -106,7 +70,6 @@ static const struct mixer_rule_def mixerQuadX[] = {
 #endif
 };
 
-#ifndef USE_QUAD_MIXER_ONLY
 /* QuadP
 	4CW
 	 |
@@ -567,38 +530,19 @@ const struct mixer_mode mixers[] = {
 	[MIXER_QUADX]		 = MIXER_DEF(mixerQuadX),		// MIXER_QUADX
 	[MIXER_BICOPTER]	 = MIXER_DEF(mixerBicopter),// MIXER_BICOPTER
 	[MIXER_GIMBAL]		 = MIXER_DEF(mixerGimbal),	// MIXER_GIMBAL
-#if (MAX_SUPPORTED_MOTORS >= 6)
 	[MIXER_Y6]			 = MIXER_DEF(mixerY6),
 	[MIXER_HEX6]		 = MIXER_DEF(mixerHex6P),
-#else
-	[MIXER_Y6]			 = NULL_MIXER,
-	[MIXER_HEX6P]		 = NULL_MIXER,
-#endif
 	[MIXER_FLYING_WING] = MIXER_DEF(mixerFlyingWing),
 	[MIXER_Y4]			 = MIXER_DEF(mixerY4),
-#if (MAX_SUPPORTED_MOTORS >= 6)
 	[MIXER_HEX6X]		 = MIXER_DEF(mixerHex6X),
-#else
-	[MIXER_HEX6X]		 = NULL_MIXER,
-#endif
-#if (MAX_SUPPORTED_MOTORS >= 8)
 	[MIXER_OCTOX8]		 = MIXER_DEF(mixerOctoX8),
 	[MIXER_OCTOFLATP]	 = MIXER_DEF(mixerOctoFlatP),
 	[MIXER_OCTOFLATX]	 = MIXER_DEF(mixerOctoFlatX),
-#else
-	[MIXER_OCTOX8]		 = NULL_MIXER,
-	[MIXER_OCTOFLATP]	 = NULL_MIXER,
-	[MIXER_OCTOFLATX]	 = NULL_MIXER,
-#endif
 	[MIXER_AIRPLANE]	 = MIXER_DEF(mixerAirplane),
 	[MIXER_HELI_120_CCPM] = NULL_MIXER,
 	[MIXER_HELI_90_DEG]	 = NULL_MIXER,
 	[MIXER_VTAIL4]		 = MIXER_DEF(mixerVtail4),
-#if (MAX_SUPPORTED_MOTORS >= 6)
 	[MIXER_HEX6H]		 = MIXER_DEF(mixerHex6H),
-#else
-	[MIXER_HEX6H]		 = NULL_MIXER,
-#endif
 	[MIXER_PPM_TO_SERVO] = NULL_MIXER,
 	[MIXER_DUALCOPTER]	 = MIXER_DEF(mixerDualcopter),
 	[MIXER_SINGLECOPTER] = MIXER_DEF(mixerSingleCopter),
@@ -609,7 +553,6 @@ const struct mixer_mode mixers[] = {
 	[MIXER_CUSTOM_AIRPLANE]		 = NULL_MIXER,
 	[MIXER_CUSTOM_TRI]		 = NULL_MIXER,
 };
-#endif
 
 #undef SERVO_RULE_REF
 #undef COUNT_SERVO_RULES

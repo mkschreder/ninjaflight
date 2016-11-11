@@ -884,9 +884,11 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 	for (int i = 0; i < MIXER_MAX_MOTORS; i++){
 		pwmWriteMotor(i, mixer_get_motor_value(&default_mixer, i));
 	}
+#ifdef USE_SERVOS
 	for (int i = 0; i < MIXER_MAX_SERVOS; i++){
 		pwmWriteServo(i, mixer_get_servo_value(&default_mixer, i));
 	}
+#endif
 	if (feature(FEATURE_ONESHOT125)) {
 		pwmCompleteOneshotMotorUpdate(MIXER_MAX_MOTORS);
 	}

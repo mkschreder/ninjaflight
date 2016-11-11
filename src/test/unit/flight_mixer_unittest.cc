@@ -594,8 +594,19 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 	EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors2), 1);
 	EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos2), 5);
 	
-	EXPECT_EQ(memcmp(motors, motors2, sizeof(motors)), 0);
-	EXPECT_EQ(memcmp(servos, servos2, sizeof(servos)), 0);
+	for(int c = 0; c < 8; c++){
+		if(motors[c].throttle < 1e-6 || motors2[c].throttle < 1e-6) break;
+		EXPECT_FLOAT_EQ(motors[c].roll, motors2[c].roll);
+		EXPECT_FLOAT_EQ(motors[c].pitch, motors2[c].pitch);
+		EXPECT_FLOAT_EQ(motors[c].yaw, motors2[c].yaw);
+		EXPECT_FLOAT_EQ(motors[c].throttle, motors2[c].throttle);
+	}
+	for(int c = 0; c < 8; c++){
+		if(servos[c].rate == 0 || servos2[c].rate == 0) break;
+		EXPECT_EQ(servos[c].inputSource, servos2[c].inputSource);
+		EXPECT_EQ(servos[c].targetChannel, servos2[c].targetChannel);
+		EXPECT_EQ(servos[c].rate, servos2[c].rate);
+	}
 }
 
 
