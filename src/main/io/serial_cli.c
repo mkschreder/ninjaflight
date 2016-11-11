@@ -1211,8 +1211,8 @@ static void cliTilt(char *cmdline)
 					}
 				} else if(strcmp(params[0], "rate") == 0){
 					int rate = atoi(params[1]);
-					if(rate < 100 || rate > 1800){
-						cliPrintf("rate must be between 100 (10 degrees / sec) to 1800 (180 degrees / sec)\n");
+					if(rate < 100 || rate > 5000){
+						cliPrintf("rate must be between 100 (10 degrees / sec) to 5000 (500 degrees / sec)\n");
 					} else {
 						tilt->rate = rate;
 					}
