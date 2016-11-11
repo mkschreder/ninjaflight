@@ -23,6 +23,9 @@
 #include "io/motor_and_servo.h"
 #include "io/rc_controls.h"
 
+// TODO: this is very bad way so remove this later once refactoring is done.
+extern struct mixer default_mixer;
+
 #if defined(USE_QUAD_MIXER_ONLY)
 #define MAX_SUPPORTED_SERVOS 1
 #else
@@ -45,6 +48,9 @@
 #define YAW_JUMP_PREVENTION_LIMIT_LOW 80
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
+// the following few structures are cleanflight config for motor and servo mixers which is also currently used for custom mixers
+
+//! Cleanflight servo mixer definition.
 struct servo_mixer {
 	uint8_t targetChannel;                  //!< servo that receives the output of the rule
 	uint8_t inputSource;                    //!< input channel for this rule
@@ -54,6 +60,16 @@ struct servo_mixer {
 	int8_t max;                             //!< lower bound of rule range [0;100]% of servo max-min
 	uint8_t box;                            //!< active rule if box is enabled, range [0;3], 0=no box, 1=BOXSERVO1, 2=BOXSERVO2, 3=BOXSERVO3
 } __attribute__((packed));
+
+//! Cleanflight motor mixer definition used for custom mixers.
+struct motor_mixer {
+    float throttle;
+    float roll;
+    float pitch;
+    float yaw;
+} __attribute__((packed));
+
+// TODO: custom servo and motor mixers should use mixer_rule_def instead. Remove the above defs once we are using new structures!
 
 //! Configuration for each servo which is editable by the user
 struct servo_config {
@@ -172,22 +188,11 @@ typedef enum {
 	MIXER_MODE_COUNT,
 } mixer_mode_t;
 
-//! Custom mixer data per motor
-struct motor_mixer {
-    float throttle;
-    float roll;
-    float pitch;
-    float yaw;
-} __attribute__((packed));
-
 //! Custom mixer configuration
 struct mixer_mode {
     const struct mixer_rule_def *rules;
     uint8_t rule_count;
 };
-
-// TODO: this is very bad way so remove this later once refactoring is done.
-extern struct mixer default_mixer;
 
 //! general mixer settings
 struct mixer_config {
@@ -209,28 +214,18 @@ struct motor_3d_config {
     uint16_t neutral3d;                     // center 3d value
 };
 
+//! mixer rule definition in new format
 struct mixer_rule_def {
 	uint8_t output;
 	uint8_t input;
 	int16_t scale;
 } __attribute__((packed));
 
-struct mixer_output_def {
-	int8_t rate;
-	uint8_t speed;
-	int8_t min;
-	int8_t max;
-};
-
-#define CHANNEL_FORWARDING_DISABLED (uint8_t)0xFF
-
 #define MIXER_MAX_RULES 48
 
 struct mixer {
 	int16_t input[MIXER_INPUT_COUNT];
 	int16_t output[MIXER_OUTPUT_COUNT];
-
-	//struct motor_mixer *customMixers;
 
 	// TODO: gimbal stuff should be above mixer code not part of it
 	// move when we have refactored gimbal code
@@ -250,9 +245,7 @@ struct mixer {
 	//! output offset, min and max for motors
 	int16_t midthrottle, minthrottle, maxthrottle;
 
-	//struct servo_mixer currentServoMixer[MAX_SERVO_RULES];
 	biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
-	//struct servo_mixer *customServoMixers;
 
 	// TODO: mixer should not need so many configs. Need to factor out control logic out of the mixer!
 	struct mixer_config *mixer_config;
@@ -263,6 +256,7 @@ struct mixer {
 	struct servo_config *servo_config;
 };
 
+//! initializes a mixer struct
 void mixer_init(struct mixer *self,
 	struct mixer_config *mixer_config,
 	struct motor_3d_config *mixer_3d_config,
@@ -273,27 +267,50 @@ void mixer_init(struct mixer *self,
 	struct motor_mixer *custom_mixers,
 	uint8_t count);
 
+//! inputs a command to one of the input channels of the mixer
 void mixer_input_command(struct mixer *self, mixer_input_t i, int16_t value);
+
+//! loads a mixer preset into the current ruleset
 void mixer_load_preset(struct mixer *self, mixer_mode_t preset);
+
+//! calculates outputs from all mixer inputs and mixing rules
 void mixer_update(struct mixer *self);
 
+//! puts mixer into armed state so that outputs are calculated (TODO: this should probably be placed outside of the mixer!)
 void mixer_enable_armed(struct mixer *self, bool on);
 
+//! tests if any of the motors have reached their limit (usually maxthrottle)
 bool mixer_motor_limit_reached(struct mixer *self);
 
+//! sets throttle range of the mixer (can be used to set 3d throttle range too)
 void mixer_set_throttle_range(struct mixer *self, int16_t mid, int16_t min, int16_t max);
 
+//! returns a value of specified servo channel (id 0 is the first servo)
 uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id);
+
+//! returns a value of specified motor channel (id 0 is the first motor)
 uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id);
+
+//! returns total number of motors that are being actively mixed by the mixer as part of current profile
 uint8_t mixer_get_motor_count(struct mixer *self);
+
+//! returns total number of servos that are being actively mxier by the mixer as part of current profile
 uint8_t mixer_get_servo_count(struct mixer *self);
 
+// TODO: remove these mixer loading/saving methods once user interface has been changed to the new mixer format
+
+//! saves motor mixer into cleanflight motor mixer format
 int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output);
+
+//! loads a set of motor mixing rules from cleanflight format into current ruleset
 void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors);
+
+//! save servo mixer into cleanflight servo mixer format (sets some fields to defaults)
 int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output);
+
+//! loads servo mixing rules from cleanflight format into internal format
 void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos);
 
+//! clears all mixing rules
 void mixer_clear_rules(struct mixer *self);
-
-void mixer_reset(struct mixer *self);
 

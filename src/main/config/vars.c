@@ -222,7 +222,7 @@ void pgResetFn_servoProfile(struct servo_profile *instance)
             .rate = 100,
             .angleAtMin = DEFAULT_SERVO_MIN_ANGLE,
             .angleAtMax = DEFAULT_SERVO_MAX_ANGLE,
-            .forwardFromChannel = CHANNEL_FORWARDING_DISABLED,
+            .forwardFromChannel = 0x7f,
         );
     }
 }

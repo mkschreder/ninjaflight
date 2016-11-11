@@ -2009,7 +2009,8 @@ static void cliExit(char *cmdline)
     bufferIndex = 0;
     cliMode = 0;
 	// will basically reset the mixer (stopping all motors if any of them have been left running during test)
-    mixer_reset(&default_mixer);
+	pwmStopMotors(feature(FEATURE_ONESHOT125));
+    //mixer_reset(&default_mixer);
     cliReboot();
 
     cliWriter = NULL;

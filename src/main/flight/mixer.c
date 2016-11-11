@@ -582,18 +582,6 @@ void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
 	_update_motor_and_servo_count(self);
 }
 
-void mixer_reset(struct mixer *self){
-	// safety measure
-	self->input[MIXER_INPUT_G0_THROTTLE] = -500;
-	for(int c = 0; c < 8; c++){
-		self->input[MIXER_INPUT_G4_M1 + c] = -500;
-	}
-
-	mixer_set_throttle_range(self, 1500,
-		self->motor_servo_config->minthrottle,
-		self->motor_servo_config->maxthrottle);
-}
-
 /**
  * Initializes an empty mixer objects clearing memory first.
  */
@@ -616,7 +604,17 @@ void mixer_init(struct mixer *self,
 	self->rc_controls_config = rc_controls_config;
 	self->servo_config = servo_config;
 
-	mixer_reset(self);
+	// safety measure
+	self->input[MIXER_INPUT_G0_THROTTLE] = -500;
+	for(int c = 0; c < 8; c++){
+		self->input[MIXER_INPUT_G4_M1 + c] = -500;
+	}
+
+	// set default throttle range
+	mixer_set_throttle_range(self, 1500,
+		self->motor_servo_config->minthrottle,
+		self->motor_servo_config->maxthrottle);
+
 	// load the configured mixer profile
 	mixer_load_preset(self, mixer_config->mixerMode);
 }
@@ -624,9 +622,12 @@ void mixer_init(struct mixer *self,
 /**
  * Saves current motor mixer motor settings into the motor_mixer struct which
  * is exposed through the config
+ *
+ * @param output: where to write the motor_mixer rules in cleanflight format.
+ *
+ * @return number of motor_mixer rules written into output
  */
 int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output){
-	int ret = 0;
 	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
 		output[c].throttle = 0;
 	}
@@ -641,6 +642,11 @@ int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output){
 			case MIXER_INPUT_G0_YAW: output[i].yaw = (float)rule->scale / 1000.0f; break;
 			case MIXER_INPUT_G0_THROTTLE: output[i].throttle = (float)rule->scale / 1000.0f; break;
 		}
+	}
+
+	// count motors
+	int ret = 0;
+	for(int c = 0; c < MAX_SUPPORTED_MOTORS && output[c].throttle > 0; c++){
 		ret++;
 	}
 	return ret;
@@ -657,15 +663,27 @@ void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors
 		// note that this is very inefficient search, but we only do this rather rarely so it's ok
 		for(int j = 0; j < self->ruleCount; j++){
 			struct mixer_rule_def *ar = &self->active_rules[j];
-			if(ar->input == MIXER_INPUT_G0_ROLL && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->roll * 1000.0f; found[0] = 1; }
-			if(ar->input == MIXER_INPUT_G0_PITCH && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->pitch * 1000.0f; found[1] = 1; }
-			if(ar->input == MIXER_INPUT_G0_YAW && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->yaw * 1000.0f; found[2] = 1; }
-			if(ar->input == MIXER_INPUT_G0_THROTTLE && ar->output == (MIXER_OUTPUT_MOTORS + c)){ ar->scale = rule->throttle * 1000.0f; found[3] = 1; }
+			if(ar->input == MIXER_INPUT_G0_ROLL && ar->output == (MIXER_OUTPUT_MOTORS + c)){
+				ar->scale = rule->roll * 1000.0f; found[0] = 1;
+			}
+			if(ar->input == MIXER_INPUT_G0_PITCH && ar->output == (MIXER_OUTPUT_MOTORS + c)){
+				ar->scale = rule->pitch * 1000.0f; found[1] = 1;
+			}
+			if(ar->input == MIXER_INPUT_G0_YAW && ar->output == (MIXER_OUTPUT_MOTORS + c)){
+				ar->scale = rule->yaw * 1000.0f; found[2] = 1;
+			}
+			if(ar->input == MIXER_INPUT_G0_THROTTLE && ar->output == (MIXER_OUTPUT_MOTORS + c)){
+				ar->scale = rule->throttle * 1000.0f; found[3] = 1;
+			}
 		}
-		if(!found[0] && rule->roll) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_ROLL, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->roll * 1000.0f };
-		if(!found[1] && rule->pitch) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_PITCH, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->pitch * 1000.0f };
-		if(!found[2] && rule->yaw) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_YAW, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->yaw * 1000.0f };
-		if(!found[3] && rule->throttle) self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_THROTTLE, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->throttle * 1000.0f };
+		if(!found[0] && rule->roll)
+			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_ROLL, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->roll * 1000.0f };
+		if(!found[1] && rule->pitch)
+			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_PITCH, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->pitch * 1000.0f };
+		if(!found[2] && rule->yaw)
+			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_YAW, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->yaw * 1000.0f };
+		if(!found[3] && rule->throttle)
+			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_THROTTLE, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->throttle * 1000.0f };
 	}
 	_update_motor_and_servo_count(self);
 }

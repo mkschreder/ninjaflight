@@ -557,55 +557,72 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 	motorAndServoConfig()->minthrottle = 1050;
 	motorAndServoConfig()->maxthrottle = 1850;
 
-	_init_mixer_defaults(MIXER_AIRPLANE);
+	// test QUAD, TRICOPTER and AIRPLANE to get maximal code coverage!
+	struct test_def {
+		const char *name;
+		int motors;
+		int servos;
+		int rules;
+		mixer_mode_t type;
+	} tests[] = {
+		{ .name = "AIRPLANE", .motors = 1, .servos = 5, .rules = 6, .type = MIXER_AIRPLANE },
+		{ .name = "QUADX", .motors = 4, .servos = 0, .rules = 16, .type = MIXER_QUADX },
+		{ .name = "TRI", .motors = 3, .servos = 1, .rules = 9, .type = MIXER_TRI }
+	};
+	for(int t = 0; t < 3; t++){
+		struct test_def *cur = &tests[t];
 
-	EXPECT_EQ(1, mixer_get_motor_count(&mixer));
-	EXPECT_EQ(5, mixer_get_servo_count(&mixer));
+		printf("testing %s\n", cur->name);
+		_init_mixer_defaults(cur->type);
 
-	struct motor_mixer motors[8], motors2[8];
-	struct servo_mixer servos[8], servos2[8];
+		EXPECT_EQ(cur->motors, mixer_get_motor_count(&mixer));
+		EXPECT_EQ(cur->servos, mixer_get_servo_count(&mixer));
 
-	memset(motors, 0, sizeof(motors));
-	memset(motors2, 0, sizeof(motors2));
-	memset(servos, 0, sizeof(servos));
-	memset(servos2, 0, sizeof(servos2));
+		struct motor_mixer motors[8], motors2[8];
+		struct servo_mixer servos[8], servos2[8];
 
-	struct mixer_rule_def rules[sizeof(mixer.active_rules) / sizeof(struct mixer_rule_def)];
-	EXPECT_EQ(sizeof(rules), sizeof(mixer.active_rules));
-	EXPECT_EQ(6, mixer.ruleCount);
+		memset(motors, 0, sizeof(motors));
+		memset(motors2, 0, sizeof(motors2));
+		memset(servos, 0, sizeof(servos));
+		memset(servos2, 0, sizeof(servos2));
 
-	memcpy(rules, mixer.active_rules, sizeof(mixer.active_rules));
+		struct mixer_rule_def rules[sizeof(mixer.active_rules) / sizeof(struct mixer_rule_def)];
+		EXPECT_EQ(sizeof(rules), sizeof(mixer.active_rules));
+		EXPECT_EQ(cur->rules, mixer.ruleCount);
 
-	EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors), 1);
-	EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos), 5);
-	
-	mixer_clear_rules(&mixer);
-	
-	mixer_load_motor_mixer(&mixer, motors);
-	mixer_load_servo_mixer(&mixer, servos);
-	
-	mixer_load_motor_mixer(&mixer, motors);
-	mixer_load_servo_mixer(&mixer, servos);
+		memcpy(rules, mixer.active_rules, sizeof(mixer.active_rules));
 
-	EXPECT_EQ(6, mixer.ruleCount);
-	EXPECT_EQ(memcmp(rules, mixer.active_rules, sizeof(struct mixer_rule_def) * mixer.ruleCount), 0);
+		EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors), cur->motors);
+		EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos), cur->servos);
+		
+		mixer_clear_rules(&mixer);
+		
+		mixer_load_motor_mixer(&mixer, motors);
+		mixer_load_servo_mixer(&mixer, servos);
+		
+		mixer_load_motor_mixer(&mixer, motors);
+		mixer_load_servo_mixer(&mixer, servos);
 
-	// try saving again and compare
-	EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors2), 1);
-	EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos2), 5);
-	
-	for(int c = 0; c < 8; c++){
-		if(motors[c].throttle < 1e-6 || motors2[c].throttle < 1e-6) break;
-		EXPECT_FLOAT_EQ(motors[c].roll, motors2[c].roll);
-		EXPECT_FLOAT_EQ(motors[c].pitch, motors2[c].pitch);
-		EXPECT_FLOAT_EQ(motors[c].yaw, motors2[c].yaw);
-		EXPECT_FLOAT_EQ(motors[c].throttle, motors2[c].throttle);
-	}
-	for(int c = 0; c < 8; c++){
-		if(servos[c].rate == 0 || servos2[c].rate == 0) break;
-		EXPECT_EQ(servos[c].inputSource, servos2[c].inputSource);
-		EXPECT_EQ(servos[c].targetChannel, servos2[c].targetChannel);
-		EXPECT_EQ(servos[c].rate, servos2[c].rate);
+		EXPECT_EQ(cur->rules, mixer.ruleCount);
+		EXPECT_EQ(memcmp(rules, mixer.active_rules, sizeof(struct mixer_rule_def) * mixer.ruleCount), 0);
+
+		// try saving again and compare
+		EXPECT_EQ(mixer_save_motor_mixer(&mixer, motors2), cur->motors);
+		EXPECT_EQ(mixer_save_servo_mixer(&mixer, servos2), cur->servos);
+		
+		for(int c = 0; c < 8; c++){
+			if(motors[c].throttle < 1e-6 || motors2[c].throttle < 1e-6) break;
+			EXPECT_FLOAT_EQ(motors[c].roll, motors2[c].roll);
+			EXPECT_FLOAT_EQ(motors[c].pitch, motors2[c].pitch);
+			EXPECT_FLOAT_EQ(motors[c].yaw, motors2[c].yaw);
+			EXPECT_FLOAT_EQ(motors[c].throttle, motors2[c].throttle);
+		}
+		for(int c = 0; c < 8; c++){
+			if(servos[c].rate == 0 || servos2[c].rate == 0) break;
+			EXPECT_EQ(servos[c].inputSource, servos2[c].inputSource);
+			EXPECT_EQ(servos[c].targetChannel, servos2[c].targetChannel);
+			EXPECT_EQ(servos[c].rate, servos2[c].rate);
+		}
 	}
 }
 
