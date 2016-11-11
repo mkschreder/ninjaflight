@@ -873,7 +873,7 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-.PHONY: $(VALID_TARGETS)
+.PHONY: $(VALID_TARGETS) docs
 $(VALID_TARGETS):
 	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
 
@@ -914,6 +914,10 @@ cppcheck: $(CSOURCES)
 
 cppcheck-result.xml: $(CSOURCES)
 	$(CPPCHECK) --xml-version=2 2> cppcheck-result.xml
+
+## docs
+docs:
+	doxygen scripts/doxygen
 
 ## help        : print this help message and exit
 help: Makefile
