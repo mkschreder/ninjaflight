@@ -19,6 +19,7 @@
 
 #define TARGET_BOARD_IDENTIFIER "CHF3" // Chebuzz F3
 
+#define USE_QUAD_MIXER_ONLY 0
 #define USE_TILT 0
 #define LED0_GPIO   GPIOE
 #define LED0_PIN    Pin_8|Pin_12 // Blue LEDs - PE8/PE12

@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define USE_QUAD_MIXER_ONLY 0
 #define TARGET_BOARD_IDENTIFIER "AFNA" // AFroNAze - NAZE might be considered misleading on Naze clones like the flip32.
 #define USE_HARDWARE_REVISION_DETECTION
 

@@ -1371,11 +1371,9 @@ static int processInCommand(mspPacket_t *cmd)
             batteryConfig()->batteryCapacity = sbufReadU16(src);
             break;
 
-#ifndef USE_QUAD_MIXER_ONLY
         case MSP_SET_MIXER:
-            mixerConfig()->mixerMode = sbufReadU8(src);
+			mixerConfig()->mixerMode = sbufReadU8(src);
             break;
-#endif
 
         case MSP_SET_RX_CONFIG:
             rxConfig()->serialrx_provider = sbufReadU8(src);
@@ -1409,11 +1407,7 @@ static int processInCommand(mspPacket_t *cmd)
             break;
 
         case MSP_SET_BF_CONFIG:
-#ifdef USE_QUAD_MIXER_ONLY
-            sbufReadU8(src);                                   // mixerMode ignored
-#else
             mixerConfig()->mixerMode = sbufReadU8(src);        // mixerMode
-#endif
 
             featureClearAll();
             featureSet(sbufReadU32(src));                      // features bitmap

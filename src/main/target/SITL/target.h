@@ -1,5 +1,6 @@
 #pragma once
 
+#define USE_QUAD_MIXER_ONLY 0
 #define UNIT_TEST
 
 #define TARGET_BOARD_IDENTIFIER "SITL"

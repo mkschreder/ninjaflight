@@ -15,9 +15,10 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define TARGET_BOARD_IDENTIFIER "AFF3" // AFro F3
-
 #pragma once
+
+#define USE_QUAD_MIXER_ONLY 0
+#define TARGET_BOARD_IDENTIFIER "AFF3" // AFro F3
 
 #define USE_TILT 0
 #define LED0_GPIO   GPIOB

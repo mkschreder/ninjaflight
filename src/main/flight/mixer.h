@@ -26,7 +26,7 @@
 // TODO: this is very bad way so remove this later once refactoring is done.
 extern struct mixer default_mixer;
 
-#if defined(USE_QUAD_MIXER_ONLY)
+#if USE_QUAD_MIXER_ONLY == 1
 #define MAX_SUPPORTED_SERVOS 1
 #else
 #define MAX_SUPPORTED_SERVOS 8
@@ -35,7 +35,7 @@ extern struct mixer default_mixer;
 #define MAX_SERVO_SPEED UINT8_MAX
 #define MAX_SERVO_BOXES 3
 
-#if defined(USE_QUAD_MIXER_ONLY)
+#if USE_QUAD_MIXER_ONLY == 1
 #define MAX_SUPPORTED_MOTORS 4
 
 #elif defined(TARGET_MOTOR_COUNT)
@@ -49,6 +49,7 @@ extern struct mixer default_mixer;
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
 // the following few structures are cleanflight config for motor and servo mixers which is also currently used for custom mixers
+#define CHANNEL_FORWARDING_DISABLED (uint8_t)0xff
 
 //! Cleanflight servo mixer definition.
 struct servo_mixer {
@@ -188,11 +189,7 @@ typedef enum {
 	MIXER_MODE_COUNT,
 } mixer_mode_t;
 
-//! Custom mixer configuration
-struct mixer_mode {
-    const struct mixer_rule_def *rules;
-    uint8_t rule_count;
-};
+// TODO: all mixers should actually be stored in the client and we should only be supporting custom mixers (and possibly a default)
 
 //! general mixer settings
 struct mixer_config {

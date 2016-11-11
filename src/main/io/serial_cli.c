@@ -161,9 +161,7 @@ static void cliColor(char *cmdline);
 static void cliModeColor(char *cmdline);
 #endif
 
-#ifndef USE_QUAD_MIXER_ONLY
 static void cliMixer(char *cmdline);
-#endif
 
 #ifdef USE_FLASHFS
 static void cliFlashInfo(char *cmdline);
@@ -184,7 +182,6 @@ static void cliTilt(char *cmdline);
 static char cliBuffer[48];
 static uint32_t bufferIndex = 0;
 
-#ifndef USE_QUAD_MIXER_ONLY
 //  this with mixerMode_e
 static const char * const mixerNames[] = {
     "TRI", "QUADP", "QUADX", "BI",
@@ -194,7 +191,6 @@ static const char * const mixerNames[] = {
     "HEX6H", "PPM_TO_SERVO", "DUALCOPTER", "SINGLECOPTER",
     "ATAIL4", "TILT1", "TILT2", "CUSTOM", "CUSTOMAIRPLANE", "CUSTOMTRI", NULL
 };
-#endif
 
 // sync this with features_e
 static const char * const featureNames[] = {
@@ -288,7 +284,7 @@ const clicmd_t cmdTable[] = {
 #endif
     CLI_COMMAND_DEF("map", "configure rc channel order",
         "[<map>]", cliMap),
-#ifndef USE_QUAD_MIXER_ONLY
+#if USE_QUAD_MIXER_ONLY == 0
     CLI_COMMAND_DEF("mixer", "configure mixer",
         "list\r\n"
         "\t<name>", cliMixer),
@@ -1090,9 +1086,8 @@ static void cliAdjustmentRange(char *cmdline)
 
 static void cliMotorMix(char *cmdline)
 {
-#ifdef USE_QUAD_MIXER_ONLY
-    UNUSED(cmdline);
-#else
+	if(USE_QUAD_MIXER_ONLY) return;
+
     int i, check = 0;
     int num_motors = 0;
     uint8_t len;
@@ -1167,7 +1162,6 @@ static void cliMotorMix(char *cmdline)
             cliShowArgumentRangeError("index", 0, MAX_SUPPORTED_MOTORS - 1);
         }
     }
-#endif
 }
 
 static const __unused char *_channel_name(uint8_t chan){
@@ -1812,9 +1806,7 @@ static void cliDump(char *cmdline)
     char buf[16];
     uint32_t mask;
 
-#ifndef USE_QUAD_MIXER_ONLY
     float thr, roll, pitch, yaw;
-#endif
 
     uint8_t dumpMask = DUMP_ALL;
     if (strcasecmp(cmdline, "master") == 0) {
@@ -1835,56 +1827,55 @@ static void cliDump(char *cmdline)
         cliPrint("\r\n# dump master\r\n");
         cliPrint("\r\n# mixer\r\n");
 
-#ifndef USE_QUAD_MIXER_ONLY
-        cliPrintf("mixer %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
+		if(!USE_QUAD_MIXER_ONLY){
+			cliPrintf("mixer %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
+		}
+		cliPrintf("mmix reset\r\n");
 
-        cliPrintf("mmix reset\r\n");
-
-        for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
-            if (customMotorMixer(i)->throttle == 0.0f)
-                break;
-            thr = customMotorMixer(i)->throttle;
-            roll = customMotorMixer(i)->roll;
-            pitch = customMotorMixer(i)->pitch;
-            yaw = customMotorMixer(i)->yaw;
-            cliPrintf("mmix %d", i);
-            if (thr < 0)
-                cliWrite(' ');
-            cliPrintf("%s", ftoa(thr, buf));
-            if (roll < 0)
-                cliWrite(' ');
-            cliPrintf("%s", ftoa(roll, buf));
-            if (pitch < 0)
-                cliWrite(' ');
-            cliPrintf("%s", ftoa(pitch, buf));
-            if (yaw < 0)
-                cliWrite(' ');
-            cliPrintf("%s\r\n", ftoa(yaw, buf));
-        }
+		for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
+			if (customMotorMixer(i)->throttle == 0.0f)
+				break;
+			thr = customMotorMixer(i)->throttle;
+			roll = customMotorMixer(i)->roll;
+			pitch = customMotorMixer(i)->pitch;
+			yaw = customMotorMixer(i)->yaw;
+			cliPrintf("mmix %d", i);
+			if (thr < 0)
+				cliWrite(' ');
+			cliPrintf("%s", ftoa(thr, buf));
+			if (roll < 0)
+				cliWrite(' ');
+			cliPrintf("%s", ftoa(roll, buf));
+			if (pitch < 0)
+				cliWrite(' ');
+			cliPrintf("%s", ftoa(pitch, buf));
+			if (yaw < 0)
+				cliWrite(' ');
+			cliPrintf("%s\r\n", ftoa(yaw, buf));
+		}
 
 #ifdef USE_SERVOS
-        // print custom servo mixer if exists
-        cliPrintf("smix reset\r\n");
+		// print custom servo mixer if exists
+		cliPrintf("smix reset\r\n");
 
-        for (i = 0; i < MAX_SERVO_RULES; i++) {
+		for (i = 0; i < MAX_SERVO_RULES; i++) {
 
-            if (customServoMixer(i)->rate == 0)
-                break;
+			if (customServoMixer(i)->rate == 0)
+				break;
 
-            cliPrintf("smix %d %d %d %d %d %d %d %d\r\n",
-                i,
-                customServoMixer(i)->targetChannel,
-                customServoMixer(i)->inputSource,
-                customServoMixer(i)->rate,
-                customServoMixer(i)->speed,
-                customServoMixer(i)->min,
-                customServoMixer(i)->max,
-                customServoMixer(i)->box
-            );
-        }
+			cliPrintf("smix %d %d %d %d %d %d %d %d\r\n",
+				i,
+				customServoMixer(i)->targetChannel,
+				customServoMixer(i)->inputSource,
+				customServoMixer(i)->rate,
+				customServoMixer(i)->speed,
+				customServoMixer(i)->min,
+				customServoMixer(i)->max,
+				customServoMixer(i)->box
+			);
+		}
 
-#endif
-#endif
+	#endif
 
         cliPrint("\r\n\r\n# feature\r\n");
 
@@ -2143,9 +2134,9 @@ static void cliMap(char *cmdline)
     cliPrintf("%s\r\n", out);
 }
 
-#ifndef USE_QUAD_MIXER_ONLY
-static void cliMixer(char *cmdline)
+static void __attribute__((unused)) cliMixer(char *cmdline)
 {
+	if(USE_QUAD_MIXER_ONLY) return;
     int i;
     int len;
 
@@ -2178,7 +2169,6 @@ static void cliMixer(char *cmdline)
 
     cliMixer("");
 }
-#endif
 
 static void cliMotor(char *cmdline)
 {

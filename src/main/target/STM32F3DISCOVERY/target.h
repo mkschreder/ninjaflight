@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define USE_QUAD_MIXER_ONLY 0
 #define TARGET_BOARD_IDENTIFIER "SDF3" // STM Discovery F3
 
 #define LED0_GPIO   GPIOE

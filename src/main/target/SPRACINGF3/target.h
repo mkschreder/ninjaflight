@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define USE_QUAD_MIXER_ONLY 0
 #define TARGET_BOARD_IDENTIFIER "SRF3"
 
 #define USE_TILT 1

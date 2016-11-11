@@ -17,6 +17,7 @@
 
 #pragma once
 
+#define USE_QUAD_MIXER_ONLY 0
 #define TARGET_BOARD_IDENTIFIER "AFF3" // AlienFlight F3.
 #define USE_HARDWARE_REVISION_DETECTION
 

@@ -15,6 +15,12 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * \file mixer.c
+ *
+ * Mixer implementation
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -30,6 +36,10 @@ enum mixer_flags {
 	//! mixer has to be armed in order to make motor calculations. Motor values are set to either mincommand or minthrottle depending on whether motor stop is enabled
 	MIXER_FLAG_ARMED =		(1 << 3),
 };
+
+#ifndef USE_QUAD_MIXER_ONLY
+#define USE_QUAD_MIXER_ONLY 0
+#endif
 
 #define COUNT_SERVO_RULES(rules) (sizeof(rules) / sizeof(struct servo_mixer))
 
@@ -518,45 +528,6 @@ static const struct mixer_rule_def mixerGimbal[] = {
 	{ MIXER_OUTPUT_S2, MIXER_INPUT_G2_GIMBAL_PITCH,1000 },
 };
 
-#define MIXER_DEF_RULE_COUNT(name) (sizeof(name) / sizeof(struct mixer_rule_def))
-#define MIXER_DEF(name) { name, MIXER_DEF_RULE_COUNT(name) }
-#define NULL_MIXER { NULL, 0 }
-// Keep synced with mixerMode_e
-const struct mixer_mode mixers[] = {
-	// motors, use servo, motor mixer
-	[0] = { NULL, 0},						// entry 0
-	[MIXER_TRI]			 = MIXER_DEF(mixerTricopter),	// MIXER_TRI
-	[MIXER_QUADP]		 = MIXER_DEF(mixerQuadP),		// MIXER_QUADP
-	[MIXER_QUADX]		 = MIXER_DEF(mixerQuadX),		// MIXER_QUADX
-	[MIXER_BICOPTER]	 = MIXER_DEF(mixerBicopter),// MIXER_BICOPTER
-	[MIXER_GIMBAL]		 = MIXER_DEF(mixerGimbal),	// MIXER_GIMBAL
-	[MIXER_Y6]			 = MIXER_DEF(mixerY6),
-	[MIXER_HEX6]		 = MIXER_DEF(mixerHex6P),
-	[MIXER_FLYING_WING] = MIXER_DEF(mixerFlyingWing),
-	[MIXER_Y4]			 = MIXER_DEF(mixerY4),
-	[MIXER_HEX6X]		 = MIXER_DEF(mixerHex6X),
-	[MIXER_OCTOX8]		 = MIXER_DEF(mixerOctoX8),
-	[MIXER_OCTOFLATP]	 = MIXER_DEF(mixerOctoFlatP),
-	[MIXER_OCTOFLATX]	 = MIXER_DEF(mixerOctoFlatX),
-	[MIXER_AIRPLANE]	 = MIXER_DEF(mixerAirplane),
-	[MIXER_HELI_120_CCPM] = NULL_MIXER,
-	[MIXER_HELI_90_DEG]	 = NULL_MIXER,
-	[MIXER_VTAIL4]		 = MIXER_DEF(mixerVtail4),
-	[MIXER_HEX6H]		 = MIXER_DEF(mixerHex6H),
-	[MIXER_PPM_TO_SERVO] = NULL_MIXER,
-	[MIXER_DUALCOPTER]	 = MIXER_DEF(mixerDualcopter),
-	[MIXER_SINGLECOPTER] = MIXER_DEF(mixerSingleCopter),
-	[MIXER_ATAIL4]		 = MIXER_DEF(mixerAtail4),
-	[MIXER_QUADX_TILT1]		 = NULL_MIXER,
-	[MIXER_QUADX_TILT2]		 = NULL_MIXER,
-	[MIXER_CUSTOM]		 = NULL_MIXER,
-	[MIXER_CUSTOM_AIRPLANE]		 = NULL_MIXER,
-	[MIXER_CUSTOM_TRI]		 = NULL_MIXER,
-};
-
-#undef SERVO_RULE_REF
-#undef COUNT_SERVO_RULES
-
 static void _update_motor_and_servo_count(struct mixer *self){
 	self->motorCount = 0;
 	self->servoCount = 0;
@@ -574,11 +545,45 @@ static void _update_motor_and_servo_count(struct mixer *self){
 }
 
 void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
-	const struct mixer_mode *mode = &mixers[preset];
-	self->ruleCount = mode->rule_count;
-	int count = mode->rule_count;
-	if(count > MIXER_MAX_RULES) count = MIXER_MAX_RULES;
-	memcpy(self->active_rules, mode->rules, sizeof(struct mixer_rule_def) * count);
+	int rule_count = 0;
+	const struct mixer_rule_def *rules = NULL;
+	// setting mixer like this makes sure that we save flash space
+	#define GET_PRESET(def) if(USE_QUAD_MIXER_ONLY == 0){ rules = def; rule_count = sizeof(def) / sizeof(def[0]); }
+	#define GET_PRESET_QUADX(def) { rules = def; rule_count = sizeof(def) / sizeof(def[0]); }
+	switch(preset){
+		case MIXER_TRI:			GET_PRESET(mixerTricopter); break;
+		case MIXER_QUADP:		GET_PRESET(mixerQuadP); break;
+		case MIXER_QUADX:		GET_PRESET_QUADX(mixerQuadX); break;
+		case MIXER_BICOPTER:	GET_PRESET(mixerBicopter); break;
+		case MIXER_GIMBAL:		GET_PRESET(mixerGimbal); break;
+		case MIXER_Y6:			GET_PRESET(mixerY6); break;
+		case MIXER_HEX6:		GET_PRESET(mixerHex6P); break;
+		case MIXER_FLYING_WING:	GET_PRESET(mixerFlyingWing); break;
+		case MIXER_Y4:			GET_PRESET(mixerY4); break;
+		case MIXER_HEX6X:		GET_PRESET(mixerHex6X); break;
+		case MIXER_OCTOX8:		GET_PRESET(mixerOctoX8); break;
+		case MIXER_OCTOFLATP:	GET_PRESET(mixerOctoFlatP); break;
+		case MIXER_OCTOFLATX:	GET_PRESET(mixerOctoFlatX); break;
+		case MIXER_AIRPLANE:	GET_PRESET(mixerAirplane); break;
+		case MIXER_HELI_120_CCPM: break;
+		case MIXER_HELI_90_DEG:	break;
+		case MIXER_VTAIL4:		GET_PRESET(mixerVtail4); break;
+		case MIXER_HEX6H:		GET_PRESET(mixerHex6H); break;
+		case MIXER_PPM_TO_SERVO:	break;
+		case MIXER_DUALCOPTER:	GET_PRESET(mixerDualcopter); break;
+		case MIXER_SINGLECOPTER:GET_PRESET(mixerSingleCopter); break;
+		case MIXER_ATAIL4:		GET_PRESET(mixerAtail4); break;
+		case MIXER_QUADX_TILT1:	break;
+		case MIXER_QUADX_TILT2:	break;
+		case MIXER_CUSTOM:		break;
+		case MIXER_CUSTOM_AIRPLANE: break;
+		case MIXER_CUSTOM_TRI:	break;
+		case MIXER_MODE_COUNT: break;
+	};
+
+	self->ruleCount = constrain(rule_count, 0, MIXER_MAX_RULES);
+	memcpy(self->active_rules, rules, sizeof(struct mixer_rule_def) * self->ruleCount);
+
 	_update_motor_and_servo_count(self);
 }
 
