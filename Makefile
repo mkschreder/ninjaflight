@@ -782,10 +782,7 @@ else
 OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
-
-ifneq ($(filter $(OPTIONS),FAIL_ON_WARNINGS),)
 WARN_FLAGS      += -Werror
-endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
