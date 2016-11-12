@@ -42,11 +42,6 @@ typedef enum {
     FAILSAFE_RXLINK_UP
 } failsafeRxLinkState_e;
 
-typedef enum {
-    FAILSAFE_PROCEDURE_AUTO_LANDING = 0,
-    FAILSAFE_PROCEDURE_DROP_IT
-} failsafeProcedure_e;
-
 typedef struct failsafeState_s {
     int16_t events;
     bool monitoring;
