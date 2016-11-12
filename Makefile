@@ -936,6 +936,9 @@ test junittest:
 	lcov --list coverage.info
 	if [ "$$(which genhtml)" != "" ]; then genhtml coverage.info --output-directory coverage-html; fi
 
+test-memory test-cache test-stack:
+	cd src/test && $(MAKE) $@
+	
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile
 

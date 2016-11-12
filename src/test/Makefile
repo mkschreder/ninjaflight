@@ -972,7 +972,10 @@ $(OBJECT_DIR)/config_streamer_unittest : \
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
 ## test        : Build and run the Unit Tests
-test: $(TESTS:%=test-%)
+test: $(TESTS:%=test-%) 
+test-memory: $(TESTS:%=test-memory-%) 
+test-cache: $(TESTS:%=test-cache-%)
+test-stack: $(TESTS:%=test-stack-%)
 
 ## junittest   : Build and run the Unit Tests, producing Junit XML result files."
 junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml" 
@@ -980,6 +983,12 @@ junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
 	$< $(EXEC_OPTS)
+test-memory-%: $(OBJECT_DIR)/%
+	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
+test-cache-%: $(OBJECT_DIR)/%
+	valgrind --tool=cachegrind $< $(EXEC_OPTS)
+test-stack-%: $(OBJECT_DIR)/%
+	valgrind --tool=exp-sgcheck $< $(EXEC_OPTS)
 
 ## help        : print this help message and exit
 ## what        : print this help message and exit
