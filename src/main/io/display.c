@@ -46,7 +46,6 @@
 #include "config/feature.h"
 #include "config/profile.h"
 
-#include "io/rc_controls.h"
 #include "io/display.h"
 #include "io/gps.h"
 

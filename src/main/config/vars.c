@@ -42,7 +42,6 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 
-#include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 #include "io/beeper.h"
 #include "io/serial.h"

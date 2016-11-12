@@ -33,8 +33,6 @@
 #include "drivers/sonar_hcsr04.h"
 #include "drivers/gpio.h"
 
-#include "io/rc_controls.h"
-
 #include "sensors/sensors.h"
 #include "sensors/battery.h"
 #include "sensors/sonar.h"

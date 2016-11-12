@@ -70,7 +70,6 @@
 #include "io/serial.h"
 #include "io/flashfs.h"
 #include "io/gps.h"
-#include "io/rc_controls.h"
 #include "io/ledstrip.h"
 #include "io/display.h"
 #include "io/asyncfatfs/asyncfatfs.h"

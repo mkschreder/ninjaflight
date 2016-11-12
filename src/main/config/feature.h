@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 // Keep synchronized with featureNames[] in serial_cli.c
 typedef enum {
     FEATURE_RX_PPM = 1 << 0,

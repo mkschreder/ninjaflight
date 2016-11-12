@@ -44,7 +44,6 @@
 #include "flight/anglerate.h"
 #include "flight/failsafe.h"
 
-#include "io/rc_controls.h"
 #include "io/gps.h"
 #include "rx/rx.h"
 

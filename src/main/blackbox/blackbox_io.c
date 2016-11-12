@@ -32,8 +32,6 @@
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
 
-#include "io/rc_controls.h"
-
 #include "io/serial.h"
 #include "io/serial_msp.h"
 #include "common/printf.h"

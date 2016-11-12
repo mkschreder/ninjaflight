@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 #define MAX_MODE_ACTIVATION_CONDITION_COUNT 20
 
 typedef enum {

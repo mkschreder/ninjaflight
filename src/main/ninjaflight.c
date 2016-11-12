@@ -44,7 +44,6 @@
 #include "drivers/serial.h"
 #include "drivers/gyro_sync.h"
 #include "drivers/pwm_output.h"
-#include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 
 #include "sensors/sensors.h"

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 typedef enum {
     INPUT_FILTERING_DISABLED = 0,
     INPUT_FILTERING_ENABLED

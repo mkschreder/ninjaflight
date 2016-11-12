@@ -25,39 +25,29 @@
 #include "build_config.h"
 #include "debug.h"
 
-#include "common/maths.h"
-#include "common/utils.h"
+#include "../common/maths.h"
+#include "../common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+#include "../config/feature.h"
 
-#include "config/config.h"
-#include "config/feature.h"
-#include "config/config_reset.h"
+#include "../flight/failsafe.h"
 
-#include "drivers/serial.h"
-#include "drivers/adc.h"
+#include "../io/rc_controls.h"
 
-#include "io/serial.h"
-#include "io/rc_controls.h"
+#include "../drivers/pwm_rx.h"
+#include "../drivers/adc.h"
+#include "../drivers/system.h"
 
-#include "flight/failsafe.h"
+#include "pwm.h"
+#include "sbus.h"
+#include "spektrum.h"
+#include "sumd.h"
+#include "sumh.h"
+#include "msp.h"
+#include "xbus.h"
+#include "ibus.h"
 
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
-#include "drivers/pwm_rx.h"
-#include "drivers/system.h"
-
-#include "rx/pwm.h"
-#include "rx/sbus.h"
-#include "rx/spektrum.h"
-#include "rx/sumd.h"
-#include "rx/sumh.h"
-#include "rx/msp.h"
-#include "rx/xbus.h"
-#include "rx/ibus.h"
-
-#include "rx/rx.h"
+#include "rx.h"
 
 //#define DEBUG_RX_SIGNAL_LOSS
 
