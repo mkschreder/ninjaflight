@@ -723,14 +723,14 @@ void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos
  */
 int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output){
 	int ret = 0;
-	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
+	for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
 		output[c].rate = 0;
 	}
 	for(int c = 0; c < self->ruleCount; c++){
 		struct mixer_rule_def *rule = &self->active_rules[c];
 		if(rule->output < MIXER_OUTPUT_S1 || rule->output > MIXER_OUTPUT_S8) continue;
 		int i = rule->output - MIXER_OUTPUT_S1;
-		if(i > MAX_SUPPORTED_SERVOS) continue;
+		if(i >= MAX_SUPPORTED_SERVOS) continue;
 		output[i].inputSource = rule->input;
 		output[i].targetChannel = rule->output;
 		output[i].rate = (float)rule->scale / 10.0f;

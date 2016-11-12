@@ -52,25 +52,6 @@ extern struct mixer default_mixer;
 #define YAW_JUMP_PREVENTION_LIMIT_LOW 80
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
-// the following few structures are cleanflight config for motor and servo mixers which is also currently used for custom mixers
-#define CHANNEL_FORWARDING_DISABLED (uint8_t)0xff
-
-//! Configuration for each servo which is editable by the user
-struct servo_config {
-    int16_t min;                            //!< Minimum pwm value that is sent to the servo
-    int16_t max;                            //!< Maximum pwm value that is sent to the servo
-    int16_t middle;                         //!< PWM value that is sent to center the servo (usually 1500)
-    int8_t rate;                            //!< range [-125;+125] ; can be used to adjust a rate 0-125% and a direction
-    uint8_t angleAtMin;                     //!< range [0;180] the measured angle in degrees from the middle when the servo is at the 'min' value.
-    uint8_t angleAtMax;                     //!< range [0;180] the measured angle in degrees from the middle when the servo is at the 'max' value.
-    int8_t forwardFromChannel;              //!< RX channel index, 0 based.  See CHANNEL_FORWARDING_DISABLED
-    uint32_t reversedSources;               //!< the direction of servo movement for each input source of the servo mixer, bit set=inverted
-} __attribute__ ((__packed__));
-
-struct servo_profile {
-    struct servo_config servoConf[MAX_SUPPORTED_SERVOS];
-};
-
 /**
  * Mixer input commands that command the mixer to either spin or translate the frame in specific direction.
  * All movement is in body frame and movements that are not physically supported by the frame will be ignored.

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 #define MIXER_TILT_COMPENSATE_THRUST (1 << 0)
 #define MIXER_TILT_COMPENSATE_TILT (1 << 1)
 #define MIXER_TILT_COMPENSATE_BODY (1 << 2)

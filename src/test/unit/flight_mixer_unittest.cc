@@ -618,6 +618,7 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 			EXPECT_FLOAT_EQ(motors[c].throttle, motors2[c].throttle);
 		}
 		for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
+			printf("servo: from:%d to:%d rate:%d\n", servos[c].inputSource, servos[c].targetChannel, servos[c].rate);
 			EXPECT_EQ(servos[c].inputSource, servos2[c].inputSource);
 			EXPECT_EQ(servos[c].targetChannel, servos2[c].targetChannel);
 			EXPECT_EQ(servos[c].rate, servos2[c].rate);
