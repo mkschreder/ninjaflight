@@ -44,7 +44,6 @@ extern "C" {
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
 
-    #include "io/motor_and_servo.h"
     #include "io/rc_controls.h"
 
     #include "rx/rx.h"
@@ -56,7 +55,11 @@ extern "C" {
 
     #include "config/runtime_config.h"
     #include "config/config.h"
+	#include "config/rc_controls.h"
+	#include "config/altitudehold.h"
+	#include "config/mixer.h"
 
+/*
     PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
     PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
     PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
@@ -68,7 +71,7 @@ extern "C" {
 	PG_RESET_TEMPLATE(airplaneConfig_t, airplaneConfig,
 		.fixedwing_althold_dir = 1,
 	);
-
+*/
 
 	struct imu default_imu; 
     extern uint32_t rcModeActivationMask;

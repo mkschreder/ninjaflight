@@ -17,23 +17,10 @@
 
 #pragma once
 
+#include "../config/telemetry.h"
+
 // TODO: remove dependency on io/serial
 #include "io/serial.h"
-
-typedef enum {
-    FRSKY_FORMAT_DMS = 0,
-    FRSKY_FORMAT_NMEA
-} frskyGpsCoordFormat_e;
-
-typedef enum {
-    FRSKY_UNIT_METRICS = 0,
-    FRSKY_UNIT_IMPERIALS
-} frskyUnit_e;
-
-typedef struct telemetryConfig_s {
-    uint8_t telemetry_switch;               // Use aux channel to change serial output & baudrate( MSP / Telemetry ). It disables automatic switching to Telemetry when armed.
-    uint8_t telemetry_inversion;            // also shared with smartport inversion
-} telemetryConfig_t;
 
 void telemetryInit(void);
 

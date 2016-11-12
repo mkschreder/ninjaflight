@@ -29,6 +29,9 @@ extern "C" {
 
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
+	#include "config/anglerate.h"
+	#include "config/rx.h"
+	#include "config/mixer.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -37,7 +40,6 @@ extern "C" {
     #include "sensors/acceleration.h"
 
     #include "io/beeper.h"
-    #include "io/motor_and_servo.h"
     #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
@@ -50,9 +52,11 @@ extern "C" {
 
     void useRcControlsConfig(modeActivationCondition_t *);
 
+/*
     PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
     PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
     PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
+*/
 }
 
 #include "unittest_macros.h"

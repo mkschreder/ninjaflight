@@ -50,7 +50,6 @@
 
 #include "io/gps.h"
 #include "io/beeper.h"
-#include "io/motor_and_servo.h"
 #include "io/rc_curves.h"
 
 #include "io/display.h"

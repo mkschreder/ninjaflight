@@ -17,9 +17,7 @@
 
 #pragma once
 
-typedef struct transponderConfig_s {
-    uint8_t data[6];
-} transponderConfig_t;
+#include "../config/transponder.h"
 
 void transponderInit(uint8_t* transponderCode);
 

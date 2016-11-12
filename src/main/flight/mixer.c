@@ -37,11 +37,13 @@ enum mixer_flags {
 	MIXER_FLAG_ARMED =		(1 << 3),
 };
 
+/// @cond
 #ifndef USE_QUAD_MIXER_ONLY
 #define USE_QUAD_MIXER_ONLY 0
 #endif
 
 #define COUNT_SERVO_RULES(rules) (sizeof(rules) / sizeof(struct servo_mixer))
+/// @endcond
 
 /* Updated mixer rules below. Note that even though these look larger, they in
  * fact take up less memory than the old ones due to better memory efficiency
@@ -548,8 +550,10 @@ void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
 	int rule_count = 0;
 	const struct mixer_rule_def *rules = NULL;
 	// setting mixer like this makes sure that we save flash space
+	/// @cond
 	#define GET_PRESET(def) if(USE_QUAD_MIXER_ONLY == 0){ rules = def; rule_count = sizeof(def) / sizeof(def[0]); }
 	#define GET_PRESET_QUADX(def) { rules = def; rule_count = sizeof(def) / sizeof(def[0]); }
+	/// @endcond
 	switch(preset){
 		case MIXER_TRI:			GET_PRESET(mixerTricopter); break;
 		case MIXER_QUADP:		GET_PRESET(mixerQuadP); break;

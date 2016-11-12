@@ -50,10 +50,8 @@ extern "C" {
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
     #include "io/gps.h"
-    #include "io/gimbal.h"
     #include "io/ledstrip.h"
     #include "io/msp_protocol.h"
-    #include "io/motor_and_servo.h"
     #include "io/transponder_ir.h"
     #include "io/serial.h"
 

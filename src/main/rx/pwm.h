@@ -17,4 +17,7 @@
 
 #pragma once
 
+#include "rx.h"
+#include "../config/pwm_rx.h"
+
 void rxPwmInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback);

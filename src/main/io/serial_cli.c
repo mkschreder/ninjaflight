@@ -36,8 +36,10 @@
 #include "common/color.h"
 #include "common/typeconversion.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
+#include "../config/parameter_group.h"
+#include "../config/parameter_group_ids.h"
+#include "../config/tilt.h"
+#include "../config/gimbal.h"
 
 #include "drivers/system.h"
 
@@ -55,7 +57,6 @@
 #include "drivers/buf_writer.h"
 
 #include "io/gps.h"
-#include "io/gimbal.h"
 #include "io/rc_controls.h"
 #include "flight/rate_profile.h"
 #include "io/rc_adjustments.h"
@@ -535,7 +536,7 @@ const clivalue_t valueTable[] = {
 
     { "small_angle",                VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  180 } , PG_IMU_CONFIG, offsetof(struct imu_config, small_angle)},
 
-    { "fixedwing_althold_dir",      VAR_INT8   | MASTER_VALUE, .config.minmax = { -1,  1 }, PG_AIRPLANE_ALT_HOLD_CONFIG, offsetof( airplaneConfig_t, fixedwing_althold_dir) },
+    { "fixedwing_althold_dir",      VAR_INT8   | MASTER_VALUE, .config.minmax = { -1,  1 }, PG_AIRPLANE_ALT_HOLD_CONFIG, offsetof( struct airplane_althold_config, fixedwing_althold_dir) },
 
     { "reboot_character",           VAR_UINT8  | MASTER_VALUE, .config.minmax = { 48,  126 } , PG_SERIAL_CONFIG, offsetof(serialConfig_t, reboot_character)},
 
@@ -625,7 +626,7 @@ const clivalue_t valueTable[] = {
     { "servo_lowpass_enable",       VAR_INT8   | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } , PG_MIXER_CONFIG, offsetof(struct mixer_config, servo_lowpass_enable)},
 #endif
 
-    { "default_rate_profile",       VAR_UINT8  | PROFILE_VALUE , .config.minmax = { 0,  MAX_CONTROL_RATE_PROFILE_COUNT - 1 } , PG_RATE_PROFILE_SELECTION, offsetof(rateProfileSelection_t, defaultRateProfileIndex)},
+    { "default_rate_profile",       VAR_UINT8  | PROFILE_VALUE , .config.minmax = { 0,  MAX_CONTROL_RATE_PROFILE_COUNT - 1 } , PG_RATE_PROFILE_SELECTION, offsetof(struct rate_profile_selection, defaultRateProfileIndex)},
 
     { "rc_rate",                    VAR_UINT8  | CONTROL_RATE_VALUE, .config.minmax = { 0,  250 } , PG_CONTROL_RATE_PROFILES, offsetof(struct rate_config, rcRate8)},
     { "rc_expo",                    VAR_UINT8  | CONTROL_RATE_VALUE, .config.minmax = { 0,  100 } , PG_CONTROL_RATE_PROFILES, offsetof(struct rate_config, rcExpo8)},

@@ -20,12 +20,13 @@
 #include "anglerate.h"
 
 // TODO: motor_and_servo probably does not belong in io folder..
-#include "io/motor_and_servo.h"
 #include "io/rc_controls.h"
+#include "../config/mixer.h"
 
 // TODO: this is very bad way so remove this later once refactoring is done.
 extern struct mixer default_mixer;
 
+/*
 #if USE_QUAD_MIXER_ONLY == 1
 #define MAX_SUPPORTED_SERVOS 1
 #else
@@ -34,7 +35,9 @@ extern struct mixer default_mixer;
 #define MAX_SERVO_RULES (2 * MAX_SUPPORTED_SERVOS)
 #define MAX_SERVO_SPEED UINT8_MAX
 #define MAX_SERVO_BOXES 3
-
+*/
+// TODO: revise usage of MAX_SUPPORTED_MOTORS to see if it is wrong to define it to 12
+/*
 #if USE_QUAD_MIXER_ONLY == 1
 #define MAX_SUPPORTED_MOTORS 4
 
@@ -44,33 +47,13 @@ extern struct mixer default_mixer;
 #else
 #define MAX_SUPPORTED_MOTORS 12
 #endif
+*/
 
 #define YAW_JUMP_PREVENTION_LIMIT_LOW 80
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
 // the following few structures are cleanflight config for motor and servo mixers which is also currently used for custom mixers
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xff
-
-//! Cleanflight servo mixer definition.
-struct servo_mixer {
-	uint8_t targetChannel;                  //!< servo that receives the output of the rule
-	uint8_t inputSource;                    //!< input channel for this rule
-	int8_t rate;                            //!< range [-125;+125] ; can be used to adjust a rate 0-125% and a direction
-	uint8_t speed;                          //!< reduces the speed of the rule, 0=unlimited speed
-	int8_t min;                             //!< lower bound of rule range [0;100]% of servo max-min
-	int8_t max;                             //!< lower bound of rule range [0;100]% of servo max-min
-	uint8_t box;                            //!< active rule if box is enabled, range [0;3], 0=no box, 1=BOXSERVO1, 2=BOXSERVO2, 3=BOXSERVO3
-} __attribute__((packed));
-
-//! Cleanflight motor mixer definition used for custom mixers.
-struct motor_mixer {
-    float throttle;
-    float roll;
-    float pitch;
-    float yaw;
-} __attribute__((packed));
-
-// TODO: custom servo and motor mixers should use mixer_rule_def instead. Remove the above defs once we are using new structures!
 
 //! Configuration for each servo which is editable by the user
 struct servo_config {
@@ -202,13 +185,6 @@ struct mixer_config {
     float servo_lowpass_freq;		//!< lowpass servo filter frequency selection; 1/1000ths of loop freq
     int8_t servo_lowpass_enable;	//!< enable/disable lowpass filter for servo output
 #endif
-};
-
-//! 3d mode mixer settings (used when mixer_enable_3d_mode is called with true)
-struct motor_3d_config {
-    uint16_t deadband3d_low;                // min 3d value
-    uint16_t deadband3d_high;               // max 3d value
-    uint16_t neutral3d;                     // center 3d value
 };
 
 //! mixer rule definition in new format

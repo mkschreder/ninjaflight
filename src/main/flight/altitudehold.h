@@ -16,19 +16,15 @@
  */
 #pragma once
 
-#include "io/motor_and_servo.h"
 #include "io/rc_controls.h"
 #include "flight/anglerate.h"
 #include "flight/imu.h"
 
 #include "sensors/barometer.h"
+#include "../config/altitudehold.h"
 
 extern int32_t AltHold;
 extern int32_t vario;
-
-typedef struct airplaneConfig_s {
-    int8_t fixedwing_althold_dir;           // +1 or -1 for pitch/althold gain. later check if need more than just sign
-} airplaneConfig_t;
 
 void calculateEstimatedAltitude(uint32_t currentTime);
 

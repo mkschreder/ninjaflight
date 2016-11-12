@@ -21,6 +21,7 @@
 extern "C" {
     #include "build_config.h"
     #include "debug.h"
+	#include "target.h"
 
     #include "common/axis.h"
     #include "common/maths.h"
@@ -28,6 +29,10 @@ extern "C" {
 	#include "config/config.h"
     #include "config/runtime_config.h"
     #include "config/parameter_group.h"
+	#include "config/serial.h"
+	#include "config/gps.h"
+	#include "config/navigation.h"
+    #include "config/config_unittest.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -35,12 +40,12 @@ extern "C" {
     #include "sensors/acceleration.h"
     #include "sensors/gyro.h"
 
-    #include "rx/rx.h"
     #include "io/rc_controls.h"
-    #include "flight/rate_profile.h"
 
+    #include "rx/rx.h"
+
+    #include "flight/rate_profile.h"
     #include "flight/anglerate.h"
-    #include "config/config_unittest.h"
     #include "flight/imu.h"
 	#include "flight/mixer.h"
 

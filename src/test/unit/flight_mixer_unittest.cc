@@ -32,6 +32,8 @@ extern "C" {
 
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
+	
+	#include "config/gimbal.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -46,8 +48,6 @@ extern "C" {
     #include "flight/imu.h"
     #include "flight/mixer.h"
 
-    #include "io/motor_and_servo.h"
-    #include "io/gimbal.h"
     #include "io/rc_controls.h"
 
     #include "config/config.h"

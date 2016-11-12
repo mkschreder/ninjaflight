@@ -49,8 +49,6 @@ extern "C" {
     #include "flight/mixer.h"
     #include "flight/tilt.h"
 
-    #include "io/motor_and_servo.h"
-    #include "io/gimbal.h"
     #include "io/rc_controls.h"
 
     #include "config/config.h"

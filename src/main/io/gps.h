@@ -17,28 +17,14 @@
 
 #pragma once
 
-struct serialPort_s; 
+#include "../config/gps.h"
+
+struct serialPort_s;
 
 #define LAT 0
 #define LON 1
 
 #define GPS_DEGREES_DIVIDER 10000000L
-
-typedef enum {
-    GPS_NMEA = 0,
-    GPS_UBLOX
-} gpsProvider_e;
-
-#define GPS_PROVIDER_MAX GPS_UBLOX
-
-typedef enum {
-    SBAS_AUTO = 0,
-    SBAS_EGNOS,
-    SBAS_WAAS,
-    SBAS_MSAS,
-    SBAS_GAGAN
-} sbasMode_e;
-
 #define SBAS_MODE_MAX SBAS_GAGAN
 
 typedef enum {
@@ -49,25 +35,7 @@ typedef enum {
     GPS_BAUDRATE_9600
 } gpsBaudRate_e;
 
-typedef enum {
-    GPS_AUTOCONFIG_OFF = 0,
-    GPS_AUTOCONFIG_ON,
-} gpsAutoConfig_e;
-
-typedef enum {
-    GPS_AUTOBAUD_OFF = 0,
-    GPS_AUTOBAUD_ON
-} gpsAutoBaud_e;
-
 #define GPS_BAUDRATE_MAX GPS_BAUDRATE_9600
-
-typedef struct gpsConfig_s {
-    gpsProvider_e provider;
-    sbasMode_e sbasMode;
-    gpsAutoConfig_e autoConfig;
-    gpsAutoBaud_e autoBaud;
-} gpsConfig_t;
-
 typedef struct gpsCoordinateDDDMMmmmm_s {
     int16_t dddmm;
     int16_t mmmm;

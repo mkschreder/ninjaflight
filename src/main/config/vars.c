@@ -61,10 +61,32 @@
 #include "flight/navigation.h"
 #include "flight/tilt.h"
 
+#include "accelerometer.h"
+#include "altitudehold.h"
+#include "blackbox.h"
+#include "failsafe.h"
+#include "gps.h"
+#include "imu.h"
+#include "mixer.h"
+#include "navigation.h"
+#include "rate_profile.h"
+#include "sensors.h"
+#include "tilt.h"
+#include "gimbal.h"
+#include "rx.h"
+#include "rc_controls.h"
+#include "rc_adjustments.h"
+#include "transponder.h"
+#include "boardalignment.h"
+#include "ledstrip.h"
+#include "frsky.h"
+#include "hott.h"
+#include "barometer.h"
+#include "gyro.h"
+#include "pwm_rx.h"
 
 // FIXME remove the includes below when target specific configuration is moved out of this file
 #include "sensors/battery.h"
-#include "io/motor_and_servo.h"
 
 // BLACKBOX
 #include "blackbox/blackbox_io.h"
@@ -172,7 +194,7 @@ static void pgResetFn_controlRateProfiles(struct rate_config *instance){
     }
 }
 
-PG_REGISTER_PROFILE(rateProfileSelection_t, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
+PG_REGISTER_PROFILE(struct rate_profile_selection, rateProfileSelection, PG_RATE_PROFILE_SELECTION, 0);
 PG_REGISTER_ARR_WITH_RESET_FN(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles, PG_CONTROL_RATE_PROFILES, 0);
 
 // MIXER
@@ -579,9 +601,9 @@ PG_RESET_TEMPLATE(failsafeConfig_t, failsafeConfig,
 );
 
 // ALTITUDE
-PG_REGISTER_WITH_RESET_TEMPLATE(airplaneConfig_t, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct airplane_althold_config, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
 
-PG_RESET_TEMPLATE(airplaneConfig_t, airplaneConfig,
+PG_RESET_TEMPLATE(struct airplane_althold_config, airplaneConfig,
     .fixedwing_althold_dir = 1,
 );
 

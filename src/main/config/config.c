@@ -64,7 +64,6 @@
 
 // FIXME remove the includes below when target specific configuration is moved out of this file
 #include "sensors/battery.h"
-#include "io/motor_and_servo.h"
 
 // Default settings
 

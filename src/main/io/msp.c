@@ -53,12 +53,10 @@
 #include "rx/rx.h"
 #include "rx/msp.h"
 
-#include "io/motor_and_servo.h"
 #include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 #include "io/gps.h"
-#include "io/gimbal.h"
 #include "io/serial.h"
 #include "io/ledstrip.h"
 #include "io/flashfs.h"

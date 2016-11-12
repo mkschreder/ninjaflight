@@ -32,6 +32,7 @@
 #include "common/filter.h"
 
 #include "config/parameter_group.h"
+#include "config/tilt.h"
 
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"

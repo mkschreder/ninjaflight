@@ -19,7 +19,7 @@
 #include "gpio.h"
 #include "timer.h"
 
-#if defined(USE_QUAD_MIXER_ONLY)
+#if USE_QUAD_MIXER_ONLY == 1
 #define MAX_PWM_MOTORS  4
 #define MAX_PWM_SERVOS  1
 #define MAX_MOTORS  4

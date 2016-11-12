@@ -42,8 +42,6 @@ extern "C" {
     #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
-    #include "io/motor_and_servo.h"
-    #include "io/gimbal.h"
     #include "io/gps.h"
     #include "io/serial.h"
     #include "io/ledstrip.h"
@@ -72,6 +70,7 @@ extern "C" {
     #include "config/config_system.h"
     #include "config/feature.h"
     #include "config/profile.h"
+	#include "config/frsky.h"
 
     #include "platform.h"
 

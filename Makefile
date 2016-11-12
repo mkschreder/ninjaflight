@@ -268,8 +268,6 @@ COMMON_SRC = build_config.c \
 		   drivers/buf_writer.c \
 		   drivers/gyro_sync.c \
 		   io/beeper.c \
-		   io/gimbal.c \
-		   io/motor_and_servo.c \
 		   io/rc_adjustments.c \
 		   io/rc_controls.c \
 		   io/rc_curves.c \

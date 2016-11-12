@@ -298,6 +298,7 @@ $(OBJECT_DIR)/flight_altitudehold_unittest : \
 	$(OBJECT_DIR)/flight/altitudehold.o \
 	$(OBJECT_DIR)/flight_altitudehold_unittest.o \
 	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
@@ -467,6 +468,7 @@ $(OBJECT_DIR)/rc_controls_unittest.o : \
 
 $(OBJECT_DIR)/rc_controls_unittest : \
 	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/io/rc_controls.o \
 	$(OBJECT_DIR)/io/rc_adjustments.o \
 	$(OBJECT_DIR)/rc_controls_unittest.o \

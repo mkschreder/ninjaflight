@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "../config/barometer.h"
+
 typedef enum {
     BARO_DEFAULT = 0,
     BARO_NONE = 1,
@@ -31,19 +33,9 @@ typedef enum {
 extern int32_t BaroAlt;
 extern int32_t baroTemperature;             // Use temperature for telemetry
 
-#ifdef BARO
-
-typedef struct barometerConfig_s {
-    uint8_t baro_sample_count;              // size of baro filter array
-    float baro_noise_lpf;                   // additional LPF to reduce baro noise
-    float baro_cf_vel;                      // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity)
-    float baro_cf_alt;                      // apply CF to use ACC for height estimation
-} barometerConfig_t;
-
 bool isBaroCalibrationComplete(void);
 void baroSetCalibrationCycles(uint16_t calibrationCyclesRequired);
 uint32_t baroUpdate(void);
 bool isBaroReady(void);
 int32_t baroCalculateAltitude(void);
 void performBaroCalibrationCycle(void);
-#endif

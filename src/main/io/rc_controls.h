@@ -17,40 +17,8 @@
 
 #pragma once
 
-#include "rx/rx.h"
-
-typedef enum {
-    BOXARM = 0,
-    BOXANGLE,
-    BOXHORIZON,
-    BOXBARO,
-    // BOXVARIO,
-    BOXMAG,
-    BOXHEADFREE,
-    BOXHEADADJ,
-    BOXCAMSTAB,
-    BOXCAMTRIG,
-    BOXGPSHOME,
-    BOXGPSHOLD,
-    BOXPASSTHRU,
-    BOXBEEPERON,
-    BOXLEDMAX,
-    BOXLEDLOW,
-    BOXLLIGHTS,
-    BOXCALIB,
-    BOXGOV,
-    BOXOSD,
-    BOXTELEMETRY,
-    BOXGTUNE,
-    BOXSONAR,
-    BOXSERVO1,
-    BOXSERVO2,
-    BOXSERVO3,
-    BOXBLACKBOX,
-    BOXFAILSAFE,
-    BOXAIRMODE,
-    CHECKBOX_ITEM_COUNT
-} boxId_e;
+#include "../config/rx.h"
+#include "../config/rc_controls.h"
 
 typedef enum rc_alias {
     ROLL = 0,
@@ -90,8 +58,6 @@ typedef enum {
 #define THR_CE (3 << (2 * THROTTLE))
 #define THR_HI (2 << (2 * THROTTLE))
 
-#define MAX_MODE_ACTIVATION_CONDITION_COUNT 20
-
 #define CHANNEL_RANGE_MIN 900
 #define CHANNEL_RANGE_MAX 2100
 
@@ -109,48 +75,8 @@ typedef enum {
 
 #define CONTROL_RATE_CONFIG_TPA_MAX              100
 
-// steps are 25 apart
-// a value of 0 corresponds to a channel value of 900 or less
-// a value of 48 corresponds to a channel value of 2100 or more
-// 48 steps between 900 and 1200
-typedef struct channelRange_s {
-    uint8_t startStep;
-    uint8_t endStep;
-} channelRange_t;
-
-typedef struct modeActivationCondition_s {
-    boxId_e modeId;
-    uint8_t auxChannelIndex;
-    channelRange_t range;
-} modeActivationCondition_t;
-
 #define IS_RANGE_USABLE(range) ((range)->startStep < (range)->endStep)
-
-typedef struct modeActivationProfile_s {
-    modeActivationCondition_t modeActivationConditions[MAX_MODE_ACTIVATION_CONDITION_COUNT];
-} modeActivationProfile_t;
-
 extern int16_t rcCommand[4];
-
-typedef struct rcControlsConfig_s {
-    uint8_t deadband;                       // introduce a deadband around the stick center for pitch and roll axis. Must be greater than zero.
-    uint8_t yaw_deadband;                   // introduce a deadband around the stick center for yaw axis. Must be greater than zero.
-    uint8_t alt_hold_deadband;              // defines the neutral zone of throttle stick during altitude hold, default setting is +/-40
-    uint8_t alt_hold_fast_change;           // when disabled, turn off the althold when throttle stick is out of deadband defined with alt_hold_deadband; when enabled, altitude changes slowly proportional to stick movement
-    int8_t yaw_control_direction;           // change control direction of yaw (inverted, normal)
-    uint16_t deadband3d_throttle;           // default throttle deadband from MIDRC
-} rcControlsConfig_t;
-
-PG_DECLARE_PROFILE(rcControlsConfig_t, rcControlsConfig);
-
-typedef struct armingConfig_s {
-    // Arming configuration
-    uint8_t retarded_arm;                   // allow disarm/arm on throttle down + roll left/right
-    uint8_t disarm_kill_switch;             // allow disarm via AUX switch regardless of throttle value
-    uint8_t auto_disarm_delay;              // allow automatically disarming multicopters after auto_disarm_delay seconds of zero throttle. Disabled when 0
-    uint8_t max_arm_angle;                  // specifies the maximum angle allow arming at.
-} armingConfig_t;
-
 bool areUsingSticksToArm(void);
 
 bool areSticksInApModePosition(uint16_t ap_mode);

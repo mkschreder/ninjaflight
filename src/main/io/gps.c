@@ -346,10 +346,11 @@ static void gpsInitHardware(void)
         case GPS_NMEA:
             gpsInitNmea();
             break;
-
         case GPS_UBLOX:
             gpsInitUblox();
             break;
+		default:
+			break;
     }
 }
 
@@ -426,6 +427,8 @@ bool gpsNewFrame(uint8_t c)
             return gpsNewFrameNMEA(c);
         case GPS_UBLOX:         // UBX binary
             return gpsNewFrameUBLOX(c);
+		default:
+			break;
     }
 
     return false;

@@ -46,7 +46,6 @@
 #include "rx/rx.h"
 
 #include "io/rc_controls.h"
-#include "io/motor_and_servo.h"
 
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
