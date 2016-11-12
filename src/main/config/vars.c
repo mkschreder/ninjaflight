@@ -84,6 +84,7 @@
 #include "barometer.h"
 #include "gyro.h"
 #include "pwm_rx.h"
+#include "gtune.h"
 
 // FIXME remove the includes below when target specific configuration is moved out of this file
 #include "sensors/battery.h"

@@ -617,8 +617,7 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 			EXPECT_FLOAT_EQ(motors[c].yaw, motors2[c].yaw);
 			EXPECT_FLOAT_EQ(motors[c].throttle, motors2[c].throttle);
 		}
-		for(int c = 0; c < 8; c++){
-			if(servos[c].rate == 0 || servos2[c].rate == 0) break;
+		for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
 			EXPECT_EQ(servos[c].inputSource, servos2[c].inputSource);
 			EXPECT_EQ(servos[c].targetChannel, servos2[c].targetChannel);
 			EXPECT_EQ(servos[c].rate, servos2[c].rate);

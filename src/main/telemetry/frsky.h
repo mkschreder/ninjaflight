@@ -18,6 +18,7 @@
 #pragma once
 
 #include "rx/rx.h"
+#include "../config/frsky.h"
 
 typedef enum {
     FRSKY_VFAS_PRECISION_LOW = 0,
