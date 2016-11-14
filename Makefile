@@ -746,7 +746,7 @@ SITL_SRC = \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
-			../../ninjarace/fc_sitl.c 
+			../../ninjasitl/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
@@ -839,7 +839,7 @@ endif
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
-TARGET_SITL	 = ninjarace/fc_$(FORKNAME).so
+TARGET_SITL	 = ninjasitl/fc_$(FORKNAME).so
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
@@ -852,7 +852,7 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
 ifeq ($(TARGET),SITL)
-all: $(TARGET_SITL)
+all: ninjasitl $(TARGET_SITL)
 else
 all: hex bin
 endif 
@@ -868,7 +868,7 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-.PHONY: $(VALID_TARGETS) docs
+.PHONY: $(VALID_TARGETS) docs ninjasitl
 $(VALID_TARGETS):
 	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
 
@@ -938,6 +938,10 @@ test junittest:
 
 test-memory test-cache test-stack:
 	cd src/test && $(MAKE) $@
+
+# sitl source code needs to be checked out from my git repo
+ninjasitl:
+	if [ ! -d ninjasitl ]; then git clone https://github.com/mkschreder/ninjasitl.git ninjasitl; fi
 	
 # rebuild everything when makefile changes
 $(TARGET_OBJS) : Makefile

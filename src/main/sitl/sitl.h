@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "../../ninjarace/fc_sitl.h"
+#include "../../ninjasitl/fc_sitl.h"
 
 typedef enum {
 	SITL_FRAME_UNKNOWN = 0,
