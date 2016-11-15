@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 typedef struct gyroConfig_s {
     uint8_t gyroMovementCalibrationThreshold;   // people keep forgetting that moving model while init results in wrong gyro offsets. and then they never reset gyro. so this is now on by default.
     uint8_t gyro_lpf;                           // gyro LPF setting - values are driver specific, in case of invalid number, a reasonable default ~30-40HZ is chosen.
