@@ -212,25 +212,33 @@ $(OBJECT_DIR)/type_conversion_unittest : \
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
 
-
-$(OBJECT_DIR)/flight/imu.o : \
-	$(USER_DIR)/flight/imu.c \
-	$(USER_DIR)/flight/imu.h \
+$(OBJECT_DIR)/sensors/instruments.o : \
+	$(USER_DIR)/sensors/instruments.c \
+	$(USER_DIR)/sensors/instruments.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/imu.c -o $@
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/instruments.c -o $@
+
+$(OBJECT_DIR)/sensors/imu.o : \
+	$(USER_DIR)/sensors/imu.c \
+	$(USER_DIR)/sensors/imu.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/imu.c -o $@
 
 $(OBJECT_DIR)/flight_imu_unittest.o : \
 	$(TEST_DIR)/flight_imu_unittest.cc \
-	$(USER_DIR)/flight/imu.h \
+	$(USER_DIR)/sensors/imu.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_imu_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_imu_unittest : \
-	$(OBJECT_DIR)/flight/imu.o \
+	$(OBJECT_DIR)/sensors/imu.o \
+	$(OBJECT_DIR)/sensors/instruments.o \
 	$(OBJECT_DIR)/flight_imu_unittest.o \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/common/filter.o \
@@ -272,7 +280,10 @@ $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/config/parameter_group.o \
 	$(OBJECT_DIR)/flight/anglerate.o \
-	$(OBJECT_DIR)/flight/imu.o \
+	$(OBJECT_DIR)/sensors/imu.o \
+	$(OBJECT_DIR)/sensors/instruments.o \
+	$(OBJECT_DIR)/sensors/gyro.o \
+	$(OBJECT_DIR)/sensors/boardalignment.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
@@ -700,6 +711,22 @@ $(OBJECT_DIR)/sensors/sonar.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DSONAR -c $(USER_DIR)/sensors/sonar.c -o $@
 
+$(OBJECT_DIR)/sensors/gyro.o : \
+	$(USER_DIR)/sensors/gyro.c \
+	$(USER_DIR)/sensors/gyro.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/gyro.c -o $@
+
+$(OBJECT_DIR)/sensors/boardalignment.o : \
+	$(USER_DIR)/sensors/boardalignment.c \
+	$(USER_DIR)/sensors/boardalignment.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/boardalignment.c -o $@
+
 $(OBJECT_DIR)/sonar_unittest.o : \
 	$(TEST_DIR)/sonar_unittest.cc \
 	$(USER_DIR)/drivers/sonar_hcsr04.h \
@@ -717,14 +744,6 @@ $(OBJECT_DIR)/sonar_unittest : \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-$(OBJECT_DIR)/sensors/boardalignment.o : \
-	$(USER_DIR)/sensors/boardalignment.c \
-	$(USER_DIR)/sensors/boardalignment.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/boardalignment.c -o $@
 
 $(OBJECT_DIR)/alignsensor_unittest.o : \
 	$(TEST_DIR)/alignsensor_unittest.cc \

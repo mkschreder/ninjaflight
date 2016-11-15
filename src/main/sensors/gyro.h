@@ -18,26 +18,33 @@
 #pragma once
 
 #include "drivers/accgyro.h"
+#include "../common/filter.h"
+#include "../common/maths.h"
 #include "../config/gyro.h"
 
-typedef enum {
-    GYRO_NONE = 0,
-    GYRO_DEFAULT,
-    GYRO_MPU6050,
-    GYRO_L3G4200D,
-    GYRO_MPU3050,
-    GYRO_L3GD20,
-    GYRO_MPU6000,
-    GYRO_MPU6500,
-    GYRO_FAKE
-} gyroSensor_e;
+struct ins_gyro {
+	sensor_align_e align;
 
-extern gyro_t gyro;
-extern sensor_align_e gyroAlign;
+	int32_t gyroADC[XYZ_AXIS_COUNT];
 
-extern int32_t gyroADC[XYZ_AXIS_COUNT];
+	uint16_t calibratingG;
+	int16_t gyroADCRaw[XYZ_AXIS_COUNT];
+	int32_t gyroZero[XYZ_AXIS_COUNT];
 
-void gyroSetCalibrationCycles(uint16_t calibrationCyclesRequired);
-void gyroUpdate(void);
-bool isGyroCalibrationComplete(void);
+	biquad_t gyroFilterState[3];
+	bool use_filter;
+
+	int32_t g[3];
+	stdev_t var[3];
+
+	struct gyro_config *config;
+};
+
+void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config);
+void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_t z);
+void ins_gyro_calibrate(struct ins_gyro *self);
+
+static inline int32_t ins_gyro_get_x(struct ins_gyro *self) { return self->gyroADC[X]; }
+static inline int32_t ins_gyro_get_y(struct ins_gyro *self) { return self->gyroADC[Y]; }
+static inline int32_t ins_gyro_get_z(struct ins_gyro *self) { return self->gyroADC[Z]; }
 

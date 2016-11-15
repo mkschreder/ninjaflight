@@ -18,31 +18,32 @@
 #pragma once
 
 #include "sensors.h"
-#include "drivers/accgyro.h"
+#include "../drivers/accgyro.h"
+#include "../common/axis.h"
 #include "../config/accelerometer.h"
 
-// Type of accelerometer used/detected
-typedef enum {
-    ACC_DEFAULT = 0,
-    ACC_NONE = 1,
-    ACC_ADXL345 = 2,
-    ACC_MPU6050 = 3,
-    ACC_MMA8452 = 4,
-    ACC_BMA280 = 5,
-    ACC_LSM303DLHC = 6,
-    ACC_MPU6000 = 7,
-    ACC_MPU6500 = 8,
-    ACC_FAKE = 9,
-} accelerationSensor_e;
+struct ins_acc {
+	int32_t accADC[XYZ_AXIS_COUNT];
+	uint16_t calibratingA;
+	int32_t a[3];
+	int32_t b[3];
+	int16_t accZero_saved[3];
+	rollAndPitchTrims_t angleTrim_saved;
+	struct accelerometer_config *config;
+	int16_t acc_1G;
+};
+//extern int32_t accADC[XYZ_AXIS_COUNT];
 
-#define ACC_MAX  ACC_FAKE
+void ins_acc_init(struct ins_acc *self, struct accelerometer_config *config, int16_t acc_1G);
+void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z);
+void ins_acc_calibrate(struct ins_acc *self);
 
-extern sensor_align_e accAlign;
-extern acc_t acc;
+static inline int32_t ins_acc_get_x(struct ins_acc *self) { return self->accADC[X]; }
+static inline int32_t ins_acc_get_y(struct ins_acc *self) { return self->accADC[Y]; }
+static inline int32_t ins_acc_get_z(struct ins_acc *self) { return self->accADC[Z]; }
 
-extern int32_t accADC[XYZ_AXIS_COUNT];
-
-bool isAccelerationCalibrationComplete(void);
+/*bool isAccelerationCalibrationComplete(void);
 void accSetCalibrationCycles(uint16_t calibrationCyclesRequired);
 void updateAccelerationReadings(rollAndPitchTrims_t *rollAndPitchTrims);
 void setAccelerationTrims(flightDynamicsTrims_t *accelerationTrimsToUse);
+*/

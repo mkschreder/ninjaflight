@@ -18,7 +18,6 @@
 
 #include "io/rc_controls.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 
 #include "sensors/barometer.h"
 #include "../config/altitudehold.h"

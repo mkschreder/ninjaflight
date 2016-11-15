@@ -30,7 +30,6 @@ typedef enum {
 
 extern uint8_t detectedSensors[MAX_SENSORS_TO_DETECT];
 
-#define CALIBRATING_GYRO_CYCLES             1000
 #define CALIBRATING_ACC_CYCLES              400
 #define CALIBRATING_BARO_CYCLES             200 // 10 seconds init_delay + 200 * 25 ms = 15 seconds before ground pressure settles
 

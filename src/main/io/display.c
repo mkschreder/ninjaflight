@@ -55,10 +55,10 @@
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"
 #include "sensors/sonar.h"
+#include "sensors/instruments.h"
 
 #include "flight/rate_profile.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
@@ -501,16 +501,14 @@ static void showSensorsPage(void)
     i2c_OLED_send_string("        X     Y     Z");
 
     if (sensors(SENSOR_ACC)) {
-		union imu_accel_reading acc; 
-		imu_get_raw_accel(&default_imu, &acc); 
-        tfp_sprintf(lineBuffer, format, "ACC", acc.values.x, acc.values.y, acc.values.z);
+        tfp_sprintf(lineBuffer, format, "ACC", ins_get_acc_x(&default_ins), ins_get_acc_y(&default_ins),  ins_get_acc_z(&default_ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
     }
 
     if (sensors(SENSOR_GYRO)) {
-        tfp_sprintf(lineBuffer, format, "GYR", gyroADC[X], gyroADC[Y], gyroADC[Z]);
+        tfp_sprintf(lineBuffer, format, "GYR", ins_get_gyro_x(&default_ins), ins_get_gyro_y(&default_ins), ins_get_gyro_z(&default_ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
@@ -525,7 +523,7 @@ static void showSensorsPage(void)
     }
 #endif
 
-    tfp_sprintf(lineBuffer, format, "I&H", imu_get_roll_dd(&default_imu), imu_get_pitch_dd(&default_imu), DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
+    tfp_sprintf(lineBuffer, format, "I&H", ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
     padLineBuffer();
     i2c_OLED_set_line(rowIndex++);
     i2c_OLED_send_string(lineBuffer);

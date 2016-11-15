@@ -50,7 +50,6 @@ extern "C" {
 
     #include "flight/mixer.h"
     #include "flight/anglerate.h"
-    #include "flight/imu.h"
     #include "flight/altitudehold.h"
 
     #include "config/runtime_config.h"

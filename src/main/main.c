@@ -87,12 +87,12 @@
 #include "sensors/battery.h"
 #include "sensors/boardalignment.h"
 #include "sensors/initialisation.h"
+#include "sensors/instruments.h"
 
 #include "telemetry/telemetry.h"
 #include "blackbox/blackbox.h"
 
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
@@ -116,6 +116,45 @@ extern uint32_t currentTime;
 static filterStatePt1_t filteredCycleTimeState;
 uint16_t filteredCycleTime;
 uint16_t cycleTime;
+
+// TODO: remove when we are done refactoring
+struct instruments default_ins;
+struct battery default_battery;
+struct mixer default_mixer;
+struct anglerate default_controller;
+
+extern uint8_t motorControlEnable;
+
+#ifdef SOFTSERIAL_LOOPBACK
+serialPort_t *loopbackPort;
+#endif
+
+void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
+void rxInit(modeActivationCondition_t *modeActivationConditions);
+
+void navigationInit(struct pid_config *pidProfile);
+const struct sonar_hardware *sonarGetHardwareConfiguration(current_sensor_type_t  currentMeterType);
+
+#ifdef STM32F303xC
+// from system_stm32f30x.c
+void SetSysClock(void);
+#endif
+#ifdef STM32F10X
+// from system_stm32f10x.c
+void SetSysClock(bool overclock);
+#endif
+
+typedef enum {
+    SYSTEM_STATE_INITIALISING        = 0,
+    SYSTEM_STATE_CONFIG_LOADED       = (1 << 0),
+    SYSTEM_STATE_SENSORS_READY       = (1 << 1),
+    SYSTEM_STATE_MOTORS_READY        = (1 << 2),
+    SYSTEM_STATE_TRANSPONDER_ENABLED = (1 << 3),
+    SYSTEM_STATE_READY               = (1 << 7)
+} systemState_e;
+
+static uint8_t systemState = SYSTEM_STATE_INITIALISING;
+
 
 static void taskTransponder(void){
 	#ifdef TRANSPONDER
@@ -280,45 +319,6 @@ cfTask_t cfTasks[TASK_COUNT] = {
     },
 #endif
 };
-// TODO: remove when we are done refactoring
-struct battery default_battery;
-struct mixer default_mixer;
-struct imu default_imu;
-struct anglerate default_controller;
-struct battery default_battery;
-
-extern uint8_t motorControlEnable;
-
-#ifdef SOFTSERIAL_LOOPBACK
-serialPort_t *loopbackPort;
-#endif
-
-void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
-void rxInit(modeActivationCondition_t *modeActivationConditions);
-
-void navigationInit(struct pid_config *pidProfile);
-const struct sonar_hardware *sonarGetHardwareConfiguration(current_sensor_type_t  currentMeterType);
-
-#ifdef STM32F303xC
-// from system_stm32f30x.c
-void SetSysClock(void);
-#endif
-#ifdef STM32F10X
-// from system_stm32f10x.c
-void SetSysClock(bool overclock);
-#endif
-
-typedef enum {
-    SYSTEM_STATE_INITIALISING        = 0,
-    SYSTEM_STATE_CONFIG_LOADED       = (1 << 0),
-    SYSTEM_STATE_SENSORS_READY       = (1 << 1),
-    SYSTEM_STATE_MOTORS_READY        = (1 << 2),
-    SYSTEM_STATE_TRANSPONDER_ENABLED = (1 << 3),
-    SYSTEM_STATE_READY               = (1 << 7)
-} systemState_e;
-
-static uint8_t systemState = SYSTEM_STATE_INITIALISING;
-
 static void flashLedsAndBeep(void)
 {
     led_on(1);
@@ -666,8 +666,6 @@ static void init(void)
     adcInit(&adc_params);
 #endif
 
-    board_alignment_init(&default_alignment, boardAlignment());
-
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {
         displayInit();
@@ -681,30 +679,30 @@ static void init(void)
         failureMode(FAILURE_MISSING_ACC);
     }
 
-    systemState |= SYSTEM_STATE_SENSORS_READY;
-
-    flashLedsAndBeep();
-
-#ifdef USE_SERVOS
-	// TODO: readd servo filtering if we really need it
-    //mixer_init_servo_filtering(&default_mixer, gyro_sync_get_looptime());
-#endif
-
 #ifdef MAG
     if (sensors(SENSOR_MAG))
-        compassInit();
+    	mag.init();
 #endif
 
-	// TODO: refactor this so that configure is not called from readEEPROM further up during boot
-	// for now this is fine (as long as we call imu_configure here once again)
-    imu_init(&default_imu,
+	ins_init(&default_ins, 
+		boardAlignment(),
 		imuConfig(),
-		accelerometerConfig(),
 		throttleCorrectionConfig(),
-		// TODO: refactor these
+		accelerometerConfig(),
 		gyro.scale,
 		acc.acc_1G
 	);
+
+#ifdef GPS
+    if (feature(FEATURE_GPS)) {
+        gpsInit();
+        navigationInit(pidProfile());
+    }
+#endif
+
+    systemState |= SYSTEM_STATE_SENSORS_READY;
+
+    flashLedsAndBeep();
 
     mspInit();
     mspSerialInit();
@@ -715,24 +713,17 @@ static void init(void)
 
 	// is this ok here?
 	anglerate_init(&default_controller,
-		&default_imu,
+		&default_ins,
 		pidProfile(),
 		currentControlRateProfile,
 		imuConfig()->max_angle_inclination,
-		&accelerometerConfig()->accelerometerTrims,
+		&accelerometerConfig()->trims,
 		rxConfig()
 	);
 
     failsafeInit();
 
     rxInit(modeActivationProfile()->modeActivationConditions);
-
-#ifdef GPS
-    if (feature(FEATURE_GPS)) {
-        gpsInit();
-        navigationInit(pidProfile());
-    }
-#endif
 
 #ifdef SONAR
     if (feature(FEATURE_SONAR)) {
@@ -803,7 +794,7 @@ static void init(void)
 #ifdef BLACKBOX
     initBlackbox();
 #endif
-
+/*
     if (mixerConfig()->mixerMode == MIXER_GIMBAL) {
         accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
     }
@@ -811,7 +802,7 @@ static void init(void)
 #ifdef BARO
     baroSetCalibrationCycles(CALIBRATING_BARO_CYCLES);
 #endif
-
+*/
     // start all timers
     // TODO - not implemented yet
     timerStart();

@@ -45,7 +45,6 @@ extern "C" {
 
     #include "rx/rx.h"
     #include "flight/anglerate.h"
-    #include "flight/imu.h"
     #include "flight/mixer.h"
 
     #include "io/rc_controls.h"

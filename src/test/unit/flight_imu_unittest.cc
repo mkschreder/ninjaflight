@@ -57,7 +57,6 @@ extern "C" {
 
     #include "flight/mixer.h"
     #include "flight/anglerate.h"
-    #include "flight/imu.h"
 }
 
 #include "unittest_macros.h"

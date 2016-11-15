@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "common/axis.h"
 #include "common/maths.h"
 #include "common/quaternion.h"
 #include "../config/imu.h"
@@ -58,7 +59,7 @@ struct imu {
 	uint8_t flags;
 
 	struct imu_config *config;
-	accelerometerConfig_t *acc_config;
+	struct accelerometer_config *acc_config;
 	struct throttle_correction_config *thr_config;
 
 	quat_t q;
@@ -77,12 +78,9 @@ struct imu {
 	uint16_t acc_1G;
 };
 
-// TODO: remove once we are done refactoring
-extern struct imu default_imu;
-
 void imu_init(struct imu *self,
 	struct imu_config *config,
-	accelerometerConfig_t *acc_config,
+	struct accelerometer_config *acc_config,
 	struct throttle_correction_config *thr_config,
 	// TODO: refactor these
 	float gyro_scale,

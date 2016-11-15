@@ -24,7 +24,7 @@
 #include "common/filter.h"
 
 #include "sensors/acceleration.h"
-#include "imu.h"
+#include "sensors/instruments.h"
 
 #include "rx/rx.h"
 
@@ -89,7 +89,7 @@ struct anglerate {
 
 	uint8_t flags;
 
-	struct imu *imu;
+	struct instruments *ins;
 };
 
 // TODO: remove when done refactoring. This should be a member of a higher level struct.
@@ -100,7 +100,7 @@ extern struct anglerate default_controller;
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
 void anglerate_init(struct anglerate *self,
-	struct imu *imu,
+	struct instruments *ins,
 	const struct pid_config *config,
 	const struct rate_config *rate_config,
 	uint16_t max_angle_inclination,

@@ -81,7 +81,6 @@
 
 #include "flight/anglerate.h"
 #include "flight/gtune.h"
-#include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/navigation.h"
 #include "flight/failsafe.h"
@@ -599,9 +598,9 @@ const clivalue_t valueTable[] = {
 
     { "max_angle_inclination",      VAR_UINT16 | MASTER_VALUE, .config.minmax = { 100,  900 } , PG_IMU_CONFIG, offsetof(struct imu_config, max_angle_inclination) },
 
-    { "gyro_lpf",                   VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_GYRO_LPF } , PG_GYRO_CONFIG, offsetof(gyroConfig_t, gyro_lpf)},
-    { "gyro_soft_lpf",              VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  500 } , PG_GYRO_CONFIG, offsetof(gyroConfig_t, soft_gyro_lpf_hz)},
-    { "moron_threshold",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  128 } , PG_GYRO_CONFIG, offsetof(gyroConfig_t, gyroMovementCalibrationThreshold)},
+    { "gyro_lpf",                   VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_GYRO_LPF } , PG_GYRO_CONFIG, offsetof(struct gyro_config, gyro_lpf)},
+    { "gyro_soft_lpf",              VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  500 } , PG_GYRO_CONFIG, offsetof(struct gyro_config, soft_gyro_lpf_hz)},
+    { "moron_threshold",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  128 } , PG_GYRO_CONFIG, offsetof(struct gyro_config, move_threshold)},
     { "imu_dcm_kp",                 VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  20000 } , PG_IMU_CONFIG, offsetof(struct imu_config, dcm_kp)},
     { "imu_dcm_ki",                 VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  20000 } , PG_IMU_CONFIG, offsetof(struct imu_config, dcm_ki)},
 
@@ -652,13 +651,13 @@ const clivalue_t valueTable[] = {
 
     { "acc_hardware",               VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  ACC_MAX } , PG_SENSOR_SELECTION_CONFIG, offsetof(sensorSelectionConfig_t, acc_hardware)},
 
-    { "acc_cut_hz",                 VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  200 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, acc_cut_hz)},
-    { "accxy_deadband",             VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  100 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, accDeadband.xy)},
-    { "accz_deadband",              VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  100 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, accDeadband.z)},
-    { "accz_lpf_cutoff",            VAR_FLOAT  | PROFILE_VALUE, .config.minmax = { 1,  20 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, accz_lpf_cutoff)},
-    { "acc_unarmedcal",             VAR_UINT8  | PROFILE_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, acc_unarmedcal)},
-    { "acc_trim_pitch",             VAR_INT16  | PROFILE_VALUE, .config.minmax = { -300,  300 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, accelerometerTrims.values.pitch)},
-    { "acc_trim_roll",              VAR_INT16  | PROFILE_VALUE, .config.minmax = { -300,  300 } , PG_ACCELEROMETER_CONFIG, offsetof(accelerometerConfig_t, accelerometerTrims.values.roll)},
+    { "acc_cut_hz",                 VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  200 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, acc_cut_hz)},
+    { "accxy_deadband",             VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  100 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, accDeadband.xy)},
+    { "accz_deadband",              VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  100 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, accDeadband.z)},
+    { "accz_lpf_cutoff",            VAR_FLOAT  | PROFILE_VALUE, .config.minmax = { 1,  20 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, accz_lpf_cutoff)},
+    { "acc_unarmedcal",             VAR_UINT8  | PROFILE_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, acc_unarmedcal)},
+    { "acc_trim_pitch",             VAR_INT16  | PROFILE_VALUE, .config.minmax = { -300,  300 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, trims.values.pitch)},
+    { "acc_trim_roll",              VAR_INT16  | PROFILE_VALUE, .config.minmax = { -300,  300 } , PG_ACCELEROMETER_CONFIG, offsetof(struct accelerometer_config, trims.values.roll)},
 
 #ifdef BARO
     { "baro_tab_size",              VAR_UINT8  | PROFILE_VALUE, .config.minmax = { 0,  BARO_SAMPLE_COUNT_MAX } , PG_BAROMETER_CONFIG, offsetof(barometerConfig_t, baro_sample_count)},
@@ -720,9 +719,9 @@ const clivalue_t valueTable[] = {
     { "blackbox_device",            VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_BLACKBOX_DEVICE } , PG_BLACKBOX_CONFIG, offsetof(blackboxConfig_t, device)},
 #endif
 
-    { "magzero_x",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(sensorTrims_t, magZero.raw[X])},
-    { "magzero_y",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(sensorTrims_t, magZero.raw[Y])},
-    { "magzero_z",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(sensorTrims_t, magZero.raw[Z])},
+    { "magzero_x",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, magZero.raw[X])},
+    { "magzero_y",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, magZero.raw[Y])},
+    { "magzero_z",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, magZero.raw[Z])},
 };
 
 typedef union {

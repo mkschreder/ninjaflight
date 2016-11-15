@@ -17,6 +17,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 
 #include <platform.h>
 
@@ -43,85 +44,61 @@
 #ifdef NAZE
 #include "hardware_revision.h"
 #endif
-mag_t mag;                   // mag access functions
 
-float magneticDeclination = 0.0f;
+void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims){
+	memset(self, 0, sizeof(struct ins_mag));
+	self->config = config;
+	self->trims = trims;
 
-extern uint32_t currentTime; // FIXME dependency on global variable, pass it in instead.
+	if (config->mag_declination > 0) {
+		// calculate magnetic declination
+		int16_t deg = config->mag_declination / 100;
+		int16_t min = config->mag_declination % 100;
 
-int16_t magADCRaw[XYZ_AXIS_COUNT];
-int32_t magADC[XYZ_AXIS_COUNT];
-sensor_align_e magAlign = 0;
-static uint8_t magInit = 0;
-
-void compassInit(void)
-{
-    // initialize and calibration. turn on led during mag calibration (calibration routine blinks it)
-    led_on(1);
-    mag.init();
-    led_off(1);
-    magInit = 1;
+		self->magneticDeclination = (deg + ((float)min * (1.0f / 60.0f))) * 10; // heading is in 0.1deg units
+	} else {
+		self->magneticDeclination = 0.0f; // TODO investigate if this is actually needed if there is no mag sensor or if the value stored in the config should be used.
+	}
 }
 
-void updateCompass(flightDynamicsTrims_t *magZero)
-{
-    static uint32_t tCal = 0;
-    static flightDynamicsTrims_t magZeroTempMin;
-    static flightDynamicsTrims_t magZeroTempMax;
-    uint32_t axis;
+void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z){
+	flightDynamicsTrims_t *magZero = &self->trims->magZero;
+	// TODO: fix this
+	int32_t currentTime = 0;
+	
+	self->magADC[X] = x;
+	self->magADC[Y] = y;
+	self->magADC[Z] = z;
 
-    mag.read(magADCRaw);
-    for (axis = 0; axis < XYZ_AXIS_COUNT; axis++) magADC[axis] = magADCRaw[axis];  // int32_t copy to work with
-    board_alignment_rotate_vector(&default_alignment, magADC, magADC, magAlign);
+	if (self->calibrating) {
+		self->tCal = currentTime;
+		for (int axis = 0; axis < 3; axis++) {
+			magZero->raw[axis] = 0;
+			self->magZeroTempMin.raw[axis] = self->magADC[axis];
+			self->magZeroTempMax.raw[axis] = self->magADC[axis];
+		}
+		self->calibrating = 0;
+	}
 
-    if (STATE(CALIBRATE_MAG)) {
-        tCal = currentTime;
-        for (axis = 0; axis < 3; axis++) {
-            magZero->raw[axis] = 0;
-            magZeroTempMin.raw[axis] = magADC[axis];
-            magZeroTempMax.raw[axis] = magADC[axis];
-        }
-        DISABLE_STATE(CALIBRATE_MAG);
-    }
+	if (self->tCal != 0) {
+		if ((currentTime - self->tCal) < 30000000) {	// 30s: you have 30s to turn the multi in all directions
+			for (int axis = 0; axis < 3; axis++) {
+				if (self->magADC[axis] < self->magZeroTempMin.raw[axis])
+					self->magZeroTempMin.raw[axis] = self->magADC[axis];
+				if (self->magADC[axis] > self->magZeroTempMax.raw[axis])
+					self->magZeroTempMax.raw[axis] = self->magADC[axis];
+			}
+		} else {
+			self->tCal = 0;
+			for (int axis = 0; axis < 3; axis++) {
+				magZero->raw[axis] = (self->magZeroTempMin.raw[axis] + self->magZeroTempMax.raw[axis]) / 2; // Calculate offsets
+			}
 
-    if (magInit) {              // we apply offset only once mag calibration is done
-        magADC[X] -= magZero->raw[X];
-        magADC[Y] -= magZero->raw[Y];
-        magADC[Z] -= magZero->raw[Z];
-    }
-
-    if (tCal != 0) {
-        if ((currentTime - tCal) < 30000000) {    // 30s: you have 30s to turn the multi in all directions
-            led_toggle(0);
-            for (axis = 0; axis < 3; axis++) {
-                if (magADC[axis] < magZeroTempMin.raw[axis])
-                    magZeroTempMin.raw[axis] = magADC[axis];
-                if (magADC[axis] > magZeroTempMax.raw[axis])
-                    magZeroTempMax.raw[axis] = magADC[axis];
-            }
-        } else {
-            tCal = 0;
-            for (axis = 0; axis < 3; axis++) {
-                magZero->raw[axis] = (magZeroTempMin.raw[axis] + magZeroTempMax.raw[axis]) / 2; // Calculate offsets
-            }
-
-            saveConfigAndNotify();
-        }
-    }
-}
-
-void recalculateMagneticDeclination(void)
-{
-    int16_t deg, min;
-
-    if (sensors(SENSOR_MAG)) {
-        // calculate magnetic declination
-        deg = compassConfig()->mag_declination / 100;
-        min = compassConfig()->mag_declination % 100;
-
-        magneticDeclination = (deg + ((float)min * (1.0f / 60.0f))) * 10; // heading is in 0.1deg units
-    } else {
-        magneticDeclination = 0.0f; // TODO investigate if this is actually needed if there is no mag sensor or if the value stored in the config should be used.
-    }
-
+			//saveConfigAndNotify();
+		}
+	} else {
+		self->magADC[X] -= magZero->raw[X];
+		self->magADC[Y] -= magZero->raw[Y];
+		self->magADC[Z] -= magZero->raw[Z];
+	}
 }

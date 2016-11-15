@@ -51,7 +51,6 @@
 #include "sensors/sonar.h"
 
 #include "flight/mixer.h"
-#include "flight/imu.h"
 #include "flight/anglerate.h"
 
 #include "io/gps.h"
@@ -105,7 +104,7 @@ void imu_reset(struct imu *self){
 
 void imu_init(struct imu *self,
 	struct imu_config *imu_config,
-	accelerometerConfig_t *acc_config,
+	struct accelerometer_config *acc_config,
 	struct throttle_correction_config *thr_config,
 	float gyro_scale,
 	uint16_t acc_1G

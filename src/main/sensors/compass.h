@@ -23,24 +23,33 @@
 #include "../config/sensors.h"
 #include "../config/compass.h"
 
-// Type of magnetometer used/detected
-typedef enum {
-    MAG_DEFAULT = 0,
-    MAG_NONE = 1,
-    MAG_HMC5883 = 2,
-    MAG_AK8975 = 3,
-    MAG_AK8963 = 4
-} magSensor_e;
+struct ins_mag {
+	int16_t magADCRaw[XYZ_AXIS_COUNT];
+	int32_t magADC[XYZ_AXIS_COUNT];
 
-#define MAG_MAX  MAG_AK8963
+	float magneticDeclination;
 
-void compassInit(void);
-void updateCompass(flightDynamicsTrims_t *magZero);
+	uint32_t tCal;
+    flightDynamicsTrims_t magZeroTempMin;
+    flightDynamicsTrims_t magZeroTempMax;
 
-void recalculateMagneticDeclination(void);
+	struct mag_config *config;
+	struct sensor_trims_config *trims;
 
-extern int32_t magADC[XYZ_AXIS_COUNT];
+	bool calibrating;
+};
 
+void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims);
+void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z);
+
+static inline int32_t ins_mag_get_x(struct ins_mag *self) { return self->magADC[X]; }
+static inline int32_t ins_mag_get_y(struct ins_mag *self) { return self->magADC[Y]; }
+static inline int32_t ins_mag_get_z(struct ins_mag *self) { return self->magADC[Z]; }
+
+//void recalculateMagneticDeclination(void);
+
+/*
 extern sensor_align_e magAlign;
 extern mag_t mag;
 extern float magneticDeclination;
+*/

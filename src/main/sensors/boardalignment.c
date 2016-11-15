@@ -30,9 +30,6 @@
 
 #include "boardalignment.h"
 
-// TODO: remove
-struct board_alignment default_alignment; 
-
 void board_alignment_init(struct board_alignment *self, struct board_alignment_config *config){ 
 	memset(self, 0, sizeof(struct board_alignment)); 
 	self->config = config; 

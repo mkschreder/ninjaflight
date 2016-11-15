@@ -257,7 +257,6 @@ COMMON_SRC = build_config.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
 		   flight/rate_profile.c \
-		   flight/imu.c \
 		   flight/mixer.c \
 		   flight/tilt.c \
 		   drivers/bus_i2c_soft.c \
@@ -296,6 +295,8 @@ COMMON_SRC = build_config.c \
 		   sensors/compass.c \
 		   sensors/gyro.c \
 		   sensors/initialisation.c \
+		   sensors/instruments.c \
+		   sensors/imu.c \
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
@@ -735,10 +736,11 @@ SITL_SRC = \
 			config/vars.c \
 			flight/altitudehold.c \
 			flight/anglerate.c \
-			flight/imu.c \
 			flight/mixer.c \
 			flight/tilt.c \
 			flight/rate_profile.c \
+			sensors/imu.c \
+			sensors/instruments.c \
 			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \

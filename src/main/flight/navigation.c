@@ -41,14 +41,11 @@
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
 
-#include "sensors/sensors.h"
-#include "sensors/boardalignment.h"
-#include "sensors/acceleration.h"
+#include "sensors/instruments.h"
 
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
 #include "flight/gps_conversion.h"
-#include "flight/imu.h"
 
 #include "io/beeper.h"
 #include "io/serial.h"
@@ -362,7 +359,7 @@ void GPS_reset_home_position(void)
         GPS_home[LAT] = GPS_coord[LAT];
         GPS_home[LON] = GPS_coord[LON];
         GPS_calc_longitude_scaling(GPS_coord[LAT]); // need an initial value for distance and bearing calc
-        nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));              // save takeoff heading
+        nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));              // save takeoff heading
         // Set ground altitude
         ENABLE_STATE(GPS_FIX_HOME);
     }
@@ -647,8 +644,8 @@ static int32_t wrap_36000(int32_t angle)
 
 void updateGpsStateForHomeAndHoldMode(void)
 {
-    float sin_yaw_y = sin_approx(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) * 0.0174532925f);
-    float cos_yaw_x = cos_approx(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) * 0.0174532925f);
+    float sin_yaw_y = sin_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) * 0.0174532925f);
+    float cos_yaw_x = cos_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) * 0.0174532925f);
     if (gpsProfile()->nav_slew_rate) {
         nav_rated[LON] += constrain(wrap_18000(nav[LON] - nav_rated[LON]), -gpsProfile()->nav_slew_rate, gpsProfile()->nav_slew_rate); // TODO check this on uint8
         nav_rated[LAT] += constrain(wrap_18000(nav[LAT] - nav_rated[LAT]), -gpsProfile()->nav_slew_rate, gpsProfile()->nav_slew_rate);

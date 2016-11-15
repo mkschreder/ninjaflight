@@ -49,7 +49,6 @@
 
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 
 #include "flight/altitudehold.h"
 
@@ -171,7 +170,8 @@ static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tm
     int32_t error;
     int32_t setVel;
 
-    if (!isThrustFacingDownwards(&default_imu)) {
+    bool is_thrust_downwards = ABS(ins_get_roll_dd(&default_ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(&default_ins)) < DEGREES_80_IN_DECIDEGREES;
+	if(!is_thrust_downwards){
         return result;
     }
 
@@ -206,8 +206,8 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     static uint32_t previousTime;
     uint32_t dTime;
     int32_t baroVel;
-    float dt;
-    float vel_acc;
+    //float dt;
+    //float vel_acc;
     int32_t vel_tmp;
     static float accZ_old = 0.0f;
     static float vel = 0.0f;
@@ -240,7 +240,9 @@ void calculateEstimatedAltitude(uint32_t currentTime)
 
 #ifdef SONAR
     sonarAlt = sonar_read(&default_sonar);
-    sonarAlt = sonar_calc_altitude(&default_sonar, imu_get_cos_tilt_angle(&default_imu));
+
+	// TODO: make this sonar calculation work after refactoring
+    //sonarAlt = sonar_calc_altitude(&default_sonar, imu_get_cos_tilt_angle(&default_imu));
 
     if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
         // just use the SONAR
@@ -256,6 +258,8 @@ void calculateEstimatedAltitude(uint32_t currentTime)
     }
 #endif
 
+/* TODO: make this kind of thing work without so much interaction with the internals of imu!
+ 
 	dt = imu_get_velocity_integration_time(&default_imu); 
 	vel_acc = imu_get_est_vertical_vel_cms(&default_imu); 
 
@@ -271,7 +275,7 @@ void calculateEstimatedAltitude(uint32_t currentTime)
 #endif
 
     imu_reset_velocity_estimate(&default_imu);
-
+*/
 #ifdef BARO
     if (!isBaroCalibrationComplete()) {
         return;
@@ -305,7 +309,8 @@ void calculateEstimatedAltitude(uint32_t currentTime)
 
 	// TODO: below line gets average vertical acceleration. It is nonsense. We should fix this once done refactoring (when the change can be tested)
 
-	float acc_z = imu_get_avg_vertical_accel_cmss(&default_imu); 
+	// TODO: make this code work after refactoring
+	float acc_z = 0; //imu_get_avg_vertical_accel_cmss(&default_imu); 
     altHoldThrottleAdjustment = calculateAltHoldThrottleAdjustment(vel_tmp, acc_z, accZ_old);
 
     accZ_old = acc_z;

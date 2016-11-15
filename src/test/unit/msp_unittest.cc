@@ -68,7 +68,6 @@ extern "C" {
     #include "flight/mixer.h"
     #include "flight/anglerate.h"
     #include "flight/navigation.h"
-    #include "flight/imu.h"
     #include "flight/failsafe.h"
 
     #include "config/parameter_group_ids.h"
@@ -525,11 +524,12 @@ void GPS_set_next_wp(int32_t *, int32_t *) {}
 struct anglerate default_controller; 
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo); }
 struct battery default_battery;
-struct imu default_imu;
+struct instruments default_ins;
 // from rc_controls.c
 uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 void useRcControlsConfig(modeActivationCondition_t *) {};
+void ins_start_acc_calibration(struct instruments *self) { (void)self; }
 // from runtime_config.c
 uint8_t armingFlags = 0;
 uint8_t stateFlags = 0;

@@ -75,12 +75,12 @@
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/altitudehold.h"
 #include "flight/failsafe.h"
 #include "flight/gtune.h"
 #include "flight/navigation.h"
 #include "flight/tilt.h"
+#include "sensors/instruments.h"
 
 #include "config/runtime_config.h"
 #include "config/config.h"
@@ -126,8 +126,8 @@ void ninja_init(struct ninja *self){
 
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta)
 {
-    accelerometerConfig()->accelerometerTrims.values.roll += rollAndPitchTrimsDelta->values.roll;
-    accelerometerConfig()->accelerometerTrims.values.pitch += rollAndPitchTrimsDelta->values.pitch;
+    accelerometerConfig()->trims.values.roll += rollAndPitchTrimsDelta->values.roll;
+    accelerometerConfig()->trims.values.pitch += rollAndPitchTrimsDelta->values.pitch;
 
     saveConfigAndNotify();
 }
@@ -158,15 +158,7 @@ static void updateGtuneState(void)
 
 bool isCalibrating(void)
 {
-#ifdef BARO
-    if (sensors(SENSOR_BARO) && !isBaroCalibrationComplete()) {
-        return true;
-    }
-#endif
-
-    // Note: compass calibration is handled completely differently, outside of the main loop, see f.CALIBRATE_MAG
-
-    return (!isAccelerationCalibrationComplete() && sensors(SENSOR_ACC)) || (!isGyroCalibrationComplete());
+	return ins_is_calibrating(&default_ins);
 }
 
 /*
@@ -241,7 +233,7 @@ static void updateRcCommands(void)
     rcCommand[THROTTLE] = lookupThrottleRC[tmp2] + (tmp - tmp2 * 100) * (lookupThrottleRC[tmp2 + 1] - lookupThrottleRC[tmp2]) / 100;    // [0;1000] -> expo -> [MINTHROTTLE;MAXTHROTTLE]
 
     if (FLIGHT_MODE(HEADFREE_MODE)) {
-        float radDiff = degreesToRadians(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) - headFreeModeHold);
+        float radDiff = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) - headFreeModeHold);
         float cosDiff = cos_approx(radDiff);
         float sinDiff = sin_approx(radDiff);
         int16_t rcCommand_PITCH = rcCommand[PITCH] * cosDiff + rcCommand[ROLL] * sinDiff;
@@ -259,10 +251,12 @@ static void updateLEDs(void)
             ENABLE_ARMING_FLAG(OK_TO_ARM);
         }
 
+/*
+		// TODO: for now allow arming when not leveled but rethink this logic entirely
         if (!imu_is_leveled(&default_imu, armingConfig()->max_arm_angle)) {
             DISABLE_ARMING_FLAG(OK_TO_ARM);
         }
-
+*/
         if (isCalibrating() || isSystemOverloaded()) {
             warningLedFlash();
             DISABLE_ARMING_FLAG(OK_TO_ARM);
@@ -319,7 +313,7 @@ void mwArm(void)
         }
         if (!ARMING_FLAG(PREVENT_ARMING)) {
             ENABLE_ARMING_FLAG(ARMED);
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
+            headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
 			mixer_enable_armed(&default_mixer, true);
 
 #ifdef BLACKBOX
@@ -654,30 +648,28 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
     float dt = (currentTime - previousIMUUpdateTime) * 1e-6f;
     previousIMUUpdateTime = currentTime;
 
-    gyroUpdate();
-    imu_input_gyro(&default_imu, gyroADC[X], gyroADC[Y], gyroADC[Z]);
-
-	// if we are not armed and just starting up then we need to converge with accelerometer faster
-	if(!ARMING_FLAG(ARMED) && millis() < 20000)
-		imu_enable_fast_dcm_convergence(&default_imu, true);
-	else
-		imu_enable_fast_dcm_convergence(&default_imu, false);
+	int16_t gyroADCRaw[3];
+	if (gyro.read(gyroADCRaw)) {
+		ins_process_gyro(&default_ins, gyroADCRaw[0], gyroADCRaw[1], gyroADCRaw[2]);
+	}
 
 #ifdef MAG
 	imu_input_magnetometer(&default_imu, magADC[X], magADC[Y], magADC[Z], magneticDeclination);
 #endif
 
 #if defined(GPS)
+/*
+	// TODO: rethink how to enter gps yaw angle into ins (probably we enter all gps data and then ins decides how to use the angle!)
     if (STATE(FIXED_WING) && sensors(SENSOR_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5 && GPS_speed >= 300) {
         // In case of a fixed-wing aircraft we can use GPS course over ground to correct heading
-        imu_input_yaw_dd(&default_imu, GPS_ground_course);
+        ins_input_yaw_dd(&default_imu, GPS_ground_course);
     }
+	*/
 #endif
+	ins_update(&default_ins, dt);
 
-	imu_update(&default_imu, dt);
-
-	union attitude_euler_angles att;
-	imu_get_attitude_dd(&default_imu, &att);
+	//union attitude_euler_angles att;
+	//imu_get_attitude_dd(&default_imu, &att);
 
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 
@@ -726,9 +718,11 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
         rcCommand[YAW] = 0;
     }
 
+	// TODO: make throttle correction work after refactoring
+	/*
     if (throttleCorrectionConfig()->throttle_correction_value && (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE))) {
         rcCommand[THROTTLE] += imu_calc_throttle_angle_correction(&default_imu, throttleCorrectionConfig()->throttle_correction_value);
-    }
+    }*/
 
 #ifdef GPS
     if (sensors(SENSOR_GPS)) {
@@ -780,7 +774,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 
 		struct tilt_input_params input = {
 			.motor_pitch_dd = motor_pitch,
-			.body_pitch_dd = imu_get_pitch_dd(&default_imu),
+			.body_pitch_dd = ins_get_pitch_dd(&default_ins),
 			.roll = rcCommand[ROLL],
 			.pitch = rcCommand[PITCH],
 			.yaw = rcCommand[YAW],
@@ -793,8 +787,9 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 		rcCommand[YAW] = output.yaw;
 		rcCommand[THROTTLE] = output.throttle;
 	}
-
-	anglerate_update(&default_controller, gyroADC, att, dt);
+	
+	// TODO: enable this
+	//anglerate_update(&default_controller, gyroADC, att, dt);
 	//TODO: move gimbal code out of the mixer and place it externally
 /*
 	mixer_input_gimbal_angles(&default_mixer,
@@ -902,11 +897,11 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
 #endif
 }
 
-void taskUpdateAccelerometer(void)
-{
-	if (sensors(SENSOR_ACC)) {
-        updateAccelerationReadings(&accelerometerConfig()->accelerometerTrims);
-		imu_input_accelerometer(&default_imu, accADC[X], accADC[Y], accADC[Z]);
+void taskUpdateAccelerometer(void){
+	int16_t accADCRaw[3];
+	if (sensors(SENSOR_ACC) && acc.read(accADCRaw)) {
+		ins_process_acc(&default_ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
+        //updateAccelerationReadings();
 	}
 }
 
@@ -997,10 +992,11 @@ void taskProcessGPS(void)
 #endif
 
 #ifdef MAG
-void taskUpdateCompass(void)
-{
-    if (sensors(SENSOR_MAG)) {
-        updateCompass(&sensorTrims()->magZero);
+void taskUpdateCompass(void){
+	int16_t raw[3];
+    if (sensors(SENSOR_MAG) && mag.read(magADCRaw)){
+		ins_process_compass(&default_ins, raw[0], raw[1], raw[2]);
+        //updateCompass(&sensorTrims()->magZero);
     }
 }
 #endif

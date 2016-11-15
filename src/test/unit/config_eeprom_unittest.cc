@@ -56,7 +56,6 @@ extern "C" {
     #include "sensors/boardalignment.h"
 
     #include "flight/mixer.h"
-    #include "flight/imu.h"
     #include "flight/navigation.h"
     #include "flight/failsafe.h"
     #include "flight/altitudehold.h"
@@ -418,7 +417,7 @@ void mixerUseConfigs(void) {}
 #endif
 void failsafeReset(void){}
 bool isSerialConfigValid(serialConfig_t *) {return true;}
-void imu_configure(struct imu*,struct imu_config *, accelerometerConfig_t *, struct throttle_correction_config *,float ,uint16_t) {}
+void imu_configure(struct imu*,struct imu_config *, struct accelerometer_config *, struct throttle_correction_config *,float ,uint16_t) {}
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){ UNUSED(self); UNUSED(type); }
 void gpsUseProfile(gpsProfile_t *) {}
 void gpsUsePIDs(struct pid_config *) {}

@@ -54,7 +54,6 @@
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
@@ -170,9 +169,9 @@ static void activateConfig(void)
 #endif
 
     failsafeReset();
-    setAccelerationTrims(&sensorTrims()->accZero);
+    //setAccelerationTrims(&sensorTrims()->accZero);
 
-    recalculateMagneticDeclination();
+    //recalculateMagneticDeclination();
 
 	/*
 	// TODO: this is currently called before imu is initialized. We should make sure that we have initialized imu before this is called. 

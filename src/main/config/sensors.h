@@ -58,12 +58,12 @@ typedef union {
     flightDynamicsTrims_def_t values;
 } flightDynamicsTrims_t;
 
-typedef struct sensorTrims_s {
+struct sensor_trims_config {
     flightDynamicsTrims_t accZero;
     flightDynamicsTrims_t magZero;
-} sensorTrims_t;
+};
 
 PG_DECLARE(sensorSelectionConfig_t, sensorSelectionConfig);
 PG_DECLARE(sensorAlignmentConfig_t, sensorAlignmentConfig);
-PG_DECLARE(sensorTrims_t, sensorTrims);
+PG_DECLARE(struct sensor_trims_config, sensorTrims);
 

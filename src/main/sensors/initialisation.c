@@ -75,12 +75,15 @@
 #include "hardware_revision.h"
 #endif
 
-extern gyro_t gyro;
+gyro_t gyro;
 extern baro_t baro;
-extern acc_t acc;
+acc_t acc;
+mag_t mag;
+
+static sensor_align_e accAlign = 0;
+static sensor_align_e gyroAlign;
 
 uint8_t detectedSensors[MAX_SENSORS_TO_DETECT] = { GYRO_NONE, ACC_NONE, BARO_NONE, MAG_NONE };
-
 
 static __attribute__((unused)) const extiConfig_t *selectMPUIntExtiConfig(void)
 {

@@ -36,14 +36,14 @@ typedef struct accDeadband_s {
     uint8_t z;                  // set the acc deadband for z-Axis, this ignores small accelerations
 } accDeadband_t;
 
-typedef struct accelerometerConfig_s {
-    rollAndPitchTrims_t accelerometerTrims; // accelerometer trim
+struct accelerometer_config {
+    rollAndPitchTrims_t trims; // accelerometer trim
 
     // sensor-related stuff
     uint8_t acc_cut_hz;                     // Set the Low Pass Filter factor for ACC. Reducing this value would reduce ACC noise (visible in GUI), but would increase ACC lag time. Zero = no filter
     float accz_lpf_cutoff;                  // cutoff frequency for the low pass filter used on the acc z-axis for althold in Hz
     accDeadband_t accDeadband;
     uint8_t acc_unarmedcal;                 // turn automatic acc compensation on/off
-} accelerometerConfig_t;
+};
 
-PG_DECLARE_PROFILE(accelerometerConfig_t, accelerometerConfig);
+PG_DECLARE_PROFILE(struct accelerometer_config, accelerometerConfig);

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 struct imu_config {
     // IMU configuration
     uint16_t looptime;                      // imu loop time in us

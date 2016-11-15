@@ -47,6 +47,7 @@
 #include "sensors/sensors.h"
 #include "sensors/gyro.h"
 #include "sensors/acceleration.h"
+#include "sensors/instruments.h"
 
 #include "io/gps.h"
 #include "io/beeper.h"
@@ -185,7 +186,8 @@ void processRcStickPositions(rxConfig_t *rxConfig, throttleStatus_e throttleStat
 
     if (rcSticks == THR_LO + YAW_LO + PIT_LO + ROL_CE) {
         // GYRO calibration
-        gyroSetCalibrationCycles(CALIBRATING_GYRO_CYCLES);
+		// TODO: reenable calibration
+        //gyroSetCalibrationCycles(CALIBRATING_GYRO_CYCLES);
 
 #ifdef GPS
         if (feature(FEATURE_GPS)) {
@@ -241,7 +243,7 @@ void processRcStickPositions(rxConfig_t *rxConfig, throttleStatus_e throttleStat
 
     if (rcSticks == THR_HI + YAW_LO + PIT_LO + ROL_CE) {
         // Calibrating Acc
-        accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
+		ins_start_acc_calibration(&default_ins);
         return;
     }
 

@@ -54,7 +54,6 @@
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
@@ -164,22 +163,22 @@ PG_RESET_TEMPLATE(struct pid_config, pidProfile,
 // SENSORS
 PG_REGISTER(sensorSelectionConfig_t, sensorSelectionConfig, PG_SENSOR_SELECTION_CONFIG, 0);
 PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
-PG_REGISTER(sensorTrims_t, sensorTrims, PG_SENSOR_TRIMS, 0);
+PG_REGISTER(struct sensor_trims_config, sensorTrims, PG_SENSOR_TRIMS, 0);
 
 // ACCELEROMETER
-PG_REGISTER_PROFILE_WITH_RESET_FN(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
+PG_REGISTER_PROFILE_WITH_RESET_FN(struct accelerometer_config, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
 
-void pgResetFn_accelerometerConfig(accelerometerConfig_t *instance)
+void pgResetFn_accelerometerConfig(struct accelerometer_config *instance)
 {
-    RESET_CONFIG_2(accelerometerConfig_t, instance,
+    RESET_CONFIG_2(struct accelerometer_config, instance,
         .acc_cut_hz = 15,
         .accz_lpf_cutoff = 5.0f,
         .accDeadband.z = 40,
         .accDeadband.xy = 40,
         .acc_unarmedcal = 1,
     );
-	instance->accelerometerTrims.values.roll = 0;
-	instance->accelerometerTrims.values.pitch = 0;
+	instance->trims.values.roll = 0;
+	instance->trims.values.pitch = 0;
 }
 
 // RATE PROFILE
@@ -526,21 +525,21 @@ PG_RESET_TEMPLATE(barometerConfig_t, barometerConfig,
 #endif
 
 // COMPASS
-PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
+PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(struct mag_config, compassConfig, PG_COMPASS_CONFIGURATION, 0);
 
-PG_RESET_TEMPLATE(compassConfig_t, compassConfig,
+PG_RESET_TEMPLATE(struct mag_config, compassConfig,
     .mag_declination = 0,
 );
 
 
 // GYRO
-PG_REGISTER_WITH_RESET_TEMPLATE(gyroConfig_t, gyroConfig, PG_GYRO_CONFIG, 0);
+PG_REGISTER_WITH_RESET_TEMPLATE(struct gyro_config, gyroConfig, PG_GYRO_CONFIG, 0);
 
-PG_RESET_TEMPLATE(gyroConfig_t, gyroConfig,
+PG_RESET_TEMPLATE(struct gyro_config, gyroConfig,
     .gyro_lpf = 1,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
     .soft_gyro_lpf_hz = 60,        // Software based lpf filter for gyro
 
-    .gyroMovementCalibrationThreshold = 32,
+    .move_threshold = 32,
 );
 
 // IMU

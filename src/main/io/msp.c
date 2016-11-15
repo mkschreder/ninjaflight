@@ -76,10 +76,10 @@
 #include "sensors/barometer.h"
 #include "sensors/compass.h"
 #include "sensors/gyro.h"
+#include "sensors/instruments.h"
 
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 #include "flight/altitudehold.h"
@@ -587,15 +587,15 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_RAW_IMU: {
             // Hack scale due to choice of units for sensor data in multiwii
             unsigned scale_shift = (acc.acc_1G > 1024) ? 3 : 0;
-			union imu_accel_reading acc; 
-			imu_get_raw_accel(&default_imu, &acc); 
-
-            for (unsigned i = 0; i < 3; i++)
-                sbufWriteU16(dst, acc.raw[i] >> scale_shift);
-            for (unsigned i = 0; i < 3; i++)
-                sbufWriteU16(dst, gyroADC[i]);
-            for (unsigned i = 0; i < 3; i++)
-                sbufWriteU16(dst, magADC[i]);
+			sbufWriteU16(dst, ins_get_acc_x(&default_ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_y(&default_ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_z(&default_ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_gyro_x(&default_ins));
+			sbufWriteU16(dst, ins_get_gyro_y(&default_ins));
+			sbufWriteU16(dst, ins_get_gyro_z(&default_ins));
+            sbufWriteU16(dst, ins_get_mag_x(&default_ins));
+            sbufWriteU16(dst, ins_get_mag_y(&default_ins));
+            sbufWriteU16(dst, ins_get_mag_z(&default_ins));
             break;
         }
 
@@ -644,9 +644,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ATTITUDE:
-            sbufWriteU16(dst, imu_get_roll_dd(&default_imu));
-            sbufWriteU16(dst, imu_get_pitch_dd(&default_imu));
-            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
+            sbufWriteU16(dst, ins_get_roll_dd(&default_ins));
+            sbufWriteU16(dst, ins_get_pitch_dd(&default_ins));
+            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
             break;
 
         case MSP_ALTITUDE:
@@ -840,8 +840,8 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
             // Additional commands that are not compatible with MultiWii
         case MSP_ACC_TRIM:
-            sbufWriteU16(dst, accelerometerConfig()->accelerometerTrims.values.pitch);
-            sbufWriteU16(dst, accelerometerConfig()->accelerometerTrims.values.roll);
+            sbufWriteU16(dst, accelerometerConfig()->trims.values.pitch);
+            sbufWriteU16(dst, accelerometerConfig()->trims.values.roll);
             break;
 
         case MSP_UID:
@@ -1077,8 +1077,8 @@ static int processInCommand(mspPacket_t *cmd)
         }
 
         case MSP_SET_ACC_TRIM:
-            accelerometerConfig()->accelerometerTrims.values.pitch = sbufReadU16(src);
-            accelerometerConfig()->accelerometerTrims.values.roll  = sbufReadU16(src);
+            accelerometerConfig()->trims.values.pitch = sbufReadU16(src);
+            accelerometerConfig()->trims.values.roll  = sbufReadU16(src);
             break;
 
         case MSP_SET_ARMING_CONFIG:
@@ -1267,7 +1267,7 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_ACC_CALIBRATION:
             if (!ARMING_FLAG(ARMED))
-                accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
+				ins_start_acc_calibration(&default_ins);
             break;
 
         case MSP_MAG_CALIBRATION:

@@ -43,7 +43,6 @@
 #include "io/rc_controls.h"
 
 #include "anglerate.h"
-#include "imu.h"
 #include "rate_profile.h"
 #include "navigation.h"
 #include "mixer.h"
@@ -311,7 +310,7 @@ static void _luxfloat_update(struct anglerate *self, const gyro_rates_t gyro, co
 
         // --------low-level gyro-based PID. ----------
 		// TODO: refactor this so that we always have gyro scaled to rad/s
-        const float gyroRate = luxGyroScale * gyro[axis] * (imu_get_gyro_scale(self->imu) / RAD);
+        const float gyroRate = luxGyroScale * gyro[axis] * (1.0f / 16.4f); // * (imu_get_gyro_scale(self->imu) / RAD); TODO: make sure that we are not dependent on gyro scale
         self->output.axis[axis] = _luxfloat_calc_axis(self, axis, gyroRate, angleRate, dT);
         //output->axis[axis] = constrain(output->axis[axis], -PID_LUX_FLOAT_MAX_PID, PID_LUX_FLOAT_MAX_PID);
 #ifdef GTUNE
@@ -460,14 +459,14 @@ static void _multiwii23_update(struct anglerate *self, const gyro_rates_t gyro, 
 
 
 void anglerate_init(struct anglerate *self,
-	struct imu *imu,
+	struct instruments *ins,
 	const struct pid_config *config,
 	const struct rate_config *rate_config,
 	uint16_t max_angle_inclination,
 	const rollAndPitchTrims_t *angle_trim,
 	const rxConfig_t *rx_config){
 	memset(self, 0, sizeof(struct anglerate));
-	self->imu = imu;
+	self->ins = ins;
 	self->update = _multiwii_rewrite_update;
 	for(int c = 0; c < 3; c++) {
 		self->pidScale[c] = 100;

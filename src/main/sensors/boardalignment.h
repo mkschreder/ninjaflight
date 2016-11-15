@@ -25,8 +25,5 @@ struct board_alignment {
 	struct board_alignment_config *config;
 };
 
-// TODO: remove this
-extern struct board_alignment default_alignment;
-
 void board_alignment_init(struct board_alignment *self, struct board_alignment_config *config); 
 void board_alignment_rotate_vector(struct board_alignment *self, int32_t *src, int32_t *dest, uint8_t rotation);
