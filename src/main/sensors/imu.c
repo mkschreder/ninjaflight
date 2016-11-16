@@ -157,14 +157,19 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 
     _imu_vector_bf_to_ef(self, &accel_ned);
 
-    if (self->acc_config->acc_unarmedcal == 1) {
-        if (!ARMING_FLAG(ARMED)) {
-            accZoffset -= accZoffset / 64;
-            accZoffset += accel_ned.V.Z;
-        }
-        accel_ned.V.Z -= accZoffset / 64;  // compensate for gravitation on z-axis
-    } else
-        accel_ned.V.Z -= self->acc_1G;
+	if(0){
+		// TODO: remove this and make sure we initiate calibration outside and that it is done in instruments module
+		if (self->acc_config->acc_unarmedcal == 1) {
+			if (!ARMING_FLAG(ARMED)) {
+				accZoffset -= accZoffset / 64;
+				accZoffset += accel_ned.V.Z;
+			}
+			accel_ned.V.Z -= accZoffset / 64;  // compensate for gravitation on z-axis
+		} else
+			accel_ned.V.Z -= self->acc_1G;
+	} else {
+    	accel_ned.V.Z -= self->acc_1G;
+	}
 
 	float fc_acc = 0.5f / (M_PIf * self->acc_config->accz_lpf_cutoff);
     accz_smooth = accz_smooth + (dT / (fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
@@ -198,6 +203,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 		gz = self->gyro[Z];
 	}
 
+	// we scale here to keep precision when later squaring scale can be any number
 	ax = self->accSmooth[X] * 0.001f;
 	ay = self->accSmooth[Y] * 0.001f;
 	az = self->accSmooth[Z] * 0.001f;
@@ -246,7 +252,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 
     // Use measured acceleration vector
     recipNorm = sq(ax) + sq(ay) + sq(az);
-    if (useAcc && recipNorm > 0.01f) {
+    if (useAcc && recipNorm > 1e-6f) {
         // Normalise accelerometer measurement
         recipNorm = 1.0f / sqrtf(recipNorm);
         ax *= recipNorm;
@@ -323,21 +329,6 @@ bool imu_is_leveled(struct imu *self, uint8_t max_angle){
     return (self->rMat[2][2] > armingAngleCosZ);
 }
 
-static bool _imu_acc_healthy(struct imu *self)
-{
-    int32_t axis;
-    int32_t accMagnitude = 0;
-
-    for (axis = 0; axis < 3; axis++) {
-        accMagnitude += (int32_t)self->accSmooth[axis] * self->accSmooth[axis];
-    }
-
-    accMagnitude = accMagnitude * 100 / (sq((int32_t)self->acc_1G));
-
-    // Accept accel readings only in range 0.90g - 1.10g
-    return (81 < accMagnitude) && (accMagnitude < 121);
-}
-
 static bool _imu_mag_healthy(struct imu *self){
 	UNUSED(self);
     return (self->mag[X] != 0) && (self->mag[Y] != 0) && (self->mag[Z] != 0);
@@ -358,7 +349,7 @@ void imu_update(struct imu *self, float dt){
         }
     }
 
-	bool useAcc = (self->flags & IMU_FLAG_USE_ACC) && _imu_acc_healthy(self);
+	bool useAcc = (self->flags & IMU_FLAG_USE_ACC);
 	bool useMag = (self->flags & IMU_FLAG_USE_MAG) && _imu_mag_healthy(self);
 	bool useYaw = (self->flags & IMU_FLAG_USE_YAW);
 

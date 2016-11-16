@@ -228,6 +228,22 @@ $(OBJECT_DIR)/sensors/imu.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/imu.c -o $@
 
+$(OBJECT_DIR)/sensors/barometer.o : \
+	$(USER_DIR)/sensors/barometer.c \
+	$(USER_DIR)/sensors/barometer.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/barometer.c -o $@
+
+$(OBJECT_DIR)/sensors/compass.o : \
+	$(USER_DIR)/sensors/compass.c \
+	$(USER_DIR)/sensors/compass.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/compass.c -o $@
+
 $(OBJECT_DIR)/flight_imu_unittest.o : \
 	$(TEST_DIR)/flight_imu_unittest.cc \
 	$(USER_DIR)/sensors/imu.h \
@@ -257,11 +273,15 @@ $(OBJECT_DIR)/ins_unittest.o : \
 
 
 $(OBJECT_DIR)/ins_unittest : \
-	$(OBJECT_DIR)/sensors/imu.o \
 	$(OBJECT_DIR)/sensors/acceleration.o \
-	$(OBJECT_DIR)/sensors/gyro.o \
-	$(OBJECT_DIR)/sensors/instruments.o \
 	$(OBJECT_DIR)/sensors/boardalignment.o \
+	$(OBJECT_DIR)/sensors/barometer.o \
+	$(OBJECT_DIR)/sensors/battery.o \
+	$(OBJECT_DIR)/sensors/compass.o \
+	$(OBJECT_DIR)/sensors/gyro.o \
+	$(OBJECT_DIR)/sensors/imu.o \
+	$(OBJECT_DIR)/sensors/instruments.o \
+	$(OBJECT_DIR)/sensors/sonar.o \
 	$(OBJECT_DIR)/ins_unittest.o \
 	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/common/filter.o \

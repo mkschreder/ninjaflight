@@ -75,11 +75,34 @@ void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z)
     imu_input_gyro(&self->imu, self->gyro.gyroADC[X], self->gyro.gyroADC[Y], self->gyro.gyroADC[Z]);
 }
 
+static bool _acc_magnitude_in_cent_g(struct instruments *self, int32_t raw[3], uint16_t min_cent, uint16_t max_cent){
+    int32_t axis;
+    int32_t accMagnitude = 0;
+
+    for (axis = 0; axis < 3; axis++) {
+        accMagnitude += (int32_t)raw[axis] * raw[axis];
+    }
+
+	if(accMagnitude == 0) return false;
+
+    accMagnitude = accMagnitude * 100 / (sq((int32_t)self->acc.acc_1G));
+
+    // Accept accel readings only in range 0.90g - 1.10g
+    return (min_cent < accMagnitude) && (accMagnitude < max_cent);
+}
+
 void ins_process_acc(struct instruments *self, int32_t x, int32_t y, int32_t z){
 	int32_t raw[3] = {x, y, z};
 	board_alignment_rotate_vector(&self->alignment, raw, raw, self->acc_align);
 	ins_acc_process_sample(&self->acc, raw[X], raw[Y], raw[Z]);
-	imu_input_accelerometer(&self->imu, self->acc.accADC[X], self->acc.accADC[Y], self->acc.accADC[Z]);
+	
+	raw[0] = ins_acc_get_x(&self->acc);
+	raw[1] = ins_acc_get_y(&self->acc);
+	raw[2] = ins_acc_get_z(&self->acc);
+	// only update imu with samples that are in range 80%-120% of 1G
+	// if we do not have this check then chances are that we would lose our attitude if quad is accelerating violently
+	if(_acc_magnitude_in_cent_g(self, raw, 80, 120))
+		imu_input_accelerometer(&self->imu, raw[0], raw[1], raw[2]);
 }
 
 void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z){
