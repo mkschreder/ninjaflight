@@ -71,8 +71,8 @@ static void _add_calibration_samples(struct ins_gyro *self, int32_t raw[3]){
 		}
 
 		// Sum up CALIBRATING_GYRO_CYCLES readings
-		self->g[axis] += self->gyroADC[axis];
-		devPush(&self->var[axis], self->gyroADC[axis]);
+		self->g[axis] += raw[axis];
+		devPush(&self->var[axis], raw[axis]);
 
 		// Reset global variables to prevent other code from using un-calibrated data
 		self->gyroZero[axis] = 0;
