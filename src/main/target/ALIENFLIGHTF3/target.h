@@ -74,7 +74,7 @@
 //#define USE_BARO_MS5611
 
 // option to use MPU9150 or MPU9250 integrated AK89xx Mag
-#define MAG
+#define USE_MAG 1
 #define USE_MAG_AK8963
 
 #define MAG_AK8963_ALIGN CW0_DEG_FLIP

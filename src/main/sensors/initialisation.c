@@ -580,8 +580,7 @@ static void detectBaro(baroSensor_e baroHardwareToUse)
 #endif
 }
 
-static void detectMag(magSensor_e magHardwareToUse)
-{
+static void detectMag(magSensor_e magHardwareToUse){
     magSensor_e magHardware;
 
 #ifdef USE_MAG_HMC5883
@@ -703,11 +702,9 @@ static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
     if (sensorAlignmentConfig->acc_align != ALIGN_DEFAULT) {
         accAlign = sensorAlignmentConfig->acc_align;
     }
-#ifdef MAG
-    if (sensorAlignmentConfig->mag_align != ALIGN_DEFAULT) {
+    if (USE_MAG && sensorAlignmentConfig->mag_align != ALIGN_DEFAULT) {
         magAlign = sensorAlignmentConfig->mag_align;
     }
-#endif
 }
 
 bool sensorsAutodetect(void)
@@ -738,9 +735,9 @@ bool sensorsAutodetect(void)
     // this is safe because either mpu6050 or mpu3050 or lg3d20 sets it, and in case of fail, we never get here.
     gyro.init(gyroConfig()->gyro_lpf);
 
-#ifdef MAG
-    detectMag(sensorSelectionConfig()->mag_hardware);
-#endif
+	if(USE_MAG){
+		detectMag(sensorSelectionConfig()->mag_hardware);
+	}
 
     reconfigureAlignment(sensorAlignmentConfig());
 

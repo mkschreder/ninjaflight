@@ -65,6 +65,7 @@
 #define TELEMETRY
 #define USE_SERVOS
 #define USE_CLI
+#define USE_MAG 0
 
 #define SPEKTRUM_BIND
 // UART2, PA3

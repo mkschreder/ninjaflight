@@ -70,6 +70,8 @@
 #define USE_ACC_SPI_MPU6500
 #define ACC_MPU6500_ALIGN CW270_DEG
 
+#define USE_MAG 0
+
 #define BEEPER
 #define LED0
 #define LED1

@@ -21,8 +21,6 @@
 #include <platform.h>
 #include "version.h"
 
-#ifdef BLACKBOX
-
 #include "common/maths.h"
 #include "common/axis.h"
 #include "common/encoding.h"
@@ -174,7 +172,7 @@ static const blackboxDeltaFieldDefinition_t blackboxMainFields[] = {
     {"vbatLatest",    -1, UNSIGNED, .Ipredict = PREDICT(VBATREF),  .Iencode = ENCODING(NEG_14BIT),   .Ppredict = PREDICT(PREVIOUS),  .Pencode = ENCODING(TAG8_8SVB), FLIGHT_LOG_FIELD_CONDITION_VBAT},
     {"amperageLatest",-1, UNSIGNED, .Ipredict = PREDICT(0),        .Iencode = ENCODING(UNSIGNED_VB), .Ppredict = PREDICT(PREVIOUS),  .Pencode = ENCODING(TAG8_8SVB), FLIGHT_LOG_FIELD_CONDITION_AMPERAGE_ADC},
 
-#ifdef MAG
+#if USE_MAG == 1
     {"magADC",      0, SIGNED,   .Ipredict = PREDICT(0),       .Iencode = ENCODING(SIGNED_VB),   .Ppredict = PREDICT(PREVIOUS),      .Pencode = ENCODING(TAG8_8SVB), FLIGHT_LOG_FIELD_CONDITION_MAG},
     {"magADC",      1, SIGNED,   .Ipredict = PREDICT(0),       .Iencode = ENCODING(SIGNED_VB),   .Ppredict = PREDICT(PREVIOUS),      .Pencode = ENCODING(TAG8_8SVB), FLIGHT_LOG_FIELD_CONDITION_MAG},
     {"magADC",      2, SIGNED,   .Ipredict = PREDICT(0),       .Iencode = ENCODING(SIGNED_VB),   .Ppredict = PREDICT(PREVIOUS),      .Pencode = ENCODING(TAG8_8SVB), FLIGHT_LOG_FIELD_CONDITION_MAG},
@@ -273,9 +271,7 @@ typedef struct blackboxMainState_s {
 #ifdef BARO
     int32_t BaroAlt;
 #endif
-#ifdef MAG
     int16_t magADC[XYZ_AXIS_COUNT];
-#endif
 #ifdef SONAR
     int32_t sonarRaw;
 #endif
@@ -381,11 +377,9 @@ static bool testBlackboxConditionUncached(FlightLogFieldCondition condition)
             return pidProfile()->D8[condition - FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0] != 0;
 
         case FLIGHT_LOG_FIELD_CONDITION_MAG:
-#ifdef MAG
-            return sensors(SENSOR_MAG);
-#else
+			if(USE_MAG)
+            	return sensors(SENSOR_MAG);
             return false;
-#endif
 
         case FLIGHT_LOG_FIELD_CONDITION_BARO:
 #ifdef BARO
@@ -516,11 +510,9 @@ static void writeIntraframe(void)
         blackboxWriteUnsignedVB(blackboxCurrent->amperageLatest);
     }
 
-#ifdef MAG
-        if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
-            blackboxWriteSigned16VBArray(blackboxCurrent->magADC, XYZ_AXIS_COUNT);
-        }
-#endif
+	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
+		blackboxWriteSigned16VBArray(blackboxCurrent->magADC, XYZ_AXIS_COUNT);
+	}
 
 #ifdef BARO
         if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_BARO)) {
@@ -639,13 +631,11 @@ static void writeInterframe(void)
         deltas[optionalFieldCount++] = (int32_t) blackboxCurrent->amperageLatest - blackboxLast->amperageLatest;
     }
 
-#ifdef MAG
-    if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
+    if (USE_MAG && testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
         for (x = 0; x < XYZ_AXIS_COUNT; x++) {
             deltas[optionalFieldCount++] = blackboxCurrent->magADC[x] - blackboxLast->magADC[x];
         }
     }
-#endif
 
 #ifdef BARO
     if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_BARO)) {
@@ -898,7 +888,7 @@ static void writeGPSFrame(void)
     gpsHistory.GPS_coord[0] = GPS_coord[0];
     gpsHistory.GPS_coord[1] = GPS_coord[1];
 }
-#endif
+#endif // GPS
 
 /**
  * Fill the current state of the blackbox using values read from the flight controller
@@ -910,6 +900,7 @@ static void loadMainState(void)
 
     blackboxCurrent->time = currentTime;
 
+	/* TODO: this kind of thing should be solved differently. If debugging is needed then debug other values, not intermediate calculations.
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&default_controller); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
         blackboxCurrent->axisPID_P[i] = out->axis_P[i];
@@ -920,6 +911,7 @@ static void loadMainState(void)
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
         blackboxCurrent->axisPID_D[i] = out->axis_D[i];
     }
+	*/
 
     for (i = 0; i < 4; i++) {
         blackboxCurrent->rcCommand[i] = rcCommand[i];
@@ -940,11 +932,11 @@ static void loadMainState(void)
     blackboxCurrent->vbatLatest = battery_get_voltage(&default_battery);
     blackboxCurrent->amperageLatest = battery_get_current(&default_battery);
 
-#ifdef MAG
-	blackboxCurrent->magADC[X] = ins_get_mag_x(&default_ins);
-	blackboxCurrent->magADC[Y] = ins_get_mag_y(&default_ins);
-	blackboxCurrent->magADC[Z] = ins_get_mag_z(&default_ins);
-#endif
+	if(USE_MAG){
+		blackboxCurrent->magADC[X] = ins_get_mag_x(&default_ins);
+		blackboxCurrent->magADC[Y] = ins_get_mag_y(&default_ins);
+		blackboxCurrent->magADC[Z] = ins_get_mag_z(&default_ins);
+	}
 
 #ifdef BARO
     blackboxCurrent->BaroAlt = BaroAlt;
@@ -1447,4 +1439,3 @@ void initBlackbox(void)
     }
 }
 
-#endif

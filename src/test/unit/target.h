@@ -17,7 +17,7 @@
 
 #pragma once
 
-#define MAG
+#define USE_MAG 1
 #define BARO
 #define GPS
 #define DISPLAY

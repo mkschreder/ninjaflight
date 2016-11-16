@@ -283,6 +283,7 @@ TEST(PIDUnittest, TestPidLuxFloat)
     resetRcCommands();
     resetGyroADC();
 
+	// TODO: unit testing should focus on testing each term by itself. Remove this kinf of crap.
     EXPECT_EQ(0, default_controller.output.axis_P[FD_ROLL]);
     EXPECT_EQ(0, default_controller.output.axis_I[FD_ROLL]);
     EXPECT_EQ(0, default_controller.output.axis_D[FD_ROLL]);

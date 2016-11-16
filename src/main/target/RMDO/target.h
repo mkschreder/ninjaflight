@@ -52,6 +52,8 @@
 #define BARO
 #define USE_BARO_BMP280
 
+#define USE_MAG 0
+
 #define USE_FLASHFS
 #define USE_FLASH_M25P16
 

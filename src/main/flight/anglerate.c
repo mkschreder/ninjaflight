@@ -115,11 +115,9 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
         DTerm = constrain(DTerm, -PID_MAX_D, PID_MAX_D);
     }
 
-#ifdef BLACKBOX
     self->output.axis_P[axis] = PTerm;
     self->output.axis_I[axis] = ITerm;
     self->output.axis_D[axis] = DTerm;
-#endif
     // -----calculate total PID output
     return PTerm + ITerm + DTerm;
 }
@@ -246,11 +244,9 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
         DTerm = constrainf(DTerm, -PID_MAX_D, PID_MAX_D);
     }
 
-#ifdef BLACKBOX
 	self->output.axis_P[axis] = PTerm;
     self->output.axis_I[axis] = ITerm;
     self->output.axis_D[axis] = DTerm;
-#endif
     // -----calculate total PID output
     return lrintf(PTerm + ITerm + DTerm);
 }
@@ -415,11 +411,9 @@ static void _multiwii23_update(struct anglerate *self, const gyro_rates_t gyro, 
         }
 #endif
 
-#ifdef BLACKBOX
         self->output.axis_P[axis] = PTerm;
         self->output.axis_I[axis] = ITerm;
         self->output.axis_D[axis] = DTerm;
-#endif
     }
 
     //YAW
@@ -450,11 +444,9 @@ static void _multiwii23_update(struct anglerate *self, const gyro_rates_t gyro, 
     }
 #endif
 
-#ifdef BLACKBOX
     self->output.axis_P[FD_YAW] = PTerm;
     self->output.axis_I[FD_YAW] = ITerm;
     self->output.axis_D[FD_YAW] = 0;
-#endif
 }
 
 

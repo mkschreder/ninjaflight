@@ -47,11 +47,12 @@ struct rxConfig_s;
 
 struct pid_controller_output{
 	int16_t axis[3];
-#ifdef BLACKBOX
+
+	// TODO: remove these intermediate values. For now leaving them here because unit tests rely on them.
+	// unit tests need to be rewritten to not rely on any kinf of intermediate crap and just test expected behavior!
 	float axis_P[3];
 	float axis_I[3];
 	float axis_D[3];
-#endif
 };
 
 struct anglerate {

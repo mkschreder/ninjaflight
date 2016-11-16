@@ -249,7 +249,7 @@ cfTask_t cfTasks[TASK_COUNT] = {
     },
 #endif
 
-#ifdef MAG
+#if USE_MAG == 1
     [TASK_COMPASS] = {
         .taskName = "COMPASS",
         .taskFunc = taskUpdateCompass,
@@ -678,11 +678,9 @@ static void init(void)
         // if gyro was not detected due to whatever reason, we give up now.
         failureMode(FAILURE_MISSING_ACC);
     }
-
-#ifdef MAG
-    if (sensors(SENSOR_MAG))
+	
+    if (USE_MAG && sensors(SENSOR_MAG))
     	mag.init();
-#endif
 
 	ins_init(&default_ins, 
 		boardAlignment(),
@@ -884,12 +882,12 @@ int main(void) {
 #ifdef GPS
     setTaskEnabled(TASK_GPS, feature(FEATURE_GPS));
 #endif
-#ifdef MAG
-    setTaskEnabled(TASK_COMPASS, sensors(SENSOR_MAG));
-#if defined(MPU6500_SPI_INSTANCE) && defined(USE_MAG_AK8963)
-    // fixme temporary solution for AK6983 via slave I2C on MPU9250
-    rescheduleTask(TASK_COMPASS, 1000000 / 40);
-#endif
+#if USE_MAG == 1
+	setTaskEnabled(TASK_COMPASS, sensors(SENSOR_MAG));
+	#if defined(MPU6500_SPI_INSTANCE) && defined(USE_MAG_AK8963)
+		// fixme temporary solution for AK6983 via slave I2C on MPU9250
+		rescheduleTask(TASK_COMPASS, 1000000 / 40);
+	#endif
 #endif
 #ifdef BARO
     setTaskEnabled(TASK_BARO, sensors(SENSOR_BARO));

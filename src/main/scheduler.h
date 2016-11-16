@@ -20,6 +20,7 @@
 //#define SCHEDULER_DEBUG
 
 #include <stdbool.h>
+#include "target.h"
 
 typedef enum {
     TASK_PRIORITY_IDLE = 0,     // Disables dynamic scheduling, task is executed only if no other task is active this cycle
@@ -55,7 +56,7 @@ typedef enum {
 #ifdef GPS
     TASK_GPS,
 #endif
-#ifdef MAG
+#if USE_MAG == 1
     TASK_COMPASS,
 #endif
 #ifdef BARO

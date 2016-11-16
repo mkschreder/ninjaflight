@@ -44,7 +44,7 @@
 #define BARO
 #define USE_BARO_MS5611
 
-#define MAG
+#define USE_MAG 1
 #define USE_MAG_AK8975
 
 #define MAG_AK8975_ALIGN CW180_DEG_FLIP

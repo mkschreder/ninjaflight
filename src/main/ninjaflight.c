@@ -386,7 +386,6 @@ static void updateInflightCalibrationState(void)
     }
 }
 
-#if defined(MAG)
 static void updateMagHold(void)
 {
 	// TODO: really refactor this kind of crap. This belongs in flight control code
@@ -403,7 +402,6 @@ static void updateMagHold(void)
     } else
         magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
 }
-#endif
 
 static void processRx(void)
 {
@@ -686,11 +684,9 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
         gyro.temperature(&telemTemperature1);
     }
 
-#ifdef MAG
-        if (sensors(SENSOR_MAG)) {
-            updateMagHold();
-        }
-#endif
+	if (USE_MAG && sensors(SENSOR_MAG)) {
+		updateMagHold();
+	}
 
 #ifdef GTUNE
         updateGtuneState();
@@ -991,15 +987,15 @@ void taskProcessGPS(void)
 }
 #endif
 
-#ifdef MAG
 void taskUpdateCompass(void){
-	int16_t raw[3];
-    if (sensors(SENSOR_MAG) && mag.read(raw)){
-		ins_process_mag(&default_ins, raw[0], raw[1], raw[2]);
-        //updateCompass(&sensorTrims()->magZero);
-    }
+	if(USE_MAG){
+		int16_t raw[3];
+		if (sensors(SENSOR_MAG) && mag.read(raw)){
+			ins_process_mag(&default_ins, raw[0], raw[1], raw[2]);
+			//updateCompass(&sensorTrims()->magZero);
+		}
+	}
 }
-#endif
 
 #ifdef BARO
 void taskUpdateBaro(void)

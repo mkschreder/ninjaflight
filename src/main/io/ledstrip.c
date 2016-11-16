@@ -347,7 +347,7 @@ static const struct {
     uint8_t ledMode;
 } flightModeToLed[] = {
     {HEADFREE_MODE, LED_MODE_HEADFREE},
-#ifdef MAG
+#if USE_MAG == 1
     {MAG_MODE,      LED_MODE_MAG},
 #endif
 #ifdef BARO

@@ -103,7 +103,7 @@
 #define ACC
 #define USE_ACC_LSM303DLHC
 
-#define MAG
+#define USE_MAG 1
 #define USE_MAG_HMC5883
 
 #define BEEPER
