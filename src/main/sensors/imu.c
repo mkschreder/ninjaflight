@@ -100,6 +100,9 @@ void imu_reset(struct imu *self){
 	self->q.z = 0.0f;
 
     _imu_update_dcm(self);
+
+	// reset the sensor flags (these will then be set as new samples arrive!)
+	self->flags &= ~(IMU_FLAG_USE_ACC | IMU_FLAG_USE_MAG);
 }
 
 void imu_init(struct imu *self,
@@ -185,9 +188,15 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float ax, ay, az;
 	float mx, my, mz;
 
-	gx = self->gyro[X] * self->gyroScale;
-	gy = self->gyro[Y] * self->gyroScale;
-	gz = self->gyro[Z] * self->gyroScale;
+	if(self->gyroScale > 0){
+		gx = self->gyroScale * self->gyro[X];
+		gy = self->gyroScale * self->gyro[Y];
+		gz = self->gyroScale * self->gyro[Z];
+	} else {
+		gx = self->gyro[X];
+		gy = self->gyro[Y];
+		gz = self->gyro[Z];
+	}
 
 	ax = self->accSmooth[X] * 0.001f;
 	ay = self->accSmooth[Y] * 0.001f;
@@ -279,7 +288,6 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 
 	// rate integration is done using quaternion integration formula
 	// qnew = qold + (qold * q(0, w, w, w) * 0.5) * dt;
-
 	quat_t qdelta = { 0, gx, gy, gz };
 	qdelta = quat_scale(&qdelta, 0.5f * dt);
 
@@ -302,16 +310,9 @@ static void _imu_update_euler_angles(struct imu *self){
 	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf));
     self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + self->magneticDeclination);
 
+	// yaw range is 0 to 3600
     if (self->attitude.values.yaw < 0)
         self->attitude.values.yaw += 3600;
-
-    /* Update small angle state */
-    float smallAngleCosZ = cos_approx(degreesToRadians(self->config->small_angle));
-    if (self->rMat[2][2] > smallAngleCosZ) {
-        ENABLE_STATE(SMALL_ANGLE);
-    } else {
-        DISABLE_STATE(SMALL_ANGLE);
-    }
 }
 
 bool imu_is_leveled(struct imu *self, uint8_t max_angle){

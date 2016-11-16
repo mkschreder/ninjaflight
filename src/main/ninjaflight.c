@@ -397,6 +397,7 @@ static void updateMagHold(void)
         if (dif >= +180)
             dif -= 360;
         dif *= -rcControlsConfig()->yaw_control_direction;
+		// TODO: small angle was set in imu before. Generally this kind of logic is horrible. This needs to be scrapped.
         if (STATE(SMALL_ANGLE))
             rcCommand[YAW] -= dif * pidProfile()->P8[PIDMAG] / 30;    // 18 deg
     } else

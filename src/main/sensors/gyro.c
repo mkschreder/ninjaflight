@@ -50,6 +50,9 @@
 void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro_scale){
 	memset(self, 0, sizeof(struct ins_gyro));
 	self->config = config;
+	self->gyro_scale = gyro_scale;
+	self->calibratingG = CALIBRATING_GYRO_CYCLES;
+
 	if (config->soft_gyro_lpf_hz) {
 		// Initialisation needs to happen once sampling rate is known
 		for (int axis = 0; axis < 3; axis++) {
@@ -57,11 +60,9 @@ void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro
 		}
 		self->use_filter = true;
 	}
-	self->gyro_scale = gyro_scale;
-	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 }
 
-static void _add_calibration_samples(struct ins_gyro *self){
+static void _add_calibration_samples(struct ins_gyro *self, int32_t raw[3]){
 	for (int axis = 0; axis < 3; axis++) {
 		// Reset g[axis] at start of calibration
 		if (self->calibratingG == CALIBRATING_GYRO_CYCLES) {
@@ -74,7 +75,6 @@ static void _add_calibration_samples(struct ins_gyro *self){
 		devPush(&self->var[axis], self->gyroADC[axis]);
 
 		// Reset global variables to prevent other code from using un-calibrated data
-		self->gyroADC[axis] = 0;
 		self->gyroZero[axis] = 0;
 
 		if (self->calibratingG == 1) {
@@ -92,34 +92,27 @@ static void _add_calibration_samples(struct ins_gyro *self){
 }
 
 void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_t z){
-	// range: +/- 8192; +/- 2000 deg/sec
-	/*
-	if (!gyro.read(gyroADCRaw)) {
-		return;
-	}
-	*/
-
-	self->gyroADC[X] = x;
-	self->gyroADC[Y] = y;
-	self->gyroADC[Z] = z;
+	int32_t raw[3] = { x, y, z };
 
 	if (self->use_filter) {
 		for (int axis = 0; axis < XYZ_AXIS_COUNT; axis++) {
-			self->gyroADC[axis] = lrintf(applyBiQuadFilter((float)self->gyroADC[axis], &self->gyroFilterState[axis]));
+			raw[axis] = lrintf(applyBiQuadFilter((float)raw[axis], &self->gyroFilterState[axis]));
 		}
 	}
 
 	if (self->calibratingG > 0) {
-		_add_calibration_samples(self);
-	}
-
-	for (int axis = 0; axis < 3; axis++) {
-		self->gyroADC[axis] -= self->gyroZero[axis];
-		//self->gyroADC[axis] *= self->gyro_scale;
+		_add_calibration_samples(self, raw);
+	} else {
+		// only update values if we have been calibrated
+		for (int axis = 0; axis < 3; axis++) {
+			self->gyroADC[axis] = raw[axis] - self->gyroZero[axis];
+		}
 	}
 }
 
 void ins_gyro_calibrate(struct ins_gyro *self){
+	for(int c = 0; c < 3; c++)
+		self->gyroADC[c] = 0;
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 }
 

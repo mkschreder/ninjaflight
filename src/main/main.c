@@ -688,10 +688,15 @@ static void init(void)
 		boardAlignment(),
 		imuConfig(),
 		throttleCorrectionConfig(),
+		gyroConfig(),
 		accelerometerConfig(),
 		gyro.scale,
 		acc.acc_1G
 	);
+
+	ins_set_gyro_alignment(&default_ins, gyroAlign);
+	ins_set_acc_alignment(&default_ins, accAlign);
+	ins_set_mag_alignment(&default_ins, magAlign);
 
 #ifdef GPS
     if (feature(FEATURE_GPS)) {

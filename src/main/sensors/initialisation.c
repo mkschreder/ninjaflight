@@ -80,9 +80,9 @@ extern baro_t baro;
 acc_t acc;
 mag_t mag;
 
-static sensor_align_e accAlign = 0;
-static sensor_align_e gyroAlign = 0;
-static sensor_align_e magAlign = 0;
+sensor_align_e accAlign = 0;
+sensor_align_e gyroAlign = 0;
+sensor_align_e magAlign = 0;
 
 uint8_t detectedSensors[MAX_SENSORS_TO_DETECT] = { GYRO_NONE, ACC_NONE, BARO_NONE, MAG_NONE };
 

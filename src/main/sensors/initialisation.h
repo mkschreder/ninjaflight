@@ -19,4 +19,9 @@
 
 extern mag_t mag;
 
+// TODO: remove all of these private things when done refactoring
+extern sensor_align_e gyroAlign;
+extern sensor_align_e accAlign;
+extern sensor_align_e magAlign;
+
 bool sensorsAutodetect(void);
