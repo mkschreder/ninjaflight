@@ -142,6 +142,7 @@ void resetPID(struct rate_config *rates, rollAndPitchTrims_t *trims){
 		boardAlignment(),
 		imuConfig(),
 		throttleCorrectionConfig(),
+		gyroConfig(),
 		accelerometerConfig(),
 		gyro.scale,
 		512

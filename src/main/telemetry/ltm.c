@@ -58,7 +58,6 @@
 
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/altitudehold.h"
 #include "flight/navigation.h"
@@ -197,11 +196,9 @@ static void ltm_sframe(void)
 static void ltm_aframe(void)
 {
     ltm_initialise_packet('A');
-	union attitude_euler_angles attitude; 
-	imu_get_attitude_dd(&default_imu, &attitude); 
-    ltm_serialise_16(DECIDEGREES_TO_DEGREES(attitude.values.pitch));
-    ltm_serialise_16(DECIDEGREES_TO_DEGREES(attitude.values.roll));
-    ltm_serialise_16(DECIDEGREES_TO_DEGREES(attitude.values.yaw));
+    ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&default_ins)));
+    ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_roll_dd(&default_ins)));
+    ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
     ltm_finalise();
 }
 

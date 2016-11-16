@@ -52,6 +52,7 @@
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"
 #include "sensors/battery.h"
+#include "sensors/initialisation.h"
 
 #include "io/beeper.h"
 #include "io/display.h"
@@ -158,7 +159,7 @@ static void updateGtuneState(void)
 
 bool isCalibrating(void)
 {
-	return ins_is_calibrating(&default_ins);
+	return ins_is_calibrated(&default_ins);
 }
 
 /*
@@ -388,8 +389,9 @@ static void updateInflightCalibrationState(void)
 #if defined(MAG)
 static void updateMagHold(void)
 {
+	// TODO: really refactor this kind of crap. This belongs in flight control code
     if (ABS(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
-        int16_t dif = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)) - magHold;
+        int16_t dif = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) - magHold;
         if (dif <= -180)
             dif += 360;
         if (dif >= +180)
@@ -398,7 +400,7 @@ static void updateMagHold(void)
         if (STATE(SMALL_ANGLE))
             rcCommand[YAW] -= dif * pidProfile()->P8[PIDMAG] / 30;    // 18 deg
     } else
-        magHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
+        magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
 }
 #endif
 
@@ -551,11 +553,12 @@ static void processRx(void)
     }
 
 #ifdef  MAG
+	// TODO: refactor the mag hold mode
     if (sensors(SENSOR_ACC) || sensors(SENSOR_MAG)) {
         if (rcModeIsActive(BOXMAG)) {
             if (!FLIGHT_MODE(MAG_MODE)) {
                 ENABLE_FLIGHT_MODE(MAG_MODE);
-                magHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu));
+                magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
             }
         } else {
             DISABLE_FLIGHT_MODE(MAG_MODE);
@@ -568,7 +571,7 @@ static void processRx(void)
             DISABLE_FLIGHT_MODE(HEADFREE_MODE);
         }
         if (rcModeIsActive(BOXHEADADJ)) {
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)); // acquire new heading
+            headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)); // acquire new heading
         }
     }
 #endif
@@ -648,14 +651,10 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
     float dt = (currentTime - previousIMUUpdateTime) * 1e-6f;
     previousIMUUpdateTime = currentTime;
 
-	int16_t gyroADCRaw[3];
-	if (gyro.read(gyroADCRaw)) {
-		ins_process_gyro(&default_ins, gyroADCRaw[0], gyroADCRaw[1], gyroADCRaw[2]);
+	int16_t rawgyro[3];
+	if (gyro.read(rawgyro)) {
+		ins_process_gyro(&default_ins, rawgyro[0], rawgyro[1], rawgyro[2]);
 	}
-
-#ifdef MAG
-	imu_input_magnetometer(&default_imu, magADC[X], magADC[Y], magADC[Z], magneticDeclination);
-#endif
 
 #if defined(GPS)
 /*
@@ -994,8 +993,8 @@ void taskProcessGPS(void)
 #ifdef MAG
 void taskUpdateCompass(void){
 	int16_t raw[3];
-    if (sensors(SENSOR_MAG) && mag.read(magADCRaw)){
-		ins_process_compass(&default_ins, raw[0], raw[1], raw[2]);
+    if (sensors(SENSOR_MAG) && mag.read(raw)){
+		ins_process_mag(&default_ins, raw[0], raw[1], raw[2]);
         //updateCompass(&sensorTrims()->magZero);
     }
 }

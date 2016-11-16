@@ -37,6 +37,7 @@ struct ins_acc {
 void ins_acc_init(struct ins_acc *self, struct accelerometer_config *config, int16_t acc_1G);
 void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z);
 void ins_acc_calibrate(struct ins_acc *self);
+bool ins_acc_is_calibrated(struct ins_acc *self);
 
 static inline int32_t ins_acc_get_x(struct ins_acc *self) { return self->accADC[X]; }
 static inline int32_t ins_acc_get_y(struct ins_acc *self) { return self->accADC[Y]; }

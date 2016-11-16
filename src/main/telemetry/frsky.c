@@ -56,7 +56,6 @@
 
 //#include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/altitudehold.h"
 
 #include "telemetry/telemetry.h"
@@ -158,11 +157,10 @@ static void serialize16(int16_t a)
 
 static void sendAccel(void)
 {
-	union imu_accel_reading a; 
-	imu_get_raw_accel(&default_imu, &a); 
+	int16_t raw[3] = { ins_get_acc_x(&default_ins), ins_get_acc_y(&default_ins), ins_get_acc_z(&default_ins) };
     for (int i = 0; i < 3; i++) {
         sendDataHead(ID_ACC_X + i);
-        serialize16(1000 * (int32_t)a.raw[i] / acc.acc_1G);
+        serialize16(1000 * (int32_t)raw[i] / acc.acc_1G);
     }
 }
 
@@ -430,7 +428,7 @@ static void sendFuelLevel(void)
 static void sendHeading(void)
 {
     sendDataHead(ID_COURSE_BP);
-    serialize16(DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)));
+    serialize16(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
     sendDataHead(ID_COURSE_AP);
     serialize16(0);
 }

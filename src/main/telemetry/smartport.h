@@ -4,9 +4,7 @@
  *  Created on: 25 October 2014
  *      Author: Frank26080115
  */
-
-#ifndef TELEMETRY_SMARTPORT_H_
-#define TELEMETRY_SMARTPORT_H_
+#pragma once
 
 void initSmartPortTelemetry(void);
 
@@ -18,4 +16,3 @@ void freeSmartPortTelemetryPort(void);
 
 bool isSmartPortTimedOut(void);
 
-#endif /* TELEMETRY_SMARTPORT_H_ */

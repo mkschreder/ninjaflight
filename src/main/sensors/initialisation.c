@@ -81,7 +81,8 @@ acc_t acc;
 mag_t mag;
 
 static sensor_align_e accAlign = 0;
-static sensor_align_e gyroAlign;
+static sensor_align_e gyroAlign = 0;
+static sensor_align_e magAlign = 0;
 
 uint8_t detectedSensors[MAX_SENSORS_TO_DETECT] = { GYRO_NONE, ACC_NONE, BARO_NONE, MAG_NONE };
 
@@ -579,7 +580,6 @@ static void detectBaro(baroSensor_e baroHardwareToUse)
 #endif
 }
 
-#ifdef MAG
 static void detectMag(magSensor_e magHardwareToUse)
 {
     magSensor_e magHardware;
@@ -694,7 +694,6 @@ retry:
     detectedSensors[SENSOR_INDEX_MAG] = magHardware;
     sensorsSet(SENSOR_MAG);
 }
-#endif
 
 static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
 {

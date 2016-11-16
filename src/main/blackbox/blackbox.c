@@ -56,7 +56,6 @@
 #include "flight/mixer.h"
 #include "flight/altitudehold.h"
 #include "flight/failsafe.h"
-#include "flight/imu.h"
 #include "flight/navigation.h"
 
 #include "config/runtime_config.h"
@@ -926,15 +925,13 @@ static void loadMainState(void)
         blackboxCurrent->rcCommand[i] = rcCommand[i];
     }
 
-    for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->gyroADC[i] = gyroADC[i];
-    }
+	blackboxCurrent->gyroADC[X] = ins_get_gyro_x(&default_ins);
+	blackboxCurrent->gyroADC[Y] = ins_get_gyro_y(&default_ins);
+	blackboxCurrent->gyroADC[Z] = ins_get_gyro_z(&default_ins);
 
-	union imu_accel_reading accel; 
-	imu_get_raw_accel(&default_imu, &accel); 
-    for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->accSmooth[i] = accel.raw[i];
-    }
+	blackboxCurrent->accSmooth[X] = ins_get_acc_x(&default_ins);
+	blackboxCurrent->accSmooth[Y] = ins_get_acc_y(&default_ins);
+	blackboxCurrent->accSmooth[Z] = ins_get_acc_z(&default_ins);
 
     for (i = 0; i < mixer_get_motor_count(&default_mixer); i++) {
         blackboxCurrent->motor[i] = mixer_get_motor_value(&default_mixer, i);
@@ -944,9 +941,9 @@ static void loadMainState(void)
     blackboxCurrent->amperageLatest = battery_get_current(&default_battery);
 
 #ifdef MAG
-    for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-        blackboxCurrent->magADC[i] = magADC[i];
-    }
+	blackboxCurrent->magADC[X] = ins_get_mag_x(&default_ins);
+	blackboxCurrent->magADC[Y] = ins_get_mag_y(&default_ins);
+	blackboxCurrent->magADC[Z] = ins_get_mag_z(&default_ins);
 #endif
 
 #ifdef BARO

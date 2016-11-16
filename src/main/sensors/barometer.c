@@ -37,6 +37,8 @@
 
 #include "sensors/barometer.h"
 
+#define CALIBRATING_BARO_CYCLES             200 // 10 seconds init_delay + 200 * 25 ms = 15 seconds before ground pressure settles
+
 baro_t baro;                        // barometer access functions
 uint16_t calibratingB = 0;      // baro calibration = get new ground pressure value
 int32_t baroPressure = 0;

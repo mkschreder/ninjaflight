@@ -61,7 +61,6 @@
 #include "blackbox/blackbox.h"
 
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/mixer.h"
 #include "flight/failsafe.h"
 #include "flight/navigation.h"

@@ -47,7 +47,7 @@
 #define CALIBRATING_GYRO_CYCLES			 1000
 
 
-void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config){
+void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro_scale){
 	memset(self, 0, sizeof(struct ins_gyro));
 	self->config = config;
 	if (config->soft_gyro_lpf_hz) {
@@ -57,6 +57,7 @@ void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config){
 		}
 		self->use_filter = true;
 	}
+	self->gyro_scale = gyro_scale;
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 }
 
@@ -114,10 +115,15 @@ void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_
 
 	for (int axis = 0; axis < 3; axis++) {
 		self->gyroADC[axis] -= self->gyroZero[axis];
+		//self->gyroADC[axis] *= self->gyro_scale;
 	}
 }
 
 void ins_gyro_calibrate(struct ins_gyro *self){
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
+}
+
+bool ins_gyro_is_calibrated(struct ins_gyro *self){
+	return self->calibratingG == 0;
 }
 

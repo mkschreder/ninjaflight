@@ -248,6 +248,30 @@ $(OBJECT_DIR)/flight_imu_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
+$(OBJECT_DIR)/ins_unittest.o : \
+	$(TEST_DIR)/ins_unittest.cc \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ins_unittest.cc -o $@
+
+
+$(OBJECT_DIR)/ins_unittest : \
+	$(OBJECT_DIR)/sensors/imu.o \
+	$(OBJECT_DIR)/sensors/acceleration.o \
+	$(OBJECT_DIR)/sensors/gyro.o \
+	$(OBJECT_DIR)/sensors/instruments.o \
+	$(OBJECT_DIR)/sensors/boardalignment.o \
+	$(OBJECT_DIR)/ins_unittest.o \
+	$(OBJECT_DIR)/config/vars.o \
+	$(OBJECT_DIR)/common/filter.o \
+	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/common/quaternion.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+
+
 $(OBJECT_DIR)/flight/anglerate.o : \
 	$(USER_DIR)/flight/anglerate.c \
 	$(USER_DIR)/flight/anglerate.h \
@@ -282,6 +306,7 @@ $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/flight/anglerate.o \
 	$(OBJECT_DIR)/sensors/imu.o \
 	$(OBJECT_DIR)/sensors/instruments.o \
+	$(OBJECT_DIR)/sensors/acceleration.o \
 	$(OBJECT_DIR)/sensors/gyro.o \
 	$(OBJECT_DIR)/sensors/boardalignment.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
@@ -710,6 +735,15 @@ $(OBJECT_DIR)/sensors/sonar.o : \
 
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DSONAR -c $(USER_DIR)/sensors/sonar.c -o $@
+
+$(OBJECT_DIR)/sensors/acceleration.o : \
+	$(USER_DIR)/sensors/acceleration.c \
+	$(USER_DIR)/sensors/acceleration.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/acceleration.c -o $@
+
 
 $(OBJECT_DIR)/sensors/gyro.o : \
 	$(USER_DIR)/sensors/gyro.c \

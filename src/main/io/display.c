@@ -516,7 +516,7 @@ static void showSensorsPage(void)
 
 #ifdef MAG
     if (sensors(SENSOR_MAG)) {
-        tfp_sprintf(lineBuffer, format, "MAG", magADC[X], magADC[Y], magADC[Z]);
+        tfp_sprintf(lineBuffer, format, "MAG", ins_get_mag_x(&default_ins), ins_get_mag_y(&default_ins), ins_get_mag_z(&default_ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);

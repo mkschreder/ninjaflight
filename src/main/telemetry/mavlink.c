@@ -63,7 +63,6 @@
 
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/failsafe.h"
 #include "flight/altitudehold.h"
 #include "flight/navigation.h"
@@ -333,7 +332,7 @@ static void mavlinkSendPosition(void)
         // Ground Z Speed (Altitude), expressed as m/s * 100
         0,
         // heading Current heading in degrees, in compass units (0..360, 0=north)
-        DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu))
+        DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins))
     );
     msgLength = mavlink_msg_to_send_buffer(mavBuffer, &mavMsg);
     mavlinkSerialWrite(mavBuffer, msgLength);
@@ -357,11 +356,11 @@ static void mavlinkSendAttitude(void)
         // time_boot_ms Timestamp (milliseconds since system boot)
         millis(),
         // roll Roll angle (rad)
-        DECIDEGREES_TO_RADIANS(imu_get_roll_dd(&default_imu)),
+        DECIDEGREES_TO_RADIANS(ins_get_roll_dd(&default_ins)),
         // pitch Pitch angle (rad)
-        DECIDEGREES_TO_RADIANS(-imu_get_pitch_dd(&default_imu)),
+        DECIDEGREES_TO_RADIANS(-ins_get_pitch_dd(&default_ins)),
         // yaw Yaw angle (rad)
-        DECIDEGREES_TO_RADIANS(imu_get_yaw_dd(&default_imu)),
+        DECIDEGREES_TO_RADIANS(ins_get_yaw_dd(&default_ins)),
         // rollspeed Roll angular speed (rad/s)
         0,
         // pitchspeed Pitch angular speed (rad/s)
@@ -411,7 +410,7 @@ static void mavlinkSendHUDAndHeartbeat(void)
         // groundspeed Current ground speed in m/s
         mavGroundSpeed,
         // heading Current heading in degrees, in compass units (0..360, 0=north)
-        DECIDEGREES_TO_DEGREES(imu_get_yaw_dd(&default_imu)),
+        DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)),
         // throttle Current throttle setting in integer percent, 0 to 100
         scaleRange(constrain(rc_get_channel_value(THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX), PWM_RANGE_MIN, PWM_RANGE_MAX, 0, 100),
         // alt Current altitude (MSL), in meters, if we have sonar or baro use them, otherwise use GPS (less accurate)

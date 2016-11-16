@@ -45,7 +45,6 @@
 #include "sensors/acceleration.h"
 
 #include "flight/anglerate.h"
-#include "flight/imu.h"
 #include "flight/mixer.h"
 
 #include "blackbox/blackbox.h"
@@ -134,6 +133,12 @@ void init_Gtune(void)
 void calculate_Gtune(uint8_t axis)
 {
     int16_t error, diff_G, threshP;
+
+	// TODO: rewrite the algorithms so we have cleaner code
+	int16_t gyroADC[3];
+	gyroADC[X] = ins_get_gyro_x(&default_ins);
+	gyroADC[Y] = ins_get_gyro_y(&default_ins);
+	gyroADC[Z] = ins_get_gyro_z(&default_ins);
 
     if(rcCommand[axis] || (axis != FD_YAW && (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)))) {  // Block tuning on stick input. Always allow G-Tune on YAW, Roll & Pitch only in acromode
         OldError[axis] = 0;

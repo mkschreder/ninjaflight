@@ -17,4 +17,6 @@
 
 #pragma once
 
+extern mag_t mag;
+
 bool sensorsAutodetect(void);

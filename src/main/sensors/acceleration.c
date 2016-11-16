@@ -45,6 +45,7 @@
 
 #include "acceleration.h"
 
+#define CALIBRATING_ACC_CYCLES              400
 /*
 extern uint16_t InflightcalibratingA;
 extern bool AccInflightCalibrationArmed;
@@ -62,8 +63,9 @@ void ins_acc_init(struct ins_acc *self, struct accelerometer_config *config, int
 	self->acc_1G = acc_1G;
 }
 
-static void _add_calibration_sample(struct ins_acc *self){
+static void _add_calibration_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z){
 	rollAndPitchTrims_t *trims = &self->config->trims;
+	int32_t raw[3] = { x, y, z };
 
 	for (int axis = 0; axis < 3; axis++) {
 
@@ -72,11 +74,7 @@ static void _add_calibration_sample(struct ins_acc *self){
 			self->a[axis] = 0;
 
 		// Sum up CALIBRATING_ACC_CYCLES readings
-		self->a[axis] += self->accADC[axis];
-
-		// Reset global variables to prevent other code from using un-calibrated data
-		self->accADC[axis] = 0;
-		trims->raw[axis] = 0;
+		self->a[axis] += raw[axis];
 	}
 
 	if (self->calibratingA == 1) {
@@ -149,13 +147,16 @@ static void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndP
 void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z){
 	rollAndPitchTrims_t *trims = &self->config->trims;
 
-	self->accADC[X] = x;
-	self->accADC[Y] = y;
-	self->accADC[Z] = z;
-
-
 	if (self->calibratingA > 0) {
-		_add_calibration_sample(self);
+		_add_calibration_sample(self, x, y, z);
+	}
+
+	// if we are not calibrated then at least output a valid gravity vector
+	if(!ins_acc_is_calibrated(self)){
+		self->accADC[X] = 0;
+		self->accADC[Y] = 0;
+		self->accADC[Z] = -1024; // NOTE: this is actually wrong because z should be down and gravity force is always up then, but cleanflight had it wrong so for now we have to comply so other modules continue to work!
+		return;
 	}
 
 /*
@@ -164,12 +165,16 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 	}
 */
 
-	self->accADC[X] -= trims->raw[X];
-	self->accADC[Y] -= trims->raw[Y];
-	self->accADC[Z] -= trims->raw[Z];
-
+	self->accADC[X] = x - trims->raw[X];
+	self->accADC[Y] = y - trims->raw[Y];
+	self->accADC[Z] = z - trims->raw[Z];
 }
 
 void ins_acc_calibrate(struct ins_acc *self){
 	self->calibratingA = CALIBRATING_ACC_CYCLES;
 }
+
+bool ins_acc_is_calibrated(struct ins_acc *self){
+	return self->calibratingA == 0;
+}
+
