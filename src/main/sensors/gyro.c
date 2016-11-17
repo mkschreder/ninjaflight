@@ -35,17 +35,11 @@
 #include "drivers/accgyro.h"
 #include "drivers/gyro_sync.h"
 
-#include "sensors/sensors.h"
-
-#include "io/beeper.h"
-#include "io/statusindicator.h"
-
-#include "sensors/boardalignment.h"
-
-#include "sensors/gyro.h"
+#include "sensors.h"
+#include "boardalignment.h"
+#include "gyro.h"
 
 #define CALIBRATING_GYRO_CYCLES			 1000
-
 
 void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro_scale){
 	memset(self, 0, sizeof(struct ins_gyro));
@@ -54,11 +48,7 @@ void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 
 	if (config->soft_gyro_lpf_hz) {
-		// Initialisation needs to happen once sampling rate is known
-		for (int axis = 0; axis < 3; axis++) {
-			BiQuadNewLpf(config->soft_gyro_lpf_hz, &self->gyroFilterState[axis], 1000);
-		}
-		self->use_filter = true;
+		ins_gyro_set_filter_hz(self, config->soft_gyro_lpf_hz);
 	}
 }
 
@@ -74,17 +64,14 @@ static void _add_calibration_samples(struct ins_gyro *self, int32_t raw[3]){
 		self->g[axis] += raw[axis];
 		devPush(&self->var[axis], raw[axis]);
 
-		// Reset global variables to prevent other code from using un-calibrated data
-		self->gyroZero[axis] = 0;
-
 		if (self->calibratingG == 1) {
 			float dev = devStandardDeviation(&self->var[axis]);
-			// check deviation and startover in case the model was moved
+			// if any of the axes has moved then we need to restart calibration for all of them
 			if (self->config->move_threshold && dev > self->config->move_threshold) {
-				self->calibratingG = CALIBRATING_GYRO_CYCLES;
+				ins_gyro_calibrate(self);
 				return;
 			}
-			self->gyroZero[axis] = (self->g[axis] + (CALIBRATING_GYRO_CYCLES / 2)) / CALIBRATING_GYRO_CYCLES;
+			self->gyroZero[axis] = self->g[axis] / CALIBRATING_GYRO_CYCLES;
 		}
 	}
 
@@ -110,9 +97,23 @@ void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_
 	}
 }
 
+void ins_gyro_set_filter_hz(struct ins_gyro *self, uint16_t hz){
+	if(!hz){
+		self->use_filter = false;
+		return;
+	}
+	for (int axis = 0; axis < 3; axis++) {
+		BiQuadNewLpf(hz, &self->gyroFilterState[axis], 1000);
+	}
+	self->use_filter = true;
+}
+
 void ins_gyro_calibrate(struct ins_gyro *self){
-	for(int c = 0; c < 3; c++)
+	for(int c = 0; c < 3; c++) {
 		self->gyroADC[c] = 0;
+		self->gyroZero[c] = 0;
+		devClear(&self->var[c]);
+	}
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 }
 

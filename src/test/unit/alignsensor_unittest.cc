@@ -62,18 +62,18 @@ static void rotateVector(int32_t mat[3][3], int32_t vec[3], int32_t *out)
 
 }
 
-//static void initXAxisRotation(int16_t mat[][3], int16_t angle)
-//{
-//    mat[0][0] =  1;
-//    mat[0][1] =  0;
-//    mat[0][2] =  0;
-//    mat[1][0] =  0;
-//    mat[1][1] =  cos(angle*DEG2RAD);
-//    mat[1][2] = -sin(angle*DEG2RAD);
-//    mat[2][0] =  0;
-//    mat[2][1] =  sin(angle*DEG2RAD);
-//    mat[2][2] =  cos(angle*DEG2RAD);
-//}
+static void initXAxisRotation(int32_t mat[][3], int16_t angle)
+{
+    mat[0][0] =  1;
+    mat[0][1] =  0;
+    mat[0][2] =  0;
+    mat[1][0] =  0;
+    mat[1][1] =  cos(angle*DEG2RAD);
+    mat[1][2] = -sin(angle*DEG2RAD);
+    mat[2][0] =  0;
+    mat[2][1] =  sin(angle*DEG2RAD);
+    mat[2][2] =  cos(angle*DEG2RAD);
+}
 
 static void initYAxisRotation(int32_t mat[][3], int32_t angle)
 {
@@ -107,6 +107,77 @@ struct board_alignment_config alignment_config = {
 	.pitchDegrees = 0, 
 	.yawDegrees = 0
 }; 
+
+static void testCustom(sensor_align_e rotation, int32_t angle)
+{
+    int32_t src[XYZ_AXIS_COUNT];
+    int32_t tmp[XYZ_AXIS_COUNT];
+    int32_t dest[XYZ_AXIS_COUNT];
+    int32_t test[XYZ_AXIS_COUNT];
+
+    // unit vector along x-axis
+    src[X] = 1;
+    src[Y] = 0;
+    src[Z] = 0;
+
+	// intialize our board orientation as rolled and facing forward
+	struct board_alignment_config config = {
+		.rollDegrees = 90,
+		.pitchDegrees = 0,
+		.yawDegrees = 0
+	};
+
+	board_alignment_init(&alignment, &config);
+
+    int32_t matrix[3][3];
+    int32_t matrix2[3][3];
+    initZAxisRotation(matrix, angle);
+    initXAxisRotation(matrix2, 90);
+    rotateVector(matrix, src, tmp);
+    rotateVector(matrix2, tmp, test);
+
+    board_alignment_rotate_vector(&alignment, src, dest, rotation);
+    EXPECT_EQ(test[X], dest[X]) << "X-Unit alignment does not match in X-Axis. " << test[X] << " " << dest[X];
+    EXPECT_EQ(test[Y], dest[Y]) << "X-Unit alignment does not match in Y-Axis. " << test[Y] << " " << dest[Y];
+    EXPECT_EQ(test[Z], dest[Z]) << "X-Unit alignment does not match in Z-Axis. " << test[Z] << " " << dest[Z];
+
+    // unit vector along y-axis
+    src[X] = 0;
+    src[Y] = 1;
+    src[Z] = 0;
+
+    rotateVector(matrix, src, tmp);
+    rotateVector(matrix2, tmp, test);
+    board_alignment_rotate_vector(&alignment, src, dest, rotation);
+    EXPECT_EQ(test[X], dest[X]) << "Y-Unit alignment does not match in X-Axis. " << test[X] << " " << dest[X];
+    EXPECT_EQ(test[Y], dest[Y]) << "Y-Unit alignment does not match in Y-Axis. " << test[Y] << " " << dest[Y];
+    EXPECT_EQ(test[Z], dest[Z]) << "Y-Unit alignment does not match in Z-Axis. " << test[Z] << " " << dest[Z];
+
+    // unit vector along z-axis
+    src[X] = 0;
+    src[Y] = 0;
+    src[Z] = 1;
+
+    rotateVector(matrix, src, tmp);
+    rotateVector(matrix2, tmp, test);
+    board_alignment_rotate_vector(&alignment, src, dest, rotation);
+    EXPECT_EQ(test[X], dest[X]) << "Z-Unit alignment does not match in X-Axis. " << test[X] << " " << dest[X];
+    EXPECT_EQ(test[Y], dest[Y]) << "Z-Unit alignment does not match in Y-Axis. " << test[Y] << " " << dest[Y];
+    EXPECT_EQ(test[Z], dest[Z]) << "Z-Unit alignment does not match in Z-Axis. " << test[Z] << " " << dest[Z];
+
+    // random vector to test
+    src[X] = rand() % 5;
+    src[Y] = rand() % 5;
+    src[Z] = rand() % 5;
+
+    rotateVector(matrix, src, tmp);
+    rotateVector(matrix2, tmp, test);
+    board_alignment_rotate_vector(&alignment, src, dest, rotation);
+    EXPECT_EQ(test[X], dest[X]) << "Random alignment does not match in X-Axis. " << test[X] << " " << dest[X];
+    EXPECT_EQ(test[Y], dest[Y]) << "Random alignment does not match in Y-Axis. " << test[Y] << " " << dest[Y];
+    EXPECT_EQ(test[Z], dest[Z]) << "Random alignment does not match in Z-Axis. " << test[Z] << " " << dest[Z];
+}
+
 
 static void testCW(sensor_align_e rotation, int32_t angle)
 {
@@ -252,16 +323,19 @@ TEST(AlignSensorTest, ClockwiseZeroDegrees)
 TEST(AlignSensorTest, ClockwiseNinetyDegrees)
 {
     testCW(CW90_DEG, 90);
+    testCustom(CW90_DEG, 90);
 }
 
 TEST(AlignSensorTest, ClockwiseOneEightyDegrees)
 {
     testCW(CW180_DEG, 180);
+    testCustom(CW180_DEG, 180);
 }
 
 TEST(AlignSensorTest, ClockwiseTwoSeventyDegrees)
 {
     testCW(CW270_DEG, 270);
+    testCustom(CW270_DEG, 270);
 }
 
 TEST(AlignSensorTest, ClockwiseZeroDegreesFlip)

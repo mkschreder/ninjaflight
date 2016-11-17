@@ -51,3 +51,4 @@ static inline int32_t ins_gyro_get_x(struct ins_gyro *self) { return self->gyroA
 static inline int32_t ins_gyro_get_y(struct ins_gyro *self) { return self->gyroADC[Y]; }
 static inline int32_t ins_gyro_get_z(struct ins_gyro *self) { return self->gyroADC[Z]; }
 
+void ins_gyro_set_filter_hz(struct ins_gyro *self, uint16_t hz);

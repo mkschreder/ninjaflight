@@ -65,3 +65,5 @@ static inline int16_t ins_get_yaw_dd(struct instruments *self){ return imu_get_y
 static inline void ins_set_gyro_alignment(struct instruments *self, sensor_align_e align) { self->gyr_align = align; }
 static inline void ins_set_acc_alignment(struct instruments *self, sensor_align_e align) { self->acc_align = align; }
 static inline void ins_set_mag_alignment(struct instruments *self, sensor_align_e align) { self->mag_align = align; }
+
+static inline void ins_set_gyro_filter_hz(struct instruments *self, uint16_t hz) { ins_gyro_set_filter_hz(&self->gyro, hz); }
