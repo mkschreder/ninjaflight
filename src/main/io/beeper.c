@@ -33,7 +33,6 @@
 #include "drivers/sound_beeper.h"
 #include "drivers/system.h"
 #include "sensors/battery.h"
-#include "sensors/sensors.h"
 
 #include "io/statusindicator.h"
 

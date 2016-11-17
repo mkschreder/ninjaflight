@@ -46,7 +46,6 @@
 #include "io/beeper.h"
 #include "io/serial.h"
 
-#include "sensors/sensors.h"
 #include "sensors/compass.h"
 #include "sensors/acceleration.h"
 

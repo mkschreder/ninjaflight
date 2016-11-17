@@ -42,8 +42,6 @@
 #include "drivers/gpio.h"
 #include "drivers/light_led.h"
 
-#include "sensors/sensors.h"
-
 #include "io/serial.h"
 #include "io/display.h"
 #include "io/gps.h"

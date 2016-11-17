@@ -25,8 +25,7 @@
 
 #include "config/config.h"
 #include "config/parameter_group_ids.h"
-
-#include "sensors.h"
+#include "config/sensors.h"
 
 #include "boardalignment.h"
 

@@ -49,7 +49,6 @@
 
 #include "io/rc_controls.h"
 
-#include "sensors/sensors.h"
 #include "sensors/acceleration.h"
 #include "sensors/battery.h"
 

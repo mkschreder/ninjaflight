@@ -50,7 +50,6 @@
 #include "io/gps.h"
 
 #include "sensors/battery.h"
-#include "sensors/sensors.h"
 #include "sensors/compass.h"
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"

@@ -52,7 +52,6 @@
 #include "io/gps.h"
 #include "io/ledstrip.h"
 
-#include "sensors/sensors.h"
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"
 #include "sensors/barometer.h"

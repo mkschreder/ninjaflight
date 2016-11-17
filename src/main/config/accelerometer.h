@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 typedef struct rollAndPitchTrims_s {
     int16_t roll;
     int16_t pitch;

@@ -75,7 +75,6 @@
 #include "io/serial.h"
 #include "io/rc_controls.h"
 
-#include "sensors/sensors.h"
 #include "sensors/battery.h"
 
 #include "flight/anglerate.h"

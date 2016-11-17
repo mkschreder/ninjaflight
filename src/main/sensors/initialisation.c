@@ -63,7 +63,6 @@
 #include "config/runtime_config.h"
 #include "config/parameter_group.h"
 
-#include "sensors/sensors.h"
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
 #include "sensors/gyro.h"

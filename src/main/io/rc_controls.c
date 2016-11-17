@@ -44,7 +44,6 @@
 
 #include "sensors/barometer.h"
 #include "sensors/battery.h"
-#include "sensors/sensors.h"
 #include "sensors/gyro.h"
 #include "sensors/acceleration.h"
 #include "sensors/instruments.h"

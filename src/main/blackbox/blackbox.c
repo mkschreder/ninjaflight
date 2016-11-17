@@ -37,7 +37,6 @@
 #include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 
-#include "sensors/sensors.h"
 #include "sensors/boardalignment.h"
 #include "sensors/sonar.h"
 #include "sensors/compass.h"

@@ -38,7 +38,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/sonar_hcsr04.h"
 
-#include "sensors/sensors.h"
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
 #include "sensors/sonar.h"
