@@ -341,7 +341,7 @@ static bool blackboxModeActivationConditionPresent = false;
 /**
  * Return true if it is safe to edit the Blackbox configuration.
  */
-bool blackboxMayEditConfig()
+bool blackboxMayEditConfig(void)
 {
     return blackboxState <= BLACKBOX_STATE_STOPPED;
 }
@@ -459,6 +459,9 @@ static void blackboxSetState(BlackboxState newState)
         case BLACKBOX_STATE_SHUTTING_DOWN:
             xmitState.u.startTime = millis();
         break;
+		case BLACKBOX_STATE_DISABLED:
+		case BLACKBOX_STATE_STOPPED:
+		case BLACKBOX_STATE_PAUSED:
         default:
             ;
     }
@@ -845,6 +848,10 @@ void finishBlackbox(void)
             // Fall through
         default:
             blackboxSetState(BLACKBOX_STATE_SHUTTING_DOWN);
+		case BLACKBOX_STATE_PREPARE_LOG_FILE:
+		case BLACKBOX_STATE_SEND_HEADER:
+		case BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER:
+			break;
     }
 }
 
@@ -1180,6 +1187,8 @@ void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data)
             blackboxPrint("End of log");
             blackboxWrite(0);
         break;
+		default:
+			break;
     }
 }
 

@@ -18,7 +18,7 @@
 #pragma once
 
 typedef void (*baroOpFuncPtr)(void);                       // baro start operation
-typedef void (*baroCalculateFuncPtr)(int32_t *pressure, int32_t *temperature); // baro calculation (filled params are pressure and temperature)
+typedef void (*baroCalculateFuncPtr)(uint32_t *pressure, int32_t *temperature); // baro calculation (filled params are pressure and temperature)
 
 typedef struct baro_s {
     uint16_t ut_delay;

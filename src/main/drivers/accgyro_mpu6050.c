@@ -54,45 +54,47 @@ extern uint8_t mpuLowPassFilter;
 static void mpu6050AccInit(acc_t *acc);
 static void mpu6050GyroInit(uint8_t lpf);
 
-bool mpu6050AccDetect(acc_t *acc)
+bool mpu6050AccDetect(acc_t *accel)
 {
     if (mpuDetectionResult.sensor != MPU_60x0) {
         return false;
     }
 
-    acc->init = mpu6050AccInit;
-    acc->read = mpuAccRead;
-    acc->revisionCode = (mpuDetectionResult.resolution == MPU_HALF_RESOLUTION ? 'o' : 'n'); // es/non-es variance between MPU6050 sensors, half of the naze boards are mpu6000ES.
+    accel->init = mpu6050AccInit;
+    accel->read = mpuAccRead;
+    accel->revisionCode = (mpuDetectionResult.resolution == MPU_HALF_RESOLUTION ? 'o' : 'n'); // es/non-es variance between MPU6050 sensors, half of the naze boards are mpu6000ES.
 
     return true;
 }
 
-bool mpu6050GyroDetect(gyro_t *gyro)
+bool mpu6050GyroDetect(gyro_t *gyr)
 {
     if (mpuDetectionResult.sensor != MPU_60x0) {
         return false;
     }
-    gyro->init = mpu6050GyroInit;
-    gyro->read = mpuGyroRead;
-    gyro->isDataReady = mpuIsDataReady;
+    gyr->init = mpu6050GyroInit;
+    gyr->read = mpuGyroRead;
+    gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
-    gyro->scale = 1.0f / 16.4f;
+    gyr->scale = 1.0f / 16.4f;
 
     return true;
 }
 
-static void mpu6050AccInit(acc_t *acc)
+static void mpu6050AccInit(acc_t *accel)
 {
     mpuIntExtiInit();
 
     switch (mpuDetectionResult.resolution) {
         case MPU_HALF_RESOLUTION:
-            acc->acc_1G = 256 * 8;
+            accel->acc_1G = 256 * 8;
             break;
         case MPU_FULL_RESOLUTION:
-            acc->acc_1G = 512 * 8;
+            accel->acc_1G = 512 * 8;
             break;
+		default:
+			break;
     }
 }
 

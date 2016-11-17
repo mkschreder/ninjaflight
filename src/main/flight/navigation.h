@@ -35,7 +35,7 @@ extern int32_t GPS_hold[2];
 extern uint16_t GPS_distanceToHome;        // distance to home point in meters
 extern int16_t GPS_directionToHome;        // direction to home or hol point in degrees
 
-extern navigationMode_e nav_mode;          // Navigation mode
+extern navigationMode_e navi_mode;          // Navigation mode
 
 void GPS_reset_home_position(void);
 void GPS_reset_nav(void);

@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "config/accelerometer.h"
+
 struct ninja {
 	uint8_t placeholder;
 };

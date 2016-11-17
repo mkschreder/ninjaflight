@@ -60,9 +60,9 @@ static uint16_t spektrumReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t ch
 
 static rxRuntimeConfig_t *rxRuntimeConfigPtr;
 
-bool spektrumInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
+bool spektrumInit(rxRuntimeConfig_t *rconf, rcReadRawDataPtr *callback)
 {
-    rxRuntimeConfigPtr = rxRuntimeConfig;
+    rxRuntimeConfigPtr = rconf;
 
     switch (rxConfig()->serialrx_provider) {
         case SERIALRX_SPEKTRUM2048:
@@ -70,15 +70,16 @@ bool spektrumInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback
             spek_chan_shift = 3;
             spek_chan_mask = 0x07;
             spekHiRes = true;
-            rxRuntimeConfig->channelCount = SPEKTRUM_2048_CHANNEL_COUNT;
+            rconf->channelCount = SPEKTRUM_2048_CHANNEL_COUNT;
             break;
         case SERIALRX_SPEKTRUM1024:
             // 10 bit frames
             spek_chan_shift = 2;
             spek_chan_mask = 0x03;
             spekHiRes = false;
-            rxRuntimeConfig->channelCount = SPEKTRUM_1024_CHANNEL_COUNT;
+            rconf->channelCount = SPEKTRUM_1024_CHANNEL_COUNT;
             break;
+		default:break;
     }
 
     if (callback)
@@ -141,11 +142,11 @@ uint8_t spektrumFrameStatus(void)
     return SERIAL_RX_FRAME_COMPLETE;
 }
 
-static uint16_t spektrumReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan)
+static uint16_t spektrumReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 {
     uint16_t data;
 
-    if (chan >= rxRuntimeConfig->channelCount) {
+    if (chan >= rconf->channelCount) {
         return 0;
     }
 

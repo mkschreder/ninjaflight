@@ -154,7 +154,7 @@ static uint8_t ppmEventIndex = 0;
 
 static void ppmISREvent(eventSource_e source, uint32_t capture)
 {
-    ppmEventIndex = (ppmEventIndex + 1) % (sizeof(ppmEvents) / sizeof(ppmEvents[0]));
+    ppmEventIndex = (uint8_t)((unsigned int)(ppmEventIndex + 1) % (sizeof(ppmEvents) / sizeof(ppmEvents[0])));
 
     ppmEvents[ppmEventIndex].source = source;
     ppmEvents[ppmEventIndex].capture = capture;
@@ -182,7 +182,7 @@ static void ppmOverflowCallback(timerOvrHandlerRec_t* cbRec, captureCompare_t ca
     UNUSED(cbRec);
     ppmISREvent(SOURCE_OVERFLOW, capture);
 
-    ppmDev.largeCounter += capture + 1;
+    ppmDev.largeCounter += (unsigned int)capture + 1;
     if (capture == PPM_TIMER_PERIOD - 1) {
         ppmDev.overflowed = true;
     }

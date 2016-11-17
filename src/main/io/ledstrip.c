@@ -230,6 +230,7 @@ bool parseLedStripConfig(int ledIndex, const char *config)
                 if (color >= LED_CONFIGURABLE_COLOR_COUNT)
                     color = 0;
                 break;
+			default:
             case PARSE_STATE_COUNT:; // prevent warning
         }
     }
@@ -811,6 +812,8 @@ bool parseColor(int index, const char *colorConfig)
             case HSV_VALUE:
                 color->v = val;
                 break;
+			default:
+				break;
         }
         remainingCharacters = strchr(remainingCharacters, ',');
         if (remainingCharacters) {

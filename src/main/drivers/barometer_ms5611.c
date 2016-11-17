@@ -53,7 +53,7 @@ static void ms5611_start_ut(void);
 static void ms5611_get_ut(void);
 static void ms5611_start_up(void);
 static void ms5611_get_up(void);
-void ms5611_calculate(int32_t *pressure, int32_t *temperature);
+void ms5611_calculate(uint32_t *pressure, int32_t *temperature);
 
 uint32_t ms5611_ut;  // static result of temperature measurement
 uint32_t ms5611_up;  // static result of pressure measurement
@@ -74,7 +74,7 @@ bool ms5611Detect(baro_t *baro){
     ms5611_reset();
     // read all coefficients
     for (i = 0; i < PROM_NB; i++)
-        ms5611_c[i] = ms5611_prom(i);
+        ms5611_c[i] = ms5611_prom((int8_t)i);
     // check crc, bail out if wrong - we are probably talking to BMP085 w/o XCLR line!
     if (ms5611_crc(ms5611_c) != 0)
         return false;
@@ -100,8 +100,8 @@ static void ms5611_reset(void)
 static uint16_t ms5611_prom(int8_t coef_num)
 {
     uint8_t rxbuf[2] = { 0, 0 };
-    i2cRead(MS5611_ADDR, CMD_PROM_RD + coef_num * 2, 2, rxbuf); // send PROM READ command
-    return rxbuf[0] << 8 | rxbuf[1];
+    i2cRead(MS5611_ADDR, (uint8_t)(CMD_PROM_RD + coef_num * 2), 2, rxbuf); // send PROM READ command
+    return (uint16_t)(rxbuf[0] << 8 | rxbuf[1]);
 }
 
 int8_t ms5611_crc(uint16_t *prom)
@@ -127,7 +127,8 @@ int8_t ms5611_crc(uint16_t *prom)
             res <<= 1;
         }
     }
-    prom[7] |= crc;
+	// hmm interesting, so we are oring only last byte? (prom is uint16 and crc is uint8)
+    prom[7] = (uint16_t)(prom[7] | crc);
     if (!blankEeprom && crc == ((res >> 12) & 0xF))
         return 0;
 
@@ -138,12 +139,12 @@ static uint32_t ms5611_read_adc(void)
 {
     uint8_t rxbuf[3];
     i2cRead(MS5611_ADDR, CMD_ADC_READ, 3, rxbuf); // read ADC
-    return (rxbuf[0] << 16) | (rxbuf[1] << 8) | rxbuf[2];
+    return (uint32_t)((rxbuf[0] << 16) | (rxbuf[1] << 8) | rxbuf[2]);
 }
 
 static void ms5611_start_ut(void)
 {
-    i2cWrite(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D2 + ms5611_osr, 1); // D2 (temperature) conversion start!
+    i2cWrite(MS5611_ADDR, (uint8_t)(CMD_ADC_CONV + CMD_ADC_D2 + ms5611_osr), 1); // D2 (temperature) conversion start!
 }
 
 static void ms5611_get_ut(void)
@@ -153,7 +154,7 @@ static void ms5611_get_ut(void)
 
 static void ms5611_start_up(void)
 {
-    i2cWrite(MS5611_ADDR, CMD_ADC_CONV + CMD_ADC_D1 + ms5611_osr, 1); // D1 (pressure) conversion start!
+    i2cWrite(MS5611_ADDR, (uint8_t)(CMD_ADC_CONV + CMD_ADC_D1 + ms5611_osr), 1); // D1 (pressure) conversion start!
 }
 
 static void ms5611_get_up(void)
@@ -161,12 +162,12 @@ static void ms5611_get_up(void)
     ms5611_up = ms5611_read_adc();
 }
 
-void ms5611_calculate(int32_t *pressure, int32_t *temperature)
+void ms5611_calculate(uint32_t *pressure, int32_t *temperature)
 {
     uint32_t press;
     int64_t temp;
     int64_t delt;
-    int64_t dT = (int64_t)ms5611_ut - ((uint64_t)ms5611_c[5] * 256);
+    int64_t dT = (int64_t)((int64_t)ms5611_ut - ((uint64_t)ms5611_c[5] * 256));
     int64_t off = ((int64_t)ms5611_c[2] << 16) + (((int64_t)ms5611_c[4] * dT) >> 7);
     int64_t sens = ((int64_t)ms5611_c[1] << 15) + (((int64_t)ms5611_c[3] * dT) >> 8);
     temp = 2000 + ((dT * (int64_t)ms5611_c[6]) >> 23);
@@ -184,11 +185,11 @@ void ms5611_calculate(int32_t *pressure, int32_t *temperature)
         }
     temp -= ((dT * dT) >> 31);
     }
-    press = ((((int64_t)ms5611_up * sens) >> 21) - off) >> 15;
+    press = (uint32_t)(((((int64_t)ms5611_up * sens) >> 21) - off) >> 15);
 
 
     if (pressure)
         *pressure = press;
     if (temperature)
-        *temperature = temp;
+        *temperature = (int32_t)temp;
 }

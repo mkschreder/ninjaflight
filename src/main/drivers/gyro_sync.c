@@ -31,8 +31,6 @@
 #include "config/runtime_config.h"
 #include "config/config.h"
 
-extern gyro_t gyro;
-
 static uint32_t targetLooptime;
 static uint8_t mpuDividerDrops;
 

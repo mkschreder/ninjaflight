@@ -90,10 +90,12 @@ static void pwmOCConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t value)
             TIM_OC4Init(tim, &TIM_OCInitStructure);
             TIM_OC4PreloadConfig(tim, TIM_OCPreload_Enable);
             break;
+		default:
+			break;
     }
 }
 
-static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
+static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint16_t pin, GPIO_Mode mode)
 {
     gpio_config_t cfg;
 
@@ -103,42 +105,45 @@ static void pwmGPIOConfig(GPIO_TypeDef *gpio, uint32_t pin, GPIO_Mode mode)
     gpioInit(gpio, &cfg);
 }
 
-static pwmOutputPort_t *pwmOutConfig(const timerHardware_t *timerHardware, uint8_t mhz, uint16_t period, uint16_t value)
+static pwmOutputPort_t *pwmOutConfig(const timerHardware_t *hw, uint8_t mhz, uint16_t period, uint16_t value)
 {
+	// TODO: handle overflow here
     pwmOutputPort_t *p = &pwmOutputPorts[allocatedOutputPortCount++];
 
-    configTimeBase(timerHardware->tim, period, mhz);
-    pwmGPIOConfig(timerHardware->gpio, timerHardware->pin, Mode_AF_PP);
+    configTimeBase(hw->tim, period, mhz);
+    pwmGPIOConfig(hw->gpio, hw->pin, Mode_AF_PP);
 
 
-    pwmOCConfig(timerHardware->tim, timerHardware->channel, value);
-    if (timerHardware->outputEnable)
-        TIM_CtrlPWMOutputs(timerHardware->tim, ENABLE);
-    TIM_Cmd(timerHardware->tim, ENABLE);
+    pwmOCConfig(hw->tim, hw->channel, value);
+    if (hw->outputEnable)
+        TIM_CtrlPWMOutputs(hw->tim, ENABLE);
+    TIM_Cmd(hw->tim, ENABLE);
 
-    switch (timerHardware->channel) {
+    switch (hw->channel) {
         case TIM_Channel_1:
-            p->ccr = &timerHardware->tim->CCR1;
+            p->ccr = &hw->tim->CCR1;
             break;
         case TIM_Channel_2:
-            p->ccr = &timerHardware->tim->CCR2;
+            p->ccr = &hw->tim->CCR2;
             break;
         case TIM_Channel_3:
-            p->ccr = &timerHardware->tim->CCR3;
+            p->ccr = &hw->tim->CCR3;
             break;
         case TIM_Channel_4:
-            p->ccr = &timerHardware->tim->CCR4;
+            p->ccr = &hw->tim->CCR4;
             break;
+		default:
+			break;
     }
     p->period = period;
-    p->tim = timerHardware->tim;
+    p->tim = hw->tim;
 
     return p;
 }
 
 static void pwmWriteBrushed(uint8_t index, uint16_t value)
 {
-    *motors[index]->ccr = (value - 1000) * motors[index]->period / 1000;
+    *motors[index]->ccr = (timCCR_t)((value - 1000) * motors[index]->period / 1000);
 }
 
 static void pwmWriteStandard(uint8_t index, uint16_t value)
@@ -155,15 +160,15 @@ void pwmWriteMotor(uint8_t index, uint16_t value)
 void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
 {
     uint8_t index;
-
+	if(motorCount > MAX_PWM_MOTORS) motorCount = MAX_PWM_MOTORS;
     for(index = 0; index < motorCount; index++){
         // Set the compare register to 0, which stops the output pulsing if the timer overflows
         *motors[index]->ccr = 0;
     }
 }
 
-void pwmWriteAllMotors(int motorCount, uint16_t mc, bool oneshot){
-    for (int i = 0; i < motorCount; i++){
+void pwmWriteAllMotors(uint8_t motorCount, uint16_t mc, bool oneshot){
+    for (uint8_t i = 0; i < motorCount; i++){
 		pwmWriteMotor(i, mc);
 	}
     if (oneshot) {
@@ -194,6 +199,8 @@ void pwmCompleteOneshotMotorUpdate(uint8_t motorCount)
     uint8_t index;
     TIM_TypeDef *lastTimerPtr = NULL;
 
+	if(motorCount > MAX_PWM_MOTORS) motorCount = MAX_PWM_MOTORS;
+
     for(index = 0; index < motorCount; index++){
 
         // Force the timer to overflow if it's the first motor to output, or if we change timers
@@ -214,30 +221,31 @@ bool isMotorBrushed(uint16_t motorPwmRate)
     return (motorPwmRate > 500);
 }
 
-void pwmBrushedMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
+void pwmBrushedMotorConfig(const timerHardware_t *hw, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
 {
     uint32_t hz = PWM_BRUSHED_TIMER_MHZ * 1000000;
-    motors[motorIndex] = pwmOutConfig(timerHardware, PWM_BRUSHED_TIMER_MHZ, hz / motorPwmRate, idlePulse);
+    motors[motorIndex] = pwmOutConfig(hw, PWM_BRUSHED_TIMER_MHZ, (uint16_t)(hz / motorPwmRate), idlePulse);
     motors[motorIndex]->pwmWritePtr = pwmWriteBrushed;
 }
 
-void pwmBrushlessMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
+void pwmBrushlessMotorConfig(const timerHardware_t *hw, uint8_t motorIndex, uint16_t motorPwmRate, uint16_t idlePulse)
 {
     uint32_t hz = PWM_TIMER_MHZ * 1000000;
-    motors[motorIndex] = pwmOutConfig(timerHardware, PWM_TIMER_MHZ, hz / motorPwmRate, idlePulse);
+    motors[motorIndex] = pwmOutConfig(hw, PWM_TIMER_MHZ, (uint16_t)(hz / motorPwmRate), idlePulse);
     motors[motorIndex]->pwmWritePtr = pwmWriteStandard;
 }
 
-void pwmOneshotMotorConfig(const timerHardware_t *timerHardware, uint8_t motorIndex)
+void pwmOneshotMotorConfig(const timerHardware_t *hw, uint8_t motorIndex)
 {
-    motors[motorIndex] = pwmOutConfig(timerHardware, ONESHOT125_TIMER_MHZ, 0xFFFF, 0);
+    motors[motorIndex] = pwmOutConfig(hw, ONESHOT125_TIMER_MHZ, 0xFFFF, 0);
     motors[motorIndex]->pwmWritePtr = pwmWriteStandard;
 }
 
 #ifdef USE_SERVOS
-void pwmServoConfig(const timerHardware_t *timerHardware, uint8_t servoIndex, uint16_t servoPwmRate, uint16_t servoCenterPulse)
+void pwmServoConfig(const timerHardware_t *hw, uint8_t servoIndex, uint16_t servoPwmRate, uint16_t servoCenterPulse)
 {
-    servos[servoIndex] = pwmOutConfig(timerHardware, PWM_TIMER_MHZ, 1000000 / servoPwmRate, servoCenterPulse);
+	// NOTE: minimum servo rate is 15hz due to limited range of type
+    servos[servoIndex] = pwmOutConfig(hw, PWM_TIMER_MHZ, (uint16_t)(1000000 / servoPwmRate), servoCenterPulse);
 }
 
 void pwmWriteServo(uint8_t index, uint16_t value)

@@ -117,7 +117,7 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    addr = addr_ << 1;
+    addr = (uint8_t)(addr_ << 1);
     reg = reg_;
     writing = 1;
     reading = 0;
@@ -159,7 +159,7 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf)
 {
     uint32_t timeout = I2C_DEFAULT_TIMEOUT;
 
-    addr = addr_ << 1;
+    addr = (uint8_t)(addr_ << 1);
     reg = reg_;
     writing = 0;
     reading = 1;
@@ -216,7 +216,7 @@ static void i2c_er_handler(void)
             }
         }
     }
-    I2Cx->SR1 &= ~0x0F00;                                               // reset all the error bits to clear the interrupt
+    I2Cx->SR1 = (uint16_t)(I2Cx->SR1 & ~0x0F00);                                               // reset all the error bits to clear the interrupt
     busy = 0;
 }
 
@@ -224,10 +224,10 @@ void i2c_ev_handler(void)
 {
     static uint8_t subaddress_sent, final_stop;                         // flag to indicate if subaddess sent, flag to indicate final bus condition
     static int8_t index;                                                // index is signed -1 == send the subaddress
-    uint8_t SReg_1 = I2Cx->SR1;                                         // read the status register here
+    uint16_t SReg_1 = I2Cx->SR1;                                         // read the status register here
 
     if (SReg_1 & 0x0001) {                                              // we just sent a start - EV5 in ref manual
-        I2Cx->CR1 &= ~0x0800;                                           // reset the POS bit so ACK/NACK applied to the current byte
+        I2Cx->CR1 = (uint16_t)(I2Cx->CR1 & ~0x0800);                                           // reset the POS bit so ACK/NACK applied to the current byte
         I2C_AcknowledgeConfig(I2Cx, ENABLE);                            // make sure ACK is on
         index = 0;                                                      // reset the index
         if (reading && (subaddress_sent || 0xFF == reg)) {              // we have sent the subaddr

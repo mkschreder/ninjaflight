@@ -73,9 +73,9 @@ void i2cSetOverclock(uint8_t OverClock)
     i2cOverClock = (OverClock) ? true : false;
 }
 
-static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
+static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *dev)
 {
-    if (I2Cx == I2C1) {
+    if (dev == I2C1) {
         i2c1ErrorCount++;
     } else {
         i2c2ErrorCount++;
@@ -83,17 +83,17 @@ static uint32_t i2cTimeoutUserCallback(I2C_TypeDef *I2Cx)
     return false;
 }
 
-static void i2cInitPort(I2C_TypeDef *I2Cx)
+static void i2cInitPort(I2C_TypeDef *dev)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     I2C_InitTypeDef I2C_InitStructure;
 
-    if (I2Cx == I2C1) {
+    if (dev == I2C1) {
         RCC_AHBPeriphClockCmd(I2C1_SCL_CLK_SOURCE | I2C1_SDA_CLK_SOURCE, ENABLE);
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
         RCC_I2CCLKConfig(RCC_I2C1CLK_SYSCLK);
 
-        //i2cUnstick(I2Cx);                                         // Clock out stuff to make sure slaves arent stuck
+        //i2cUnstick(dev);                                         // Clock out stuff to make sure slaves arent stuck
 
         GPIO_PinAFConfig(I2C1_SCL_GPIO, I2C1_SCL_PIN_SOURCE, I2C1_SCL_GPIO_AF);
         GPIO_PinAFConfig(I2C1_SDA_GPIO, I2C1_SDA_PIN_SOURCE, I2C1_SDA_GPIO_AF);
@@ -135,12 +135,12 @@ static void i2cInitPort(I2C_TypeDef *I2Cx)
         I2C_Cmd(I2C1, ENABLE);
     }
 
-    if (I2Cx == I2C2) {
+    if (dev == I2C2) {
         RCC_AHBPeriphClockCmd(I2C2_SCL_CLK_SOURCE | I2C2_SDA_CLK_SOURCE, ENABLE);
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
         RCC_I2CCLKConfig(RCC_I2C2CLK_SYSCLK);
 
-        //i2cUnstick(I2Cx);                                         // Clock out stuff to make sure slaves arent stuck
+        //i2cUnstick(dev);                                         // Clock out stuff to make sure slaves arent stuck
 
         GPIO_PinAFConfig(I2C2_SCL_GPIO, I2C2_SCL_PIN_SOURCE, I2C2_SCL_GPIO_AF);
         GPIO_PinAFConfig(I2C2_SDA_GPIO, I2C2_SDA_PIN_SOURCE, I2C2_SDA_GPIO_AF);

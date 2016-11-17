@@ -57,18 +57,12 @@ static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);
 
 static serialPort_t *sumhPort;
 
-
-static void sumhDataReceive(uint16_t c);
-static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);
-
-
-
-bool sumhInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
+bool sumhInit(rxRuntimeConfig_t *rconf, rcReadRawDataPtr *callback)
 {
     if (callback)
         *callback = sumhReadRawRC;
 
-    rxRuntimeConfig->channelCount = SUMH_MAX_CHANNEL_COUNT;
+    rconf->channelCount = SUMH_MAX_CHANNEL_COUNT;
 
     serialPortConfig_t *portConfig = findSerialPortConfig(FUNCTION_RX_SERIAL);
     if (!portConfig) {
@@ -124,9 +118,9 @@ uint8_t sumhFrameStatus(void)
     return SERIAL_RX_FRAME_COMPLETE;
 }
 
-static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan)
+static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 {
-    UNUSED(rxRuntimeConfig);
+    UNUSED(rconf);
 
     if (chan >= SUMH_MAX_CHANNEL_COUNT) {
         return 0;

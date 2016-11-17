@@ -583,6 +583,7 @@ void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
 		case MIXER_CUSTOM_AIRPLANE: break;
 		case MIXER_CUSTOM_TRI:	break;
 		case MIXER_MODE_COUNT: break;
+		default: break;
 	};
 
 	self->ruleCount = constrain(rule_count, 0, MIXER_MAX_RULES);
@@ -650,6 +651,7 @@ int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output){
 			case MIXER_INPUT_G0_PITCH: output[i].pitch = (float)rule->scale / 1000.0f; break;
 			case MIXER_INPUT_G0_YAW: output[i].yaw = (float)rule->scale / 1000.0f; break;
 			case MIXER_INPUT_G0_THROTTLE: output[i].throttle = (float)rule->scale / 1000.0f; break;
+			default:break;
 		}
 	}
 
@@ -667,7 +669,7 @@ int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output){
 void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors){
 	for(int c = 0; c < MAX_SUPPORTED_MOTORS; c++){
 		const struct motor_mixer *rule = &motors[c];
-		if(rule->throttle == 0) break;
+		if(fabsf(rule->throttle) < 1e-6f) break;
 		char found[4] = {0, 0, 0, 0};
 		// note that this is very inefficient search, but we only do this rather rarely so it's ok
 		for(int j = 0; j < self->ruleCount; j++){
@@ -685,13 +687,13 @@ void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors
 				ar->scale = rule->throttle * 1000.0f; found[3] = 1;
 			}
 		}
-		if(!found[0] && rule->roll)
+		if(!found[0] && fabsf(rule->roll) > 1e-6f)
 			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_ROLL, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->roll * 1000.0f };
-		if(!found[1] && rule->pitch)
+		if(!found[1] && fabsf(rule->pitch) > 1e-6f)
 			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_PITCH, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->pitch * 1000.0f };
-		if(!found[2] && rule->yaw)
+		if(!found[2] && fabsf(rule->yaw) > 1e-6f)
 			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_YAW, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->yaw * 1000.0f };
-		if(!found[3] && rule->throttle)
+		if(!found[3] && fabsf(rule->throttle) > 1e-6f)
 			self->active_rules[self->ruleCount++] = (struct mixer_rule_def){ .input = MIXER_INPUT_G0_THROTTLE, .output = MIXER_OUTPUT_MOTORS + c, .scale = rule->throttle * 1000.0f };
 	}
 	_update_motor_and_servo_count(self);

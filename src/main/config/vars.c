@@ -285,12 +285,6 @@ void pgResetFn_gpsConfig(gpsConfig_t *instance)
     instance->autoConfig = GPS_AUTOCONFIG_ON;
 }
 
-// LEDSTRIP
-PG_REGISTER_ARR_WITH_RESET_FN(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs, PG_LED_STRIP_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors, PG_COLOR_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(modeColorIndexes_t, LED_MODE_COUNT, modeColors, PG_MODE_COLOR_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(specialColorIndexes_t, 1, specialColors, PG_SPECIAL_COLOR_CONFIG, 0);
-
 // macro for initializer
 #define LF(name) LED_FLAG_FUNCTION(LED_FUNCTION_ ## name)
 #define LD(name) LED_FLAG_DIRECTION(LED_DIRECTION_ ## name)
@@ -418,6 +412,11 @@ void pgResetFn_specialColors(specialColorIndexes_t *instance){
     memcpy(instance, &defaultSpecialColors, sizeof(defaultSpecialColors));
 }
 
+// LEDSTRIP
+PG_REGISTER_ARR_WITH_RESET_FN(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs, PG_LED_STRIP_CONFIG, 0);
+PG_REGISTER_ARR_WITH_RESET_FN(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors, PG_COLOR_CONFIG, 0);
+PG_REGISTER_ARR_WITH_RESET_FN(modeColorIndexes_t, LED_MODE_COUNT, modeColors, PG_MODE_COLOR_CONFIG, 0);
+PG_REGISTER_ARR_WITH_RESET_FN(specialColorIndexes_t, 1, specialColors, PG_SPECIAL_COLOR_CONFIG, 0);
 
 // TRANSPONDER
 PG_REGISTER_WITH_RESET_TEMPLATE(transponderConfig_t, transponderConfig, PG_TRANSPONDER_CONFIG, 0);
@@ -455,9 +454,6 @@ PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
 // RX
 PG_REGISTER_WITH_RESET_TEMPLATE(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
 
-PG_REGISTER_ARR_WITH_RESET_FN(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, failsafeChannelConfigs, PG_FAILSAFE_CHANNEL_CONFIG, 0);
-PG_REGISTER_ARR_WITH_RESET_FN(rxChannelRangeConfiguration_t, NON_AUX_CHANNEL_COUNT, channelRanges, PG_CHANNEL_RANGE_CONFIG, 0);
-
 PG_RESET_TEMPLATE(rxConfig_t, rxConfig,
     .sbus_inversion = 1,
     .midrc = 1500,
@@ -470,7 +466,7 @@ PG_RESET_TEMPLATE(rxConfig_t, rxConfig,
 
 PG_REGISTER_PROFILE(adjustmentProfile_t, adjustmentProfile, PG_ADJUSTMENT_PROFILE, 0);
 
-void pgResetFn_channelRanges(rxChannelRangeConfiguration_t *instance)
+static void pgResetFn_channelRanges(rxChannelRangeConfiguration_t *instance)
 {
     // set default calibration to full range and 1:1 mapping
     for (int i = 0; i < NON_AUX_CHANNEL_COUNT; i++) {
@@ -479,7 +475,7 @@ void pgResetFn_channelRanges(rxChannelRangeConfiguration_t *instance)
     }
 }
 
-void pgResetFn_failsafeChannelConfigs(rxFailsafeChannelConfig_t *instance)
+static void pgResetFn_failsafeChannelConfigs(rxFailsafeChannelConfig_t *instance)
 {
     for (int i = 0; i < MAX_SUPPORTED_RC_CHANNEL_COUNT; i++) {
         instance[i].mode = (i < NON_AUX_CHANNEL_COUNT) ? RX_FAILSAFE_MODE_AUTO : RX_FAILSAFE_MODE_HOLD;
@@ -488,6 +484,9 @@ void pgResetFn_failsafeChannelConfigs(rxFailsafeChannelConfig_t *instance)
             : CHANNEL_VALUE_TO_RXFAIL_STEP(rxConfig()->midrc);
     }
 }
+
+PG_REGISTER_ARR_WITH_RESET_FN(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, failsafeChannelConfigs, PG_FAILSAFE_CHANNEL_CONFIG, 0);
+PG_REGISTER_ARR_WITH_RESET_FN(rxChannelRangeConfiguration_t, NON_AUX_CHANNEL_COUNT, channelRanges, PG_CHANNEL_RANGE_CONFIG, 0);
 
 
 // RC CONTROLS

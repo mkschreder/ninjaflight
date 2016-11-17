@@ -843,7 +843,7 @@ bool isBlackboxDeviceFull(void)
  * Call once every loop iteration in order to maintain the global blackboxHeaderBudget with the number of bytes we can
  * transmit this iteration.
  */
-void blackboxReplenishHeaderBudget()
+void blackboxReplenishHeaderBudget(void)
 {
     int32_t freeSpace;
 

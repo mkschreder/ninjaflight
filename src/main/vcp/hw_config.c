@@ -52,7 +52,6 @@
 ErrorStatus HSEStartUpStatus;
 EXTI_InitTypeDef EXTI_InitStructure;
 __IO uint32_t packetSent;                                     // HJI
-extern __IO uint32_t receiveLength;                          // HJI
 
 uint8_t receiveBuffer[64];                                   // HJI
 uint32_t sendLength;                                          // HJI
@@ -262,7 +261,7 @@ static void IntToUnicode(uint32_t value, uint8_t *pbuf, uint8_t len)
  * Output         : None.
  * Return         : None.
  *******************************************************************************/
-uint32_t CDC_Send_DATA(uint8_t *ptrBuffer, uint8_t sendLength)
+uint32_t CDC_Send_DATA(uint8_t *ptrBuffer, uint8_t len)
 {
     /* Last transmission hasn't finished, abort */
     if (packetSent) {
@@ -270,19 +269,19 @@ uint32_t CDC_Send_DATA(uint8_t *ptrBuffer, uint8_t sendLength)
     }
 
     // We can only put 64 bytes in the buffer
-    if (sendLength > 64 / 2) {
-        sendLength = 64 / 2;
+    if (len > 64 / 2) {
+        len = 64 / 2;
     }
 
     // Try to load some bytes if we can
-    if (sendLength) {
-        UserToPMABufferCopy(ptrBuffer, ENDP1_TXADDR, sendLength);
-        SetEPTxCount(ENDP1, sendLength);
-        packetSent += sendLength;
+    if (len) {
+        UserToPMABufferCopy(ptrBuffer, ENDP1_TXADDR, len);
+        SetEPTxCount(ENDP1, len);
+        packetSent += len;
         SetEPTxValid(ENDP1);
     }
 
-    return sendLength;
+    return len;
 }
 
 /*******************************************************************************

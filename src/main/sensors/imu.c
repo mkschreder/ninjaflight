@@ -426,20 +426,20 @@ void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att){
 	memcpy(att, &self->attitude, sizeof(union attitude_euler_angles));
 }
 
-void imu_get_gyro(struct imu *self, int16_t gyro[3]){
-	gyro[0] = self->gyro[0];
-	gyro[1] = self->gyro[1];
-	gyro[2] = self->gyro[2];
+void imu_get_gyro(struct imu *self, int16_t gyr[3]){
+	gyr[0] = self->gyro[0];
+	gyr[1] = self->gyro[1];
+	gyr[2] = self->gyro[2];
 }
 
 float imu_get_gyro_scale(struct imu *self){
 	return self->gyroScale;
 }
 
-void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc){
-	acc->values.x = self->accSmooth[X];
-	acc->values.y = self->accSmooth[Y];
-	acc->values.z = self->accSmooth[Z];
+void imu_get_raw_accel(struct imu *self, union imu_accel_reading *accel){
+	accel->values.x = self->accSmooth[X];
+	accel->values.y = self->accSmooth[Y];
+	accel->values.z = self->accSmooth[Z];
 }
 
 int16_t imu_get_roll_dd(struct imu *self){

@@ -48,7 +48,7 @@ typedef struct pgRegistry_s {
 } pgRegistry_t;
 
 static inline uint16_t pgN(const pgRegistry_t* reg) {return reg->pgn & PGR_PGN_MASK;}
-static inline uint8_t pgVersion(const pgRegistry_t* reg) {return reg->pgn >> 12;}
+static inline uint8_t pgVersion(const pgRegistry_t* reg) {return (uint8_t)(reg->pgn >> 12);}
 static inline uint16_t pgSize(const pgRegistry_t* reg) {return reg->size & PGR_SIZE_MASK;}
 static inline uint16_t pgIsSystem(const pgRegistry_t* reg) {return (reg->size & PGR_SIZE_PROFILE_FLAG) == 0;}
 
@@ -89,7 +89,7 @@ extern const uint8_t __pg_resetdata_end[];
 // Only current profile is reset for profile based configs
 #define PG_RESET_CURRENT(_name)                                         \
     do {                                                                \
-        extern const pgRegistry_t _name ##_Registry;                    \
+        extern const pgRegistry_t _name ##_Registry;                   \
         pgResetCurrent(&_name ## _Registry);                            \
     } while(0)                                                          \
     /**/
@@ -162,7 +162,6 @@ extern const uint8_t __pg_resetdata_end[];
     /**/
 
 #define PG_REGISTER_ARR_WITH_RESET_FN(_type, _size, _name, _pgn, _version) \
-    extern void pgResetFn_ ## _name(_type *);    \
     PG_REGISTER_ARR_I(_type, _size, _name, _pgn, _version, .reset = {.fn = (pgResetFunc*)&pgResetFn_ ## _name}) \
     /**/
 

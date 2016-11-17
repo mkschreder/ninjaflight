@@ -86,13 +86,13 @@ static uint16_t xBusChannelData[XBUS_RJ01_CHANNEL_COUNT];
 static void xBusDataReceive(uint16_t c);
 static uint16_t xBusReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);
 
-bool xBusInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
+bool xBusInit(rxRuntimeConfig_t *rconf, rcReadRawDataPtr *callback)
 {
     uint32_t baudRate;
 
     switch (rxConfig()->serialrx_provider) {
         case SERIALRX_XBUS_MODE_B:
-            rxRuntimeConfig->channelCount = XBUS_CHANNEL_COUNT;
+            rconf->channelCount = XBUS_CHANNEL_COUNT;
             xBusFrameReceived = false;
             xBusDataIncoming = false;
             xBusFramePosition = 0;
@@ -102,7 +102,7 @@ bool xBusInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
             xBusProvider = SERIALRX_XBUS_MODE_B;
             break;
         case SERIALRX_XBUS_MODE_B_RJ01:
-            rxRuntimeConfig->channelCount = XBUS_RJ01_CHANNEL_COUNT;
+            rconf->channelCount = XBUS_RJ01_CHANNEL_COUNT;
             xBusFrameReceived = false;
             xBusDataIncoming = false;
             xBusFramePosition = 0;
@@ -287,6 +287,7 @@ static void xBusDataReceive(uint16_t c)
                 xBusUnpackModeBFrame(0);
             case SERIALRX_XBUS_MODE_B_RJ01:
                 xBusUnpackRJ01Frame();
+			default:break;
         }
         xBusDataIncoming = false;
         xBusFramePosition = 0;
@@ -305,12 +306,12 @@ uint8_t xBusFrameStatus(void)
     return SERIAL_RX_FRAME_COMPLETE;
 }
 
-static uint16_t xBusReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan)
+static uint16_t xBusReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 {
     uint16_t data;
 
     // Deliver the data wanted
-    if (chan >= rxRuntimeConfig->channelCount) {
+    if (chan >= rconf->channelCount) {
         return 0;
     }
 

@@ -740,6 +740,10 @@ SITL_SRC = \
 			flight/rate_profile.c \
 			sensors/imu.c \
 			sensors/instruments.c \
+			sensors/acceleration.c \
+			sensors/gyro.c \
+			sensors/compass.c \
+			sensors/boardalignment.c \
 			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \
@@ -792,7 +796,36 @@ CFLAGS		 = $(ARCH_FLAGS) \
 		   $(addprefix -I,$(INCLUDE_DIRS)) \
 		   $(DEBUG_FLAGS) \
 		   -std=gnu99 \
-		   -Wall -Wextra -Wunsafe-loop-optimizations -Wdouble-promotion -Wundef -Wmissing-prototypes -Wstrict-prototypes -Werror \
+           -Wall \
+           -Wbad-function-cast \
+           -Wdouble-promotion \
+           -Wextra \
+           -Wfloat-equal \
+           -Wformat=2 \
+           -Wlogical-op \
+           -Wmissing-field-initializers \
+           -Wmissing-include-dirs \
+           -Wmissing-include-dirs \
+           -Wno-nested-externs \
+           -Wno-cast-align \
+           -Wno-cast-qual \
+           -Wno-conversion \
+           -Wold-style-definition \
+           -Wpointer-arith \
+           -Wredundant-decls \
+           -Wreturn-type \
+           -Wshadow \
+           -Wstrict-overflow=5 \
+           -Wno-switch-default \
+           -Wswitch-enum \
+		   -Wno-error=strict-overflow \
+		   -Wno-error=switch-enum \
+           -Wno-error=switch-default \
+           -Wno-error=redundant-decls \
+           -Wundef \
+           -Wuninitialized \
+           -Wunsafe-loop-optimizations \
+           -Wwrite-strings \
 		   -ffunction-sections \
 		   -fdata-sections \
 		   $(DEVICE_FLAGS) \

@@ -61,7 +61,7 @@ static bool adxl345Read(int16_t *accelData);
 
 static bool useFifo = false;
 
-bool adxl345Detect(drv_adxl345_config_t *init, acc_t *acc)
+bool adxl345Detect(drv_adxl345_config_t *init, acc_t *accel)
 {
     bool ack = false;
     uint8_t sig = 0;
@@ -73,25 +73,25 @@ bool adxl345Detect(drv_adxl345_config_t *init, acc_t *acc)
     // use ADXL345's fifo to filter data or not
     useFifo = init->useFifo;
 
-    acc->init = adxl345Init;
-    acc->read = adxl345Read;
+    accel->init = adxl345Init;
+    accel->read = adxl345Read;
     return true;
 }
 
-static void adxl345Init(acc_t *acc)
+static void adxl345Init(acc_t *accel)
 {
     if (useFifo) {
         uint8_t fifoDepth = 16;
         i2cWrite(ADXL345_ADDRESS, ADXL345_POWER_CTL, ADXL345_POWER_MEAS);
         i2cWrite(ADXL345_ADDRESS, ADXL345_DATA_FORMAT, ADXL345_FULL_RANGE | ADXL345_RANGE_8G);
         i2cWrite(ADXL345_ADDRESS, ADXL345_BW_RATE, ADXL345_RATE_400);
-        i2cWrite(ADXL345_ADDRESS, ADXL345_FIFO_CTL, (fifoDepth & 0x1F) | ADXL345_FIFO_STREAM);
+        i2cWrite(ADXL345_ADDRESS, ADXL345_FIFO_CTL, (uint8_t)((fifoDepth & 0x1FU) | ADXL345_FIFO_STREAM));
     } else {
         i2cWrite(ADXL345_ADDRESS, ADXL345_POWER_CTL, ADXL345_POWER_MEAS);
         i2cWrite(ADXL345_ADDRESS, ADXL345_DATA_FORMAT, ADXL345_FULL_RANGE | ADXL345_RANGE_8G);
         i2cWrite(ADXL345_ADDRESS, ADXL345_BW_RATE, ADXL345_RATE_100);
     }
-    acc->acc_1G = 256;
+    accel->acc_1G = 256;
 }
 
 uint8_t acc_samples = 0;
@@ -119,9 +119,9 @@ static bool adxl345Read(int16_t *accelData)
             z += (int16_t)(buf[4] + (buf[5] << 8));
             samples_remaining = buf[7] & 0x7F;
         } while ((i < 32) && (samples_remaining > 0));
-        accelData[0] = x / i;
-        accelData[1] = y / i;
-        accelData[2] = z / i;
+        accelData[0] = (int16_t)(x / i);
+        accelData[1] = (int16_t)(y / i);
+        accelData[2] = (int16_t)(z / i);
         acc_samples = i;
     } else {
 
@@ -129,9 +129,9 @@ static bool adxl345Read(int16_t *accelData)
             return false;
         }
 
-        accelData[0] = buf[0] + (buf[1] << 8);
-        accelData[1] = buf[2] + (buf[3] << 8);
-        accelData[2] = buf[4] + (buf[5] << 8);
+        accelData[0] = (int16_t)(buf[0] + ((int16_t)buf[1] << 8));
+        accelData[1] = (int16_t)(buf[2] + ((int16_t)buf[3] << 8));
+        accelData[2] = (int16_t)(buf[4] + ((int16_t)buf[5] << 8));
     }
 
     return true;

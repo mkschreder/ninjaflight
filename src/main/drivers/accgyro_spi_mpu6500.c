@@ -112,30 +112,30 @@ bool mpu6500SpiDetect(void)
     return false;
 }
 
-bool mpu6500SpiAccDetect(acc_t *acc)
+bool mpu6500SpiAccDetect(acc_t *accel)
 {
     if (mpuDetectionResult.sensor != MPU_65xx_SPI) {
         return false;
     }
 
-    acc->init = mpu6500AccInit;
-    acc->read = mpuAccRead;
+    accel->init = mpu6500AccInit;
+    accel->read = mpuAccRead;
 
     return true;
 }
 
-bool mpu6500SpiGyroDetect(gyro_t *gyro)
+bool mpu6500SpiGyroDetect(gyro_t *gyr)
 {
     if (mpuDetectionResult.sensor != MPU_65xx_SPI) {
         return false;
     }
 
-    gyro->init = mpu6500GyroInit;
-    gyro->read = mpuGyroRead;
-    gyro->isDataReady = mpuIsDataReady;
+    gyr->init = mpu6500GyroInit;
+    gyr->read = mpuGyroRead;
+    gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
-    gyro->scale = 1.0f / 16.4f;
+    gyr->scale = 1.0f / 16.4f;
 
     return true;
 }

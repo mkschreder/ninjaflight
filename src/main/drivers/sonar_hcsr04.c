@@ -65,7 +65,7 @@ typedef struct sonarRange_s {
     int16_t detectionConeExtendedDeciDegrees; // device spec is conservative, in practice have slightly larger detection cone
 } sonarRange_t;
 
-volatile int32_t measurement = -1;
+volatile int64_t measurement = -1;
 static uint32_t lastMeasurementAt;
 
 static const struct sonar_hardware *sonar_hardware; 
@@ -76,6 +76,7 @@ static void ECHO_EXTI_IRQHandler(void)
     static uint32_t timing_start;
     uint32_t timing_stop;
 
+	// TODO: this is prone to overflows big time. Fix it!!
     if (digitalIn(sonar_hardware->echo_gpio, sonar_hardware->echo_pin) != 0) {
         timing_start = micros();
     } else {
@@ -233,7 +234,7 @@ int32_t hcsr04_get_distance(struct sonar *self)
     // object we take half of the distance traveled.
     //
     // 340 m/s = 0.034 cm/microsecond = 29.41176471 *2 = 58.82352941 rounded to 59
-    self->distance = measurement / 59;
+    self->distance = (int16_t)(measurement / 59);
 
     return self->distance;
 }

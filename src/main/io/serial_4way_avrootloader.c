@@ -138,11 +138,10 @@ static uint16_t crc16Byte(uint16_t from, uint8_t byte)
 static uint8_t BL_ReadBuf(uint8_t *pstring, int len, bool checkCrc)
 {
     int crc = 0;
-    int c;
+	int c;
 
     uint8_t  lastACK = BR_NONE;
     for(int i = 0; i < len; i++) {
-        int c;
         if ((c = suart_getc()) < 0) goto timeout;
         crc = crc16Byte(crc, c);
         pstring[i] = c;

@@ -35,39 +35,39 @@
 #include "accgyro_mpu.h"
 #include "accgyro_mpu6500.h"
 
-bool mpu6500AccDetect(acc_t *acc)
+bool mpu6500AccDetect(acc_t *accel)
 {
     if (mpuDetectionResult.sensor != MPU_65xx_I2C) {
         return false;
     }
 
-    acc->init = mpu6500AccInit;
-    acc->read = mpuAccRead;
+    accel->init = mpu6500AccInit;
+    accel->read = mpuAccRead;
 
     return true;
 }
 
-bool mpu6500GyroDetect(gyro_t *gyro)
+bool mpu6500GyroDetect(gyro_t *gyr)
 {
     if (mpuDetectionResult.sensor != MPU_65xx_I2C) {
         return false;
     }
 
-    gyro->init = mpu6500GyroInit;
-    gyro->read = mpuGyroRead;
-    gyro->isDataReady = mpuIsDataReady;
+    gyr->init = mpu6500GyroInit;
+    gyr->read = mpuGyroRead;
+    gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
-    gyro->scale = 1.0f / 16.4f;
+    gyr->scale = 1.0f / 16.4f;
 
     return true;
 }
 
-void mpu6500AccInit(acc_t *acc)
+void mpu6500AccInit(acc_t *accel)
 {
     mpuIntExtiInit();
 
-    acc->acc_1G = 512 * 8;
+    accel->acc_1G = 512 * 8;
 }
 
 void mpu6500GyroInit(uint8_t lpf)

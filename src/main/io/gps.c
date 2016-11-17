@@ -254,6 +254,8 @@ static void gpsInitNmea(void)
             serialSetBaudRate(gpsPort, baudRates[gpsInitData[gpsData.baudrateIndex].baudrateIndex]);
             gpsSetState(GPS_RECEIVING_DATA);
             break;
+		default:
+			break;
     }
 }
 
@@ -335,6 +337,8 @@ static void gpsInitUblox(void)
                 gpsSetState(GPS_RECEIVING_DATA);
             }
             break;
+		default:
+			break;
     }
 }
 
@@ -347,6 +351,7 @@ static void gpsInitHardware(void)
         case GPS_UBLOX:
             gpsInitUblox();
             break;
+		case GPS_PROVIDER_MAX:
 		default:
 			break;
     }
@@ -362,6 +367,7 @@ void gpsThread(void)
 
     switch (gpsData.state) {
         case GPS_UNKNOWN:
+		default:
             break;
 
         case GPS_INITIALIZING:
@@ -426,6 +432,7 @@ bool gpsNewFrame(uint8_t c)
         case GPS_UBLOX:         // UBX binary
             return gpsNewFrameUBLOX(c);
 		default:
+		case GPS_PROVIDER_MAX:
 			break;
     }
 
@@ -587,6 +594,8 @@ static bool gpsNewFrameNMEA(char c)
                         case 9:
                             gps_Msg.altitude = grab_fields(string, 0);     // altitude in meters added by Mis
                             break;
+						default:
+							break;
                     }
                     break;
                 case FRAME_RMC:        //************* GPRMC FRAME parsing
@@ -597,6 +606,8 @@ static bool gpsNewFrameNMEA(char c)
                         case 8:
                             gps_Msg.ground_course = (grab_fields(string, 1));      // ground course deg * 10
                             break;
+						default:
+							break;
                     }
                     break;
                 case FRAME_GSV:
@@ -612,6 +623,8 @@ static bool gpsNewFrameNMEA(char c)
                             // Total number of SVs visible
                             GPS_numCh = grab_fields(string, 0);
                             break;
+						default:
+							break;
                     }
                     if(param < 4)
                         break;
@@ -640,11 +653,15 @@ static bool gpsNewFrameNMEA(char c)
                             GPS_svinfo_cno[svSatNum - 1] = grab_fields(string, 0);
                             GPS_svinfo_quality[svSatNum - 1] = 0; // only used by ublox
                             break;
+						default:
+							break;
                     }
 
                     GPS_svInfoReceivedCount++;
 
                     break;
+				default:
+					break;
             }
 
             param++;
@@ -678,6 +695,8 @@ static bool gpsNewFrameNMEA(char c)
                         GPS_speed = gps_Msg.speed;
                         GPS_ground_course = gps_Msg.ground_course;
                         break;
+					default:
+						break;
                     } // end switch
                 } else {
                     *gpsPacketLogChar = LOG_ERROR;
@@ -1031,6 +1050,8 @@ static bool gpsNewFrameUBLOX(uint8_t data)
             if (UBLOX_parse_gps()) {
                 parsed = true;
             }
+		default:
+			break;
     }
     return parsed;
 }

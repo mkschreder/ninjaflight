@@ -27,13 +27,13 @@
 
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
-
+/*
 #include "drivers/sensor.h"
 #include "drivers/compass.h"
 #include "drivers/compass_hmc5883l.h"
 #include "drivers/gpio.h"
 #include "drivers/light_led.h"
-
+*/
 #include "sensors/boardalignment.h"
 #include "config/runtime_config.h"
 #include "config/config.h"
@@ -65,7 +65,7 @@ void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor
 void ins_mag_start_calibration(struct ins_mag *self){
 	for(int c = 0; c < 3; c++) {
 		self->mag_min[c] = 0x7fff;
-		self->mag_max[c] = 0x8000;
+		self->mag_max[c] = -0x7fff;
 		self->mag_scale[c] = 0;
 	}
 	self->calibratingM = MAG_CALIBRATION_SAMPLES;

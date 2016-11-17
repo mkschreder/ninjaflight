@@ -76,7 +76,7 @@ float atan2_approx(float y, float x)
     absX = fabsf(x);
     absY = fabsf(y);
     res  = MAX(absX, absY);
-    if (res) res = MIN(absX, absY) / res;
+    if (res > 0 || res < 0) res = MIN(absX, absY) / res;
     else res = 0.0f;
     res = -((((atanPolyCoef5 * res - atanPolyCoef4) * res - atanPolyCoef3) * res - atanPolyCoef2) * res - atanPolyCoef1) / ((atanPolyCoef7 * res + atanPolyCoef6) * res + 1.0f);
     if (absY > absX) res = (M_PIf / 2.0f) - res;
@@ -183,7 +183,7 @@ void normalizeV(struct fp_vector *src, struct fp_vector *dest)
     float length;
 
     length = sqrtf(src->X * src->X + src->Y * src->Y + src->Z * src->Z);
-    if (length != 0) {
+    if (length > 0 || length < 0) {
         dest->X = src->X / length;
         dest->Y = src->Y / length;
         dest->Z = src->Z / length;

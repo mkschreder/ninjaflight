@@ -1342,7 +1342,7 @@ static int processInCommand(mspPacket_t *cmd)
                 GPS_hold[LON] = lon;
                 if (alt != 0)
                     AltHold = alt;                      // temporary implementation to test feature with apps
-                nav_mode = NAV_MODE_WP;
+                navi_mode = NAV_MODE_WP;
                 GPS_set_next_wp(&GPS_hold[LAT], &GPS_hold[LON]);
             }
             break;

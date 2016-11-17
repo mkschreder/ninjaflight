@@ -92,6 +92,8 @@ void led_toggle(int id){
 		case 2: 
 			LED2_TOGGLE; 
 			break; 
+		default:
+			break;
 	}
 }
 
@@ -106,6 +108,8 @@ void led_on(int id){
 		case 2: 
 			LED2_ON; 
 			break; 
+		default:
+			break;
 	}
 }
 
@@ -120,6 +124,8 @@ void led_off(int id){
 		case 2: 
 			LED2_OFF; 
 			break; 
+		default:
+			break;
 	}
 }
 

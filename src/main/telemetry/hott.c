@@ -151,7 +151,7 @@ static void initialiseMessages(void)
 }
 
 #ifdef GPS
-void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t longitude)
+void addGPSCoordinates(HOTT_GPS_MSG_t *msg, int32_t latitude, int32_t longitude)
 {
     int16_t deg = latitude / GPS_DEGREES_DIVIDER;
     int32_t sec = (latitude - (deg * GPS_DEGREES_DIVIDER)) * 6;
@@ -159,11 +159,11 @@ void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t
     sec = (sec % 1000000L) / 100L;
     uint16_t degMin = (deg * 100L) + min;
 
-    hottGPSMessage->pos_NS = (latitude < 0);
-    hottGPSMessage->pos_NS_dm_L = degMin;
-    hottGPSMessage->pos_NS_dm_H = degMin >> 8;
-    hottGPSMessage->pos_NS_sec_L = sec;
-    hottGPSMessage->pos_NS_sec_H = sec >> 8;
+    msg->pos_NS = (latitude < 0);
+    msg->pos_NS_dm_L = degMin;
+    msg->pos_NS_dm_H = degMin >> 8;
+    msg->pos_NS_sec_L = sec;
+    msg->pos_NS_sec_H = sec >> 8;
 
     deg = longitude / GPS_DEGREES_DIVIDER;
     sec = (longitude - (deg * GPS_DEGREES_DIVIDER)) * 6;
@@ -171,44 +171,44 @@ void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t
     sec = (sec % 1000000L) / 100L;
     degMin = (deg * 100L) + min;
 
-    hottGPSMessage->pos_EW = (longitude < 0);
-    hottGPSMessage->pos_EW_dm_L = degMin;
-    hottGPSMessage->pos_EW_dm_H = degMin >> 8;
-    hottGPSMessage->pos_EW_sec_L = sec;
-    hottGPSMessage->pos_EW_sec_H = sec >> 8;
+    msg->pos_EW = (longitude < 0);
+    msg->pos_EW_dm_L = degMin;
+    msg->pos_EW_dm_H = degMin >> 8;
+    msg->pos_EW_sec_L = sec;
+    msg->pos_EW_sec_H = sec >> 8;
 }
 
-void hottPrepareGPSResponse(HOTT_GPS_MSG_t *hottGPSMessage)
+void hottPrepareGPSResponse(HOTT_GPS_MSG_t *msg)
 {
-    hottGPSMessage->gps_satelites = GPS_numSat;
+    msg->gps_satelites = GPS_numSat;
 
     if (!STATE(GPS_FIX)) {
-        hottGPSMessage->gps_fix_char = GPS_FIX_CHAR_NONE;
+        msg->gps_fix_char = GPS_FIX_CHAR_NONE;
         return;
     }
 
     if (GPS_numSat >= 5) {
-        hottGPSMessage->gps_fix_char = GPS_FIX_CHAR_3D;
+        msg->gps_fix_char = GPS_FIX_CHAR_3D;
     } else {
-        hottGPSMessage->gps_fix_char = GPS_FIX_CHAR_2D;
+        msg->gps_fix_char = GPS_FIX_CHAR_2D;
     }
 
-    addGPSCoordinates(hottGPSMessage, GPS_coord[LAT], GPS_coord[LON]);
+    addGPSCoordinates(msg, GPS_coord[LAT], GPS_coord[LON]);
 
     // GPS Speed is returned in cm/s (from io/gps.c) and must be sent in km/h (Hott requirement)
     uint16_t speed = (GPS_speed * 36) / 1000;
-    hottGPSMessage->gps_speed_L = speed & 0x00FF;
-    hottGPSMessage->gps_speed_H = speed >> 8;
+    msg->gps_speed_L = speed & 0x00FF;
+    msg->gps_speed_H = speed >> 8;
 
-    hottGPSMessage->home_distance_L = GPS_distanceToHome & 0x00FF;
-    hottGPSMessage->home_distance_H = GPS_distanceToHome >> 8;
+    msg->home_distance_L = GPS_distanceToHome & 0x00FF;
+    msg->home_distance_H = GPS_distanceToHome >> 8;
 
     uint16_t hottGpsAltitude = GPS_altitude + HOTT_GPS_ALTITUDE_OFFSET;   // GPS_altitude in m ; offset = 500 -> O m
 
-    hottGPSMessage->altitude_L = hottGpsAltitude & 0x00FF;
-    hottGPSMessage->altitude_H = hottGpsAltitude >> 8;
+    msg->altitude_L = hottGpsAltitude & 0x00FF;
+    msg->altitude_H = hottGpsAltitude >> 8;
 
-    hottGPSMessage->home_direction = GPS_directionToHome;
+    msg->home_direction = GPS_directionToHome;
 }
 #endif
 
@@ -217,7 +217,7 @@ static bool shouldTriggerBatteryAlarmNow(void)
     return ((millis() - lastHottAlarmSoundTime) >= (hottTelemetryConfig()->hottAlarmSoundInterval * MILLISECONDS_IN_A_SECOND));
 }
 
-static inline void updateAlarmBatteryStatus(HOTT_EAM_MSG_t *hottEAMMessage)
+static inline void updateAlarmBatteryStatus(HOTT_EAM_MSG_t *msg)
 {
     battery_state_t batteryState;
 
@@ -225,50 +225,50 @@ static inline void updateAlarmBatteryStatus(HOTT_EAM_MSG_t *hottEAMMessage)
         lastHottAlarmSoundTime = millis();
         batteryState = battery_get_state(&default_battery);
         if (batteryState == BATTERY_WARNING  || batteryState == BATTERY_CRITICAL){
-            hottEAMMessage->warning_beeps = 0x10;
-            hottEAMMessage->alarm_invers1 = HOTT_EAM_ALARM1_FLAG_BATTERY_1;
+            msg->warning_beeps = 0x10;
+            msg->alarm_invers1 = HOTT_EAM_ALARM1_FLAG_BATTERY_1;
         }
         else {
-            hottEAMMessage->warning_beeps = HOTT_EAM_ALARM1_FLAG_NONE;
-            hottEAMMessage->alarm_invers1 = HOTT_EAM_ALARM1_FLAG_NONE;
+            msg->warning_beeps = HOTT_EAM_ALARM1_FLAG_NONE;
+            msg->alarm_invers1 = HOTT_EAM_ALARM1_FLAG_NONE;
         }
     }
 }
 
-static inline void hottEAMUpdateBattery(HOTT_EAM_MSG_t *hottEAMMessage)
+static inline void hottEAMUpdateBattery(HOTT_EAM_MSG_t *msg)
 {
 	uint16_t vbat = battery_get_voltage(&default_battery);
-    hottEAMMessage->main_voltage_L = vbat & 0xFF;
-    hottEAMMessage->main_voltage_H = vbat >> 8;
-    hottEAMMessage->batt1_voltage_L = vbat & 0xFF;
-    hottEAMMessage->batt1_voltage_H = vbat >> 8;
+    msg->main_voltage_L = vbat & 0xFF;
+    msg->main_voltage_H = vbat >> 8;
+    msg->batt1_voltage_L = vbat & 0xFF;
+    msg->batt1_voltage_H = vbat >> 8;
 
-    updateAlarmBatteryStatus(hottEAMMessage);
+    updateAlarmBatteryStatus(msg);
 }
 
-static inline void hottEAMUpdateCurrentMeter(HOTT_EAM_MSG_t *hottEAMMessage)
+static inline void hottEAMUpdateCurrentMeter(HOTT_EAM_MSG_t *msg)
 {
     int32_t amp = battery_get_current(&default_battery) / 10;
-    hottEAMMessage->current_L = amp & 0xFF;
-    hottEAMMessage->current_H = amp >> 8;
+    msg->current_L = amp & 0xFF;
+    msg->current_H = amp >> 8;
 }
 
-static inline void hottEAMUpdateBatteryDrawnCapacity(HOTT_EAM_MSG_t *hottEAMMessage)
+static inline void hottEAMUpdateBatteryDrawnCapacity(HOTT_EAM_MSG_t *msg)
 {
     int32_t mAh = battery_get_spent_capacity(&default_battery) / 10;
-    hottEAMMessage->batt_cap_L = mAh & 0xFF;
-    hottEAMMessage->batt_cap_H = mAh >> 8;
+    msg->batt_cap_L = mAh & 0xFF;
+    msg->batt_cap_H = mAh >> 8;
 }
 
-static void hottPrepareEAMResponse(HOTT_EAM_MSG_t *hottEAMMessage)
+static void hottPrepareEAMResponse(HOTT_EAM_MSG_t *msg)
 {
     // Reset alarms
-    hottEAMMessage->warning_beeps = 0x0;
-    hottEAMMessage->alarm_invers1 = 0x0;
+    msg->warning_beeps = 0x0;
+    msg->alarm_invers1 = 0x0;
 
-    hottEAMUpdateBattery(hottEAMMessage);
-    hottEAMUpdateCurrentMeter(hottEAMMessage);
-    hottEAMUpdateBatteryDrawnCapacity(hottEAMMessage);
+    hottEAMUpdateBattery(msg);
+    hottEAMUpdateCurrentMeter(msg);
+    hottEAMUpdateBatteryDrawnCapacity(msg);
 }
 
 static void hottSerialWrite(uint8_t c)

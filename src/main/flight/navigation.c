@@ -62,8 +62,6 @@ extern int16_t magHold;
 
 #ifdef GPS
 
-bool areSticksInApModePosition(uint16_t ap_mode);
-
 // **********************
 // GPS
 // **********************
@@ -76,7 +74,7 @@ int16_t GPS_directionToHome;        // direction to home or hol point in degrees
 
 static int16_t nav[2];
 static int16_t nav_rated[2];               // Adding a rate controller to the navigation to make it smoother
-navigationMode_e nav_mode = NAV_MODE_NONE;    // Navigation mode
+navigationMode_e navi_mode = NAV_MODE_NONE;    // Navigation mode
 
 // When using PWM input GPS usage reduces number of available channels by 2 - see pwm_common.c/pwmInit()
 // TODO: this one is abused elsewhere. 
@@ -291,7 +289,7 @@ void onGpsNewData(void)
         GPS_filter[axis][GPS_filter_index] = GPS_read[axis] - (GPS_degree[axis] * 10000000);
         GPS_filter_sum[axis] += GPS_filter[axis][GPS_filter_index];
         GPS_filtered[axis] = GPS_filter_sum[axis] / GPS_FILTER_VECTOR_LENGTH + (GPS_degree[axis] * 10000000);
-        if (nav_mode == NAV_MODE_POSHOLD) {             // we use gps averaging only in poshold mode...
+        if (navi_mode == NAV_MODE_POSHOLD) {             // we use gps averaging only in poshold mode...
             if (fraction3[axis] > 1 && fraction3[axis] < 999)
                 GPS_coord[axis] = GPS_filtered[axis];
         }
@@ -319,7 +317,7 @@ void onGpsNewData(void)
         GPS_distance_cm_bearing(&GPS_coord[LAT], &GPS_coord[LON], &GPS_WP[LAT], &GPS_WP[LON], &wp_distance, &target_bearing);
         GPS_calc_location_error(&GPS_WP[LAT], &GPS_WP[LON], &GPS_coord[LAT], &GPS_coord[LON]);
 
-        switch (nav_mode) {
+        switch (navi_mode) {
         case NAV_MODE_POSHOLD:
             // Desired output is in nav_lat and nav_lon where 1deg inclination is 100
             GPS_calc_poshold();
@@ -341,12 +339,13 @@ void onGpsNewData(void)
             }
             // Are we there yet ?(within x meters of the destination)
             if ((wp_distance <= gpsProfile()->gps_wp_radius) || check_missed_wp()) {      // if yes switch to poshold mode
-                nav_mode = NAV_MODE_POSHOLD;
+                navi_mode = NAV_MODE_POSHOLD;
                 if (NAV_SET_TAKEOFF_HEADING) {
                     magHold = nav_takeoff_bearing;
                 }
             }
             break;
+		case NAV_MODE_NONE:
         default:
             break;
         }
@@ -624,13 +623,13 @@ static uint16_t GPS_calc_desired_speed(uint16_t max_speed, bool _slow)
 ////////////////////////////////////////////////////////////////////////////////////
 // Utilities
 //
-static int32_t wrap_18000(int32_t error)
+static int32_t wrap_18000(int32_t err)
 {
-    if (error > 18000)
-        error -= 36000;
-    if (error < -18000)
-        error += 36000;
-    return error;
+    if (err > 18000)
+        err -= 36000;
+    if (err < -18000)
+        err += 36000;
+    return err;
 }
 
 static int32_t wrap_36000(int32_t angle)
@@ -676,7 +675,7 @@ void updateGpsWaypointsAndMode(void)
                 ENABLE_FLIGHT_MODE(GPS_HOME_MODE);
                 DISABLE_FLIGHT_MODE(GPS_HOLD_MODE);
                 GPS_set_next_wp(&GPS_home[LAT], &GPS_home[LON]);
-                nav_mode = NAV_MODE_WP;
+                navi_mode = NAV_MODE_WP;
                 resetNavNow = true;
             }
         } else {
@@ -684,7 +683,7 @@ void updateGpsWaypointsAndMode(void)
 
                 // Transition from HOME mode
                 DISABLE_FLIGHT_MODE(GPS_HOME_MODE);
-                nav_mode = NAV_MODE_NONE;
+                navi_mode = NAV_MODE_NONE;
                 resetNavNow = true;
             }
 
@@ -700,7 +699,7 @@ void updateGpsWaypointsAndMode(void)
                     GPS_hold[LAT] = GPS_coord[LAT];
                     GPS_hold[LON] = GPS_coord[LON];
                     GPS_set_next_wp(&GPS_hold[LAT], &GPS_hold[LON]);
-                    nav_mode = NAV_MODE_POSHOLD;
+                    navi_mode = NAV_MODE_POSHOLD;
                     resetNavNow = true;
                 }
             } else {
@@ -708,7 +707,7 @@ void updateGpsWaypointsAndMode(void)
 
                     // Transition from HOLD mode
                     DISABLE_FLIGHT_MODE(GPS_HOLD_MODE);
-                    nav_mode = NAV_MODE_NONE;
+                    navi_mode = NAV_MODE_NONE;
                     resetNavNow = true;
                 }
             }
@@ -723,7 +722,7 @@ void updateGpsWaypointsAndMode(void)
             // Transition from HOME or HOLD mode
             DISABLE_FLIGHT_MODE(GPS_HOME_MODE);
             DISABLE_FLIGHT_MODE(GPS_HOLD_MODE);
-            nav_mode = NAV_MODE_NONE;
+            navi_mode = NAV_MODE_NONE;
             resetNavNow = true;
         }
     }

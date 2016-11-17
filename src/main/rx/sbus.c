@@ -80,14 +80,14 @@ static uint16_t sbusReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);
 
 static uint32_t sbusChannelData[SBUS_MAX_CHANNEL];
 
-bool sbusInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
+bool sbusInit(rxRuntimeConfig_t *rconf, rcReadRawDataPtr *callback)
 {
     int b;
     for (b = 0; b < SBUS_MAX_CHANNEL; b++)
         sbusChannelData[b] = (16 * rxConfig()->midrc) / 10 - 1408;
     if (callback)
         *callback = sbusReadRawRC;
-    rxRuntimeConfig->channelCount = SBUS_MAX_CHANNEL;
+    rconf->channelCount = SBUS_MAX_CHANNEL;
 
     serialPortConfig_t *portConfig = findSerialPortConfig(FUNCTION_RX_SERIAL);
     if (!portConfig) {
@@ -238,9 +238,9 @@ uint8_t sbusFrameStatus(void)
     return SERIAL_RX_FRAME_COMPLETE;
 }
 
-static uint16_t sbusReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan)
+static uint16_t sbusReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 {
-    UNUSED(rxRuntimeConfig);
+    UNUSED(rconf);
     // Linear fitting values read from OpenTX-ppmus and comparing with values received by X4R
     // http://www.wolframalpha.com/input/?i=linear+fit+%7B173%2C+988%7D%2C+%7B1812%2C+2012%7D%2C+%7B993%2C+1500%7D
     return (0.625f * sbusChannelData[chan]) + 880;

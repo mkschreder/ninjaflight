@@ -266,6 +266,8 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
                 applied = true;
             }
             break;
+		default:
+			break;
     }
 
     if (applied) {

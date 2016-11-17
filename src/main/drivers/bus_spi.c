@@ -519,7 +519,7 @@ void spiTransfer(SPI_TypeDef *instance, uint8_t *out, const uint8_t *in, int len
         //b = SPI_I2S_ReceiveData16(instance);
 #endif
 #ifdef STM32F10X
-        b = SPI_I2S_ReceiveData(instance);
+        b = (uint8_t)SPI_I2S_ReceiveData(instance);
 #endif
         if (out)
             *(out++) = b;
@@ -573,6 +573,7 @@ void spiSetDivisor(SPI_TypeDef *instance, uint16_t divisor)
             tempRegister |= SPI_BaudRatePrescaler_128;
             break;
 
+		default: // handle invalid divisor here
         case 256:
             tempRegister &= BR_CLEAR_MASK;
             tempRegister |= SPI_BaudRatePrescaler_256;

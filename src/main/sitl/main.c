@@ -47,7 +47,6 @@
 #include "io/serial_msp.h"
 #include "io/serial_cli.h"
 
-#include "sensors/sensors.h"
 #include "sensors/sonar.h"
 #include "sensors/barometer.h"
 #include "sensors/compass.h"
@@ -78,7 +77,7 @@
 #include "sitl.h"
 
 struct application {
-	struct imu imu;
+	struct instruments ins;
 	struct mixer mixer;
 	struct anglerate controller;
 	struct fc_sitl_server_interface *sitl;
@@ -134,23 +133,23 @@ static void _application_recv_state(struct application *self){
 	}
 	printf("\n");
 
-	float accel[3], gyro[3];
+	float accel[3], gyr[3];
 
 	cl->read_accel(cl, accel);
-	cl->read_gyro(cl, gyro);
+	cl->read_gyro(cl, gyr);
 
-	self->gyro[0] = gyro[0] * 4096;
-	self->gyro[1] = -gyro[1] * 4096;
-	self->gyro[2] = -gyro[2] * 4096;
+	self->gyro[0] = gyr[0] * 4096;
+	self->gyro[1] = -gyr[1] * 4096;
+	self->gyro[2] = -gyr[2] * 4096;
 
-	imu_input_accelerometer(&self->imu,
+	ins_process_acc(&self->ins,
 		(accel[0] / 9.82f) * 512,
 		(accel[1] / 9.82f) * 512,
 		(accel[2] / 9.82f) * 512);
 
-	imu_input_gyro(&self->imu, self->gyro[0], self->gyro[1], self->gyro[2]);
+	ins_process_gyro(&self->ins, self->gyro[0], self->gyro[1], self->gyro[2]);
 
-	imu_update(&self->imu, 0.001);
+	ins_update(&self->ins, 0.001);
 
 #if 0
 	struct sitl_client_packet pkt;
@@ -160,7 +159,7 @@ static void _application_recv_state(struct application *self){
 }
 static void _application_fc_run(struct application *self){
 	//union attitude_euler_angles att;
-	imu_get_attitude_dd(&self->imu, &self->attitude);
+	imu_get_attitude_dd(&self->ins.imu, &self->attitude);
 
 	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
 	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
@@ -229,11 +228,11 @@ static void application_init(struct application *self, struct fc_sitl_server_int
     rateConfig.rates[YAW] = 173;
 
 	anglerate_init(&self->controller,
-		&self->imu,
+		&self->ins,
 		pidProfile(),
 		&rateConfig,
 		imuConfig()->max_angle_inclination,
-		&accelerometerConfig()->accelerometerTrims,
+		&accelerometerConfig()->trims,
 		rxConfig()
 	);
 	anglerate_set_algo(&self->controller, PID_CONTROLLER_MWREWRITE);
@@ -243,10 +242,14 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		anglerate_set_pid_axis_weight(&self->controller, c, 100);
 	}
 
-	imu_init(&self->imu,
+	ins_init(&self->ins,
+		boardAlignment(),
 		imuConfig(),
-		accelerometerConfig(),
 		throttleCorrectionConfig(),
+		gyroConfig(),
+		compassConfig(),
+		sensorTrims(),
+		accelerometerConfig(),
 		1.0f/16.4f,
 		512
 	);
@@ -309,7 +312,6 @@ bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
 bool sensors(uint32_t mask) { UNUSED(mask); return true; }
 int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {return MIN(ABS(rc_get_channel_value(axis) - midrc), 500);}
-void parseRcChannels(const char *input, rxConfig_t *rxConfig);
 
 #include "config/config_streamer.h"
 void config_streamer_init(config_streamer_t *c){UNUSED(c); }
@@ -337,7 +339,6 @@ void scanEEPROM(void);
 void scanEEPROM(void){}
 void validateAndFixConfig(void);
 void validateAndFixConfig(void){}
-bool isSerialConfigValid(serialConfig_t *);
 bool isSerialConfigValid(serialConfig_t *c){(void)c; return true;}
 void resetAdjustmentStates(void);
 void resetAdjustmentStates(void){}

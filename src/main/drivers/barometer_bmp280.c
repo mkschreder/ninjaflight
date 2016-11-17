@@ -99,7 +99,7 @@ static void bmp280_start_ut(void);
 static void bmp280_get_ut(void);
 static void bmp280_start_up(void);
 static void bmp280_get_up(void);
-void bmp280_calculate(int32_t *pressure, int32_t *temperature);
+void bmp280_calculate(uint32_t *pressure, int32_t *temperature);
 
 bool bmp280Detect(baro_t *baro)
 {
@@ -195,7 +195,7 @@ static uint32_t bmp280_compensate_P(int32_t adc_P)
     return (uint32_t)p;
 }
 
-void bmp280_calculate(int32_t *pressure, int32_t *temperature)
+void bmp280_calculate(uint32_t *pressure, int32_t *temperature)
 {
     // calculate
     int32_t t;
@@ -204,7 +204,7 @@ void bmp280_calculate(int32_t *pressure, int32_t *temperature)
     p = bmp280_compensate_P(bmp280_up);
 
     if (pressure)
-        *pressure = (int32_t)(p / 256);
+        *pressure = (p / 256);
     if (temperature)
         *temperature = t;
 }

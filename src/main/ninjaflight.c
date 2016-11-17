@@ -658,13 +658,15 @@ static bool haveUpdatedRcCommandsOnce = false;
 #endif
 
 
-
-void ninja_run_pid_loop(struct ninja *self, float dT){
+// TODO: untangle all the crap with dt
+void ninja_run_pid_loop(struct ninja *self, float dt_){
 	UNUSED(self);
+	UNUSED(dt_);
 
-    uint32_t currentTime = micros();
+    currentTime = micros();
 	static uint32_t previousIMUUpdateTime = 0;
     float dt = (currentTime - previousIMUUpdateTime) * 1e-6f;
+	dT = dt;
     previousIMUUpdateTime = currentTime;
 
 	int16_t rawgyro[3];
@@ -689,7 +691,7 @@ void ninja_run_pid_loop(struct ninja *self, float dT){
     updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
 
     if (rxConfig()->rcSmoothing) {
-        filterRc(dT);
+        filterRc(dt);
     }
 
 #if defined(BARO) || defined(SONAR)

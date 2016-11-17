@@ -141,11 +141,11 @@ static void mpu6000SpiGyroInit(uint8_t lpf)
     }
 }
 
-static void mpu6000SpiAccInit(acc_t *acc)
+static void mpu6000SpiAccInit(acc_t *accel)
 {
     mpuIntExtiInit();
 
-    acc->acc_1G = 512 * 8;
+    accel->acc_1G = 512 * 8;
 }
 
 bool mpu6000SpiDetect(void)
@@ -248,30 +248,30 @@ static void mpu6000AccAndGyroInit(void)
     mpuSpi6000InitDone = true;
 }
 
-bool mpu6000SpiAccDetect(acc_t *acc)
+bool mpu6000SpiAccDetect(acc_t *accel)
 {
     if (mpuDetectionResult.sensor != MPU_60x0_SPI) {
         return false;
     }
 
-    acc->init = mpu6000SpiAccInit;
-    acc->read = mpuAccRead;
+    accel->init = mpu6000SpiAccInit;
+    accel->read = mpuAccRead;
 
     return true;
 }
 
-bool mpu6000SpiGyroDetect(gyro_t *gyro)
+bool mpu6000SpiGyroDetect(gyro_t *gyr)
 {
     if (mpuDetectionResult.sensor != MPU_60x0_SPI) {
         return false;
     }
 
-    gyro->init = mpu6000SpiGyroInit;
-    gyro->read = mpuGyroRead;
-    gyro->isDataReady = mpuIsDataReady;
+    gyr->init = mpu6000SpiGyroInit;
+    gyr->read = mpuGyroRead;
+    gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
-    gyro->scale = 1.0f / 16.4f;
+    gyr->scale = 1.0f / 16.4f;
 
     return true;
 }

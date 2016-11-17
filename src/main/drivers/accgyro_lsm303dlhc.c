@@ -113,7 +113,7 @@ int32_t accelSummedSamples100Hz[3];
 
 int32_t accelSummedSamples500Hz[3];
 
-static void lsm303dlhcAccInit(acc_t *acc)
+static void lsm303dlhcAccInit(acc_t *accel)
 {
     i2cWrite(LSM303DLHC_ACCEL_ADDRESS, CTRL_REG5_A, BOOT);
 
@@ -127,7 +127,7 @@ static void lsm303dlhcAccInit(acc_t *acc)
 
     usleep(100000);
 
-    acc->acc_1G = 512 * 8;
+    accel->acc_1G = 512 * 8;
 }
 
 // Read 3 gyro values into user-provided buffer. No overrun checking is done.
@@ -155,7 +155,7 @@ static bool lsm303dlhcAccRead(int16_t *gyroADC)
     return true;
 }
 
-bool lsm303dlhcAccDetect(acc_t *acc)
+bool lsm303dlhcAccDetect(acc_t *accel)
 {
     bool ack;
     uint8_t status;
@@ -164,8 +164,8 @@ bool lsm303dlhcAccDetect(acc_t *acc)
     if (!ack)
         return false;
 
-    acc->init = lsm303dlhcAccInit;
-    acc->read = lsm303dlhcAccRead;
+    accel->init = lsm303dlhcAccInit;
+    accel->read = lsm303dlhcAccRead;
     return true;
 }
 

@@ -40,7 +40,8 @@
 #include "config/config_reset.h"
 
 #include "flight/failsafe.h"
-
+// TODO: this is not correct dependency wise
+#include "../ninjaflight.h"
 /*
  * Usage:
  *
@@ -74,7 +75,7 @@ void failsafeInit(void)
     return;
 }
 
-failsafePhase_e failsafePhase()
+failsafePhase_e failsafePhase(void)
 {
     return failsafeState.phase;
 }

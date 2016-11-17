@@ -499,6 +499,8 @@ esc4wayAck_e esc4wayProcessCmd(esc4wayCmd_e command, uint16_t addr, uint8_t *dat
                 case imSK:
                     break;
 #endif
+				default:
+					break;
             }
             setDisconnected();
             return esc4wayAck_OK;

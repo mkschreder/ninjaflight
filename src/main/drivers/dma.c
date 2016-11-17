@@ -83,5 +83,7 @@ void dmaSetHandler(dmaHandlerIdentifier_e identifier, dmaCallbackHandlerFuncPtr 
         case DMA1_CH7_HANDLER:
             dmaHandlers.dma1Channel7IRQHandler = callback;
             break;
+		default:
+			break;
     }
 }

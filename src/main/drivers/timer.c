@@ -540,6 +540,7 @@ void timerConfigure(const timerHardware_t *timerHardwarePtr, uint16_t period, ui
         timerNVICConfigure(TIM8_UP_IRQn);
         break;
 #endif
+		default:break;
     }
 }
 
@@ -797,12 +798,14 @@ void timerChConfigOC(const timerHardware_t* timHw, bool outEnable, bool stateHig
         TIM_OC4Init(timHw->tim, &TIM_OCInitStructure);
         TIM_OC4PreloadConfig(timHw->tim, TIM_OCPreload_Disable);
         break;
+	default:
+		break;
     }
 }
 
 
 
-static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
+static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *tc)
 {
     uint16_t capture;
     unsigned tim_status;
@@ -818,14 +821,14 @@ static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
         switch(bit) {
             case __builtin_clz(TIM_IT_Update): {
 
-                if(timerConfig->forcedOverflowTimerValue != 0){
-                    capture = timerConfig->forcedOverflowTimerValue - 1;
-                    timerConfig->forcedOverflowTimerValue = 0;
+                if(tc->forcedOverflowTimerValue != 0){
+                    capture = tc->forcedOverflowTimerValue - 1;
+                    tc->forcedOverflowTimerValue = 0;
                 } else {
                     capture = tim->ARR;
                 }
 
-                timerOvrHandlerRec_t *cb = timerConfig->overflowCallbackActive;
+                timerOvrHandlerRec_t *cb = tc->overflowCallbackActive;
                 while(cb) {
                     cb->fn(cb, capture);
                     cb = cb->next;
@@ -833,24 +836,26 @@ static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
                 break;
             }
             case __builtin_clz(TIM_IT_CC1):
-                timerConfig->edgeCallback[0]->fn(timerConfig->edgeCallback[0], tim->CCR1);
+                tc->edgeCallback[0]->fn(tc->edgeCallback[0], tim->CCR1);
                 break;
             case __builtin_clz(TIM_IT_CC2):
-                timerConfig->edgeCallback[1]->fn(timerConfig->edgeCallback[1], tim->CCR2);
+                tc->edgeCallback[1]->fn(tc->edgeCallback[1], tim->CCR2);
                 break;
             case __builtin_clz(TIM_IT_CC3):
-                timerConfig->edgeCallback[2]->fn(timerConfig->edgeCallback[2], tim->CCR3);
+                tc->edgeCallback[2]->fn(tc->edgeCallback[2], tim->CCR3);
                 break;
             case __builtin_clz(TIM_IT_CC4):
-                timerConfig->edgeCallback[3]->fn(timerConfig->edgeCallback[3], tim->CCR4);
+                tc->edgeCallback[3]->fn(tc->edgeCallback[3], tim->CCR4);
                 break;
+			default:
+				break;
         }
     }
 #else
     if (tim_status & (int)TIM_IT_Update) {
         tim->SR = ~TIM_IT_Update;
         capture = tim->ARR;
-        timerOvrHandlerRec_t *cb = timerConfig->overflowCallbackActive;
+        timerOvrHandlerRec_t *cb = tc->overflowCallbackActive;
         while(cb) {
             cb->fn(cb, capture);
             cb = cb->next;
@@ -858,19 +863,19 @@ static void timCCxHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig)
     }
     if (tim_status & (int)TIM_IT_CC1) {
         tim->SR = ~TIM_IT_CC1;
-        timerConfig->edgeCallback[0]->fn(timerConfig->edgeCallback[0], tim->CCR1);
+        tc->edgeCallback[0]->fn(tc->edgeCallback[0], tim->CCR1);
     }
     if (tim_status & (int)TIM_IT_CC2) {
         tim->SR = ~TIM_IT_CC2;
-        timerConfig->edgeCallback[1]->fn(timerConfig->edgeCallback[1], tim->CCR2);
+        tc->edgeCallback[1]->fn(tc->edgeCallback[1], tim->CCR2);
     }
     if (tim_status & (int)TIM_IT_CC3) {
         tim->SR = ~TIM_IT_CC3;
-        timerConfig->edgeCallback[2]->fn(timerConfig->edgeCallback[2], tim->CCR3);
+        tc->edgeCallback[2]->fn(tc->edgeCallback[2], tim->CCR3);
     }
     if (tim_status & (int)TIM_IT_CC4) {
         tim->SR = ~TIM_IT_CC4;
-        timerConfig->edgeCallback[3]->fn(timerConfig->edgeCallback[3], tim->CCR4);
+        tc->edgeCallback[3]->fn(tc->edgeCallback[3], tim->CCR4);
     }
 #endif
 }

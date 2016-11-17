@@ -480,6 +480,8 @@ static void init(void)
                 // The rest of Spektrum initialization will happen later - via spektrumInit()
                 spektrumBind(rxConfig());
                 break;
+			default:
+				break;
         }
     }
 #endif

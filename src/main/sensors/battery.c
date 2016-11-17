@@ -155,6 +155,7 @@ void battery_update(struct battery *self){
 			break;
 		case BATTERY_NOT_PRESENT:
 			break;
+		default:break;
 	}
 }
 

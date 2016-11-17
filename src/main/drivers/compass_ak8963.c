@@ -38,7 +38,6 @@
 #include "bus_spi.h"
 
 #include "sensors/boardalignment.h"
-#include "sensors/sensors.h"
 
 #include "sensor.h"
 #include "compass.h"
@@ -228,7 +227,7 @@ bool ak8963Detect(mag_t *mag)
     return false;
 }
 
-void ak8963Init()
+void ak8963Init(void)
 {
     bool ack;
     UNUSED(ack);

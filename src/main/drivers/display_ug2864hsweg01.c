@@ -211,14 +211,14 @@ void i2c_OLED_clear_display_quick(void)
 
 void i2c_OLED_set_xy(uint8_t col, uint8_t row)
 {
-    i2c_OLED_send_cmd(0xb0 + row);                      //set page address
+    i2c_OLED_send_cmd((uint8_t)(0xb0 + (row & 0x0f)));                      //set page address
     i2c_OLED_send_cmd(0x00 + ((CHARACTER_WIDTH_TOTAL * col) & 0x0f));         //set low col address
-    i2c_OLED_send_cmd(0x10 + (((CHARACTER_WIDTH_TOTAL * col) >> 4) & 0x0f));  //set high col address
+    i2c_OLED_send_cmd((uint8_t)(0x10 + (((CHARACTER_WIDTH_TOTAL * col) >> 4) & 0x0f)));  //set high col address
 }
 
 void i2c_OLED_set_line(uint8_t row)
 {
-    i2c_OLED_send_cmd(0xb0 + row); //set page address
+    i2c_OLED_send_cmd((uint8_t)(0xb0 + (row & 0x0f))); //set page address
     i2c_OLED_send_cmd(0);          //set low col address
     i2c_OLED_send_cmd(0x10);       //set high col address
 }

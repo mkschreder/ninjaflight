@@ -58,7 +58,7 @@ void setLedValue(int index, const uint8_t value)
 
 void scaleLedValue(int index, const uint8_t scalePercent)
 {
-    ledColorBuffer[index].v = (ledColorBuffer[index].v * scalePercent / 100);
+    ledColorBuffer[index].v = (uint8_t)(ledColorBuffer[index].v * scalePercent / 100);
 }
 
 void setStripColor(const hsvColor_t *color)
@@ -101,7 +101,7 @@ bool isWS2811LedStripReady(void)
 void fastUpdateLEDDMABuffer(uint8_t **buffer, rgbColor24bpp_t color); 
 void fastUpdateLEDDMABuffer(uint8_t **buffer, rgbColor24bpp_t color)
 {
-    uint32_t grb = (color.rgb.g << 16) | (color.rgb.r << 8) | (color.rgb.b);
+    uint32_t grb = (uint32_t)((color.rgb.g << 16) | (color.rgb.r << 8) | (color.rgb.b));
 //    uint32_t grb = (color.rgb.r << 16) | (color.rgb.g << 8) | (color.rgb.b);
     for (int bit = 0; bit < 24; bit++) {
         *(*buffer)++ = (grb & (1 << 23)) ? BIT_COMPARE_1 : BIT_COMPARE_0;

@@ -150,7 +150,7 @@ static bool m25p16_readIdentification(void)
     DISABLE_M25P16;
 
     // Manufacturer, memory type, and capacity
-    chipID = (in[1] << 16) | (in[2] << 8) | (in[3]);
+    chipID = (uint32_t)((in[1] << 16) | (in[2] << 8) | (in[3]));
 
     // All supported chips use the same pagesize of 256 bytes
 
@@ -179,7 +179,7 @@ static bool m25p16_readIdentification(void)
             return false;
     }
 
-    geometry.sectorSize = geometry.pagesPerSector * geometry.pageSize;
+    geometry.sectorSize = (uint32_t)(geometry.pagesPerSector * geometry.pageSize);
     geometry.totalSize = geometry.sectorSize * geometry.sectors;
 
     couldBeBusy = true; // Just for luck we'll assume the chip could be busy even though it isn't specced to be
@@ -193,7 +193,7 @@ static bool m25p16_readIdentification(void)
  * Attempts to detect a connected m25p16. If found, true is returned and device capacity can be fetched with
  * m25p16_getGeometry().
  */
-bool m25p16_init()
+bool m25p16_init(void)
 {
     //Maximum speed for standard READ command is 20mHz, other commands tolerate 25mHz
     spiSetDivisor(M25P16_SPI_INSTANCE, SPI_18MHZ_CLOCK_DIVIDER);
@@ -219,7 +219,7 @@ void m25p16_eraseSector(uint32_t address)
     DISABLE_M25P16;
 }
 
-void m25p16_eraseCompletely()
+void m25p16_eraseCompletely(void)
 {
     m25p16_waitForReady(BULK_ERASE_TIMEOUT_MILLIS);
 
@@ -246,7 +246,7 @@ void m25p16_pageProgramContinue(const uint8_t *data, int length)
     spiTransfer(M25P16_SPI_INSTANCE, NULL, data, length);
 }
 
-void m25p16_pageProgramFinish()
+void m25p16_pageProgramFinish(void)
 {
     DISABLE_M25P16;
 }
@@ -306,7 +306,7 @@ int m25p16_readBytes(uint32_t address, uint8_t *buffer, int length)
  *
  * Can be called before calling m25p16_init() (the result would have totalSize = 0).
  */
-const flashGeometry_t* m25p16_getGeometry()
+const flashGeometry_t* m25p16_getGeometry(void)
 {
     return &geometry;
 }

@@ -57,7 +57,7 @@
 static void l3g4200dInit(uint8_t lpf);
 static bool l3g4200dRead(int16_t *gyroADC);
 
-bool l3g4200dDetect(gyro_t *gyro)
+bool l3g4200dDetect(gyro_t *gyr)
 {
     uint8_t deviceid;
 
@@ -67,11 +67,11 @@ bool l3g4200dDetect(gyro_t *gyro)
     if (deviceid != L3G4200D_ID)
         return false;
 
-    gyro->init = l3g4200dInit;
-    gyro->read = l3g4200dRead;
+    gyr->init = l3g4200dInit;
+    gyr->read = l3g4200dRead;
 
     // 14.2857dps/lsb scalefactor
-    gyro->scale = 1.0f / 14.2857f;
+    gyr->scale = 1.0f / 14.2857f;
 
     return true;
 }

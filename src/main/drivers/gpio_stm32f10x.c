@@ -40,7 +40,7 @@ void gpioInit(GPIO_TypeDef *gpio, const gpio_config_t *config)
             if (config->mode & 0x10)
                 currentmode |= config->speed;
             // Mask out 4 bits
-            tmp &= ~(0xF << shift);
+            tmp = (uint32_t)(tmp & ~(0xFU << shift));
             // apply current pinmode
             tmp |= currentmode << shift;
             *cr = tmp;

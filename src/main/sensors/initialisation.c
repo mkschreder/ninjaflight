@@ -217,19 +217,19 @@ static bool fakeGyroReadTemp(int16_t *tempData)
     return true;
 }
 
-static bool fakeGyroDetect(gyro_t *gyro)
+static bool fakeGyroDetect(gyro_t *gyr)
 {
-    gyro->init = fakeGyroInit;
-    gyro->read = fakeGyroRead;
-    gyro->temperature = fakeGyroReadTemp;
+    gyr->init = fakeGyroInit;
+    gyr->read = fakeGyroRead;
+    gyr->temperature = fakeGyroReadTemp;
     return true;
 }
 #endif
 
 #ifdef USE_FAKE_ACC
-static void fakeAccInit(struct acc_s *acc)
+static void fakeAccInit(struct acc_s *accel)
 {
-    UNUSED(acc);
+    UNUSED(accel);
 }
 
 static bool fakeAccRead(int16_t *accData)
@@ -238,11 +238,11 @@ static bool fakeAccRead(int16_t *accData)
     return true;
 }
 
-static bool fakeAccDetect(acc_t *acc)
+static bool fakeAccDetect(acc_t *accel)
 {
-    acc->init = fakeAccInit;
-    acc->read = fakeAccRead;
-    acc->revisionCode = 0;
+    accel->init = fakeAccInit;
+    accel->read = fakeAccRead;
+    accel->revisionCode = 0;
     return true;
 }
 #endif
@@ -715,8 +715,8 @@ bool sensorsAutodetect(void)
 
     const extiConfig_t *extiConfig = selectMPUIntExtiConfig();
 
-    mpuDetectionResult_t *mpuDetectionResult = detectMpu(extiConfig);
-    UNUSED(mpuDetectionResult);
+    mpuDetectionResult_t *res = detectMpu(extiConfig);
+    UNUSED(res);
 #endif
 
     if (!detectGyro()) {

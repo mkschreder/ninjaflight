@@ -29,7 +29,7 @@ static uint32_t activeFeaturesLatch = 0;
 
 PG_REGISTER(featureConfig_t, featureConfig, PG_FEATURE_CONFIG, 0);
 
-void latchActiveFeatures()
+void latchActiveFeatures(void)
 {
     activeFeaturesLatch = featureConfig()->enabledFeatures;
 }
@@ -54,7 +54,7 @@ void featureClear(uint32_t mask)
     featureConfig()->enabledFeatures &= ~(mask);
 }
 
-void featureClearAll()
+void featureClearAll(void)
 {
     featureConfig()->enabledFeatures = 0;
 }

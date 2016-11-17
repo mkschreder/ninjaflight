@@ -287,9 +287,9 @@ void hmc5883lInit(void)
         led_toggle(1);
     }
 
-    magGain[X] = fabsf(660.0f * HMC58X3_X_SELF_TEST_GAUSS * 2.0f * 10.0f / xyz_total[X]);
-    magGain[Y] = fabsf(660.0f * HMC58X3_Y_SELF_TEST_GAUSS * 2.0f * 10.0f / xyz_total[Y]);
-    magGain[Z] = fabsf(660.0f * HMC58X3_Z_SELF_TEST_GAUSS * 2.0f * 10.0f / xyz_total[Z]);
+    magGain[X] = fabsf(660.0f * HMC58X3_X_SELF_TEST_GAUSS * 2.0f * 10.0f / (float)xyz_total[X]);
+    magGain[Y] = fabsf(660.0f * HMC58X3_Y_SELF_TEST_GAUSS * 2.0f * 10.0f / (float)xyz_total[Y]);
+    magGain[Z] = fabsf(660.0f * HMC58X3_Z_SELF_TEST_GAUSS * 2.0f * 10.0f / (float)xyz_total[Z]);
 
     // leave test mode
     i2cWrite(MAG_ADDRESS, HMC58X3_R_CONFA, 0x70);   // Configuration Register A  -- 0 11 100 00  num samples: 8 ; output rate: 15Hz ; normal measurement mode
@@ -316,9 +316,9 @@ bool hmc5883lRead(int16_t *magData)
     }
     // During calibration, magGain is 1.0, so the read returns normal non-calibrated values.
     // After calibration is done, magGain is set to calculated gain values.
-    magData[X] = (int16_t)(buf[0] << 8 | buf[1]) * magGain[X];
-    magData[Z] = (int16_t)(buf[2] << 8 | buf[3]) * magGain[Z];
-    magData[Y] = (int16_t)(buf[4] << 8 | buf[5]) * magGain[Y];
+    magData[X] = (int16_t)((float)(buf[0] << 8 | buf[1]) * magGain[X]);
+    magData[Z] = (int16_t)((float)(buf[2] << 8 | buf[3]) * magGain[Z]);
+    magData[Y] = (int16_t)((float)(buf[4] << 8 | buf[5]) * magGain[Y]);
 
     return true;
 }

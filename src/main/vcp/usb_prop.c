@@ -39,6 +39,8 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t Request = 0;
 
+void NOP_Process(void);
+
 LINE_CODING linecoding = { 115200, /* baud rate*/
 0x00, /* stop bits-1*/
 0x00, /* parity - none*/

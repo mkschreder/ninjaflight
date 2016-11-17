@@ -662,8 +662,8 @@ pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
     setup = hardwareMaps[i];
 
     for (i = 0; i < USABLE_TIMER_CHANNEL_COUNT && setup[i] != 0xFFFF; i++) {
-        uint8_t timerIndex = setup[i] & 0x00FF;
-        uint8_t type = (setup[i] & 0xFF00) >> 8;
+        uint8_t timerIndex = (uint8_t)(setup[i] & 0x00FF);
+        uint8_t type = (uint8_t)((setup[i] & 0xFF00) >> 8);
 
         const timerHardware_t *timerHardwarePtr = &timerHardware[timerIndex];
 
@@ -869,7 +869,7 @@ pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
             pwmIOConfiguration.ioConfigurations[pwmIOConfiguration.ioCount].flags = PWM_PF_PPM;
             pwmIOConfiguration.ppmInputCount++;
         } else if (type == MAP_TO_PWM_INPUT) {
-            pwmInConfig(timerHardwarePtr, channelIndex);
+            pwmInConfig(timerHardwarePtr, (uint8_t)channelIndex);
             pwmIOConfiguration.ioConfigurations[pwmIOConfiguration.ioCount].flags = PWM_PF_PWM;
             pwmIOConfiguration.pwmInputCount++;
             channelIndex++;

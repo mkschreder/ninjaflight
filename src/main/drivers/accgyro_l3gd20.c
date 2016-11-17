@@ -152,12 +152,12 @@ static bool l3gd20GyroRead(int16_t *gyroADC)
 // Page 9 in datasheet, So - Sensitivity, Full Scale = 2000, 70 mdps/digit
 #define L3GD20_GYRO_SCALE_FACTOR  0.07f
 
-bool l3gd20Detect(gyro_t *gyro)
+bool l3gd20Detect(gyro_t *gyr)
 {
-    gyro->init = l3gd20GyroInit;
-    gyro->read = l3gd20GyroRead;
+    gyr->init = l3gd20GyroInit;
+    gyr->read = l3gd20GyroRead;
 
-    gyro->scale = L3GD20_GYRO_SCALE_FACTOR;
+    gyr->scale = L3GD20_GYRO_SCALE_FACTOR;
 
     return true;  // blindly assume it's present, for now.
 }

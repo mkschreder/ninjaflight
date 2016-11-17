@@ -111,8 +111,6 @@ extern uint16_t cycleTime; // FIXME dependency on mw.c
 // TODO: remove
 extern struct mixer mixer; 
 
-void gpsEnablePassthrough(serialPort_t *gpsPassthroughPort);
-
 static serialPort_t *cliPort;
 static bufWriter_t *cliWriter;
 static uint8_t cliWriteBuffer[sizeof(*cliWriter) + 16];
@@ -748,7 +746,7 @@ static void cliShowParseError(void)
     cliPrint("Parse error\r\n");
 }
 
-static void cliShowArgumentRangeError(char *name, int min, int max)
+static void cliShowArgumentRangeError(const char *name, int min, int max)
 {
     cliPrintf("%s must be between %d and %d\r\n", name, min, max);
 }
@@ -779,7 +777,7 @@ static char *processChannelRangeArgs(char *ptr, channelRange_t *range, uint8_t *
 // Check if a string's length is zero
 static bool isEmpty(const char *string)
 {
-    return *string == '\0';
+    return !string || *string == '\0';
 }
 
 static void cliRxFail(char *cmdline)
@@ -1000,6 +998,7 @@ static void cliSerial(char *cmdline)
                 }
                 portConfig.blackbox_baudrateIndex = baudRateIndex;
                 break;
+			default:break;
         }
 
         validArgumentCount++;
@@ -1096,10 +1095,10 @@ static void cliMotorMix(char *cmdline)
     char ftoaBuffer[FTOA_BUFFER_SIZE];
     char *ptr;
 
-    if (isEmpty(cmdline)) {
+    if (!cmdline || isEmpty(cmdline)) {
         cliPrint("Motor\tThr\tRoll\tPitch\tYaw\r\n");
         for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
-            if (customMotorMixer(i)->throttle == 0.0f)
+            if (fabsf(customMotorMixer(i)->throttle) < 1e-6f)
                 break;
             num_motors++;
             cliPrintf("#%d:\t", i);
@@ -1126,7 +1125,7 @@ static void cliMotorMix(char *cmdline)
 					// TODO: fix this once we have fixed custom mixer support
                     //mixer_copy_rules(&mixer, i, customMotorMixer(0), MIXER_MAX_RULES);
                     cliPrintf("Loaded %s\r\n", mixerNames[i]);
-                    cliMotorMix("");
+                    cliMotorMix(NULL);
                     break;
                 }
             }
@@ -1158,7 +1157,7 @@ static void cliMotorMix(char *cmdline)
             if (check != 4) {
                 cliShowParseError();
             } else {
-                cliMotorMix("");
+                cliMotorMix(NULL);
             }
         } else {
             cliShowArgumentRangeError("index", 0, MAX_SUPPORTED_MOTORS - 1);
@@ -1480,12 +1479,10 @@ static void cliServo(char *cmdline)
 static void cliServoMix(char *cmdline)
 {
     int i;
-    uint8_t len;
     char *ptr;
     int args[8], check = 0;
-    len = strlen(cmdline);
 
-    if (len == 0) {
+    if (!cmdline || strlen(cmdline) == 0) {
 
         cliPrint("Rule\tServo\tSource\tRate\tSpeed\tMin\tMax\tBox\r\n");
 
@@ -1515,7 +1512,7 @@ static void cliServoMix(char *cmdline)
     } else if (strncasecmp(cmdline, "load", 4) == 0) {
         ptr = strchr(cmdline, ' ');
         if (ptr) {
-            len = strlen(++ptr);
+            int len = strlen(++ptr);
             for (i = 0; ; i++) {
                 if (mixerNames[i] == NULL) {
                     cliPrintf("Invalid name\r\n");
@@ -1525,7 +1522,7 @@ static void cliServoMix(char *cmdline)
 					// TODO: this needs to be fixed
                     //servoMixerLoadMix(i, customServoMixer(0));
                     cliPrintf("Loaded %s\r\n", mixerNames[i]);
-                    cliServoMix("");
+                    cliServoMix(NULL);
                     break;
                 }
             }
@@ -1536,7 +1533,7 @@ static void cliServoMix(char *cmdline)
 		int inputSource;
         ptr = strchr(cmdline, ' ');
 
-        len = strlen(ptr);
+        int len = strlen(ptr);
         if (len == 0) {
             cliPrintf("s");
             for (inputSource = 0; inputSource < MIXER_INPUT_COUNT; inputSource++)
@@ -1576,7 +1573,7 @@ static void cliServoMix(char *cmdline)
         } else
             cliShowParseError();
 		*/
-        cliServoMix("reverse");
+        //cliServoMix("reverse");
     } else {
         enum {RULE = 0, TARGET, INPUT, RATE, SPEED, MIN, MAX, BOX, ARGS_COUNT};
         ptr = strtok(cmdline, " ");
@@ -1606,7 +1603,7 @@ static void cliServoMix(char *cmdline)
             customServoMixer(i)->min = args[MIN];
             customServoMixer(i)->max = args[MAX];
             customServoMixer(i)->box = args[BOX];
-            cliServoMix("");
+            cliServoMix(NULL);
         } else {
             cliShowParseError();
         }
@@ -1835,7 +1832,7 @@ static void cliDump(char *cmdline)
 		cliPrintf("mmix reset\r\n");
 
 		for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
-			if (customMotorMixer(i)->throttle == 0.0f)
+			if (fabsf(customMotorMixer(i)->throttle) < 1e-6f)
 				break;
 			thr = customMotorMixer(i)->throttle;
 			roll = customMotorMixer(i)->roll;
@@ -1902,47 +1899,47 @@ static void cliDump(char *cmdline)
         cliPrintf("map %s\r\n", buf);
 
         cliPrint("\r\n\r\n# serial\r\n");
-        cliSerial("");
+        cliSerial(NULL);
 
 #ifdef LED_STRIP
         cliPrint("\r\n\r\n# led\r\n");
-        cliLed("");
+        cliLed(NULL);
 
         cliPrint("\r\n\r\n# color\r\n");
-        cliColor("");
+        cliColor(NULL);
 
         cliPrint("\r\n\r\n# mode_color\r\n");
-        cliModeColor("");
+        cliModeColor(NULL);
 #endif
         printSectionBreak();
         dumpValues(MASTER_VALUE);
 
         cliPrint("\r\n# rxfail\r\n");
-        cliRxFail("");
+        cliRxFail(NULL);
     }
 
     if (dumpMask & DUMP_PROFILE) {
         cliPrint("\r\n# dump profile\r\n");
 
         cliPrint("\r\n# profile\r\n");
-        cliProfile("");
+        cliProfile(NULL);
 
         cliPrint("\r\n# aux\r\n");
 
-        cliAux("");
+        cliAux(NULL);
 
         cliPrint("\r\n# adjrange\r\n");
 
-        cliAdjustmentRange("");
+        cliAdjustmentRange(NULL);
 
         cliPrintf("\r\n# rxrange\r\n");
 
-        cliRxRange("");
+        cliRxRange(NULL);
 
 #ifdef USE_SERVOS
         cliPrint("\r\n# servo\r\n");
 
-        cliServo("");
+        cliServo(NULL);
 
         // print servo directions
 
@@ -1968,7 +1965,7 @@ static void cliDump(char *cmdline)
         cliPrint("\r\n# dump rates\r\n");
 
         cliPrint("\r\n# rateprofile\r\n");
-        cliRateProfile("");
+        cliRateProfile(NULL);
 
         printSectionBreak();
 
@@ -2169,7 +2166,7 @@ static void __attribute__((unused)) cliMixer(char *cmdline)
         }
     }
 
-    cliMixer("");
+    cliMixer(NULL);
 }
 
 static void cliMotor(char *cmdline)
@@ -2194,6 +2191,8 @@ static void cliMotor(char *cmdline)
             case 1:
                 motor_value = atoi(pch);
                 break;
+			default:
+				break;
         }
         index++;
         pch = strtok_r(NULL, " ", &saveptr);
@@ -2267,7 +2266,7 @@ static void cliProfile(char *cmdline)
         i = atoi(cmdline);
         if (i >= 0 && i < MAX_PROFILE_COUNT) {
             changeProfile(i);
-            cliProfile("");
+            cliProfile(NULL);
         }
     }
 }
@@ -2283,7 +2282,7 @@ static void cliRateProfile(char *cmdline)
         i = atoi(cmdline);
         if (i >= 0 && i < MAX_CONTROL_RATE_PROFILE_COUNT) {
             changeControlRateProfile(i);
-            cliRateProfile("");
+            cliRateProfile(NULL);
         }
     }
 }
@@ -2351,6 +2350,7 @@ static void* cliVarPtr(const clivalue_t *var)
             return rec->address + (sizeof(struct rate_config) * getCurrentControlRateProfile()) + var->offset;
         case PROFILE_VALUE:
             return *rec->ptr + var->offset;
+		default:break;
     }
     return NULL;
 }
@@ -2394,6 +2394,7 @@ static void cliPrintVar(const clivalue_t *var, uint32_t full)
                 cliPrintf(" %s", ftoa((float)var->config.minmax.max, ftoaBuffer));
             }
             return; // return from case for float only
+		default:break;
     }
 
     switch(var->type & VALUE_MODE_MASK) {
@@ -2406,6 +2407,7 @@ static void cliPrintVar(const clivalue_t *var, uint32_t full)
         case MODE_LOOKUP:
             cliPrintf(lookupTables[var->config.lookup.tableIndex].values[value]);
             break;
+		default:break;
     }
 }
 
@@ -2435,6 +2437,7 @@ static void cliSetVar(const clivalue_t *var, const int_float_value_t value)
         case VAR_FLOAT:
             *(float *)ptr = (float)value.float_value;
             break;
+		default:break;
     }
 }
 
@@ -2510,6 +2513,7 @@ static void cliSet(char *cmdline)
                             }
                         }
                         break;
+					default:break;
                 }
 
                 if (changeValue) {
@@ -2754,7 +2758,7 @@ void cliProcess(void)
     }
 }
 
-void cliInit()
+void cliInit(void)
 {
 }
 #endif

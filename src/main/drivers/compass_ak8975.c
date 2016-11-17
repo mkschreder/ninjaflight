@@ -77,7 +77,7 @@ bool ak8975Detect(mag_t *mag)
 #define AK8975A_ASAY 0x11 // Fuse ROM y-axis sensitivity adjustment value
 #define AK8975A_ASAZ 0x12 // Fuse ROM z-axis sensitivity adjustment value
 
-void ak8975Init()
+void ak8975Init(void)
 {
     bool ack;
     uint8_t buffer[3];

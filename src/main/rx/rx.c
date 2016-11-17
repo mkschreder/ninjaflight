@@ -102,9 +102,9 @@ static uint8_t rcSampleIndex = 0;
 
 rxRuntimeConfig_t rxRuntimeConfig;
 
-static uint16_t nullReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t channel)
+static uint16_t nullReadRawRC(rxRuntimeConfig_t *rconf, uint8_t channel)
 {
-    UNUSED(rxRuntimeConfig);
+    UNUSED(rconf);
     UNUSED(channel);
 
     return PPM_RCVR_TIMEOUT;
@@ -231,6 +231,7 @@ void serialRxInit(rxConfig_t *rxConfig)
         case SERIALRX_IBUS:
             enabled = ibusInit(&rxRuntimeConfig, &rcReadRawFunc);
             break;
+		default:break;
     }
 
     if (!enabled) {
@@ -265,6 +266,7 @@ uint8_t serialRxFrameStatus(void)
             return xBusFrameStatus();
         case SERIALRX_IBUS:
             return ibusFrameStatus();
+		default:break;
     }
     return SERIAL_RX_FRAME_PENDING;
 }
@@ -420,6 +422,7 @@ static uint16_t getRxfailValue(uint8_t channel)
                         return rxConfig()->midrc;
                     else
                         return rxConfig()->rx_min_usec;
+				default:break;
             }
             /* no break */
 
@@ -431,6 +434,8 @@ static uint16_t getRxfailValue(uint8_t channel)
         case RX_FAILSAFE_MODE_SET:
             return RXFAIL_STEP_TO_CHANNEL_VALUE(failsafeChannelConfig->step);
     }
+	// TODO: this may not be correct
+	return rcData[channel];
 }
 
 // TODO: make this static after refactoring unit tests

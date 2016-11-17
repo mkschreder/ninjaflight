@@ -53,7 +53,7 @@ void ws2811LedStripHardwareInit(void)
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     /* Compute the prescaler value */
-    prescalerValue = (uint16_t) (SystemCoreClock / 24000000) - 1;
+    prescalerValue = (uint16_t) ((SystemCoreClock / 24000000) - 1);
     /* Time base configuration */
     TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
     TIM_TimeBaseStructure.TIM_Period = 29; // 800kHz

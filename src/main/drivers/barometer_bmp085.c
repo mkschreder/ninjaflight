@@ -122,8 +122,8 @@ static void bmp085_get_ut(void);
 static void bmp085_start_up(void);
 static void bmp085_get_up(void);
 static int32_t bmp085_get_temperature(uint32_t ut);
-static int32_t bmp085_get_pressure(uint32_t up);
-void bmp085_calculate(int32_t *pressure, int32_t *temperature);
+static uint32_t bmp085_get_pressure(uint32_t up);
+void bmp085_calculate(uint32_t *pressure, int32_t *temperature);
 
 #ifdef BARO_XCLR_PIN
 #define BMP085_OFF                  digitalLo(BARO_XCLR_GPIO, BARO_XCLR_PIN);
@@ -248,23 +248,20 @@ static int32_t bmp085_get_temperature(uint32_t ut)
     return temperature;
 }
 
-static int32_t bmp085_get_pressure(uint32_t up)
+static uint32_t bmp085_get_pressure(uint32_t up)
 {
-    int32_t pressure, x1, x2, x3, b3, b6;
-    uint32_t b4, b7;
+    long long pressure, x1, x2, x3, b3, b6, b7;
+    long long b4;
 
     b6 = bmp085.param_b5 - 4000;
     // *****calculate B3************
-    x1 = (b6 * b6) >> 12;
-    x1 *= bmp085.cal_param.b2;
-    x1 >>= 11;
+    x1 = (((b6 * b6) >> 12) * bmp085.cal_param.b2) >> 11;
 
-    x2 = (bmp085.cal_param.ac2 * b6);
-    x2 >>= 11;
+    x2 = (bmp085.cal_param.ac2 * b6) >> 11;
 
     x3 = x1 + x2;
 
-    b3 = (((((int32_t) bmp085.cal_param.ac1) * 4 + x3) << bmp085.oversampling_setting) + 2) >> 2;
+    b3 = ((((bmp085.cal_param.ac1) * 4 + x3) << bmp085.oversampling_setting) + 2) >> 2;
 
     // *****calculate B4************
     x1 = (bmp085.cal_param.ac3 * b6) >> 13;
@@ -272,7 +269,7 @@ static int32_t bmp085_get_pressure(uint32_t up)
     x3 = ((x1 + x2) + 2) >> 2;
     b4 = (bmp085.cal_param.ac4 * (uint32_t)(x3 + 32768)) >> 15;
 
-    b7 = ((uint32_t)(up - b3) * (50000 >> bmp085.oversampling_setting));
+    b7 = ((up - b3) * (50000 >> bmp085.oversampling_setting));
     if (b7 < 0x80000000) {
         pressure = (b7 << 1) / b4;
     } else {
@@ -285,7 +282,7 @@ static int32_t bmp085_get_pressure(uint32_t up)
     x2 = (pressure * SMD500_PARAM_MH) >> 16;
     pressure += (x1 + x2 + SMD500_PARAM_MI) >> 4;   // pressure in Pa
 
-    return pressure;
+    return (uint32_t)pressure;
 }
 
 static void bmp085_start_ut(void)
@@ -308,14 +305,14 @@ static void bmp085_get_ut(void)
 #endif
 
     i2cRead(BMP085_I2C_ADDR, BMP085_ADC_OUT_MSB_REG, 2, data);
-    bmp085_ut = (data[0] << 8) | data[1];
+    bmp085_ut = (uint16_t)(((uint16_t)data[0] << 8) | data[1]);
 }
 
 static void bmp085_start_up(void)
 {
     uint8_t ctrl_reg_data;
 
-    ctrl_reg_data = BMP085_P_MEASURE + (bmp085.oversampling_setting << 6);
+    ctrl_reg_data = (uint8_t)(BMP085_P_MEASURE + (bmp085.oversampling_setting << 6));
 
 #if defined(BARO_EOC_GPIO)
     isConversionComplete = false;
@@ -345,10 +342,10 @@ static void bmp085_get_up(void)
 }
 
 // TODO: this should be private always (unit tests should not depend on accessing it)
-void bmp085_calculate(int32_t *pressure, int32_t *temperature);
-void bmp085_calculate(int32_t *pressure, int32_t *temperature)
+void bmp085_calculate(uint32_t *pressure, int32_t *temperature)
 {
-    int32_t temp, press;
+    int32_t temp;
+	uint32_t press;
 
     temp = bmp085_get_temperature(bmp085_ut);
     press = bmp085_get_pressure(bmp085_up);
@@ -364,21 +361,21 @@ static void bmp085_get_cal_param(void)
     i2cRead(BMP085_I2C_ADDR, BMP085_PROM_START__ADDR, BMP085_PROM_DATA__LEN, data);
 
     /*parameters AC1-AC6*/
-    bmp085.cal_param.ac1 = (data[0] << 8) | data[1];
-    bmp085.cal_param.ac2 = (data[2] << 8) | data[3];
-    bmp085.cal_param.ac3 = (data[4] << 8) | data[5];
-    bmp085.cal_param.ac4 = (data[6] << 8) | data[7];
-    bmp085.cal_param.ac5 = (data[8] << 8) | data[9];
-    bmp085.cal_param.ac6 = (data[10] << 8) | data[11];
+    bmp085.cal_param.ac1 = (int16_t)((data[0] << 8) | data[1]);
+    bmp085.cal_param.ac2 = (int16_t)((data[2] << 8) | data[3]);
+    bmp085.cal_param.ac3 = (int16_t)((data[4] << 8) | data[5]);
+    bmp085.cal_param.ac4 = (uint16_t)((data[6] << 8) | data[7]);
+    bmp085.cal_param.ac5 = (uint16_t)((data[8] << 8) | data[9]);
+    bmp085.cal_param.ac6 = (uint16_t)((data[10] << 8) | data[11]);
 
     /*parameters B1,B2*/
-    bmp085.cal_param.b1 = (data[12] << 8) | data[13];
-    bmp085.cal_param.b2 = (data[14] << 8) | data[15];
+    bmp085.cal_param.b1 = (int16_t)((data[12] << 8) | data[13]);
+    bmp085.cal_param.b2 = (int16_t)((data[14] << 8) | data[15]);
 
     /*parameters MB,MC,MD*/
-    bmp085.cal_param.mb = (data[16] << 8) | data[17];
-    bmp085.cal_param.mc = (data[18] << 8) | data[19];
-    bmp085.cal_param.md = (data[20] << 8) | data[21];
+    bmp085.cal_param.mb = (int16_t)((data[16] << 8) | data[17]);
+    bmp085.cal_param.mc = (int16_t)((data[18] << 8) | data[19]);
+    bmp085.cal_param.md = (int16_t)((data[20] << 8) | data[21]);
 }
 
 #if defined(BARO_EOC_GPIO)

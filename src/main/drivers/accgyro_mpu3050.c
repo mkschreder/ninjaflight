@@ -50,18 +50,18 @@
 static void mpu3050Init(uint8_t lpf);
 static bool mpu3050ReadTemp(int16_t *tempData);
 
-bool mpu3050Detect(gyro_t *gyro)
+bool mpu3050Detect(gyro_t *gyr)
 {
     if (mpuDetectionResult.sensor != MPU_3050) {
         return false;
     }
-    gyro->init = mpu3050Init;
-    gyro->read = mpuGyroRead;
-    gyro->temperature = mpu3050ReadTemp;
-    gyro->isDataReady = mpuIsDataReady;
+    gyr->init = mpu3050Init;
+    gyr->read = mpuGyroRead;
+    gyr->temperature = mpu3050ReadTemp;
+    gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
-    gyro->scale = 1.0f / 16.4f;
+    gyr->scale = 1.0f / 16.4f;
 
     return true;
 }
@@ -89,7 +89,7 @@ static bool mpu3050ReadTemp(int16_t *tempData)
         return false;
     }
 
-    *tempData = 35 + ((int32_t)(buf[0] << 8 | buf[1]) + 13200) / 280;
+    *tempData = (int16_t)(35 + ((int32_t)((int32_t)buf[0] << 8 | buf[1]) + 13200) / 280);
 
     return true;
 }

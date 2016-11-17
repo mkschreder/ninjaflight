@@ -83,6 +83,8 @@ rgbColor24bpp_t hsvToRgb24(const hsvColor_t* c)
                 r.rgb.g = base;
                 r.rgb.b = itp;
                 break;
+			default:
+				break;
         }
     }
     return r;

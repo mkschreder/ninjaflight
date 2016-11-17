@@ -34,7 +34,7 @@ float filterApplyPt1(float input, filterStatePt1_t *filter, uint8_t f_cut, float
 {
 
 	// Pre calculate and store RC
-	if (!filter->RC) {
+	if (fabsf(filter->RC) < 1e-6f) {
 		filter->RC = 1.0f / ( 2.0f * (float)M_PI * f_cut );
 	}
 

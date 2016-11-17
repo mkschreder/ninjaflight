@@ -246,6 +246,8 @@ static void updateFailsafeStatus(void)
         case FAILSAFE_RX_LOSS_RECOVERED:
             failsafeIndicator = 'r';
             break;
+		default:
+			break;
     }
     i2c_OLED_set_xy(SCREEN_CHARACTER_COLUMN_COUNT - 3, 0);
     i2c_OLED_send_char(failsafeIndicator);
@@ -686,6 +688,8 @@ void updateDisplay(void)
             showDebugPage();
             break;
 #endif
+		default:
+			break;
     }
     if (!armedState) {
         updateFailsafeStatus();
