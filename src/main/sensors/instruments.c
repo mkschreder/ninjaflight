@@ -17,6 +17,8 @@ void ins_init(struct instruments *self,
 	struct imu_config *imu_config,
 	struct throttle_correction_config *thr_config,
 	struct gyro_config *gyro_config,
+	struct mag_config *mag_config,
+	struct sensor_trims_config *sensor_trims,
 	struct accelerometer_config *acc_config,
 	float gyro_scale,
 	int32_t acc_1G){
@@ -34,6 +36,11 @@ void ins_init(struct instruments *self,
 	ins_gyro_init(&self->gyro,
 		gyro_config,
 		gyro_scale
+	);
+
+	ins_mag_init(&self->mag,
+		mag_config,
+		sensor_trims
 	);
 
     imu_init(&self->imu,

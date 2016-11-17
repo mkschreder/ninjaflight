@@ -35,7 +35,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/gyro_sync.h"
 
-#include "sensors.h"
 #include "boardalignment.h"
 #include "gyro.h"
 

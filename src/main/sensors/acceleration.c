@@ -36,7 +36,6 @@
 #include "io/beeper.h"
 
 #include "sensors/battery.h"
-#include "sensors/sensors.h"
 #include "sensors/boardalignment.h"
 
 #include "config/runtime_config.h"

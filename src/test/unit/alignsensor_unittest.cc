@@ -26,9 +26,8 @@ extern "C" {
 
 #include "config/config.h"
 
+#include "config/sensors.h"
 #include "sensors/boardalignment.h"
-
-#include "sensors/sensors.h"
 }
 
 #include "gtest/gtest.h"

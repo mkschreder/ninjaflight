@@ -40,7 +40,6 @@ extern "C" {
     #include "drivers/pwm_mapping.h"
     #include "drivers/gyro_sync.h"
 
-    #include "sensors/sensors.h"
     #include "sensors/acceleration.h"
 
     #include "rx/rx.h"

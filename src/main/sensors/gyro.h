@@ -21,6 +21,7 @@
 #include "../common/filter.h"
 #include "../common/maths.h"
 #include "../config/gyro.h"
+#include "../config/sensors.h"
 
 struct ins_gyro {
 	sensor_align_e align;

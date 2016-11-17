@@ -29,6 +29,8 @@ void ins_init(struct instruments *self,
 	struct imu_config *imu_config,
 	struct throttle_correction_config *thr_config,
 	struct gyro_config *gyro_config,
+	struct mag_config *mag_config,
+	struct sensor_trims_config *sensor_trims,
 	struct accelerometer_config *acc_config,
 	float gyro_scale,
 	int32_t acc_1G

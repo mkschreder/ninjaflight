@@ -40,7 +40,6 @@ extern "C" {
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
 
-    #include "sensors/sensors.h"
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
 

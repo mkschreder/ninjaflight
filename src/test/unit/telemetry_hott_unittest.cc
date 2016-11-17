@@ -38,7 +38,6 @@ extern "C" {
     #include "io/serial.h"
     #include "io/gps.h"
 
-    #include "sensors/sensors.h"
     #include "sensors/battery.h"
 
     #include "telemetry/telemetry.h"

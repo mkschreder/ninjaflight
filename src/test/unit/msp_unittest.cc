@@ -58,7 +58,6 @@ extern "C" {
     #include "telemetry/telemetry.h"
     #include "telemetry/frsky.h"
 
-    #include "sensors/sensors.h"
     #include "sensors/boardalignment.h"
     #include "sensors/battery.h"
     #include "sensors/acceleration.h"

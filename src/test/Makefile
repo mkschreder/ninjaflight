@@ -328,6 +328,7 @@ $(OBJECT_DIR)/flight_pid_unittest : \
 	$(OBJECT_DIR)/sensors/instruments.o \
 	$(OBJECT_DIR)/sensors/acceleration.o \
 	$(OBJECT_DIR)/sensors/gyro.o \
+	$(OBJECT_DIR)/sensors/compass.o \
 	$(OBJECT_DIR)/sensors/boardalignment.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a

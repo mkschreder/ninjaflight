@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include "sensors.h"
 #include "../drivers/accgyro.h"
 #include "../common/axis.h"
 #include "../config/accelerometer.h"

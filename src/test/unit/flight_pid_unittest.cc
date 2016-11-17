@@ -36,7 +36,6 @@ extern "C" {
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
-    #include "sensors/sensors.h"
     #include "sensors/acceleration.h"
     #include "sensors/gyro.h"
 
@@ -143,6 +142,8 @@ void resetPID(struct rate_config *rates, rollAndPitchTrims_t *trims){
 		imuConfig(),
 		throttleCorrectionConfig(),
 		gyroConfig(),
+		compassConfig(),
+		sensorTrims(),
 		accelerometerConfig(),
 		gyro.scale,
 		512

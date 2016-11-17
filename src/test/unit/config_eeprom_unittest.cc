@@ -47,7 +47,6 @@ extern "C" {
     #include "io/ledstrip.h"
     #include "io/transponder_ir.h"
 
-    #include "sensors/sensors.h"
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
     #include "sensors/compass.h"

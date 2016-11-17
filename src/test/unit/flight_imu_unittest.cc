@@ -35,8 +35,6 @@ extern "C" {
     #include "config/parameter_group.h"
     #include "config/parameter_group_ids.h"
 
-    #include "sensors/sensors.h"
-
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
     #include "drivers/compass.h"
