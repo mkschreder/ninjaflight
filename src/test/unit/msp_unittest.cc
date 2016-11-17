@@ -517,7 +517,7 @@ int32_t GPS_home[2];
 int32_t GPS_hold[2];
 uint16_t GPS_distanceToHome;        // distance to home point in meters
 int16_t GPS_directionToHome;        // direction to home or hol point in degrees
-navigationMode_e nav_mode = NAV_MODE_NONE;    // Navigation mode
+navigationMode_e navi_mode = NAV_MODE_NONE;    // Navigation mode
 void GPS_set_next_wp(int32_t *, int32_t *) {}
 // from pid.c
 struct anglerate default_controller; 
