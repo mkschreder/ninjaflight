@@ -22,8 +22,9 @@ This is done by:
 - Testing on SITL, through unit tests and on real hardware in parallel to
   achieve greater robustness.
 
-At all times we will try to keep master branch in fully functional state while
-introducing new changes.
+UPDATE: new changes will be published into master branch. This means that most
+of the time master branch contains potentially untested code. For stable
+firmware use tagged version releases.
 
 ## Features
 
