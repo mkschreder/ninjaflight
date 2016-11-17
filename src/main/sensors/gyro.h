@@ -29,7 +29,6 @@ struct ins_gyro {
 	int32_t gyroADC[XYZ_AXIS_COUNT];
 
 	uint16_t calibratingG;
-	int16_t gyroADCRaw[XYZ_AXIS_COUNT];
 	int32_t gyroZero[XYZ_AXIS_COUNT];
 
 	biquad_t gyroFilterState[3];

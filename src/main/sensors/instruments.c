@@ -9,7 +9,8 @@
 
 enum {
 	INS_USE_SENSOR_GYRO		= (1 << 0),
-	INS_USE_SENSOR_ACC		= (1 << 1)
+	INS_USE_SENSOR_ACC		= (1 << 1),
+	INS_USE_SENSOR_MAG		= (1 << 2)
 };
 
 void ins_init(struct instruments *self,
@@ -24,11 +25,12 @@ void ins_init(struct instruments *self,
 	int32_t acc_1G){
 	memset(self, 0, sizeof(struct instruments));
 
-	self->sensors = INS_USE_SENSOR_ACC | INS_USE_SENSOR_GYRO;
+	self->sensors = INS_USE_SENSOR_ACC | INS_USE_SENSOR_GYRO | INS_USE_SENSOR_MAG;
 
     board_alignment_init(&self->alignment, ba_conf);
 
 	ins_acc_init(&self->acc,
+		sensor_trims,
 		acc_config,
 		acc_1G
 	);
@@ -53,7 +55,9 @@ void ins_init(struct instruments *self,
 }
 
 bool ins_is_calibrated(struct instruments *self){
-	return ins_gyro_is_calibrated(&self->gyro) && ((self->sensors & INS_USE_SENSOR_ACC) && ins_acc_is_calibrated(&self->acc));
+	return ins_gyro_is_calibrated(&self->gyro) &&
+		((self->sensors & INS_USE_SENSOR_ACC) && ins_acc_is_calibrated(&self->acc)) &&
+		((self->sensors & INS_USE_SENSOR_MAG) && ins_mag_is_calibrated(&self->mag));
 #if 0
 #ifdef BARO
     if (sensors(SENSOR_BARO) && !isBaroCalibrationComplete()) {
@@ -73,6 +77,10 @@ void ins_start_acc_calibration(struct instruments *self){
 
 void ins_start_gyro_calibration(struct instruments *self){
 	ins_gyro_calibrate(&self->gyro);
+}
+
+void ins_start_mag_calibration(struct instruments *self){
+	ins_mag_start_calibration(&self->mag);
 }
 
 void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z){
@@ -116,6 +124,7 @@ void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z){
 	int32_t raw[3] = {x, y, z};
 	board_alignment_rotate_vector(&self->alignment, raw, raw, self->mag_align);
 	ins_mag_process_sample(&self->mag, raw[X], raw[Y], raw[Z]);
+	imu_input_magnetometer(&self->imu, ins_mag_get_x(&self->mag), ins_mag_get_y(&self->mag), ins_mag_get_z(&self->mag));
 }
 
 void ins_update(struct instruments *self, float dt){

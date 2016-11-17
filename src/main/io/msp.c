@@ -69,7 +69,6 @@
 #include "telemetry/telemetry.h"
 
 #include "sensors/boardalignment.h"
-#include "sensors/sensors.h"
 #include "sensors/battery.h"
 #include "sensors/sonar.h"
 #include "sensors/acceleration.h"
@@ -1267,12 +1266,12 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_ACC_CALIBRATION:
             if (!ARMING_FLAG(ARMED))
-				ins_start_acc_calibration(&default_ins);
+				ninja_calibrate_acc();
             break;
 
         case MSP_MAG_CALIBRATION:
             if (!ARMING_FLAG(ARMED))
-                ENABLE_STATE(CALIBRATE_MAG);
+				ninja_calibrate_mag();
             break;
 
         case MSP_EEPROM_WRITE:

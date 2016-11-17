@@ -55,47 +55,17 @@ extern bool AccInflightCalibrationActive;
 static flightDynamicsTrims_t *accelerationTrims;
 */
 
-void ins_acc_init(struct ins_acc *self, struct accelerometer_config *config, int16_t acc_1G){
+void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struct accelerometer_config *config, int16_t acc_1G){
 	memset(self, 0, sizeof(struct ins_acc));
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
+	self->trims = trims;
 	self->acc_1G = acc_1G;
 
 	// set acceleration to 1G down
 	self->accADC[0] = 0;
 	self->accADC[1] = 0;
 	self->accADC[2] = acc_1G;
-}
-
-static void _add_calibration_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z){
-	rollAndPitchTrims_t *trims = &self->config->trims;
-	int32_t raw[3] = { x, y, z };
-
-	for (int axis = 0; axis < 3; axis++) {
-
-		// Reset a[axis] at start of calibration
-		if (self->calibratingA == CALIBRATING_ACC_CYCLES)
-			self->a[axis] = 0;
-
-		// Sum up CALIBRATING_ACC_CYCLES readings
-		self->a[axis] += raw[axis];
-	}
-
-	if (self->calibratingA == 1) {
-		// Calculate average, shift Z down by acc_1G and store values in EEPROM at end of calibration
-		trims->raw[X] = self->a[X] / CALIBRATING_ACC_CYCLES;
-		trims->raw[Y] = self->a[Y] / CALIBRATING_ACC_CYCLES;
-		trims->raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - self->acc_1G;
-
-		//printf("trims: %d %d %d\n", trims->raw[0], trims->raw[1], trims->raw[2]);
-		//trims->values.roll = 0;
-		//trims->values.pitch = 0;
-
-		// TODO: is this needed?
-		//saveConfigAndNotify();
-	}
-
-	self->calibratingA--;
 }
 
 #if 0
@@ -150,32 +120,42 @@ static void performInflightAccelerationCalibration(rollAndPitchTrims_t *rollAndP
 #endif
 
 void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z){
-	rollAndPitchTrims_t *trims = &self->config->trims;
+	int32_t raw[3] = { x, y, z };
+	if(self->calibratingA > 0){
+		for (int axis = 0; axis < 3; axis++) {
+			// Sum up CALIBRATING_ACC_CYCLES readings
+			self->a[axis] += raw[axis];
+		}
 
-	if (self->calibratingA > 0) {
-		_add_calibration_sample(self, x, y, z);
-	}
+		if (self->calibratingA == 1) {
+			// Calculate average, shift Z down by acc_1G and store values in EEPROM at end of calibration
+			self->trims->accZero.raw[X] = self->a[X] / CALIBRATING_ACC_CYCLES;
+			self->trims->accZero.raw[Y] = self->a[Y] / CALIBRATING_ACC_CYCLES;
+			self->trims->accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - self->acc_1G;
 
-	// if we are not calibrated then at least output a valid gravity vector
-	if(!ins_acc_is_calibrated(self)){
+			//trims->values.roll = 0;
+			//trims->values.pitch = 0;
+		}
+		self->calibratingA--;
+
 		self->accADC[X] = 0;
 		self->accADC[Y] = 0;
 		self->accADC[Z] = self->acc_1G; // NOTE: this is actually wrong because z should be down and gravity force is always up then, but cleanflight had it wrong so for now we have to comply so other modules continue to work!
-		return;
+	} else {
+		self->accADC[X] = x - self->trims->accZero.raw[X];
+		self->accADC[Y] = y - self->trims->accZero.raw[Y];
+		self->accADC[Z] = z - self->trims->accZero.raw[Z];
 	}
-
 /*
 	if (feature(FEATURE_INFLIGHT_ACC_CAL)) {
 		performInflightAccelerationCalibration(rollAndPitchTrims);
 	}
 */
-
-	self->accADC[X] = x - trims->raw[X];
-	self->accADC[Y] = y - trims->raw[Y];
-	self->accADC[Z] = z - trims->raw[Z];
 }
 
 void ins_acc_calibrate(struct ins_acc *self){
+	for(int axis = 0; axis < 3; axis++)
+		self->a[axis] = 0;
 	self->calibratingA = CALIBRATING_ACC_CYCLES;
 }
 

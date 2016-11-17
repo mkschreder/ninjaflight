@@ -90,7 +90,7 @@ void imu_init(struct imu *self,
 void imu_reload_config(struct imu *self);
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);
 void imu_input_gyro(struct imu *self, int16_t x, int16_t y, int16_t z);
-void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z, float magneticDeclination);
+void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z);
 void imu_input_yaw_dd(struct imu *self, int16_t yaw);
 void imu_update(struct imu *self, float dt);
 

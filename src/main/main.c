@@ -78,7 +78,6 @@
 #include "io/serial_msp.h"
 #include "io/serial_cli.h"
 
-#include "sensors/sensors.h"
 #include "sensors/sonar.h"
 #include "sensors/barometer.h"
 #include "sensors/compass.h"
@@ -687,6 +686,8 @@ static void init(void)
 		imuConfig(),
 		throttleCorrectionConfig(),
 		gyroConfig(),
+		compassConfig(),
+		sensorTrims(),
 		accelerometerConfig(),
 		gyro.scale,
 		acc.acc_1G

@@ -23,6 +23,9 @@ struct ninja {
 
 extern int16_t magHold;
 
+void ninja_calibrate_acc(void);
+void ninja_calibrate_mag(void);
+
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta);
 void handleInflightCalibrationStickPosition(void);
 

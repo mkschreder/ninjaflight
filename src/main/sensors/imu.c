@@ -43,7 +43,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
 
-#include "sensors/sensors.h"
 #include "sensors/gyro.h"
 #include "sensors/compass.h"
 #include "sensors/acceleration.h"
@@ -314,7 +313,8 @@ static void _imu_update_euler_angles(struct imu *self){
 
 	self->attitude.values.roll = lrintf(atan2_approx(py, sign_z * sqrtf(pz * pz + 0.01f * px * px)) * (1800.0f / M_PIf));
 	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf));
-	self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + self->magneticDeclination);
+	// TODO: fix the magnetic declination
+	self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf));// + self->magneticDeclination);
 
 	// yaw range is 0 to 3600
 	if (self->attitude.values.yaw < 0)
@@ -379,11 +379,10 @@ void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z){
 	self->flags |= IMU_FLAG_USE_ACC;
 }
 
-void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z, float magneticDeclination){
+void imu_input_magnetometer(struct imu *self, int16_t x, int16_t y, int16_t z){
 	self->mag[X] = x;
 	self->mag[Y] = y;
 	self->mag[Z] = z;
-	self->magneticDeclination = magneticDeclination;
 	self->flags |= IMU_FLAG_USE_MAG;
 }
 

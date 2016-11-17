@@ -24,32 +24,26 @@
 #include "../config/compass.h"
 
 struct ins_mag {
-	int16_t magADCRaw[XYZ_AXIS_COUNT];
 	int32_t magADC[XYZ_AXIS_COUNT];
 
 	float magneticDeclination;
 
-	uint32_t tCal;
-    flightDynamicsTrims_t magZeroTempMin;
-    flightDynamicsTrims_t magZeroTempMax;
+	float mag_scale[3];
+	int16_t mag_max[3];
+	int16_t mag_min[3];
 
 	struct mag_config *config;
 	struct sensor_trims_config *trims;
 
-	bool calibrating;
+	int16_t calibratingM;
 };
 
 void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims);
 void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z);
 
+void ins_mag_start_calibration(struct ins_mag *self);
+static inline bool ins_mag_is_calibrated(struct ins_mag *self) { return self->calibratingM == 0; }
+
 static inline int32_t ins_mag_get_x(struct ins_mag *self) { return self->magADC[X]; }
 static inline int32_t ins_mag_get_y(struct ins_mag *self) { return self->magADC[Y]; }
 static inline int32_t ins_mag_get_z(struct ins_mag *self) { return self->magADC[Z]; }
-
-//void recalculateMagneticDeclination(void);
-
-/*
-extern sensor_align_e magAlign;
-extern mag_t mag;
-extern float magneticDeclination;
-*/

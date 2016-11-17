@@ -46,7 +46,6 @@
 #include "drivers/pwm_output.h"
 #include "io/rc_adjustments.h"
 
-#include "sensors/sensors.h"
 #include "sensors/sonar.h"
 #include "sensors/compass.h"
 #include "sensors/acceleration.h"
@@ -243,6 +242,17 @@ static void updateRcCommands(void)
     }
 }
 
+static uint8_t calibrating = 0;
+void ninja_calibrate_acc(void){
+	ins_start_acc_calibration(&default_ins);
+	calibrating = 1;
+}
+
+void ninja_calibrate_mag(void){
+	ins_start_mag_calibration(&default_ins);
+	calibrating = 1;
+}
+
 static void updateLEDs(void)
 {
     if (ARMING_FLAG(ARMED)) {
@@ -258,6 +268,13 @@ static void updateLEDs(void)
             DISABLE_ARMING_FLAG(OK_TO_ARM);
         }
 */
+		// TODO: this should probably be checked elsewhere
+		if(calibrating && !isCalibrating()){
+			// save config here since calibration may have changed it
+			saveConfigAndNotify();
+			calibrating = 0;
+		}
+
         if (isCalibrating() || isSystemOverloaded()) {
             warningLedFlash();
             DISABLE_ARMING_FLAG(OK_TO_ARM);

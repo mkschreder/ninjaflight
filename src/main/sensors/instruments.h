@@ -36,8 +36,9 @@ void ins_init(struct instruments *self,
 	int32_t acc_1G
 );
 
-void ins_start_acc_calibration(struct instruments *self);
 void ins_start_gyro_calibration(struct instruments *self);
+void ins_start_acc_calibration(struct instruments *self);
+void ins_start_mag_calibration(struct instruments *self);
 
 bool ins_is_calibrated(struct instruments *self);
 void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z);

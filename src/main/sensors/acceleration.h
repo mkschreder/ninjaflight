@@ -20,20 +20,22 @@
 #include "../drivers/accgyro.h"
 #include "../common/axis.h"
 #include "../config/accelerometer.h"
+#include "../config/sensors.h"
 
 struct ins_acc {
 	int32_t accADC[XYZ_AXIS_COUNT];
 	uint16_t calibratingA;
 	int32_t a[3];
 	int32_t b[3];
-	int16_t accZero_saved[3];
-	rollAndPitchTrims_t angleTrim_saved;
+	//int16_t accZero_saved[3];
+	//rollAndPitchTrims_t angleTrim_saved;
 	struct accelerometer_config *config;
+	struct sensor_trims_config *trims;
 	int16_t acc_1G;
 };
 //extern int32_t accADC[XYZ_AXIS_COUNT];
 
-void ins_acc_init(struct ins_acc *self, struct accelerometer_config *config, int16_t acc_1G);
+void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struct accelerometer_config *config, int16_t acc_1G);
 void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t z);
 void ins_acc_calibrate(struct ins_acc *self);
 bool ins_acc_is_calibrated(struct ins_acc *self);
@@ -42,8 +44,3 @@ static inline int32_t ins_acc_get_x(struct ins_acc *self) { return self->accADC[
 static inline int32_t ins_acc_get_y(struct ins_acc *self) { return self->accADC[Y]; }
 static inline int32_t ins_acc_get_z(struct ins_acc *self) { return self->accADC[Z]; }
 
-/*bool isAccelerationCalibrationComplete(void);
-void accSetCalibrationCycles(uint16_t calibrationCyclesRequired);
-void updateAccelerationReadings(rollAndPitchTrims_t *rollAndPitchTrims);
-void setAccelerationTrims(flightDynamicsTrims_t *accelerationTrimsToUse);
-*/

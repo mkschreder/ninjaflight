@@ -38,12 +38,13 @@
 #include "config/runtime_config.h"
 #include "config/config.h"
 
-#include "sensors/sensors.h"
 #include "sensors/compass.h"
 
 #ifdef NAZE
 #include "hardware_revision.h"
 #endif
+
+#define MAG_CALIBRATION_SAMPLES 240
 
 void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims){
 	memset(self, 0, sizeof(struct ins_mag));
@@ -61,44 +62,47 @@ void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor
 	}
 }
 
+void ins_mag_start_calibration(struct ins_mag *self){
+	for(int c = 0; c < 3; c++) {
+		self->mag_min[c] = 0x7fff;
+		self->mag_max[c] = 0x8000;
+		self->mag_scale[c] = 0;
+	}
+	self->calibratingM = MAG_CALIBRATION_SAMPLES;
+}
+
 void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z){
 	flightDynamicsTrims_t *magZero = &self->trims->magZero;
-	// TODO: fix this
-	int32_t currentTime = 0;
-	
-	self->magADC[X] = x;
-	self->magADC[Y] = y;
-	self->magADC[Z] = z;
 
-	if (self->calibrating) {
-		self->tCal = currentTime;
-		for (int axis = 0; axis < 3; axis++) {
-			magZero->raw[axis] = 0;
-			self->magZeroTempMin.raw[axis] = self->magADC[axis];
-			self->magZeroTempMax.raw[axis] = self->magADC[axis];
+	int32_t raw[3] = { x, y, z };
+
+	if(self->calibratingM > 0){
+		// find min and max
+		for(int c = 0; c < 3; c++){
+			if(raw[c] < self->mag_min[c]) self->mag_min[c] = raw[c];
+			if(raw[c] > self->mag_max[c]) self->mag_max[c] = raw[c];
 		}
-		self->calibrating = 0;
-	}
+		if(self->calibratingM == 1){
+			// Get hard iron correction
+			magZero->raw[X] = ((int32_t)self->mag_max[0] + self->mag_min[0])/2;  // get average x mag bias in counts
+			magZero->raw[Y] = ((int32_t)self->mag_max[1] + self->mag_min[1])/2;  // get average y mag bias in counts
+			magZero->raw[Z] = ((int32_t)self->mag_max[2] + self->mag_min[2])/2;  // get average z mag bias in counts
 
-	if (self->tCal != 0) {
-		if ((currentTime - self->tCal) < 30000000) {	// 30s: you have 30s to turn the multi in all directions
-			for (int axis = 0; axis < 3; axis++) {
-				if (self->magADC[axis] < self->magZeroTempMin.raw[axis])
-					self->magZeroTempMin.raw[axis] = self->magADC[axis];
-				if (self->magADC[axis] > self->magZeroTempMax.raw[axis])
-					self->magZeroTempMax.raw[axis] = self->magADC[axis];
-			}
-		} else {
-			self->tCal = 0;
-			for (int axis = 0; axis < 3; axis++) {
-				magZero->raw[axis] = (self->magZeroTempMin.raw[axis] + self->magZeroTempMax.raw[axis]) / 2; // Calculate offsets
-			}
+			// Get soft iron correction estimate
+			self->mag_scale[0]  = ((int32_t)self->mag_max[0] - self->mag_min[0])/2;  // get average x axis max chord length in counts
+			self->mag_scale[1]  = ((int32_t)self->mag_max[1] - self->mag_min[1])/2;  // get average y axis max chord length in counts
+			self->mag_scale[2]  = ((int32_t)self->mag_max[2] - self->mag_min[2])/2;  // get average z axis max chord length in counts
 
-			//saveConfigAndNotify();
+			float avg_rad = (self->mag_scale[0] + self->mag_scale[1] + self->mag_scale[2]) / 3.0f;
+
+			self->mag_scale[0] = avg_rad/((float)self->mag_scale[0]);
+			self->mag_scale[1] = avg_rad/((float)self->mag_scale[1]);
+			self->mag_scale[2] = avg_rad/((float)self->mag_scale[2]);
 		}
+		self->calibratingM--;
 	} else {
-		self->magADC[X] -= magZero->raw[X];
-		self->magADC[Y] -= magZero->raw[Y];
-		self->magADC[Z] -= magZero->raw[Z];
+		self->magADC[X] = raw[X] - magZero->raw[X];
+		self->magADC[Y] = raw[Y] - magZero->raw[Y];
+		self->magADC[Z] = raw[Z] - magZero->raw[Z];
 	}
 }

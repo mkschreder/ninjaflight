@@ -71,7 +71,6 @@
 
 #include "sensors/battery.h"
 #include "sensors/boardalignment.h"
-#include "sensors/sensors.h"
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"
 #include "sensors/compass.h"
@@ -717,6 +716,10 @@ const clivalue_t valueTable[] = {
     { "blackbox_rate_denom",        VAR_UINT8  | MASTER_VALUE, .config.minmax = { 1,  32 } , PG_BLACKBOX_CONFIG, offsetof(blackboxConfig_t, rate_denom)},
     { "blackbox_device",            VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_BLACKBOX_DEVICE } , PG_BLACKBOX_CONFIG, offsetof(blackboxConfig_t, device)},
 #endif
+
+    { "acczero_x",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, accZero.raw[X])},
+    { "acczero_y",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, accZero.raw[Y])},
+    { "acczero_z",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, accZero.raw[Z])},
 
     { "magzero_x",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, magZero.raw[X])},
     { "magzero_y",                  VAR_INT16  | MASTER_VALUE, .config.minmax = { -32768,  32767 } , PG_SENSOR_TRIMS, offsetof(struct sensor_trims_config, magZero.raw[Y])},
@@ -2569,6 +2572,8 @@ static void cliStatus(char *cmdline)
     cliPrintf("CPU Clock=%dMHz", (SystemCoreClock / 1000000));
 
 #ifndef CJMCU
+#if 0
+	// TODO: to print sensors, use a less intrusive way
     uint8_t i;
     uint32_t mask;
     uint32_t detectedSensorsMask = sensorsMask();
@@ -2591,6 +2596,7 @@ static void cliStatus(char *cmdline)
             }
         }
     }
+#endif
 #endif
     cliPrint("\r\n");
 
