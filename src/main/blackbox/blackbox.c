@@ -851,6 +851,10 @@ void finishBlackbox(void)
 		case BLACKBOX_STATE_PREPARE_LOG_FILE:
 		case BLACKBOX_STATE_SEND_HEADER:
 		case BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER:
+		case BLACKBOX_STATE_SEND_GPS_H_HEADER:
+		case BLACKBOX_STATE_SEND_GPS_G_HEADER:
+		case BLACKBOX_STATE_SEND_SLOW_HEADER:
+		case BLACKBOX_STATE_SEND_SYSINFO:
 			break;
     }
 }
@@ -1421,6 +1425,8 @@ void handleBlackbox(void)
             }
         break;
         default:
+		case BLACKBOX_STATE_DISABLED:
+		case BLACKBOX_STATE_STOPPED:
         break;
     }
 
