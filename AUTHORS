@@ -1,203 +1,215 @@
-  2323	Dominic Clifton
-   180	Nicholas Sherlock
-   160	dongie
-   157	Martin Budden
-   146	timecop@gmail.com
-   145	Petr Ledvina
-    96	gael
-    92	Michael Jakob
-    87	timecop
-    56	Michael Hope
-    54	borisbstyle
-    36	treymarc
-    34	Joel Fuster
-    33	Pierre Hugo
-    29	Pierre-A
-    28	Paul Rogalinski
-    28	ProDrone
-    23	Dave Pitman
-    19	Ben Hitchcock
-    19	Steveis
-    15	Andrew Payne
-    15	Jan Staal
-    14	tracernz
-    13	pulsar256
-    12	4712
-    12	Konstantin Sharlaimov (DigitalEntity)
-    12	Stefan Grufman
-    12	luggi
-    11	Echelon9
-    11	Fredrik Steen
-    11	Larry (TBS)
-    11	Pim van Pelt
-    10	Jonas Harnesk
-    10	Kemal Hadimli
-    10	NightHawk32
-    10	Trey Marc
-     8	Johannes Kasberger
-     8	Read Error
-     8	tricopterY
-     7	Administrator
-     7	DaTwo
-     7	Kyle Manna
-     7	Martin Schröder
-     6	Andre Bernet
-     6	Brnadon Miller
-     6	Chris Penny
-     6	Florian Huber
-     6	Jonathan Hudson
-     6	KipK
-     6	idefixsin
-     5	3djc
-     5	Anders Hoglund
-     5	DTF UHF
-     5	Jenny
-     5	Konstantin Sharlaimov
-     5	Paul Fertser
-     5	Velyks
-     5	digitalentity
-     5	nathan
-     5	stuphi
-     4	Akfreak
-     4	Gregor Ottmann
-     4	Lukas S
-     4	Marc
-     4	Mauro Mombelli
-     4	Moshen Chan
-     4	Moto Moto
-     4	Phillip Jones
-     4	Samuel Brucksch
-     4	Tuomas Kuosmanen
-     4	airmamaf
-     3	Alexander Fedorov
-     3	Austin St. Aubin
-     3	Chris Campbell
-     3	Chris Mavrakis
-     3	Denis Kisselev
-     3	Juan González
-     3	Kieran Moore
-     3	Lupin
-     3	Marc Egli
-     3	Pawel
-     3	Pawel Spychalski (DzikuVx)
-     3	Sam Cook
-     3	Sean Vig
-     3	YANN OEFFNER
-     3	Your Name
-     3	bubi-007
-     3	cklam2
-     3	kh4
-     2	Alex Zaitsev
-     2	André
-     2	Craig J Perry
-     2	David Bieber
-     2	Dustin
-     2	E Thomas
-     2	Flyinghead
-     2	Frank Zhao
-     2	Garth
-     2	Goebish
-     2	Jeremy Waters
-     2	Malaquitte
-     2	Mark Williams
-     2	Max Winterstein
-     2	Moritz Ulrich
-     2	Rich
-     2	Richard Marko
-     2	Scott Shawcroft
-     2	Steve Amor
-     2	TronskiFPV
-     2	U-possi\David
-     2	Ubuntu
-     2	aergid
-     2	atomiclama
-     2	bouwens.mehl@gmail.com
-     2	codepox
-     2	dan557
-     2	dascons
-     2	edusteinhorst
-     2	geekaz01d
-     2	gkvirkvia
-     2	joshuabardwell
-     2	modem158
-     2	sbaron
-     2	sppnk
-     1	Airmamaf
-     1	Albert Kravcov
-     1	Alex Gorbatchev
-     1	Andreas Tacke
-     1	Arne Schwabe
-     1	Axel
-     1	Bas Huisman
-     1	Ben
-     1	Benji
-     1	BorisB
-     1	Chris Nisbet
-     1	Crashpilot1000
-     1	Damjan Adamic
-     1	DarkVegetableMatter
-     1	Davide Bertola
-     1	DreamNik
-     1	EvilBadger
-     1	Ferdia McKeogh
-     1	Gareth Wilkins
-     1	Garth Berry
-     1	Garth Bushell
-     1	Gaël James
-     1	Geoff Stearns
-     1	Hwurzburg
-     1	Hyon Lim
-     1	JBFUK
-     1	James Harrison
-     1	Joe Poser
-     1	Johannes
-     1	JohnieBraaf
-     1	Kevin
-     1	Krzysztof Rosinski
-     1	Krzysztof Rosiński
-     1	Larry Davis
-     1	Lichtl
-     1	MasterZap
-     1	Matthew Evans
-     1	Michael Corcoran
-     1	Miha Valencic
-     1	Mikael Blomqvist
-     1	NL-Splinter
-     1	Paul Waszkiewicz
-     1	Paweł Spychalski
-     1	Per Magnus Auby
-     1	Philippe-France
-     1	Randy
-     1	Richard Birkby
-     1	Richard Lehey
-     1	Rimas Avizienis
-     1	Robert Budde
-     1	St7ven
-     1	Thomas
-     1	Thomas Buck
-     1	Timothy Trowbridge
-     1	U-THINKPADWIN\František Horínek
-     1	UKTamo
-     1	alwex
-     1	chris / brookins
-     1	chris-penny
-     1	curtisbyers
-     1	dominicc1974@gmail.com
-     1	enly1 [Simon Love]
-     1	eziosoft
-     1	fiendie
-     1	goebish
-     1	grunbaum nicolas
-     1	icdark
-     1	int77
-     1	jo930
-     1	kestrel253
-     1	m3us
-     1	norem
-     1	papaiatis
-     1	pinkywafer
-     1	pulsar
-     1	rosek86
-     1	sblakemore
-     1	t0mmg
-     1	wiebel
+  2292	Dominic Clifton <me@dominicclifton.name>
+   177	Nicholas Sherlock <n.sherlock@gmail.com>
+   160	dongie <timecop@gmail.com>
+   157	Martin Budden <mjbudden@gmail.com>
+   146	timecop@gmail.com <timecop@gmail.com@7c89a4a9-59b9-e629-4cfe-3a2d53b20e61>
+   145	Petr Ledvina <ledvinap@gmail.com>
+   127	Martin Schröder <mkschreder.uk@gmail.com>
+    96	gael <gaeljames@gmail.com>
+    92	Michael Jakob <michael.p.jakob@web.de>
+    87	timecop <timecop@7c89a4a9-59b9-e629-4cfe-3a2d53b20e61>
+    56	Michael Hope <mlhx@google.com>
+    54	borisbstyle <dreambb1982@gmail.com>
+    36	treymarc <trey.marc@gmail.com>
+    34	Joel Fuster <j@fuster.org>
+    33	Pierre Hugo <avoid3d@gmail.com>
+    31	Dominic Clifton <dominic.clifton@cleanflight.com>
+    29	Pierre-A <pierre.archambault@univ-lorraine.fr>
+    28	Paul Rogalinski <paul@paul.vc>
+    28	ProDrone <me@prodrone.com>
+    23	Dave Pitman <dl@pitman.us>
+    17	Ben Hitchcock <ben@zensoft.com.au>
+    15	Andrew Payne <andy@payne.org>
+    15	Jan Staal <info@janstaal.com>
+    13	pulsar256 <github@t00ltime.de>
+    12	Konstantin Sharlaimov (DigitalEntity) <konstantin.sharlaimov@gmail.com>
+    12	Stefan Grufman <stefan.grufman@gmail.com>
+    12	Steveis <steveis@stevis.com>
+    12	luggi <luke128@cnh.at>
+    11	Echelon9 <rhyskidd@gmail.com>
+    11	Fredrik Steen <fredrik.steen@redpill-linpro.com>
+    11	Larry (TBS) <larryho5@gmail.com>
+    11	Pim van Pelt <pim@ipng.nl>
+    10	4712 <4712@outlook.de>
+    10	Kemal Hadimli <kemal@hadimli.com>
+    10	NightHawk32 <nighthawk2244@gmail.com>
+    10	Trey Marc <trey.marc@gmail.com>
+     8	Johannes Kasberger <schugabe@gmx.at>
+     8	Read Error <readerror67@gmail.com>
+     8	tricopterY <tricoptery@gmail.com>
+     7	Administrator <alex@opcode1300.com>
+     7	DaTwo <xgenmods@gmail.com>
+     7	Kyle Manna <kyle@kylemanna.com>
+     7	Steveis <SteveAmor@users.noreply.github.com>
+     7	tracernz <michael.corcoran@outlook.com>
+     7	tracernz <tracernz@users.noreply.github.com>
+     6	Andre Bernet <andre@andrebernet.ch>
+     6	Brnadon Miller <github@spam.firepunk.com>
+     6	Chris Penny <chris@untested.com>
+     6	Florian Huber <florian.huber@post.harvard.edu>
+     6	Jonas Harnesk <jonas.harnesk@bolero.se>
+     6	Jonathan Hudson <jh+w1retap@daria.co.uk>
+     6	KipK <hotlobster75@gmail.com>
+     6	idefixsin <idefixforum@gmail.com>
+     5	3djc <lesitewebdejc@hotmail.com>
+     5	Anders Hoglund <AndWho@gmail.com>
+     5	DTF UHF <dtfuhf@gmail.com>
+     5	Jenny <pinkywafer@users.noreply.github.com>
+     5	Konstantin Sharlaimov <konstantin.sharlaimov@gmail.com>
+     5	Paul Fertser <fercerpav@gmail.com>
+     5	Velyks <itsthetom@googlemail.com>
+     5	digitalentity <konstantin.sharlaimov@gmail.com>
+     5	nathan <nathan@vertile.com>
+     5	stuphi <philip@stuphi.co.uk>
+     4	Akfreak <Akfreak@users.noreply.github.com>
+     4	Gregor Ottmann <zaphod@bluephod.net>
+     4	Jonas Harnesk <jonas@harnesk.net>
+     4	Marc <datamafia@users.noreply.github.com>
+     4	Moshen Chan <moshen@gmail.com>
+     4	Moto Moto <skybolt83jl@gmail.com>
+     4	Samuel Brucksch <SamuelBrucksch@users.noreply.github.com>
+     4	Tuomas Kuosmanen <tuomas.kuosmanen@gmail.com>
+     4	airmamaf <airmamaf@gmail.com>
+     3	Alexander Fedorov <fedor@anuta.org>
+     3	Austin St. Aubin <AustinSaintAubin@users.noreply.github.com>
+     3	Chris Campbell <iforce2d@gmail.com>
+     3	Chris Mavrakis <cmavr8@gmail.com>
+     3	Denis Kisselev <denis@dkisselev.net>
+     3	Juan González <opsi@opsiland.info>
+     3	Kieran Moore <kieran@snooze-button.com>
+     3	Lukas S <megagigagau@hotmail.com>
+     3	Lupin <lupin@virtual>
+     3	Marc Egli <frog32@me.com>
+     3	Mauro Mombelli <mauro@mombelli.me>
+     3	Nicholas Sherlock <N.sherlock@gmail.com>
+     3	Pawel <pspychalski@gmail.com>
+     3	Pawel Spychalski (DzikuVx) <pspychalski@gmail.com>
+     3	Phillip Jones <phillip@scionuas.com>
+     3	Sam Cook <github@sam.net.nz>
+     3	Sean Vig <sean.v.775@gmail.com>
+     3	YANN OEFFNER <yann.oeffner@gmail.com>
+     3	Your Name <you@example.com>
+     3	bubi-007 <bubi-007@hispeed.ch>
+     3	cklam2 <cklam2@outlook.com>
+     3	kh4 <khautio@gmail.com>
+     2	4712 <4712@users.noreply.github.com>
+     2	Alex Zaitsev <azaitsev@gmail.com>
+     2	André <andre-karreman@live.nl>
+     2	Ben Hitchcock <benh@perthweb.com.au>
+     2	Craig J Perry <craigp84@gmail.com>
+     2	David Bieber <dbieber@princeton.edu>
+     2	Dustin <astralisdustin@gmail.com>
+     2	E Thomas <ethomas997@etsphere.com>
+     2	Flyinghead <raphael.jean@gmail.com>
+     2	Frank Zhao <frank.zhao.main@gmail.com>
+     2	Garth <garth@serviceagility.co.uk>
+     2	Goebish <goebish@gmail.com>
+     2	Jeremy Waters <jaffadog@gmail.com>
+     2	Malaquitte <malaquitte@gmail.com>
+     2	Mark Williams <mark@mtrl.co.uk>
+     2	Max Winterstein <MaxWinterstein@users.noreply.github.com>
+     2	Moritz Ulrich <moritz@tarn-vedra.de>
+     2	Rich <rich@qbranch.org>
+     2	Richard Marko <rissko@gmail.com>
+     2	Scott Shawcroft <scott.shawcroft@gmail.com>
+     2	Steve Amor <SteveAmor@users.noreply.github.com>
+     2	TronskiFPV <troyboy162@hotmail.com>
+     2	Ubuntu <destroy-everything@users.noreply.github.com>
+     2	aergid <develer@gmail.com>
+     2	bouwens.mehl@gmail.com <bouwens.mehl@gmail.com@7c89a4a9-59b9-e629-4cfe-3a2d53b20e61>
+     2	codepox <codepox@gmail.com>
+     2	dan557 <dan@scottsmail.x10.mx>
+     2	dascons <reubarb.scons@gmail.com>
+     2	edusteinhorst <edu@edusteinhorst.com>
+     2	geekaz01d <richard@geekazoid.net>
+     2	gkvirkvia <gkvirkvia@users.noreply.github.com>
+     2	joshuabardwell <joshuabardwell@gmail.com>
+     2	modem158 <jeremy.karnes@gmail.com>
+     2	sbaron <s.baron@server-5.net>
+     2	sppnk <sppnk@users.noreply.github.com>
+     1	Airmamaf <airmamaf@gmail.com>
+     1	Albert Kravcov <skaman82@users.noreply.github.com>
+     1	Alex Gorbatchev <alex.gorbatchev@gmail.com>
+     1	Andreas Tacke <at@mail.fiendie.net>
+     1	Arne Schwabe <arne@rfc2549.org>
+     1	Axel <axel.francois@gmail.com>
+     1	Bas Huisman <bhuism@odee.net>
+     1	Ben <Lordnibbler@users.noreply.github.com>
+     1	Benji <asdf.tgz@gmail.com>
+     1	BorisB <boris.bozic@radioaccess.nl>
+     1	Chris Nisbet <nischris@gmail.com>
+     1	Crashpilot1000 <r.balko@yahoo.de>
+     1	Damjan Adamic <projectkk2glider@gmail.com>
+     1	DarkVegetableMatter <darkvegetablematter@gmail.com>
+     1	Davide Bertola <dade@dadeb.it>
+     1	DreamNik <dreamnik@mail.ru>
+     1	EvilBadger <aj.roberts84@gmail.com>
+     1	Ferdia McKeogh <ferdiamckeogh@outlook.com>
+     1	Gareth Wilkins <projects@lostnode.org>
+     1	Garth Berry <garth@serviceagility.co.uk>
+     1	Garth Bushell <garth@garthy.com>
+     1	Gaël James <gaelj@users.noreply.github.com>
+     1	Geoff Stearns <geoff@deconcept.com>
+     1	Hwurzburg <hwurzburg@yahoo.com>
+     1	Hyon Lim <limhyon@gmail.com>
+     1	JBFUK <justinfielding@gmail.com>
+     1	James Harrison <JamesHarrison@users.noreply.github.com>
+     1	Joe Poser <joe.poser@gmail.com>
+     1	Johannes <jo930@users.noreply.github.com>
+     1	JohnieBraaf <info@janstaal.com>
+     1	Kevin <smeatsan@gmail.com>
+     1	Krzysztof Rosinski <kr.rosinski@gmail.com>
+     1	Krzysztof Rosiński <kr.rosinski@gmail.com>
+     1	Larry Davis <lazdnet@gmail.com>
+     1	Lichtl <lichtl@cerberus.x-modder.de>
+     1	Lukas S <luke128@cnh.at>
+     1	MasterZap <zap@master-zap.com>
+     1	Matthew Evans <add1ct3dd@gmail.com>
+     1	Mauro Mombelli <mombelli.mauro@gmail.com>
+     1	Michael Corcoran <mrc93@uclive.ac.nz>
+     1	Miha Valencic <miha.valencic@gmail.com>
+     1	Mikael Blomqvist <fnurgel@gmail.com>
+     1	NL-Splinter <janhein@zonnet.nl>
+     1	Paul Waszkiewicz <paulwas@msn.com>
+     1	Paweł Spychalski <pspychalski@gmail.com>
+     1	Per Magnus Auby <permagnus@gmail.com>
+     1	Philippe-France <p.solivier@free.fr>
+     1	Phillip Jones <pjones13@gmail.com>
+     1	Randy <rantiva111@comcast.net>
+     1	Richard Birkby <rbirkby@gmail.com>
+     1	Richard Lehey <rlehey+gh@gmail.com>
+     1	Rimas Avizienis <rimas@eecs.berkeley.edu>
+     1	Robert Budde <robert.budde@ing-budde.de>
+     1	St7ven <surfbreizh@gmail.com>
+     1	Thomas <kaefert@gmail.com>
+     1	Thomas Buck <xythobuz@xythobuz.de>
+     1	Timothy Trowbridge <timothy_trowbridge@hotmail.com>
+     1	U-THINKPADWIN\František Horínek <frantisekhorinek@gmail.com>
+     1	U-possi\David <C:\Users\David\AppData\Roaming\The Bat!>
+     1	U-possi\David <netsplits@yahoo.es>
+     1	UKTamo <UKTamo@gmail.com>
+     1	alwex <2go@bk.ru>
+     1	atomiclama <andy@purplelama.co.uk>
+     1	atomiclama <somebody@somewhere.com>
+     1	chris / brookins <chris@brookins.info>
+     1	chris-penny <chris@untested.com>
+     1	curtisbyers <curtisbyers@gmail.com>
+     1	dominicc1974@gmail.com <dominicc1974@gmail.com@7c89a4a9-59b9-e629-4cfe-3a2d53b20e61>
+     1	enly1 [Simon Love] <git@techlib.co.uk>
+     1	eziosoft <eziosoft@gmail.com>
+     1	fiendie <at@mail.fiendie.net>
+     1	goebish <goebish@gmail.com>
+     1	grunbaum nicolas <grunbaum@gmail.Com>
+     1	icdark <kamil.bujniewicz@gmail.com>
+     1	int77 <serguei.jourba@wanadoo.fr>
+     1	jo930 <jo930@live.de>
+     1	kestrel253 <ckeoni@yahoo.com>
+     1	m3us <m3us@hotmail.com>
+     1	norem <tdavis@synergistics.org>
+     1	papaiatis <papaiatis@gmail.com>
+     1	pinkywafer <pinkywafer@users.noreply.github.com>
+     1	pulsar <pulsar@travistester.(none)>
+     1	rosek86 <kr.rosinski@gmail.com>
+     1	sblakemore <sean@server.fake>
+     1	t0mmg <tom.m.gilmour@gmail.com>
+     1	wiebel <github@wiebels.info>
