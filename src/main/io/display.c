@@ -183,8 +183,10 @@ static void drawHorizonalPercentageBar(uint8_t width,uint8_t percent)
     for (i = 0; i < j; i++)
         LCDprint(159); // full
 
-    if (j < width)
-        LCDprint(154 + (percent * width * 5 / 100 - 5 * j)); // partial fill
+    if (j < width){
+		uint32_t tmp1 = (uint32_t)(percent * width * 5) / 100;
+        LCDprint(154 + (tmp1 - 5 * j)); // partial fill
+	}
 
     for (i = j + 1; i < width; i++)
         LCDprint(154); // empty
@@ -270,8 +272,9 @@ static void drawRxChannel(uint8_t channelIndex, uint8_t width)
     uint32_t percentage;
 
     LCDprint(rcChannelLetters[channelIndex]);
-
-    percentage = (constrain(rc_get_channel_value(channelIndex), PWM_RANGE_MIN, PWM_RANGE_MAX) - PWM_RANGE_MIN) * 100 / (PWM_RANGE_MAX - PWM_RANGE_MIN);
+	
+	uint32_t chan = constrain(rc_get_channel_value(channelIndex), PWM_RANGE_MIN, PWM_RANGE_MAX) - PWM_RANGE_MIN;
+    percentage = (chan * 100) / (PWM_RANGE_MAX - PWM_RANGE_MIN);
     drawHorizonalPercentageBar(width - 1, percentage);
 }
 

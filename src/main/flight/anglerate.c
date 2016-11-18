@@ -526,6 +526,7 @@ void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t 
 }
 
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight){
+	if(axis > 2) return;
 	self->PIDweight[axis] = weight;
 }
 
