@@ -176,7 +176,8 @@ static void updateRcCommands(void)
         prop2 = 100;
     } else {
         if (rc_get_channel_value(THROTTLE) < 2000) {
-            prop2 = 100 - (uint16_t)currentControlRateProfile->dynThrPID * (rc_get_channel_value(THROTTLE) - currentControlRateProfile->tpa_breakpoint) / (2000 - currentControlRateProfile->tpa_breakpoint);
+			uint16_t t = rc_get_channel_value(THROTTLE) - currentControlRateProfile->tpa_breakpoint;
+            prop2 = 100 - (uint16_t)currentControlRateProfile->dynThrPID * t / constrain(2000 - currentControlRateProfile->tpa_breakpoint, 1000, 2000);
         } else {
             prop2 = 100 - currentControlRateProfile->dynThrPID;
         }
@@ -562,13 +563,7 @@ static void processRx(void)
         DISABLE_FLIGHT_MODE(HORIZON_MODE);
     }
 
-    if (FLIGHT_MODE(ANGLE_MODE) || FLIGHT_MODE(HORIZON_MODE)) {
-        led_on(1);
-    } else {
-        led_on(1);
-    }
-
-#ifdef  MAG
+    #ifdef  MAG
 	// TODO: refactor the mag hold mode
     if (sensors(SENSOR_ACC) || sensors(SENSOR_MAG)) {
         if (rcModeIsActive(BOXMAG)) {
@@ -753,6 +748,39 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 	// TODO: move this once we have tested current refactored code
     anglerate_set_algo(&default_controller, pidProfile()->pidController);
 
+    if (FLIGHT_MODE(HORIZON_MODE)) {
+		int16_t hp_roll = 100-ABS(rcCommand[ROLL]) / 5;
+		int16_t hp_pitch = 100-ABS(rcCommand[ROLL]) / 5;
+		anglerate_set_level_percent(&default_controller, hp_roll, hp_pitch);
+        // Figure out the most deflected stick position
+        /*
+		const int32_t stickPosAil = ABS(getRcStickDeflection(ROLL, rxConfig()->midrc));
+        const int32_t stickPosEle = ABS(getRcStickDeflection(PITCH, rxConfig()->midrc));
+        const int32_t mostDeflectedPos =  MAX(stickPosAil, stickPosEle);
+
+        // Progressively turn off the horizon self level strength as the stick is banged over
+        int16_t horizonLevelStrength = (500 - mostDeflectedPos) / 5;  // 100 at centre stick, 0 = max stick deflection
+		
+        // Using D8[PIDLEVEL] as a Sensitivity for Horizon.
+        // 0 more level to 255 more rate. Default value of 100 seems to work fine.
+        // For more rate mode increase D and slower flips and rolls will be possible
+        //horizonLevelStrength = constrain((10 * (horizonLevelStrength - 100) * (10 * self->config->D8[PIDLEVEL] / 80) / 100) + 100, 0, 100);
+		*/
+    }
+
+	// TODO: refactor this
+	anglerate_input_body_rates(&default_controller, ins_get_gyro_x(&default_ins), ins_get_gyro_y(&default_ins), ins_get_gyro_z(&default_ins));
+	anglerate_input_body_angles(&default_controller, ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), ins_get_yaw_dd(&default_ins));
+	anglerate_update(&default_controller, dt);
+
+#ifdef GTUNE
+	// TODO: unit test this gtune stuff. This may not be the right place to put it.
+	if (FLIGHT_MODE(GTUNE_MODE) && ARMING_FLAG(ARMED)) {
+		 for(int c = 0; c < 3; c++) calculate_Gtune(c);
+	}
+#endif
+
+
 	if(USE_TILT && is_tilt){
 		// TODO: refactor this once we have refactored rcCommand
 		// in angle mode we set control channel value in RC command to zero.
@@ -803,9 +831,6 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 		rcCommand[THROTTLE] = output.throttle;
 	}
 	
-	// TODO: enable this
-	//anglerate_update(&default_controller, gyroADC, att, dt);
-	//TODO: move gimbal code out of the mixer and place it externally
 /*
 	mixer_input_gimbal_angles(&default_mixer,
 		imu_get_roll_dd(&default_imu),

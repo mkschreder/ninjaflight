@@ -65,7 +65,10 @@ struct anglerate {
 	biquad_t deltaFilterState[3];
 
 	// update outputs based on current attitude information
-	void (*update)(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dT);
+	void (*update)(struct anglerate *self, float dT);
+
+	int16_t body_rates[3];
+	int16_t body_angles[3];
 
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -88,6 +91,7 @@ struct anglerate {
 	const rollAndPitchTrims_t *angle_trim;
 	const rxConfig_t *rx_config;
 
+	uint8_t level_percent[2];
 	uint8_t flags;
 
 	struct instruments *ins;
@@ -112,7 +116,10 @@ void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self);
 
-void anglerate_update(struct anglerate *self, const gyro_rates_t gyro, const euler_angles_t att, float dT);
+void anglerate_input_body_rates(struct anglerate *self, int16_t x, int16_t y, int16_t z);
+void anglerate_input_body_angles(struct anglerate *self, int16_t roll, int16_t pitch, int16_t yaw);
+
+void anglerate_update(struct anglerate *self, float dT);
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on);
 void anglerate_enable_plimit(struct anglerate *self, bool on);
@@ -121,3 +128,4 @@ void anglerate_enable_plimit(struct anglerate *self, bool on);
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight);
 
+void anglerate_set_level_percent(struct anglerate *self, uint8_t roll, uint8_t pitch);

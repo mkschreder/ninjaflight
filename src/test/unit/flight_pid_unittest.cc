@@ -266,8 +266,9 @@ void update_anglerate(void){
 	union attitude_euler_angles att;
 	imu_get_attitude_dd(&default_ins.imu, &att);
 	
-	int32_t gyro[3] = { gyr[0], gyr[1], gyr[2] };
-	anglerate_update(&default_controller, gyro, att, dt);
+	anglerate_input_body_rates(&default_controller, gyr[0], gyr[1], gyr[2]);
+	anglerate_input_body_angles(&default_controller, ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), ins_get_yaw_dd(&default_ins));
+	anglerate_update(&default_controller, dt);
 }
 
 TEST(PIDUnittest, TestPidLuxFloat)
