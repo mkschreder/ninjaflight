@@ -114,39 +114,45 @@ TEST(FlightImuTest, TestEulerAngleCalculation){
 		1.0f/16.4f,
 		1024
 	);
+
+	// accelerometer reads linear acceleration - g so and also it is upside down.
+	// rotations are positive clockwise and negative ccw when looking down an axis
+
+	// so when it is leveled it gives reading perpendecular to g which is positive z
     input_imu_accel(0, 0, 1024);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
+	// when it is tilted nose up it will give reading along positive x since gravity is along negative x
     input_imu_accel(1024, 0, 0);
     EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -900);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    input_imu_accel(724, 0, 724);
-    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
-    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
-    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
-
-    input_imu_accel(0, 724, 724);
-    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 450);
-    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
-    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
-
-    input_imu_accel(724, 724, 0);
-    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 843);
-    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
-    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 450);
-
+	// since y is to the left, rotating cw 90 deg around x will give acceleration pointing upwards and gravity in -y direction
     input_imu_accel(0, 1024, 0);
     EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 900);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
 
-    input_imu_accel(1024, 0, 0);
+	// pitching up -45 degrees around y will give positive x and z reading
+    input_imu_accel(724, 0, 724);
     EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 0);
-    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -900);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
+
+	// rolling cw around x will give positive y and z reading
+    input_imu_accel(0, 724, 724);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 450);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), 0);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 0);
+
+	// this one is a pretty weird test. It does not really work because it involves yaw which we can not estimate using only the accelerometer
+	// TODO: this needs more investigation (for now things seem to work though)
+    input_imu_accel(724, 724, 0);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&default_imu), 843);
+    EXPECT_FLOAT_EQ(imu_get_pitch_dd(&default_imu), -450);
+    EXPECT_FLOAT_EQ(imu_get_yaw_dd(&default_imu), 450);
 }
 
 // STUBS
