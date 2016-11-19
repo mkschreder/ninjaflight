@@ -82,9 +82,6 @@ struct application {
 	struct anglerate controller;
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
-
-	gyro_rates_t gyro;
-	euler_angles_t attitude;
 };
 
 static void _application_send_state(struct application *self){
@@ -97,6 +94,8 @@ static void _application_send_state(struct application *self){
 	for(int c = 4; c < FC_SITL_PWM_CHANNELS; c++){
 		cl->write_pwm(cl, c, 1500);
 	}
+
+	cl->update_euler_angles(cl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 #if 0
 	struct sitl_server_packet pkt;
 	memset(&pkt, 0, sizeof(pkt));
@@ -138,16 +137,22 @@ static void _application_recv_state(struct application *self){
 	cl->read_accel(cl, accel);
 	cl->read_gyro(cl, gyr);
 
-	self->gyro[0] = gyr[0] * 4096;
-	self->gyro[1] = -gyr[1] * 4096;
-	self->gyro[2] = -gyr[2] * 4096;
+	int16_t w[3];
+	// scale gyro to int16 range. 35.0f is 2000 deg/s max gyro range in radians.
+	// incoming gyro data from sim is in rad/s
+	w[0] = (gyr[0] / 35.0f) * 32768;
+	w[1] = (gyr[1] / 35.0f) * 32768;
+	w[2] = (gyr[2] / 35.0f) * 32768;
 
-	ins_process_acc(&self->ins,
-		(accel[0] / 9.82f) * 512,
-		(accel[1] / 9.82f) * 512,
-		(accel[2] / 9.82f) * 512);
+	// accelerometer is scaled to 512 (acc_1G)
+	accel[0] = (accel[0] / 9.82f) * 512;
+	accel[1] = (accel[1] / 9.82f) * 512;
+	accel[2] = (accel[2] / 9.82f) * 512;
 
-	ins_process_gyro(&self->ins, self->gyro[0], self->gyro[1], self->gyro[2]);
+	ins_process_acc(&self->ins, accel[0], accel[1], accel[2]);
+
+	printf("acc: %d %d %d\n", (int)accel[0], (int)accel[1], (int)accel[2]);
+	ins_process_gyro(&self->ins, w[0], w[1], w[2]);
 
 	ins_update(&self->ins, 0.001);
 
@@ -158,18 +163,22 @@ static void _application_recv_state(struct application *self){
 	#endif
 }
 static void _application_fc_run(struct application *self){
-	//union attitude_euler_angles att;
-	imu_get_attitude_dd(&self->ins.imu, &self->attitude);
-
 	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
+	if(!ins_is_calibrated(&self->ins)) return;
 	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
 	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
 	rcCommand[THROTTLE] = rc_get_channel_value(2) - 1000;
 	rcCommand[YAW] = -(rc_get_channel_value(3) - 1500);
-	anglerate_update(&self->controller, self->gyro, self->attitude, 0.001);
+	anglerate_input_body_rates(&self->controller, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	anglerate_input_body_angles(&self->controller, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
+	anglerate_set_level_percent(&self->controller, 100, 100);
+	anglerate_update(&self->controller, 0.001);
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
 	printf("rcCommand: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[THROTTLE], rcCommand[YAW]);
 	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
+	//printf("acc: %d %d %d\n", ins_get_acc_x(&self->ins), ins_get_acc_y(&self->ins), ins_get_acc_z(&self->ins));
+	printf("gyro: %d %d %d\n", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	printf("roll: %d, pitch: %d, yaw: %d\n", ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 
 	mixer_enable_armed(&self->mixer, true);
 	mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, out->axis[ROLL]);
@@ -211,21 +220,33 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	memset(&rateConfig, 0, sizeof(struct rate_config));
 
 	pidProfile()->pidController = PID_CONTROLLER_LUX_FLOAT;
-	pidProfile()->P8[PIDROLL] = 30;
-	pidProfile()->P8[PIDPITCH] = 30;
+	pidProfile()->P8[PIDROLL] = 40;
+	pidProfile()->I8[PIDROLL] = 30;
+	pidProfile()->D8[PIDROLL] = 23;
+	
+	pidProfile()->P8[PIDPITCH] = 40;
+	pidProfile()->I8[PIDPITCH] = 30;
+	pidProfile()->D8[PIDPITCH] = 23;
+
 	pidProfile()->P8[PIDYAW] = 85;
+	pidProfile()->I8[PIDYAW] = 45;
+	pidProfile()->D8[PIDYAW] = 0;
 
-	pidProfile()->I8[PIDROLL] = 20;
-	pidProfile()->I8[PIDPITCH] = 20;
-	pidProfile()->I8[PIDYAW] = 35;
-
-	pidProfile()->D8[PIDROLL] = 5;
-	pidProfile()->D8[PIDPITCH] = 5;
-	pidProfile()->D8[PIDYAW] = 5;
+	pidProfile()->P8[PIDLEVEL] = 20;
+	pidProfile()->I8[PIDLEVEL] = 10;
+	pidProfile()->D8[PIDLEVEL] = 100;
 
 	rateConfig.rates[ROLL] = 173;
     rateConfig.rates[PITCH] = 173;
     rateConfig.rates[YAW] = 173;
+
+	imuConfig()->dcm_kp = 2500;
+	imuConfig()->dcm_ki = 2500;
+    imuConfig()->looptime = 1000;
+    imuConfig()->gyroSync = 1;
+    imuConfig()->gyroSyncDenominator = 1;
+    imuConfig()->small_angle = 25;
+    imuConfig()->max_angle_inclination = 500;
 
 	anglerate_init(&self->controller,
 		&self->ins,
@@ -350,13 +371,11 @@ void beeperConfirmationBeeps(void);
 void beeperConfirmationBeeps(void){}
 void writeConfigToEEPROM(void);
 void writeConfigToEEPROM(void){}
-void useRcControlsConfig(modeActivationCondition_t *);
 void useRcControlsConfig(modeActivationCondition_t *c){(void)c;}
 void parseRcChannels(const char *input, rxConfig_t *rxConfig){UNUSED(input);UNUSED(rxConfig);}
 void suspendRxSignal(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
 void resumeRxSignal(void){}
-void failsafeReset(void);
 void failsafeReset(void){}
 bool isEEPROMContentValid(void);
 bool isEEPROMContentValid(void){ return true; }
