@@ -82,7 +82,6 @@ bool areUsingSticksToArm(void);
 bool areSticksInApModePosition(uint16_t ap_mode);
 throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband3d_throttle);
 rollPitchStatus_e calculateRollPitchCenterStatus(rxConfig_t *rxConfig);
-void processRcStickPositions(rxConfig_t *rxConfig, throttleStatus_e throttleStatus, bool retarded_arm, bool disarm_kill_switch);
 
 bool rcModeIsActive(boxId_e modeId);
 void rcModeUpdateActivated(modeActivationCondition_t *modeActivationConditions);

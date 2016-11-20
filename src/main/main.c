@@ -108,7 +108,7 @@
 #include "ninjaflight.h"
 #include "scheduler.h"
 
-static struct ninja ninja;
+struct ninja ninja;
 
 // TODO: refactor this to use proper timeouts
 extern uint32_t currentTime;
@@ -117,12 +117,10 @@ uint16_t filteredCycleTime;
 uint16_t cycleTime;
 
 // TODO: remove when we are done refactoring
-struct instruments default_ins;
-struct battery default_battery;
-struct mixer default_mixer;
-struct anglerate default_controller;
-
-extern uint8_t motorControlEnable;
+//struct instruments default_ins;
+//struct battery default_battery;
+//struct mixer default_mixer;
+//struct anglerate default_controller;
 
 #ifdef SOFTSERIAL_LOOPBACK
 serialPort_t *loopbackPort;
@@ -492,17 +490,9 @@ static void init(void)
 
     dmaInit();
 
-
     serialInit(feature(FEATURE_SOFTSERIAL));
 
-    mixer_init(&default_mixer,
-		mixerConfig(),
-		motor3DConfig(),
-		motorAndServoConfig(),
-		rxConfig(),
-		rcControlsConfig(),
-		servoProfile()->servoConf,
-		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+	ninja_init(&ninja);
 
     memset(&pwm_params, 0, sizeof(pwm_params));
 
@@ -556,7 +546,7 @@ static void init(void)
 #endif
 
 #ifdef USE_SERVOS
-    pwm_params.useServos = mixer_get_servo_count(&default_mixer) || feature(FEATURE_SERVO_TILT);
+    pwm_params.useServos = mixer_get_servo_count(&ninja.mixer) || feature(FEATURE_SERVO_TILT);
     pwm_params.useChannelForwarding = feature(FEATURE_CHANNEL_FORWARDING);
     pwm_params.servoCenterPulse = motorAndServoConfig()->servoCenterPulse;
     pwm_params.servoPwmRate = motorAndServoConfig()->servo_pwm_rate;
@@ -575,7 +565,7 @@ static void init(void)
     // pwmInit() needs to be called as soon as possible for ESC compatibility reasons
 	pwmInit(&pwm_params);
     //pwmIOConfiguration_t *pwmIOConfiguration = pwmInit(&pwm_params);
-	//mixer_use_pwmio_config(&default_mixer, pwmIOConfiguration);
+	//mixer_use_pwmio_config(&ninja.mixer, pwmIOConfiguration);
 
 #ifdef DEBUG_PWM_CONFIGURATION
     debug[2] = pwmIOConfiguration->pwmInputCount;
@@ -583,7 +573,7 @@ static void init(void)
 #endif
 
     if (!feature(FEATURE_ONESHOT125))
-        motorControlEnable = true;
+        ninja.motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_MOTORS_READY;
 
@@ -683,21 +673,11 @@ static void init(void)
     if (USE_MAG && sensors(SENSOR_MAG))
     	mag.init();
 
-	ins_init(&default_ins, 
-		boardAlignment(),
-		imuConfig(),
-		throttleCorrectionConfig(),
-		gyroConfig(),
-		compassConfig(),
-		sensorTrims(),
-		accelerometerConfig(),
-		gyro.scale,
-		acc.acc_1G
-	);
-
-	ins_set_gyro_alignment(&default_ins, gyroAlign);
-	ins_set_acc_alignment(&default_ins, accAlign);
-	ins_set_mag_alignment(&default_ins, magAlign);
+	ins_set_gyro_scale(&ninja.ins, gyro.scale);
+	ins_set_acc_scale(&ninja.ins, acc.acc_1G);
+	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
+	ins_set_acc_alignment(&ninja.ins, accAlign);
+	ins_set_mag_alignment(&ninja.ins, magAlign);
 
 #ifdef GPS
     if (feature(FEATURE_GPS)) {
@@ -716,16 +696,6 @@ static void init(void)
 #ifdef USE_CLI
     cliInit();
 #endif
-
-	// is this ok here?
-	anglerate_init(&default_controller,
-		&default_ins,
-		pidProfile(),
-		currentControlRateProfile,
-		imuConfig()->max_angle_inclination,
-		&accelerometerConfig()->trims,
-		rxConfig()
-	);
 
     failsafeInit();
 
@@ -825,10 +795,6 @@ static void init(void)
     serialPrint(loopbackPort, "LOOPBACK\r\n");
 #endif
 
-    // Now that everything has powered up the voltage and cell count be determined.
-
-    if (feature(FEATURE_VBAT | FEATURE_CURRENT_METER))
-        battery_init(&default_battery, batteryConfig());
 
 #ifdef DISPLAY
     if (feature(FEATURE_DISPLAY)) {
@@ -845,11 +811,9 @@ static void init(void)
     led_on(2);
 #endif
 
-	ninja_init(&ninja);
-
     // Latch active features AGAIN since some may be modified by init().
     latchActiveFeatures();
-    motorControlEnable = true;
+    ninja.motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_READY;
 }

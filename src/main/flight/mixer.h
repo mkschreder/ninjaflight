@@ -19,12 +19,8 @@
 
 #include "anglerate.h"
 
-// TODO: motor_and_servo probably does not belong in io folder..
 #include "../config/mixer.h"
 #include "../config/rc_controls.h"
-
-// TODO: this is very bad way so remove this later once refactoring is done.
-extern struct mixer default_mixer;
 
 /*
 #if USE_QUAD_MIXER_ONLY == 1

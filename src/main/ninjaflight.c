@@ -107,30 +107,8 @@ enum {
 
 float dT;
 
-int16_t magHold;
-int16_t headFreeModeHold;
-
-uint8_t motorControlEnable = false;
-
-int16_t telemTemperature1;      // gyro sensor temperature
-static uint32_t disarmAt;     // Time of automatic disarm when "Don't spin the motors when armed" is enabled and auto_disarm_delay is nonzero
-
 extern uint32_t currentTime;
 extern uint8_t PIDweight[3];
-
-static bool isRXDataNew;
-
-void ninja_init(struct ninja *self){
-	self->placeholder = 0;
-}
-
-void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta)
-{
-    accelerometerConfig()->trims.values.roll += rollAndPitchTrimsDelta->values.roll;
-    accelerometerConfig()->trims.values.pitch += rollAndPitchTrimsDelta->values.pitch;
-
-    saveConfigAndNotify();
-}
 
 #ifdef GTUNE
 
@@ -158,99 +136,17 @@ static void updateGtuneState(void)
 
 bool isCalibrating(void)
 {
-	return ins_is_calibrated(&default_ins);
-}
-
-/*
-This function processes RX dependent coefficients when new RX commands are available
-Those are: TPA, throttle expo
-*/
-static void updateRcCommands(void)
-{
-
-    int32_t tmp, tmp2;
-    int32_t axis, prop1 = 0, prop2;
-
-    // PITCH & ROLL only dynamic PID adjustment,  depending on throttle value
-    if (rc_get_channel_value(THROTTLE) < currentControlRateProfile->tpa_breakpoint) {
-        prop2 = 100;
-    } else {
-        if (rc_get_channel_value(THROTTLE) < 2000) {
-			uint16_t t = rc_get_channel_value(THROTTLE) - currentControlRateProfile->tpa_breakpoint;
-            prop2 = 100 - (uint16_t)currentControlRateProfile->dynThrPID * t / constrain(2000 - currentControlRateProfile->tpa_breakpoint, 1000, 2000);
-        } else {
-            prop2 = 100 - currentControlRateProfile->dynThrPID;
-        }
-    }
-
-    for (axis = 0; axis < 3; axis++) {
-        tmp = MIN(ABS(rc_get_channel_value(axis) - rxConfig()->midrc), 500);
-        if (axis == ROLL || axis == PITCH) {
-            if (rcControlsConfig()->deadband) {
-                if (tmp > rcControlsConfig()->deadband) {
-                    tmp -= rcControlsConfig()->deadband;
-                } else {
-                    tmp = 0;
-                }
-            }
-
-            tmp2 = tmp / 100;
-            rcCommand[axis] = lookupPitchRollRC[tmp2] + (tmp - tmp2 * 100) * (lookupPitchRollRC[tmp2 + 1] - lookupPitchRollRC[tmp2]) / 100;
-            prop1 = 100 - (uint16_t)currentControlRateProfile->rates[axis] * tmp / 500;
-            prop1 = (uint16_t)prop1 * prop2 / 100;
-        } else if (axis == YAW) {
-            if (rcControlsConfig()->yaw_deadband) {
-                if (tmp > rcControlsConfig()->yaw_deadband) {
-                    tmp -= rcControlsConfig()->yaw_deadband;
-                } else {
-                    tmp = 0;
-                }
-            }
-            tmp2 = tmp / 100;
-            rcCommand[axis] = (lookupYawRC[tmp2] + (tmp - tmp2 * 100) * (lookupYawRC[tmp2 + 1] - lookupYawRC[tmp2]) / 100) * -rcControlsConfig()->yaw_control_direction;
-            prop1 = 100 - (uint16_t)currentControlRateProfile->rates[axis] * ABS(tmp) / 500;
-        }
-#ifndef SKIP_PID_MW23
-		// FIXME axis indexes into pids.  use something like lookupPidIndex(rc_alias_e alias) to reduce coupling.
-		// TODO: move this kind of shit into pid controller module
-		anglerate_set_pid_axis_scale(&default_controller, axis, prop1);
-#endif
-
-        // non coupled PID reduction scaler used in PID controller 1 and PID controller 2. YAW TPA disabled. 100 means 100% of the pids
-        if (axis == YAW) {
-			anglerate_set_pid_axis_weight(&default_controller, axis, 100);
-        }
-        else {
-			anglerate_set_pid_axis_weight(&default_controller, axis, prop2);
-        }
-
-        if (rc_get_channel_value(axis) < rxConfig()->midrc)
-            rcCommand[axis] = -rcCommand[axis];
-    }
-
-    tmp = constrain(rc_get_channel_value(THROTTLE), rxConfig()->mincheck, PWM_RANGE_MAX);
-    tmp = (uint32_t)(tmp - rxConfig()->mincheck) * PWM_RANGE_MIN / (PWM_RANGE_MAX - rxConfig()->mincheck);       // [MINCHECK;2000] -> [0;1000]
-    tmp2 = tmp / 100;
-    rcCommand[THROTTLE] = lookupThrottleRC[tmp2] + (tmp - tmp2 * 100) * (lookupThrottleRC[tmp2 + 1] - lookupThrottleRC[tmp2]) / 100;    // [0;1000] -> expo -> [MINTHROTTLE;MAXTHROTTLE]
-
-    if (FLIGHT_MODE(HEADFREE_MODE)) {
-        float radDiff = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) - headFreeModeHold);
-        float cosDiff = cos_approx(radDiff);
-        float sinDiff = sin_approx(radDiff);
-        int16_t rcCommand_PITCH = rcCommand[PITCH] * cosDiff + rcCommand[ROLL] * sinDiff;
-        rcCommand[ROLL] = rcCommand[ROLL] * cosDiff - rcCommand[PITCH] * sinDiff;
-        rcCommand[PITCH] = rcCommand_PITCH;
-    }
+	return ins_is_calibrated(&ninja.ins);
 }
 
 static uint8_t calibrating = 0;
 void ninja_calibrate_acc(void){
-	ins_start_acc_calibration(&default_ins);
+	ins_start_acc_calibration(&ninja.ins);
 	calibrating = 1;
 }
 
 void ninja_calibrate_mag(void){
-	ins_start_mag_calibration(&default_ins);
+	ins_start_mag_calibration(&ninja.ins);
 	calibrating = 1;
 }
 
@@ -290,25 +186,6 @@ static void updateLEDs(void)
         warningLedUpdate();
     }
 }
-
-void mwDisarm(void)
-{
-    if (ARMING_FLAG(ARMED)) {
-		// reset mixer minimum values in case something else has changed them
-		mixer_enable_armed(&default_mixer, false);
-
-        DISABLE_ARMING_FLAG(ARMED);
-
-#ifdef BLACKBOX
-        if (feature(FEATURE_BLACKBOX)) {
-            finishBlackbox();
-        }
-#endif
-
-        beeper(BEEPER_DISARMING);      // emit disarm tone
-    }
-}
-
 #define TELEMETRY_FUNCTION_MASK (FUNCTION_TELEMETRY_FRSKY | FUNCTION_TELEMETRY_HOTT | FUNCTION_TELEMETRY_SMARTPORT | FUNCTION_TELEMETRY_LTM | FUNCTION_TELEMETRY_MAVLINK)
 
 #ifdef TELEMETRY
@@ -320,95 +197,11 @@ static void releaseSharedTelemetryPorts(void) {
      }
 }
 #endif
-
-void mwArm(void)
-{
-    if (ARMING_FLAG(OK_TO_ARM)) {
-        if (ARMING_FLAG(ARMED)) {
-            return;
-        }
-        if (rcModeIsActive(BOXFAILSAFE)) {
-            return;
-        }
-        if (!ARMING_FLAG(PREVENT_ARMING)) {
-            ENABLE_ARMING_FLAG(ARMED);
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
-			mixer_enable_armed(&default_mixer, true);
-
-#ifdef BLACKBOX
-            if (feature(FEATURE_BLACKBOX)) {
-                serialPort_t *sharedBlackboxAndMspPort = findSharedSerialPort(FUNCTION_BLACKBOX, FUNCTION_MSP);
-                if (sharedBlackboxAndMspPort) {
-                    mspSerialReleasePortIfAllocated(sharedBlackboxAndMspPort);
-                }
-                startBlackbox();
-            }
-#endif
-            disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
-
-            //beep to indicate arming
-#ifdef GPS
-            if (feature(FEATURE_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5)
-                beeper(BEEPER_ARMING_GPS_FIX);
-            else
-                beeper(BEEPER_ARMING);
-#else
-            beeper(BEEPER_ARMING);
-#endif
-
-            return;
-        }
-    }
-
-    if (!ARMING_FLAG(ARMED)) {
-        beeperConfirmationBeeps(1);
-    }
-}
-
-// Automatic ACC Offset Calibration
-bool AccInflightCalibrationArmed = false;
-bool AccInflightCalibrationMeasurementDone = false;
-bool AccInflightCalibrationSavetoEEProm = false;
-bool AccInflightCalibrationActive = false;
-uint16_t InflightcalibratingA = 0;
-
-void handleInflightCalibrationStickPosition(void)
-{
-    if (AccInflightCalibrationMeasurementDone) {
-        // trigger saving into eeprom after landing
-        AccInflightCalibrationMeasurementDone = false;
-        AccInflightCalibrationSavetoEEProm = true;
-    } else {
-        AccInflightCalibrationArmed = !AccInflightCalibrationArmed;
-        if (AccInflightCalibrationArmed) {
-            beeper(BEEPER_ACC_CALIBRATION);
-        } else {
-            beeper(BEEPER_ACC_CALIBRATION_FAIL);
-        }
-    }
-}
-
-static void updateInflightCalibrationState(void)
-{
-    if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rc_get_channel_value(THROTTLE) > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
-        InflightcalibratingA = 50;
-        AccInflightCalibrationArmed = false;
-    }
-    if (rcModeIsActive(BOXCALIB)) {      // Use the Calib Option to activate : Calib = TRUE measurement started, Land and Calib = 0 measurement stored
-        if (!AccInflightCalibrationActive && !AccInflightCalibrationMeasurementDone)
-            InflightcalibratingA = 50;
-        AccInflightCalibrationActive = true;
-    } else if (AccInflightCalibrationMeasurementDone && !ARMING_FLAG(ARMED)) {
-        AccInflightCalibrationMeasurementDone = false;
-        AccInflightCalibrationSavetoEEProm = true;
-    }
-}
-
 static void updateMagHold(void)
 {
 	// TODO: really refactor this kind of crap. This belongs in flight control code
     if (ABS(rcCommand[YAW]) < 15 && FLIGHT_MODE(MAG_MODE)) {
-        int16_t dif = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) - magHold;
+        int16_t dif = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)) - ninja.magHold;
         if (dif <= -180)
             dif += 360;
         if (dif >= +180)
@@ -418,234 +211,7 @@ static void updateMagHold(void)
         if (STATE(SMALL_ANGLE))
             rcCommand[YAW] -= dif * pidProfile()->P8[PIDMAG] / 30;    // 18 deg
     } else
-        magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
-}
-
-static void processRx(void)
-{
-    static bool armedBeeperOn = false;
-
-    calculateRxChannelsAndUpdateFailsafe(currentTime);
-
-    // in 3D mode, we need to be able to disarm by switch at any time
-    if (feature(FEATURE_3D)) {
-        if (!rcModeIsActive(BOXARM))
-            mwDisarm();
-    }
-
-    updateRSSI(currentTime);
-
-    if (feature(FEATURE_FAILSAFE)) {
-
-        if (currentTime > FAILSAFE_POWER_ON_DELAY_US && !failsafeIsMonitoring()) {
-            failsafeStartMonitoring();
-        }
-
-        failsafeUpdateState();
-    }
-
-    throttleStatus_e throttleStatus = calculateThrottleStatus(rxConfig(), rcControlsConfig()->deadband3d_throttle);
-    rollPitchStatus_e rollPitchStatus =  calculateRollPitchCenterStatus(rxConfig());
-
-    /* In airmode Iterm should be prevented to grow when Low thottle and Roll + Pitch Centered.
-     This is needed to prevent Iterm winding on the ground, but keep full stabilisation on 0 throttle while in air
-     Low Throttle + roll and Pitch centered is assuming the copter is on the ground. Done to prevent complex air/ground detections */
-    if (throttleStatus == THROTTLE_LOW) {
-        if (rcModeIsActive(BOXAIRMODE) && !failsafeIsActive() && ARMING_FLAG(ARMED)) {
-            if (rollPitchStatus == CENTERED) {
-				anglerate_enable_antiwindup(&default_controller, true);
-            } else {
-				anglerate_enable_antiwindup(&default_controller, false);
-            }
-        } else {
-#ifndef SKIP_PID_MW23
-            anglerate_reset_angle_i(&default_controller);
-#endif
-            anglerate_reset_rate_i(&default_controller);
-        }
-    } else if(mixer_motor_limit_reached(&default_mixer)){
-		// when motor limit reached then we always enable antiwindup (this is taken from cleanflight pid code)
-		anglerate_enable_antiwindup(&default_controller, true);
-	} else {
-		anglerate_enable_antiwindup(&default_controller, false);
-    }
-
-	// plimit is enabled in cleanflight for some reason based on number of motors
-	if(mixer_get_motor_count(&default_mixer) >= 4)
-		anglerate_enable_plimit(&default_controller, true);
-	else
-		anglerate_enable_plimit(&default_controller, false);
-
-    // When armed and motors aren't spinning, do beeps and then disarm
-    // board after delay so users without buzzer won't lose fingers.
-    // mixTable constrains motor commands, so checking  throttleStatus is enough
-    if (ARMING_FLAG(ARMED)
-        && feature(FEATURE_MOTOR_STOP)
-        && !STATE(FIXED_WING)
-    ) {
-        if (isUsingSticksForArming()) {
-            if (throttleStatus == THROTTLE_LOW) {
-                if (armingConfig()->auto_disarm_delay != 0
-                    && (int32_t)(disarmAt - millis()) < 0
-                ) {
-                    // auto-disarm configured and delay is over
-                    mwDisarm();
-                    armedBeeperOn = false;
-                } else {
-                    // still armed; do warning beeps while armed
-                    beeper(BEEPER_ARMED);
-                    armedBeeperOn = true;
-                }
-            } else {
-                // throttle is not low
-                if (armingConfig()->auto_disarm_delay != 0) {
-                    // extend disarm time
-                    disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;
-                }
-
-                if (armedBeeperOn) {
-                    beeperSilence();
-                    armedBeeperOn = false;
-                }
-            }
-        } else {
-            // arming is via AUX switch; beep while throttle low
-            if (throttleStatus == THROTTLE_LOW) {
-                beeper(BEEPER_ARMED);
-                armedBeeperOn = true;
-            } else if (armedBeeperOn) {
-                beeperSilence();
-                armedBeeperOn = false;
-            }
-        }
-    }
-
-    processRcStickPositions(rxConfig(), throttleStatus, armingConfig()->retarded_arm, armingConfig()->disarm_kill_switch);
-
-    if (feature(FEATURE_INFLIGHT_ACC_CAL)) {
-        updateInflightCalibrationState();
-    }
-
-    rcModeUpdateActivated(modeActivationProfile()->modeActivationConditions);
-
-    if (!cliMode) {
-        updateAdjustmentStates(adjustmentProfile()->adjustmentRanges);
-        processRcAdjustments(currentControlRateProfile, rxConfig());
-    }
-
-    bool canUseHorizonMode = true;
-
-    if ((rcModeIsActive(BOXANGLE) || (feature(FEATURE_FAILSAFE) && failsafeIsActive())) && (sensors(SENSOR_ACC))) {
-        // bumpless transfer to Level mode
-        canUseHorizonMode = false;
-
-        if (!FLIGHT_MODE(ANGLE_MODE)) {
-#ifndef SKIP_PID_MW23
-            anglerate_reset_angle_i(&default_controller);
-#endif
-            ENABLE_FLIGHT_MODE(ANGLE_MODE);
-        }
-    } else {
-        DISABLE_FLIGHT_MODE(ANGLE_MODE); // failsafe support
-    }
-
-    if (rcModeIsActive(BOXHORIZON) && canUseHorizonMode) {
-
-        DISABLE_FLIGHT_MODE(ANGLE_MODE);
-
-        if (!FLIGHT_MODE(HORIZON_MODE)) {
-#ifndef SKIP_PID_MW23
-            anglerate_reset_angle_i(&default_controller);
-#endif
-            ENABLE_FLIGHT_MODE(HORIZON_MODE);
-        }
-    } else {
-        DISABLE_FLIGHT_MODE(HORIZON_MODE);
-    }
-
-    #ifdef  MAG
-	// TODO: refactor the mag hold mode
-    if (sensors(SENSOR_ACC) || sensors(SENSOR_MAG)) {
-        if (rcModeIsActive(BOXMAG)) {
-            if (!FLIGHT_MODE(MAG_MODE)) {
-                ENABLE_FLIGHT_MODE(MAG_MODE);
-                magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));
-            }
-        } else {
-            DISABLE_FLIGHT_MODE(MAG_MODE);
-        }
-        if (rcModeIsActive(BOXHEADFREE)) {
-            if (!FLIGHT_MODE(HEADFREE_MODE)) {
-                ENABLE_FLIGHT_MODE(HEADFREE_MODE);
-            }
-        } else {
-            DISABLE_FLIGHT_MODE(HEADFREE_MODE);
-        }
-        if (rcModeIsActive(BOXHEADADJ)) {
-            headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)); // acquire new heading
-        }
-    }
-#endif
-
-#ifdef GPS
-    if (sensors(SENSOR_GPS)) {
-        updateGpsWaypointsAndMode();
-    }
-#endif
-
-    if (rcModeIsActive(BOXPASSTHRU)) {
-        ENABLE_FLIGHT_MODE(PASSTHRU_MODE);
-    } else {
-        DISABLE_FLIGHT_MODE(PASSTHRU_MODE);
-    }
-
-    if (mixerConfig()->mixerMode == MIXER_FLYING_WING || mixerConfig()->mixerMode == MIXER_AIRPLANE) {
-        DISABLE_FLIGHT_MODE(HEADFREE_MODE);
-    }
-
-#ifdef TELEMETRY
-    if (feature(FEATURE_TELEMETRY)) {
-        if ((!telemetryConfig()->telemetry_switch && ARMING_FLAG(ARMED))
-            || (telemetryConfig()->telemetry_switch && rcModeIsActive(BOXTELEMETRY))) {
-            releaseSharedTelemetryPorts();
-        } else {
-            // the telemetry state must be checked immediately so that shared serial ports are released.
-            telemetryCheckState();
-            mspSerialAllocatePorts();
-        }
-    }
-#endif
-
-}
-
-static void filterRc(float dt){
-    static int16_t lastCommand[4] = { 0, 0, 0, 0 };
-    static int16_t deltaRC[4] = { 0, 0, 0, 0 };
-    static int16_t factor, rcInterpolationFactor;
-    uint16_t rxRefreshRate = rc_get_refresh_rate();
-
-    rcInterpolationFactor = rxRefreshRate / (dt * 1000000UL);
-
-    if (isRXDataNew) {
-        for (int channel=0; channel < 4; channel++) {
-            deltaRC[channel] = rcCommand[channel] -  (lastCommand[channel] - deltaRC[channel] * factor / rcInterpolationFactor);
-            lastCommand[channel] = rcCommand[channel];
-        }
-
-        isRXDataNew = false;
-        factor = rcInterpolationFactor - 1;
-    } else {
-        factor--;
-    }
-
-    // Interpolate steps of rcCommand
-    if (factor > 0) {
-        for (int channel=0; channel < 4; channel++) {
-            rcCommand[channel] = lastCommand[channel] - deltaRC[channel] * factor/rcInterpolationFactor;
-         }
-    } else {
-        factor = 0;
-    }
+        ninja.magHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins));
 }
 
 #if defined(BARO) || defined(SONAR)
@@ -666,7 +232,7 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 
 	int16_t rawgyro[3];
 	if (gyro.read(rawgyro)) {
-		ins_process_gyro(&default_ins, rawgyro[0], rawgyro[1], rawgyro[2]);
+		ins_process_gyro(&ninja.ins, rawgyro[0], rawgyro[1], rawgyro[2]);
 	}
 
 #if defined(GPS)
@@ -678,16 +244,6 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
     }
 	*/
 #endif
-	ins_update(&default_ins, dt);
-
-	//union attitude_euler_angles att;
-	//imu_get_attitude_dd(&default_imu, &att);
-
-    updateRcCommands(); // this must be called here since applyAltHold directly manipulates rcCommands[]
-
-    if (rxConfig()->rcSmoothing) {
-        filterRc(dt);
-    }
 
 #if defined(BARO) || defined(SONAR)
     haveUpdatedRcCommandsOnce = true;
@@ -695,7 +251,7 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 
     // Read out gyro temperature. can use it for something somewhere. maybe get MCU temperature instead? lots of fun possibilities.
     if (gyro.temperature) {
-        gyro.temperature(&telemTemperature1);
+        gyro.temperature(&self->telemTemperature1);
     }
 
 	if (USE_MAG && sensors(SENSOR_MAG)) {
@@ -742,38 +298,9 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
     }
 #endif
 	// TODO: move this once we have tested current refactored code
-    anglerate_set_algo(&default_controller, pidProfile()->pidController);
+	ninja_update_controller(&ninja, dt);
 
-    if (FLIGHT_MODE(HORIZON_MODE)) {
-		int16_t hp_roll = 100-ABS(rcCommand[ROLL]) / 5;
-		int16_t hp_pitch = 100-ABS(rcCommand[ROLL]) / 5;
-		anglerate_set_level_percent(&default_controller, hp_roll, hp_pitch);
-        // Figure out the most deflected stick position
-        /*
-		const int32_t stickPosAil = ABS(getRcStickDeflection(ROLL, rxConfig()->midrc));
-        const int32_t stickPosEle = ABS(getRcStickDeflection(PITCH, rxConfig()->midrc));
-        const int32_t mostDeflectedPos =  MAX(stickPosAil, stickPosEle);
-
-        // Progressively turn off the horizon self level strength as the stick is banged over
-        int16_t horizonLevelStrength = (500 - mostDeflectedPos) / 5;  // 100 at centre stick, 0 = max stick deflection
-		
-        // Using D8[PIDLEVEL] as a Sensitivity for Horizon.
-        // 0 more level to 255 more rate. Default value of 100 seems to work fine.
-        // For more rate mode increase D and slower flips and rolls will be possible
-        //horizonLevelStrength = constrain((10 * (horizonLevelStrength - 100) * (10 * self->config->D8[PIDLEVEL] / 80) / 100) + 100, 0, 100);
-		*/
-    }
-
-	anglerate_input_user(&default_controller, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
-	anglerate_input_body_rates(&default_controller, ins_get_gyro_x(&default_ins), ins_get_gyro_y(&default_ins), ins_get_gyro_z(&default_ins));
-	anglerate_input_body_angles(&default_controller, ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), ins_get_yaw_dd(&default_ins));
-	anglerate_update(&default_controller, dt);
-	
-	rcCommand[ROLL] = anglerate_get_roll(&default_controller);
-	rcCommand[PITCH] = anglerate_get_pitch(&default_controller);
-	rcCommand[YAW] = anglerate_get_yaw(&default_controller);
-
-	// TODO: refactor this
+    	// TODO: refactor this
 #ifdef GTUNE
 	// TODO: unit test this gtune stuff. This may not be the right place to put it.
 	if (FLIGHT_MODE(GTUNE_MODE) && ARMING_FLAG(ARMED)) {
@@ -781,148 +308,19 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 	}
 #endif
 
-	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
-	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
-
-	if(USE_TILT && is_tilt){
-		// TODO: refactor this once we have refactored rcCommand
-		// in angle mode we set control channel value in RC command to zero.
-		int16_t motor_pitch = 0;
-		struct tilt_config *tilt = tiltConfig();
-		if(FLIGHT_MODE(ANGLE_MODE)){
-			// if control channel is pitch or roll then we need to feed 0 to the anglerate controller for corresponding channel
-			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				motor_pitch = rcCommand[tilt->control_channel];
-				rcCommand[tilt->control_channel] = 0;
-			} else {
-				// get the control input for the tilt from the control channel
-				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
-			}
-		} else if(FLIGHT_MODE(HORIZON_MODE)){
-			// in horizon mode we do not deprive the anglerate controller of user input but we need to divide the pitch value so that anglerate controller pitches the body half way while we also tilt the propellers
-			// this will tilt the body forward as well as tilt the propellers and once stick is all the way forward the quad body will tilt forward like in rate mode.
-			// TODO: this mode currently is far from perfect.  Needs testing.
-			if((tilt->control_channel == PITCH || tilt->control_channel == ROLL)){
-				motor_pitch = rcCommand[tilt->control_channel] >> 1;
-				rcCommand[tilt->control_channel] = motor_pitch;
-			} else {
-				// get the control input for the tilt from the control channel
-				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
-			}
-		} else {
-			// in rate mode we only allow manual tilting using one of the aux channels
-			if(tilt->control_channel == AUX1 || tilt->control_channel == AUX2){
-				motor_pitch = rc_get_channel_value(tilt->control_channel) - 1500;
-			} else {
-				motor_pitch = 0;
-			}
-		}
-
-		struct tilt_input_params input = {
-			.motor_pitch_dd = motor_pitch,
-			.body_pitch_dd = ins_get_pitch_dd(&default_ins),
-			.roll = rcCommand[ROLL],
-			.pitch = rcCommand[PITCH],
-			.yaw = rcCommand[YAW],
-			.throttle = rcCommand[THROTTLE]
-		};
-		struct tilt_output_params output = {0};
-		tilt_calculate_compensation(tiltConfig(), &input, &output);
-		rcCommand[ROLL] = output.roll;
-		rcCommand[PITCH] = output.pitch;
-		rcCommand[YAW] = output.yaw;
-		rcCommand[THROTTLE] = output.throttle;
-	}
-	
-/*
-	mixer_input_gimbal_angles(&default_mixer,
-		imu_get_roll_dd(&default_imu),
-		imu_get_pitch_dd(&default_imu),
-		imu_get_yaw_dd(&default_imu));
-*/
-	// TODO: make sure we unit test 3d mode support
-	if(feature(FEATURE_3D)){
-        // Scale roll/pitch/yaw uniformly to fit within throttle range
-        int16_t throttleRange, throttle;
-        int16_t throttleMin, throttleMax;
-        static int16_t throttlePrevious = 0;   // Store the last throttle direction for deadband transitions in 3D.
-
-        // Find min and max throttle based on condition. Use rcData for 3D to prevent loss of power due to min_check
-        if (feature(FEATURE_3D)) {
-            if (!ARMING_FLAG(ARMED)) throttlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
-
-            if ((rc_get_channel_value(THROTTLE) <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
-                throttleMax = motor3DConfig()->deadband3d_low;
-                throttleMin = motorAndServoConfig()->minthrottle;
-                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
-            } else if (rc_get_channel_value(THROTTLE) >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
-                throttleMax = motorAndServoConfig()->maxthrottle;
-                throttleMin = motor3DConfig()->deadband3d_high;
-                throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
-            } else if ((throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)))  { // Deadband handling from negative to positive
-                throttle = throttleMax = motor3DConfig()->deadband3d_low;
-                throttleMin = motorAndServoConfig()->minthrottle;
-            } else {  // Deadband handling from positive to negative
-                throttleMax = motorAndServoConfig()->maxthrottle;
-                throttle = throttleMin = motor3DConfig()->deadband3d_high;
-            }
-        } else {
-            throttle = rcCommand[THROTTLE];
-            throttleMin = motorAndServoConfig()->minthrottle;
-            throttleMax = motorAndServoConfig()->maxthrottle;
-        }
-
-        throttleRange = throttleMax - throttleMin;
-		mixer_set_throttle_range(&default_mixer, throttleMin + throttleRange / 2, throttleMin, throttleMax);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_THROTTLE, throttle - 500);
-	} else {
-		mixer_set_throttle_range(&default_mixer, 1500, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_THROTTLE, rcCommand[THROTTLE] - 500);
-	}
-
-	const struct pid_controller_output *stab = anglerate_get_output_ptr(&default_controller);
-
-	if (FLIGHT_MODE(PASSTHRU_MODE)) {
-		// Direct passthru from RX
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
-	} else {
-		// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_ROLL, stab->axis[FD_ROLL]);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_PITCH, stab->axis[FD_PITCH]);
-		mixer_input_command(&default_mixer, MIXER_INPUT_G0_YAW, stab->axis[FD_YAW]);
-	}
-
-	// TODO: gimbal should be driven directly through the aux channels when enabled.
+		// TODO: gimbal should be driven directly through the aux channels when enabled.
 	//input[INPUT_GIMBAL_PITCH] = scaleRange(self->gimbal_angles[PITCH], -1800, 1800, -500, +500);
 	//input[INPUT_GIMBAL_ROLL] = scaleRange(self->gimbal_angles[ROLL], -1800, 1800, -500, +500);
 
 	//input[INPUT_STABILIZED_THROTTLE] = mixer_get_motor_value(&default_mixer, 0) - 1500;  // Since it derives from rcCommand or mincommand and must be [-500:+500]
 
-	// center the RC input value around the RC middle value
-	// by subtracting the RC middle value from the RC input value, we get:
-	// data - middle = input
-	// 2000 - 1500 = +500
-	// 1500 - 1500 = 0
-	// 1000 - 1500 = -500
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_ROLL, rc_get_channel_value(ROLL) - rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_PITCH, rc_get_channel_value(PITCH)	- rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_YAW, rc_get_channel_value(YAW)	  - rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_THROTTLE, rc_get_channel_value(THROTTLE) - rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX1, rc_get_channel_value(AUX1)	 - rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX2, rc_get_channel_value(AUX2)	 - rxConfig()->midrc);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX3, rc_get_channel_value(AUX3)	 - rxConfig()->midrc);
-
-    mixer_update(&default_mixer);
-
 	// write out all motors and servos
 	for (int i = 0; i < MIXER_MAX_MOTORS; i++){
-		pwmWriteMotor(i, mixer_get_motor_value(&default_mixer, i));
+		pwmWriteMotor(i, mixer_get_motor_value(&ninja.mixer, i));
 	}
 #ifdef USE_SERVOS
 	for (int i = 0; i < MIXER_MAX_SERVOS; i++){
-		pwmWriteServo(i, mixer_get_servo_value(&default_mixer, i));
+		pwmWriteServo(i, mixer_get_servo_value(&ninja.mixer, i));
 	}
 #endif
 	if (feature(FEATURE_ONESHOT125)) {
@@ -943,7 +341,7 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 void taskUpdateAccelerometer(void){
 	int16_t accADCRaw[3];
 	if (sensors(SENSOR_ACC) && acc.read(accADCRaw)) {
-		ins_process_acc(&default_ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
+		ins_process_acc(&ninja.ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
         //updateAccelerationReadings();
 	}
 }
@@ -994,10 +392,9 @@ bool taskUpdateRxCheck(uint32_t currentDeltaTime)
 
 void taskUpdateRxMain(void)
 {
-    processRx();
     updateLEDs();
 
-    isRXDataNew = true;
+	ninja_process_rx(&ninja);
 
 #ifdef BARO
     // updateRcCommands() sets rcCommand[], updateAltHoldState depends on valid rcCommand[] data.
@@ -1038,7 +435,7 @@ void taskUpdateCompass(void){
 	if(USE_MAG){
 		int16_t raw[3];
 		if (sensors(SENSOR_MAG) && mag.read(raw)){
-			ins_process_mag(&default_ins, raw[0], raw[1], raw[2]);
+			ins_process_mag(&ninja.ins, raw[0], raw[1], raw[2]);
 			//updateCompass(&sensorTrims()->magZero);
 		}
 	}

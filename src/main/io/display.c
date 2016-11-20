@@ -61,6 +61,8 @@
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
+#include "../ninja.h"
+
 #include "scheduler.h"
 
 static uint32_t nextDisplayUpdateAt = 0;
@@ -505,14 +507,14 @@ static void showSensorsPage(void)
     i2c_OLED_send_string("        X     Y     Z");
 
     if (sensors(SENSOR_ACC)) {
-        tfp_sprintf(lineBuffer, format, "ACC", ins_get_acc_x(&default_ins), ins_get_acc_y(&default_ins),  ins_get_acc_z(&default_ins));
+        tfp_sprintf(lineBuffer, format, "ACC", ins_get_acc_x(&ninja.ins), ins_get_acc_y(&ninja.ins),  ins_get_acc_z(&ninja.ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
     }
 
     if (sensors(SENSOR_GYRO)) {
-        tfp_sprintf(lineBuffer, format, "GYR", ins_get_gyro_x(&default_ins), ins_get_gyro_y(&default_ins), ins_get_gyro_z(&default_ins));
+        tfp_sprintf(lineBuffer, format, "GYR", ins_get_gyro_x(&ninja.ins), ins_get_gyro_y(&ninja.ins), ins_get_gyro_z(&ninja.ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
@@ -520,14 +522,14 @@ static void showSensorsPage(void)
 
 #ifdef MAG
     if (sensors(SENSOR_MAG)) {
-        tfp_sprintf(lineBuffer, format, "MAG", ins_get_mag_x(&default_ins), ins_get_mag_y(&default_ins), ins_get_mag_z(&default_ins));
+        tfp_sprintf(lineBuffer, format, "MAG", ins_get_mag_x(&ninja.ins), ins_get_mag_y(&ninja.ins), ins_get_mag_z(&ninja.ins));
         padLineBuffer();
         i2c_OLED_set_line(rowIndex++);
         i2c_OLED_send_string(lineBuffer);
     }
 #endif
 
-    tfp_sprintf(lineBuffer, format, "I&H", ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
+    tfp_sprintf(lineBuffer, format, "I&H", ins_get_roll_dd(&ninja.ins), ins_get_pitch_dd(&ninja.ins), DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)));
     padLineBuffer();
     i2c_OLED_set_line(rowIndex++);
     i2c_OLED_send_string(lineBuffer);

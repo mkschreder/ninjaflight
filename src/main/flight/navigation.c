@@ -58,7 +58,7 @@
 #include "config/config_reset.h"
 #include "config/runtime_config.h"
 
-extern int16_t magHold;
+#include "../ninja.h"
 
 #ifdef GPS
 
@@ -332,16 +332,16 @@ void onGpsNewData(void)
             // Tail control
             if (gpsProfile()->nav_controls_heading) {
                 if (NAV_TAIL_FIRST) {
-                    magHold = wrap_18000(nav_bearing - 18000) / 100;
+                    ninja.magHold = wrap_18000(nav_bearing - 18000) / 100;
                 } else {
-                    magHold = nav_bearing / 100;
+                    ninja.magHold = nav_bearing / 100;
                 }
             }
             // Are we there yet ?(within x meters of the destination)
             if ((wp_distance <= gpsProfile()->gps_wp_radius) || check_missed_wp()) {      // if yes switch to poshold mode
                 navi_mode = NAV_MODE_POSHOLD;
                 if (NAV_SET_TAKEOFF_HEADING) {
-                    magHold = nav_takeoff_bearing;
+                    ninja.magHold = nav_takeoff_bearing;
                 }
             }
             break;
@@ -358,7 +358,7 @@ void GPS_reset_home_position(void)
         GPS_home[LAT] = GPS_coord[LAT];
         GPS_home[LON] = GPS_coord[LON];
         GPS_calc_longitude_scaling(GPS_coord[LAT]); // need an initial value for distance and bearing calc
-        nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins));              // save takeoff heading
+        nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins));              // save takeoff heading
         // Set ground altitude
         ENABLE_STATE(GPS_FIX_HOME);
     }
@@ -643,8 +643,8 @@ static int32_t wrap_36000(int32_t angle)
 
 void updateGpsStateForHomeAndHoldMode(void)
 {
-    float sin_yaw_y = sin_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) * 0.0174532925f);
-    float cos_yaw_x = cos_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)) * 0.0174532925f);
+    float sin_yaw_y = sin_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)) * 0.0174532925f);
+    float cos_yaw_x = cos_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)) * 0.0174532925f);
     if (gpsProfile()->nav_slew_rate) {
         nav_rated[LON] += constrain(wrap_18000(nav[LON] - nav_rated[LON]), -gpsProfile()->nav_slew_rate, gpsProfile()->nav_slew_rate); // TODO check this on uint8
         nav_rated[LAT] += constrain(wrap_18000(nav[LAT] - nav_rated[LAT]), -gpsProfile()->nav_slew_rate, gpsProfile()->nav_slew_rate);

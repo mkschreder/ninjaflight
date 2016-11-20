@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 #include "common/axis.h"
 #include "common/maths.h"
 #include "common/quaternion.h"
@@ -81,10 +83,7 @@ struct imu {
 void imu_init(struct imu *self,
 	struct imu_config *config,
 	struct accelerometer_config *acc_config,
-	struct throttle_correction_config *thr_config,
-	// TODO: refactor these
-	float gyro_scale,
-	uint16_t acc_1G
+	struct throttle_correction_config *thr_config
 );
 
 void imu_reload_config(struct imu *self);
@@ -102,6 +101,9 @@ bool imu_is_leveled(struct imu *self, uint8_t max_angle);
 
 void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att);
 void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc);
+
+void imu_set_acc_scale(struct imu *self, int16_t acc_1G);
+void imu_set_gyro_scale(struct imu *self, float gyro_scale);
 
 // TODO: replace with get_angular_velocity once we have refactored pids to use radians/s
 void imu_get_gyro(struct imu *self, int16_t gyro[3]);

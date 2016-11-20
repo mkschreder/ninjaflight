@@ -107,20 +107,28 @@ void imu_reset(struct imu *self){
 void imu_init(struct imu *self,
 	struct imu_config *imu_config,
 	struct accelerometer_config *acc_config,
-	struct throttle_correction_config *thr_config,
-	float gyro_scale,
-	uint16_t acc_1G
+	struct throttle_correction_config *thr_config
 ){
 	memset(self, 0, sizeof(struct imu));
 
 	self->config = imu_config;
 	self->acc_config = acc_config;
 	self->thr_config = thr_config;
-	self->acc_1G = acc_1G;
-	self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
-	self->accVelScale = (9.80665f / self->acc_1G) * 100.0f; // acc vel scaled to cm/s
+
+	// TODO: this is rather wonky. Refactor this to be handled by the driver.
+	imu_set_acc_scale(self, 512);
+	imu_set_gyro_scale(self, 1.0f / 16.4f);
 
 	imu_reset(self);
+}
+
+void imu_set_acc_scale(struct imu *self, int16_t acc_1G){
+	self->acc_1G = acc_1G;
+	self->accVelScale = (9.80665f / acc_1G) * 100.0f; // acc vel scaled to cm/s
+}
+
+void imu_set_gyro_scale(struct imu *self, float gyro_scale){
+	self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
 }
 
 void imu_reset_velocity_estimate(struct imu *self){

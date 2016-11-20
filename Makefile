@@ -253,6 +253,7 @@ COMMON_SRC = build_config.c \
 		   scheduler.c \
 		   main.c \
 		   ninjaflight.c \
+		   ninja.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
@@ -733,17 +734,21 @@ SITL_SRC = \
 			config/profile.c \
 			config/feature.c \
 			config/vars.c \
+			config/runtime_config.c \
 			flight/altitudehold.c \
 			flight/anglerate.c \
 			flight/mixer.c \
 			flight/tilt.c \
 			flight/rate_profile.c \
+			flight/failsafe.c \
+			io/rc_adjustments.c \
 			sensors/imu.c \
 			sensors/instruments.c \
 			sensors/acceleration.c \
 			sensors/gyro.c \
 			sensors/compass.c \
 			sensors/boardalignment.c \
+			sensors/battery.c \
 			io/rc_curves.c \
 			sitl/flash.c \
 			sitl/rx.c \
@@ -751,6 +756,7 @@ SITL_SRC = \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
+			ninja.c \
 			../../ninjasitl/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library

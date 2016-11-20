@@ -90,6 +90,8 @@
 #include "telemetry/frsky.h"
 #include "telemetry/hott.h"
 
+#include "../ninja.h"
+
 #include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/config_system.h"
@@ -2000,7 +2002,7 @@ static void cliExit(char *cmdline)
     cliMode = 0;
 	// will basically reset the mixer (stopping all motors if any of them have been left running during test)
 	pwmStopMotors(feature(FEATURE_ONESHOT125));
-    //mixer_reset(&default_mixer);
+    //mixer_reset(&ninja.mixer);
     cliReboot();
 
     cliWriter = NULL;
@@ -2208,14 +2210,14 @@ static void cliMotor(char *cmdline)
             cliShowArgumentRangeError("value", 1000, 2000);
             return;
         } else {
-			mixer_input_command(&default_mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
+			mixer_input_command(&ninja.mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
         }
     }
 
 	// needed in order to get the value out to the outputs
-	mixer_update(&default_mixer);
+	mixer_update(&ninja.mixer);
 
-    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_value(&default_mixer, motor_index));
+    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_value(&ninja.mixer, motor_index));
 }
 
 static void cliPlaySound(char *cmdline)

@@ -511,7 +511,6 @@ void loadCustomServoMixer(void) {}
 void rxMspFrameReceive(uint16_t *, int ) {}
 // from mw.c
 uint16_t cycleTime = 0;         // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
-int16_t magHold;
 // from navigation.c
 int32_t GPS_home[2];
 int32_t GPS_hold[2];

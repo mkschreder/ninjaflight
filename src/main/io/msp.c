@@ -586,22 +586,22 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_RAW_IMU: {
             // Hack scale due to choice of units for sensor data in multiwii
             unsigned scale_shift = (acc.acc_1G > 1024) ? 3 : 0;
-			sbufWriteU16(dst, ins_get_acc_x(&default_ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_y(&default_ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_z(&default_ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_gyro_x(&default_ins));
-			sbufWriteU16(dst, ins_get_gyro_y(&default_ins));
-			sbufWriteU16(dst, ins_get_gyro_z(&default_ins));
-            sbufWriteU16(dst, ins_get_mag_x(&default_ins));
-            sbufWriteU16(dst, ins_get_mag_y(&default_ins));
-            sbufWriteU16(dst, ins_get_mag_z(&default_ins));
+			sbufWriteU16(dst, ins_get_acc_x(&ninja.ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_y(&ninja.ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_z(&ninja.ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_gyro_x(&ninja.ins));
+			sbufWriteU16(dst, ins_get_gyro_y(&ninja.ins));
+			sbufWriteU16(dst, ins_get_gyro_z(&ninja.ins));
+            sbufWriteU16(dst, ins_get_mag_x(&ninja.ins));
+            sbufWriteU16(dst, ins_get_mag_y(&ninja.ins));
+            sbufWriteU16(dst, ins_get_mag_z(&ninja.ins));
             break;
         }
 
 #ifdef USE_SERVOS
         case MSP_SERVO:
 			for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
-				sbufWriteU16(dst, mixer_get_servo_value(&default_mixer, c));
+				sbufWriteU16(dst, mixer_get_servo_value(&ninja.mixer, c));
 			}
             break;
 
@@ -633,7 +633,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_MOTOR:
             for (unsigned i = 0; i < 8; i++) {
-                sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? mixer_get_motor_value(&default_mixer, i) : 0);
+                sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? mixer_get_motor_value(&ninja.mixer, i) : 0);
             }
             break;
 
@@ -643,9 +643,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ATTITUDE:
-            sbufWriteU16(dst, ins_get_roll_dd(&default_ins));
-            sbufWriteU16(dst, ins_get_pitch_dd(&default_ins));
-            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
+            sbufWriteU16(dst, ins_get_roll_dd(&ninja.ins));
+            sbufWriteU16(dst, ins_get_pitch_dd(&ninja.ins));
+            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)));
             break;
 
         case MSP_ALTITUDE:
@@ -1058,7 +1058,7 @@ static int processInCommand(mspPacket_t *cmd)
             break;
 
         case MSP_SET_HEAD:
-            magHold = sbufReadU16(src);
+            ninja.magHold = sbufReadU16(src);
             break;
 
         case MSP_SET_RAW_RC: {
@@ -1191,7 +1191,7 @@ static int processInCommand(mspPacket_t *cmd)
         case MSP_SET_MOTOR:
             for (int i = 0; i < MIXER_MAX_MOTORS; i++) {
                 const int16_t value = sbufReadU16(src);
-				mixer_input_command(&default_mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
+				mixer_input_command(&ninja.mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
             }
             break;
 

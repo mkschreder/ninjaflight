@@ -98,9 +98,6 @@ struct anglerate {
 	struct instruments *ins;
 };
 
-// TODO: remove when done refactoring. This should be a member of a higher level struct.
-extern struct anglerate default_controller;
-
 #define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
 //float pidScaleITermToRcInput(int axis);
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);

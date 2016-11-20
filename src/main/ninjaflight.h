@@ -19,11 +19,7 @@
 
 #include "config/accelerometer.h"
 
-struct ninja {
-	uint8_t placeholder;
-};
-
-extern int16_t magHold;
+#include "ninja.h"
 
 void ninja_calibrate_acc(void);
 void ninja_calibrate_mag(void);
@@ -36,6 +32,5 @@ void mwArm(void);
 
 bool isCalibrating(void);
 
-void ninja_init(struct ninja *self); 
 void ninja_update_transponder(struct ninja *self);
 void ninja_run_pid_loop(struct ninja *self, float dT);

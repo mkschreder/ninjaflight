@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stdint.h>
+
 typedef uint16_t pgn_t;
 
 // parameter group registry flags

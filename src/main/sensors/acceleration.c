@@ -55,17 +55,17 @@ extern bool AccInflightCalibrationActive;
 static flightDynamicsTrims_t *accelerationTrims;
 */
 
-void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struct accelerometer_config *config, int16_t acc_1G){
+void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struct accelerometer_config *config){
 	memset(self, 0, sizeof(struct ins_acc));
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
 	self->trims = trims;
-	self->acc_1G = acc_1G;
+	self->acc_1G = 512;
 
 	// set acceleration to 1G down
 	self->accADC[0] = 0;
 	self->accADC[1] = 0;
-	self->accADC[2] = acc_1G;
+	self->accADC[2] = self->acc_1G;
 }
 
 #if 0

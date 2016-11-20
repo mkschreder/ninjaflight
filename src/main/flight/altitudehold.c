@@ -51,6 +51,8 @@
 
 #include "flight/altitudehold.h"
 
+#include "ninja.h"
+
 int32_t setVelocity = 0;
 uint8_t velocityControl = 0;
 int32_t errorVelocityI = 0;
@@ -169,7 +171,7 @@ static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tm
     int32_t error;
     int32_t setVel;
 
-    bool is_thrust_downwards = ABS(ins_get_roll_dd(&default_ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(&default_ins)) < DEGREES_80_IN_DECIDEGREES;
+    bool is_thrust_downwards = ABS(ins_get_roll_dd(&ninja.ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(&ninja.ins)) < DEGREES_80_IN_DECIDEGREES;
 	if(!is_thrust_downwards){
         return result;
     }

@@ -852,7 +852,8 @@ void mixer_update(struct mixer *self){
 		uint16_t servo_width = conf->max - conf->min;
 		// TODO: the 0 and 100 were supposed to be part of servo mixer rule but never seemed to be used so replaced by constants for now.
 		int16_t min = 0 * servo_width / 100 - servo_width / 2;
-		int16_t max = 100 * servo_width / 100 - servo_width / 2;
+		int16_t tmp = 100 * (uint32_t)servo_width / 100;
+		int16_t max = tmp - servo_width / 2;
 		output[MIXER_OUTPUT_SERVOS + i] = conf->middle + constrain((output[MIXER_OUTPUT_SERVOS + i] * (int32_t)conf->rate) / 100L, min, max);
 	}
 

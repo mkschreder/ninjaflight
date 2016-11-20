@@ -40,10 +40,10 @@
 
 #define CALIBRATING_GYRO_CYCLES			 1000
 
-void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config, float gyro_scale){
+void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config){
 	memset(self, 0, sizeof(struct ins_gyro));
 	self->config = config;
-	self->gyro_scale = gyro_scale;
+	self->gyro_scale = 1.0f / 16.4f;
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 
 	if (config->soft_gyro_lpf_hz) {

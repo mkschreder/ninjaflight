@@ -21,9 +21,6 @@ struct instruments {
 	uint8_t sensors;
 };
 
-//TODO: remove after refactoring
-extern struct instruments default_ins;
-
 void ins_init(struct instruments *self,
 	struct board_alignment_config *ba_conf,
 	struct imu_config *imu_config,
@@ -31,9 +28,7 @@ void ins_init(struct instruments *self,
 	struct gyro_config *gyro_config,
 	struct mag_config *mag_config,
 	struct sensor_trims_config *sensor_trims,
-	struct accelerometer_config *acc_config,
-	float gyro_scale,
-	int32_t acc_1G
+	struct accelerometer_config *acc_config
 );
 
 void ins_start_gyro_calibration(struct instruments *self);
@@ -44,6 +39,9 @@ bool ins_is_calibrated(struct instruments *self);
 void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z);
 void ins_process_acc(struct instruments *self, int32_t x, int32_t y, int32_t z);
 void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z);
+
+void ins_set_gyro_scale(struct instruments *self, float scale);
+void ins_set_acc_scale(struct instruments *self, int16_t acc_1G);
 
 void ins_update(struct instruments *self, float dt);
 

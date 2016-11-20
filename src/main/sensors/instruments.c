@@ -20,9 +20,7 @@ void ins_init(struct instruments *self,
 	struct gyro_config *gyro_config,
 	struct mag_config *mag_config,
 	struct sensor_trims_config *sensor_trims,
-	struct accelerometer_config *acc_config,
-	float gyro_scale,
-	int32_t acc_1G){
+	struct accelerometer_config *acc_config){
 	memset(self, 0, sizeof(struct instruments));
 
 	self->sensors = INS_USE_SENSOR_ACC | INS_USE_SENSOR_GYRO | INS_USE_SENSOR_MAG;
@@ -31,13 +29,11 @@ void ins_init(struct instruments *self,
 
 	ins_acc_init(&self->acc,
 		sensor_trims,
-		acc_config,
-		acc_1G
+		acc_config
 	);
 
 	ins_gyro_init(&self->gyro,
-		gyro_config,
-		gyro_scale
+		gyro_config
 	);
 
 	ins_mag_init(&self->mag,
@@ -48,9 +44,7 @@ void ins_init(struct instruments *self,
     imu_init(&self->imu,
 		imu_config,
 		acc_config,
-		thr_config,
-		gyro_scale,
-		acc_1G
+		thr_config
 	);
 }
 
@@ -135,3 +129,18 @@ void ins_update(struct instruments *self, float dt){
 		imu_enable_fast_dcm_convergence(&self->imu, false);
 	imu_update(&self->imu, dt);
 }
+
+void ins_set_gyro_scale(struct instruments *self, float scale){
+	// TODO: both acc_1G and gyro scale need to be specified in only one place
+	ins_gyro_set_scale(&self->gyro, scale);
+	imu_set_gyro_scale(&self->imu, scale);
+}
+
+void ins_set_acc_scale(struct instruments *self, int16_t acc_1G){
+	// TODO: both acc_1G and gyro scale need to be specified in only one place
+	ins_acc_set_scale(&self->acc, acc_1G);
+	imu_set_acc_scale(&self->imu, acc_1G);
+	self->acc.acc_1G = acc_1G;
+}
+
+

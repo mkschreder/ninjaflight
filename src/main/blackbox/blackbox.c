@@ -61,6 +61,8 @@
 #include "config/profile.h"
 #include "config/config_reset.h"
 
+#include "../ninja.h"
+
 #include "blackbox.h"
 #include "blackbox_io.h"
 
@@ -365,7 +367,7 @@ static bool testBlackboxConditionUncached(FlightLogFieldCondition condition)
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_6:
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_7:
         case FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_8:
-            return mixer_get_motor_count(&default_mixer) >= condition - FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_1 + 1;
+            return mixer_get_motor_count(&ninja.mixer) >= condition - FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_1 + 1;
         
         case FLIGHT_LOG_FIELD_CONDITION_TRICOPTER:
             return mixerConfig()->mixerMode == MIXER_TRI || mixerConfig()->mixerMode == MIXER_CUSTOM_TRI;
@@ -539,7 +541,7 @@ static void writeIntraframe(void)
     blackboxWriteUnsignedVB(blackboxCurrent->motor[0] - motorAndServoConfig()->minthrottle);
 
     //Motors tend to be similar to each other so use the first motor's value as a predictor of the others
-    for (x = 1; x < mixer_get_motor_count(&default_mixer); x++) {
+    for (x = 1; x < mixer_get_motor_count(&ninja.mixer); x++) {
         blackboxWriteSignedVB(blackboxCurrent->motor[x] - blackboxCurrent->motor[0]);
     }
 
@@ -660,7 +662,7 @@ static void writeInterframe(void)
     //Since gyros, accs and motors are noisy, base their predictions on the average of the history:
     blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, gyroADC),   XYZ_AXIS_COUNT);
     blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, accSmooth), XYZ_AXIS_COUNT);
-    blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, motor),     mixer_get_motor_count(&default_mixer));
+    blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, motor),     mixer_get_motor_count(&ninja.mixer));
 
     if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_TRICOPTER)) {
         blackboxWriteSignedVB(blackboxCurrent->servo[5] - blackboxLast->servo[5]);
@@ -802,7 +804,7 @@ void startBlackbox(void)
         blackboxHistory[1] = &blackboxHistoryRing[1];
         blackboxHistory[2] = &blackboxHistoryRing[2];
 
-        vbatReference = battery_get_voltage(&default_battery);
+        vbatReference = battery_get_voltage(&ninja.bat);
 
         //No need to clear the content of blackboxHistoryRing since our first frame will be an intra which overwrites it
 
@@ -911,7 +913,7 @@ static void loadMainState(void)
     blackboxCurrent->time = currentTime;
 
 	/* TODO: this kind of thing should be solved differently. If debugging is needed then debug other values, not intermediate calculations.
-	const struct pid_controller_output *out = anglerate_get_output_ptr(&default_controller); 
+	const struct pid_controller_output *out = anglerate_get_output_ptr(&ninja.ctrl); 
     for (i = 0; i < XYZ_AXIS_COUNT; i++) {
         blackboxCurrent->axisPID_P[i] = out->axis_P[i];
     }
@@ -927,25 +929,25 @@ static void loadMainState(void)
         blackboxCurrent->rcCommand[i] = rcCommand[i];
     }
 
-	blackboxCurrent->gyroADC[X] = ins_get_gyro_x(&default_ins);
-	blackboxCurrent->gyroADC[Y] = ins_get_gyro_y(&default_ins);
-	blackboxCurrent->gyroADC[Z] = ins_get_gyro_z(&default_ins);
+	blackboxCurrent->gyroADC[X] = ins_get_gyro_x(&ninja.ins);
+	blackboxCurrent->gyroADC[Y] = ins_get_gyro_y(&ninja.ins);
+	blackboxCurrent->gyroADC[Z] = ins_get_gyro_z(&ninja.ins);
 
-	blackboxCurrent->accSmooth[X] = ins_get_acc_x(&default_ins);
-	blackboxCurrent->accSmooth[Y] = ins_get_acc_y(&default_ins);
-	blackboxCurrent->accSmooth[Z] = ins_get_acc_z(&default_ins);
+	blackboxCurrent->accSmooth[X] = ins_get_acc_x(&ninja.ins);
+	blackboxCurrent->accSmooth[Y] = ins_get_acc_y(&ninja.ins);
+	blackboxCurrent->accSmooth[Z] = ins_get_acc_z(&ninja.ins);
 
-    for (i = 0; i < mixer_get_motor_count(&default_mixer); i++) {
-        blackboxCurrent->motor[i] = mixer_get_motor_value(&default_mixer, i);
+    for (i = 0; i < mixer_get_motor_count(&ninja.mixer); i++) {
+        blackboxCurrent->motor[i] = mixer_get_motor_value(&ninja.mixer, i);
     }
 
-    blackboxCurrent->vbatLatest = battery_get_voltage(&default_battery);
-    blackboxCurrent->amperageLatest = battery_get_current(&default_battery);
+    blackboxCurrent->vbatLatest = battery_get_voltage(&ninja.bat);
+    blackboxCurrent->amperageLatest = battery_get_current(&ninja.bat);
 
 	if(USE_MAG){
-		blackboxCurrent->magADC[X] = ins_get_mag_x(&default_ins);
-		blackboxCurrent->magADC[Y] = ins_get_mag_y(&default_ins);
-		blackboxCurrent->magADC[Z] = ins_get_mag_z(&default_ins);
+		blackboxCurrent->magADC[X] = ins_get_mag_x(&ninja.ins);
+		blackboxCurrent->magADC[Y] = ins_get_mag_y(&ninja.ins);
+		blackboxCurrent->magADC[Z] = ins_get_mag_z(&ninja.ins);
 	}
 
 #ifdef BARO
@@ -961,7 +963,7 @@ static void loadMainState(void)
 
 #ifdef USE_SERVOS
     //Tail servo for tricopters
-    blackboxCurrent->servo[5] = mixer_get_servo_value(&default_mixer, 5);
+    blackboxCurrent->servo[5] = mixer_get_servo_value(&ninja.mixer, 5);
 #endif
 }
 
