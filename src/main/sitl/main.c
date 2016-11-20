@@ -165,26 +165,26 @@ static void _application_recv_state(struct application *self){
 static void _application_fc_run(struct application *self){
 	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
 	if(!ins_is_calibrated(&self->ins)) return;
-	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
-	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
-	rcCommand[THROTTLE] = rc_get_channel_value(2) - 1000;
-	rcCommand[YAW] = -(rc_get_channel_value(3) - 1500);
+	int16_t roll = (rc_get_channel_value(0) - 1500);
+	int16_t pitch = (rc_get_channel_value(1) - 1500);
+	int16_t yaw = (rc_get_channel_value(3) - 1500);
+	int16_t throttle = rc_get_channel_value(2) - 1000;
+	anglerate_input_user(&self->controller, roll, pitch, yaw);
 	anglerate_input_body_rates(&self->controller, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	anglerate_input_body_angles(&self->controller, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 	anglerate_set_level_percent(&self->controller, 100, 100);
 	anglerate_update(&self->controller, 0.001);
-	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->controller);
-	printf("rcCommand: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[THROTTLE], rcCommand[YAW]);
-	printf("pid output: %d %d %d\n", out->axis[0], out->axis[1], out->axis[2]);
+	printf("rcCommand: %d %d %d %d\n", roll, pitch, yaw, throttle);
+	printf("pid output: %d %d %d\n", anglerate_get_roll(&self->controller), anglerate_get_pitch(&self->controller), anglerate_get_yaw(&self->controller));
 	//printf("acc: %d %d %d\n", ins_get_acc_x(&self->ins), ins_get_acc_y(&self->ins), ins_get_acc_z(&self->ins));
 	printf("gyro: %d %d %d\n", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	printf("roll: %d, pitch: %d, yaw: %d\n", ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 
 	mixer_enable_armed(&self->mixer, true);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, out->axis[ROLL]);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, out->axis[PITCH]);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -out->axis[YAW]);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rcCommand[THROTTLE] - 500);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->controller));
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->controller));
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, anglerate_get_yaw(&self->controller));
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, throttle - 500);
 	mixer_update(&self->mixer);
 }
 
@@ -219,7 +219,6 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	static struct rate_config rateConfig;
 	memset(&rateConfig, 0, sizeof(struct rate_config));
 
-	pidProfile()->pidController = PID_CONTROLLER_LUX_FLOAT;
 	pidProfile()->P8[PIDROLL] = 40;
 	pidProfile()->I8[PIDROLL] = 30;
 	pidProfile()->D8[PIDROLL] = 23;
@@ -228,7 +227,7 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	pidProfile()->I8[PIDPITCH] = 30;
 	pidProfile()->D8[PIDPITCH] = 23;
 
-	pidProfile()->P8[PIDYAW] = 85;
+	pidProfile()->P8[PIDYAW] = 60;
 	pidProfile()->I8[PIDYAW] = 45;
 	pidProfile()->D8[PIDYAW] = 0;
 
@@ -246,7 +245,7 @@ static void application_init(struct application *self, struct fc_sitl_server_int
     imuConfig()->gyroSync = 1;
     imuConfig()->gyroSyncDenominator = 1;
     imuConfig()->small_angle = 25;
-    imuConfig()->max_angle_inclination = 500;
+    imuConfig()->max_angle_inclination = 450;
 
 	anglerate_init(&self->controller,
 		&self->ins,
@@ -256,7 +255,7 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		&accelerometerConfig()->trims,
 		rxConfig()
 	);
-	anglerate_set_algo(&self->controller, PID_CONTROLLER_MWREWRITE);
+	anglerate_set_algo(&self->controller, PID_CONTROLLER_LUX_FLOAT);
 
 	for(int c = 0; c < 3; c++){
 		anglerate_set_pid_axis_scale(&self->controller, c, 100);
