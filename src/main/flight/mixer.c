@@ -906,8 +906,8 @@ uint8_t mixer_get_servo_count(struct mixer *self){
 /**
 * @file mixer.c
 *
-* UberMixer
-* =========
+* NinjaMixer
+* ==========
 *
 * @brief the rewritten universal aircraft mixer
 *

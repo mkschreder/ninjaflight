@@ -741,10 +741,6 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
         }
     }
 #endif
-
-	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
-	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
-
 	// TODO: move this once we have tested current refactored code
     anglerate_set_algo(&default_controller, pidProfile()->pidController);
 
@@ -768,11 +764,16 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 		*/
     }
 
-	// TODO: refactor this
+	anglerate_input_user(&default_controller, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
 	anglerate_input_body_rates(&default_controller, ins_get_gyro_x(&default_ins), ins_get_gyro_y(&default_ins), ins_get_gyro_z(&default_ins));
 	anglerate_input_body_angles(&default_controller, ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), ins_get_yaw_dd(&default_ins));
 	anglerate_update(&default_controller, dt);
+	
+	rcCommand[ROLL] = anglerate_get_roll(&default_controller);
+	rcCommand[PITCH] = anglerate_get_pitch(&default_controller);
+	rcCommand[YAW] = anglerate_get_yaw(&default_controller);
 
+	// TODO: refactor this
 #ifdef GTUNE
 	// TODO: unit test this gtune stuff. This may not be the right place to put it.
 	if (FLIGHT_MODE(GTUNE_MODE) && ARMING_FLAG(ARMED)) {
@@ -780,6 +781,8 @@ void ninja_run_pid_loop(struct ninja *self, float dt_){
 	}
 #endif
 
+	// this is for dynamic pitch mode where the pitch channel drivers the motor tilting angle
+	bool is_tilt = mixerConfig()->mixerMode == MIXER_QUADX_TILT1 || mixerConfig()->mixerMode == MIXER_QUADX_TILT2;
 
 	if(USE_TILT && is_tilt){
 		// TODO: refactor this once we have refactored rcCommand

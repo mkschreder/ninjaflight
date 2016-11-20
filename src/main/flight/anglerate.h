@@ -69,6 +69,7 @@ struct anglerate {
 
 	int16_t body_rates[3];
 	int16_t body_angles[3];
+	int16_t user[3]; //!< user input command
 
 	// used for luxfloat
 	float lastRateForDelta[3];
@@ -118,6 +119,11 @@ const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *s
 
 void anglerate_input_body_rates(struct anglerate *self, int16_t x, int16_t y, int16_t z);
 void anglerate_input_body_angles(struct anglerate *self, int16_t roll, int16_t pitch, int16_t yaw);
+void anglerate_input_user(struct anglerate *self, int16_t roll, int16_t pitch, int16_t yaw);
+
+static inline int16_t anglerate_get_roll(struct anglerate *self) { return self->output.axis[0]; }
+static inline int16_t anglerate_get_pitch(struct anglerate *self) { return self->output.axis[1]; }
+static inline int16_t anglerate_get_yaw(struct anglerate *self) { return self->output.axis[2]; }
 
 void anglerate_update(struct anglerate *self, float dT);
 
@@ -127,5 +133,4 @@ void anglerate_enable_plimit(struct anglerate *self, bool on);
 // TODO: unify pid scaling so we have just one call for all pid controllers (axis scale is only used in mw23)
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);
 void anglerate_set_pid_axis_weight(struct anglerate *self, uint8_t axis, int32_t weight);
-
 void anglerate_set_level_percent(struct anglerate *self, uint8_t roll, uint8_t pitch);

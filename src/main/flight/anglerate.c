@@ -30,8 +30,6 @@
 #include "common/maths.h"
 #include "common/filter.h"
 
-#include "drivers/sensor.h"
-#include "drivers/accgyro.h"
 #include "drivers/gyro_sync.h"
 
 #include "sensors/acceleration.h"
@@ -128,19 +126,19 @@ static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 		// -----Get the desired angle rate depending on flight mode
 		int32_t angleRate;
 		if (axis == FD_YAW) {
-			// YAW is always gyro-controlled (MAG correction is applied to rcCommand)
-			angleRate = (((int32_t)(rate + 27) * rcCommand[YAW]) >> 5);
+			// YAW is always gyro-controlled (MAG correction is applied to user input)
+			angleRate = (((int32_t)(rate + 27) * self->user[YAW]) >> 5);
 		} else {
 			// control is GYRO based for ACRO and HORIZON - direct sticks control is applied to rate PID
-			angleRate = ((int32_t)(rate + 27) * rcCommand[axis]) >> 4;
+			angleRate = ((int32_t)(rate + 27) * self->user[axis]) >> 4;
 
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination
-				// multiplication of rcCommand corresponds to changing the sticks scaling here
-				const int32_t errorAngle = constrain(2 * rcCommand[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
+				// multiplication of user commands corresponds to changing the sticks scaling here
+				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
 						- self->body_angles[axis] + self->angle_trim->raw[axis];
 				// blend in the angle based on level of blending
-				angleRate += (errorAngle * self->config->I8[PIDLEVEL] * self->level_percent[axis] / 100) >> 4;
+				angleRate += (errorAngle * self->config->P8[PIDLEVEL] * self->level_percent[axis] / 100) >> 4;
 			}
 		}
 
@@ -221,18 +219,19 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 		// -----Get the desired angle rate depending on flight mode
 		float angleRate;
 		if (axis == FD_YAW) {
-			// YAW is always gyro-controlled (MAG correction is applied to rcCommand) 100dps to 1100dps max yaw rate
-			angleRate = (float)((rate + 27) * rcCommand[YAW]) / 32.0f;
+			// YAW is always gyro-controlled (MAG correction is applied to user input) 100dps to 1100dps max yaw rate
+			angleRate = (float)((rate + 27) * self->user[YAW]) / 32.0f;
 		} else {
 			// control is GYRO based for ACRO and HORIZON - direct sticks control is applied to rate PID
-			angleRate = (float)((rate + 27) * rcCommand[axis]) / 16.0f; // 200dps to 1200dps max roll/pitch rate
+			// also if we use blending then we lower the rate mode percentage depending on how much angle mode percentage we need
+			angleRate = (float)((rate + 27) * self->user[axis] * (100 - self->level_percent[axis]) / 100) / 16.0f; // 200dps to 1200dps max roll/pitch rate
 
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination
-				// multiplication of rcCommand corresponds to changing the sticks scaling here
-				const float errorAngle = constrain(2 * rcCommand[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
+				// multiplication of user input corresponds to changing the sticks scaling here
+				const float errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
 						- self->body_angles[axis] + self->angle_trim->raw[axis];
-				angleRate += errorAngle * self->config->I8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
+				angleRate += errorAngle * self->config->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
 			}
 		}
 
@@ -272,11 +271,9 @@ void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){
 		case PID_CONTROLLER_MWREWRITE:
 			self->update = _multiwii_rewrite_update;
 			break;
-#ifndef SKIP_PID_LUXFLOAT
 		case PID_CONTROLLER_LUX_FLOAT:
 			self->update = _luxfloat_update;
 			break;
-#endif
 		case PID_COUNT:
 			break;
 	}
@@ -332,8 +329,69 @@ void anglerate_input_body_angles(struct anglerate *self, int16_t roll, int16_t p
 	self->body_angles[2] = yaw;
 }
 
+void anglerate_input_user(struct anglerate *self, int16_t roll, int16_t pitch, int16_t yaw){
+	self->user[0] = constrain(roll, -500, 500);
+	self->user[1] = constrain(pitch, -500, 500);
+	self->user[2] = constrain(yaw, -500, 500);
+}
+
 void anglerate_set_level_percent(struct anglerate *self, uint8_t roll, uint8_t pitch){
 	self->level_percent[ROLL] = roll;
 	self->level_percent[PITCH] = pitch;
 }
 
+/**
+ * Ninjaflight Angle/Rate controller
+ * =================================
+ *
+ * Cleanup and fixes: Martin Schröder <mkschreder.uk@gmail.com>
+ * Original code: cleanflight
+ *
+ * The main responsibility of the anglerate controller is to control rotational
+ * rate and attitude angle of the aircraft body. Inputs to the controller are
+ * measured angular velocity (gyro rate) and measured attitude. Outputs are
+ * desired actuator input that is proportional to desired rotational rate. Thus
+ * the output of the controller controls aircraft body angular velocity (after
+ * it is processed by the motor mixer).
+ *
+ * To understand how the controller works a few things need to be defined first:
+ *
+ * - coordinate system that is used for all rotations is right handed cartesian
+ * system with x forward, y right and z down. Rotations are positive in cw
+ * direction and negative in ccw direction.
+ * - angular velocity is rotational speed of the aircraft in body frame.
+ * - attitude is the angle relative to flat xy plane.
+ *
+ * Inputs and outputs
+ * ==================
+ *
+ * - input: user controls. Roll, pitch, yaw. Range -500;500.
+ * - input: gyro readings. Around XYZ axes. Units are gyro native units in
+ * range -2^15 to +2^15. Typically this represents an angular velocity range of
+ * -2000;+2000 degrees per second. gyro_scale parameter to init() determines
+ * the scale.
+ * - input: accel readings. A vector in body frame of aircraft linear
+ * acceleration. Gravity is included in the reading although it is important to
+ * realize that gravity appears as a vector that is _opposite_ of the direction
+ * of gravitational pull. Acceleration is in range of acc_1G parameter passed
+ * to the init function.
+ * - output: frame controls. Roll, pitch, yaw. Range -500;500. These are
+ * typically meant to be used in place of user input when driving the motor
+ * mixer.
+ *
+ * This implementation of the controller supports blending between full angle
+ * stabilization and full rate stabilization using a level strength value
+ * betwen 0 and 100 percent. When controller is in rate mode (level correction
+ * strength 0) only the angular velocity will be stabilized. When the controller
+ * is in angle mode (level correction strength 100) then only the attitude
+ * angle will be stabilized. Any other value between 0 and 100 causes the
+ * controller to feed forward the control rates and mix them with desired angle
+ * correction allowing pilot to do full spins while maintaining a degree of
+ * angle correction.
+ *
+ * Current implementaiton includes two variations of the same basic algorithm
+ * where one is using fixed point math while the other uses floating point
+ * math. The original Multiwii23 controller has been removed to simplify code
+ * maintenance. Even current implementation should probably be a generic one
+ * without the need to resort to fixed point math.
+ */
