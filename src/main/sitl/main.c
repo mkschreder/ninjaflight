@@ -16,6 +16,7 @@
 //#include "common/atomic.h"
 #include "common/maths.h"
 #include "common/streambuf.h"
+#include "common/utils.h"
 
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
@@ -73,7 +74,6 @@
 #include "hardware_revision.h"
 #endif
 
-#include "scheduler.h"
 #include "sitl.h"
 #include "ninja.h"
 
@@ -81,19 +81,12 @@ struct application {
 	struct ninja ninja;
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
+
+	struct system_calls syscalls;
 };
 
 static void _application_send_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
-	// TODO: motor mapping is different in sim compared to ninjaflight. Need to standardize it.
-	cl->write_pwm(cl, 0, mixer_get_motor_value(&self->ninja.mixer, 1));
-	cl->write_pwm(cl, 1, mixer_get_motor_value(&self->ninja.mixer, 2));
-	cl->write_pwm(cl, 2, mixer_get_motor_value(&self->ninja.mixer, 3));
-	cl->write_pwm(cl, 3, mixer_get_motor_value(&self->ninja.mixer, 0));
-	for(int c = 4; c < FC_SITL_PWM_CHANNELS; c++){
-		cl->write_pwm(cl, c, 1500);
-	}
-
 	cl->update_euler_angles(cl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
 #if 0
 	struct sitl_server_packet pkt;
@@ -123,37 +116,13 @@ static void _application_send_state(struct application *self){
 }
 static void _application_recv_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
-	printf("rc: ");
+	//printf("rc: ");
 	for(int c = 0; c < 8; c++){
 		uint16_t pwm = cl->read_rc(cl, c);
 		rc_set_channel_value(c, pwm);
-		printf("%d ", pwm);
+		//printf("%d ", pwm);
 	}
-	printf("\n");
-
-	float accel[3], gyr[3];
-
-	cl->read_accel(cl, accel);
-	cl->read_gyro(cl, gyr);
-
-	int16_t w[3];
-	// scale gyro to int16 range. 35.0f is 2000 deg/s max gyro range in radians.
-	// incoming gyro data from sim is in rad/s
-	w[0] = (gyr[0] / 35.0f) * 32768;
-	w[1] = (gyr[1] / 35.0f) * 32768;
-	w[2] = (gyr[2] / 35.0f) * 32768;
-
-	// accelerometer is scaled to 512 (acc_1G)
-	accel[0] = (accel[0] / 9.82f) * 512;
-	accel[1] = (accel[1] / 9.82f) * 512;
-	accel[2] = (accel[2] / 9.82f) * 512;
-
-	ins_process_acc(&self->ninja.ins, accel[0], accel[1], accel[2]);
-
-	printf("acc: %d %d %d\n", (int)accel[0], (int)accel[1], (int)accel[2]);
-	ins_process_gyro(&self->ninja.ins, w[0], w[1], w[2]);
-
-	ins_update(&self->ninja.ins, 0.001);
+	//printf("\n");
 
 #if 0
 	struct sitl_client_packet pkt;
@@ -162,16 +131,13 @@ static void _application_recv_state(struct application *self){
 	#endif
 }
 static void _application_fc_run(struct application *self){
-	// TODO: rc commands need to be passed directly into anglerate controller instead of being in global state
-	if(!ins_is_calibrated(&self->ninja.ins)) return;
+	struct ninja_rc_input input;
+	for(int c = 0; c < 8; c++){
+		input.raw[c] = (rc_get_channel_value(c));
+	}
+	ninja_input_rc(&self->ninja, &input);
 
-	rcCommand[ROLL] = (rc_get_channel_value(0) - 1500);
-	rcCommand[PITCH] = (rc_get_channel_value(1) - 1500);
-	rcCommand[YAW] = (rc_get_channel_value(3) - 1500);
-	rcCommand[THROTTLE] = rc_get_channel_value(2) - 1000;
-
-	mixer_enable_armed(&self->ninja.mixer, true);
-	ninja_update_controller(&self->ninja, 0.001);
+	ninja_heartbeat(&self->ninja);
 	/*
 	int16_t roll = (rc_get_channel_value(0) - 1500);
 	int16_t pitch = (rc_get_channel_value(1) - 1500);
@@ -208,15 +174,88 @@ static void *_application_thread(void *param){
 	struct application *app = (struct application*)param;
 	while (true) {
 		application_run(app);
-		usleep(1000);
+		usleep(900);
     }
 	return NULL;
 }
 
+#include <string.h>
+static int32_t _micros(const struct system_calls_time *time){
+	(void)time;
+	struct timespec ts;
+	static struct timespec start_ts = {0, 0};
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	if(start_ts.tv_sec == 0) memcpy(&start_ts, &ts, sizeof(start_ts));
+	int32_t t = (ts.tv_sec - start_ts.tv_sec) * 1000000 + ts.tv_nsec / 1000;
+	//printf("read time: %d\n", t);
+	return t;
+}
+
+static void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
+	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	cl->write_pwm(cl, id, value);
+}
+
+static void _write_servo(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
+	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	cl->write_pwm(cl, 8 + id, value);
+}
+
+static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
+	struct application *self = container_of(container_of(imu, struct system_calls, imu), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	float gyr[3];
+	cl->read_gyro(cl, gyr);
+
+	// scale gyro to int16 range. 35.0f is 2000 deg/s max gyro range in radians.
+	// incoming gyro data from sim is in rad/s
+	output[0] = (gyr[0] / 35.0f) * 32768;
+	output[1] = (gyr[1] / 35.0f) * 32768;
+	output[2] = (gyr[2] / 35.0f) * 32768;
+
+	return 0;
+}
+
+static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
+	struct application *self = container_of(container_of(imu, struct system_calls, imu), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	float accel[3];
+
+	cl->read_accel(cl, accel);
+
+	// accelerometer is scaled to 512 (acc_1G)
+	output[0] = (accel[0] / 9.82f) * 512;
+	output[1] = (accel[1] / 9.82f) * 512;
+	output[2] = (accel[2] / 9.82f) * 512;
+
+	return 0;
+}
+
+static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
+	struct application *self = container_of(container_of(leds, struct system_calls, leds), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+
+	cl->led_on(cl, id, on);
+	printf("led %d %s\n", id, (on)?"on":"off");
+	fflush(stdout);
+}
+
+static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
+	struct application *self = container_of(container_of(leds, struct system_calls, leds), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+
+	cl->led_toggle(cl, id);
+	printf("toggle led %d\n", id);
+	fflush(stdout);
+}
+
+
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
 	self->sitl = server;
-    
+
 	static struct rate_config rateConfig;
 	memset(&rateConfig, 0, sizeof(struct rate_config));
 
@@ -248,9 +287,27 @@ static void application_init(struct application *self, struct fc_sitl_server_int
     imuConfig()->small_angle = 25;
     imuConfig()->max_angle_inclination = 450;
 
-	ninja_init(&self->ninja);
+	ninja_init(&self->ninja, &self->syscalls);
 
 	pthread_create(&self->thread, NULL, _application_thread, self);
+
+	self->syscalls = (struct system_calls){
+		.pwm = {
+			.write_motor = _write_motor,
+			.write_servo = _write_servo
+		},
+		.imu = {
+			.read_gyro = _read_gyro,
+			.read_acc = _read_acc
+		},
+		.leds = {
+			.on = _led_on,
+			.toggle = _led_toggle
+		},
+		.time = {
+			.micros = _micros
+		}
+	};
 }
 
 #include <fcntl.h>
@@ -327,9 +384,19 @@ int config_streamer_finish(config_streamer_t *c){
 	return 0;
 }
 
+int16_t pwmRead(uint8_t chan){ (void)chan; printf("pwm read\n"); return 1000; }
+int16_t ppmRead(uint8_t chan){ (void)chan; printf("ppm read\n"); return 1000; }
+serialPortConfig_t *findSerialPortConfig(serialPortFunction_e function){ (void)function; return NULL; }
+serialPort_t *openSerialPort(serialPortIdentifier_e identifier, serialPortFunction_e functionMask, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options) { 
+	(void)identifier;
+	(void)functionMask; 
+	(void)callback;
+	(void)baudRate;
+	(void)mode;
+	(void)options;
+	return NULL; }
 void beeperSilence(void) {}
 uint8_t cliMode;
-bool rxIsReceivingSignal(void){ return true; }
 void scanEEPROM(void);
 void scanEEPROM(void){}
 void validateAndFixConfig(void);
@@ -343,15 +410,14 @@ void beeperConfirmationBeeps(void);
 void beeperConfirmationBeeps(void){}
 void writeConfigToEEPROM(void);
 void writeConfigToEEPROM(void){}
-void parseRcChannels(const char *input, rxConfig_t *rxConfig){UNUSED(input);UNUSED(rxConfig);}
-void suspendRxSignal(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
-void resumeRxSignal(void){}
 bool isEEPROMContentValid(void);
 bool isEEPROMContentValid(void){ return true; }
 int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
 void beeper(uint8_t type) { (void)type; }
-uint16_t rc_get_refresh_rate(void){ return 20000; }
 bool isAccelerationCalibrationComplete(void){ return true; }
 bool isGyroCalibrationComplete(void){ return true; }
-void calculateRxChannelsAndUpdateFailsafe(uint32_t t){ (void)t;}
+void handleSerial(void) { printf("handle serial\n"); }
+bool isPPMDataBeingReceived(void){ return true; }
+bool resetPPMDataReceivedState(void){ return true; }
+bool isPWMDataBeingReceived(void){ return true; }
