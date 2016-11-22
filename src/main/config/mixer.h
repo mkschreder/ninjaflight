@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 #define MAX_SUPPORTED_MOTORS 12
 #define MAX_SUPPORTED_SERVOS 8
 

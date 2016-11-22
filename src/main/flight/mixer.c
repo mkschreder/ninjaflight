@@ -75,11 +75,7 @@ static const struct mixer_rule_def mixerQuadX[] = {
 	{ MIXER_OUTPUT_M4, MIXER_INPUT_G0_ROLL,		 1000 },
 	{ MIXER_OUTPUT_M4, MIXER_INPUT_G0_PITCH,	-1000 },
 	{ MIXER_OUTPUT_M4, MIXER_INPUT_G0_YAW,		-1000 },
-	{ MIXER_OUTPUT_M4, MIXER_INPUT_G0_THROTTLE,	 1000 },
-#if USE_TILT == 1
-	{ MIXER_OUTPUT_S1, MIXER_INPUT_G2_GIMBAL_PITCH,  1000 },
-	{ MIXER_OUTPUT_S2, MIXER_INPUT_G2_GIMBAL_PITCH,	-1000 },
-#endif
+	{ MIXER_OUTPUT_M4, MIXER_INPUT_G0_THROTTLE,	 1000 }
 };
 
 /* QuadP
@@ -602,11 +598,13 @@ void mixer_init(struct mixer *self,
 	rxConfig_t *rx_config,
 	rcControlsConfig_t *rc_controls_config,
 	struct servo_config *servo_config,
+	const struct system_calls_pwm *pwm,
 	struct motor_mixer *initialCustomMixers, uint8_t count){
 	(void)initialCustomMixers;
 	(void)count;
 	memset(self, 0, sizeof(struct mixer));
-
+	
+	self->pwm = pwm;
 	self->mixer_config = mixer_config;
 	self->motor_3d_config = motor_3d_config;
 	self->motor_servo_config = motor_servo_config;
@@ -770,6 +768,8 @@ void mixer_input_command(struct mixer *self, mixer_input_t channel, int16_t valu
  * @param max maximum possible output value
  */
 void mixer_set_throttle_range(struct mixer *self, int16_t mid, int16_t min, int16_t max){
+	max = constrain(max, 1000, 2000);
+	min = constrain(min, 1000, 2000);
 	if(max < min) max = min;
 	self->midthrottle = constrain(mid, min, max);
 	self->minthrottle = min;
@@ -819,17 +819,17 @@ static void _scale_motors(struct mixer *self, int16_t *output, uint16_t count){
  * mixer is not mixing (without changing mixing mode).
  */
 void mixer_update(struct mixer *self){
-	// if we are disarmed then we write preset disarmed values (this is necessary so we can test motors from configurator)
-	if(!(self->flags & MIXER_FLAG_ARMED)){
-		for(int c = 0; c < MIXER_MAX_MOTORS; c++){
-			self->output[MIXER_OUTPUT_MOTORS + c] = self->midthrottle + self->input[MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + c];
-		}
-		goto finish;
-	}
-
 	// we will copy this into mixer output when we are done
 	int16_t output[MIXER_OUTPUT_COUNT];
 	memset(output, 0, sizeof(output));
+
+	// if we are disarmed then we write preset disarmed values (this is necessary so we can test motors from configurator)
+	if(!(self->flags & MIXER_FLAG_ARMED)){
+		for(int c = 0; c < MIXER_MAX_MOTORS; c++){
+			output[MIXER_OUTPUT_MOTORS + c] = constrain(self->midthrottle + self->input[MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + c], self->motor_servo_config->mincommand, 2000);
+		}
+		goto finish;
+	}
 
 	// mix all outputs according to rules. This will put range centered around zero into all output channels.
 	for(int c = 0; c < self->ruleCount; c++){
@@ -851,18 +851,25 @@ void mixer_update(struct mixer *self){
 		struct servo_config *conf = &self->servo_config[i];
 		uint16_t servo_width = conf->max - conf->min;
 		// TODO: the 0 and 100 were supposed to be part of servo mixer rule but never seemed to be used so replaced by constants for now.
-		int16_t min = 0 * servo_width / 100 - servo_width / 2;
+		int16_t min = constrain(0 * servo_width / 100 - servo_width / 2, -500, 500);
 		int16_t tmp = 100 * (uint32_t)servo_width / 100;
-		int16_t max = tmp - servo_width / 2;
-		output[MIXER_OUTPUT_SERVOS + i] = conf->middle + constrain((output[MIXER_OUTPUT_SERVOS + i] * (int32_t)conf->rate) / 100L, min, max);
+		int16_t max = constrain(tmp - servo_width / 2, -500, 500);
+		int16_t middle = constrain(conf->middle, 1000, 2000);
+		output[MIXER_OUTPUT_SERVOS + i] = middle + constrain((output[MIXER_OUTPUT_SERVOS + i] * (int32_t)conf->rate) / 100L, min, max);
 	}
-
-	memcpy(self->output, output, sizeof(self->output));
 
 finish:
 	// forward rc channels to servos that are not controller by the mixer
 	for(int i = self->servoCount, chan = 0; i < MIXER_MAX_SERVOS && chan < MIXER_INPUT_G3_RC_AUX3; i++, chan++){
-		self->output[MIXER_OUTPUT_SERVOS + i] = self->midthrottle + self->input[MIXER_INPUT_G3_RC_AUX1+chan];
+		struct servo_config *conf = &self->servo_config[i];
+		output[MIXER_OUTPUT_SERVOS + i] = constrain(conf->middle + self->input[MIXER_INPUT_G3_RC_AUX1+chan], 1000, 2000);
+	}
+
+	for(int c = 0; c < MIXER_MAX_MOTORS; c++){
+		if(self->pwm && self->pwm->write_motor) self->pwm->write_motor(self->pwm, c, output[c]);
+	}
+	for(int c = 0; c < MIXER_MAX_SERVOS; c++){
+		if(self->pwm && self->pwm->write_servo) self->pwm->write_servo(self->pwm, c, output[MIXER_OUTPUT_SERVOS + c]);
 	}
 }
 
@@ -871,7 +878,7 @@ void mixer_enable_armed(struct mixer *self, bool on){
 	if(on) self->flags |= MIXER_FLAG_ARMED;
 	else self->flags &= ~MIXER_FLAG_ARMED;
 }
-
+/*
 static uint16_t _get_constrained_output(struct mixer *self, uint8_t id){
 	int16_t val = self->output[id];
 	return constrain(val, self->motor_servo_config->mincommand, 2000);
@@ -888,7 +895,7 @@ uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id){
 	if(id >= MIXER_MAX_SERVOS) return self->motor_servo_config->mincommand;
 	return _get_constrained_output(self, MIXER_OUTPUT_SERVOS + id);
 }
-
+*/
 //! returns true if mixer has determined that motor limit has been reached
 bool mixer_motor_limit_reached(struct mixer *self){
 	return self->motorLimitReached;

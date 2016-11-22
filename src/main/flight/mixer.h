@@ -17,10 +17,13 @@
 
 #pragma once
 
-#include "anglerate.h"
-
+#include "system_calls.h"
 #include "../config/mixer.h"
 #include "../config/rc_controls.h"
+#include "../config/rx.h"
+
+#include "../common/filter.h"
+#include "../common/maths.h"
 
 /*
 #if USE_QUAD_MIXER_ONLY == 1
@@ -175,7 +178,6 @@ struct mixer_rule_def {
 
 struct mixer {
 	int16_t input[MIXER_INPUT_COUNT];
-	int16_t output[MIXER_OUTPUT_COUNT];
 
 	// TODO: gimbal stuff should be above mixer code not part of it
 	// move when we have refactored gimbal code
@@ -204,6 +206,8 @@ struct mixer {
 	rxConfig_t *rx_config;
 	rcControlsConfig_t *rc_controls_config;
 	struct servo_config *servo_config;
+
+	const struct system_calls_pwm *pwm;
 };
 
 //! initializes a mixer struct
@@ -214,6 +218,7 @@ void mixer_init(struct mixer *self,
 	rxConfig_t *rx_config,
 	rcControlsConfig_t *rc_controls_config,
 	struct servo_config *servo_config,
+	const struct system_calls_pwm *pwm,
 	struct motor_mixer *custom_mixers,
 	uint8_t count);
 
@@ -234,13 +239,13 @@ bool mixer_motor_limit_reached(struct mixer *self);
 
 //! sets throttle range of the mixer (can be used to set 3d throttle range too)
 void mixer_set_throttle_range(struct mixer *self, int16_t mid, int16_t min, int16_t max);
-
+/*
 //! returns a value of specified servo channel (id 0 is the first servo)
 uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id);
 
 //! returns a value of specified motor channel (id 0 is the first motor)
 uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id);
-
+*/
 //! returns total number of motors that are being actively mixed by the mixer as part of current profile
 uint8_t mixer_get_motor_count(struct mixer *self);
 
