@@ -27,7 +27,6 @@
 
 #include "drivers/system.h"
 
-#include "drivers/gpio.h"
 #include "drivers/inverter.h"
 
 #include "drivers/serial.h"

@@ -25,7 +25,6 @@
 #include "config/parameter_group.h"
 #include "config/config.h"
 
-#include "drivers/gpio.h"
 #include "drivers/system.h"
 
 #include "drivers/light_led.h"
