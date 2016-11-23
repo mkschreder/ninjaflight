@@ -318,6 +318,7 @@ static void _task_system(struct ninja_sched *self){
 // TODO: create a pid task state with this kind of things
 static filterStatePt1_t filteredCycleTimeState;
 
+#include <stdio.h>
 static void _task_gyro(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	self->cycleTime = ninja_sched_get_task_dt(sched, TASK_SELF);
@@ -345,7 +346,7 @@ static void _task_gyro(struct ninja_sched *sched){
 		ninja_run_pid_loop(&ninja, dT);
 	}
 	*/
-	ninja_control_run(self, dT);
+	ninja_control_run(self, self->cycleTime);
 }
 
 static void _task_acc(struct ninja_sched *sched){
@@ -446,9 +447,10 @@ static void updateLEDs(struct ninja_sched *sched){
 }
 
 static void _task_rx(struct ninja_sched *sched){
+	struct ninja *self = container_of(sched, struct ninja, sched);
 	updateLEDs(sched);
 
-	//ninja_process_rx(&ninja);
+	ninja_process_rx(self);
 
 #if 0
 // TODO: make sure alt hold and sonar work again
