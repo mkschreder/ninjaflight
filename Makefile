@@ -78,6 +78,9 @@ VPATH		:= $(SRC_DIR):$(SRC_DIR)/startup
 USBFS_DIR	= $(ROOT)/lib/main/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
+# Compiler flags for coverage instrumentation
+COVERAGE_FLAGS = -fprofile-arcs -ftest-coverage --coverage
+
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
 ifeq ($(TARGET),$(filter $(TARGET),$(F3_TARGETS)))
@@ -156,8 +159,10 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
-ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016
+ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS)
 LD_SCRIPT = ./src/test/unit/parameter_group.ld
+LDFLAGS += -lgcov
+DEBUG=GDB
 else
 # F1 TARGETS
 
@@ -254,6 +259,7 @@ COMMON_SRC = build_config.c \
 		   main.c \
 		   ninjaflight.c \
 		   ninja.c \
+		   ninja_input.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
@@ -741,7 +747,13 @@ SITL_SRC = \
 			flight/tilt.c \
 			flight/rate_profile.c \
 			flight/failsafe.c \
+			flight/gps_conversion.c \
 			io/rc_adjustments.c \
+			io/rc_curves.c \
+			io/statusindicator.c \
+			io/serial.c \
+			io/serial_msp.c \
+			io/msp.c \
 			sensors/imu.c \
 			sensors/instruments.c \
 			sensors/acceleration.c \
@@ -749,14 +761,25 @@ SITL_SRC = \
 			sensors/compass.c \
 			sensors/boardalignment.c \
 			sensors/battery.c \
-			io/rc_curves.c \
+			rx/msp.c \
+			rx/rx.c \
+			rx/pwm.c \
+			rx/msp.c \
+			rx/sbus.c \
+			rx/sumd.c \
+			rx/sumh.c \
+			rx/spektrum.c \
+			rx/xbus.c \
+			rx/ibus.c \
 			sitl/flash.c \
-			sitl/rx.c \
 			sitl/time.c \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
 			ninja.c \
+			ninja_sched.c \
+			ninja_input.c \
+			rc_commands.c \
 			../../ninjasitl/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
@@ -821,7 +844,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
            -Wredundant-decls \
            -Wreturn-type \
            -Wshadow \
-           -Wstrict-overflow=5 \
            -Wno-switch-default \
            -Wswitch-enum \
 		   -Wno-error=strict-overflow \
@@ -879,7 +901,8 @@ endif
 TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
-TARGET_SITL	 = ninjasitl/fc_$(FORKNAME).so
+TARGET_SITL	 = lib$(FORKNAME).so
+TARGET_SITL_LIB	 = lib$(FORKNAME).a
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
@@ -892,7 +915,7 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
 ifeq ($(TARGET),SITL)
-all: ninjasitl $(TARGET_SITL)
+all: ninjasitl $(TARGET_SITL_LIB) $(TARGET_SITL)
 else
 all: hex bin
 endif 
@@ -908,7 +931,7 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-.PHONY: $(VALID_TARGETS) docs ninjasitl
+.PHONY: $(VALID_TARGETS) docs ninjasitl lcov
 $(VALID_TARGETS):
 	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
 
@@ -970,6 +993,9 @@ help: Makefile
 ## junittest   : run the ninjaflight test suite, producing Junit XML result files.
 test junittest:
 	cd src/test && $(MAKE) $@
+	make lcov
+
+lcov:
 	# visualize coverage
 	lcov --directory . -b src/test --capture --output-file coverage.info
 	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' --output-file coverage.info
@@ -995,8 +1021,12 @@ $(TARGET_HEX): $(TARGET_ELF)
 $(TARGET_BIN): $(TARGET_ELF)
 	$(OBJCOPY) -O binary $< $@
 
+$(TARGET_SITL_LIB): $(TARGET_OBJS)
+	$(AR) rcs lib$(FORKNAME).a $^
+	
 $(TARGET_SITL): $(TARGET_OBJS)
 	$(CC) -shared -Wl,--no-undefined -o $@ $^ $(LDFLAGS) -ldl -lpthread
+	cp $(TARGET_SITL) ninjasitl/fc_ninjaflight.so
 	$(SIZE) $(TARGET_SITL)
 
 $(TARGET_ELF):  $(TARGET_OBJS)

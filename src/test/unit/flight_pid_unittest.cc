@@ -33,6 +33,7 @@ extern "C" {
 	#include "config/gps.h"
 	#include "config/navigation.h"
     #include "config/config_unittest.h"
+	#include "config/rate_profile.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -135,6 +136,7 @@ void resetGyroADC(void)
 }
 
 void resetPID(struct rate_config *rates, rollAndPitchTrims_t *trims){
+	(void)rates;
 	gyro.scale = 1.0f/16.4f;
 	
 	ins_init(&default_ins, 
@@ -144,10 +146,11 @@ void resetPID(struct rate_config *rates, rollAndPitchTrims_t *trims){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		gyro.scale,
-		512
+		accelerometerConfig()
 	);
+	
+	ins_set_gyro_scale(&default_ins, gyro.scale);
+	ins_set_acc_scale(&default_ins, 512);
 
 	anglerate_init(&default_controller,
 		&default_ins,
@@ -181,6 +184,7 @@ void pidControllerInitLuxFloatCore(void)
             unittest_pidLuxFloatCore_deltaState[axis][ii] = 0.0f; \
         } \
     }
+	
 }
 
 void pidControllerInitLuxFloat(struct rate_config *controlRate, uint16_t max_angle_inclination, rollAndPitchTrims_t *rollAndPitchTrims, rxConfig_t *rxConfig)
@@ -263,12 +267,14 @@ float calcLuxDTerm(struct pid_config *pidProfile, flight_dynamics_index_t axis, 
 void update_anglerate(void){
 	ins_update(&default_ins, dt);
 
-	union attitude_euler_angles att;
-	imu_get_attitude_dd(&default_ins.imu, &att);
-	
+	anglerate_input_user(&default_controller, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
 	anglerate_input_body_rates(&default_controller, gyr[0], gyr[1], gyr[2]);
 	anglerate_input_body_angles(&default_controller, ins_get_roll_dd(&default_ins), ins_get_pitch_dd(&default_ins), ins_get_yaw_dd(&default_ins));
 	anglerate_update(&default_controller, dt);
+}
+
+TEST(PIDUnittest, TestUserInput){
+
 }
 
 TEST(PIDUnittest, TestPidLuxFloat)
@@ -770,7 +776,8 @@ TEST(PIDUnittest, TestPidMultiWiiRewriteITermConstrain)
     rcCommand[ROLL] = calcMwrRcCommandRoll(32750, &controlRate); // can't use INT16_MAX, since get rounding error
     rateErrorRoll = calcMwrAngleRateRoll(&controlRate);
     EXPECT_EQ(32750, rateErrorRoll);// cross check
-	update_anglerate();
+	for(int c = 0; c < 20; c++)
+		update_anglerate();
     EXPECT_EQ(GYRO_I_MAX, default_controller.output.axis_I[FD_ROLL]);
 }
 

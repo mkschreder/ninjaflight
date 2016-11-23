@@ -448,6 +448,8 @@ TEST_F(MspTest, TestMspCommands)
 
 // STUBS
 extern "C" {
+#include "ninja.h"
+struct ninja ninja;
 // from acceleration.c
 acc_t acc;                       // acc access functions
 void accSetCalibrationCycles(uint16_t calibrationCyclesRequired) {UNUSED(calibrationCyclesRequired);}

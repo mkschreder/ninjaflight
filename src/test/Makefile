@@ -53,8 +53,9 @@ CXX_FLAGS = $(COMMON_FLAGS) \
 # Compiler flags for coverage instrumentation
 COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage -lgcov --coverage
 
-C_FLAGS   += $(COVERAGE_FLAGS)
+C_FLAGS   += $(COVERAGE_FLAGS) 
 CXX_FLAGS += $(COVERAGE_FLAGS)
+LDFLAGS += $(COVERAGE_FLAGS) -L$(PWD)/../.. -lninjaflight
 
 #enable fast Maths tests
 C_FLAGS   += -DFAST_MATH
@@ -211,39 +212,6 @@ $(OBJECT_DIR)/type_conversion_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-
-$(OBJECT_DIR)/sensors/instruments.o : \
-	$(USER_DIR)/sensors/instruments.c \
-	$(USER_DIR)/sensors/instruments.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/instruments.c -o $@
-
-$(OBJECT_DIR)/sensors/imu.o : \
-	$(USER_DIR)/sensors/imu.c \
-	$(USER_DIR)/sensors/imu.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/imu.c -o $@
-
-$(OBJECT_DIR)/sensors/barometer.o : \
-	$(USER_DIR)/sensors/barometer.c \
-	$(USER_DIR)/sensors/barometer.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/barometer.c -o $@
-
-$(OBJECT_DIR)/sensors/compass.o : \
-	$(USER_DIR)/sensors/compass.c \
-	$(USER_DIR)/sensors/compass.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/compass.c -o $@
-
 $(OBJECT_DIR)/flight_imu_unittest.o : \
 	$(TEST_DIR)/flight_imu_unittest.cc \
 	$(USER_DIR)/sensors/imu.h \
@@ -253,19 +221,14 @@ $(OBJECT_DIR)/flight_imu_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_imu_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_imu_unittest : \
-	$(OBJECT_DIR)/sensors/imu.o \
-	$(OBJECT_DIR)/sensors/instruments.o \
 	$(OBJECT_DIR)/flight_imu_unittest.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/common/quaternion.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/ins_unittest.o : \
 	$(TEST_DIR)/ins_unittest.cc \
+	$(USER_DIR)/sensors/acceleration.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
@@ -273,40 +236,28 @@ $(OBJECT_DIR)/ins_unittest.o : \
 
 
 $(OBJECT_DIR)/ins_unittest : \
-	$(OBJECT_DIR)/sensors/acceleration.o \
-	$(OBJECT_DIR)/sensors/boardalignment.o \
-	$(OBJECT_DIR)/sensors/barometer.o \
-	$(OBJECT_DIR)/sensors/battery.o \
-	$(OBJECT_DIR)/sensors/compass.o \
-	$(OBJECT_DIR)/sensors/gyro.o \
-	$(OBJECT_DIR)/sensors/imu.o \
-	$(OBJECT_DIR)/sensors/instruments.o \
-	$(OBJECT_DIR)/sensors/sonar.o \
 	$(OBJECT_DIR)/ins_unittest.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/common/quaternion.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
+$(PWD)/libninjaflight.a:
+	make -C $(PWD) TARGET=SITL
 
-$(OBJECT_DIR)/flight/anglerate.o : \
-	$(USER_DIR)/flight/anglerate.c \
-	$(USER_DIR)/flight/anglerate.h \
+$(OBJECT_DIR)/ninja_unittest.o : \
+	$(PWD)/libninjaflight.a \
+	$(TEST_DIR)/ninja_unittest.cc \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -DBLACKBOX -c $(USER_DIR)/flight/anglerate.c -o $@
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ninja_unittest.cc -o $@
 
-$(OBJECT_DIR)/common/quaternion.o : \
-	$(USER_DIR)/common/quaternion.c \
-	$(USER_DIR)/common/quaternion.h \
-	$(GTEST_HEADERS)
+$(OBJECT_DIR)/ninja_unittest : \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/ninja_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
 
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/common/quaternion.c -o $@
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/flight_pid_unittest.o : \
 	$(TEST_DIR)/flight_pid_unittest.cc \
@@ -318,22 +269,10 @@ $(OBJECT_DIR)/flight_pid_unittest.o : \
 	$(CXX) $(CXX_FLAGS) -DBLACKBOX $(TEST_CFLAGS) -c $(TEST_DIR)/flight_pid_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_pid_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/common/filter.o \
-	$(OBJECT_DIR)/common/quaternion.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/config/parameter_group.o \
-	$(OBJECT_DIR)/flight/anglerate.o \
-	$(OBJECT_DIR)/sensors/imu.o \
-	$(OBJECT_DIR)/sensors/instruments.o \
-	$(OBJECT_DIR)/sensors/acceleration.o \
-	$(OBJECT_DIR)/sensors/gyro.o \
-	$(OBJECT_DIR)/sensors/compass.o \
-	$(OBJECT_DIR)/sensors/boardalignment.o \
 	$(OBJECT_DIR)/flight_pid_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/flight/altitudehold.o : \
 	$(USER_DIR)/flight/altitudehold.c \
@@ -360,15 +299,6 @@ $(OBJECT_DIR)/flight_altitudehold_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-
-$(OBJECT_DIR)/flight/gps_conversion.o : \
-	$(USER_DIR)/flight/gps_conversion.c \
-	$(USER_DIR)/flight/gps_conversion.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/gps_conversion.c -o $@
-
 $(OBJECT_DIR)/gps_conversion_unittest.o : \
 	$(TEST_DIR)/gps_conversion_unittest.cc \
 	$(USER_DIR)/flight/gps_conversion.h \
@@ -378,30 +308,10 @@ $(OBJECT_DIR)/gps_conversion_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/gps_conversion_unittest.cc -o $@
 
 $(OBJECT_DIR)/gps_conversion_unittest : \
-	$(OBJECT_DIR)/flight/gps_conversion.o \
 	$(OBJECT_DIR)/gps_conversion_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-
-$(OBJECT_DIR)/flight/mixer.o : \
-	$(USER_DIR)/flight/mixer.c \
-	$(USER_DIR)/flight/mixer.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) -DUSE_TILT=0 $(TEST_CFLAGS) -c $(USER_DIR)/flight/mixer.c -o $@
-
-$(OBJECT_DIR)/flight/tilt.o : \
-	$(USER_DIR)/flight/tilt.c \
-	$(USER_DIR)/flight/tilt.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/tilt.c -o $@
-
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/flight_mixer_unittest.o : \
 	$(TEST_DIR)/flight_mixer_unittest.cc \
@@ -420,30 +330,16 @@ $(OBJECT_DIR)/flight_tilt_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_tilt_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_tilt_unittest : \
-	$(OBJECT_DIR)/flight/tilt.o \
 	$(OBJECT_DIR)/flight_tilt_unittest.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/flight_mixer_unittest : \
-	$(OBJECT_DIR)/flight/mixer.o \
-	$(OBJECT_DIR)/flight_mixer_unittest.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/common/maths.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-$(OBJECT_DIR)/flight/failsafe.o : \
-	$(USER_DIR)/flight/failsafe.c \
-	$(USER_DIR)/flight/failsafe.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/flight/failsafe.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/flight_failsafe_unittest.o : \
 	$(TEST_DIR)/flight_failsafe_unittest.cc \
@@ -454,22 +350,10 @@ $(OBJECT_DIR)/flight_failsafe_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_failsafe_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_failsafe_unittest : \
-	$(OBJECT_DIR)/flight/failsafe.o \
 	$(OBJECT_DIR)/flight_failsafe_unittest.o \
-	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-
-$(OBJECT_DIR)/telemetry/hott.o : \
-	$(USER_DIR)/telemetry/hott.c \
-	$(USER_DIR)/telemetry/hott.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/telemetry/hott.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/telemetry_hott_unittest.o : \
 	$(TEST_DIR)/telemetry_hott_unittest.cc \
@@ -480,40 +364,10 @@ $(OBJECT_DIR)/telemetry_hott_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/telemetry_hott_unittest.cc -o $@
 
 $(OBJECT_DIR)/telemetry_hott_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/telemetry/hott.o \
 	$(OBJECT_DIR)/telemetry_hott_unittest.o \
-	$(OBJECT_DIR)/flight/gps_conversion.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-
-$(OBJECT_DIR)/flight/rate_profile.o : \
-	$(USER_DIR)/flight/rate_profile.c \
-	$(USER_DIR)/flight/rate_profile.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/rc_controls.c -o $@
-
-$(OBJECT_DIR)/io/rc_adjustments.o : \
-	$(USER_DIR)/io/rc_adjustments.c \
-	$(USER_DIR)/io/rc_adjustments.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/rc_adjustments.c -o $@
-
-$(OBJECT_DIR)/io/rc_controls.o : \
-	$(USER_DIR)/io/rc_controls.c \
-	$(USER_DIR)/io/rc_controls.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/rc_controls.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/rc_controls_unittest.o : \
 	$(TEST_DIR)/rc_controls_unittest.cc \
@@ -524,23 +378,10 @@ $(OBJECT_DIR)/rc_controls_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rc_controls_unittest.cc -o $@
 
 $(OBJECT_DIR)/rc_controls_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/io/rc_controls.o \
-	$(OBJECT_DIR)/io/rc_adjustments.o \
 	$(OBJECT_DIR)/rc_controls_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-$(OBJECT_DIR)/io/ledstrip.o : \
-	$(USER_DIR)/io/ledstrip.c \
-	$(USER_DIR)/io/ledstrip.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/ledstrip.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/ledstrip_unittest.o : \
 	$(TEST_DIR)/ledstrip_unittest.cc \
@@ -551,15 +392,10 @@ $(OBJECT_DIR)/ledstrip_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ledstrip_unittest.cc -o $@
 
 $(OBJECT_DIR)/ledstrip_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/io/ledstrip.o \
 	$(OBJECT_DIR)/ledstrip_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/drivers/light_ws2811strip.o : \
 	$(USER_DIR)/drivers/light_ws2811strip.c \
@@ -584,14 +420,6 @@ $(OBJECT_DIR)/ws2811_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-$(OBJECT_DIR)/io/serial.o : \
-	$(USER_DIR)/io/serial.c \
-	$(USER_DIR)/io/serial.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/serial.c -o $@
-
 $(OBJECT_DIR)/io_serial_unittest.o : \
 	$(TEST_DIR)/io_serial_unittest.cc \
 	$(USER_DIR)/io/serial.h \
@@ -601,21 +429,10 @@ $(OBJECT_DIR)/io_serial_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/io_serial_unittest.cc -o $@
 
 $(OBJECT_DIR)/io_serial_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/io/serial.o \
 	$(OBJECT_DIR)/io_serial_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-$(OBJECT_DIR)/rx/rx.o : \
-	$(USER_DIR)/rx/rx.c \
-	$(USER_DIR)/rx/rx.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/rx/rx.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/rx_rx_unittest.o : \
 	$(TEST_DIR)/rx_rx_unittest.cc \
@@ -1006,21 +823,11 @@ $(OBJECT_DIR)/mock/mock_system.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/../mock/mock_system.cc -o $@
 
 $(OBJECT_DIR)/config_eeprom_unittest : \
-	$(OBJECT_DIR)/config/config_eeprom.o \
 	$(OBJECT_DIR)/mock/mock_flash.o \
 	$(OBJECT_DIR)/mock/mock_system.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/config.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/config/config_streamer.o \
-	$(OBJECT_DIR)/config/feature.o \
-	$(OBJECT_DIR)/config/profile.o \
-	$(OBJECT_DIR)/config/parameter_group.o \
-	$(OBJECT_DIR)/config_eeprom_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/config/config_streamer.o : \
 	$(USER_DIR)/config/config_streamer.c \
@@ -1056,7 +863,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	$< $(EXEC_OPTS)
+	LD_LIBRARY_PATH=$(OBJECT_DIR)/../.. $< $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%
@@ -1080,7 +887,5 @@ help what usage: Makefile
 	@echo ""
 	@echo "Any of the Unit Test programs can be used as goals:"
 	@$(foreach prg, $(TEST_BINARIES), echo "    $(prg)";)
-
-
 
 -include $(DEPS)

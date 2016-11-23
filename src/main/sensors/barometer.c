@@ -22,7 +22,6 @@
 
 #include <platform.h>
 #include "build_config.h"
-#include "scheduler.h"
 
 #include "common/maths.h"
 

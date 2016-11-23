@@ -131,12 +131,6 @@ static void _application_recv_state(struct application *self){
 	#endif
 }
 static void _application_fc_run(struct application *self){
-	struct ninja_rc_input input;
-	for(int c = 0; c < 8; c++){
-		input.raw[c] = (rc_get_channel_value(c));
-	}
-	ninja_input_rc(&self->ninja, &input);
-
 	ninja_heartbeat(&self->ninja);
 	/*
 	int16_t roll = (rc_get_channel_value(0) - 1500);
@@ -201,6 +195,18 @@ static void _write_servo(const struct system_calls_pwm *pwm, uint8_t id, uint16_
 	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 	cl->write_pwm(cl, 8 + id, value);
+}
+
+static uint16_t _read_pwm(const struct system_calls_pwm *pwm, uint8_t id){
+	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	return cl->read_rc(cl, id);
+}
+
+static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
+	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	return cl->read_rc(cl, id);
 }
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
@@ -287,6 +293,8 @@ static void application_init(struct application *self, struct fc_sitl_server_int
     imuConfig()->small_angle = 25;
     imuConfig()->max_angle_inclination = 450;
 
+	mixerConfig()->mixerMode = MIXER_QUADX;
+
 	ninja_init(&self->ninja, &self->syscalls);
 
 	pthread_create(&self->thread, NULL, _application_thread, self);
@@ -294,7 +302,9 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	self->syscalls = (struct system_calls){
 		.pwm = {
 			.write_motor = _write_motor,
-			.write_servo = _write_servo
+			.write_servo = _write_servo,
+			.read_ppm = _read_ppm,
+			.read_pwm = _read_pwm
 		},
 		.imu = {
 			.read_gyro = _read_gyro,
@@ -384,24 +394,12 @@ int config_streamer_finish(config_streamer_t *c){
 	return 0;
 }
 
-int16_t pwmRead(uint8_t chan){ (void)chan; printf("pwm read\n"); return 1000; }
-int16_t ppmRead(uint8_t chan){ (void)chan; printf("ppm read\n"); return 1000; }
-serialPortConfig_t *findSerialPortConfig(serialPortFunction_e function){ (void)function; return NULL; }
-serialPort_t *openSerialPort(serialPortIdentifier_e identifier, serialPortFunction_e functionMask, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options) { 
-	(void)identifier;
-	(void)functionMask; 
-	(void)callback;
-	(void)baudRate;
-	(void)mode;
-	(void)options;
-	return NULL; }
 void beeperSilence(void) {}
 uint8_t cliMode;
 void scanEEPROM(void);
 void scanEEPROM(void){}
 void validateAndFixConfig(void);
 void validateAndFixConfig(void){}
-bool isSerialConfigValid(serialConfig_t *c){(void)c; return true;}
 void setAccelerationTrims(flightDynamicsTrims_t *trims);
 void setAccelerationTrims(flightDynamicsTrims_t *trims){(void)trims;}
 void recalculateMagneticDeclination(void);
@@ -417,7 +415,6 @@ int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
 void beeper(uint8_t type) { (void)type; }
 bool isAccelerationCalibrationComplete(void){ return true; }
 bool isGyroCalibrationComplete(void){ return true; }
-void handleSerial(void) { printf("handle serial\n"); }
 bool isPPMDataBeingReceived(void){ return true; }
 bool resetPPMDataReceivedState(void){ return true; }
 bool isPWMDataBeingReceived(void){ return true; }

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "parameter_group.h"
+
 #define MAX_CONTROL_RATE_PROFILE_COUNT 3
 
 struct rate_config {

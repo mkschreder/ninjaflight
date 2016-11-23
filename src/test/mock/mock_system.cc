@@ -65,7 +65,7 @@ static int32_t _micros(const struct system_calls_time *time){
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
 	(void)output;
-	printf("read gyro\n");
+	//printf("read gyro\n");
 	memcpy(output, mock_gyro, sizeof(mock_gyro));
 	return 0;
 }
@@ -122,11 +122,11 @@ void mock_system_reset(){
 
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
-
+/*
 void failureMode(uint8_t mode)
 {
     UNUSED(mode);
     EXPECT_TRUE(false);
 }
-
+*/
 uint16_t cycleTime;

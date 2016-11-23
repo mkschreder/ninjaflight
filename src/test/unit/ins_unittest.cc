@@ -123,10 +123,11 @@ TEST(InsUnitTest, TestAccCalibration){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		1.0f/16.4f,
-		acc_1G
+		accelerometerConfig()
 	);
+
+	ins_set_gyro_scale(&ins, 1.0f/16.4f);
+	ins_set_acc_scale(&ins, acc_1G);
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
@@ -213,11 +214,11 @@ TEST(InsUnitTest, TestGyroCalibration){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		1.0f/16.4f,
-		acc_1G
+		accelerometerConfig()
 	);
 
+	ins_set_gyro_scale(&ins, 1.0f/16.4f);
+	ins_set_acc_scale(&ins, acc_1G);
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
@@ -288,10 +289,12 @@ TEST(InsUnitTest, TestGyroIntegration){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		1.0f/16.4f,
-		1024
+		accelerometerConfig()
 	);
+
+	ins_set_gyro_scale(&ins, 1.0f/16.4f);
+	ins_set_acc_scale(&ins, 1024);
+
 	// simulate calibration
 	ins_reset_imu(&ins);
 	for(int c = 0; c < 1000; c++){
@@ -379,10 +382,12 @@ TEST(InsUnitTest, TestEulerAngleCalculation){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		1.0f/16.4f,
-		1024
+		accelerometerConfig()
 	);
+
+	ins_set_gyro_scale(&ins, 1.0f/16.4f);
+	ins_set_acc_scale(&ins, 1024);
+
 	// simulate calibration
 	for(int c = 0; c < 1000; c++){
 		input_accel(&ins, 0, 0, 1024);
@@ -444,10 +449,12 @@ TEST(InsUnitTest, TestMagYawAngleCalculation){
 		gyroConfig(),
 		compassConfig(),
 		sensorTrims(),
-		accelerometerConfig(),
-		1.0f/16.4f,
-		1024
+		accelerometerConfig()
 	);
+
+	ins_set_gyro_scale(&ins, 1.0f/16.4f);
+	ins_set_acc_scale(&ins, 1024);
+
 	// simulate calibration
 	int16_t zx = 124, zy = -150, zz = 34;
 	ins_start_mag_calibration(&ins);

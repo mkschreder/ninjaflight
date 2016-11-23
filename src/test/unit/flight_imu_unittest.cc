@@ -110,11 +110,11 @@ TEST(FlightImuTest, TestEulerAngleCalculation){
 	imu_init(&default_imu,
 		imuConfig(),
 		accelerometerConfig(),
-		throttleCorrectionConfig(),
-		1.0f/16.4f,
-		1024
+		throttleCorrectionConfig()
 	);
 
+	imu_set_gyro_scale(&default_imu, 1.0f/16.4f);
+	imu_set_acc_scale(&default_imu, 1024);
 	// accelerometer reads linear acceleration - g so and also it is upside down.
 	// rotations are positive clockwise and negative ccw when looking down an axis
 

@@ -20,6 +20,7 @@
 
 #include <limits.h>
 
+#if 0
 extern "C" {
     #include "debug.h"
 
@@ -476,3 +477,4 @@ bool isUsingSticksForArming(void)
 }
 
 }
+#endif
