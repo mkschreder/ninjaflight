@@ -133,15 +133,15 @@ static void applyStepAdjustment(struct rate_config *controlRateConfig, uint8_t a
     switch(adjustmentFunction) {
         case ADJUSTMENT_RC_RATE:
             setAdjustment(&controlRateConfig->rcRate8,ADJUSTMENT_RC_RATE,delta,RC_RATE_MIN,RC_RATE_MAX);
-            generatePitchRollCurve();
+            //generatePitchRollCurve();
             break;
         case ADJUSTMENT_RC_EXPO:
             setAdjustment(&controlRateConfig->rcExpo8,ADJUSTMENT_RC_EXPO,delta,EXPO_MIN,EXPO_MAX);
-            generatePitchRollCurve();
+            //generatePitchRollCurve();
             break;
         case ADJUSTMENT_THROTTLE_EXPO:
             setAdjustment(&controlRateConfig->thrExpo8,ADJUSTMENT_THROTTLE_EXPO,delta,EXPO_MIN,EXPO_MAX);
-            generateThrottleCurve();
+            //generateThrottleCurve();
             break;
         case ADJUSTMENT_PITCH_ROLL_RATE:
         case ADJUSTMENT_PITCH_RATE:
@@ -260,11 +260,11 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
 
     switch(adjustmentFunction) {
         case ADJUSTMENT_RATE_PROFILE:
-            if (getCurrentControlRateProfile() != position) {
+            /*if (getCurrentControlRateProfile() != position) {
                 changeControlRateProfile(position);
                 blackboxLogInflightAdjustmentEvent(ADJUSTMENT_RATE_PROFILE, position);
                 applied = true;
-            }
+            }*/
             break;
 		default:
 			break;

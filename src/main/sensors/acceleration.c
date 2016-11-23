@@ -60,9 +60,14 @@ void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struc
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
 	self->trims = trims;
-	self->acc_1G = 512;
 
-	// set acceleration to 1G down
+	ins_acc_set_scale(self, 512);
+}
+
+void ins_acc_set_scale(struct ins_acc *self, int16_t acc_1G){
+	self->acc_1G = acc_1G;
+
+	// reset acceleration
 	self->accADC[0] = 0;
 	self->accADC[1] = 0;
 	self->accADC[2] = self->acc_1G;

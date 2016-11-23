@@ -26,7 +26,8 @@ typedef struct mspPacket_s {
 extern bool isRebootScheduled;
 extern bool mspEnterEsc4way;
 
-void mspInit(void);
+struct ninja;
+void mspInit(struct ninja *ninja);
 
 int mspProcess(mspPacket_t *command, mspPacket_t *reply);
 uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria); 

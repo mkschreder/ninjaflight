@@ -20,4 +20,4 @@
 #include "rx.h"
 #include "../config/pwm_rx.h"
 
-void rxPwmInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback);
+void rxPwmInit(const struct system_calls_pwm *pwm, rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback);

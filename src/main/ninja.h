@@ -3,12 +3,25 @@
 #include "sensors/instruments.h"
 #include "flight/mixer.h"
 #include "sensors/battery.h"
+#include "system_calls.h"
+#include "flight/anglerate.h"
+#include "ninja_sched.h"
+#include "ninja_input.h"
+#include "rc_commands.h"
 
+struct ninja;
+
+struct ninja_rc_input {
+	int16_t raw[8];
+};
+
+struct ninja_state;
 struct ninja {
 	struct instruments ins;
 	struct mixer mixer;
 	struct anglerate ctrl;
 	struct battery bat;
+	struct rc_command rc_command;
 
 	bool isRXDataNew;
 
@@ -22,12 +35,21 @@ struct ninja {
 
 	uint16_t filteredCycleTime;
 	uint16_t cycleTime;
+
+	struct ninja_rc_input rc_input;
+	const struct ninja_state *state;
+
+	struct ninja_sched sched;
+
+	const struct system_calls *syscalls;
 };
 
-// TODO: remove later
-extern struct ninja ninja;
+void ninja_init(struct ninja *self, const struct system_calls *syscalls);
 
-void ninja_init(struct ninja *self);
-void ninja_update_controller(struct ninja *self, float dt);
-void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleStatus_e throttleStatus, bool retarded_arm, bool disarm_kill_switch);
-void ninja_process_rx(struct ninja *self);
+void ninja_arm(struct ninja *self);
+void ninja_disarm(struct ninja *self);
+
+void ninja_heartbeat(struct ninja *self);
+void ninja_input_rc(struct ninja *self, const struct ninja_rc_input *rc);
+void ninja_input_gyro(struct ninja *self, int32_t x, int32_t y, int32_t z);
+void ninja_input_acc(struct ninja *self, int32_t x, int32_t y, int32_t z);

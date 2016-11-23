@@ -63,8 +63,6 @@
 
 #include "../ninja.h"
 
-#include "scheduler.h"
-
 static uint32_t nextDisplayUpdateAt = 0;
 static bool displayPresent = false;
 static char lineBuffer[SCREEN_CHARACTER_COLUMN_COUNT + 1];

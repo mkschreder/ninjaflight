@@ -150,10 +150,7 @@ void rxUpdateFlightChannelStatus(uint8_t channel, bool valid)
     }
 }
 
-// TODO: this one is abused elsewhere. 
-void rxInit(modeActivationCondition_t *modeActivationConditions); 
-void rxInit(modeActivationCondition_t *modeActivationConditions)
-{
+void rxInit(const struct system_calls_pwm *pwm, modeActivationCondition_t *modeActivationConditions){
     uint8_t i;
     uint16_t value;
 
@@ -194,7 +191,7 @@ void rxInit(modeActivationCondition_t *modeActivationConditions)
 
     if (feature(FEATURE_RX_PPM) || feature(FEATURE_RX_PARALLEL_PWM)) {
         rxRefreshRate = 20000;
-        rxPwmInit(&rxRuntimeConfig, &rcReadRawFunc);
+        rxPwmInit(pwm, &rxRuntimeConfig, &rcReadRawFunc);
     }
 }
 

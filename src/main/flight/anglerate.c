@@ -25,7 +25,7 @@
 #include "build_config.h"
 
 #include "config/runtime_config.h"
-
+#include "config/rate_profile.h"
 #include "common/axis.h"
 #include "common/maths.h"
 #include "common/filter.h"
@@ -57,9 +57,12 @@ static void _anglerate_delta_state_update(struct anglerate *self) {
 	}
 }
 
-static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int32_t gyroRate, int32_t angleRate)
+static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int32_t gyroRate, int32_t angleRate, uint32_t dt_us)
 {
 	const int32_t rateError = angleRate - gyroRate;
+	
+	// dt_us must be at least 16 to avoid division by zero
+	dt_us = constrain(dt_us, 100, 1000000);
 
 	// -----calculate P component
 	int32_t PTerm = (rateError * self->config->P8[axis] * self->PIDweight[axis] / 100) >> 7;
@@ -74,7 +77,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
 	// Time correction (to avoid different I scaling for different builds based on average cycle time)
 	// is normalized to cycle time = 2048 (2^11).
 	// TODO: why is loop time cast from 32 bit to 16 bit??
-	int32_t ITerm = self->lastITerm[axis] + ((rateError * (uint16_t)gyro_sync_get_looptime()) >> 11) * self->config->I8[axis];
+	int32_t ITerm = self->lastITerm[axis] + ((rateError * dt_us) >> 11) * self->config->I8[axis];
 	// limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
 	// I coefficient (I8) moved before integration to make limiting independent from PID settings
 	ITerm = constrain(ITerm, (int32_t)(-PID_MAX_I << 13), (int32_t)(PID_MAX_I << 13));
@@ -95,7 +98,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
 		int32_t delta = -(gyroRate - self->lastRateForDelta[axis]);
 		self->lastRateForDelta[axis] = gyroRate;
 		// Divide delta by targetLooptime to get differential (ie dr/dt)
-		delta = (delta * ((uint16_t)0xFFFF / ((uint16_t)gyro_sync_get_looptime() >> 4))) >> 5;
+		delta = (delta * ((uint16_t)0xFFFF / (dt_us >> 4))) >> 5;
 		if (self->config->dterm_cut_hz) {
 			// DTerm delta low pass filter
 			delta = lrintf(applyBiQuadFilter((float)delta, &self->deltaFilterState[axis]));
@@ -144,7 +147,7 @@ static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 
 		// --------low-level gyro-based PID. ----------
 		const int32_t gyroRate = self->body_rates[axis] / 4;
-		self->output.axis[axis] = _multiwii_rewrite_calc_axis(self, axis, gyroRate, angleRate);
+		self->output.axis[axis] = _multiwii_rewrite_calc_axis(self, axis, gyroRate, angleRate, dt * 1e6f);
 	}
 }
 

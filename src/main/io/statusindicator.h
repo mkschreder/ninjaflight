@@ -17,9 +17,11 @@
 
 #pragma once
 
+#include "system_calls.h"
+
 void warningLedResetTimer(void); 
 void warningLedEnable(void);
 void warningLedDisable(void);
-void warningLedRefresh(void);
-void warningLedUpdate(void);
+void warningLedRefresh(const struct system_calls_leds *leds);
+void warningLedUpdate(const struct system_calls_leds *leds, int32_t now);
 void warningLedFlash(void);

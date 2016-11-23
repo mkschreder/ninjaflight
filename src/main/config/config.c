@@ -75,7 +75,7 @@ void resetConf(void)
     setProfile(0);
     pgActivateProfile(0);
 
-    setControlRateProfile(0);
+    //setControlRateProfile(0);
 
     parseRcChannels("AETR1234", rxConfig());
 
@@ -157,7 +157,7 @@ void resetConf(void)
 extern struct imu_runtime_config imuRuntimeConfig;
 static void activateConfig(void)
 {
-    activateControlRateConfig();
+    //activateControlRateConfig();
 
     resetAdjustmentStates();
 
@@ -294,7 +294,7 @@ void readEEPROM(void)
 
     pgActivateProfile(getCurrentProfile());
 
-    setControlRateProfile(rateProfileSelection()->defaultRateProfileIndex);
+    //setControlRateProfile(rateProfileSelection()->defaultRateProfileIndex);
 
     validateAndFixConfig();
     activateConfig();

@@ -193,6 +193,7 @@ protected:
     virtual void SetUp() {
         memset(&servos, 0, sizeof(servos));
 		_init_mixer_defaults(MIXER_QUADX);
+		mock_system_reset();
     }
 
 	void _init_mixer_defaults(mixer_mode_t mode){
@@ -211,9 +212,16 @@ protected:
 			rxConfig(),
 			rcControlsConfig(),
 			servoProfile()->servoConf,
+			&mock_syscalls()->pwm,
 			customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 		mixer_enable_armed(&mixer, true);
 	}
+
+	virtual void TearDown(){
+		// check that mixer did not write any out of range values into the pwm outputs while running tests
+		EXPECT_EQ(0, mock_pwm_errors);
+	}
+
 protected:
 	struct mixer mixer;
 };
@@ -243,7 +251,7 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 
 	// check that all motor outputs have been set to mincommand
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(motorAndServoConfig()->mincommand, mixer_get_motor_value(&mixer, c));
+		EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[c]);
 	}
 
 	// try arming (should change them to minthrottle)
@@ -252,7 +260,7 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 
 	// check that mixer outputs have been changed to minthrottle
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, c));
+		EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[c]);
 	}
 
 	// enable motor stop
@@ -262,7 +270,7 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 
 	// verify that mixer outputs have been set to mincommand since motorstop should set them to that
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(motorAndServoConfig()->mincommand, mixer_get_motor_value(&mixer, c));
+		EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[c]);
 	}
 }
 
@@ -276,18 +284,18 @@ TEST_F(MixerBasicTest, Test3dThrottleRange){
 	mixer_update(&mixer);
 
 	// check that outputs match midthrottle - throttle input
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1100, mock_motor_pwm[0]);
+	EXPECT_EQ(1100, mock_motor_pwm[1]);
+	EXPECT_EQ(1100, mock_motor_pwm[2]);
+	EXPECT_EQ(1100, mock_motor_pwm[3]);
 
 	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, 0);
 	mixer_update(&mixer);
 
-	EXPECT_EQ(1250, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1250, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1250, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1250, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1250, mock_motor_pwm[0]);
+	EXPECT_EQ(1250, mock_motor_pwm[1]);
+	EXPECT_EQ(1250, mock_motor_pwm[2]);
+	EXPECT_EQ(1250, mock_motor_pwm[3]);
 
 
 }
@@ -316,7 +324,7 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
 
     // then
     for (uint8_t i = 0; i < MIXER_MAX_MOTORS; i++) {
-        EXPECT_EQ(1501 + i, mixer_get_motor_value(&mixer, i));
+        EXPECT_EQ(1501 + i, mock_motor_pwm[i]);
     }
 }
 
@@ -330,9 +338,9 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 	mixer_update(&mixer);
 
     // then
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 0));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 1));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 2));
+	EXPECT_EQ(1500, mock_servo_pwm[0]);
+	EXPECT_EQ(1500, mock_servo_pwm[1]);
+	EXPECT_EQ(1500, mock_servo_pwm[2]);
 
 	// try setting the input to something else
 	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX1, 100);
@@ -341,9 +349,9 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 
 	mixer_update(&mixer);
 
-	EXPECT_EQ(1600, mixer_get_servo_value(&mixer, 0));
-	EXPECT_EQ(1400, mixer_get_servo_value(&mixer, 1));
-	EXPECT_EQ(motorAndServoConfig()->mincommand, mixer_get_servo_value(&mixer, 2));
+	EXPECT_EQ(1600, mock_servo_pwm[0]);
+	EXPECT_EQ(1400, mock_servo_pwm[1]);
+	EXPECT_EQ(motorAndServoConfig()->mincommand, mock_servo_pwm[2]);
 }
 
 TEST_F(MixerBasicTest, TestMixerExtremes){
@@ -367,20 +375,20 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 
 	// expect minthrottle on motors
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[0]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[1]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[2]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[3]);
 
 	// input some throttle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -200);
 	mixer_update(&mixer);
 
 	// we expect all motors to be at 1100 throttle range
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1300, mock_motor_pwm[0]);
+	EXPECT_EQ(1300, mock_motor_pwm[1]);
+	EXPECT_EQ(1300, mock_motor_pwm[2]);
+	EXPECT_EQ(1300, mock_motor_pwm[3]);
 
 	// try pitching forward 100 (1/5 of half throttle range)
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
@@ -388,10 +396,10 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 
 	// we expect differential thrust for quadx to be increased by 100 units on back motors and decreased by the same ammount on front motors
-	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1600, mock_motor_pwm[0]);
+	EXPECT_EQ(1400, mock_motor_pwm[1]);
+	EXPECT_EQ(1600, mock_motor_pwm[2]);
+	EXPECT_EQ(1400, mock_motor_pwm[3]);
 
 	// try pitching forward 100 with maxthrottle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
@@ -399,10 +407,10 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 
 	// we expect the response to be moved down in the throttle range to fit into maxthrottle
-	EXPECT_EQ(1850, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1650, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1850, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1650, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1850, mock_motor_pwm[0]);
+	EXPECT_EQ(1650, mock_motor_pwm[1]);
+	EXPECT_EQ(1850, mock_motor_pwm[2]);
+	EXPECT_EQ(1650, mock_motor_pwm[3]);
 
 	// now test the same thing but with minimum throttle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
@@ -410,15 +418,32 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 
 	// we expect the response to be moved down in the throttle range to fit into maxthrottle
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1300, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1300, mock_motor_pwm[0]);
+	EXPECT_EQ(1100, mock_motor_pwm[1]);
+	EXPECT_EQ(1300, mock_motor_pwm[2]);
+	EXPECT_EQ(1100, mock_motor_pwm[3]);
 
 
 	// attempt to provide full pitch and check that we get motor limit reached flag set
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 500);
 	mixer_update(&mixer);
+}
+
+TEST_F(MixerBasicTest, TestMixerUnusedMotorsAtMin){
+	// set up some config defaults
+	rxConfig()->mincheck = 1010;
+	rxConfig()->midrc = 1500;
+	motorAndServoConfig()->mincommand = 1010;
+	motorAndServoConfig()->minthrottle = 1050;
+	motorAndServoConfig()->maxthrottle = 1850;
+
+	_init_mixer_defaults(MIXER_QUADX);
+
+	mixer_update(&mixer);
+
+	for(int c = mixer_get_motor_count(&mixer); c < MIXER_MAX_MOTORS; c++){
+		EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[c]);
+	}
 }
 
 TEST_F(MixerBasicTest, TestMixerModeQuadX){
@@ -442,20 +467,20 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	mixer_update(&mixer);
 
 	// motor stop is off so we expect minthrottle
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(motorAndServoConfig()->minthrottle, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[0]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[1]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[2]);
+	EXPECT_EQ(motorAndServoConfig()->minthrottle, mock_motor_pwm[3]);
 
 	// input some throttle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -400);
 	mixer_update(&mixer);
 
 	// we expect all motors to be at 1100 throttle range
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1100, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1100, mock_motor_pwm[0]);
+	EXPECT_EQ(1100, mock_motor_pwm[1]);
+	EXPECT_EQ(1100, mock_motor_pwm[2]);
+	EXPECT_EQ(1100, mock_motor_pwm[3]);
 
 	// try pitching forward 100 (1/5 of half throttle range)
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
@@ -463,10 +488,10 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	mixer_update(&mixer);
 
 	// we expect differential thrust for quadx to be increased by 100 units on back motors and decreased by the same ammount on front motors
-	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1600, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1600, mock_motor_pwm[0]);
+	EXPECT_EQ(1400, mock_motor_pwm[1]);
+	EXPECT_EQ(1600, mock_motor_pwm[2]);
+	EXPECT_EQ(1400, mock_motor_pwm[3]);
 
 	// attempt to provide full pitch and check that we get motor limit reached flag set
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 500);
@@ -481,10 +506,10 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	EXPECT_EQ(false, mixer_motor_limit_reached(&mixer));
 
 	// expect all motors to be at throttle value
-	EXPECT_EQ(1500, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1500, mixer_get_motor_value(&mixer, 1));
-	EXPECT_EQ(1500, mixer_get_motor_value(&mixer, 2));
-	EXPECT_EQ(1500, mixer_get_motor_value(&mixer, 3));
+	EXPECT_EQ(1500, mock_motor_pwm[0]);
+	EXPECT_EQ(1500, mock_motor_pwm[1]);
+	EXPECT_EQ(1500, mock_motor_pwm[2]);
+	EXPECT_EQ(1500, mock_motor_pwm[3]);
 
 	testedModes++;
 }
@@ -510,13 +535,13 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	mixer_update(&mixer);
 
 	// motor stop is off so we expect minthrottle
-	EXPECT_EQ(1400, mixer_get_motor_value(&mixer, 0));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 0));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 1));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 2));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 3));
+	EXPECT_EQ(1400, mock_motor_pwm[0]);
+	EXPECT_EQ(1500, mock_servo_pwm[0]);
+	EXPECT_EQ(1500, mock_servo_pwm[1]);
+	EXPECT_EQ(1500, mock_servo_pwm[2]);
+	EXPECT_EQ(1500, mock_servo_pwm[3]);
 	// make sure the throttle servo works too
-	EXPECT_EQ(1400, mixer_get_servo_value(&mixer, 4));
+	EXPECT_EQ(1400, mock_servo_pwm[4]);
 
 	// try pitching forward 100
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 100);
@@ -524,11 +549,11 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	mixer_update(&mixer);
 
 	// expect elevator to have moved
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 0));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 1));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 2));
-	EXPECT_EQ(1600, mixer_get_servo_value(&mixer, 3));
-	EXPECT_EQ(1600, mixer_get_servo_value(&mixer, 4));
+	EXPECT_EQ(1500, mock_servo_pwm[0]);
+	EXPECT_EQ(1500, mock_servo_pwm[1]);
+	EXPECT_EQ(1500, mock_servo_pwm[2]);
+	EXPECT_EQ(1600, mock_servo_pwm[3]);
+	EXPECT_EQ(1600, mock_servo_pwm[4]);
 
 	// attempt to provide full pitch and check that we get motor limit reached flag set
 	mixer_input_command(&mixer, MIXER_INPUT_G0_ROLL, 500);
@@ -538,11 +563,11 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	EXPECT_EQ(false, mixer_motor_limit_reached(&mixer));
 
 	// expect aelerons to have moved
-	EXPECT_EQ(2000, mixer_get_servo_value(&mixer, 0));
-	EXPECT_EQ(2000, mixer_get_servo_value(&mixer, 1));
-	EXPECT_EQ(1500, mixer_get_servo_value(&mixer, 2));
-	EXPECT_EQ(1600, mixer_get_servo_value(&mixer, 3));
-	EXPECT_EQ(1600, mixer_get_servo_value(&mixer, 4));
+	EXPECT_EQ(2000, mock_servo_pwm[0]);
+	EXPECT_EQ(2000, mock_servo_pwm[1]);
+	EXPECT_EQ(1500, mock_servo_pwm[2]);
+	EXPECT_EQ(1600, mock_servo_pwm[3]);
+	EXPECT_EQ(1600, mock_servo_pwm[4]);
 
 	testedModes++;
 }
@@ -624,6 +649,75 @@ TEST_F(MixerBasicTest, TestMixerLoadSave){
 	}
 }
 
+TEST_F(MixerBasicTest, TestQuadMotors)
+{
+	motorAndServoConfig()->mincommand = 1000;
+	motorAndServoConfig()->minthrottle = 1000;
+	motorAndServoConfig()->maxthrottle = 2000;
+
+    _init_mixer_defaults(MIXER_QUADX);
+    // and
+    memset(rcCommand, 0, sizeof(rcCommand));
+
+    // and
+    memset(&pid_output, 0, sizeof(pid_output));
+	pid_output.axis[FD_YAW] = 0; 
+
+    // when
+    mixer_update(&mixer);
+
+    // then
+    EXPECT_EQ(4, mixer_get_motor_count(&mixer));
+
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[0]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[1]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[2]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[3]);
+}
+
+TEST_F(MixerBasicTest, TestInvalidConfig){
+	// this test will just fill configs with random data and we will see if mixer performs well
+	memset(mixerConfig(), 0xff, sizeof(struct mixer_config));
+	memset(motor3DConfig(), 0xff, sizeof(struct motor_3d_config));
+	memset(motorAndServoConfig(), 0xff, sizeof(motorAndServoConfig_t));
+	memset(rxConfig(), 0xff, sizeof(rxConfig_t));
+	memset(servoProfile(), 0xff, sizeof(struct servo_profile));
+
+	// use quadx
+	mixerConfig()->mixerMode = MIXER_QUADX;
+
+	// need to set this 
+	motorAndServoConfig()->mincommand = 1000;
+
+	mixer_init(&mixer,
+			mixerConfig(),
+			motor3DConfig(),
+			motorAndServoConfig(),
+			rxConfig(),
+			rcControlsConfig(),
+			servoProfile()->servoConf,
+			&mock_syscalls()->pwm,
+			customMotorMixer(0), MAX_SUPPORTED_MOTORS);
+	mixer_enable_armed(&mixer, true);
+
+    // and
+    memset(rcCommand, 0, sizeof(rcCommand));
+
+    // and
+    memset(&pid_output, 0, sizeof(pid_output));
+	pid_output.axis[FD_YAW] = 0; 
+
+    // when
+    mixer_update(&mixer);
+
+    // then
+    EXPECT_EQ(4, mixer_get_motor_count(&mixer));
+
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[0]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[1]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[2]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[3]);
+}
 
 TEST_F(MixerBasicTest, TestAllModesTested){
 	//EXPECT_EQ(MIXER_MODE_COUNT, testedModes);
@@ -660,45 +754,10 @@ protected:
     }
 
     virtual void configureMixer(uint8_t mixerMode) {
+		mock_system_reset();
         mixerConfig()->mixerMode = mixerMode;
     }
 };
-
-TEST_F(BasicMixerIntegrationTest, TestQuadMotors)
-{
-    // given
-    withDefaultmotorAndServoConfiguration();
-
-    configureMixer(MIXER_QUADX);
-
-	mixer_init(&default_mixer, 
-		mixerConfig(),
-		motor3DConfig(),
-		motorAndServoConfig(),
-		rxConfig(),
-		rcControlsConfig(),
-		servoProfile()->servoConf,
-		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
-
-    // and
-    memset(rcCommand, 0, sizeof(rcCommand));
-
-    // and
-    memset(&pid_output, 0, sizeof(pid_output));
-	pid_output.axis[FD_YAW] = 0; 
-
-    // when
-    mixer_update(&default_mixer);
-
-    // then
-    EXPECT_EQ(4, mixer_get_motor_count(&default_mixer));
-
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 0));
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 1));
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 2));
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 3));
-}
-
 
 class CustomMixerIntegrationTest : public BasicMixerIntegrationTest {
 protected:
@@ -752,6 +811,11 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 
     configureMixer(MIXER_CUSTOM_AIRPLANE);
 
+	motorAndServoConfig()->mincommand = 1000;
+	motorAndServoConfig()->minthrottle = 1000;
+	motorAndServoConfig()->maxthrottle = 2000;
+
+
     mixer_init(&default_mixer, 
 		mixerConfig(),
 		motor3DConfig(),
@@ -759,6 +823,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 		rxConfig(),
 		rcControlsConfig(),
 		servoProfile()->servoConf,
+		&mock_syscalls()->pwm,
 		customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 
 	for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
@@ -782,14 +847,14 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
     EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, mixer_get_motor_count(&default_mixer));
     EXPECT_EQ(EXPECTED_SERVOS_TO_MIX_COUNT, mixer_get_servo_count(&default_mixer));
 
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 0));
-    EXPECT_EQ(TEST_MIN_COMMAND, mixer_get_motor_value(&default_mixer, 1));
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[0]);
+    EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[1]);
 
-    EXPECT_EQ(TEST_SERVO_MID, mixer_get_servo_value(&default_mixer, 0));
-    EXPECT_EQ(TEST_SERVO_MID, mixer_get_servo_value(&default_mixer, 1));
-    EXPECT_EQ(TEST_SERVO_MID, mixer_get_servo_value(&default_mixer, 2));
-    EXPECT_EQ(TEST_SERVO_MID, mixer_get_servo_value(&default_mixer, 3));
-    EXPECT_EQ(1000, mixer_get_servo_value(&default_mixer, 4)); // Throttle
-    EXPECT_EQ(2000, mixer_get_servo_value(&default_mixer, 5)); // Flaps
+    EXPECT_EQ(TEST_SERVO_MID, mock_servo_pwm[0]);
+    EXPECT_EQ(TEST_SERVO_MID, mock_servo_pwm[1]);
+    EXPECT_EQ(TEST_SERVO_MID, mock_servo_pwm[2]);
+    EXPECT_EQ(TEST_SERVO_MID, mock_servo_pwm[3]);
+    EXPECT_EQ(1000, mock_servo_pwm[4]); // Throttle
+    EXPECT_EQ(2000, mock_servo_pwm[5]); // Flaps
 }
 

@@ -810,6 +810,8 @@ static void _scale_motors(struct mixer *self, int16_t *output, uint16_t count){
 	}
 }
 
+#include <stdio.h>
+
 /**
  * Updates the outputs based on mixing rules from the inputs. Expects inputs to
  * be set using mixer_input_* command.
@@ -839,11 +841,16 @@ void mixer_update(struct mixer *self){
 	}
 
 	// since multiple motors can only mean differential thrust, we need to make sure that we fit the full motor range into the min/max throttle range.
-	_scale_motors(self, output + MIXER_OUTPUT_MOTORS, MIXER_OUTPUT_SERVOS - MIXER_OUTPUT_MOTORS);
+	_scale_motors(self, output + MIXER_OUTPUT_MOTORS, self->motorCount);
 
 	// we center the outputs on midrc always regardless of midthrottle because
 	for(int c = MIXER_OUTPUT_MOTORS; c < MIXER_MAX_MOTORS; c++){
 		output[c] = constrain(self->midthrottle + output[c], self->minthrottle, self->maxthrottle);
+	}
+
+	// set unused outputs to mincommand
+	for(int c = self->motorCount; c < MIXER_MAX_MOTORS; c++){
+		output[c] = self->motor_servo_config->mincommand;
 	}
 
 	// limit servos according to config

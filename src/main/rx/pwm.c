@@ -28,8 +28,6 @@
 #include "config/config.h"
 #include "config/parameter_group.h"
 
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
 #include "drivers/pwm_rx.h"
 
 #include "config/config.h"
@@ -39,21 +37,26 @@
 #include "rx/rx.h"
 #include "rx/pwm.h"
 
+static const struct system_calls_pwm *syspwm = 0;
+
 static uint16_t pwmReadRawRC(rxRuntimeConfig_t *rxRuntimeConfigPtr, uint8_t channel)
 {
     UNUSED(rxRuntimeConfigPtr);
-    return pwmRead(channel);
+	if(!syspwm) return 1000;
+	return syspwm->read_pwm(syspwm, channel);
 }
 
 static uint16_t ppmReadRawRC(rxRuntimeConfig_t *rxRuntimeConfigPtr, uint8_t channel)
 {
     UNUSED(rxRuntimeConfigPtr);
-    return ppmRead(channel);
+	if(!syspwm) return 1000;
+	return syspwm->read_ppm(syspwm, channel);
 }
 
-void rxPwmInit(rxRuntimeConfig_t *rxRuntimeConfigPtr, rcReadRawDataPtr *callback)
+void rxPwmInit(const struct system_calls_pwm *pwm, rxRuntimeConfig_t *rxRuntimeConfigPtr, rcReadRawDataPtr *callback)
 {
     UNUSED(rxRuntimeConfigPtr);
+	syspwm = pwm;
     // configure PWM/CPPM read function and max number of channels. serial rx below will override both of these, if enabled
     if (feature(FEATURE_RX_PARALLEL_PWM)) {
         rxRuntimeConfigPtr->channelCount = MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT;

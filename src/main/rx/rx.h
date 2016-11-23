@@ -19,7 +19,9 @@
 
 #include <stdbool.h>
 #include "config/parameter_group.h"
+#include "../config/rc_controls.h"
 #include "target.h"
+#include "system_calls.h"
 
 #include "../config/rx.h"
 
@@ -109,6 +111,7 @@ void calculateRxChannelsAndUpdateFailsafe(uint32_t currentTime);
 void parseRcChannels(const char *input, rxConfig_t *rxConfig);
 uint8_t serialRxFrameStatus(void);
 
+void rxInit(const struct system_calls_pwm *pwm, modeActivationCondition_t *modeActivationConditions); 
 void updateRSSI(uint32_t currentTime);
 void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
 

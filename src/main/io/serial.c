@@ -31,17 +31,9 @@
 
 #include "drivers/system.h"
 #include "drivers/serial.h"
-#if defined(USE_SOFTSERIAL1) || defined(USE_SOFTSERIAL2)
 #include "drivers/serial_softserial.h"
-#endif
-
-#if defined(USE_UART1) || defined(USE_UART2) || defined(USE_UART3) || defined(USE_UART4) || defined(USE_UART5)
 #include "drivers/serial_uart.h"
-#endif
-
-#if defined(USE_VCP)
 #include "drivers/serial_usb_vcp.h"
-#endif
 
 #include "io/serial.h"
 #include "serial_cli.h"
@@ -259,48 +251,33 @@ serialPort_t *openSerialPort(
     serialPort_t *serialPort = NULL;
 
     switch(identifier) {
-#ifdef USE_VCP
         case SERIAL_PORT_USB_VCP:
             serialPort = usbVcpOpen();
             break;
-#endif
-#ifdef USE_UART1
         case SERIAL_PORT_UART1:
             serialPort = uartOpen(1, callback, baudRate, mode, options);
             break;
-#endif
-#ifdef USE_UART2
         case SERIAL_PORT_UART2:
             serialPort = uartOpen(2, callback, baudRate, mode, options);
             break;
-#endif
-#ifdef USE_UART3
         case SERIAL_PORT_UART3:
             serialPort = uartOpen(3, callback, baudRate, mode, options);
             break;
-#endif
-#ifdef USE_UART4
         case SERIAL_PORT_UART4:
             serialPort = uartOpen(4, callback, baudRate, mode, options);
             break;
-#endif
-#ifdef USE_UART5
         case SERIAL_PORT_UART5:
             serialPort = uartOpen(5, callback, baudRate, mode, options);
             break;
-#endif
-#ifdef USE_SOFTSERIAL1
         case SERIAL_PORT_SOFTSERIAL1:
             serialPort = openSoftSerial(SOFTSERIAL1, callback, baudRate, options);
             serialSetMode(serialPort, mode);
             break;
-#endif
-#ifdef USE_SOFTSERIAL2
         case SERIAL_PORT_SOFTSERIAL2:
             serialPort = openSoftSerial(SOFTSERIAL2, callback, baudRate, options);
             serialSetMode(serialPort, mode);
             break;
-#endif
+		case SERIAL_PORT_NONE:
         default:
             break;
     }

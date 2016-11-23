@@ -3,6 +3,8 @@
 struct system_calls_pwm {
 	void (*write_motor)(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
 	void (*write_servo)(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
+	uint16_t (*read_pwm)(const struct system_calls_pwm *self, uint8_t chan);
+	uint16_t (*read_ppm)(const struct system_calls_pwm *self, uint8_t chan);
 };
 
 struct system_calls_imu {

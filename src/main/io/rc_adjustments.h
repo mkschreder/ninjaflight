@@ -113,6 +113,7 @@ typedef struct adjustmentState_s {
 
 // TODO: remove this include 
 #include "flight/rate_profile.h"
+#include "../config/rate_profile.h"
 void resetAdjustmentStates(void);
 void configureAdjustmentState(adjustmentRange_t *adjustmentRange);
 void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges);

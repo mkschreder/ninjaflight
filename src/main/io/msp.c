@@ -24,7 +24,6 @@
 #include "build_config.h"
 #include "debug.h"
 #include <platform.h>
-#include "scheduler.h"
 
 #include "common/axis.h"
 #include "common/utils.h"
@@ -99,6 +98,8 @@ extern void resetPidProfile(struct pid_config *pidProfile);
 
 static const char * const flightControllerIdentifier = CLEANFLIGHT_IDENTIFIER; // 4 UPPER CASE alpha numeric characters that identify the flight controller.
 static const char * const boardIdentifier = TARGET_BOARD_IDENTIFIER;
+
+static struct ninja *ninja = 0;
 
 typedef struct box_e {
     const char *boxName;            // GUI-readable box name
@@ -579,29 +580,29 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             sbufWriteU32(dst, packFlightModeFlags());
             sbufWriteU8(dst, getCurrentProfile());
             if(cmd->cmd == MSP_STATUS_EX) {
-                sbufWriteU16(dst, averageSystemLoadPercent);
+                sbufWriteU16(dst, ninja->sched.averageSystemLoadPercent);
             }
             break;
 
         case MSP_RAW_IMU: {
             // Hack scale due to choice of units for sensor data in multiwii
             unsigned scale_shift = (acc.acc_1G > 1024) ? 3 : 0;
-			sbufWriteU16(dst, ins_get_acc_x(&ninja.ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_y(&ninja.ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_z(&ninja.ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_gyro_x(&ninja.ins));
-			sbufWriteU16(dst, ins_get_gyro_y(&ninja.ins));
-			sbufWriteU16(dst, ins_get_gyro_z(&ninja.ins));
-            sbufWriteU16(dst, ins_get_mag_x(&ninja.ins));
-            sbufWriteU16(dst, ins_get_mag_y(&ninja.ins));
-            sbufWriteU16(dst, ins_get_mag_z(&ninja.ins));
+			sbufWriteU16(dst, ins_get_acc_x(&ninja->ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_y(&ninja->ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_acc_z(&ninja->ins) >> scale_shift);
+			sbufWriteU16(dst, ins_get_gyro_x(&ninja->ins));
+			sbufWriteU16(dst, ins_get_gyro_y(&ninja->ins));
+			sbufWriteU16(dst, ins_get_gyro_z(&ninja->ins));
+            sbufWriteU16(dst, ins_get_mag_x(&ninja->ins));
+            sbufWriteU16(dst, ins_get_mag_y(&ninja->ins));
+            sbufWriteU16(dst, ins_get_mag_z(&ninja->ins));
             break;
         }
 
 #ifdef USE_SERVOS
         case MSP_SERVO:
 			for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
-				sbufWriteU16(dst, mixer_get_servo_value(&ninja.mixer, c));
+				sbufWriteU16(dst, mixer_get_servo_value(&ninja->mixer, c));
 			}
             break;
 
@@ -633,7 +634,8 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_MOTOR:
             for (unsigned i = 0; i < 8; i++) {
-                sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? mixer_get_motor_value(&ninja.mixer, i) : 0);
+				// TODO: fix this
+                //sbufWriteU16(dst, i < MAX_SUPPORTED_MOTORS ? mixer_get_motor_value(&ninja->mixer, i) : 0);
             }
             break;
 
@@ -643,9 +645,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ATTITUDE:
-            sbufWriteU16(dst, ins_get_roll_dd(&ninja.ins));
-            sbufWriteU16(dst, ins_get_pitch_dd(&ninja.ins));
-            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)));
+            sbufWriteU16(dst, ins_get_roll_dd(&ninja->ins));
+            sbufWriteU16(dst, ins_get_pitch_dd(&ninja->ins));
+            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja->ins)));
             break;
 
         case MSP_ALTITUDE:
@@ -685,7 +687,9 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             sbufWriteU16(dst, imuConfig()->looptime);
             break;
 
-        case MSP_RC_TUNING:
+        case MSP_RC_TUNING: {
+			// TODO: fix this
+			struct rate_config *currentControlRateProfile = controlRateProfiles(0); // This should not be 0 fixme
             sbufWriteU8(dst, currentControlRateProfile->rcRate8);
             sbufWriteU8(dst, currentControlRateProfile->rcExpo8);
             for (unsigned i = 0 ; i < 3; i++) {
@@ -696,7 +700,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             sbufWriteU8(dst, currentControlRateProfile->thrExpo8);
             sbufWriteU16(dst, currentControlRateProfile->tpa_breakpoint);
             sbufWriteU8(dst, currentControlRateProfile->rcYawExpo8);
-            break;
+        } break;
 
         case MSP_PID:
             for (int i = 0; i < PID_ITEM_COUNT; i++) {
@@ -1058,7 +1062,7 @@ static int processInCommand(mspPacket_t *cmd)
             break;
 
         case MSP_SET_HEAD:
-            ninja.magHold = sbufReadU16(src);
+            ninja->magHold = sbufReadU16(src);
             break;
 
         case MSP_SET_RAW_RC: {
@@ -1136,9 +1140,11 @@ static int processInCommand(mspPacket_t *cmd)
             break;
         }
 
-        case MSP_SET_RC_TUNING:
+        case MSP_SET_RC_TUNING: {
             if (len < 10)
                 return -1;
+			// TODO: fix rate profiles. We should use current profile but atm it is not available
+			struct rate_config *currentControlRateProfile = controlRateProfiles(0);
             currentControlRateProfile->rcRate8 = sbufReadU8(src);
             currentControlRateProfile->rcExpo8 = sbufReadU8(src);
             for (int i = 0; i < 3; i++) {
@@ -1153,7 +1159,7 @@ static int processInCommand(mspPacket_t *cmd)
             if (len < 11)
                 break;
             currentControlRateProfile->rcYawExpo8 = sbufReadU8(src);
-            break;
+        } break;
 
         case MSP_SET_MISC: {
             unsigned midrc = sbufReadU16(src);
@@ -1191,7 +1197,7 @@ static int processInCommand(mspPacket_t *cmd)
         case MSP_SET_MOTOR:
             for (int i = 0; i < MIXER_MAX_MOTORS; i++) {
                 const int16_t value = sbufReadU16(src);
-				mixer_input_command(&ninja.mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
+				mixer_input_command(&ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
             }
             break;
 
@@ -1512,8 +1518,9 @@ static int processInCommand(mspPacket_t *cmd)
     return 1;     // message was handled succesfully
 }
 
-void mspInit(void)
+void mspInit(struct ninja *nin)
 {
+	ninja = nin;
     initActiveBoxIds();
 }
 

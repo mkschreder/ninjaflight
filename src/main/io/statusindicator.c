@@ -21,13 +21,12 @@
 #include <platform.h>
 
 #include "drivers/system.h"
-#include "drivers/gpio.h"
 #include "drivers/light_led.h"
 #include "drivers/sound_beeper.h"
 
 #include "statusindicator.h"
 
-static uint32_t warningLedTimer = 0;
+static int32_t warningLedTimer = 0;
 
 typedef enum {
     WARNING_LED_OFF = 0,
@@ -36,12 +35,6 @@ typedef enum {
 } warningLedState_e;
 
 static warningLedState_e warningLedState = WARNING_LED_OFF;
-
-void warningLedResetTimer(void)
-{
-    uint32_t now = millis();
-    warningLedTimer = now + 500000;
-}
 
 void warningLedEnable(void)
 {
@@ -58,33 +51,28 @@ void warningLedFlash(void)
     warningLedState = WARNING_LED_FLASH;
 }
 
-void warningLedRefresh(void)
+void warningLedRefresh(const struct system_calls_leds *leds)
 {
     switch (warningLedState) {
         case WARNING_LED_OFF:
-            led_off(0);
+			leds->on(leds, 0, false);
             break;
         case WARNING_LED_ON:
-            led_on(0);
+			leds->on(leds, 0, true);
             break;
         case WARNING_LED_FLASH:
-            led_toggle(0);
+			leds->toggle(leds, 0);
             break;
     }
-
-    uint32_t now = micros();
-    warningLedTimer = now + 500000;
 }
 
-void warningLedUpdate(void)
-{
-    uint32_t now = micros();
-
+void warningLedUpdate(const struct system_calls_leds *leds, int32_t now){
     if ((int32_t)(now - warningLedTimer) < 0) {
         return;
     }
 
-    warningLedRefresh();
+    warningLedRefresh(leds);
+    warningLedTimer = now + 500000;
 }
 
 
