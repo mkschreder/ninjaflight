@@ -205,6 +205,8 @@ static bool mspSerialProcessReceivedByte(mspPort_t *msp, uint8_t c)
                     msp->c_state = IDLE;
             }
             break;
+		case COMMAND_RECEIVED:
+			break;
     }
     return true;
 }

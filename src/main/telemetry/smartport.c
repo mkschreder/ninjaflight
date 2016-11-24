@@ -8,8 +8,6 @@
 
 #include <platform.h>
 
-#ifdef TELEMETRY
-
 #include "common/axis.h"
 #include "common/maths.h"
 
@@ -353,10 +351,14 @@ void handleSmartPortTelemetry(void)
             //case FSSP_DATAID_CAP_USED   :
             case FSSP_DATAID_VARIO      :
                 if (sensors(SENSOR_BARO)) {
-                    smartPortSendPackage(id, vario); // unknown given unit but requested in 100 = 1m/s
+					// TODO: fix this after refactoring. Need to get this from althold object
+                    //smartPortSendPackage(id, vario); // unknown given unit but requested in 100 = 1m/s
                     smartPortHasRequest = 0;
+
                 }
                 break;
+			// TODO: fix this after refactoring
+			/*
             case FSSP_DATAID_HEADING    :
                 smartPortSendPackage(id, ins_get_yaw_dd(&default_ins) * 10); // given in 10*deg, requested in 10000 = 100 deg
                 smartPortHasRequest = 0;
@@ -376,6 +378,7 @@ void handleSmartPortTelemetry(void)
                 smartPortSendPackage(id, ins_get_acc_z(&default_ins) / 44);
                 smartPortHasRequest = 0;
                 break;
+				*/
             case FSSP_DATAID_T1         :
                 // we send all the flags as decimal digits for easy reading
 
@@ -444,4 +447,3 @@ void handleSmartPortTelemetry(void)
     }
 }
 
-#endif

@@ -44,7 +44,6 @@ uint32_t baroPressure = 0;
 int32_t baroTemperature = 0;
 int32_t BaroAlt = 0;
 
-#ifdef BARO
 
 static int32_t baroGroundAltitude = 0;
 static uint32_t baroGroundPressure = 0;
@@ -169,4 +168,3 @@ void performBaroCalibrationCycle(void)
     calibratingB--;
 }
 
-#endif /* BARO */

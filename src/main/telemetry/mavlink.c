@@ -28,8 +28,6 @@
 
 #include "build_config.h"
 
-#ifdef TELEMETRY
-
 #include "common/maths.h"
 #include "common/axis.h"
 #include "common/color.h"
@@ -42,8 +40,6 @@
 #include "drivers/system.h"
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
 #include "drivers/serial.h"
 #include "drivers/pwm_rx.h"
 
@@ -351,6 +347,7 @@ static void mavlinkSendPosition(void)
 static void mavlinkSendAttitude(void)
 {
     uint16_t msgLength;
+	/* TODO: fix this after refactoring
     mavlink_msg_attitude_pack(0, 200, &mavMsg,
         // time_boot_ms Timestamp (milliseconds since system boot)
         millis(),
@@ -366,6 +363,7 @@ static void mavlinkSendAttitude(void)
         0,
         // yawspeed Yaw angular speed (rad/s)
         0);
+		*/
     msgLength = mavlink_msg_to_send_buffer(mavBuffer, &mavMsg);
     mavlinkSerialWrite(mavBuffer, msgLength);
 }
@@ -373,10 +371,11 @@ static void mavlinkSendAttitude(void)
 static void mavlinkSendHUDAndHeartbeat(void)
 {
     uint16_t msgLength;
+	/*
     float mavAltitude = 0;
     float mavGroundSpeed = 0;
     float mavAirSpeed = 0;
-
+*/
 #if defined(GPS)
     // use ground speed if source available
     if (sensors(SENSOR_GPS)) {
@@ -402,7 +401,7 @@ static void mavlinkSendHUDAndHeartbeat(void)
         mavAltitude = GPS_altitude;
     }
 #endif
-    
+   	/* TODO: fix this after refactoring 
     mavlink_msg_vfr_hud_pack(0, 200, &mavMsg,
         // airspeed Current airspeed in m/s
         mavAirSpeed,
@@ -416,6 +415,7 @@ static void mavlinkSendHUDAndHeartbeat(void)
         mavAltitude,
         // climb Current climb rate in meters/second
         0);
+	*/
     msgLength = mavlink_msg_to_send_buffer(mavBuffer, &mavMsg);
     mavlinkSerialWrite(mavBuffer, msgLength);
 
@@ -482,9 +482,12 @@ static void mavlinkSendHUDAndHeartbeat(void)
             mavSystemState = MAV_STATE_ACTIVE;
         }
     }
+	/*
+	TODO: fix this after refactoring. Need to get this from instrument panel
     else if (isCalibrating()) {
         mavSystemState = MAV_STATE_CALIBRATING;
     }
+	*/
     else {
         mavSystemState = MAV_STATE_STANDBY;
     }
@@ -547,4 +550,3 @@ void handleMAVLinkTelemetry(void)
     }
 }
 
-#endif

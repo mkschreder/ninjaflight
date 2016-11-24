@@ -21,15 +21,11 @@
 
 #include <platform.h>
 
-#ifdef TELEMETRY
-
 #include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
 
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
 #include "drivers/serial.h"
 #include "drivers/serial_softserial.h"
 #include "io/serial.h"
@@ -86,4 +82,3 @@ void telemetryProcess(uint16_t deadband3d_throttle)
     handleMAVLinkTelemetry();
 }
 
-#endif

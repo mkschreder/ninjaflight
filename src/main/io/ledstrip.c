@@ -25,8 +25,6 @@
 
 #include <build_config.h>
 
-#ifdef LED_STRIP
-
 #include <common/color.h>
 #include <common/maths.h>
 #include <common/typeconversion.h>
@@ -265,7 +263,7 @@ void generateLedConfig(int ledIndex, char *ledConfigBuffer, size_t bufferSize)
     }
     *dptr = 0;
     // TODO - check buffer length
-    sprintf(ledConfigBuffer, "%u,%u:%s:%s:%u", ledGetX(ledConfig), ledGetY(ledConfig), directions, functions, ledConfig->color);
+    //sprintf(ledConfigBuffer, "%u,%u:%s:%s:%u", ledGetX(ledConfig), ledGetY(ledConfig), directions, functions, ledConfig->color);
 }
 
 typedef enum {
@@ -873,4 +871,3 @@ static void ledStripDisable(void)
 
 	ws2811UpdateStrip();
 }
-#endif

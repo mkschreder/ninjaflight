@@ -60,8 +60,6 @@
 #include "build_config.h"
 #include "debug.h"
 
-#ifdef TELEMETRY
-
 #include "common/axis.h"
 
 #include "config/config.h"
@@ -124,7 +122,6 @@ static void initialiseEAMMessage(HOTT_EAM_MSG_t *msg, size_t size)
     msg->stop_byte = 0x7D;
 }
 
-#ifdef GPS
 typedef enum {
     GPS_FIX_CHAR_NONE = '-',
     GPS_FIX_CHAR_2D = '2',
@@ -140,17 +137,13 @@ static void initialiseGPSMessage(HOTT_GPS_MSG_t *msg, size_t size)
     msg->sensor_id = HOTT_GPS_SENSOR_TEXT_ID;
     msg->stop_byte = 0x7D;
 }
-#endif
 
 static void initialiseMessages(void)
 {
     initialiseEAMMessage(&hottEAMMessage, sizeof(hottEAMMessage));
-#ifdef GPS
     initialiseGPSMessage(&hottGPSMessage, sizeof(hottGPSMessage));
-#endif
 }
 
-#ifdef GPS
 void addGPSCoordinates(HOTT_GPS_MSG_t *msg, int32_t latitude, int32_t longitude)
 {
     int16_t deg = latitude / GPS_DEGREES_DIVIDER;
@@ -210,7 +203,6 @@ void hottPrepareGPSResponse(HOTT_GPS_MSG_t *msg)
 
     msg->home_direction = GPS_directionToHome;
 }
-#endif
 
 static bool shouldTriggerBatteryAlarmNow(void)
 {
@@ -331,9 +323,7 @@ static inline void hottSendEAMResponse(void)
 static void hottPrepareMessages(void)
 {
     hottPrepareEAMResponse(&hottEAMMessage);
-#ifdef GPS
     hottPrepareGPSResponse(&hottGPSMessage);
-#endif
 }
 
 static void processBinaryModeRequest(uint8_t address)
@@ -524,4 +514,3 @@ void handleHoTTTelemetry(void)
     serialTimer = now;
 }
 
-#endif

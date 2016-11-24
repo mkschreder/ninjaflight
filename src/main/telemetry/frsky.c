@@ -25,8 +25,6 @@
 
 #include <platform.h>
 
-#ifdef TELEMETRY
-
 #include "common/maths.h"
 #include "common/axis.h"
 
@@ -39,8 +37,6 @@
 #include "drivers/system.h"
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
 #include "drivers/serial.h"
 
 #include "io/rc_controls.h"
@@ -156,11 +152,14 @@ static void serialize16(int16_t a)
 
 static void sendAccel(void)
 {
+	// TODO: fix this once we have refactored this module (we need to pass ins to constructor of the object)
+	/*
 	int16_t raw[3] = { ins_get_acc_x(&default_ins), ins_get_acc_y(&default_ins), ins_get_acc_z(&default_ins) };
     for (int i = 0; i < 3; i++) {
         sendDataHead(ID_ACC_X + i);
         serialize16(1000 * (int32_t)raw[i] / acc.acc_1G);
     }
+	*/
 }
 
 static void sendBaro(void)
@@ -204,11 +203,7 @@ static void sendThrottleOrBatterySizeAsRpm(uint16_t deadband3d_throttle)
 static void sendTemperature1(void)
 {
     sendDataHead(ID_TEMPRATURE1);
-#ifdef BARO
     serialize16((baroTemperature + 50)/ 100); //Airmamaf
-#else
-    serialize16(telemTemperature1 / 10);
-#endif
 }
 
 #ifdef GPS
@@ -342,7 +337,10 @@ static void sendGPSLatLong(void)
 static void sendVario(void)
 {
     sendDataHead(ID_VERT_SPEED);
-    serialize16(vario);
+	// TODO: fix this after we have refactored this module. Need to get this from altitudehold object
+    //serialize16(vario);
+    serialize16(0);
+
 }
 
 /*
@@ -426,10 +424,13 @@ static void sendFuelLevel(void)
 
 static void sendHeading(void)
 {
+	// TODO: fix this after refactoring
+	/*
     sendDataHead(ID_COURSE_BP);
     serialize16(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
     sendDataHead(ID_COURSE_AP);
     serialize16(0);
+	*/
 }
 
 void initFrSkyTelemetry(void)
@@ -542,4 +543,3 @@ void handleFrSkyTelemetry(uint16_t deadband3d_throttle)
     }
 }
 
-#endif

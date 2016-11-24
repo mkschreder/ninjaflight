@@ -29,7 +29,6 @@
 
 #include "io/rc_controls.h"
 
-#include "drivers/gpio.h"
 #include "drivers/sound_beeper.h"
 #include "drivers/system.h"
 #include "sensors/battery.h"

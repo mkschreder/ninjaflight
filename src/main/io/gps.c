@@ -39,7 +39,6 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/serial_uart.h"
-#include "drivers/gpio.h"
 #include "drivers/light_led.h"
 
 #include "io/serial.h"
@@ -49,9 +48,6 @@
 #include "flight/gps_conversion.h"
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
-
-
-#ifdef GPS
 
 #define LOG_ERROR        '?'
 #define LOG_IGNORED      '!'
@@ -1103,4 +1099,3 @@ void updateGpsIndicator(uint32_t currentTime)
         led_toggle(1);
     }
 }
-#endif

@@ -25,7 +25,6 @@
 #include <ctype.h>
 
 #include <platform.h>
-#include "scheduler.h"
 #include "version.h"
 
 #include "build_config.h"
@@ -49,8 +48,6 @@
 
 #include "drivers/serial.h"
 #include "drivers/bus_i2c.h"
-#include "drivers/gpio.h"
-#include "drivers/timer.h"
 #include "drivers/pwm_rx.h"
 #include "drivers/sdcard.h"
 #include "drivers/pwm_output.h"

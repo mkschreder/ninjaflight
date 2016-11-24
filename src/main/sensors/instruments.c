@@ -143,4 +143,11 @@ void ins_set_acc_scale(struct instruments *self, int16_t acc_1G){
 	self->acc.acc_1G = acc_1G;
 }
 
+float ins_get_gyro_scale(struct instruments *self){
+	return self->gyro.gyro_scale;
+}
+int16_t ins_get_acc_scale(struct instruments *self){
+	return self->acc.acc_1G;
+}
+
 

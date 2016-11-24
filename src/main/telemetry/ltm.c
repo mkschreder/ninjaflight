@@ -35,8 +35,6 @@
 
 #include "build_config.h"
 
-#ifdef TELEMETRY
-
 #include "common/maths.h"
 #include "common/axis.h"
 
@@ -195,10 +193,12 @@ static void ltm_sframe(void)
 static void ltm_aframe(void)
 {
     ltm_initialise_packet('A');
+	/* TODO: fix this after refactoring
     ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&default_ins)));
     ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_roll_dd(&default_ins)));
     ltm_serialise_16(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&default_ins)));
     ltm_finalise();
+	*/
 }
 
 /*
@@ -289,4 +289,3 @@ void checkLtmTelemetryState(void)
     else
         freeLtmTelemetryPort();
 }
-#endif
