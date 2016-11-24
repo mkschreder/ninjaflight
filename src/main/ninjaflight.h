@@ -21,16 +21,13 @@
 
 #include "ninja.h"
 
-void ninja_calibrate_acc(void);
-void ninja_calibrate_mag(void);
+void ninja_calibrate_acc(struct ninja *self);
+void ninja_calibrate_mag(struct ninja *self);
 
 void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsDelta);
 void handleInflightCalibrationStickPosition(void);
 
-void mwDisarm(void);
-void mwArm(void);
-
-bool isCalibrating(void);
+bool ninja_is_calibrating(struct ninja *self);
 
 void ninja_update_transponder(struct ninja *self);
 void ninja_run_pid_loop(struct ninja *self, float dT);

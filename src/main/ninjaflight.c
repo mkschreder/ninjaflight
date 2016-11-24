@@ -22,7 +22,6 @@
 
 #include <platform.h>
 
-#include "scheduler.h"
 #include "debug.h"
 
 #include "common/maths.h"
@@ -126,19 +125,18 @@ static void updateGtuneState(void)
 }
 #endif
 
-bool isCalibrating(void)
-{
-	return ins_is_calibrated(&ninja.ins);
+bool ninja_is_calibrating(struct ninja *self){
+	return ins_is_calibrated(&self->ins);
 }
 
 static uint8_t calibrating = 0;
-void ninja_calibrate_acc(void){
-	ins_start_acc_calibration(&ninja.ins);
+void ninja_calibrate_acc(struct ninja *self){
+	ins_start_acc_calibration(&self->ins);
 	calibrating = 1;
 }
 
-void ninja_calibrate_mag(void){
-	ins_start_mag_calibration(&ninja.ins);
+void ninja_calibrate_mag(struct ninja *self){
+	ins_start_mag_calibration(&self->ins);
 	calibrating = 1;
 }
 

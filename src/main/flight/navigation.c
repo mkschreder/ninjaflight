@@ -36,7 +36,6 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/serial_uart.h"
-#include "drivers/gpio.h"
 #include "drivers/light_led.h"
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
@@ -59,8 +58,6 @@
 #include "config/runtime_config.h"
 
 #include "../ninja.h"
-
-#ifdef GPS
 
 // **********************
 // GPS
@@ -241,7 +238,7 @@ static uint16_t fraction3[2];
 // with the addition of Crosstrack error in degrees * 100
 static int32_t nav_bearing;
 // saves the bearing at takeof (1deg = 1) used to rotate to takeoff direction when arrives at home
-static int16_t nav_takeoff_bearing;
+static int16_t __attribute__((unused)) nav_takeoff_bearing;
 
 static void GPS_calculateDistanceAndDirectionToHome(void)
 {
@@ -329,7 +326,9 @@ void onGpsNewData(void)
             // Desired output is in nav_lat and nav_lon where 1deg inclination is 100
             GPS_calc_nav_rate(speed);
 
+			// TODO: make this work after refactoring
             // Tail control
+			/*
             if (gpsProfile()->nav_controls_heading) {
                 if (NAV_TAIL_FIRST) {
                     ninja.magHold = wrap_18000(nav_bearing - 18000) / 100;
@@ -344,6 +343,7 @@ void onGpsNewData(void)
                     ninja.magHold = nav_takeoff_bearing;
                 }
             }
+				*/
             break;
 		case NAV_MODE_NONE:
         default:
@@ -358,7 +358,8 @@ void GPS_reset_home_position(void)
         GPS_home[LAT] = GPS_coord[LAT];
         GPS_home[LON] = GPS_coord[LON];
         GPS_calc_longitude_scaling(GPS_coord[LAT]); // need an initial value for distance and bearing calc
-        nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins));              // save takeoff heading
+		// TODO: make this work after refactoring
+        //nav_takeoff_bearing = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins));              // save takeoff heading
         // Set ground altitude
         ENABLE_STATE(GPS_FIX_HOME);
     }
@@ -435,7 +436,7 @@ void GPS_set_next_wp(int32_t *lat, int32_t *lon)
 ////////////////////////////////////////////////////////////////////////////////////
 // Check if we missed the destination somehow
 //
-static bool check_missed_wp(void)
+static bool __attribute__((unused)) check_missed_wp(void)
 {
     int32_t temp;
     temp = target_bearing - original_target_bearing;
@@ -643,6 +644,8 @@ static int32_t wrap_36000(int32_t angle)
 
 void updateGpsStateForHomeAndHoldMode(void)
 {
+	// TODO: make this work after refactoring. Need to pass ins reference to navigation module
+	/*
     float sin_yaw_y = sin_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)) * 0.0174532925f);
     float cos_yaw_x = cos_approx(DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&ninja.ins)) * 0.0174532925f);
     if (gpsProfile()->nav_slew_rate) {
@@ -654,6 +657,7 @@ void updateGpsStateForHomeAndHoldMode(void)
         GPS_angle[AI_ROLL] = (nav[LON] * cos_yaw_x - nav[LAT] * sin_yaw_y) / 10;
         GPS_angle[AI_PITCH] = (nav[LON] * sin_yaw_y + nav[LAT] * cos_yaw_x) / 10;
     }
+	*/
 }
 
 void updateGpsWaypointsAndMode(void)
@@ -732,4 +736,3 @@ void updateGpsWaypointsAndMode(void)
     }
 }
 
-#endif

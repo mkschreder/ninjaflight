@@ -748,19 +748,28 @@ SITL_SRC = \
 			flight/rate_profile.c \
 			flight/failsafe.c \
 			flight/gps_conversion.c \
-			io/rc_adjustments.c \
-			io/rc_curves.c \
-			io/statusindicator.c \
-			io/serial.c \
-			io/serial_msp.c \
+			flight/navigation.c \
+			io/beeper.c \
+			io/display.c \
+			io/gps.c \
+			io/ledstrip.c \
 			io/msp.c \
+			io/rc_adjustments.c \
+			io/rc_controls.c \
+			io/rc_curves.c \
+			io/serial.c \
+			io/serial_cli.c \
+			io/serial_msp.c \
+			io/statusindicator.c \
+			sensors/acceleration.c \
+			sensors/barometer.c \
+			sensors/battery.c \
+			sensors/boardalignment.c \
+			sensors/compass.c \
+			sensors/gyro.c \
 			sensors/imu.c \
 			sensors/instruments.c \
-			sensors/acceleration.c \
-			sensors/gyro.c \
-			sensors/compass.c \
-			sensors/boardalignment.c \
-			sensors/battery.c \
+			sensors/sonar.c \
 			rx/msp.c \
 			rx/rx.c \
 			rx/pwm.c \
@@ -776,9 +785,16 @@ SITL_SRC = \
 			sitl/led.c \
 			sitl/sitl.c \
 			sitl/main.c \
+			telemetry/hott.c \
+			telemetry/frsky.c \
+			telemetry/ltm.c \
+			telemetry/mavlink.c \
+			telemetry/smartport.c \
+			telemetry/telemetry.c \
 			ninja.c \
 			ninja_sched.c \
 			ninja_input.c \
+			ninjaflight.c \
 			rc_commands.c \
 			../../ninjasitl/fc_sitl.c 
 

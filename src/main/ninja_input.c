@@ -337,7 +337,6 @@ void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleS
 
 }
 
-#include <stdio.h>
 void ninja_process_rx(struct ninja *self){
     static bool armedBeeperOn = false;
 	
@@ -348,16 +347,12 @@ void ninja_process_rx(struct ninja *self){
 	rcCommand[ROLL] = rc_command_axis(&self->rc_command, ROLL);
 	rcCommand[PITCH] = rc_command_axis(&self->rc_command, PITCH);
 	rcCommand[YAW] = rc_command_axis(&self->rc_command, YAW);
-	rcCommand[THROTTLE] = rc_command_axis(&self->rc_command, THROTTLE);
+	rcCommand[THROTTLE] = rc_get_channel_value(THROTTLE) - 1500;
 
-	printf("rx: %d %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW], rcCommand[THROTTLE]);
-
-	// TODO: this should be called read_rx or something
-    //calculateRxChannelsAndUpdateFailsafe(currentTime);
+    calculateRxChannelsAndUpdateFailsafe(currentTime);
 
 	// TODO: this is just here to remember that it needs to be refactored
 	self->isRXDataNew = true;
-
 
     // in 3D mode, we need to be able to disarm by switch at any time
     if (feature(FEATURE_3D)) {

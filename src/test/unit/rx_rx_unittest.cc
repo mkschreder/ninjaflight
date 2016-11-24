@@ -33,7 +33,6 @@ extern "C" {
 
     uint32_t rcModeActivationMask;
 
-    void rxInit(modeActivationCondition_t *modeActivationConditions);
     void rxResetFlightChannelStatus(void);
     bool rxHaveValidFlightChannels(void);
     bool isPulseValid(uint16_t pulseDuration);
@@ -72,7 +71,7 @@ TEST(RxTest, TestValidFlightChannels)
     modeActivationConditions[0].range.endStep = CHANNEL_VALUE_TO_STEP(1600);
 
     // when
-    rxInit(modeActivationConditions);
+    rxInit(&mock_syscalls()->pwm, modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step above active range to init to OFF)
     EXPECT_EQ(1625, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
@@ -113,7 +112,7 @@ TEST(RxTest, TestInvalidFlightChannels)
     memset(&channelPulses, 1500, sizeof(channelPulses));
 
     // and
-    rxInit(modeActivationConditions);
+    rxInit(&mock_syscalls()->pwm, modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step below active range to init to OFF)
     EXPECT_EQ(1375, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));

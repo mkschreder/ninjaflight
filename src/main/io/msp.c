@@ -93,7 +93,6 @@
 
 #include "io/msp.h"
 
-extern uint16_t cycleTime; // FIXME dependency on mw.c
 extern void resetPidProfile(struct pid_config *pidProfile);
 
 static const char * const flightControllerIdentifier = CLEANFLIGHT_IDENTIFIER; // 4 UPPER CASE alpha numeric characters that identify the flight controller.
@@ -570,7 +569,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_STATUS_EX:
         case MSP_STATUS:
-            sbufWriteU16(dst, cycleTime);
+            sbufWriteU16(dst, ninja->cycleTime);
 #ifdef USE_I2C
             sbufWriteU16(dst, i2cGetErrorCounter());
 #else
@@ -586,7 +585,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
         case MSP_RAW_IMU: {
             // Hack scale due to choice of units for sensor data in multiwii
-            unsigned scale_shift = (acc.acc_1G > 1024) ? 3 : 0;
+            unsigned scale_shift = (ins_get_acc_scale(&ninja->ins) > 1024) ? 3 : 0;
 			sbufWriteU16(dst, ins_get_acc_x(&ninja->ins) >> scale_shift);
 			sbufWriteU16(dst, ins_get_acc_y(&ninja->ins) >> scale_shift);
 			sbufWriteU16(dst, ins_get_acc_z(&ninja->ins) >> scale_shift);
@@ -669,13 +668,13 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ANALOG:
-            sbufWriteU8(dst, (uint8_t)constrain(battery_get_voltage(&default_battery), 0, 255));
-            sbufWriteU16(dst, (uint16_t)constrain(battery_get_spent_capacity(&default_battery), 0, 0xFFFF)); // milliamp hours drawn from battery
+            sbufWriteU8(dst, (uint8_t)constrain(battery_get_voltage(&ninja->bat), 0, 255));
+            sbufWriteU16(dst, (uint16_t)constrain(battery_get_spent_capacity(&ninja->bat), 0, 0xFFFF)); // milliamp hours drawn from battery
             sbufWriteU16(dst, rc_get_rssi());
             if(batteryConfig()->multiwiiCurrentMeterOutput) {
-                sbufWriteU16(dst, (uint16_t)constrain(battery_get_current(&default_battery) * 10, 0, 0xFFFF)); // send amperage in 0.001 A steps. Negative range is truncated to zero
+                sbufWriteU16(dst, (uint16_t)constrain(battery_get_current(&ninja->bat) * 10, 0, 0xFFFF)); // send amperage in 0.001 A steps. Negative range is truncated to zero
             } else
-                sbufWriteU16(dst, (int16_t)constrain(battery_get_current(&default_battery), -0x8000, 0x7FFF)); // send amperage in 0.01 A steps, range is -320A to 320A
+                sbufWriteU16(dst, (int16_t)constrain(battery_get_current(&ninja->bat), -0x8000, 0x7FFF)); // send amperage in 0.01 A steps, range is -320A to 320A
             break;
 
         case MSP_ARMING_CONFIG:
@@ -833,7 +832,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 #endif
 
-        case MSP_DEBUG:
+        case MSP_DEBUG: 
             // output some useful QA statistics
             // debug[x] = ((hse_value / 1000000) * 1000) + (SystemCoreClock / 1000000);         // XX0YY [crystal clock : core clock]
 
@@ -1272,12 +1271,12 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_ACC_CALIBRATION:
             if (!ARMING_FLAG(ARMED))
-				ninja_calibrate_acc();
+				ninja_calibrate_acc(ninja);
             break;
 
         case MSP_MAG_CALIBRATION:
             if (!ARMING_FLAG(ARMED))
-				ninja_calibrate_mag();
+				ninja_calibrate_mag(ninja);
             break;
 
         case MSP_EEPROM_WRITE:

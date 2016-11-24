@@ -512,7 +512,6 @@ PG_RESET_TEMPLATE(armingConfig_t, armingConfig,
 
 
 // BARO
-#ifdef BARO
 PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
 PG_RESET_TEMPLATE(barometerConfig_t, barometerConfig,
     .baro_sample_count = 21,
@@ -520,7 +519,6 @@ PG_RESET_TEMPLATE(barometerConfig_t, barometerConfig,
     .baro_cf_vel = 0.985f,
     .baro_cf_alt = 0.965f,
 );
-#endif
 
 // COMPASS
 PG_REGISTER_PROFILE_WITH_RESET_TEMPLATE(struct mag_config, compassConfig, PG_COMPASS_CONFIGURATION, 0);

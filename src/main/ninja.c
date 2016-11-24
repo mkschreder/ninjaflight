@@ -95,8 +95,6 @@ enum {
 	self->state->on_event(self, self->state, NEV_ENTER); \
 } while(0);
 
-#include <stdio.h>
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wredundant-decls"
 
@@ -108,7 +106,6 @@ DECLARE_STATE(ST_IDLE, NULL){
 	switch(ev){
 		case NEV_RC: {
 			if(self->rc_input.raw[0] < 1200){
-				printf("LOW\n");
 				STATE_TRANSITION(ST_IDLE2);
 			}
 		} break;
@@ -119,7 +116,6 @@ DECLARE_STATE(ST_IDLE2, NULL){
 	switch(ev){
 		case NEV_RC: {
 			if(self->rc_input.raw[0] > 1200){
-				printf("HIGH\n");
 				STATE_TRANSITION(ST_IDLE);
 			}
 		} break;
@@ -177,6 +173,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	battery_init(&self->bat, batteryConfig());
     rxInit(&self->syscalls->pwm, modeActivationProfile()->modeActivationConditions);
 	rc_command_init(&self->rc_command);
+	rc_command_set_rate_config(&self->rc_command, controlRateProfiles(0)); 
 
 	ninja_sched_init(&self->sched, &syscalls->time);
 
@@ -339,7 +336,6 @@ void _process_3d_throttle(struct ninja *self){
 }
 
 void ninja_control_run(struct ninja *self, uint32_t dt_us){
-	dt_us = 1000;
 	int16_t gyroRaw[3];
 	if(self->syscalls->imu.read_gyro(&self->syscalls->imu, gyroRaw) == 0){
 		ins_process_gyro(&self->ins, gyroRaw[0], gyroRaw[1], gyroRaw[2]);
@@ -347,11 +343,12 @@ void ninja_control_run(struct ninja *self, uint32_t dt_us){
 	}
 
 	if(!ins_is_calibrated(&self->ins)){
-		//printf("NOT CALIB\n");
 		return;
 	}
-    //_update_rc_commands(self, dt); 
 
+	ninja_process_rx(self);
+
+	// TODO: set pid algo when config is applied
 	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 	anglerate_set_algo(&self->ctrl, PID_CONTROLLER_LUX_FLOAT);
 
@@ -361,14 +358,11 @@ void ninja_control_run(struct ninja *self, uint32_t dt_us){
 		anglerate_set_level_percent(&self->ctrl, hp_roll, hp_pitch);
 	}*/
 
-	anglerate_set_level_percent(&self->ctrl, 0, 0);
+	anglerate_set_level_percent(&self->ctrl, 100, 100);
 	_process_tilt_controls(self);
 
-	rcCommand[ROLL] = rc_get_channel_value(ROLL) - 1500;
-	rcCommand[PITCH] = rc_get_channel_value(PITCH) - 1500;
-	rcCommand[YAW] = rc_get_channel_value(YAW) - 1500;
-	printf("input: %d %d %d, ", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
-	printf("gyro: %d %d %d, ", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	//printf("input: %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
+	//printf("gyro: %d %d %d", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	anglerate_input_user(&self->ctrl, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
 	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
@@ -378,7 +372,7 @@ void ninja_control_run(struct ninja *self, uint32_t dt_us){
 	rcCommand[PITCH] = anglerate_get_pitch(&self->ctrl);
 	rcCommand[YAW] = anglerate_get_yaw(&self->ctrl);
 
-	printf("output: %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
+	//printf("output: %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
 	// TODO: make sure we unit test 3d mode support
 	//if(self->flags & NINJA_3D_THROTTLE){
      //  _process_3d_throttle(self);
@@ -413,7 +407,6 @@ void ninja_control_run(struct ninja *self, uint32_t dt_us){
 	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rc_get_channel_value(AUX2)	 - rxConfig()->midrc);
 	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rc_get_channel_value(AUX3)	 - rxConfig()->midrc);
 
-	mixer_enable_armed(&self->mixer, true);
     mixer_update(&self->mixer);
 }
 

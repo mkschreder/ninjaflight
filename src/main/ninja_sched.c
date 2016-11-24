@@ -318,7 +318,6 @@ static void _task_system(struct ninja_sched *self){
 // TODO: create a pid task state with this kind of things
 static filterStatePt1_t filteredCycleTimeState;
 
-#include <stdio.h>
 static void _task_gyro(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	self->cycleTime = ninja_sched_get_task_dt(sched, TASK_SELF);
@@ -430,6 +429,8 @@ static void updateLEDs(struct ninja_sched *sched){
 			calibrating = 0;
 		}*/
 
+		// TODO: do we need to check calibration here or can we just do it in the main handler?
+		// also these things need to be organized as a state machine - not like this.
 		//if (isCalibrating() || isSystemOverloaded()) {
 		if (sched->averageSystemLoadPercent > 100) {
 			warningLedFlash();
@@ -573,18 +574,19 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 		.desiredPeriod = 1000000 / 10,		  // 10 Hz, every 100 ms
 		.staticPriority = TASK_PRIORITY_HIGH,
 	},
-
+	
+	// TODO: sort out the problem of system load being too high when testing
 	[TASK_GYROPID] = {
 		.taskName = "GYRO/PID",
 		.taskFunc = _task_gyro,
-		.desiredPeriod = 1000,				  // every 1 ms
+		.desiredPeriod = 3500,				  // every 1 ms
 		.staticPriority = TASK_PRIORITY_REALTIME,
 	},
 
 	[TASK_ACCEL] = {
 		.taskName = "ACCEL",
 		.taskFunc = _task_acc,
-		.desiredPeriod = 1000,				  // every 1 ms
+		.desiredPeriod = 3500,				  // every 1 ms
 		.staticPriority = TASK_PRIORITY_MEDIUM,
 	},
 

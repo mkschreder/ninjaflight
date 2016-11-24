@@ -810,8 +810,6 @@ static void _scale_motors(struct mixer *self, int16_t *output, uint16_t count){
 	}
 }
 
-#include <stdio.h>
-
 /**
  * Updates the outputs based on mixing rules from the inputs. Expects inputs to
  * be set using mixer_input_* command.

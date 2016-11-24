@@ -55,7 +55,7 @@ COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage -lgcov --coverage
 
 C_FLAGS   += $(COVERAGE_FLAGS) 
 CXX_FLAGS += $(COVERAGE_FLAGS)
-LDFLAGS += $(COVERAGE_FLAGS) -L$(PWD)/../.. -lninjaflight
+LDFLAGS += $(COVERAGE_FLAGS) -L$(OBJECT_DIR)/../.. -lninjaflight
 
 #enable fast Maths tests
 C_FLAGS   += -DFAST_MATH
@@ -241,11 +241,7 @@ $(OBJECT_DIR)/ins_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
-$(PWD)/libninjaflight.a:
-	make -C $(PWD) TARGET=SITL
-
 $(OBJECT_DIR)/ninja_unittest.o : \
-	$(PWD)/libninjaflight.a \
 	$(TEST_DIR)/ninja_unittest.cc \
 	$(GTEST_HEADERS)
 
@@ -443,13 +439,11 @@ $(OBJECT_DIR)/rx_rx_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rx_rx_unittest.cc -o $@
 
 $(OBJECT_DIR)/rx_rx_unittest : \
-	$(OBJECT_DIR)/rx/rx.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/rx_rx_unittest.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/rx_ranges_unittest.o : \
 	$(TEST_DIR)/rx_ranges_unittest.cc \
@@ -460,18 +454,10 @@ $(OBJECT_DIR)/rx_ranges_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rx_ranges_unittest.cc -o $@
 
 $(OBJECT_DIR)/rx_ranges_unittest : \
-	$(OBJECT_DIR)/rx/rx.o \
 	$(OBJECT_DIR)/rx_ranges_unittest.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-$(OBJECT_DIR)/sensors/battery.o : $(USER_DIR)/sensors/battery.c $(USER_DIR)/sensors/battery.h $(GTEST_HEADERS)
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/sensors/battery.c -o $@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/battery_unittest.o : \
 	$(TEST_DIR)/battery_unittest.cc \
@@ -482,13 +468,10 @@ $(OBJECT_DIR)/battery_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $< -o $@
 
 $(OBJECT_DIR)/battery_unittest : \
-	$(OBJECT_DIR)/sensors/battery.o \
-	$(OBJECT_DIR)/common/maths.o \
 	$(OBJECT_DIR)/battery_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $@
-
+	$(CXX) $(CXX_FLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OBJECT_DIR)/drivers/barometer_ms5611.o : \
     $(USER_DIR)/drivers/barometer_ms5611.c \
@@ -658,22 +641,6 @@ $(OBJECT_DIR)/common/streambuf.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'__TARGET__="TEST"' -D'__REVISION__="revision"' -c $(USER_DIR)/common/streambuf.c -o $@
 
-$(OBJECT_DIR)/io/serial_msp.o : \
-	$(USER_DIR)/io/serial_msp.c \
-	$(USER_DIR)/io/serial_msp.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/serial_msp.c -o $@
-
-$(OBJECT_DIR)/io/msp.o : \
-	$(USER_DIR)/io/msp.c \
-	$(USER_DIR)/io/msp.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/io/msp.c -o $@
-
 $(OBJECT_DIR)/serial_msp_unittest.o : \
 	$(TEST_DIR)/serial_msp_unittest.cc \
 	$(GTEST_HEADERS)
@@ -682,18 +649,10 @@ $(OBJECT_DIR)/serial_msp_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/serial_msp_unittest.cc -o $@
 
 $(OBJECT_DIR)/serial_msp_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/common/streambuf.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/version.o \
-	$(OBJECT_DIR)/io/serial.o \
-	$(OBJECT_DIR)/io/serial_msp.o \
-	$(OBJECT_DIR)/drivers/buf_writer.o \
-	$(OBJECT_DIR)/config/parameter_group.o \
 	$(OBJECT_DIR)/serial_msp_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/msp_unittest.o : \
 	$(TEST_DIR)/msp_unittest.cc \
@@ -703,51 +662,23 @@ $(OBJECT_DIR)/msp_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/msp_unittest.cc -o $@
 
 $(OBJECT_DIR)/msp_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/common/streambuf.o \
-	$(OBJECT_DIR)/config/vars.o \
-	$(OBJECT_DIR)/version.o \
-	$(OBJECT_DIR)/io/serial.o \
-	$(OBJECT_DIR)/io/msp.o \
-	$(OBJECT_DIR)/config/parameter_group.o \
 	$(OBJECT_DIR)/msp_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@
-
-
-$(OBJECT_DIR)/scheduler.o : \
-	$(USER_DIR)/scheduler.c \
-	$(USER_DIR)/scheduler.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/scheduler.c -o $@
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/scheduler_unittest.o : \
 	$(TEST_DIR)/scheduler_unittest.cc \
-	$(USER_DIR)/scheduler.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/scheduler_unittest.cc -o $@
 
-$(OBJECT_DIR)/dummy_tasks.o : \
-	$(TEST_DIR)/dummy_tasks.c \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/dummy_tasks.c -o $@
-
-
 $(OBJECT_DIR)/scheduler_unittest : \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/dummy_tasks.o \
-	$(OBJECT_DIR)/scheduler.o \
 	$(OBJECT_DIR)/scheduler_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 
 $(OBJECT_DIR)/config/feature.o : \

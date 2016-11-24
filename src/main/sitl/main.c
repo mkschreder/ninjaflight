@@ -244,7 +244,6 @@ static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 
 	cl->led_on(cl, id, on);
-	printf("led %d %s\n", id, (on)?"on":"off");
 	fflush(stdout);
 }
 
@@ -253,7 +252,6 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 
 	cl->led_toggle(cl, id);
-	printf("toggle led %d\n", id);
 	fflush(stdout);
 }
 
@@ -262,36 +260,25 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	resetEEPROM();
 	self->sitl = server;
 
-	static struct rate_config rateConfig;
-	memset(&rateConfig, 0, sizeof(struct rate_config));
-
-	pidProfile()->P8[PIDROLL] = 40;
-	pidProfile()->I8[PIDROLL] = 30;
-	pidProfile()->D8[PIDROLL] = 23;
+	pidProfile()->P8[PIDROLL] = 90;
+	pidProfile()->I8[PIDROLL] = 10;
+	pidProfile()->D8[PIDROLL] = 30;
 	
-	pidProfile()->P8[PIDPITCH] = 40;
-	pidProfile()->I8[PIDPITCH] = 30;
-	pidProfile()->D8[PIDPITCH] = 23;
+	pidProfile()->P8[PIDPITCH] = 90;
+	pidProfile()->I8[PIDPITCH] = 10;
+	pidProfile()->D8[PIDPITCH] = 30;
 
-	pidProfile()->P8[PIDYAW] = 60;
-	pidProfile()->I8[PIDYAW] = 45;
-	pidProfile()->D8[PIDYAW] = 0;
+	pidProfile()->P8[PIDYAW] = 98;
+	pidProfile()->I8[PIDYAW] = 5;
+	pidProfile()->D8[PIDYAW] = 60;
 
 	pidProfile()->P8[PIDLEVEL] = 20;
 	pidProfile()->I8[PIDLEVEL] = 10;
 	pidProfile()->D8[PIDLEVEL] = 100;
 
-	rateConfig.rates[ROLL] = 173;
-    rateConfig.rates[PITCH] = 173;
-    rateConfig.rates[YAW] = 173;
-
-	imuConfig()->dcm_kp = 2500;
-	imuConfig()->dcm_ki = 2500;
-    imuConfig()->looptime = 1000;
-    imuConfig()->gyroSync = 1;
-    imuConfig()->gyroSyncDenominator = 1;
-    imuConfig()->small_angle = 25;
-    imuConfig()->max_angle_inclination = 450;
+	controlRateProfiles(0)->rates[ROLL] = 173;
+    controlRateProfiles(0)->rates[PITCH] = 173;
+    controlRateProfiles(0)->rates[YAW] = 173;
 
 	mixerConfig()->mixerMode = MIXER_QUADX;
 
@@ -394,7 +381,6 @@ int config_streamer_finish(config_streamer_t *c){
 	return 0;
 }
 
-void beeperSilence(void) {}
 uint8_t cliMode;
 void scanEEPROM(void);
 void scanEEPROM(void){}
@@ -404,17 +390,76 @@ void setAccelerationTrims(flightDynamicsTrims_t *trims);
 void setAccelerationTrims(flightDynamicsTrims_t *trims){(void)trims;}
 void recalculateMagneticDeclination(void);
 void recalculateMagneticDeclination(void){}
-void beeperConfirmationBeeps(void);
-void beeperConfirmationBeeps(void){}
+//void beeperSilence(void) {}
+//void beeperConfirmationBeeps(void);
+//void beeperConfirmationBeeps(void){}
+//void beeper(uint8_t type) { (void)type; }
 void writeConfigToEEPROM(void);
 void writeConfigToEEPROM(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
 bool isEEPROMContentValid(void);
 bool isEEPROMContentValid(void){ return true; }
 int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
-void beeper(uint8_t type) { (void)type; }
 bool isAccelerationCalibrationComplete(void){ return true; }
 bool isGyroCalibrationComplete(void){ return true; }
 bool isPPMDataBeingReceived(void){ return true; }
 bool resetPPMDataReceivedState(void){ return true; }
 bool isPWMDataBeingReceived(void){ return true; }
+
+serialPort_t *usbVcpOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options){ 
+	(void)id;
+	(void) callback;
+	(void)baudRate;
+	(void)mode;
+	(void)options;
+	return NULL; 
+}
+serialPort_t *uartOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options) { 
+	(void)id;
+	(void) callback;
+	(void)baudRate;
+	(void)mode;
+	(void)options;
+	return NULL; 
+}
+serialPort_t *openSoftSerial(softSerialPortIndex_e id, serialReceiveCallbackPtr callback, uint32_t baudRate, portOptions_t options) { 
+	(void)id;
+	(void) callback;
+	(void)baudRate;
+	(void)options;
+	return NULL; 
+}
+void serialSetMode(serialPort_t* port,portMode_t mode){
+	(void)port;
+	(void)mode;
+}
+bool isSerialTransmitBufferEmpty(serialPort_t* port){
+	(void)port;
+	return true;
+}
+void systemResetToBootloader(void){}
+void serialBeginWrite(serialPort_t* port){ (void)port; }
+void serialWriteBuf(serialPort_t* port,uint8_t * data,int count){ (void)port; (void)data; (void)count;}
+void serialWrite(serialPort_t* port,uint8_t data){ (void)port; (void)data; }
+void serialEndWrite(serialPort_t* port){ (void)port;}
+uint8_t serialRead(serialPort_t* port){ (void)port; return 0;}
+uint8_t serialRxBytesWaiting(serialPort_t* port){ (void)port; return 0;}
+void serialSetBaudRate(serialPort_t *port, uint32_t baud) { (void)port; (void)baud; }
+uint32_t serialGetBaudRate(serialPort_t *port){ (void)port; return 9600; }
+void serialPrint(serialPort_t *port, const char *str){ (void)port; (void)str; }
+void systemReset(void){}
+
+// TODO: fix these
+const char *buildDate = "JAN 01 1970";
+const char *buildTime = "1234567890";
+const char *shortGitRevision = "123123123123123";
+
+int16_t debug[DEBUG16_VALUE_COUNT];
+
+void setLedHsv(void){}
+int getLedHsv(void){ return 0; }
+bool isWS2811LedStripReady(void){ return false; }
+void ws2811LedStripInit(void){}
+void ws2811UpdateStrip(void){}
+#include "common/color.h"
+void setStripColor(const hsvColor_t *color){ (void) color; }
