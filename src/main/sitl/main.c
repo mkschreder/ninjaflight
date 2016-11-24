@@ -114,22 +114,7 @@ static void _application_send_state(struct application *self){
 	sitl_send_state(&pkt);
 #endif
 }
-static void _application_recv_state(struct application *self){
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	//printf("rc: ");
-	for(int c = 0; c < 8; c++){
-		uint16_t pwm = cl->read_rc(cl, c);
-		rc_set_channel_value(c, pwm);
-		//printf("%d ", pwm);
-	}
-	//printf("\n");
 
-#if 0
-	struct sitl_client_packet pkt;
-	sitl_recv_state(&pkt);
-	//imu_input_accelerometer(&self->imu, pkt.accel[0], pkt.accel[1], pkt.accel[2]);
-	#endif
-}
 static void _application_fc_run(struct application *self){
 	ninja_heartbeat(&self->ninja);
 	/*
@@ -158,7 +143,6 @@ static void _application_fc_run(struct application *self){
 }
 
 static void application_run(struct application *self){
-	_application_recv_state(self);
 	_application_fc_run(self);
 	_application_send_state(self);
 }
@@ -244,7 +228,6 @@ static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 
 	cl->led_on(cl, id, on);
-	fflush(stdout);
 }
 
 static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
@@ -252,12 +235,25 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 
 	cl->led_toggle(cl, id);
+}
+
+static void _beeper_on(const struct system_calls_beeper *calls, bool on){
+	(void)calls;
+	//struct application *self = container_of(container_of(calls, struct system_calls, beeper), struct application, syscalls);
+	//struct fc_sitl_client_interface *cl = self->sitl->client;
+	
+	static bool last = false;
+	if(!last && on)
+		printf("BEEP\n");
+	last = on;
 	fflush(stdout);
 }
 
-
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	resetEEPROM();
+
+	sensorsSet(SENSOR_ACC);
+
 	self->sitl = server;
 
 	pidProfile()->P8[PIDROLL] = 90;
@@ -300,6 +296,9 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		.leds = {
 			.on = _led_on,
 			.toggle = _led_toggle
+		},
+		.beeper = {
+			.on = _beeper_on
 		},
 		.time = {
 			.micros = _micros
