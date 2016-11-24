@@ -22,6 +22,7 @@ struct ninja {
 	struct anglerate ctrl;
 	struct battery bat;
 	struct rc_command rc_command;
+	struct rx rx;
 
 	bool isRXDataNew;
 
@@ -53,3 +54,5 @@ void ninja_heartbeat(struct ninja *self);
 void ninja_input_rc(struct ninja *self, const struct ninja_rc_input *rc);
 void ninja_input_gyro(struct ninja *self, int32_t x, int32_t y, int32_t z);
 void ninja_input_acc(struct ninja *self, int32_t x, int32_t y, int32_t z);
+
+void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us);

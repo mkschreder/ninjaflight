@@ -52,7 +52,6 @@
 
 #include "ninja.h"
 #include "ninja_sched.h"
-#include "ninja_control.h"
 
 void led_on(int id);
 void led_off(int id);
@@ -345,7 +344,7 @@ static void _task_gyro(struct ninja_sched *sched){
 		ninja_run_pid_loop(&ninja, dT);
 	}
 	*/
-	ninja_control_run(self, self->cycleTime);
+	ninja_run_pid_loop(self, self->cycleTime);
 }
 
 static void _task_acc(struct ninja_sched *sched){
