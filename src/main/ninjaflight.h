@@ -30,4 +30,3 @@ void handleInflightCalibrationStickPosition(void);
 bool ninja_is_calibrating(struct ninja *self);
 
 void ninja_update_transponder(struct ninja *self);
-void ninja_run_pid_loop(struct ninja *self, float dT);

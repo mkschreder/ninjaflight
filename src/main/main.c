@@ -152,21 +152,6 @@ typedef enum {
 } systemState_e;
 
 static uint8_t systemState = SYSTEM_STATE_INITIALISING;
-static void flashLedsAndBeep(void)
-{
-    led_on(1);
-    led_off(0);
-    for (uint8_t i = 0; i < 10; i++) {
-        led_toggle(1);
-        led_toggle(0);
-        usleep(25000);
-        BEEP_ON;
-        usleep(25000);
-        BEEP_OFF;
-    }
-    led_off(0);
-    led_off(1);
-}
 
 #ifdef BUTTONS
 static void buttonsInit(void)
@@ -406,8 +391,9 @@ static void init(void)
     debug[3] = pwmIOConfiguration->ppmInputCount;
 #endif
 
-    if (!feature(FEATURE_ONESHOT125))
-        ninja.motorControlEnable = true;
+	// TODO: why is it important to consider oneshot here? We now handle motor control differently. 
+    //if (!feature(FEATURE_ONESHOT125))
+    //    ninja.motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_MOTORS_READY;
 
@@ -509,63 +495,15 @@ static void init(void)
 
 	ninja_init(&ninja);
 
+	// TODO: sensor scale and alignment should be completely handled by the driver!
 	ins_set_gyro_scale(&ninja.ins, gyro.scale);
 	ins_set_acc_scale(&ninja.ins, acc.acc_1G);
 	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
 	ins_set_acc_alignment(&ninja.ins, accAlign);
 	ins_set_mag_alignment(&ninja.ins, magAlign);
 
-#ifdef GPS
-    if (feature(FEATURE_GPS)) {
-        gpsInit();
-        navigationInit(pidProfile());
-    }
-#endif
-
-    systemState |= SYSTEM_STATE_SENSORS_READY;
-
-    flashLedsAndBeep();
-
-    mspInit();
-    mspSerialInit();
-
-#ifdef USE_CLI
-    cliInit();
-#endif
-
-    failsafeInit();
-
-#ifdef SONAR
-    if (feature(FEATURE_SONAR)) {
-        sonar_init(&default_sonar);
-    }
-#endif
-
-#ifdef LED_STRIP
-    ledStripInit();
-
-    if (feature(FEATURE_LED_STRIP)) {
-        ledStripEnable();
-    }
-#endif
-
-#ifdef TELEMETRY
-    if (feature(FEATURE_TELEMETRY)) {
-        telemetryInit();
-    }
-#endif
-
 #ifdef USB_CABLE_DETECTION
     usbCableDetectInit();
-#endif
-
-#ifdef TRANSPONDER
-    if (feature(FEATURE_TRANSPONDER)) {
-        transponderInit(transponderConfig()->data);
-        transponderEnable();
-        transponderStartRepeating();
-        systemState |= SYSTEM_STATE_TRANSPONDER_ENABLED;
-    }
 #endif
 
 #ifdef USE_FLASHFS
@@ -601,9 +539,7 @@ static void init(void)
     afatfs_init();
 #endif
 
-#ifdef BLACKBOX
-    initBlackbox();
-#endif
+    systemState |= SYSTEM_STATE_SENSORS_READY;
 /*
     if (mixerConfig()->mixerMode == MIXER_GIMBAL) {
         accSetCalibrationCycles(CALIBRATING_ACC_CYCLES);
