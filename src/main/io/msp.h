@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include "common/streambuf.h"
+
 typedef struct mspPacket_s {
     sbuf_t buf;
     int16_t cmd;

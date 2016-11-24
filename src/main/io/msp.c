@@ -639,8 +639,8 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_RC:
-            for (int i = 0; i < rxRuntimeConfig.channelCount; i++)
-                sbufWriteU16(dst, rc_get_channel_value(i));
+            for (int i = 0; i < rx_get_channel_count(&ninja->rx); i++)
+                sbufWriteU16(dst, rx_get_channel(&ninja->rx, i));
             break;
 
         case MSP_ATTITUDE:
@@ -670,7 +670,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_ANALOG:
             sbufWriteU8(dst, (uint8_t)constrain(battery_get_voltage(&ninja->bat), 0, 255));
             sbufWriteU16(dst, (uint16_t)constrain(battery_get_spent_capacity(&ninja->bat), 0, 0xFFFF)); // milliamp hours drawn from battery
-            sbufWriteU16(dst, rc_get_rssi());
+            sbufWriteU16(dst, rx_get_rssi(&ninja->rx));
             if(batteryConfig()->multiwiiCurrentMeterOutput) {
                 sbufWriteU16(dst, (uint16_t)constrain(battery_get_current(&ninja->bat) * 10, 0, 0xFFFF)); // send amperage in 0.001 A steps. Negative range is truncated to zero
             } else
@@ -885,7 +885,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_RXFAIL_CONFIG:
-            for (int i = 0; i < rxRuntimeConfig.channelCount; i++) {
+            for (int i = 0; i < rx_get_channel_count(&ninja->rx); i++) {
                 sbufWriteU8(dst, failsafeChannelConfigs(i)->mode);
                 sbufWriteU16(dst, RXFAIL_STEP_TO_CHANNEL_VALUE(failsafeChannelConfigs(i)->step));
             }
