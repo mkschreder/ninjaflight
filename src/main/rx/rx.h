@@ -80,8 +80,6 @@ typedef enum {
 #define MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT MAX_SUPPORTED_RC_PPM_CHANNEL_COUNT
 #endif
 
-extern const char rcChannelLetters[];
-
 #define RSSI_SCALE_MIN 1
 #define RSSI_SCALE_MAX 255
 #define RSSI_SCALE_DEFAULT 30
@@ -98,31 +96,78 @@ typedef struct rxRuntimeConfig_s {
     uint8_t channelCount;                  // number of rc channels as reported by current input driver
 } rxRuntimeConfig_t;
 
-extern rxRuntimeConfig_t rxRuntimeConfig;
-
 typedef uint16_t (*rcReadRawDataPtr)(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);        // used by receiver driver to return channel data
 
-void updateRx(uint32_t currentTime);
-bool rxIsReceivingSignal(void);
-bool rxAreFlightChannelsValid(void);
-bool shouldProcessRx(uint32_t currentTime);
-void calculateRxChannelsAndUpdateFailsafe(uint32_t currentTime);
+#define RSSI_ADC_SAMPLE_COUNT 16
+#define MAX_INVALID_PULS_TIME    300
+#define PPM_AND_PWM_SAMPLE_COUNT 3
 
-void parseRcChannels(const char *input, rxConfig_t *rxConfig);
+struct rx {
+	uint16_t rssi;                  // range: [0;1023]
+
+	bool rxDataReceived;
+	bool rxSignalReceived;
+	bool rxSignalReceivedNotDataDriven;
+	bool rxFlightChannelsValid;
+	bool rxIsInFailsafeMode;
+	bool rxIsInFailsafeModeNotDataDriven;
+
+	uint32_t rxUpdateAt;
+	uint32_t needRxSignalBefore;
+	uint32_t suspendRxSignalUntil;
+	uint8_t  skipRxSamples;
+
+	int16_t rcRaw[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
+	uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+	int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
+
+	rcReadRawDataPtr rcReadRawFunc;
+	uint16_t rxRefreshRate;
+
+	#if defined(USE_ADC)
+	uint8_t adcRssiSamples[RSSI_ADC_SAMPLE_COUNT];
+	uint8_t adcRssiSampleIndex;
+	uint32_t rssiUpdateAt;
+	#endif
+
+	uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
+	bool rxSamplesCollected;
+
+	uint8_t rcSampleIndex;
+
+	rxRuntimeConfig_t rxRuntimeConfig;
+
+	uint8_t validFlightChannelMask;
+
+	// TODO: this is a circular dependency so it must be removed
+	struct failsafe *failsafe;
+	const struct system_calls *system;
+};
+
+void rx_update(struct rx *self, uint32_t currentTime);
+bool rx_is_receiving(struct rx *self);
+bool rx_flight_chans_valid(struct rx *self);
+bool rx_needs_update(struct rx *self, uint32_t currentTime);
+void rx_recalc_channels(struct rx *self, uint32_t currentTime);
+
+//! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
+void rx_set_config(struct rx *self, const char *input, rxConfig_t *rxConfig);
 uint8_t serialRxFrameStatus(void);
 
-void rxInit(const struct system_calls_pwm *pwm, modeActivationCondition_t *modeActivationConditions); 
-void updateRSSI(uint32_t currentTime);
-void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
+void rx_init(struct rx *self, const struct system_calls *system, modeActivationCondition_t *modeActivationConditions); 
+void rx_update_rssi(struct rx *self, uint32_t currentTime);
+void rx_reset_ranges(struct rx *self, rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
 
-void suspendRxSignal(void);
-void resumeRxSignal(void);
+void rx_suspend_signal(struct rx *self);
+void rx_resume_signal(struct rx *self);
 
-uint16_t rc_get_refresh_rate(void);
+uint16_t rx_get_refresh_rate(struct rx *self);
 
-uint16_t rc_get_rssi(void); 
-int16_t rc_get_channel_value(uint8_t chan); 
+uint16_t rx_get_rssi(struct rx *self);
 
-// TODO: remove this because rc should only be set in this module
-void rc_set_channel_value(uint8_t chan, int16_t value); 
+uint8_t rx_get_channel_count(struct rx *self);
+int16_t rx_get_channel(struct rx *self, uint8_t chan);
+
+//! Forces a channel to a certain value. Used by failsafe.
+void rx_set_channel(struct rx *self, uint8_t chan, int16_t value);
 

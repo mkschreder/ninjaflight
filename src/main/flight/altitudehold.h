@@ -36,10 +36,12 @@ struct althold {
 	int32_t EstAlt;                // in cm
 
     uint8_t isAltHoldChanged;
+
 	struct instruments *ins;
+	struct rx *rx;
 };
 
-void althold_init(struct althold *self, struct instruments *ins);
+void althold_init(struct althold *self, struct instruments *ins, struct rx *rx);
 
 void althold_calc_altitude(struct althold *self, uint32_t currentTime);
 

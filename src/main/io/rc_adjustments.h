@@ -20,6 +20,8 @@
 #include "rc_controls.h"
 #include "../config/rc_adjustments.h"
 
+struct rx;
+
 #define PID_MIN      0
 #define PID_MAX      200
 #define PID_F_MIN    0
@@ -111,11 +113,21 @@ typedef struct adjustmentState_s {
 #define MAX_SIMULTANEOUS_ADJUSTMENT_COUNT 4 // enough for 4 x 3position switches / 4 aux channel
 #endif
 
+struct rc_adj {
+	uint8_t adjustmentStateMask;
+	adjustmentState_t adjustmentStates[MAX_SIMULTANEOUS_ADJUSTMENT_COUNT];
+
+	struct rx *rx;
+	struct system_calls *system;
+};
+
 // TODO: remove this include 
 #include "flight/rate_profile.h"
 #include "../config/rate_profile.h"
-void resetAdjustmentStates(void);
-void configureAdjustmentState(adjustmentRange_t *adjustmentRange);
-void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges);
-void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxConfig);
+
+void rc_adj_init(struct rc_adj *self, struct rx *rx);
+void rc_adj_reset(struct rc_adj *self);
+void rc_adj_add_range(struct rc_adj *self, adjustmentRange_t *adjustmentRange);
+void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges);
+void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, rxConfig_t *rxConfig);
 

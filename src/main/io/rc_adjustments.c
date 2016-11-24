@@ -23,6 +23,7 @@
 
 #include <platform.h>
 
+#include "system_calls.h"
 #include "build_config.h"
 
 #include "common/axis.h"
@@ -47,12 +48,10 @@
 #include "io/rc_curves.h"
 #include "io/rc_adjustments.h"
 
-uint8_t adjustmentStateMask = 0;
+#define MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex) self->adjustmentStateMask |= (1 << adjustmentIndex)
+#define MARK_ADJUSTMENT_FUNCTION_AS_READY(adjustmentIndex) self->adjustmentStateMask &= ~(1 << adjustmentIndex)
 
-#define MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex) adjustmentStateMask |= (1 << adjustmentIndex)
-#define MARK_ADJUSTMENT_FUNCTION_AS_READY(adjustmentIndex) adjustmentStateMask &= ~(1 << adjustmentIndex)
-
-#define IS_ADJUSTMENT_FUNCTION_BUSY(adjustmentIndex) (adjustmentStateMask & (1 << adjustmentIndex))
+#define IS_ADJUSTMENT_FUNCTION_BUSY(adjustmentIndex) (self->adjustmentStateMask & (1 << adjustmentIndex))
 
 static void blackboxLogInflightAdjustmentEvent(adjustmentFunction_e adjustmentFunction, int32_t newValue)
 {
@@ -88,13 +87,10 @@ void blackboxLogInflightAdjustmentEventFloat(adjustmentFunction_e adjustmentFunc
 #endif
 }
 
-adjustmentState_t adjustmentStates[MAX_SIMULTANEOUS_ADJUSTMENT_COUNT];
+void rc_adj_configure(struct rc_adj *self, adjustmentRange_t *adjustmentRange){
+    uint8_t index = constrain(adjustmentRange->adjustmentIndex, 0, MAX_SIMULTANEOUS_ADJUSTMENT_COUNT);
 
-void configureAdjustmentState(adjustmentRange_t *adjustmentRange)
-{
-    uint8_t index = adjustmentRange->adjustmentIndex;
-
-    adjustmentState_t *adjustmentState = &adjustmentStates[index];
+    adjustmentState_t *adjustmentState = &self->adjustmentStates[index];
 
     if (adjustmentState->range == adjustmentRange) {
         return;
@@ -277,16 +273,15 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
 
 #define RESET_FREQUENCY_2HZ (1000 / 2)
 
-void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxConfig)
-{
+void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, rxConfig_t *rxConfig){
     uint8_t adjustmentIndex;
-    uint32_t now = millis();
+    uint32_t now = sys_millis(self->system);
 
-    bool canUseRxData = rxIsReceivingSignal();
+    bool canUseRxData = rx_is_receiving(self->rx);
 
 
     for (adjustmentIndex = 0; adjustmentIndex < MAX_SIMULTANEOUS_ADJUSTMENT_COUNT; adjustmentIndex++) {
-        adjustmentState_t *adjustmentState = &adjustmentStates[adjustmentIndex];
+        adjustmentState_t *adjustmentState = &self->adjustmentStates[adjustmentIndex];
 
         uint8_t adjustmentFunction = adjustmentState->config.adjustmentFunction;
         if (adjustmentFunction == ADJUSTMENT_NONE) {
@@ -306,7 +301,7 @@ void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxC
         }
 
         uint8_t channelIndex = NON_AUX_CHANNEL_COUNT + adjustmentState->auxChannelIndex;
-		int16_t rcin = rc_get_channel_value(channelIndex); 
+		int16_t rcin = rx_get_channel(self->rx, channelIndex); 
 
         if (adjustmentState->config.mode == ADJUSTMENT_MODE_STEP) {
             int delta;
@@ -335,8 +330,7 @@ void processRcAdjustments(struct rate_config *controlRateConfig, rxConfig_t *rxC
     }
 }
 
-void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges)
-{
+void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges){
     uint8_t index;
 
     for (index = 0; index < MAX_ADJUSTMENT_RANGE_COUNT; index++) {
@@ -344,12 +338,11 @@ void updateAdjustmentStates(adjustmentRange_t *adjustmentRanges)
 
         if (isRangeActive(adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
 
-            configureAdjustmentState(adjustmentRange);
+            rc_adj_add_range(self, adjustmentRange);
         }
     }
 }
 
-void resetAdjustmentStates(void)
-{
-    memset(adjustmentStates, 0, sizeof(adjustmentStates));
+void rc_adj_reset(struct rc_adj *self){
+    memset(self->adjustmentStates, 0, sizeof(self->adjustmentStates));
 }

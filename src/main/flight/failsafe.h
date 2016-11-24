@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "system_calls.h"
 #include "../config/failsafe.h"
 
 #define FAILSAFE_POWER_ON_DELAY_US (1000 * 1000 * 5)
@@ -42,7 +43,7 @@ typedef enum {
     FAILSAFE_RXLINK_UP
 } failsafeRxLinkState_e;
 
-typedef struct failsafeState_s {
+struct failsafe {
     int16_t events;
     bool monitoring;
     bool active;
@@ -50,26 +51,28 @@ typedef struct failsafeState_s {
     uint32_t validRxDataReceivedAt;
     uint32_t validRxDataFailedAt;
     uint32_t throttleLowPeriod;             // throttle stick must have been below 'min_check' for this period
-    uint32_t landingShouldBeFinishedAt;
+    sys_millis_t landingShouldBeFinishedAt;
     uint32_t receivingRxDataPeriod;         // period for the required period of valid rxData
     uint32_t receivingRxDataPeriodPreset;   // preset for the required period of valid rxData
     failsafePhase_e phase;
     failsafeRxLinkState_e rxLinkState;
-} failsafeState_t;
 
+	struct system_calls *system;
+	struct rx *rx;
+};
 
-void failsafeInit(void);
+void failsafe_init(struct failsafe *self, struct rx *rx, struct system_calls *system);
 
-void failsafeStartMonitoring(void);
-void failsafeUpdateState(void);
+void failsafe_start_monitoring(struct failsafe *self);
+void failsafe_update(struct failsafe *self);
 
-void failsafeReset(void);
-failsafePhase_e failsafePhase(void);
-bool failsafeIsMonitoring(void);
-bool failsafeIsActive(void);
-bool failsafeIsReceivingRxData(void);
-void failsafeOnRxSuspend(uint32_t suspendPeriod);
-void failsafeOnRxResume(void);
+void failsafe_reset(struct failsafe *self);
+failsafePhase_e failsafe_get_state(struct failsafe *self);
+bool failsafe_is_monitoring(struct failsafe *self);
+bool failsafe_is_active(struct failsafe *self);
+bool failsafe_is_receiving_rx(struct failsafe *self);
+void failsafe_on_rx_suspend(struct failsafe *self, uint32_t suspendPeriod);
+void failsafe_on_rx_resume(struct failsafe *self);
 
-void failsafeOnValidDataReceived(void);
-void failsafeOnValidDataFailed(void);
+void failsafe_on_valid_data_received(struct failsafe *self);
+void failsafe_on_valid_data_failed(struct failsafe *self);

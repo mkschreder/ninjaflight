@@ -60,8 +60,9 @@
 
 #define DEGREES_80_IN_DECIDEGREES 800
 
-void althold_init(struct althold *self, struct instruments *ins){
+void althold_init(struct althold *self, struct instruments *ins, struct rx *rx){
 	memset(self, 0, sizeof(struct althold));
+	self->rx = rx;
 	self->ins = ins;
 }
 
@@ -69,10 +70,10 @@ static void _apply_multi_althold(struct althold *self){
 	// multirotor alt hold
 	if (rcControlsConfig()->alt_hold_fast_change) {
 		// rapid alt changes
-		if (ABS(rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
 			self->errorVelocityI = 0;
 			self->isAltHoldChanged = 1;
-			rcCommand[THROTTLE] += (rc_get_channel_value(THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
+			rcCommand[THROTTLE] += (rx_get_channel(self->rx, THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
 		} else {
 			if (self->isAltHoldChanged) {
 				self->AltHold = self->EstAlt;
@@ -82,9 +83,9 @@ static void _apply_multi_althold(struct althold *self){
 		}
 	} else {
 		// slow alt changes, mostly used for aerial photography
-		if (ABS(rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
 			// set velocity proportional to stick movement +100 throttle gives ~ +50 cm/s
-			self->setVelocity = (rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) / 2;
+			self->setVelocity = (rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) / 2;
 			self->velocityControl = 1;
 			self->isAltHoldChanged = 1;
 		} else if (self->isAltHoldChanged) {
@@ -122,7 +123,7 @@ void althold_update(struct althold *self){
 	if (!FLIGHT_MODE(BARO_MODE)) {
 		ENABLE_FLIGHT_MODE(BARO_MODE);
 		self->AltHold = self->EstAlt;
-		self->initialRawThrottleHold = rc_get_channel_value(THROTTLE);
+		self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
 		self->initialThrottleHold = rcCommand[THROTTLE];
 		self->errorVelocityI = 0;
 		self->altHoldThrottleAdjustment = 0;
@@ -139,7 +140,7 @@ void althold_update_sonar(struct althold *self){
 	if (!FLIGHT_MODE(SONAR_MODE)) {
 		ENABLE_FLIGHT_MODE(SONAR_MODE);
 		self->AltHold = self->EstAlt;
-		self->initialRawThrottleHold = rc_get_channel_value(THROTTLE);
+		self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
 		self->initialThrottleHold = rcCommand[THROTTLE];
 		self->errorVelocityI = 0;
 		self->altHoldThrottleAdjustment = 0;

@@ -27,22 +27,43 @@ static inline void ledSetXY(ledConfig_t *lcfg, int x, int y) {
     lcfg->xy = ((x & LED_XY_MASK) << LED_X_BIT_OFFSET) | ((y & LED_XY_MASK) << LED_Y_BIT_OFFSET);
 }
 
-extern uint8_t ledCount;
-extern uint8_t ledRingCount;
-void ledStripInit(void);
+struct ledstrip {
+	bool ledStripInitialised;
+	bool ledStripEnabled;
 
-bool parseLedStripConfig(int ledIndex, const char *config);
-void updateLedStrip(void);
-void updateLedRing(void);
+	uint8_t ledGridWidth;
+	uint8_t ledGridHeight;
+	// grid offsets
+	uint8_t highestYValueForNorth;
+	uint8_t lowestYValueForSouth;
+	uint8_t highestXValueForWest;
+	uint8_t lowestXValueForEast;
 
-void applyDefaultLedStripConfig(void);
-void generateLedConfig(int ledIndex, char *ledConfigBuffer, size_t bufferSize);
+	uint8_t ledCount;
+	uint8_t ledRingCount;
+	uint8_t ledRingSeqLen;
+
+	struct failsafe *failsafe;
+	struct battery *battery;
+	struct rx *rx;
+};
+
+void ledstrip_init(struct ledstrip *self, struct battery *bat, struct failsafe *failsafe, struct rx *rx);
+
+bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config);
+void ledstrip_update(struct ledstrip *self);
+void ledstrip_update_ring(struct ledstrip *self);
+
+void ledstrip_set_default_config(struct ledstrip *self);
+void ledstrip_genconfig(struct ledstrip *self, int ledIndex, char *ledConfigBuffer, size_t bufferSize);
 
 bool parseColor(int index, const char *colorConfig);
 void applyDefaultColors(void);
 
 void ledStripEnable(void);
-void reevalulateLedConfig(void);
 
-bool setModeColor(ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex);
+//! Currently reloads config from the global store TODO: pass config to init!
+void ledstrip_reload_config(struct ledstrip *self);
+
+bool ledstrip_set_mode_color(struct ledstrip *self, ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex);
 
