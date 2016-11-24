@@ -53,210 +53,189 @@
 
 #include "ninja.h"
 
-int32_t setVelocity = 0;
-uint8_t velocityControl = 0;
-int32_t errorVelocityI = 0;
-int32_t altHoldThrottleAdjustment = 0;
-int32_t AltHold;
-int32_t vario = 0;                      // variometer in cm/s
-
-
-#if defined(BARO) || defined(SONAR)
-
-static int16_t initialRawThrottleHold;
-static int16_t initialThrottleHold;
-static int32_t EstAlt;                // in cm
+#include <string.h>
 
 // 40hz update rate (20hz LPF on acc)
 #define BARO_UPDATE_FREQUENCY_40HZ (1000 * 25)
 
 #define DEGREES_80_IN_DECIDEGREES 800
 
-static void applyMultirotorAltHold(void)
-{
-    static uint8_t isAltHoldChanged = 0;
-    // multirotor alt hold
-    if (rcControlsConfig()->alt_hold_fast_change) {
-        // rapid alt changes
-        if (ABS(rc_get_channel_value(THROTTLE) - initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
-            errorVelocityI = 0;
-            isAltHoldChanged = 1;
-            rcCommand[THROTTLE] += (rc_get_channel_value(THROTTLE) > initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
-        } else {
-            if (isAltHoldChanged) {
-                AltHold = EstAlt;
-                isAltHoldChanged = 0;
-            }
-            rcCommand[THROTTLE] = constrain(initialThrottleHold + altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
-        }
-    } else {
-        // slow alt changes, mostly used for aerial photography
-        if (ABS(rc_get_channel_value(THROTTLE) - initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
-            // set velocity proportional to stick movement +100 throttle gives ~ +50 cm/s
-            setVelocity = (rc_get_channel_value(THROTTLE) - initialRawThrottleHold) / 2;
-            velocityControl = 1;
-            isAltHoldChanged = 1;
-        } else if (isAltHoldChanged) {
-            AltHold = EstAlt;
-            velocityControl = 0;
-            isAltHoldChanged = 0;
-        }
-        rcCommand[THROTTLE] = constrain(initialThrottleHold + altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
-    }
+void althold_init(struct althold *self, struct instruments *ins){
+	memset(self, 0, sizeof(struct althold));
+	self->ins = ins;
 }
 
-static void applyFixedWingAltHold(void)
-{
-    // handle fixedwing-related althold. UNTESTED! and probably wrong
-    // most likely need to check changes on pitch channel and 'reset' althold similar to
-    // how throttle does it on multirotor
-
-    rcCommand[PITCH] += altHoldThrottleAdjustment * airplaneConfig()->fixedwing_althold_dir;
+static void _apply_multi_althold(struct althold *self){
+	// multirotor alt hold
+	if (rcControlsConfig()->alt_hold_fast_change) {
+		// rapid alt changes
+		if (ABS(rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+			self->errorVelocityI = 0;
+			self->isAltHoldChanged = 1;
+			rcCommand[THROTTLE] += (rc_get_channel_value(THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
+		} else {
+			if (self->isAltHoldChanged) {
+				self->AltHold = self->EstAlt;
+				self->isAltHoldChanged = 0;
+			}
+			rcCommand[THROTTLE] = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+		}
+	} else {
+		// slow alt changes, mostly used for aerial photography
+		if (ABS(rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+			// set velocity proportional to stick movement +100 throttle gives ~ +50 cm/s
+			self->setVelocity = (rc_get_channel_value(THROTTLE) - self->initialRawThrottleHold) / 2;
+			self->velocityControl = 1;
+			self->isAltHoldChanged = 1;
+		} else if (self->isAltHoldChanged) {
+			self->AltHold = self->EstAlt;
+			self->velocityControl = 0;
+			self->isAltHoldChanged = 0;
+		}
+		rcCommand[THROTTLE] = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+	}
 }
 
-void applyAltHold(void)
-{
-    if (STATE(FIXED_WING)) {
-        applyFixedWingAltHold();
-    } else {
-        applyMultirotorAltHold();
-    }
+static void _apply_airplane_althold(struct althold *self){
+	// handle fixedwing-related althold. UNTESTED! and probably wrong
+	// most likely need to check changes on pitch channel and 'reset' althold similar to
+	// how throttle does it on multirotor
+
+	rcCommand[PITCH] += self->altHoldThrottleAdjustment * airplaneConfig()->fixedwing_althold_dir;
 }
 
-void updateAltHoldState(void)
-{
-    // Baro alt hold activate
-    if (!rcModeIsActive(BOXBARO)) {
-        DISABLE_FLIGHT_MODE(BARO_MODE);
-        return;
-    }
-
-    if (!FLIGHT_MODE(BARO_MODE)) {
-        ENABLE_FLIGHT_MODE(BARO_MODE);
-        AltHold = EstAlt;
-        initialRawThrottleHold = rc_get_channel_value(THROTTLE);
-        initialThrottleHold = rcCommand[THROTTLE];
-        errorVelocityI = 0;
-        altHoldThrottleAdjustment = 0;
-    }
+void althold_apply(struct althold *self){
+	if (STATE(FIXED_WING)) {
+		_apply_airplane_althold(self);
+	} else {
+		_apply_multi_althold(self);
+	}
 }
 
-void updateSonarAltHoldState(void)
-{
-    // Sonar alt hold activate
-    if (!rcModeIsActive(BOXSONAR)) {
-        DISABLE_FLIGHT_MODE(SONAR_MODE);
-        return;
-    }
+void althold_update(struct althold *self){
+	// Baro alt hold activate
+	if (!rcModeIsActive(BOXBARO)) {
+		DISABLE_FLIGHT_MODE(BARO_MODE);
+		return;
+	}
 
-    if (!FLIGHT_MODE(SONAR_MODE)) {
-        ENABLE_FLIGHT_MODE(SONAR_MODE);
-        AltHold = EstAlt;
-        initialRawThrottleHold = rc_get_channel_value(THROTTLE);
-        initialThrottleHold = rcCommand[THROTTLE];
-        errorVelocityI = 0;
-        altHoldThrottleAdjustment = 0;
-    }
+	if (!FLIGHT_MODE(BARO_MODE)) {
+		ENABLE_FLIGHT_MODE(BARO_MODE);
+		self->AltHold = self->EstAlt;
+		self->initialRawThrottleHold = rc_get_channel_value(THROTTLE);
+		self->initialThrottleHold = rcCommand[THROTTLE];
+		self->errorVelocityI = 0;
+		self->altHoldThrottleAdjustment = 0;
+	}
 }
 
-// TODO: remove once we are done refactoring unit tests
-bool isThrustFacingDownwards(struct imu *imu);
-bool isThrustFacingDownwards(struct imu *imu){
-    return ABS(imu_get_roll_dd(imu)) < DEGREES_80_IN_DECIDEGREES && ABS(imu_get_pitch_dd(imu)) < DEGREES_80_IN_DECIDEGREES;
+void althold_update_sonar(struct althold *self){
+	// Sonar alt hold activate
+	if (!rcModeIsActive(BOXSONAR)) {
+		DISABLE_FLIGHT_MODE(SONAR_MODE);
+		return;
+	}
+
+	if (!FLIGHT_MODE(SONAR_MODE)) {
+		ENABLE_FLIGHT_MODE(SONAR_MODE);
+		self->AltHold = self->EstAlt;
+		self->initialRawThrottleHold = rc_get_channel_value(THROTTLE);
+		self->initialThrottleHold = rcCommand[THROTTLE];
+		self->errorVelocityI = 0;
+		self->altHoldThrottleAdjustment = 0;
+	}
 }
 
-static int32_t calculateAltHoldThrottleAdjustment(int32_t vel_tmp, float accZ_tmp, float accZ_old)
-{
-    int32_t result = 0;
-    int32_t error;
-    int32_t setVel;
+static int32_t _calc_althold_throttle_delta(struct althold *self, int32_t vel_tmp, float accZ_tmp, float accZ_old){
+	int32_t result = 0;
+	int32_t error;
+	int32_t setVel;
 
-    bool is_thrust_downwards = ABS(ins_get_roll_dd(&ninja.ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(&ninja.ins)) < DEGREES_80_IN_DECIDEGREES;
+	bool is_thrust_downwards = ABS(ins_get_roll_dd(self->ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(self->ins)) < DEGREES_80_IN_DECIDEGREES;
 	if(!is_thrust_downwards){
-        return result;
-    }
+		return result;
+	}
 
-    // Altitude P-Controller
+	// Altitude P-Controller
 
-    if (!velocityControl) {
-        error = constrain(AltHold - EstAlt, -500, 500);
-        error = applyDeadband(error, 10); // remove small P parameter to reduce noise near zero position
-        setVel = constrain((pidProfile()->P8[PIDALT] * error / 128), -300, +300); // limit velocity to +/- 3 m/s
-    } else {
-        setVel = setVelocity;
-    }
-    // Velocity PID-Controller
+	if (!self->velocityControl) {
+		error = constrain(self->AltHold - self->EstAlt, -500, 500);
+		error = applyDeadband(error, 10); // remove small P parameter to reduce noise near zero position
+		setVel = constrain((pidProfile()->P8[PIDALT] * error / 128), -300, +300); // limit velocity to +/- 3 m/s
+	} else {
+		setVel = self->setVelocity;
+	}
+	// Velocity PID-Controller
 
-    // P
-    error = setVel - vel_tmp;
-    result = constrain((pidProfile()->P8[PIDVEL] * error / 32), -300, +300);
+	// P
+	error = setVel - vel_tmp;
+	result = constrain((pidProfile()->P8[PIDVEL] * error / 32), -300, +300);
 
-    // I
-    errorVelocityI += (pidProfile()->I8[PIDVEL] * error);
-    errorVelocityI = constrain(errorVelocityI, -(8192 * 200), (8192 * 200));
-    result += errorVelocityI / 8192;     // I in range +/-200
+	// I
+	self->errorVelocityI += (pidProfile()->I8[PIDVEL] * error);
+	self->errorVelocityI = constrain(self->errorVelocityI, -(8192 * 200), (8192 * 200));
+	result += self->errorVelocityI / 8192;	 // I in range +/-200
 
-    // D
-    result -= constrain(pidProfile()->D8[PIDVEL] * (accZ_tmp + accZ_old) / 512, -150, 150);
+	// D
+	result -= constrain(pidProfile()->D8[PIDVEL] * (accZ_tmp + accZ_old) / 512, -150, 150);
 
-    return result;
+	return result;
 }
 
-void calculateEstimatedAltitude(uint32_t currentTime)
-{
-    static uint32_t previousTime;
-    uint32_t dTime;
-    int32_t baroVel;
-    //float dt;
-    //float vel_acc;
-    int32_t vel_tmp;
-    static float accZ_old = 0.0f;
-    static float vel = 0.0f;
-    static float accAlt = 0.0f;
-    static int32_t lastBaroAlt;
+void althold_calculate_altitude(struct althold *self, uint32_t currentTime){
+	static uint32_t previousTime;
+	uint32_t dTime;
+	int32_t baroVel;
+	//float dt;
+	//float vel_acc;
+	int32_t vel_tmp;
+	static float accZ_old = 0.0f;
+	static float vel = 0.0f;
+	static float accAlt = 0.0f;
+	static int32_t lastBaroAlt;
 
 #ifdef SONAR
-    int32_t sonarAlt = SONAR_OUT_OF_RANGE;
-    static int32_t baroAlt_offset = 0;
-    float sonarTransition;
+	int32_t sonarAlt = SONAR_OUT_OF_RANGE;
+	static int32_t baroAlt_offset = 0;
+	float sonarTransition;
 #endif
 
-    dTime = currentTime - previousTime;
-    if (dTime < BARO_UPDATE_FREQUENCY_40HZ)
-        return;
+	dTime = currentTime - previousTime;
+	if (dTime < BARO_UPDATE_FREQUENCY_40HZ)
+		return;
 
-    previousTime = currentTime;
+	previousTime = currentTime;
 
 #ifdef BARO
-    if (!isBaroCalibrationComplete()) {
-        performBaroCalibrationCycle();
-        vel = 0;
-        accAlt = 0;
-    }
+	if (!isBaroCalibrationComplete()) {
+		performBaroCalibrationCycle();
+		vel = 0;
+		accAlt = 0;
+	}
 
-    BaroAlt = baroCalculateAltitude();
+	BaroAlt = baroCalculateAltitude();
 #else
-    BaroAlt = 0;
+	BaroAlt = 0;
 #endif
 
 #ifdef SONAR
-    sonarAlt = sonar_read(&default_sonar);
+	sonarAlt = sonar_read(&default_sonar);
 
 	// TODO: make this sonar calculation work after refactoring
-    //sonarAlt = sonar_calc_altitude(&default_sonar, imu_get_cos_tilt_angle(&default_imu));
+	//sonarAlt = sonar_calc_altitude(&default_sonar, imu_get_cos_tilt_angle(&default_imu));
 
-    if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
-        // just use the SONAR
-        baroAlt_offset = BaroAlt - sonarAlt;
-        BaroAlt = sonarAlt;
-    } else {
-        BaroAlt -= baroAlt_offset;
-        if (sonarAlt > 0  && sonarAlt <= default_sonar.max_alt_with_tilt_cm) {
-            // SONAR in range, so use complementary filter
-            sonarTransition = (float)(default_sonar.max_alt_with_tilt_cm - sonarAlt) / (default_sonar.max_alt_with_tilt_cm - default_sonar.cf_alt_cm);
-            BaroAlt = sonarAlt * sonarTransition + BaroAlt * (1.0f - sonarTransition);
-        }
-    }
+	if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
+		// just use the SONAR
+		baroAlt_offset = BaroAlt - sonarAlt;
+		BaroAlt = sonarAlt;
+	} else {
+		BaroAlt -= baroAlt_offset;
+		if (sonarAlt > 0  && sonarAlt <= default_sonar.max_alt_with_tilt_cm) {
+			// SONAR in range, so use complementary filter
+			sonarTransition = (float)(default_sonar.max_alt_with_tilt_cm - sonarAlt) / (default_sonar.max_alt_with_tilt_cm - default_sonar.cf_alt_cm);
+			BaroAlt = sonarAlt * sonarTransition + BaroAlt * (1.0f - sonarTransition);
+		}
+	}
 #endif
 
 /* TODO: make this kind of thing work without so much interaction with the internals of imu!
@@ -264,63 +243,62 @@ void calculateEstimatedAltitude(uint32_t currentTime)
 	dt = imu_get_velocity_integration_time(&default_imu); 
 	vel_acc = imu_get_est_vertical_vel_cms(&default_imu); 
 
-    // Integrator - Altitude in cm
-    accAlt += (vel_acc * 0.5f) * dt + vel * dt;                                                                 // integrate velocity to get distance (x= a/2 * t^2)
-    accAlt = accAlt * barometerConfig()->baro_cf_alt + (float)BaroAlt * (1.0f - barometerConfig()->baro_cf_alt);    // complementary filter for altitude estimation (baro & acc)
-    vel += vel_acc;
+	// Integrator - Altitude in cm
+	accAlt += (vel_acc * 0.5f) * dt + vel * dt;																 // integrate velocity to get distance (x= a/2 * t^2)
+	accAlt = accAlt * barometerConfig()->baro_cf_alt + (float)BaroAlt * (1.0f - barometerConfig()->baro_cf_alt);	// complementary filter for altitude estimation (baro & acc)
+	vel += vel_acc;
 
 #ifdef DEBUG_ALT_HOLD
-    debug[1] = accSum[2] / accSumCount; // acceleration
-    debug[2] = vel;                     // velocity
-    debug[3] = accAlt;                  // height
+	debug[1] = accSum[2] / accSumCount; // acceleration
+	debug[2] = vel;					 // velocity
+	debug[3] = accAlt;				  // height
 #endif
 
-    imu_reset_velocity_estimate(&default_imu);
+	imu_reset_velocity_estimate(&default_imu);
 */
 #ifdef BARO
-    if (!isBaroCalibrationComplete()) {
-        return;
-    }
+	if (!isBaroCalibrationComplete()) {
+		return;
+	}
 #endif
 
 #ifdef SONAR
-    if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
-        // the sonar has the best range
-        EstAlt = BaroAlt;
-    } else {
-        EstAlt = accAlt;
-    }
+	// TODO: pass sonar object to althold and read altitude from there
+	if (sonarAlt > 0 && sonarAlt < default_sonar.cf_alt_cm) {
+		// the sonar has the best range
+		self->EstAlt = BaroAlt;
+	} else {
+		self->EstAlt = accAlt;
+	}
 #else
-    EstAlt = accAlt;
+	self->EstAlt = accAlt;
 #endif
 
-    baroVel = (BaroAlt - lastBaroAlt) * 1000000.0f / dTime;
-    lastBaroAlt = BaroAlt;
+	baroVel = (BaroAlt - lastBaroAlt) * 1000000.0f / dTime;
+	lastBaroAlt = BaroAlt;
 
-    baroVel = constrain(baroVel, -1500, 1500);  // constrain baro velocity +/- 1500cm/s
-    baroVel = applyDeadband(baroVel, 10);       // to reduce noise near zero
+	baroVel = constrain(baroVel, -1500, 1500);  // constrain baro velocity +/- 1500cm/s
+	baroVel = applyDeadband(baroVel, 10);	   // to reduce noise near zero
 
-    // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity).
-    // By using CF it's possible to correct the drift of integrated accZ (velocity) without loosing the phase, i.e without delay
-    vel = vel * barometerConfig()->baro_cf_vel + baroVel * (1.0f - barometerConfig()->baro_cf_vel);
-    vel_tmp = lrintf(vel);
+	// apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity).
+	// By using CF it's possible to correct the drift of integrated accZ (velocity) without loosing the phase, i.e without delay
+	vel = vel * barometerConfig()->baro_cf_vel + baroVel * (1.0f - barometerConfig()->baro_cf_vel);
+	vel_tmp = lrintf(vel);
 
-    // set vario
-    vario = applyDeadband(vel_tmp, 5);
+	// set vario
+	self->vario = applyDeadband(vel_tmp, 5);
 
 	// TODO: below line gets average vertical acceleration. It is nonsense. We should fix this once done refactoring (when the change can be tested)
 
 	// TODO: make this code work after refactoring
 	float acc_z = 0; //imu_get_avg_vertical_accel_cmss(&default_imu); 
-    altHoldThrottleAdjustment = calculateAltHoldThrottleAdjustment(vel_tmp, acc_z, accZ_old);
+	self->altHoldThrottleAdjustment = _calc_althold_throttle_delta(self, vel_tmp, acc_z, accZ_old);
 
-    accZ_old = acc_z;
+	accZ_old = acc_z;
 }
 
-int32_t altitudeHoldGetEstimatedAltitude(void)
-{
-    return EstAlt;
+int32_t althold_get_est_alt(struct althold *self){
+	return self->EstAlt;
 }
 
-#endif
 

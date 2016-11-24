@@ -22,13 +22,29 @@
 #include "sensors/barometer.h"
 #include "../config/altitudehold.h"
 
-extern int32_t AltHold;
-extern int32_t vario;
+struct instruments;
+struct althold {
+	int32_t setVelocity;
+	uint8_t velocityControl;
+	int32_t errorVelocityI;
+	int32_t altHoldThrottleAdjustment;
+	int32_t AltHold;
+	int32_t vario;                      // variometer in cm/s
 
-void calculateEstimatedAltitude(uint32_t currentTime);
+	int16_t initialRawThrottleHold;
+	int16_t initialThrottleHold;
+	int32_t EstAlt;                // in cm
 
-void applyAltHold(void);
-void updateAltHoldState(void);
-void updateSonarAltHoldState(void);
+    uint8_t isAltHoldChanged;
+	struct instruments *ins;
+};
 
-int32_t altitudeHoldGetEstimatedAltitude(void);
+void althold_init(struct althold *self, struct instruments *ins);
+
+void althold_calc_altitude(struct althold *self, uint32_t currentTime);
+
+void althold_apply(struct althold *self);
+void althold_update(struct althold *self);
+void althold_update_sonar(struct althold *self);
+
+int32_t althold_get_est_altitude(struct althold *self);
