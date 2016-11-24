@@ -17,22 +17,6 @@
 
 #pragma once
 
-#ifdef __linux__
-#include <unistd.h>
-#include <time.h>
-// since _XOPEN_SOURCE (or posix 2008) usleep is deprecated and nanosleep should be used instead.
-#if _XOPEN_SOURCE > 500
-static inline int usleep(uint32_t us){
-	struct timespec req = {
-		.tv_sec = us / 1000000UL,
-		.tv_nsec = (us % 1000000UL) * 1000
-	};
-	struct timespec rem;
-	return nanosleep(&req, &rem);
-}
-#endif
-#endif
-
 #ifdef STM32F303xC
 #include "stm32f30x_conf.h"
 #include "stm32f30x_rcc.h"
