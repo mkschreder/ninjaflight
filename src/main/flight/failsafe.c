@@ -66,7 +66,7 @@ void failsafe_reset(struct failsafe *self){
 	self->rxLinkState = FAILSAFE_RXLINK_DOWN;
 }
 
-void failsafe_init(struct failsafe *self, struct rx *rx, struct system_calls *system){
+void failsafe_init(struct failsafe *self, struct rx *rx, const struct system_calls *system){
 	self->events = 0;
 	self->monitoring = false;
 	self->system = system;
@@ -99,7 +99,7 @@ static void failsafe_activate(struct failsafe *self){
 	self->active = true;
 	self->phase = FAILSAFE_LANDING;
 	ENABLE_FLIGHT_MODE(FAILSAFE_MODE);
-	self->landingShouldBeFinishedAt = millis() + failsafeConfig()->failsafe_off_delay * MILLIS_PER_TENTH_SECOND;
+	self->landingShouldBeFinishedAt = sys_millis(self->system) + failsafeConfig()->failsafe_off_delay * MILLIS_PER_TENTH_SECOND;
 
 	self->events++;
 }
@@ -163,8 +163,8 @@ void failsafe_update(struct failsafe *self){
 			case FAILSAFE_IDLE:
 				if (armed) {
 					// Track throttle command below minimum time
-					if (THROTTLE_HIGH == calculateThrottleStatus(rxConfig(), rcControlsConfig()->deadband3d_throttle)) {
-						self->throttleLowPeriod = millis() + failsafeConfig()->failsafe_throttle_low_delay * MILLIS_PER_TENTH_SECOND;
+					if (THROTTLE_HIGH == calculateThrottleStatus(self->rx, rxConfig(), rcControlsConfig()->deadband3d_throttle)) {
+						self->throttleLowPeriod = sys_millis(self->system) + failsafeConfig()->failsafe_throttle_low_delay * MILLIS_PER_TENTH_SECOND;
 					}
 					// Kill switch logic (must be independent of receivingRxData to skip PERIOD_RXDATA_FAILURE delay before disarming)
 					if (failsafeSwitchIsOn && failsafeConfig()->failsafe_kill_switch) {
@@ -174,7 +174,7 @@ void failsafe_update(struct failsafe *self){
 						self->receivingRxDataPeriodPreset = PERIOD_OF_1_SECONDS;	// require 1 seconds of valid rxData
 						reprocessState = true;
 					} else if (!receivingRxData) {
-						if (millis() > self->throttleLowPeriod) {
+						if (sys_millis(self->system) > self->throttleLowPeriod) {
 							// JustDisarm: throttle was LOW for at least 'failsafe_throttle_low_delay' seconds
 							failsafe_activate(self);
 							self->phase = FAILSAFE_LANDED;	  // skip auto-landing procedure
@@ -238,7 +238,7 @@ void failsafe_update(struct failsafe *self){
 				ENABLE_ARMING_FLAG(PREVENT_ARMING); // To prevent accidently rearming by an intermittent rx link
 				// TODO: fix this
 				//mwDisarm();
-				self->receivingRxDataPeriod = millis() + self->receivingRxDataPeriodPreset; // set required period of valid rxData
+				self->receivingRxDataPeriod = sys_millis(self->system) + self->receivingRxDataPeriodPreset; // set required period of valid rxData
 				self->phase = FAILSAFE_RX_LOSS_MONITORING;
 				reprocessState = true;
 				break;
@@ -246,7 +246,7 @@ void failsafe_update(struct failsafe *self){
 			case FAILSAFE_RX_LOSS_MONITORING:
 				// Monitoring the rx link to allow rearming when it has become good for > `receivingRxDataPeriodPreset` time.
 				if (receivingRxData) {
-					if (millis() > self->receivingRxDataPeriod) {
+					if (sys_millis(self->system) > self->receivingRxDataPeriod) {
 						// rx link is good now, when arming via ARM switch, it must be OFF first
 						if (!(!isUsingSticksForArming() && rcModeIsActive(BOXARM))) {
 							DISABLE_ARMING_FLAG(PREVENT_ARMING);
@@ -255,7 +255,7 @@ void failsafe_update(struct failsafe *self){
 						}
 					}
 				} else {
-					self->receivingRxDataPeriod = millis() + self->receivingRxDataPeriodPreset;
+					self->receivingRxDataPeriod = sys_millis(self->system) + self->receivingRxDataPeriodPreset;
 				}
 				break;
 
@@ -263,7 +263,7 @@ void failsafe_update(struct failsafe *self){
 				// Entering IDLE with the requirement that throttle first must be at min_check for failsafe_throttle_low_delay period.
 				// This is to prevent that JustDisarm is activated on the next iteration.
 				// Because that would have the effect of shutting down failsafe handling on intermittent connections.
-				self->throttleLowPeriod = millis() + failsafeConfig()->failsafe_throttle_low_delay * MILLIS_PER_TENTH_SECOND;
+				self->throttleLowPeriod = sys_millis(self->system) + failsafeConfig()->failsafe_throttle_low_delay * MILLIS_PER_TENTH_SECOND;
 				self->phase = FAILSAFE_IDLE;
 				self->active = false;
 				DISABLE_FLIGHT_MODE(FAILSAFE_MODE);

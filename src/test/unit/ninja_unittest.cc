@@ -57,9 +57,7 @@ extern "C" {
     #include "flight/anglerate.h"
 
 	#include "ninja.h"
-	#include "ninja_control.h"
 	#include "ninja_input.h"
-	#include "ninja_output.h"
 }
 
 #include "unittest_macros.h"

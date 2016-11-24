@@ -102,8 +102,9 @@ static void _filter_rc_commands(struct ninja *self, float dt){
 }
 #endif 
 
-void rc_command_init(struct rc_command *self){
+void rc_command_init(struct rc_command *self, struct rx *rx){
 	memset(self, 0, sizeof(struct rc_command));
+	self->rx = rx;
 }
 
 //! Looks up expo value. Expects table to be at least 6 elements
@@ -121,10 +122,10 @@ static int16_t _lookup_expo(int16_t *table, int16_t input){
 }
 
 void rc_command_update(struct rc_command *self){
-	int16_t roll = rc_get_channel_value(ROLL);
-	int16_t pitch = rc_get_channel_value(PITCH);
-	int16_t yaw = rc_get_channel_value(YAW);
-	int16_t throttle = rc_get_channel_value(THROTTLE);
+	int16_t roll = rx_get_channel(self->rx, ROLL);
+	int16_t pitch = rx_get_channel(self->rx, PITCH);
+	int16_t yaw = rx_get_channel(self->rx, YAW);
+	int16_t throttle = rx_get_channel(self->rx, THROTTLE);
 
 	// ensure that we can work with default settings even without config
 	int32_t tpa_breakpoint = (self->config)?constrain(self->config->tpa_breakpoint, RC_MIN, RC_MAX):RC_MIN;

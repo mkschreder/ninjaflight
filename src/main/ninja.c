@@ -13,6 +13,8 @@
 #include "common/filter.h"
 
 #include "config/parameter_group.h"
+#include "config/config_eeprom.h"
+#include "config/profile.h"
 #include "config/tilt.h"
 
 #include "io/rc_adjustments.h"
@@ -126,165 +128,11 @@ DECLARE_STATE(ST_IDLE2, NULL){
 
 #pragma GCC diagnostic pop
 
-static void ninja_validate_config(struct ninja *self){
-    if (!(featureConfigured(FEATURE_RX_PARALLEL_PWM) || featureConfigured(FEATURE_RX_PPM) || featureConfigured(FEATURE_RX_SERIAL) || featureConfigured(FEATURE_RX_MSP))) {
-        featureSet(DEFAULT_RX_FEATURE);
-    }
-
-    if (featureConfigured(FEATURE_RX_PPM)) {
-        featureClear(FEATURE_RX_PARALLEL_PWM | FEATURE_RX_SERIAL | FEATURE_RX_MSP);
-    }
-
-    if (featureConfigured(FEATURE_RX_MSP)) {
-        featureClear(FEATURE_RX_SERIAL | FEATURE_RX_PARALLEL_PWM | FEATURE_RX_PPM);
-    }
-
-    if (featureConfigured(FEATURE_RX_SERIAL)) {
-        featureClear(FEATURE_RX_PARALLEL_PWM | FEATURE_RX_MSP | FEATURE_RX_PPM);
-    }
-
-    if (featureConfigured(FEATURE_RX_PARALLEL_PWM)) {
-        featureClear(FEATURE_RX_SERIAL | FEATURE_RX_MSP | FEATURE_RX_PPM);
-    }
-
-    // The retarded_arm setting is incompatible with pid_at_min_throttle because full roll causes the craft to roll over on the ground.
-    // The pid_at_min_throttle implementation ignores yaw on the ground, but doesn't currently ignore roll when retarded_arm is enabled.
-    if (armingConfig()->retarded_arm && mixerConfig()->pid_at_min_throttle) {
-        mixerConfig()->pid_at_min_throttle = 0;
-    }
-
-
-#ifdef STM32F10X
-    // avoid overloading the CPU on F1 targets when using gyro sync and GPS.
-    if (imuConfig()->gyroSync && imuConfig()->gyroSyncDenominator < 2 && featureConfigured(FEATURE_GPS)) {
-        imuConfig()->gyroSyncDenominator = 2;
-    }
-#endif
-
-
-#if defined(LED_STRIP)
-#if (defined(USE_SOFTSERIAL1) || defined(USE_SOFTSERIAL2))
-    if (featureConfigured(FEATURE_SOFTSERIAL) && (
-            0
-#ifdef USE_SOFTSERIAL1
-            || (LED_STRIP_TIMER == SOFTSERIAL_1_TIMER)
-#endif
-#ifdef USE_SOFTSERIAL2
-            || (LED_STRIP_TIMER == SOFTSERIAL_2_TIMER)
-#endif
-    )) {
-        // led strip needs the same timer as softserial
-        featureClear(FEATURE_LED_STRIP);
-    }
-#endif
-
-#if defined(TRANSPONDER) && !defined(UNIT_TEST)
-    if ((WS2811_DMA_TC_FLAG == TRANSPONDER_DMA_TC_FLAG) && featureConfigured(FEATURE_TRANSPONDER) && featureConfigured(FEATURE_LED_STRIP)) {
-        featureClear(FEATURE_LED_STRIP);
-    }
-#endif
-#endif // LED_STRIP
-
-#if defined(CC3D)
-#if defined(DISPLAY) && defined(USE_UART3)
-    if (featureConfigured(FEATURE_DISPLAY) && doesConfigurationUsePort(SERIAL_PORT_UART3)) {
-        featureClear(FEATURE_DISPLAY);
-    }
-#endif
-
-#if defined(SONAR) && defined(USE_SOFTSERIAL1)
-    if (featureConfigured(FEATURE_SONAR) && featureConfigured(FEATURE_SOFTSERIAL)) {
-        featureClear(FEATURE_SONAR);
-    }
-#endif
-
-#if defined(SONAR) && defined(USE_SOFTSERIAL1) && defined(RSSI_ADC_GPIO)
-    // shared pin
-    if ((featureConfigured(FEATURE_SONAR) + featureConfigured(FEATURE_SOFTSERIAL) + featureConfigured(FEATURE_RSSI_ADC)) > 1) {
-        featureClear(FEATURE_SONAR);
-        featureClear(FEATURE_SOFTSERIAL);
-        featureClear(FEATURE_RSSI_ADC);
-    }
-#endif
-#endif // CC3D
-
-#if defined(COLIBRI_RACE)
-    serialConfig()->portConfigs[0].functionMask = FUNCTION_MSP;
-    if (featureConfigured(FEATURE_RX_SERIAL)) {
-        serialConfig()->portConfigs[2].functionMask = FUNCTION_RX_SERIAL;
-    }
-#endif
-
-    if (!isSerialConfigValid(serialConfig())) {
-        PG_RESET_CURRENT(serialConfig);
-    }
-
-#if defined(USE_VCP)
-    serialConfig()->portConfigs[0].functionMask = FUNCTION_MSP;
-#endif
-}
-
-
-void ninja_load_config(struct ninja *self){
-    rx_suspend_signal(self->rx);
-
-    // Sanity check, read flash
-    if (!scanEEPROM(true)) {
-        failureMode(FAILURE_INVALID_EEPROM_CONTENTS);
-    }
-
-    pgActivateProfile(getCurrentProfile());
-
-	// TODO: need to set the control rate profile here 
-    //setControlRateProfile(rateProfileSelection()->defaultRateProfileIndex);
-
-    ninja_validate_config(self);
-
-	// TODO: update control rates somehow here (currently we only use profile 0)
-	//activateControlRateConfig();
-
-    resetAdjustmentStates();
-
-    useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
-
-#ifdef GPS
-    gpsUsePIDs(pidProfile());
-#endif
-
-	// TODO: make sure we move all of this activation stuff into ninja so that we have access to the local state
-	// all of this is really architectural failure. Failsafe is part of ninja object and should never be globally accessible.
-    //failsafe_reset();
-    //setAccelerationTrims(&sensorTrims()->accZero);
-
-    //recalculateMagneticDeclination();
-
-	/*
-	// TODO: this is currently called before imu is initialized. We should make sure that we have initialized imu before this is called. 
-	imu_configure(
-		&default_imu, 
-		imuConfig(),
-		accelerometerConfig(),
-		throttleCorrectionConfig(),
-		gyro.scale, 
-		acc.acc_1G
-	);*/
-
-    rx_resume_signal(self->rx);
-}
-
-void ninja_save_config(struct ninja *self){
-    rx_suspend_signal(self->rx);
-
-    writeConfigToEEPROM();
-
-    rx_resume_signal();
-}
-
-
 void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	memset(self, 0, sizeof(struct ninja));
 
 	self->syscalls = syscalls;
+
 	mixer_init(&self->mixer,
 		mixerConfig(),
 		motor3DConfig(),
@@ -328,8 +176,8 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 
 	battery_init(&self->bat, batteryConfig());
-	rx_init(&self->rx, &self->syscalls->pwm, modeActivationProfile()->modeActivationConditions);
-	rc_command_init(&self->rc_command);
+	rx_init(&self->rx, self->syscalls, &self->failsafe, modeActivationProfile()->modeActivationConditions);
+	rc_command_init(&self->rc_command, &self->rx);
 	rc_command_set_rate_config(&self->rc_command, controlRateProfiles(0)); 
 
 #ifdef GPS
@@ -346,7 +194,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	cliInit();
 #endif
 
-	failsafeInit();
+	failsafe_init(&self->failsafe, &self->rx, self->syscalls);
 
 #ifdef SONAR
 	if (feature(FEATURE_SONAR)) {
@@ -355,7 +203,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 #endif
 
 #ifdef LED_STRIP
-	ledStripInit();
+	ledstrip_init(&self->ledstrip);
 
 	if (feature(FEATURE_LED_STRIP)) {
 		ledStripEnable();
@@ -393,6 +241,8 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	}
 	sys_led_off(self->syscalls, 0);
 	sys_led_off(self->syscalls, 1);
+
+	ninja_config_load(self);
 
 	ninja_sched_init(&self->sched, &syscalls->time);
 
@@ -528,14 +378,14 @@ void _process_3d_throttle(struct ninja *self){
 	if (feature(FEATURE_3D)) {
 		if (!ARMING_FLAG(ARMED)) throttlePrevious = rxConfig()->midrc; // When disarmed set to mid_rc. It always results in positive direction after arming.
 
-		if ((rc_get_channel_value(THROTTLE) <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
+		if ((rx_get_channel(&self->rx, THROTTLE) <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle))) { // Out of band handling
 			throttleMax = motor3DConfig()->deadband3d_low;
 			throttleMin = motorAndServoConfig()->minthrottle;
-			throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
-		} else if (rc_get_channel_value(THROTTLE) >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
+			throttlePrevious = throttle = rx_get_channel(&self->rx, THROTTLE);
+		} else if (rx_get_channel(&self->rx, THROTTLE) >= (rxConfig()->midrc + rcControlsConfig()->deadband3d_throttle)) { // Positive handling
 			throttleMax = motorAndServoConfig()->maxthrottle;
 			throttleMin = motor3DConfig()->deadband3d_high;
-			throttlePrevious = throttle = rc_get_channel_value(THROTTLE);
+			throttlePrevious = throttle = rx_get_channel(&self->rx, THROTTLE);
 		} else if ((throttlePrevious <= (rxConfig()->midrc - rcControlsConfig()->deadband3d_throttle)))  { // Deadband handling from negative to positive
 			throttle = throttleMax = motor3DConfig()->deadband3d_low;
 			throttleMin = motorAndServoConfig()->minthrottle;
@@ -573,8 +423,8 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 
 	//if (FLIGHT_MODE(HORIZON_MODE)) {
 	if (1) {
-		int16_t hp_roll = 100-ABS(rc_get_channel_value(ROLL) - 1500) / 5;
-		int16_t hp_pitch = 100-ABS(rc_get_channel_value(PITCH) - 1500) / 5;
+		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
+		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
 		int16_t strength = MIN(hp_roll, hp_pitch);
 		anglerate_set_level_percent(&self->ctrl, strength, strength);
 	}
@@ -619,13 +469,13 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	// 2000 - 1500 = +500
 	// 1500 - 1500 = 0
 	// 1000 - 1500 = -500
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rc_get_channel_value(ROLL) - rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rc_get_channel_value(PITCH)	- rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rc_get_channel_value(YAW)	  - rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rc_get_channel_value(THROTTLE) - rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rc_get_channel_value(AUX1)	 - rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rc_get_channel_value(AUX2)	 - rxConfig()->midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rc_get_channel_value(AUX3)	 - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rx_get_channel(&self->rx, ROLL) - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rx_get_channel(&self->rx, PITCH)	- rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rx_get_channel(&self->rx, YAW)	  - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rx_get_channel(&self->rx, THROTTLE) - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rx_get_channel(&self->rx, AUX1)	 - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rx_get_channel(&self->rx, AUX2)	 - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rx_get_channel(&self->rx, AUX3)	 - rxConfig()->midrc);
 
 	mixer_update(&self->mixer);
 }

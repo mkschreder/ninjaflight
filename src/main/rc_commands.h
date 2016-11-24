@@ -48,10 +48,12 @@ struct rc_command {
 	int16_t lookup_roll_pitch[PITCH_LOOKUP_LENGTH];		//!< lookup table for expo & RC rate PITCH+ROLL
 	int16_t lookup_yaw[YAW_LOOKUP_LENGTH];				//!< lookup table for expo & RC rate YAW
 	int16_t lookup_throttle[THROTTLE_LOOKUP_LENGTH];	//!< lookup table for expo & mid THROTTLE
+
+	struct rx *rx;
 };
 
 //! Initializes the curves with default linear ranges.
-void rc_command_init(struct rc_command *self);
+void rc_command_init(struct rc_command *self, struct rx *rx);
 
 //! Updates internal variables to use new rates and also recalculates the lookup tables if the supplied profile is different than the one that is currently being used.
 void rc_command_set_rate_config(struct rc_command *self, struct rate_config *rates);

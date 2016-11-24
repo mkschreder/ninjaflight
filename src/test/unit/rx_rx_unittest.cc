@@ -28,15 +28,13 @@ extern "C" {
     #include "config/parameter_group_ids.h"
 
     #include "rx/rx.h"
+	#include "flight/failsafe.h"
     #include "io/rc_controls.h"
     #include "common/maths.h"
 
     uint32_t rcModeActivationMask;
 
-    void rxResetFlightChannelStatus(void);
-    bool rxHaveValidFlightChannels(void);
     bool isPulseValid(uint16_t pulseDuration);
-    void rxUpdateFlightChannelStatus(uint8_t channel, uint16_t pulseDuration);
 }
 
 #include "unittest_macros.h"
@@ -71,22 +69,25 @@ TEST(RxTest, TestValidFlightChannels)
     modeActivationConditions[0].range.endStep = CHANNEL_VALUE_TO_STEP(1600);
 
     // when
-    rxInit(&mock_syscalls()->pwm, modeActivationConditions);
+	struct rx rx;
+	struct failsafe failsafe;
+	failsafe_init(&failsafe, &rx, mock_syscalls());
+    rx_init(&rx, mock_syscalls(), &failsafe, modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step above active range to init to OFF)
-    EXPECT_EQ(1625, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
+    EXPECT_EQ(1625, rx_get_channel(&rx, modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
 
     // given
-    rxResetFlightChannelStatus();
+    rx_flight_chans_reset(&rx);
 
     // and
     for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
         bool validPulse = isPulseValid(1500);
-        rxUpdateFlightChannelStatus(channelIndex, validPulse);
+        rx_flight_chans_update(&rx, channelIndex, validPulse);
     }
 
     // then
-    EXPECT_TRUE(rxHaveValidFlightChannels());
+    EXPECT_TRUE(rx_flight_chans_valid(&rx));
 }
 
 TEST(RxTest, TestInvalidFlightChannels)
@@ -112,16 +113,19 @@ TEST(RxTest, TestInvalidFlightChannels)
     memset(&channelPulses, 1500, sizeof(channelPulses));
 
     // and
-    rxInit(&mock_syscalls()->pwm, modeActivationConditions);
+	struct rx rx;
+	struct failsafe failsafe;
+	failsafe_init(&failsafe, &rx, mock_syscalls());
+    rx_init(&rx, mock_syscalls(), &failsafe, modeActivationConditions);
 
     // then (ARM channel should be positioned just 1 step below active range to init to OFF)
-    EXPECT_EQ(1375, rc_get_channel_value(modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
+    EXPECT_EQ(1375, rx_get_channel(&rx, modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
 
     // and
     for (uint8_t stickChannelIndex = 0; stickChannelIndex < STICK_CHANNEL_COUNT; stickChannelIndex++) {
 
         // given
-        rxResetFlightChannelStatus();
+        rx_flight_chans_reset(&rx);
 
         for (uint8_t otherStickChannelIndex = 0; otherStickChannelIndex < STICK_CHANNEL_COUNT; otherStickChannelIndex++) {
             channelPulses[otherStickChannelIndex] = rxConfig()->rx_min_usec;
@@ -131,14 +135,14 @@ TEST(RxTest, TestInvalidFlightChannels)
         // when
         for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
             bool validPulse = isPulseValid(channelPulses[channelIndex]);
-            rxUpdateFlightChannelStatus(channelIndex, validPulse);
+            rx_flight_chans_update(&rx, channelIndex, validPulse);
         }
 
         // then
-        EXPECT_FALSE(rxHaveValidFlightChannels());
+        EXPECT_FALSE(rx_flight_chans_valid(&rx));
 
         // given
-        rxResetFlightChannelStatus();
+        rx_flight_chans_reset(&rx);
 
         for (uint8_t otherStickChannelIndex = 0; otherStickChannelIndex < STICK_CHANNEL_COUNT; otherStickChannelIndex++) {
             channelPulses[otherStickChannelIndex] = rxConfig()->rx_max_usec;
@@ -148,11 +152,11 @@ TEST(RxTest, TestInvalidFlightChannels)
         // when
         for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
             bool validPulse = isPulseValid(channelPulses[channelIndex]);
-            rxUpdateFlightChannelStatus(channelIndex, validPulse);
+            rx_flight_chans_update(&rx, channelIndex, validPulse);
         }
 
         // then
-        EXPECT_FALSE(rxHaveValidFlightChannels());
+        EXPECT_FALSE(rx_flight_chans_valid(&rx));
     }
 }
 

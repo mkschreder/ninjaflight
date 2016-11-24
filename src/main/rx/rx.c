@@ -76,12 +76,12 @@ static uint16_t nullReadRawRC(rxRuntimeConfig_t *rconf, uint8_t channel)
 void serialRxInit(rxConfig_t *rxConfig);
 
 
-void rxResetFlightChannelStatus(struct rx *self)
+void rx_flight_chans_reset(struct rx *self)
 {
 	self->validFlightChannelMask = REQUIRED_CHANNEL_MASK;
 }
 
-bool rxHaveValidFlightChannels(struct rx *self)
+bool rx_flight_chans_valid(struct rx *self)
 {
 	return (self->validFlightChannelMask == REQUIRED_CHANNEL_MASK);
 }
@@ -93,7 +93,7 @@ bool isPulseValid(uint16_t pulseDuration){
 
 // pulse duration is in micro seconds (usec)
 // TODO: make this static after refactoring unit tests
-void rxUpdateFlightChannelStatus(struct rx *self, uint8_t channel, bool valid)
+void rx_flight_chans_update(struct rx *self, uint8_t channel, bool valid)
 {
 	if (channel < NON_AUX_CHANNEL_COUNT && !valid) {
 		// if signal is invalid - mark channel as BAD
@@ -101,13 +101,14 @@ void rxUpdateFlightChannelStatus(struct rx *self, uint8_t channel, bool valid)
 	}
 }
 
-void rx_init(struct rx *self, const struct system_calls *system, modeActivationCondition_t *modeActivationConditions){
+void rx_init(struct rx *self, const struct system_calls *system, struct failsafe *failsafe, modeActivationCondition_t *modeActivationConditions){
 	uint8_t i;
 	uint16_t value;
 
 	self->rxIsInFailsafeMode = true;
 	self->rxIsInFailsafeModeNotDataDriven = true;
 	self->system = system;
+	self->failsafe = failsafe;
 	self->rcReadRawFunc = nullReadRawRC;
 
 	rx_set_config(self, "AETR1234", rxConfig());
@@ -320,7 +321,7 @@ void rx_update(struct rx *self, uint32_t currentTime){
 
 }
 
-bool rx_needs_update(struct rx *self, uint32_t currentTime)
+bool rx_data_received(struct rx *self, uint32_t currentTime)
 {
 	return self->rxDataReceived || ((int32_t)(currentTime - self->rxUpdateAt) >= 0); // data driven or 50Hz
 }
@@ -428,7 +429,7 @@ static void detectAndApplySignalLossBehaviour(struct rx *self)
 	uint16_t sample;
 	bool useValueFromRx = true;
 	bool rxIsDataDriven = isRxDataDriven();
-	uint32_t currentMilliTime = millis();
+	uint32_t currentMilliTime = sys_millis(self->system);
 
 	if (!rxIsDataDriven) {
 		self->rxSignalReceived = self->rxSignalReceivedNotDataDriven;
@@ -445,7 +446,7 @@ static void detectAndApplySignalLossBehaviour(struct rx *self)
 	debug[2] = rcReadRawFunc(&rxRuntimeConfig, 0);
 #endif
 
-	rxResetFlightChannelStatus(self);
+	rx_flight_chans_reset(self);
 
 	for (channel = 0; channel < self->rxRuntimeConfig.channelCount; channel++) {
 
@@ -458,7 +459,7 @@ static void detectAndApplySignalLossBehaviour(struct rx *self)
 				sample = self->rcData[channel];		   // hold channel for MAX_INVALID_PULS_TIME
 			} else {
 				sample = getRxfailValue(self, channel);   // after that apply rxfail value
-				rxUpdateFlightChannelStatus(self, channel, validPulse);
+				rx_flight_chans_update(self, channel, validPulse);
 			}
 		} else {
 			self->rcInvalidPulsPeriod[channel] = currentMilliTime + MAX_INVALID_PULS_TIME;
@@ -471,7 +472,7 @@ static void detectAndApplySignalLossBehaviour(struct rx *self)
 		}
 	}
 
-	self->rxFlightChannelsValid = rxHaveValidFlightChannels(self);
+	self->rxFlightChannelsValid = rx_flight_chans_valid(self);
 
 	if ((self->rxFlightChannelsValid) && !(rcModeIsActive(BOXFAILSAFE) && feature(FEATURE_FAILSAFE))) {
 		failsafe_on_valid_data_received(self->failsafe);
@@ -507,8 +508,8 @@ void rx_recalc_channels(struct rx *self, uint32_t currentTime)
 	self->rcSampleIndex++;
 }
 
-void parseRcChannels(const char *input, rxConfig_t *rxConfig)
-{
+void rx_set_config(struct rx *self, const char *input, rxConfig_t *rxConfig){
+	(void)self;
 	const char *c, *s;
 
 	for (c = input; *c; c++) {

@@ -846,7 +846,7 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
 extern "C" {
 bool rcModeIsActive(boxId_e modeId)  { return rcModeActivationMask & (1 << modeId); }
 int16_t GPS_angle[ANGLE_INDEX_COUNT] = { 0, 0 };
-int32_t getRcStickDeflection(int32_t axis, uint16_t midrc) {return MIN(ABS(rc_get_channel_value(axis) - midrc), 500);}
+int32_t getRcStickDeflection(struct rx *rx, int32_t axis, uint16_t midrc) {return MIN(ABS(rx_get_channel(rx, axis) - midrc), 500);}
 void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
 uint16_t flightModeFlags = 0; // acro mode
 uint8_t stateFlags = 0;

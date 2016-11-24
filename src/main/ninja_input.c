@@ -81,9 +81,8 @@ bool areSticksInApModePosition(uint16_t ap_mode)
     return ABS(rcCommand[ROLL]) < ap_mode && ABS(rcCommand[PITCH]) < ap_mode;
 }
 
-throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband3d_throttle)
-{
-	int16_t throttle = rc_get_channel_value(THROTTLE); 
+throttleStatus_e calculateThrottleStatus(struct rx *self, rxConfig_t *rxConfig, uint16_t deadband3d_throttle){
+	int16_t throttle = rx_get_channel(self, THROTTLE);
     if (feature(FEATURE_3D) && (throttle > (rxConfig->midrc - deadband3d_throttle) && throttle < (rxConfig->midrc + deadband3d_throttle)))
         return THROTTLE_LOW;
     else if (!feature(FEATURE_3D) && (throttle < rxConfig->mincheck))
@@ -100,10 +99,10 @@ void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t *rollAndPitchTrimsD
     //saveConfigAndNotify();
 }
 
-rollPitchStatus_e calculateRollPitchCenterStatus(rxConfig_t *rxConfig)
+rollPitchStatus_e calculateRollPitchCenterStatus(struct rx *self, rxConfig_t *rxConfig)
 {
-	int16_t pitch = rc_get_channel_value(PITCH); 
-	int16_t roll = rc_get_channel_value(ROLL); 
+	int16_t pitch = rx_get_channel(self, PITCH);
+	int16_t roll = rx_get_channel(self, ROLL);
     if (((pitch < (rxConfig->midrc + AIRMODE_DEADBAND)) && (pitch > (rxConfig->midrc -AIRMODE_DEADBAND)))
             && ((roll < (rxConfig->midrc + AIRMODE_DEADBAND)) && (roll > (rxConfig->midrc -AIRMODE_DEADBAND))))
         return CENTERED;
@@ -134,9 +133,9 @@ void handleInflightCalibrationStickPosition(void)
     }
 }
 
-static void updateInflightCalibrationState(void)
+static void updateInflightCalibrationState(struct ninja *self)
 {
-    if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rc_get_channel_value(THROTTLE) > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
+    if (AccInflightCalibrationArmed && ARMING_FLAG(ARMED) && rx_get_channel(&self->rx, THROTTLE) > rxConfig()->mincheck && !rcModeIsActive(BOXARM)) {   // Copter is airborne and you are turning it off via boxarm : start measurement
         InflightcalibratingA = 50;
         AccInflightCalibrationArmed = false;
     }
@@ -160,7 +159,7 @@ void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleS
     // checking sticks positions
     for (i = 0; i < 4; i++) {
         stTmp >>= 2;
-		int16_t chan = rc_get_channel_value(i); 
+		int16_t chan = rx_get_channel(&self->rx, i); 
         if (chan > rxConfig->mincheck)
             stTmp |= 0x80;  // check for MIN
         if (chan < rxConfig->maxcheck)
@@ -186,7 +185,7 @@ void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleS
         } else {
             // Disarming via ARM BOX
 
-            if (ARMING_FLAG(ARMED) && rxIsReceivingSignal() && !failsafeIsActive()  ) {
+            if (ARMING_FLAG(ARMED) && rx_is_receiving(&self->rx) && !failsafe_is_active(&self->failsafe)  ) {
                 if (disarm_kill_switch) {
                     ninja_disarm(self);
                 } else if (throttleStatus == THROTTLE_LOW) {
@@ -262,13 +261,13 @@ void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleS
     else if (rcSticks == THR_LO + YAW_LO + PIT_CE + ROL_HI)     // ROLL right -> Profile 3
         i = 3;
     if (i) {
-        changeProfile(i - 1);
+        ninja_config_change_profile(self, i - 1);
         beeperConfirmationBeeps(i);
         return;
     }
 
     if (rcSticks == THR_LO + YAW_LO + PIT_LO + ROL_HI) {
-        saveConfigAndNotify();
+        ninja_config_save_and_beep(self);
     }
 
     if (isUsingSticksToArm) {
@@ -347,9 +346,9 @@ void ninja_process_rx(struct ninja *self){
 	rcCommand[ROLL] = rc_command_axis(&self->rc_command, ROLL);
 	rcCommand[PITCH] = rc_command_axis(&self->rc_command, PITCH);
 	rcCommand[YAW] = rc_command_axis(&self->rc_command, YAW);
-	rcCommand[THROTTLE] = rc_get_channel_value(THROTTLE) - 1500;
+	rcCommand[THROTTLE] = rx_get_channel(&self->rx, THROTTLE) - 1500;
 
-    calculateRxChannelsAndUpdateFailsafe(currentTime);
+    rx_recalc_channels(&self->rx, currentTime);
 
 	// TODO: this is just here to remember that it needs to be refactored
 	self->isRXDataNew = true;
@@ -360,25 +359,25 @@ void ninja_process_rx(struct ninja *self){
             ninja_disarm(self);
     }
 
-    updateRSSI(currentTime);
+    rx_update_rssi(&self->rx, currentTime);
 
     if (feature(FEATURE_FAILSAFE)) {
 
-        if (currentTime > FAILSAFE_POWER_ON_DELAY_US && !failsafeIsMonitoring()) {
-            failsafeStartMonitoring();
+        if (currentTime > FAILSAFE_POWER_ON_DELAY_US && !failsafe_is_monitoring(&self->failsafe)) {
+            failsafe_start_monitoring(&self->failsafe);
         }
 
-        failsafeUpdateState();
+        failsafe_update(&self->failsafe);
     }
 
-    throttleStatus_e throttleStatus = calculateThrottleStatus(rxConfig(), rcControlsConfig()->deadband3d_throttle);
-    rollPitchStatus_e rollPitchStatus =  calculateRollPitchCenterStatus(rxConfig());
+    throttleStatus_e throttleStatus = calculateThrottleStatus(&self->rx, rxConfig(), rcControlsConfig()->deadband3d_throttle);
+    rollPitchStatus_e rollPitchStatus =  calculateRollPitchCenterStatus(&self->rx, rxConfig());
 
     /* In airmode Iterm should be prevented to grow when Low thottle and Roll + Pitch Centered.
      This is needed to prevent Iterm winding on the ground, but keep full stabilisation on 0 throttle while in air
      Low Throttle + roll and Pitch centered is assuming the copter is on the ground. Done to prevent complex air/ground detections */
     if (throttleStatus == THROTTLE_LOW) {
-        if (rcModeIsActive(BOXAIRMODE) && !failsafeIsActive() && ARMING_FLAG(ARMED)) {
+        if (rcModeIsActive(BOXAIRMODE) && !failsafe_is_active(&self->failsafe) && ARMING_FLAG(ARMED)) {
             if (rollPitchStatus == CENTERED) {
 				anglerate_enable_antiwindup(&self->ctrl, true);
             } else {
@@ -413,7 +412,7 @@ void ninja_process_rx(struct ninja *self){
         if (isUsingSticksForArming()) {
             if (throttleStatus == THROTTLE_LOW) {
                 if (armingConfig()->auto_disarm_delay != 0
-                    && (int32_t)(self->disarmAt - millis()) < 0
+                    && (int32_t)(self->disarmAt - sys_millis(self->syscalls)) < 0
                 ) {
                     // auto-disarm configured and delay is over
                     ninja_disarm(self);
@@ -427,7 +426,7 @@ void ninja_process_rx(struct ninja *self){
                 // throttle is not low
                 if (armingConfig()->auto_disarm_delay != 0) {
                     // extend disarm time
-                    self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;
+                    self->disarmAt = sys_millis(self->syscalls) + armingConfig()->auto_disarm_delay * 1000;
                 }
 
                 if (armedBeeperOn) {
@@ -450,19 +449,19 @@ void ninja_process_rx(struct ninja *self){
     ninja_process_rc_sticks(self, rxConfig(), throttleStatus, armingConfig()->retarded_arm, armingConfig()->disarm_kill_switch);
 
     if (feature(FEATURE_INFLIGHT_ACC_CAL)) {
-        updateInflightCalibrationState();
+        updateInflightCalibrationState(self);
     }
 
-    rcModeUpdateActivated(modeActivationProfile()->modeActivationConditions);
+    rcModeUpdateActivated(&self->rx, modeActivationProfile()->modeActivationConditions);
 
     if (!cliMode) {
-        updateAdjustmentStates(adjustmentProfile()->adjustmentRanges);
+        rc_adj_update_states(&self->rc_adj, adjustmentProfile()->adjustmentRanges);
         //processRcAdjustments(currentControlRateProfile, rxConfig());
     }
 
     bool canUseHorizonMode = true;
 
-    if ((rcModeIsActive(BOXANGLE) || (feature(FEATURE_FAILSAFE) && failsafeIsActive())) && (sensors(SENSOR_ACC))) {
+    if ((rcModeIsActive(BOXANGLE) || (feature(FEATURE_FAILSAFE) && failsafe_is_active(&self->failsafe))) && (sensors(SENSOR_ACC))) {
         // bumpless transfer to Level mode
         canUseHorizonMode = false;
 
@@ -560,13 +559,13 @@ bool rcModeIsActivationConditionPresent(modeActivationCondition_t *modeActivatio
     return false;
 }
 
-bool isRangeActive(uint8_t auxChannelIndex, channelRange_t *range)
+bool isRangeActive(struct rx *self, uint8_t auxChannelIndex, channelRange_t *range)
 {
     if (!IS_RANGE_USABLE(range)) {
         return false;
     }
 
-    uint16_t channelValue = constrain(rc_get_channel_value(auxChannelIndex + NON_AUX_CHANNEL_COUNT), CHANNEL_RANGE_MIN, CHANNEL_RANGE_MAX - 1);
+    uint16_t channelValue = constrain(rx_get_channel(self, auxChannelIndex + NON_AUX_CHANNEL_COUNT), CHANNEL_RANGE_MIN, CHANNEL_RANGE_MAX - 1);
     return (channelValue >= MODE_STEP_TO_CHANNEL_VALUE(range->startStep)
             && channelValue < MODE_STEP_TO_CHANNEL_VALUE(range->endStep));
 }
@@ -576,23 +575,23 @@ bool rcModeIsActive(boxId_e modeId)
     return rcModeActivationMask & (1 << modeId);
 }
 
-void rcModeUpdateActivated(modeActivationCondition_t *modeActivationConditions)
+void rcModeUpdateActivated(struct rx *self, modeActivationCondition_t *modeActivationConditions)
 {
     uint32_t newRcModeMask = 0;
 
     for (int index = 0; index < MAX_MODE_ACTIVATION_CONDITION_COUNT; index++) {
         modeActivationCondition_t *modeActivationCondition = &modeActivationConditions[index];
 
-        if (isRangeActive(modeActivationCondition->auxChannelIndex, &modeActivationCondition->range)) {
+        if (isRangeActive(self, modeActivationCondition->auxChannelIndex, &modeActivationCondition->range)) {
             newRcModeMask |= 1 << modeActivationCondition->modeId;
         }
     }
     rcModeActivationMask = newRcModeMask;
 }
 
-int32_t getRcStickDeflection(int32_t axis, uint16_t midrc)
+int32_t getRcStickDeflection(struct rx *self, int32_t axis, uint16_t midrc)
 {
-    return MIN(ABS(rc_get_channel_value(axis) - midrc), 500);
+    return MIN(ABS(rx_get_channel(self, axis) - midrc), 500);
 }
 
 void useRcControlsConfig(modeActivationCondition_t *modeActivationConditions)

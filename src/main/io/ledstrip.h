@@ -43,12 +43,13 @@ struct ledstrip {
 	uint8_t ledRingCount;
 	uint8_t ledRingSeqLen;
 
+	const struct system_calls *system;
 	struct failsafe *failsafe;
 	struct battery *battery;
 	struct rx *rx;
 };
 
-void ledstrip_init(struct ledstrip *self, struct battery *bat, struct failsafe *failsafe, struct rx *rx);
+void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct battery *bat, struct failsafe *failsafe, struct rx *rx);
 
 bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config);
 void ledstrip_update(struct ledstrip *self);

@@ -87,7 +87,7 @@ void blackboxLogInflightAdjustmentEventFloat(adjustmentFunction_e adjustmentFunc
 #endif
 }
 
-void rc_adj_configure(struct rc_adj *self, adjustmentRange_t *adjustmentRange){
+void rc_adj_add_range(struct rc_adj *self, adjustmentRange_t *adjustmentRange){
     uint8_t index = constrain(adjustmentRange->adjustmentIndex, 0, MAX_SIMULTANEOUS_ADJUSTMENT_COUNT);
 
     adjustmentState_t *adjustmentState = &self->adjustmentStates[index];
@@ -336,7 +336,7 @@ void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRang
     for (index = 0; index < MAX_ADJUSTMENT_RANGE_COUNT; index++) {
         adjustmentRange_t *adjustmentRange = &adjustmentRanges[index];
 
-        if (isRangeActive(adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
+        if (isRangeActive(self->rx, adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
 
             rc_adj_add_range(self, adjustmentRange);
         }

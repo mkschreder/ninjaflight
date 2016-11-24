@@ -119,7 +119,7 @@ static void updateLedCount(struct ledstrip *self){
 	self->ledRingCount = countRing;
 }
 
-void reevalulateLedConfig(struct ledstrip *self){
+void ledstrip_reload_config(struct ledstrip *self){
 	updateLedCount(self);
 	determineLedStripDimensions(self);
 	determineOrientationLimits(self);
@@ -714,7 +714,7 @@ void ledstrip_update(struct ledstrip *self){
 	}
 	self->ledStripEnabled = true;
 
-	uint32_t now = micros();
+	uint32_t now = sys_micros(self->system);
 
 	// test all led timers, setting corresponding bits
 	uint32_t timActive = 0;
@@ -817,11 +817,12 @@ bool setModeColor(ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex)
 	return true;
 }
 
-void ledstrip_init(struct ledstrip *self, struct battery *bat, struct failsafe *failsafe, struct rx *rx){
+void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct battery *bat, struct failsafe *failsafe, struct rx *rx){
 	memset(self, 0, sizeof(struct ledstrip));
 	self->failsafe = failsafe;
 	self->battery = bat;
 	self->rx = rx;
+	self->system = system;
 	self->ledStripInitialised = false;
 	self->ledStripEnabled = true;
 }

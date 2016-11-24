@@ -28,6 +28,7 @@ extern "C" {
 
 uint16_t mock_motor_pwm[8];
 uint16_t mock_servo_pwm[8];
+uint16_t mock_rc_pwm[8];
 uint16_t mock_pwm_errors = 0;
 int16_t mock_acc[3];
 int16_t mock_gyro[3];
@@ -48,6 +49,16 @@ void _write_servo(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value
 		mock_pwm_errors++;
 	}
 	mock_servo_pwm[id] = value;
+}
+
+uint16_t _read_pwm(const struct system_calls_pwm *pwm, uint8_t id){
+	(void)pwm;
+	return mock_rc_pwm[id];
+}
+
+uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
+	(void)pwm;
+	return mock_rc_pwm[id];
 }
 
 #include <string.h>
@@ -90,10 +101,18 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 	fflush(stdout);
 }
 
+static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
+	(void)beeper;
+	printf("beeper %s\n", (on)?"on":"off");
+	fflush(stdout);
+}
+
 static const struct system_calls syscalls {
 	.pwm = {
 		.write_motor = _write_motor,
-		.write_servo = _write_servo
+		.write_servo = _write_servo,
+		.read_pwm = _read_pwm, 
+		.read_ppm = _read_ppm
 	},
 	.imu = {
 		.read_gyro = _read_gyro,
@@ -102,6 +121,9 @@ static const struct system_calls syscalls {
 	.leds = {
 		.on = _led_on,
 		.toggle = _led_toggle
+	},
+	.beeper = {
+		.on = _beeper_on
 	},
 	.time = {
 		.micros = _micros

@@ -153,19 +153,20 @@ TEST(LedStripTest, parseLedStripConfig)
     };
     // and
     memset(ledConfigs_arr(), 0, sizeof(*ledConfigs_arr()));
+	struct ledstrip ledstrip;
 
     // and
     bool result = true;
 
     // when
     for (unsigned index = 0; index < ARRAYLEN(ledStripConfigCommands); index++) {
-        result = result && parseLedStripConfig(index, ledStripConfigCommands[index]);
+        result = result && ledstrip_set_led_config(&ledstrip, index, ledStripConfigCommands[index]);
     }
 
     // then
     EXPECT_EQ(true, result);
-    EXPECT_EQ(30, ledCount);
-    EXPECT_EQ(4, ledRingCount);
+    EXPECT_EQ(30, ledstrip.ledCount);
+    EXPECT_EQ(4, ledstrip.ledRingCount);
 
 
     // and
@@ -179,21 +180,22 @@ TEST(LedStripTest, parseLedStripConfig)
     }
 
     // then
-    EXPECT_EQ(13, ledGridWidth);
-    EXPECT_EQ(12, ledGridHeight);
+    EXPECT_EQ(13, ledstrip.ledGridWidth);
+    EXPECT_EQ(12, ledstrip.ledGridHeight);
 
     // then
-    EXPECT_EQ(5, highestXValueForWest);
-    EXPECT_EQ(7, lowestXValueForEast);
-    EXPECT_EQ(5, highestYValueForNorth);
-    EXPECT_EQ(6, lowestYValueForSouth);
+    EXPECT_EQ(5, ledstrip.highestXValueForWest);
+    EXPECT_EQ(7, ledstrip.lowestXValueForEast);
+    EXPECT_EQ(5, ledstrip.highestYValueForNorth);
+    EXPECT_EQ(6, ledstrip.lowestYValueForSouth);
 }
 
 TEST(LedStripTest, smallestGridWithCenter)
 {
     // given
     memset(ledConfigs_arr(), 0, sizeof(*ledConfigs_arr()));
-
+	
+	struct ledstrip ledstrip;
     // and
     static const ledConfig_t testLedConfigs[] = {
         { CALCULATE_LED_XY( 2,  2), 0, LD(SOUTH) | LD(EAST) | LF(INDICATOR) | LF(ARM_STATE) },
@@ -208,20 +210,20 @@ TEST(LedStripTest, smallestGridWithCenter)
     memcpy(ledConfigs_arr(), &testLedConfigs, sizeof(testLedConfigs));
 
     // when
-    determineLedStripDimensions();
+	ledstrip_reload_config(&ledstrip);
 
     // then
-    EXPECT_EQ(3, ledGridWidth);
-    EXPECT_EQ(3, ledGridHeight);
+    EXPECT_EQ(3, ledstrip.ledGridWidth);
+    EXPECT_EQ(3, ledstrip.ledGridHeight);
 
     // when
-    determineOrientationLimits();
+	ledstrip_reload_config(&ledstrip);
 
     // then
-    EXPECT_EQ(0, highestXValueForWest);
-    EXPECT_EQ(2, lowestXValueForEast);
-    EXPECT_EQ(0, highestYValueForNorth);
-    EXPECT_EQ(2, lowestYValueForSouth);
+    EXPECT_EQ(0, ledstrip.highestXValueForWest);
+    EXPECT_EQ(2, ledstrip.lowestXValueForEast);
+    EXPECT_EQ(0, ledstrip.highestYValueForNorth);
+    EXPECT_EQ(2, ledstrip.lowestYValueForSouth);
 }
 
 TEST(LedStripTest, smallestGrid)
@@ -237,22 +239,23 @@ TEST(LedStripTest, smallestGrid)
         { CALCULATE_LED_XY( 0,  1), 0, LD(SOUTH) | LD(WEST) | LF(INDICATOR) | LF(FLIGHT_MODE) },
     };
     memcpy(ledConfigs_arr(), &testLedConfigs, sizeof(testLedConfigs));
-
+	
+	struct ledstrip ledstrip;
     // when
-    determineLedStripDimensions();
+	ledstrip_reload_config(&ledstrip);
 
     // then
-    EXPECT_EQ(2, ledGridWidth);
-    EXPECT_EQ(2, ledGridHeight);
+    EXPECT_EQ(2, ledstrip.ledGridWidth);
+    EXPECT_EQ(2, ledstrip.ledGridHeight);
 
     // when
-    determineOrientationLimits();
+	ledstrip_reload_config(&ledstrip);
 
     // then
-    EXPECT_EQ(0, highestXValueForWest);
-    EXPECT_EQ(1, lowestXValueForEast);
-    EXPECT_EQ(0, highestYValueForNorth);
-    EXPECT_EQ(1, lowestYValueForSouth);
+    EXPECT_EQ(0, ledstrip.highestXValueForWest);
+    EXPECT_EQ(1, ledstrip.lowestXValueForEast);
+    EXPECT_EQ(0, ledstrip.highestYValueForNorth);
+    EXPECT_EQ(1, ledstrip.lowestYValueForSouth);
 }
 
 /*

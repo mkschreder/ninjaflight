@@ -76,22 +76,24 @@ typedef enum {
 #define CONTROL_RATE_CONFIG_TPA_MAX              100
 
 #define IS_RANGE_USABLE(range) ((range)->startStep < (range)->endStep)
+
+struct rx;
 extern int16_t rcCommand[4];
 bool areUsingSticksToArm(void);
 
 bool areSticksInApModePosition(uint16_t ap_mode);
-throttleStatus_e calculateThrottleStatus(rxConfig_t *rxConfig, uint16_t deadband3d_throttle);
-rollPitchStatus_e calculateRollPitchCenterStatus(rxConfig_t *rxConfig);
+throttleStatus_e calculateThrottleStatus(struct rx *self, rxConfig_t *rxConfig, uint16_t deadband3d_throttle);
+rollPitchStatus_e calculateRollPitchCenterStatus(struct rx *self, rxConfig_t *rxConfig);
 
 bool rcModeIsActive(boxId_e modeId);
-void rcModeUpdateActivated(modeActivationCondition_t *modeActivationConditions);
+void rcModeUpdateActivated(struct rx *self, modeActivationCondition_t *modeActivationConditions);
 bool rcModeIsActivationConditionPresent(modeActivationCondition_t *modeActivationConditions, boxId_e modeId);
 
 
 bool isUsingSticksForArming(void);
 
-int32_t getRcStickDeflection(int32_t axis, uint16_t midrc);
+int32_t getRcStickDeflection(struct rx *self, int32_t axis, uint16_t midrc);
 
 void useRcControlsConfig(modeActivationCondition_t *modeActivationConditions);
 
-bool isRangeActive(uint8_t auxChannelIndex, channelRange_t *range);
+bool isRangeActive(struct rx *self, uint8_t auxChannelIndex, channelRange_t *range);

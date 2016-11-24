@@ -1056,7 +1056,7 @@ static int processInCommand(mspPacket_t *cmd)
         case MSP_SELECT_SETTING:
             if (!ARMING_FLAG(ARMED)) {
                 int profile = sbufReadU8(src);
-                changeProfile(profile);
+                ninja_config_change_profile(ninja, profile);
             }
             break;
 
@@ -1264,8 +1264,8 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_RESET_CONF:
             if (!ARMING_FLAG(ARMED)) {
-                resetEEPROM();
-                readEEPROM();
+                ninja_config_reset(ninja);
+                ninja_config_load(ninja);
             }
             break;
 
@@ -1282,8 +1282,8 @@ static int processInCommand(mspPacket_t *cmd)
         case MSP_EEPROM_WRITE:
             if (ARMING_FLAG(ARMED))
                 return -1;
-            writeEEPROM();
-            readEEPROM();
+            ninja_config_save(ninja);
+            ninja_config_load(ninja);
             break;
 
 #ifdef BLACKBOX

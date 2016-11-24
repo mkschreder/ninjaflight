@@ -381,6 +381,7 @@ static void _task_bat(struct ninja_sched *sched){
 	if (feature(FEATURE_VBAT)) {
 		if (cmp32(currentTime, vbatLastServiced) >= VBATINTERVAL) {
 			vbatLastServiced = currentTime;
+			// TODO: fix this
 			//battery_update(&default_battery);
 		}
 	}
@@ -391,6 +392,7 @@ static void _task_bat(struct ninja_sched *sched){
 		if (ibatTimeSinceLastServiced >= IBATINTERVAL) {
 			ibatLastServiced = currentTime;
 
+			// TODO: fix this
 			//throttleStatus_e throttleStatus = calculateThrottleStatus(rxConfig(), rcControlsConfig()->deadband3d_throttle);
 
 			//battery_update_current_meter(&default_battery, ibatTimeSinceLastServiced, throttleStatus);
@@ -399,11 +401,12 @@ static void _task_bat(struct ninja_sched *sched){
 }
 
 static bool _task_rx_check(struct ninja_sched *sched, uint32_t currentDeltaTime){
+	struct ninja *self = container_of(sched, struct ninja, sched);
 	UNUSED(currentDeltaTime);
 
 	int32_t currentTime = sched->time->micros(sched->time);
-	updateRx(currentTime);
-	return shouldProcessRx(currentTime);
+	rx_update(&self->rx, currentTime);
+	return rx_data_received(&self->rx, currentTime);
 }
 
 static void updateLEDs(struct ninja_sched *sched){

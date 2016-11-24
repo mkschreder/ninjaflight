@@ -8,6 +8,8 @@
 #include "ninja_sched.h"
 #include "ninja_input.h"
 #include "rc_commands.h"
+#include "io/rc_adjustments.h"
+#include "flight/failsafe.h"
 
 struct ninja;
 
@@ -23,6 +25,8 @@ struct ninja {
 	struct battery bat;
 	struct rc_command rc_command;
 	struct rx rx;
+	struct rc_adj rc_adj;
+	struct failsafe failsafe;
 
 	bool isRXDataNew;
 

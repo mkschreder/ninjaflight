@@ -50,18 +50,18 @@ struct failsafe {
     uint32_t rxDataFailurePeriod;
     uint32_t validRxDataReceivedAt;
     uint32_t validRxDataFailedAt;
-    uint32_t throttleLowPeriod;             // throttle stick must have been below 'min_check' for this period
+    sys_millis_t throttleLowPeriod;             // throttle stick must have been below 'min_check' for this period
     sys_millis_t landingShouldBeFinishedAt;
-    uint32_t receivingRxDataPeriod;         // period for the required period of valid rxData
-    uint32_t receivingRxDataPeriodPreset;   // preset for the required period of valid rxData
+    sys_millis_t receivingRxDataPeriod;         // period for the required period of valid rxData
+    sys_millis_t  receivingRxDataPeriodPreset;   // preset for the required period of valid rxData
     failsafePhase_e phase;
     failsafeRxLinkState_e rxLinkState;
 
-	struct system_calls *system;
+	const struct system_calls *system;
 	struct rx *rx;
 };
 
-void failsafe_init(struct failsafe *self, struct rx *rx, struct system_calls *system);
+void failsafe_init(struct failsafe *self, struct rx *rx, const struct system_calls *system);
 
 void failsafe_start_monitoring(struct failsafe *self);
 void failsafe_update(struct failsafe *self);

@@ -146,15 +146,18 @@ struct rx {
 
 void rx_update(struct rx *self, uint32_t currentTime);
 bool rx_is_receiving(struct rx *self);
-bool rx_flight_chans_valid(struct rx *self);
-bool rx_needs_update(struct rx *self, uint32_t currentTime);
+bool rx_data_received(struct rx *self, uint32_t currentTime);
 void rx_recalc_channels(struct rx *self, uint32_t currentTime);
+
+bool rx_flight_chans_valid(struct rx *self);
+void rx_flight_chans_reset(struct rx *self);
+void rx_flight_chans_update(struct rx *self, uint8_t channel, bool valid);
 
 //! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
 void rx_set_config(struct rx *self, const char *input, rxConfig_t *rxConfig);
 uint8_t serialRxFrameStatus(void);
 
-void rx_init(struct rx *self, const struct system_calls *system, modeActivationCondition_t *modeActivationConditions); 
+void rx_init(struct rx *self, const struct system_calls *system, struct failsafe *failsafe, modeActivationCondition_t *modeActivationConditions); 
 void rx_update_rssi(struct rx *self, uint32_t currentTime);
 void rx_reset_ranges(struct rx *self, rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
 
