@@ -275,7 +275,6 @@ COMMON_SRC = build_config.c \
 		   drivers/gyro_sync.c \
 		   io/beeper.c \
 		   io/rc_adjustments.c \
-		   io/rc_controls.c \
 		   io/rc_curves.c \
 		   io/msp.c \
 		   io/serial.c \
@@ -755,7 +754,6 @@ SITL_SRC = \
 			io/ledstrip.c \
 			io/msp.c \
 			io/rc_adjustments.c \
-			io/rc_controls.c \
 			io/rc_curves.c \
 			io/serial.c \
 			io/serial_cli.c \
