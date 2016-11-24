@@ -1,5 +1,8 @@
 #pragma once
 
+typedef int32_t sys_millis_t;
+typedef int32_t sys_micros_t;
+
 struct system_calls_pwm {
 	void (*write_motor)(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
 	void (*write_servo)(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
@@ -18,14 +21,26 @@ struct system_calls_leds {
 };
 
 struct system_calls_time {
-	int32_t (*micros)(const struct system_calls_time *self);
+	sys_micros_t (*micros)(const struct system_calls_time *self);
+};
+
+struct system_calls_beeper {
+	void (*on)(const struct system_calls_beeper *self, bool on);
 };
 
 struct system_calls {
 	struct system_calls_pwm pwm;
 	struct system_calls_imu imu;
 	struct system_calls_leds leds;
+	struct system_calls_beeper beeper;
 	struct system_calls_time time;
 };
 
-
+// these are just for convenience
+#define sys_led_on(sys, id) sys->leds.on(&sys->leds, id, true)
+#define sys_led_off(sys, id) sys->leds.on(&sys->leds, id, false)
+#define sys_led_toggle(sys, id) sys->leds.toggle(&sys->leds, id)
+#define sys_beep_on(sys) sys->beeper.on(&sys->beeper, true)
+#define sys_beep_off(sys) sys->beeper.on(&sys->beeper, false)
+#define sys_millis(sys) (sys->time.micros(&sys->time) / 1000)
+#define sys_micros(sys) (sys->time.micros(&sys->time))
