@@ -77,6 +77,20 @@
 #include "sitl.h"
 #include "ninja.h"
 
+#include <unistd.h>
+#include <time.h>
+// since _XOPEN_SOURCE (or posix 2008) usleep is deprecated and nanosleep should be used instead.
+#if _XOPEN_SOURCE > 500
+int usleep(uint32_t us){
+	struct timespec req = {
+		.tv_sec = (__time_t)(us / 1000000UL),
+		.tv_nsec = (__time_t)((us % 1000000UL) * 1000)
+	};
+	struct timespec rem;
+	return nanosleep(&req, &rem);
+}
+#endif
+
 struct application {
 	struct ninja ninja;
 	struct fc_sitl_server_interface *sitl;
@@ -250,37 +264,9 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
-	resetEEPROM();
-
 	sensorsSet(SENSOR_ACC);
 
 	self->sitl = server;
-
-	pidProfile()->P8[PIDROLL] = 90;
-	pidProfile()->I8[PIDROLL] = 10;
-	pidProfile()->D8[PIDROLL] = 30;
-	
-	pidProfile()->P8[PIDPITCH] = 90;
-	pidProfile()->I8[PIDPITCH] = 10;
-	pidProfile()->D8[PIDPITCH] = 30;
-
-	pidProfile()->P8[PIDYAW] = 98;
-	pidProfile()->I8[PIDYAW] = 5;
-	pidProfile()->D8[PIDYAW] = 60;
-
-	pidProfile()->P8[PIDLEVEL] = 20;
-	pidProfile()->I8[PIDLEVEL] = 10;
-	pidProfile()->D8[PIDLEVEL] = 100;
-
-	controlRateProfiles(0)->rates[ROLL] = 173;
-    controlRateProfiles(0)->rates[PITCH] = 173;
-    controlRateProfiles(0)->rates[YAW] = 173;
-
-	mixerConfig()->mixerMode = MIXER_QUADX;
-
-	ninja_init(&self->ninja, &self->syscalls);
-
-	pthread_create(&self->thread, NULL, _application_thread, self);
 
 	self->syscalls = (struct system_calls){
 		.pwm = {
@@ -304,6 +290,33 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 			.micros = _micros
 		}
 	};
+
+	ninja_init(&self->ninja, &self->syscalls);
+
+	pidProfile()->P8[PIDROLL] = 90;
+	pidProfile()->I8[PIDROLL] = 10;
+	pidProfile()->D8[PIDROLL] = 30;
+	
+	pidProfile()->P8[PIDPITCH] = 90;
+	pidProfile()->I8[PIDPITCH] = 10;
+	pidProfile()->D8[PIDPITCH] = 30;
+
+	pidProfile()->P8[PIDYAW] = 98;
+	pidProfile()->I8[PIDYAW] = 5;
+	pidProfile()->D8[PIDYAW] = 60;
+
+	pidProfile()->P8[PIDLEVEL] = 20;
+	pidProfile()->I8[PIDLEVEL] = 10;
+	pidProfile()->D8[PIDLEVEL] = 100;
+
+	controlRateProfiles(0)->rates[ROLL] = 173;
+    controlRateProfiles(0)->rates[PITCH] = 173;
+    controlRateProfiles(0)->rates[YAW] = 173;
+
+	mixerConfig()->mixerMode = MIXER_QUADX;
+
+	pthread_create(&self->thread, NULL, _application_thread, self);
+
 }
 
 #include <fcntl.h>

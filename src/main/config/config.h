@@ -24,15 +24,18 @@
 
 void handleOneshotFeatureChangeOnRestart(void);
 
-void initEEPROM(void);
-void resetEEPROM(void);
-void readEEPROM(void);
-void writeEEPROM(void);
-void ensureEEPROMContainsValidData(void);
-void saveConfigAndNotify(void);
+struct ninja;
 
-void changeProfile(uint8_t profileIndex);
+void initEEPROM(void);
+void ninja_config_reset(struct ninja *self);
+void ninja_config_load(struct ninja *self);
+void ninja_config_save(struct ninja *self);
+void ninja_config_validate(struct ninja *self);
+void ninja_config_save_and_beep(struct ninja *self);
+
+void ninja_config_change_profile(struct ninja *self, uint8_t profileIndex);
 
 void changeControlRateProfile(uint8_t profileIndex);
 
 bool canSoftwareSerialBeUsed(void);
+void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex);

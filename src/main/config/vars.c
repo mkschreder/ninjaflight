@@ -668,8 +668,6 @@ void pgResetFn_serialConfig(serialConfig_t *serialConfig)
     serialConfig->reboot_character = 'R';
 }
 
-// TODO: figure out how this works and refactor it
-void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex);
 void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex){
     rateProfileSelection_Storage[profileIndex].defaultRateProfileIndex = rateProfileIndex % MAX_CONTROL_RATE_PROFILE_COUNT;
 }
