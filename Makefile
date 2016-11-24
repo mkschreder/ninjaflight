@@ -790,6 +790,7 @@ SITL_SRC = \
 			telemetry/smartport.c \
 			telemetry/telemetry.c \
 			ninja.c \
+			ninja_config.c \
 			ninja_sched.c \
 			ninja_input.c \
 			ninjaflight.c \
