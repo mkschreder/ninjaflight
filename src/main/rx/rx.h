@@ -84,7 +84,7 @@ typedef struct rxRuntimeConfig_s {
 } rxRuntimeConfig_t;
 
 #define RSSI_ADC_SAMPLE_COUNT 16
-#define MAX_INVALID_PULSE_TIME    300
+#define RX_CHANNEL_TIMEOUT    300
 #define PPM_AND_PWM_SAMPLE_COUNT 3
 
 typedef uint16_t (*rcReadRawDataPtr)(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);        // used by receiver driver to return channel data

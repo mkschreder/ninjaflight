@@ -126,7 +126,7 @@ TEST_F(RxTest, TestFailsafeOnSingleChannelLoss){
 	EXPECT_TRUE(rx_has_signal(&rx));
 	EXPECT_TRUE(rx_is_healthy(&rx));
 
-	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
 	// after this we should still have signal but rx is not healthy
 	EXPECT_TRUE(rx_has_signal(&rx));
@@ -171,7 +171,7 @@ TEST_F(RxTest, TestSignalLoss){
 	// should still have signal
 	EXPECT_TRUE(rx_has_signal(&rx));
 
-	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
 	// now signal should be lost
 	EXPECT_FALSE(rx_has_signal(&rx));
@@ -221,7 +221,7 @@ TEST_F(RxTest, TestFailsafeModes){
 		mock_rc_pwm[c] = 0;
 	}
 
-	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
 	// check that rx has gone into failsafe
 	EXPECT_FALSE(rx_is_healthy(&rx));
@@ -236,7 +236,7 @@ TEST_F(RxTest, TestFailsafeModes){
 	failsafeChannelConfigs(AUX1)->step = 13;
 	failsafeChannelConfigs(AUX2)->step = 13;
 
-	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
 	// should have hold
 	EXPECT_EQ(RXFAIL_STEP_TO_CHANNEL_VALUE(13), rx_get_channel(&rx, AUX1));
@@ -245,45 +245,85 @@ TEST_F(RxTest, TestFailsafeModes){
 	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_AUTO;
 	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_AUTO;
 
-	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
 	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX1));
 	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX2));
 }
-// STUBS
 
-extern "C" {
-/*
-    bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
+/**
+ * receiver shall support channel remapping using a string that specifies
+ * ordering of the channels. Incoming signal shall be mapped from supplied
+ * configuration into standard "AERT12345678abcdefgh" channel ordering. 
+ */
+TEST_F(RxTest, ChannelRemapping){
+	// connect a receiver
+	for(int c = 0; c < 8; c++){
+		mock_rc_pwm[c] = 1000 + 100 * c;
+	}
 
-    void failsafeOnValidDataFailed() {}
-    void failsafeOnValidDataReceived() {}
+	rx_run(&rx, 1);
 
-    void failsafeOnRxSuspend(uint32_t ) {}
-    void failsafeOnRxResume(void) {}
+	for(int c = 0; c < 8; c++){
+		EXPECT_EQ(1000 + 100 * c, rx_get_channel(&rx, c));
+	}
 
-    uint32_t micros(void) { return 0; }
-    uint32_t millis(void) { return 0; }
+	// reprogram channels such that
+	// pwm 0 = AUX4
+	// pwm 1 = AUX3
+	// etc
+	rx_remap_channels(&rx, "4321AETR");
 
-    bool feature(uint32_t mask) {
-        UNUSED(mask);
-        return false;
-    }
+	rx_run(&rx, 1);
 
-    bool isPPMDataBeingReceived(void) {
-        return testData.isPPMDataBeingReceived;
-    }
-
-    bool isPWMDataBeingReceived(void) {
-        return testData.isPWMDataBeingReceived;
-    }
-
-    void resetPPMDataReceivedState(void) {}
-
-    bool rxMspFrameComplete(void) { return false; }
-
-    void rxMspInit(rxRuntimeConfig_t *, rcReadRawDataPtr *) {}
-
-    void rxPwmInit(rxRuntimeConfig_t *, rcReadRawDataPtr *) {}
-	*/
+	// when getting channels we use AERT1234 layout
+	// so channel 0 is on pwm 4 (which is 1400)
+	EXPECT_EQ(1400, rx_get_channel(&rx, 0));
+	EXPECT_EQ(1500, rx_get_channel(&rx, 1));
+	EXPECT_EQ(1700, rx_get_channel(&rx, 2));
+	EXPECT_EQ(1600, rx_get_channel(&rx, 3));
+	EXPECT_EQ(1300, rx_get_channel(&rx, 4));
+	EXPECT_EQ(1200, rx_get_channel(&rx, 5));
+	EXPECT_EQ(1100, rx_get_channel(&rx, 6));
+	EXPECT_EQ(1000, rx_get_channel(&rx, 7));
 }
+
+/**
+ * rx outputs shall be represented by microsecond interval in range of
+ * rx_min_usec* to *rx_max_usec*. If any inputs are outside of this range then
+ * they should be properly constrianed.
+ */
+TEST_F(RxTest, OutputRange){
+	// connect a receiver
+	for(int c = 0; c < 8; c++){
+		mock_rc_pwm[c] = 1000;
+	}
+
+	rx_run(&rx, 1);
+
+	// just check
+	EXPECT_EQ(885, rxConfig()->rx_min_usec);
+	EXPECT_EQ(2115, rxConfig()->rx_max_usec);
+
+	// set various valid and invalid ranges
+	mock_rc_pwm[0] = -123;
+	mock_rc_pwm[1] = 900;
+	mock_rc_pwm[2] = 500;
+	mock_rc_pwm[3] = 1600;
+	mock_rc_pwm[4] = 2100;
+	mock_rc_pwm[5] = 2800;
+	mock_rc_pwm[6] = -30123;
+	mock_rc_pwm[7] = 25000;
+
+	rx_run(&rx, RX_CHANNEL_TIMEOUT);
+
+	EXPECT_EQ(1500, rx_get_channel(&rx, 0));
+	EXPECT_EQ(900, rx_get_channel(&rx, 1));
+	EXPECT_EQ(1500, rx_get_channel(&rx, 2));
+	EXPECT_EQ(1600, rx_get_channel(&rx, 3));
+	EXPECT_EQ(2100, rx_get_channel(&rx, 4));
+	EXPECT_EQ(1500, rx_get_channel(&rx, 5));
+	EXPECT_EQ(1500, rx_get_channel(&rx, 6));
+	EXPECT_EQ(1500, rx_get_channel(&rx, 7));
+}
+
