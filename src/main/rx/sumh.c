@@ -47,6 +47,8 @@
 #define SUMH_MAX_CHANNEL_COUNT 8
 #define SUMH_FRAME_SIZE 21
 
+// TODO: sumh
+#if 0
 static bool sumhFrameDone = false;
 
 static uint8_t sumhFrame[SUMH_FRAME_SIZE];
@@ -128,3 +130,4 @@ static uint16_t sumhReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 
     return sumhChannels[chan];
 }
+#endif

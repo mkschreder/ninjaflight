@@ -32,7 +32,8 @@ extern "C" {
     #include "io/rc_controls.h"
     #include "common/maths.h"
 
-    uint32_t rcModeActivationMask;
+	#include "ninja.h"
+    extern uint32_t rcModeActivationMask;
 
     bool isPulseValid(uint16_t pulseDuration);
 }
@@ -42,128 +43,217 @@ extern "C" {
 
 #define DE_ACTIVATE_ALL_BOXES   0
 
-typedef struct testData_s {
-    bool isPPMDataBeingReceived;
-    bool isPWMDataBeingReceived;
-} testData_t;
-
-static testData_t testData;
-
-TEST(RxTest, TestValidFlightChannels)
-{
-    // given
-    memset(&testData, 0, sizeof(testData));
-    rcModeActivationMask = DE_ACTIVATE_ALL_BOXES;   // BOXFAILSAFE must be OFF
-
-    // and
-    modeActivationCondition_t modeActivationConditions[MAX_MODE_ACTIVATION_CONDITION_COUNT];
-
-    memset(rxConfig(), 0, sizeof(*rxConfig()));
-    rxConfig()->rx_min_usec = 1000;
-    rxConfig()->rx_max_usec = 2000;
-
-    memset(&modeActivationConditions, 0, sizeof(modeActivationConditions));
-    modeActivationConditions[0].auxChannelIndex = 0;
-    modeActivationConditions[0].modeId = BOXARM;
-    modeActivationConditions[0].range.startStep = CHANNEL_VALUE_TO_STEP(CHANNEL_RANGE_MIN);
-    modeActivationConditions[0].range.endStep = CHANNEL_VALUE_TO_STEP(1600);
-
-    // when
-	struct rx rx;
-	struct failsafe failsafe;
-	failsafe_init(&failsafe, &rx, mock_syscalls());
-    rx_init(&rx, mock_syscalls(), &failsafe, modeActivationConditions);
-
-    // then (ARM channel should be positioned just 1 step above active range to init to OFF)
-    EXPECT_EQ(1625, rx_get_channel(&rx, modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
-
-    // given
-    rx_flight_chans_reset(&rx);
-
-    // and
-    for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
-        bool validPulse = isPulseValid(1500);
-        rx_flight_chans_update(&rx, channelIndex, validPulse);
-    }
-
-    // then
-    EXPECT_TRUE(rx_flight_chans_valid(&rx));
+void rx_run(struct rx *rx, uint32_t ms){
+	while(ms > 0){
+		rx_update(rx);
+		usleep(1000);
+		ms--;
+	}
 }
 
-TEST(RxTest, TestInvalidFlightChannels)
-{
-    // given
-    memset(&testData, 0, sizeof(testData));
+class RxTest : public ::testing::Test {
+protected:
+    virtual void SetUp() {
+		mock_system_reset();
 
-    // and
-    modeActivationCondition_t modeActivationConditions[MAX_MODE_ACTIVATION_CONDITION_COUNT];
+		rx_init(&rx, mock_syscalls());
+		rx_set_type(&rx, RX_PPM);
+		rx_remap_channels(&rx, "AERT1234");
 
-    memset(rxConfig(), 0, sizeof(*rxConfig()));
-    rxConfig()->rx_min_usec = 1000;
-    rxConfig()->rx_max_usec = 2000;
-
-    memset(&modeActivationConditions, 0, sizeof(modeActivationConditions));
-    modeActivationConditions[0].auxChannelIndex = 0;
-    modeActivationConditions[0].modeId = BOXARM;
-    modeActivationConditions[0].range.startStep = CHANNEL_VALUE_TO_STEP(1400);
-    modeActivationConditions[0].range.endStep = CHANNEL_VALUE_TO_STEP(CHANNEL_RANGE_MAX);
-
-    // and
-    uint16_t channelPulses[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-    memset(&channelPulses, 1500, sizeof(channelPulses));
-
-    // and
-	struct rx rx;
-	struct failsafe failsafe;
-	failsafe_init(&failsafe, &rx, mock_syscalls());
-    rx_init(&rx, mock_syscalls(), &failsafe, modeActivationConditions);
-
-    // then (ARM channel should be positioned just 1 step below active range to init to OFF)
-    EXPECT_EQ(1375, rx_get_channel(&rx, modeActivationConditions[0].auxChannelIndex +  NON_AUX_CHANNEL_COUNT));
-
-    // and
-    for (uint8_t stickChannelIndex = 0; stickChannelIndex < STICK_CHANNEL_COUNT; stickChannelIndex++) {
-
-        // given
-        rx_flight_chans_reset(&rx);
-
-        for (uint8_t otherStickChannelIndex = 0; otherStickChannelIndex < STICK_CHANNEL_COUNT; otherStickChannelIndex++) {
-            channelPulses[otherStickChannelIndex] = rxConfig()->rx_min_usec;
-        }
-        channelPulses[stickChannelIndex] = rxConfig()->rx_min_usec - 1;
-
-        // when
-        for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
-            bool validPulse = isPulseValid(channelPulses[channelIndex]);
-            rx_flight_chans_update(&rx, channelIndex, validPulse);
-        }
-
-        // then
-        EXPECT_FALSE(rx_flight_chans_valid(&rx));
-
-        // given
-        rx_flight_chans_reset(&rx);
-
-        for (uint8_t otherStickChannelIndex = 0; otherStickChannelIndex < STICK_CHANNEL_COUNT; otherStickChannelIndex++) {
-            channelPulses[otherStickChannelIndex] = rxConfig()->rx_max_usec;
-        }
-        channelPulses[stickChannelIndex] = rxConfig()->rx_max_usec + 1;
-
-        // when
-        for (uint8_t channelIndex = 0; channelIndex < MAX_SUPPORTED_RC_CHANNEL_COUNT; channelIndex++) {
-            bool validPulse = isPulseValid(channelPulses[channelIndex]);
-            rx_flight_chans_update(&rx, channelIndex, validPulse);
-        }
-
-        // then
-        EXPECT_FALSE(rx_flight_chans_valid(&rx));
+		// we use auto mode by default
+		for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
+			failsafeChannelConfigs(c)->mode = RX_FAILSAFE_MODE_AUTO;
+		}
     }
+	struct rx rx;
+};
+
+/**
+ * RX should output data on 16 channels. If hardware supports less then rx
+ * should output failsafe values on the remaining channels. If supplied channel
+ * is out of range then rx should output *midrc*.
+ */
+TEST_F(RxTest, TestStartupValues){
+	// setting all zeros is like saying that rx is disconnected
+	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
+
+	rx_run(&rx, 5);
+
+	// we do not have signal
+	EXPECT_FALSE(rx_has_signal(&rx));
+	// and rx is not healthy
+	EXPECT_FALSE(rx_is_healthy(&rx));
+
+	// use less channels than max just to check failsafe function
+	for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
+		if(c == 3) EXPECT_EQ(1000, rx_get_channel(&rx, c));
+		else EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, c));
+	}
 }
 
+/**
+ * On startup all receiver channels should return failsafe values. As new
+ * channels are connected rx will return the received values. However as any of
+ * the channels lose signal rx should hold the value for a timeout and then
+ * mark the rx as not heathy and return failsafe for that single channel. As
+ * the channel is connected again, rx should become heathy. RX should report
+ * that it has signal until all channels are lost.
+ */
+TEST_F(RxTest, TestFailsafeOnSingleChannelLoss){
+	// run it for the first time
+	rx_run(&rx, 5);
 
+	// connect a 6 channel receiver
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 1200;
+	}
+
+	rx_run(&rx, 1);
+
+	// we should be healthy and have signal right away
+	EXPECT_TRUE(rx_has_signal(&rx));
+	EXPECT_TRUE(rx_is_healthy(&rx));
+
+	// ensure rx is reporting correct value for the channel
+	EXPECT_EQ(1200, rx_get_channel(&rx, 1));
+
+	// disconnect one channel
+	mock_rc_pwm[1] = 0;
+
+	rx_run(&rx, 1);
+
+	// we should still be valid since we do not give up right away
+	EXPECT_TRUE(rx_has_signal(&rx));
+	EXPECT_TRUE(rx_is_healthy(&rx));
+
+	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+
+	// after this we should still have signal but rx is not healthy
+	EXPECT_TRUE(rx_has_signal(&rx));
+	EXPECT_FALSE(rx_is_healthy(&rx));
+
+	// should be failsafe
+	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, 1));
+
+	// now reconnect the signal
+	mock_rc_pwm[1] = 1000;
+	rx_run(&rx, 1);
+	// should be both healthy and have signal
+	EXPECT_TRUE(rx_has_signal(&rx));
+	EXPECT_TRUE(rx_is_healthy(&rx));
+}
+
+/**
+ * Upon signal loss (all channels first valid then invalid) all channels should
+ * be outputting failsafe values.
+ */
+TEST_F(RxTest, TestSignalLoss){
+	// use less channels than max just to check failsafe function
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 1000 + c * 10;
+	}
+
+	rx_run(&rx, 1);
+
+	for(int c = 0; c < 6; c++){
+		EXPECT_EQ(1000 + c * 10, rx_get_channel(&rx, c));
+	}
+
+	// should have signal
+	EXPECT_TRUE(rx_has_signal(&rx));
+
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 0;
+	}
+
+	rx_run(&rx, 10);
+
+	// should still have signal
+	EXPECT_TRUE(rx_has_signal(&rx));
+
+	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+
+	// now signal should be lost
+	EXPECT_FALSE(rx_has_signal(&rx));
+
+	// check that all channels are failsafe
+	for(int c = 0; c < 6; c++){
+		if(c == THROTTLE) EXPECT_EQ(1000, rx_get_channel(&rx, c));
+		else EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, c));
+	}
+
+	// reconnect all channels
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 1000;
+	}
+
+	rx_run(&rx, 1);
+
+	EXPECT_TRUE(rx_has_signal(&rx));
+}
+
+/**
+ * Each channel shall have configurable failsafe that can output one of three
+ * alternatives: 1) auto: all channels are set to midrc except throttle. 2)
+ * hold: holds old channel information. 3) set: failsafe returnes a user
+ * configurable value. For safety reasons, non-aux channels should only support
+ * AUTO mode.
+ */
+TEST_F(RxTest, TestFailsafeModes){
+	// connect a receiver
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 1600;
+	}
+
+	rx_run(&rx, 1);
+
+	EXPECT_EQ(1600, rx_get_channel(&rx, AUX1));
+	EXPECT_EQ(1600, rx_get_channel(&rx, AUX2));
+
+	// configure roll and throttle to be in hold mode
+	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_HOLD;
+	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_HOLD;
+
+	EXPECT_TRUE(rx_is_healthy(&rx));
+
+	// disconnect receiver
+	for(int c = 0; c < 6; c++){
+		mock_rc_pwm[c] = 0;
+	}
+
+	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+
+	// check that rx has gone into failsafe
+	EXPECT_FALSE(rx_is_healthy(&rx));
+
+	// should have hold
+	EXPECT_EQ(1600, rx_get_channel(&rx, AUX1));
+	EXPECT_EQ(1600, rx_get_channel(&rx, AUX2));
+
+	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_SET;
+	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_SET;
+
+	failsafeChannelConfigs(AUX1)->step = 13;
+	failsafeChannelConfigs(AUX2)->step = 13;
+
+	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+
+	// should have hold
+	EXPECT_EQ(RXFAIL_STEP_TO_CHANNEL_VALUE(13), rx_get_channel(&rx, AUX1));
+	EXPECT_EQ(RXFAIL_STEP_TO_CHANNEL_VALUE(13), rx_get_channel(&rx, AUX2));
+
+	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_AUTO;
+	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_AUTO;
+
+	rx_run(&rx, MAX_INVALID_PULSE_TIME);
+
+	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX1));
+	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX2));
+}
 // STUBS
 
 extern "C" {
+/*
     bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 
     void failsafeOnValidDataFailed() {}
@@ -195,4 +285,5 @@ extern "C" {
     void rxMspInit(rxRuntimeConfig_t *, rcReadRawDataPtr *) {}
 
     void rxPwmInit(rxRuntimeConfig_t *, rcReadRawDataPtr *) {}
+	*/
 }

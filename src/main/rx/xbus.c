@@ -71,6 +71,8 @@
 // Use formula: 800 + value * 1400 / 4096 (i.e. a shift by 12)
 #define XBUS_CONVERT_TO_USEC(V)	(800 + ((V * 1400) >> 12))
 
+// TODO: xbus enable after refactor
+#if 0
 static bool xBusFrameReceived = false;
 static bool xBusDataIncoming = false;
 static uint8_t xBusFramePosition;
@@ -319,3 +321,4 @@ static uint16_t xBusReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
 
     return data;
 }
+#endif

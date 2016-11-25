@@ -31,14 +31,6 @@
 
 #define STICK_CHANNEL_COUNT 4
 
-#define PWM_RANGE_ZERO 0 // FIXME should all usages of this be changed to use PWM_RANGE_MIN?
-#define PWM_RANGE_MIN 1000
-#define PWM_RANGE_MAX 2000
-#define PWM_RANGE_MIDDLE (PWM_RANGE_MIN + ((PWM_RANGE_MAX - PWM_RANGE_MIN) / 2))
-
-#define PWM_PULSE_MIN   750       // minimum PWM pulse width which is considered valid
-#define PWM_PULSE_MAX   2250      // maximum PWM pulse width which is considered valid
-
 #define RXFAIL_STEP_TO_CHANNEL_VALUE(step) (PWM_PULSE_MIN + 25 * step)
 #define CHANNEL_VALUE_TO_RXFAIL_STEP(channelValue) ((constrain(channelValue, PWM_PULSE_MIN, PWM_PULSE_MAX) - PWM_PULSE_MIN) / 25)
 #define MAX_RXFAIL_RANGE_STEP ((PWM_PULSE_MAX - PWM_PULSE_MIN) / 25)
@@ -69,21 +61,16 @@ typedef enum {
 
 #define SERIALRX_PROVIDER_COUNT (SERIALRX_PROVIDER_MAX + 1)
 
-#define MAX_SUPPORTED_RC_PPM_CHANNEL_COUNT 12
+#define RX_MAX_PPM_CHANNELS 12
 #define MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT 8
 
 #define MAX_AUX_CHANNEL_COUNT (MAX_SUPPORTED_RC_CHANNEL_COUNT - NON_AUX_CHANNEL_COUNT)
 
-#if MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT > MAX_SUPPORTED_RC_PPM_CHANNEL_COUNT
+#if MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT > RX_MAX_PPM_CHANNELS
 #define MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT
 #else
-#define MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT MAX_SUPPORTED_RC_PPM_CHANNEL_COUNT
+#define MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT RX_MAX_PPM_CHANNELS
 #endif
-
-#define RSSI_SCALE_MIN 1
-#define RSSI_SCALE_MAX 255
-#define RSSI_SCALE_DEFAULT 30
-
 #define RX_FAILSAFE_MODE_COUNT 3
 
 typedef enum {
@@ -96,32 +83,57 @@ typedef struct rxRuntimeConfig_s {
     uint8_t channelCount;                  // number of rc channels as reported by current input driver
 } rxRuntimeConfig_t;
 
-typedef uint16_t (*rcReadRawDataPtr)(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);        // used by receiver driver to return channel data
-
 #define RSSI_ADC_SAMPLE_COUNT 16
-#define MAX_INVALID_PULS_TIME    300
+#define MAX_INVALID_PULSE_TIME    300
 #define PPM_AND_PWM_SAMPLE_COUNT 3
 
+typedef uint16_t (*rcReadRawDataPtr)(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);        // used by receiver driver to return channel data
+
+typedef enum {
+	RX_PWM,
+	RX_PPM,
+	RX_MSP,
+	RX_SERIAL,
+	RX_SERIAL_SPEKTRUM1024 = RX_SERIAL,
+	RX_SERIAL_SPEKTRUM2048,
+	RX_SERIAL_SBUS,
+	RX_SERIAL_SUMD,
+	RX_SERIAL_SUMH,
+	RX_SERIAL_XBUS_MODE_B,
+	RX_SERIAL_XBUS_MODE_B_RJ01,
+	RX_SERIAL_IBUS
+} rx_type_t;
+
 struct rx {
-	uint16_t rssi;                  // range: [0;1023]
+	rx_type_t rx_type;
 
-	bool rxDataReceived;
-	bool rxSignalReceived;
-	bool rxSignalReceivedNotDataDriven;
-	bool rxFlightChannelsValid;
-	bool rxIsInFailsafeMode;
-	bool rxIsInFailsafeModeNotDataDriven;
+	uint16_t rssi;                  //!< rssi in range: [0;1023]
 
-	uint32_t rxUpdateAt;
-	uint32_t needRxSignalBefore;
-	uint32_t suspendRxSignalUntil;
+	//! time for next update (we only update as often as is necessary depending on what type of receiver we have)
+	sys_micros_t rxUpdateAt;
+
+	//! suspends rx signal until specified deadline
+	sys_micros_t suspendRxSignalUntil;
 	uint8_t  skipRxSamples;
 
-	int16_t rcRaw[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
-	uint32_t rcInvalidPulsPeriod[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-	int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
+	//! samples collected from the receiver.
+	uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
+	bool rxSamplesCollected;
+	uint8_t rcSampleIndex;
 
-	rcReadRawDataPtr rcReadRawFunc;
+	//! period under which we have not had valid rx signal
+	sys_micros_t rcInvalidPulsPeriod[RX_MAX_SUPPORTED_RC_CHANNELS];
+	//! calculated output channels
+	int16_t rcData[RX_MAX_SUPPORTED_RC_CHANNELS];     //! interval [1000;2000]
+	//! holds currently active channels (until they time out)
+	uint32_t active_channels;
+	//! holds mask of channels that have been active since receiver was connected
+	uint32_t used_channels;
+
+	//! function used for reading raw values. Returns 0 on failure to read receiver.
+	uint16_t (*rcReadRawFunc)(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t chan);        // used by receiver driver to return channel data
+
+	//! currently set refresh rate in microseconds
 	uint16_t rxRefreshRate;
 
 	#if defined(USE_ADC)
@@ -130,35 +142,30 @@ struct rx {
 	uint32_t rssiUpdateAt;
 	#endif
 
-	uint16_t rcSamples[MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT][PPM_AND_PWM_SAMPLE_COUNT];
-	bool rxSamplesCollected;
-
-	uint8_t rcSampleIndex;
-
 	rxRuntimeConfig_t rxRuntimeConfig;
 
-	uint8_t validFlightChannelMask;
-
-	// TODO: this is a circular dependency so it must be removed
-	struct failsafe *failsafe;
 	const struct system_calls *system;
 };
 
-void rx_update(struct rx *self, uint32_t currentTime);
-bool rx_is_receiving(struct rx *self);
-bool rx_data_received(struct rx *self, uint32_t currentTime);
-void rx_recalc_channels(struct rx *self, uint32_t currentTime);
+void rx_update(struct rx *self);
 
-bool rx_flight_chans_valid(struct rx *self);
-void rx_flight_chans_reset(struct rx *self);
-void rx_flight_chans_update(struct rx *self, uint8_t channel, bool valid);
+//! RX has signal if at least one channel is healthy
+bool rx_has_signal(struct rx *self);
+
+//! RX is healthy if all channels are healthy
+bool rx_is_healthy(struct rx *self);
 
 //! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
-void rx_set_config(struct rx *self, const char *input, rxConfig_t *rxConfig);
-uint8_t serialRxFrameStatus(void);
+void rx_remap_channels(struct rx *self, const char *input);
 
-void rx_init(struct rx *self, const struct system_calls *system, struct failsafe *failsafe, modeActivationCondition_t *modeActivationConditions); 
-void rx_update_rssi(struct rx *self, uint32_t currentTime);
+void rx_init(struct rx *self, const struct system_calls *system);
+
+// TODO: make it possible to switch type at runtime (involves sorting out some init things)
+// currently it is only possible to set the type once
+//! changes the receiver type (determines what system calls the rx system will use to get receiver data)
+void rx_set_type(struct rx *self, rx_type_t type);
+
+void rx_update_rssi(struct rx *self);
 void rx_reset_ranges(struct rx *self, rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
 
 void rx_suspend_signal(struct rx *self);
@@ -172,5 +179,5 @@ uint8_t rx_get_channel_count(struct rx *self);
 int16_t rx_get_channel(struct rx *self, uint8_t chan);
 
 //! Forces a channel to a certain value. Used by failsafe.
-void rx_set_channel(struct rx *self, uint8_t chan, int16_t value);
+//void rx_set_channel(struct rx *self, uint8_t chan, int16_t value);
 

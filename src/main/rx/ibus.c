@@ -46,6 +46,8 @@
 
 #define IBUS_BAUDRATE 115200
 
+// TODO: ibus
+#if 0
 static bool ibusFrameDone = false;
 static uint32_t ibusChannelData[IBUS_MAX_CHANNEL];
 
@@ -130,3 +132,4 @@ static uint16_t ibusReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
     UNUSED(rconf);
     return ibusChannelData[chan];
 }
+#endif

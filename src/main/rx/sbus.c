@@ -48,6 +48,8 @@
  * time to send frame: 3ms.
  */
 
+// TODO: sbus
+#if 0
 #define SBUS_TIME_NEEDED_PER_FRAME 3000
 
 #ifndef CJMCU
@@ -244,3 +246,4 @@ static uint16_t sbusReadRawRC(rxRuntimeConfig_t *rconf, uint8_t chan)
     // http://www.wolframalpha.com/input/?i=linear+fit+%7B173%2C+988%7D%2C+%7B1812%2C+2012%7D%2C+%7B993%2C+1500%7D
     return (0.625f * sbusChannelData[chan]) + 880;
 }
+#endif

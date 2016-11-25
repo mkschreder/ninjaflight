@@ -42,29 +42,30 @@ static const struct system_calls_pwm *syspwm = 0;
 static uint16_t pwmReadRawRC(rxRuntimeConfig_t *rxRuntimeConfigPtr, uint8_t channel)
 {
     UNUSED(rxRuntimeConfigPtr);
-	if(!syspwm) return 1000;
+	if(!syspwm) return 0;
 	return syspwm->read_pwm(syspwm, channel);
 }
 
 static uint16_t ppmReadRawRC(rxRuntimeConfig_t *rxRuntimeConfigPtr, uint8_t channel)
 {
     UNUSED(rxRuntimeConfigPtr);
-	if(!syspwm) return 1000;
+	if(!syspwm) return 0;
 	return syspwm->read_ppm(syspwm, channel);
 }
 
-void rxPwmInit(const struct system_calls_pwm *pwm, rxRuntimeConfig_t *rxRuntimeConfigPtr, rcReadRawDataPtr *callback)
-{
+bool rxPPMInit(const struct system_calls_pwm *pwm, rxRuntimeConfig_t *rxRuntimeConfigPtr, rcReadRawDataPtr *callback){
     UNUSED(rxRuntimeConfigPtr);
 	syspwm = pwm;
-    // configure PWM/CPPM read function and max number of channels. serial rx below will override both of these, if enabled
-    if (feature(FEATURE_RX_PARALLEL_PWM)) {
-        rxRuntimeConfigPtr->channelCount = MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT;
-        *callback = pwmReadRawRC;
-    }
-    if (feature(FEATURE_RX_PPM)) {
-        rxRuntimeConfigPtr->channelCount = MAX_SUPPORTED_RC_PPM_CHANNEL_COUNT;
-        *callback = ppmReadRawRC;
-    }
+	rxRuntimeConfigPtr->channelCount = RX_MAX_PPM_CHANNELS;
+	*callback = ppmReadRawRC;
+	return true;
+}
+
+bool rxPwmInit(const struct system_calls_pwm *pwm, rxRuntimeConfig_t *rxRuntimeConfigPtr, rcReadRawDataPtr *callback){
+    UNUSED(rxRuntimeConfigPtr);
+	syspwm = pwm;
+	rxRuntimeConfigPtr->channelCount = MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT;
+	*callback = pwmReadRawRC;
+	return true;
 }
 

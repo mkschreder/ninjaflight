@@ -38,6 +38,8 @@
 
 // driver for spektrum satellite receiver / sbus
 
+// TODO: spektrum
+#if 0
 #define SPEKTRUM_MAX_SUPPORTED_CHANNEL_COUNT 12
 #define SPEKTRUM_2048_CHANNEL_COUNT 12
 #define SPEKTRUM_1024_CHANNEL_COUNT 7
@@ -237,4 +239,5 @@ void spektrumBind(rxConfig_t *rxConfig)
 #endif
 
 }
+#endif
 #endif
