@@ -6,6 +6,9 @@
 An even cleaner version of cleanflight flight-controller. Flight controllers
 are used to fly multi-rotor craft and fixed wing aircraft. 
 
+IMPORTANT NOTE: currently "master" git branch (which you are probably looking
+at) is undergoing many *major* changes so it is not going to work. 
+
 Latest release: 1.16.10 (Codename: "Panic In The Sewers")
 
 This fork differs from cleanflight in that it introduces SITL (software in the
