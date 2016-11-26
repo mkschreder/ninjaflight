@@ -64,7 +64,7 @@ typedef enum {
 #define RX_MAX_PPM_CHANNELS 12
 #define MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT 8
 
-#define MAX_AUX_CHANNEL_COUNT (MAX_SUPPORTED_RC_CHANNEL_COUNT - NON_AUX_CHANNEL_COUNT)
+#define MAX_AUX_CHANNEL_COUNT (RX_MAX_SUPPORTED_RC_CHANNELS - RX_NON_AUX_CHANNEL_COUNT)
 
 #if MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT > RX_MAX_PPM_CHANNELS
 #define MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT
@@ -154,6 +154,9 @@ bool rx_has_signal(struct rx *self);
 
 //! RX is healthy if all channels are healthy
 bool rx_is_healthy(struct rx *self);
+
+//! Returns true if channels 0-3 are active
+bool rx_flight_channels_valid(struct rx *self);
 
 //! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
 void rx_remap_channels(struct rx *self, const char *input);

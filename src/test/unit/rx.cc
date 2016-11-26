@@ -1,6 +1,8 @@
 /*
  * This file is part of Ninjaflight.
  *
+ * Unit testing and docs: Martin Schröder <mkschreder.uk@gmail.com>
+ *
  * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -14,6 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @defgroup RXSPEC Receiver Specification
+ * @ingroup SPEC
+ */
+
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -69,7 +77,9 @@ protected:
 };
 
 /**
- * RX should output data on 16 channels. If hardware supports less then rx
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - RX should output data on 16 channels. If hardware supports less then rx
  * should output failsafe values on the remaining channels. If supplied channel
  * is out of range then rx should output *midrc*.
  */
@@ -92,7 +102,9 @@ TEST_F(RxTest, TestStartupValues){
 }
 
 /**
- * On startup all receiver channels should return failsafe values. As new
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - On startup all receiver channels should return failsafe values. As new
  * channels are connected rx will return the received values. However as any of
  * the channels lose signal rx should hold the value for a timeout and then
  * mark the rx as not heathy and return failsafe for that single channel. As
@@ -144,7 +156,9 @@ TEST_F(RxTest, TestFailsafeOnSingleChannelLoss){
 }
 
 /**
- * Upon signal loss (all channels first valid then invalid) all channels should
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - Upon signal loss (all channels first valid then invalid) all channels should
  * be outputting failsafe values.
  */
 TEST_F(RxTest, TestSignalLoss){
@@ -193,7 +207,9 @@ TEST_F(RxTest, TestSignalLoss){
 }
 
 /**
- * Each channel shall have configurable failsafe that can output one of three
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - Each channel shall have configurable failsafe that can output one of three
  * alternatives: 1) auto: all channels are set to midrc except throttle. 2)
  * hold: holds old channel information. 3) set: failsafe returnes a user
  * configurable value. For safety reasons, non-aux channels should only support
@@ -252,7 +268,9 @@ TEST_F(RxTest, TestFailsafeModes){
 }
 
 /**
- * receiver shall support channel remapping using a string that specifies
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - Receiver shall support channel remapping using a string that specifies
  * ordering of the channels. Incoming signal shall be mapped from supplied
  * configuration into standard "AERT12345678abcdefgh" channel ordering. 
  */
@@ -289,7 +307,9 @@ TEST_F(RxTest, ChannelRemapping){
 }
 
 /**
- * rx outputs shall be represented by microsecond interval in range of
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * - RX outputs shall be represented by microsecond interval in range of
  * rx_min_usec* to *rx_max_usec*. If any inputs are outside of this range then
  * they should be properly constrianed.
  */

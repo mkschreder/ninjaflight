@@ -33,8 +33,6 @@
 #include "../common/maths.h"
 #include "../common/utils.h"
 
-#include "../config/feature.h"
-
 #include "../io/rc_controls.h"
 
 #include "../drivers/pwm_rx.h"
@@ -130,7 +128,7 @@ void rx_init(struct rx *self, const struct system_calls *system){
 	self->rcReadRawFunc = nullReadRawRC;
 
 	// TODO: does this mean we always reset the mapping
-	rx_remap_channels(self, "AETR1234");
+	rx_remap_channels(self, "AERT1234");
 
 	self->rcSampleIndex = 0;
 
@@ -140,7 +138,7 @@ void rx_init(struct rx *self, const struct system_calls *system){
 		else self->rcData[i] = rxConfig()->midrc; 
 		// now get the failsafe value which could be the same value as we set above
 		self->rcData[i] = _get_failsafe_channel_value(self, i);;
-		self->rcInvalidPulsPeriod[i] = sys_millis(self->system) + MAX_INVALID_PULSE_TIME;
+		self->rcInvalidPulsPeriod[i] = sys_millis(self->system) + RX_CHANNEL_TIMEOUT;
 	}
 
 	// Initialize ARM switch to OFF position when arming via switch is defined
@@ -212,7 +210,6 @@ void rx_set_type(struct rx *self, rx_type_t type){
 	}
 
 	if (!enabled) {
-		featureClear(FEATURE_RX_SERIAL);
 		self->rcReadRawFunc = nullReadRawRC;
 	}
 }
@@ -266,6 +263,10 @@ bool rx_is_healthy(struct rx *self){
 	return self->used_channels != 0 && self->active_channels == self->used_channels;
 }
 
+bool rx_flight_channels_valid(struct rx *self){
+	return self->active_channels & 0xf;
+}
+
 void rx_suspend_signal(struct rx *self){
 	self->suspendRxSignalUntil = sys_micros(self->system) + SKIP_RC_ON_SUSPEND_PERIOD;
 	self->skipRxSamples = SKIP_RC_SAMPLES_ON_RESUME;
@@ -300,7 +301,7 @@ static void _read_all_channels(struct rx *self){
 				// if any channel has timed out then put receiver into failsafe mode
 				self->rcData[channel] = _get_failsafe_channel_value(self, channel);   // after that apply rxfail value
 				// update timeout such that we never overflow when in this state
-				self->rcInvalidPulsPeriod[channel] = milli_time + MAX_INVALID_PULSE_TIME;
+				self->rcInvalidPulsPeriod[channel] = milli_time + RX_CHANNEL_TIMEOUT;
 				// invalid channels mean we do not have signal but only if the channel has been healthy before
 				if(self->active_channels & (1 << channel)) {
 					self->active_channels &= ~(1 << channel);
@@ -314,7 +315,7 @@ static void _read_all_channels(struct rx *self){
 				self->rcData[channel] = sample;
 			}
 
-			self->rcInvalidPulsPeriod[channel] = milli_time + MAX_INVALID_PULSE_TIME;
+			self->rcInvalidPulsPeriod[channel] = milli_time + RX_CHANNEL_TIMEOUT;
 			
 			valid |= (1 << channel);
 		}
@@ -395,7 +396,8 @@ static void updateRSSIPWM(struct rx *self){
 	// Range of rawPwmRssi is [1000;2000]. rssi should be in [0;1023];
 	self->rssi = (uint16_t)((constrain(pwmRssi - PWM_RANGE_MIN, 0, PWM_RANGE_MIN) / 1000.0f) * 1023.0f);
 }
-
+/*
+// TODO: rssi adc
 static void updateRSSIADC(struct rx *self)
 {
 #ifndef USE_ADC
@@ -426,13 +428,17 @@ static void updateRSSIADC(struct rx *self)
 	self->rssi = (uint16_t)((constrain(adcRssiMean, 0, 100) / 100.0f) * 1023.0f);
 #endif
 }
+*/
 
 void rx_update_rssi(struct rx *self){
 	if (rxConfig()->rssi_channel > 0) {
 		updateRSSIPWM(self);
-	} else if (feature(FEATURE_RSSI_ADC)) {
+	} 
+	// TODO: rssi adc
+	/*else if (feature(FEATURE_RSSI_ADC)) {
 		updateRSSIADC(self);
 	}
+	*/
 }
 
 uint16_t rx_get_refresh_rate(struct rx *self){
@@ -447,13 +453,9 @@ uint8_t rx_get_channel_count(struct rx *self){
 	return self->rxRuntimeConfig.channelCount;
 }
 
-// returns interval 1000:2000
+//! Get channel value. Returns interval [rx_min_usec;rx_max_usec]
 int16_t rx_get_channel(struct rx *self, uint8_t chan){
 	if(chan >= RX_MAX_SUPPORTED_RC_CHANNELS) return PWM_RANGE_MIN; 
 	return self->rcData[chan];
 }
 
-void rx_set_channel(struct rx *self, uint8_t chan, int16_t value){
-	if(chan >= RX_MAX_SUPPORTED_RC_CHANNELS) return;
-	self->rcData[chan] = value;
-}
