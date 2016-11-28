@@ -221,7 +221,8 @@ void beeper_multi_beeps(struct beeper *self, uint8_t beepCount){
 	beeper_start(self, BEEPER_MULTI_BEEPS);	//initiate sequence
 }
 
-#ifdef GPS
+#if 0
+// TODO: beeper gps status. Need to do this outside of beeper code
 static void beeperGpsStatus(void)
 {
 	// if GPS fix then beep out number of satellites
@@ -235,9 +236,9 @@ static void beeperGpsStatus(void)
 		beep_multiBeeps[i-1] = 50; // extend last pause
 		beep_multiBeeps[i] = BEEPER_COMMAND_STOP;
 
-		beeper(BEEPER_MULTI_BEEPS);	//initiate sequence
+		beeper_start(self, BEEPER_MULTI_BEEPS);	//initiate sequence
 	} else {
-		beeper(BEEPER_RX_SET);
+		beeper_start(self, BEEPER_RX_SET);
 	}
 }
 #endif
@@ -247,19 +248,6 @@ static void beeperGpsStatus(void)
  * state via time schedule.
  */
 void beeper_update(struct beeper *self){
-	// If beeper option from AUX switch has been selected
-	if (rcModeIsActive(BOXBEEPERON)) {
-#ifdef GPS
-		if (feature(FEATURE_GPS)) {
-			beeperGpsStatus();
-		} else {
-			beeper_start(self, BEEPER_RX_SET);
-		}
-#else
-		beeper_start(self, BEEPER_RX_SET);
-#endif
-	}
-
 	// Beeper routine doesn't need to update if there aren't any sounds ongoing
 	if (self->currentBeeperEntry == NULL) {
 		return;

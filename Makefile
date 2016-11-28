@@ -736,6 +736,7 @@ SITL_SRC = \
 			config/profile.c \
 			config/feature.c \
 			config/vars.c \
+			drivers/serial.c \
 			flight/altitudehold.c \
 			flight/anglerate.c \
 			flight/mixer.c \

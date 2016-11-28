@@ -388,6 +388,24 @@ void _check_battery(struct ninja *self){
 }
 */
 
+#if 0
+// TODO: beeper on off based on box status
+static void _update_beeper(struct ninja *self){
+	// If beeper option from AUX switch has been selected
+	if (rcModeIsActive(BOXBEEPERON)) {
+#ifdef GPS
+		if (feature(FEATURE_GPS)) {
+			beeperGpsStatus();
+		} else {
+			beeper_start(&self->beeper, BEEPER_RX_SET);
+		}
+#else
+		beeper_start(&self->beeper, BEEPER_RX_SET);
+#endif
+	}
+}
+#endif
+
 void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	int16_t gyroRaw[3];
 	if(sys_gyro_read(self->system, gyroRaw) < 0){
@@ -403,16 +421,16 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 		return;
 	}
 
-	ninja_process_rx(self);
-
 	// TODO: set pid algo when config is applied
 	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 	anglerate_set_algo(&self->ctrl, PID_CONTROLLER_LUX_FLOAT);
 
 	//if (FLIGHT_MODE(HORIZON_MODE)) {
-	if (1) {
+	if (0) {
 		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
 		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
+		if(ABS(ins_get_pitch_dd(&self->ins)) > 80)
+			hp_roll = hp_pitch = 0;
 		int16_t strength = MIN(hp_roll, hp_pitch);
 		anglerate_set_level_percent(&self->ctrl, strength, strength);
 	}
@@ -423,7 +441,7 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	printf("rx: %d %d %d, ", rx_get_channel(&self->rx, ROLL), rx_get_channel(&self->rx, PITCH), rx_get_channel(&self->rx, YAW));
 	printf("gyro: %d %d %d, ", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	*/
-	anglerate_input_user(&self->ctrl, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
+	anglerate_input_user(&self->ctrl, rcCommand[ROLL], rcCommand[PITCH], -rcCommand[YAW]);
 	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 	anglerate_update(&self->ctrl, dt_us * 1e-6f);
