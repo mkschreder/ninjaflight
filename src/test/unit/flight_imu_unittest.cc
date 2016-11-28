@@ -190,16 +190,6 @@ float magneticDeclination = 0.0f;
 
 bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 
-uint16_t enableFlightMode(flightModeFlags_e mask)
-{
-    return flightModeFlags |= (mask);
-}
-
-uint16_t disableFlightMode(flightModeFlags_e mask)
-{
-    return flightModeFlags &= ~(mask);
-}
-
 void gyroUpdate(void) {};
 bool sensors(uint32_t mask)
 {

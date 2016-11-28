@@ -195,16 +195,6 @@ int32_t sonarAlt;
 int16_t sonarCfAltCm;
 int16_t sonarMaxAltWithTiltCm;
 
-uint16_t enableFlightMode(flightModeFlags_e mask)
-{
-    return flightModeFlags |= (mask);
-}
-
-uint16_t disableFlightMode(flightModeFlags_e mask)
-{
-    return flightModeFlags &= ~(mask);
-}
-
 void gyroUpdate(void) {};
 bool sensors(uint32_t mask)
 {

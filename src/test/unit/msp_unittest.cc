@@ -536,7 +536,6 @@ void ins_start_acc_calibration(struct instruments *self) { (void)self; }
 uint8_t armingFlags = 0;
 uint8_t stateFlags = 0;
 uint16_t flightModeFlags = 0;
-uint16_t disableFlightMode(flightModeFlags_e) { return 0; }
 bool sensors(uint32_t mask) {UNUSED(mask);return 0;}
 // from rx.c
 void ninja_calibrate_acc(){ }
