@@ -146,24 +146,22 @@ static uint32_t getPinPos(uint32_t pin)
 // returns number of ESCs available
 int esc4wayInit(void)
 {
+	// TODO: esc4way initialization
     // StopPwmAllMotors();
     memset(&escHardware, 0, sizeof(escHardware));
     pwmIOConfiguration_t *pwmIOConfiguration = pwmGetOutputConfiguration();
     int escIdx = 0;
     for (int i = 0; i < pwmIOConfiguration->ioCount; i++) {
         if ((pwmIOConfiguration->ioConfigurations[i].flags & PWM_PF_MOTOR) == PWM_PF_MOTOR) {
-            //if(motor[pwmIOConfiguration->ioConfigurations[i].index] > 0) {
-            if(mixer_get_motor_value(&ninja.mixer, pwmIOConfiguration->ioConfigurations[i].index) > 0) {
-                escHardware[escIdx].gpio = pwmIOConfiguration->ioConfigurations[i].timerHardware->gpio;
-                escHardware[escIdx].pin = pwmIOConfiguration->ioConfigurations[i].timerHardware->pin;
-                escHardware[escIdx].pinpos = getPinPos(escHardware[escIdx].pin);
-                escHardware[escIdx].gpio_config_INPUT.pin = escHardware[escIdx].pin;
-                escHardware[escIdx].gpio_config_INPUT.speed = Speed_2MHz; // see pwmOutConfig()
-                escHardware[escIdx].gpio_config_INPUT.mode = Mode_IPU;
-                escHardware[escIdx].gpio_config_OUTPUT = escHardware[escIdx].gpio_config_INPUT;
-                escHardware[escIdx].gpio_config_OUTPUT.mode = Mode_Out_PP;
-                escIdx++;
-            }
+			escHardware[escIdx].gpio = pwmIOConfiguration->ioConfigurations[i].timerHardware->gpio;
+			escHardware[escIdx].pin = pwmIOConfiguration->ioConfigurations[i].timerHardware->pin;
+			escHardware[escIdx].pinpos = getPinPos(escHardware[escIdx].pin);
+			escHardware[escIdx].gpio_config_INPUT.pin = escHardware[escIdx].pin;
+			escHardware[escIdx].gpio_config_INPUT.speed = Speed_2MHz; // see pwmOutConfig()
+			escHardware[escIdx].gpio_config_INPUT.mode = Mode_IPU;
+			escHardware[escIdx].gpio_config_OUTPUT = escHardware[escIdx].gpio_config_INPUT;
+			escHardware[escIdx].gpio_config_OUTPUT.mode = Mode_Out_PP;
+			escIdx++;
         }
     }
     escCount = escIdx;

@@ -47,6 +47,5 @@ void althold_calc_altitude(struct althold *self, uint32_t currentTime);
 
 void althold_apply(struct althold *self);
 void althold_update(struct althold *self);
-void althold_update_sonar(struct althold *self);
 
 int32_t althold_get_est_altitude(struct althold *self);

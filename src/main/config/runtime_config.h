@@ -18,6 +18,7 @@
 #pragma once
 
 // FIXME some of these are flight modes, some of these are general status indicators
+/*
 typedef enum {
     OK_TO_ARM       = (1 << 0),
     PREVENT_ARMING  = (1 << 1),
@@ -57,7 +58,6 @@ extern uint16_t flightModeFlags;
 #define FLIGHT_MODE_BOXID_MAP_INITIALIZER {                             \
         BOXANGLE, BOXHORIZON, BOXMAG, BOXBARO, BOXGPSHOME, BOXGPSHOLD,  \
         BOXHEADFREE, -1, BOXPASSTHRU, BOXSONAR, BOXFAILSAFE, BOXGTUNE}  \
-        /**/
 
 typedef enum {
     GPS_FIX_HOME    = (1 << 0),
@@ -73,10 +73,11 @@ typedef enum {
 
 extern uint8_t stateFlags;
 
-uint16_t enableFlightMode(flightModeFlags_e mask);
-uint16_t disableFlightMode(flightModeFlags_e mask);
+uint16_t enable_flight_mode(struct ninja *self, flightModeFlags_e mask);
+uint16_t disable_flight_mode(struct ninja *self, flightModeFlags_e mask);
 
-bool sensors(uint32_t mask);
-void sensorsSet(uint32_t mask);
-void sensorsClear(uint32_t mask);
-uint32_t sensorsMask(void);
+bool sensors_enabled(struct ninja *self, uint32_t mask);
+void enable_sensors(struct ninja *self, uint32_t mask);
+void disable_sensors(struct ninja *self, uint32_t mask);
+uint32_t enabled_sensors(struct ninja *self);
+*/

@@ -67,6 +67,12 @@ static inline int16_t ins_get_roll_dd(struct instruments *self){ return imu_get_
 static inline int16_t ins_get_pitch_dd(struct instruments *self){ return imu_get_pitch_dd(&self->imu); }
 static inline int16_t ins_get_yaw_dd(struct instruments *self){ return imu_get_yaw_dd(&self->imu); }
 
+//! returns estimated altitude above sea level in cm
+uint32_t ins_get_altitude_cm(struct instruments *self);
+
+//! returns vertical speed in cm/s
+int16_t ins_get_vertical_speed_cms(struct instruments *self);
+
 static inline void ins_set_gyro_alignment(struct instruments *self, sensor_align_e align) { self->gyr_align = align; }
 static inline void ins_set_acc_alignment(struct instruments *self, sensor_align_e align) { self->acc_align = align; }
 static inline void ins_set_mag_alignment(struct instruments *self, sensor_align_e align) { self->mag_align = align; }

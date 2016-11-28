@@ -20,12 +20,12 @@ struct system_calls_leds {
 	void (*toggle)(const struct system_calls_leds *self, uint8_t led);
 };
 
-struct system_calls_time {
-	sys_micros_t (*micros)(const struct system_calls_time *self);
-};
-
 struct system_calls_beeper {
 	void (*on)(const struct system_calls_beeper *self, bool on);
+};
+
+struct system_calls_time {
+	sys_micros_t (*micros)(const struct system_calls_time *self);
 };
 
 struct system_calls {
@@ -40,7 +40,9 @@ struct system_calls {
 #define sys_led_on(sys, id) sys->leds.on(&sys->leds, id, true)
 #define sys_led_off(sys, id) sys->leds.on(&sys->leds, id, false)
 #define sys_led_toggle(sys, id) sys->leds.toggle(&sys->leds, id)
-#define sys_beep_on(sys) sys->beeper.on(&sys->beeper, true)
-#define sys_beep_off(sys) sys->beeper.on(&sys->beeper, false)
+#define sys_beeper_on(sys) sys->beeper.on(&sys->beeper, true)
+#define sys_beeper_off(sys) sys->beeper.on(&sys->beeper, false)
 #define sys_millis(sys) (sys->time.micros(&sys->time) / 1000)
 #define sys_micros(sys) (sys->time.micros(&sys->time))
+#define sys_gyro_read(sys, data) (sys->imu.read_gyro(&sys->imu, data))
+#define sys_acc_read(sys, data) (sys->imu.read_acc(&sys->imu, data))

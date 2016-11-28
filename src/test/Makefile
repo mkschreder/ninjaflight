@@ -36,9 +36,6 @@ COMMON_FLAGS = \
 	-ggdb3 \
 	-O0 \
 	-DUNIT_TEST \
-	-ffunction-sections \
-	-fdata-sections \
-	-Wl,--gc-sections \
 	-isystem $(GTEST_DIR)/inc \
 	-MMD -MP
 
@@ -51,11 +48,11 @@ CXX_FLAGS = $(COMMON_FLAGS) \
 	-std=gnu++11
 
 # Compiler flags for coverage instrumentation
-COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage -lgcov --coverage
+COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage --coverage
 
 C_FLAGS   += $(COVERAGE_FLAGS) 
 CXX_FLAGS += $(COVERAGE_FLAGS)
-LDFLAGS += $(COVERAGE_FLAGS) -L$(OBJECT_DIR)/../.. -lninjaflight
+LDFLAGS +=  $(COVERAGE_FLAGS) -lgcov -L$(OBJECT_DIR)/../.. -lninjaflight
 
 #enable fast Maths tests
 C_FLAGS   += -DFAST_MATH
@@ -287,13 +284,10 @@ $(OBJECT_DIR)/flight_altitudehold_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_altitudehold_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_altitudehold_unittest : \
-	$(OBJECT_DIR)/flight/altitudehold.o \
 	$(OBJECT_DIR)/flight_altitudehold_unittest.o \
-	$(OBJECT_DIR)/common/maths.o \
-	$(OBJECT_DIR)/config/vars.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/gps_conversion_unittest.o : \
 	$(TEST_DIR)/gps_conversion_unittest.cc \
@@ -333,6 +327,7 @@ $(OBJECT_DIR)/flight_tilt_unittest : \
 
 $(OBJECT_DIR)/flight_mixer_unittest : \
 	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/flight_mixer_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
@@ -430,20 +425,20 @@ $(OBJECT_DIR)/io_serial_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
-$(OBJECT_DIR)/rx_rx_unittest.o : \
-	$(TEST_DIR)/rx_rx_unittest.cc \
+$(OBJECT_DIR)/rx.o : \
+	$(TEST_DIR)/rx.cc \
 	$(USER_DIR)/rx/rx.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rx_rx_unittest.cc -o $@
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rx.cc -o $@
 
-$(OBJECT_DIR)/rx_rx_unittest : \
+$(OBJECT_DIR)/rx : \
 	$(OBJECT_DIR)/mock/mock_system.o \
-	$(OBJECT_DIR)/rx_rx_unittest.o \
+	$(OBJECT_DIR)/rx.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/rx_ranges_unittest.o : \
 	$(TEST_DIR)/rx_ranges_unittest.cc \
@@ -794,7 +789,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	LD_LIBRARY_PATH=$(OBJECT_DIR)/../.. $< $(EXEC_OPTS)
+	cd $(OBJECT_DIR)/../..; LD_LIBRARY_PATH=. obj/test/$(basename $<) $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%

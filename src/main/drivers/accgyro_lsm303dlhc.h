@@ -54,7 +54,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup STM32F3_DISCOVERY_LSM303DLHC_Exported_Constants
+/** STM32F3_DISCOVERY_LSM303DLHC_Exported_Constants
   * @{
   */
 #define LSM303DLHC_OK                       ((uint32_t) 0)
@@ -180,7 +180,7 @@ typedef struct
 #define ACC_I2C_ADDRESS                      0x32
 #define MAG_I2C_ADDRESS                      0x3C
 
-/** @defgroup Acc_Power_Mode_selection
+/** Acc_Power_Mode_selection
   * @{
   */
 #define LSM303DLHC_NORMAL_MODE            ((uint8_t)0x00)
@@ -189,7 +189,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_OutPut_DataRate_Selection
+/** Acc_OutPut_DataRate_Selection
   * @{
   */
 #define LSM303DLHC_ODR_1_HZ                ((uint8_t)0x10)  /*!< Output Data Rate = 1 Hz */
@@ -206,7 +206,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_Axes_Selection
+/** Acc_Axes_Selection
   * @{
   */
 #define LSM303DLHC_X_ENABLE                ((uint8_t)0x01)
@@ -218,7 +218,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Resolution
+/** Acc_High_Resolution
   * @{
   */
 #define LSM303DLHC_HR_ENABLE               ((uint8_t)0x08)
@@ -227,7 +227,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_Full_Scale_Selection
+/** Acc_Full_Scale_Selection
   * @{
   */
 #define LSM303DLHC_FULLSCALE_2G            ((uint8_t)0x00)  /*!< ±2 g */
@@ -238,7 +238,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_Block_Data_Update
+/** Acc_Block_Data_Update
   * @{
   */
 #define LSM303DLHC_BlockUpdate_Continous   ((uint8_t)0x00) /*!< Continuos Update */
@@ -247,7 +247,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_Endian_Data_selection
+/** Acc_Endian_Data_selection
   * @{
   */
 #define LSM303DLHC_BLE_LSB                 ((uint8_t)0x00) /*!< Little Endian: data LSB @ lower address */
@@ -256,7 +256,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_Boot_Mode_selection
+/** Acc_Boot_Mode_selection
   * @{
   */
 #define LSM303DLHC_BOOT_NORMALMODE         ((uint8_t)0x00)
@@ -265,7 +265,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_Filter_Mode
+/** Acc_High_Pass_Filter_Mode
   * @{
   */
 #define LSM303DLHC_HPM_NORMAL_MODE_RES     ((uint8_t)0x00)
@@ -276,7 +276,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_CUT OFF_Frequency
+/** Acc_High_Pass_CUT OFF_Frequency
   * @{
   */
 #define LSM303DLHC_HPFCF_8                 ((uint8_t)0x00)
@@ -287,7 +287,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_Filter_status
+/** Acc_High_Pass_Filter_status
   * @{
   */
 #define LSM303DLHC_HIGHPASSFILTER_DISABLE  ((uint8_t)0x00)
@@ -296,7 +296,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_Filter_Click_status
+/** Acc_High_Pass_Filter_Click_status
   * @{
   */
 #define LSM303DLHC_HPF_CLICK_DISABLE       ((uint8_t)0x00)
@@ -305,7 +305,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_Filter_AOI1_status
+/** Acc_High_Pass_Filter_AOI1_status
   * @{
   */
 #define LSM303DLHC_HPF_AOI1_DISABLE        ((uint8_t)0x00)
@@ -314,7 +314,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_High_Pass_Filter_AOI2_status
+/** Acc_High_Pass_Filter_AOI2_status
   * @{
   */
 #define LSM303DLHC_HPF_AOI2_DISABLE        ((uint8_t)0x00)
@@ -323,7 +323,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_LSM303DLHC_Interrupt1_Configuration_definition
+/** Acc_LSM303DLHC_Interrupt1_Configuration_definition
   * @{
   */
 #define LSM303DLHC_IT1_CLICK               ((uint8_t)0x80)
@@ -337,7 +337,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_LSM303DLHC_Interrupt2_Configuration_definition
+/** Acc_LSM303DLHC_Interrupt2_Configuration_definition
   * @{
   */
 #define LSM303DLHC_IT2_CLICK               ((uint8_t)0x80)
@@ -350,7 +350,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_INT_Combination_Status
+/** Acc_INT_Combination_Status
   * @{
   */
 #define LSM303DLHC_OR_COMBINATION          ((uint8_t)0x00)  /*!< OR combination of enabled IRQs */
@@ -361,7 +361,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_INT_Axes
+/** Acc_INT_Axes
   * @{
   */
 #define LSM303DLHC_Z_HIGH                  ((uint8_t)0x20)  /*!< Z High enabled IRQs */
@@ -374,7 +374,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_INT_Click
+/** Acc_INT_Click
   * @{
   */
 #define LSM303DLHC_Z_DOUBLE_CLICK          ((uint8_t)0x20)  /*!< Z double click IRQs */
@@ -387,7 +387,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_INT1_Interrupt_status
+/** Acc_INT1_Interrupt_status
   * @{
   */
 #define LSM303DLHC_INT1INTERRUPT_DISABLE   ((uint8_t)0x00)
@@ -396,7 +396,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Acc_INT1_Interrupt_ActiveEdge
+/** Acc_INT1_Interrupt_ActiveEdge
   * @{
   */
 #define LSM303DLHC_INT1INTERRUPT_LOW_EDGE  ((uint8_t)0x20)
@@ -405,7 +405,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Mag_Data_Rate
+/** Mag_Data_Rate
   * @{
   */
 #define LSM303DLHC_ODR_0_75_HZ              ((uint8_t) 0x00)  /*!< Output Data Rate = 0.75 Hz */
@@ -420,7 +420,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Mag_Full_Scale
+/** Mag_Full_Scale
   * @{
   */
 #define  LSM303DLHC_FS_1_3_GA               ((uint8_t) 0x20)  /*!< Full scale = ±1.3 Gauss */
@@ -435,7 +435,7 @@ typedef struct
   */
 
 /**
- * @defgroup Magnetometer_Sensitivity
+ * Magnetometer_Sensitivity
  * @{
  */
 #define LSM303DLHC_M_SENSITIVITY_XY_1_3Ga     1100  /*!< magnetometer X Y axes sensitivity for 1.3 Ga full scale [LSB/Ga] */
@@ -456,7 +456,7 @@ typedef struct
  * @}
  */
 
-/** @defgroup Mag_Working_Mode
+/** Mag_Working_Mode
   * @{
   */
 #define LSM303DLHC_CONTINUOS_CONVERSION      ((uint8_t) 0x00)   /*!< Continuous-Conversion Mode */
@@ -466,7 +466,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup Mag_Temperature_Sensor
+/** Mag_Temperature_Sensor
   * @{
   */
 #define LSM303DLHC_TEMPSENSOR_ENABLE         ((uint8_t) 0x80)   /*!< Temp sensor Enable */

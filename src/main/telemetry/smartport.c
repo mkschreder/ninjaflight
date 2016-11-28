@@ -41,6 +41,8 @@
 
 #include "config/feature.h"
 
+// TODO: readd telemetry after addint sitl serial ports
+#if 0
 enum
 {
     SPSTATE_UNINITIALIZED,
@@ -446,4 +448,4 @@ void handleSmartPortTelemetry(void)
         }
     }
 }
-
+#endif

@@ -56,6 +56,8 @@
 #include "telemetry/telemetry.h"
 #include "telemetry/frsky.h"
 
+// TODO: need to refactor telemetry after we are done with sitl serial ports
+#if 0
 static serialPort_t *frskyPort = NULL;
 static serialPortConfig_t *portConfig;
 
@@ -542,4 +544,4 @@ void handleFrSkyTelemetry(uint16_t deadband3d_throttle)
         sendTelemetryTail();
     }
 }
-
+#endif

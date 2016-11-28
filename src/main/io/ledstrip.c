@@ -292,7 +292,7 @@ static const struct {
 	{LED_DIRECTION_DOWN,  QUADRANT_ANY},
 	{LED_DIRECTION_UP,	QUADRANT_ANY},
 };
-
+/*
 static hsvColor_t * getDirectionalModeColor(struct ledstrip *self, const int ledIndex, const modeColorIndexes_t *modeColors){
 	const ledConfig_t *ledConfig = ledConfigs(ledIndex);
 
@@ -307,10 +307,11 @@ static hsvColor_t * getDirectionalModeColor(struct ledstrip *self, const int led
 	}
 	return NULL;
 }
-
+*/
 
 // map flight mode to led mode, in order of priority
 // flightMode == 0 is always active
+#if 0
 static const struct {
 	uint16_t flightMode;
 	uint8_t ledMode;
@@ -354,6 +355,7 @@ static void applyLedModeLayer(struct ledstrip *self){
 			setLedHsv(ledIndex, color);
 	}
 }
+#endif 
 
 static void applyLedHue(struct ledstrip *self, ledFunctionId_e flag, int16_t value, int16_t minRange, int16_t maxRange){
 	int scaled = scaleRange(value, minRange, maxRange, -60, +60);
@@ -418,8 +420,6 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 				warningFlags |= 1 << WARNING_LOW_BATTERY;
 			if (feature(FEATURE_FAILSAFE) && failsafe_is_active(self->failsafe))
 				warningFlags |= 1 << WARNING_FAILSAFE;
-			if (!ARMING_FLAG(ARMED) && !ARMING_FLAG(OK_TO_ARM))
-				warningFlags |= 1 << WARNING_ARMING_DISABLED;
 		}
 		*timer += LED_STRIP_HZ(10);
 	}
@@ -455,8 +455,7 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 }
 
 #ifdef GPS
-static void applyLedGpsLayer(bool updateNow, uint32_t *timer)
-{
+static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool updateNow, uint32_t *timer){
 	static uint8_t gpsFlashCounter = 0;
 	static uint8_t gpsPauseCounter = 0;
 	const uint8_t blinkPauseLength = 4;
@@ -487,7 +486,7 @@ static void applyLedGpsLayer(bool updateNow, uint32_t *timer)
 		}
 	}
 
-	for (int i = 0; i < ledCount; ++i) {
+	for (int i = 0; i < self->ledCount; ++i) {
 		const ledConfig_t *ledConfig = ledConfigs(i);
 		if (!(ledConfig->flags & LED_FLAG_FUNCTION(LED_FUNCTION_GPS)))
 			continue;
@@ -495,9 +494,7 @@ static void applyLedGpsLayer(bool updateNow, uint32_t *timer)
 		setLedHsv(i, gpsColor);
 	}
 }
-
 #endif
-
 
 #define INDICATOR_DEADBAND 25
 
@@ -505,7 +502,7 @@ static void applyLedIndicatorLayer(struct ledstrip *self, bool updateNow, uint32
 	static uint8_t flashCounter = 0;
 
 	if(updateNow) {
-		if (!rx_is_receiving(self->rx)) {
+		if (!rx_has_signal(self->rx)) {
 			*timer += LED_STRIP_HZ(5);  // try again soon
 		} else {
 			// calculate update frequency
@@ -567,7 +564,7 @@ static void applyLedThrustRingLayer(struct ledstrip *self, bool updateNow, uint3
 	if(updateNow) {
 		rotationPhase = rotationPhase > 0 ? rotationPhase - 1 : self->ledRingSeqLen - 1;
 
-		int scale = ARMING_FLAG(ARMED) ? scaleRange(rx_get_channel(self->rx, THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX, 10, 100) : 10;
+		int scale = scaleRange(rx_get_channel(self->rx, THROTTLE), PWM_RANGE_MIN, PWM_RANGE_MAX, 10, 100);
 		*timer += LED_STRIP_HZ(5) * 10 / scale;  // 5 - 50Hz update rate
 	}
 
@@ -577,11 +574,7 @@ static void applyLedThrustRingLayer(struct ledstrip *self, bool updateNow, uint3
 			continue;
 
 		bool applyColor;
-		if (ARMING_FLAG(ARMED)) {
-			applyColor = (ledRingIndex + rotationPhase) % self->ledRingSeqLen < ROTATION_SEQUENCE_LED_WIDTH;
-		} else {
-			applyColor = !(ledRingIndex % 2); // alternating pattern
-		}
+		applyColor = (ledRingIndex + rotationPhase) % self->ledRingSeqLen < ROTATION_SEQUENCE_LED_WIDTH;
 
 		const hsvColor_t *ringColor = applyColor ? colors(ledConfig->color) : &HSV(BLACK);
 		setLedHsv(ledIndex, ringColor);
@@ -682,7 +675,6 @@ static const struct {
 	} f;
 } layerTable[] = {
 	// LAYER 1
-	{ -1,			 .f.apply	  = &applyLedModeLayer },
 	{ -1,			 .f.apply	  = &applyLedHueLayer },
 	// LAYER 2
 	{timWarning,	  .f.applyTimed = &applyLedWarningLayer},
@@ -798,8 +790,9 @@ bool parseColor(int index, const char *colorConfig)
 /*
  * Redefine a color in a mode.
  * */
-bool setModeColor(ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex)
+bool ledstrip_set_mode_color(struct ledstrip *self, ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex)
 {
+	(void)self;
 	// check color
 	if(colorIndex < 0 || colorIndex >= LED_CONFIGURABLE_COLOR_COUNT)
 		return false;

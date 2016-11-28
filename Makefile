@@ -79,7 +79,7 @@ USBFS_DIR	= $(ROOT)/lib/main/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 # Compiler flags for coverage instrumentation
-COVERAGE_FLAGS = -fprofile-arcs -ftest-coverage --coverage
+COVERAGE_FLAGS = -g -O0 -fprofile-arcs -ftest-coverage --coverage
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
@@ -242,7 +242,6 @@ COMMON_SRC = build_config.c \
 		   $(TARGET_SRC) \
 		   config/config.c \
 		   config/vars.c \
-		   config/runtime_config.c \
 		   config/config_streamer.c \
 		   config/config_eeprom.c \
 		   config/parameter_group.c \
@@ -263,7 +262,6 @@ COMMON_SRC = build_config.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
-		   flight/rate_profile.c \
 		   flight/mixer.c \
 		   flight/tilt.c \
 		   drivers/bus_i2c_soft.c \
@@ -275,7 +273,6 @@ COMMON_SRC = build_config.c \
 		   drivers/gyro_sync.c \
 		   io/beeper.c \
 		   io/rc_adjustments.c \
-		   io/rc_curves.c \
 		   io/msp.c \
 		   io/serial.c \
 		   io/serial_4way.c \
@@ -739,12 +736,10 @@ SITL_SRC = \
 			config/profile.c \
 			config/feature.c \
 			config/vars.c \
-			config/runtime_config.c \
 			flight/altitudehold.c \
 			flight/anglerate.c \
 			flight/mixer.c \
 			flight/tilt.c \
-			flight/rate_profile.c \
 			flight/failsafe.c \
 			flight/gps_conversion.c \
 			flight/navigation.c \
@@ -754,7 +749,6 @@ SITL_SRC = \
 			io/ledstrip.c \
 			io/msp.c \
 			io/rc_adjustments.c \
-			io/rc_curves.c \
 			io/serial.c \
 			io/serial_cli.c \
 			io/serial_msp.c \
@@ -779,9 +773,6 @@ SITL_SRC = \
 			rx/xbus.c \
 			rx/ibus.c \
 			sitl/flash.c \
-			sitl/time.c \
-			sitl/led.c \
-			sitl/sitl.c \
 			sitl/main.c \
 			telemetry/hott.c \
 			telemetry/frsky.c \
@@ -807,10 +798,14 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 # Tool names
 ifeq ($(TARGET),SITL)
 SIZE = size
+ARCH_FLAGS += -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) 
+LD_SCRIPT = ./src/test/unit/parameter_group.ld
+LDFLAGS += -lgcov -Wl,-gc-sections,-Map,$(TARGET_MAP) 
 else
 CC		 = arm-none-eabi-gcc
 OBJCOPY		 = arm-none-eabi-objcopy
 SIZE		 = arm-none-eabi-size
+C_FLAGS += -ffunction-sections -fdata-sections 
 LDFLAGS += -nostartfiles \
 		   --specs=nano.specs \
 		   -lc \
@@ -869,8 +864,6 @@ CFLAGS		 = $(ARCH_FLAGS) \
            -Wuninitialized \
            -Wunsafe-loop-optimizations \
            -Wwrite-strings \
-		   -ffunction-sections \
-		   -fdata-sections \
 		   $(DEVICE_FLAGS) \
 		   -DUSE_STDPERIPH_DRIVER \
 		   $(TARGET_FLAGS) \
@@ -892,7 +885,6 @@ LDFLAGS	+= -lm \
 		   $(LTO_FLAGS) \
 		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
-		   -Wl,-gc-sections,-Map,$(TARGET_MAP) \
 		   -Wl,-L$(LINKER_DIR) \
 		   -Wl,--cref \
 		   $(if $(LD_SCRIPT),-T$(LD_SCRIPT),)
@@ -1007,13 +999,14 @@ help: Makefile
 ## test        : run the ninjaflight test suite
 ## junittest   : run the ninjaflight test suite, producing Junit XML result files.
 test junittest:
+	lcov --directory . --zerocounters
 	cd src/test && $(MAKE) $@
 	make lcov
 
 lcov:
 	# visualize coverage
 	lcov --directory . -b src/test --capture --output-file coverage.info
-	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' --output-file coverage.info
+	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' 'ninjasitl/*' --output-file coverage.info
 	lcov --list coverage.info
 	if [ "$$(which genhtml)" != "" ]; then genhtml coverage.info --output-directory coverage-html; fi
 

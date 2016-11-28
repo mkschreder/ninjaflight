@@ -33,7 +33,6 @@
 #include "config/config.h"
 #include "config/config_reset.h"
 
-#include "io/rc_curves.h"
 #include "io/rc_controls.h"
 
 #include "rc_commands.h"

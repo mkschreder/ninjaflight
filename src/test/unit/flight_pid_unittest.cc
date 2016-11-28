@@ -853,11 +853,6 @@ uint8_t stateFlags = 0;
 uint8_t motorCount = 4;
 gyro_t gyro;
 //int32_t gyr[XYZ_AXIS_COUNT];
-int16_t rcCommand[4];           // interval [1000;2000] for THROTTLE and [-500;+500] for ROLL/PITCH/YAW
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
-// TODO: proper way to do this is to write a mock receiver
-int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
-void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
 uint8_t armingFlags = 0;
 int32_t magADC[3];
 bool motorLimitReached;

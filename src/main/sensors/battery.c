@@ -126,37 +126,6 @@ void battery_update(struct battery *self){
 		self->batteryWarningVoltage = 0;
 		self->batteryCriticalVoltage = 0;
 	}	
-
-	switch(self->batteryState)
-	{
-		case BATTERY_OK:
-			if (self->vbat <= (self->batteryWarningVoltage - VBATT_HYSTERESIS)) {
-				self->batteryState = BATTERY_WARNING;
-				beeper(BEEPER_BAT_LOW);
-			}
-			break;
-		case BATTERY_WARNING:
-			if (self->vbat <= (self->batteryCriticalVoltage - VBATT_HYSTERESIS)) {
-				self->batteryState = BATTERY_CRITICAL;
-				beeper(BEEPER_BAT_CRIT_LOW);
-			} else if (self->vbat > (self->batteryWarningVoltage + VBATT_HYSTERESIS)){
-				self->batteryState = BATTERY_OK;
-			} else {
-				beeper(BEEPER_BAT_LOW);
-			}
-			break;
-		case BATTERY_CRITICAL:
-			if (self->vbat > (self->batteryCriticalVoltage + VBATT_HYSTERESIS)){
-				self->batteryState = BATTERY_WARNING;
-				beeper(BEEPER_BAT_LOW);
-			} else {
-				beeper(BEEPER_BAT_CRIT_LOW);
-			}
-			break;
-		case BATTERY_NOT_PRESENT:
-			break;
-		default:break;
-	}
 }
 
 battery_state_t battery_get_state(struct battery *self){
@@ -179,12 +148,9 @@ static int32_t _battery_current_to_centiamps(struct battery *self, uint16_t src)
 	return (millivolts * 1000) / (int32_t)self->config->currentMeterScale; // current in 0.01A steps
 }
 
-void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt, throttleStatus_e throttleStatus){
+void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt){
 	static int32_t amperageRaw = 0;
 	static int64_t mAhdrawnRaw = 0;
-	int32_t throttleOffset = (int32_t)rcCommand[THROTTLE] - 1000;
-	int32_t throttleFactor = 0;
-
 	switch(self->config->currentMeterType) {
 		case CURRENT_SENSOR_ADC:
 			amperageRaw -= amperageRaw / 8;
@@ -193,17 +159,23 @@ void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt, th
 			break;
 		case CURRENT_SENSOR_VIRTUAL:
 			self->amperage = (int32_t)self->config->currentMeterOffset;
-			if (ARMING_FLAG(ARMED)) {
-				if (throttleStatus == THROTTLE_LOW && feature(FEATURE_MOTOR_STOP))
-					throttleOffset = 0;
-				throttleFactor = throttleOffset + (throttleOffset * throttleOffset / 50);
-				self->amperage += throttleFactor * (int32_t)self->config->currentMeterScale  / 1000;
-			}
 			break;
 		case CURRENT_SENSOR_NONE:
 			self->amperage = 0;
 			break;
 	}
+
+	// TODO: current meter notification
+	#if 0
+	int32_t throttleOffset = (int32_t)rcCommand[THROTTLE] - 1000;
+	int32_t throttleFactor = 0;
+	if (self->config->currentMeterType == CURRENT_SENSOR_VIRTUAL && ARMING_FLAG(ARMED)) {
+		if (throttleStatus == THROTTLE_LOW && feature(FEATURE_MOTOR_STOP))
+			throttleOffset = 0;
+		throttleFactor = throttleOffset + (throttleOffset * throttleOffset / 50);
+		self->amperage += throttleFactor * (int32_t)self->config->currentMeterScale  / 1000;
+	}
+	#endif
 
 	mAhdrawnRaw += (MAX(0, self->amperage) * lastUpdateAt) / 1000;
 	self->mAhDrawn = mAhdrawnRaw / (3600 * 100);

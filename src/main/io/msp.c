@@ -227,25 +227,27 @@ static void initActiveBoxIds(void)
 
     ena |= 1 << BOXARM;
 
-    if (sensors(SENSOR_ACC)) {
+	// TODO: BOXANGLE and BOXHORIZON
+	/*
+    if (ninja_has_sensor(ninja, SENSOR_ACC)) {
         ena |= 1 << BOXANGLE;
         ena |= 1 << BOXHORIZON;
     }
 
 #ifdef BARO
-    if (sensors(SENSOR_BARO)) {
+    if (ninja_has_sensor(ninja, SENSOR_BARO)) {
         ena |= 1 << BOXBARO;
     }
 #endif
-
+*/
     ena |= 1 << BOXAIRMODE;
-
-    if (sensors(SENSOR_ACC) || sensors(SENSOR_MAG)) {
+/*
+    if (ninja_has_sensor(ninja, SENSOR_ACC) || ninja_has_sensor(ninja, SENSOR_MAG)) {
         ena |= 1 << BOXMAG;
         ena |= 1 << BOXHEADFREE;
         ena |= 1 << BOXHEADADJ;
     }
-
+*/
     if (feature(FEATURE_SERVO_TILT))
         ena |= 1 << BOXCAMSTAB;
 
@@ -321,6 +323,8 @@ static uint32_t packFlightModeFlags(void)
     // Requires new Multiwii protocol version to fix
     // It would be preferable to setting the enabled bits based on BOXINDEX.
 
+	// TODO: pack flight mode flags MSP
+	#if 0
     uint32_t boxEnabledMask = 0;      // enabled BOXes, bits indexed by boxId_e
 
     // enable BOXes dependent on FLIGHT_MODE, use mapping table
@@ -364,6 +368,8 @@ static uint32_t packFlightModeFlags(void)
         mspBoxIdx++;                  // next output bit ID
     }
     return mspBoxEnabledMask;
+	#endif
+	return 0xffff;
 }
 
 static void serializeSDCardSummaryReply(mspPacket_t *reply)
@@ -575,7 +581,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 #else
             sbufWriteU16(dst, 0);
 #endif
-            sbufWriteU16(dst, sensors(SENSOR_ACC) | sensors(SENSOR_BARO) << 1 | sensors(SENSOR_MAG) << 2 | sensors(SENSOR_GPS) << 3 | sensors(SENSOR_SONAR) << 4);
+            sbufWriteU16(dst, ninja_has_sensors(ninja, NINJA_SENSOR_ACC) | ninja_has_sensors(ninja, NINJA_SENSOR_BARO) << 1 | ninja_has_sensors(ninja, NINJA_SENSOR_MAG) << 2 | ninja_has_sensors(ninja, NINJA_SENSOR_GPS) << 3 | ninja_has_sensors(ninja, NINJA_SENSOR_SONAR) << 4);
             sbufWriteU32(dst, packFlightModeFlags());
             sbufWriteU8(dst, getCurrentProfile());
             if(cmd->cmd == MSP_STATUS_EX) {
@@ -600,8 +606,8 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
 #ifdef USE_SERVOS
         case MSP_SERVO:
-			for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
-				sbufWriteU16(dst, mixer_get_servo_value(&ninja->mixer, c));
+			for(int c = 0; c < MIXER_MAX_SERVOS; c++){
+				sbufWriteU16(dst, ninja->direct_outputs[MIXER_OUTPUT_SERVOS + c]);
 			}
             break;
 
@@ -650,21 +656,14 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_ALTITUDE:
-#if defined(BARO) || defined(SONAR)
-            sbufWriteU32(dst, altitudeHoldGetEstimatedAltitude());
-            sbufWriteU16(dst, vario);
-#else
-            sbufWriteU32(dst, 0);
-            sbufWriteU16(dst, 0);
-#endif
+            sbufWriteU32(dst, ins_get_altitude_cm(&ninja->ins));
+            sbufWriteU16(dst, ins_get_vertical_speed_cms(&ninja->ins)); // vario
             break;
 
         case MSP_SONAR_ALTITUDE:
-#if defined(SONAR)
-            sbufWriteU32(dst, sonar_get_altitude(&default_sonar));
-#else
+			// TODO: msp sonar altitude
+            //sbufWriteU32(dst, sonar_get_altitude(&default_sonar));
             sbufWriteU32(dst, 0);
-#endif
             break;
 
         case MSP_ANALOG:
@@ -814,7 +813,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             sbufWriteU8(dst, wp_no);
             sbufWriteU32(dst, lat);
             sbufWriteU32(dst, lon);
-            sbufWriteU32(dst, AltHold);           // altitude (cm) will come here -- temporary implementation to test feature with apps
+            sbufWriteU32(dst, ins_get_altitude_cm(&ninja->ins));           // altitude (cm) will come here -- temporary implementation to test feature with apps
             sbufWriteU16(dst, 0);                 // heading  will come here (deg)
             sbufWriteU16(dst, 0);                 // time to stay (ms) will come here
             sbufWriteU8(dst, 0);                  // nav flag will come here
@@ -896,7 +895,7 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
             break;
 
         case MSP_RX_MAP:
-            for (int i = 0; i < MAX_MAPPABLE_RX_INPUTS; i++)
+            for (int i = 0; i < RX_MAX_MAPPABLE_RX_INPUTS; i++)
                 sbufWriteU8(dst, rxConfig()->rcmap[i]);
             break;
 
@@ -1054,7 +1053,7 @@ static int processInCommand(mspPacket_t *cmd)
 
     switch (cmd->cmd) {
         case MSP_SELECT_SETTING:
-            if (!ARMING_FLAG(ARMED)) {
+            if (!ninja_is_armed(ninja)) {
                 int profile = sbufReadU8(src);
                 ninja_config_change_profile(ninja, profile);
             }
@@ -1066,9 +1065,9 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_SET_RAW_RC: {
             uint8_t channelCount = len / sizeof(uint16_t);
-            if (channelCount > MAX_SUPPORTED_RC_CHANNEL_COUNT)
+            if (channelCount > RX_MAX_SUPPORTED_RC_CHANNELS)
                 return -1;
-            uint16_t frame[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+            uint16_t frame[RX_MAX_SUPPORTED_RC_CHANNELS];
 
             for (unsigned i = 0; i < channelCount; i++) {
                 frame[i] = sbufReadU16(src);
@@ -1263,27 +1262,27 @@ static int processInCommand(mspPacket_t *cmd)
             break;
 
         case MSP_RESET_CONF:
-            if (!ARMING_FLAG(ARMED)) {
+            if (!ninja_is_armed(ninja)) {
                 ninja_config_reset(ninja);
                 ninja_config_load(ninja);
             }
             break;
 
         case MSP_ACC_CALIBRATION:
-            if (!ARMING_FLAG(ARMED))
+            if (!ninja_is_armed(ninja))
 				ninja_calibrate_acc(ninja);
             break;
 
         case MSP_MAG_CALIBRATION:
-            if (!ARMING_FLAG(ARMED))
+            if (!ninja_is_armed(ninja))
 				ninja_calibrate_mag(ninja);
             break;
 
         case MSP_EEPROM_WRITE:
-            if (ARMING_FLAG(ARMED))
-                return -1;
-            ninja_config_save(ninja);
-            ninja_config_load(ninja);
+            if (!ninja_is_armed(ninja)){
+				ninja_config_save(ninja);
+				ninja_config_load(ninja);
+			}
             break;
 
 #ifdef BLACKBOX
@@ -1331,7 +1330,7 @@ static int processInCommand(mspPacket_t *cmd)
             uint8_t wp_no = sbufReadU8(src);             // get the wp number
             int32_t lat = sbufReadU32(src);
             int32_t lon = sbufReadU32(src);
-            int32_t alt = sbufReadU32(src);              // to set altitude (cm)
+            int32_t __attribute__((unused)) alt = sbufReadU32(src);              // to set altitude (cm)
             sbufReadU16(src);                            // future: to set heading (deg)
             sbufReadU16(src);                            // future: to set time to stay (ms)
             sbufReadU8(src);                             // future: to set nav flag
@@ -1340,13 +1339,13 @@ static int processInCommand(mspPacket_t *cmd)
                 GPS_home[LON] = lon;
                 DISABLE_FLIGHT_MODE(GPS_HOME_MODE);     // with this flag, GPS_set_next_wp will be called in the next loop -- OK with SERIAL GPS / OK with I2C GPS
                 ENABLE_STATE(GPS_FIX_HOME);
-                if (alt != 0)
-                    AltHold = alt;                      // temporary implementation to test feature with apps
+                //if (alt != 0)
+                 //   AltHold = alt;                      // temporary implementation to test feature with apps
             } else if (wp_no == 16) {                   // OK with SERIAL GPS  --  NOK for I2C GPS / needs more code dev in order to inject GPS coord inside I2C GPS
                 GPS_hold[LAT] = lat;
                 GPS_hold[LON] = lon;
-                if (alt != 0)
-                    AltHold = alt;                      // temporary implementation to test feature with apps
+                //if (alt != 0)
+                 //   AltHold = alt;                      // temporary implementation to test feature with apps
                 navi_mode = NAV_MODE_WP;
                 GPS_set_next_wp(&GPS_hold[LAT], &GPS_hold[LON]);
             }
@@ -1391,7 +1390,7 @@ static int processInCommand(mspPacket_t *cmd)
 
         case MSP_SET_RXFAIL_CONFIG: {
             int channel =  sbufReadU8(src);
-            if (channel >= MAX_SUPPORTED_RC_CHANNEL_COUNT)
+            if (channel >= RX_MAX_SUPPORTED_RC_CHANNELS)
                 return -1;
             failsafeChannelConfigs(channel)->mode = sbufReadU8(src);
             failsafeChannelConfigs(channel)->step = CHANNEL_VALUE_TO_RXFAIL_STEP(sbufReadU16(src));
@@ -1403,7 +1402,7 @@ static int processInCommand(mspPacket_t *cmd)
             break;
 
         case MSP_SET_RX_MAP:
-            for (int i = 0; i < MAX_MAPPABLE_RX_INPUTS; i++) {
+            for (int i = 0; i < RX_MAX_MAPPABLE_RX_INPUTS; i++) {
                 rxConfig()->rcmap[i] = sbufReadU8(src);
             }
             break;
@@ -1490,7 +1489,7 @@ static int processInCommand(mspPacket_t *cmd)
 
             ledConfig->color = sbufReadU8(src);
 
-            reevalulateLedConfig();
+            ledstrip_reload_config(&ninja->ledstrip);
         }
         break;
 
@@ -1500,7 +1499,7 @@ static int processInCommand(mspPacket_t *cmd)
                 int funIdx = sbufReadU8(src);
                 int color = sbufReadU8(src);
 
-                if (!setModeColor(modeIdx, funIdx, color))
+                if (!ledstrip_set_mode_color(&ninja->ledstrip, modeIdx, funIdx, color))
                     return -1;
             }
             break;

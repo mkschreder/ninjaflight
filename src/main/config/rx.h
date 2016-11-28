@@ -23,9 +23,24 @@
 
 #include "parameter_group.h"
 
-#define MAX_MAPPABLE_RX_INPUTS 8
-#define MAX_SUPPORTED_RC_CHANNEL_COUNT (18)
-#define NON_AUX_CHANNEL_COUNT 4
+//! maximum number of inputs that we can remap
+#define RX_MAX_MAPPABLE_RX_INPUTS 8
+//! maximum supported channels when calling rx_get_channel
+#define RX_MAX_SUPPORTED_RC_CHANNELS (18)
+//! number of channels that are treated as "essential" for basic control
+#define RX_NON_AUX_CHANNEL_COUNT 4
+
+#define RSSI_SCALE_MIN 1
+#define RSSI_SCALE_MAX 255
+#define RSSI_SCALE_DEFAULT 30
+
+#define PWM_RANGE_ZERO 0 // FIXME should all usages of this be changed to use PWM_RANGE_MIN?
+#define PWM_RANGE_MIN 1000
+#define PWM_RANGE_MAX 2000
+#define PWM_RANGE_MIDDLE (PWM_RANGE_MIN + ((PWM_RANGE_MAX - PWM_RANGE_MIN) / 2))
+
+#define PWM_PULSE_MIN   750       // minimum PWM pulse width which is considered valid
+#define PWM_PULSE_MAX   2250      // maximum PWM pulse width which is considered valid
 
 typedef enum {
     RX_FAILSAFE_MODE_AUTO = 0,
@@ -45,25 +60,25 @@ typedef struct rxChannelRangeConfiguration_s {
 } rxChannelRangeConfiguration_t;
 
 typedef struct rxConfig_s {
-    uint8_t rcmap[MAX_MAPPABLE_RX_INPUTS];  // mapping of radio channels to internal RPYTA+ order
-    uint8_t serialrx_provider;              // type of UART-based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by FEATURE_RX_SERIAL first.
-    uint8_t sbus_inversion;                 // default sbus (Futaba, FrSKY) is inverted. Support for uninverted OpenLRS (and modified FrSKY) receivers.
-    uint8_t spektrum_sat_bind;              // number of bind pulses for Spektrum satellite receivers
-    uint8_t rssi_channel;
-    uint8_t rssi_scale;
-    uint8_t rssi_ppm_invert;
-    uint8_t rcSmoothing;                    // Enable/Disable RC filtering
-    uint16_t midrc;                         // Some radios have not a neutral point centered on 1500. can be changed here
-    uint16_t mincheck;                      // minimum rc end
-    uint16_t maxcheck;                      // maximum rc end
+    uint8_t rcmap[RX_MAX_MAPPABLE_RX_INPUTS];  //!< mapping of radio channels to internal RPYTA+ order
+    uint8_t serialrx_provider;              //!< type of UART-based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by FEATURE_RX_SERIAL first.
+    uint8_t sbus_inversion;                 //!< default sbus (Futaba, FrSKY) is inverted. Support for uninverted OpenLRS (and modified FrSKY) receivers.
+    uint8_t spektrum_sat_bind;              //!< number of bind pulses for Spektrum satellite receivers
+    uint8_t rssi_channel;					//!< rssi channel number
+    uint8_t rssi_scale;						//!< scale of the rssi signal. Range [RSSI_SCALE_MIN;RSSI_SCALE_MAX]
+    uint8_t rssi_ppm_invert;				//!< if set then rssi signal is treated such that high value means low rssi
+    uint8_t rcSmoothing;                    //!< Enable/Disable RC filtering
+    uint16_t midrc;                         //!< Some radios have not a neutral point centered on 1500. can be changed here
+    uint16_t mincheck;                      //!< minimum rc end
+    uint16_t maxcheck;                      //!< maximum rc end
 
-    uint16_t rx_min_usec;
-    uint16_t rx_max_usec;
+    uint16_t rx_min_usec;					//!< minimum value of rx pulse from receiver (below this point we consider signal being corrupt)
+    uint16_t rx_max_usec;					//!< maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe)
 }  rxConfig_t;
 
 PG_DECLARE(rxConfig_t, rxConfig);
 
-PG_DECLARE_ARR(rxFailsafeChannelConfig_t, MAX_SUPPORTED_RC_CHANNEL_COUNT, failsafeChannelConfigs);
-PG_DECLARE_ARR(rxChannelRangeConfiguration_t, NON_AUX_CHANNEL_COUNT, channelRanges);
+PG_DECLARE_ARR(rxFailsafeChannelConfig_t, RX_MAX_SUPPORTED_RC_CHANNELS, failsafeChannelConfigs);
+PG_DECLARE_ARR(rxChannelRangeConfiguration_t, RX_NON_AUX_CHANNEL_COUNT, channelRanges);
 
 

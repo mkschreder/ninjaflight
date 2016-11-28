@@ -352,12 +352,6 @@ extern "C" {
 
 uint8_t armingFlags = 0;
 uint16_t flightModeFlags = 0;
-int16_t rcCommand[4];
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-// TODO: proper way to do this is to write a mock receiver
-int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
-void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
-uint16_t rc_get_rssi(void){ return 1000; }
 
 uint32_t rcModeActivationMask;
 

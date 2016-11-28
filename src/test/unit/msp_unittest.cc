@@ -539,13 +539,6 @@ uint16_t flightModeFlags = 0;
 uint16_t disableFlightMode(flightModeFlags_e) { return 0; }
 bool sensors(uint32_t mask) {UNUSED(mask);return 0;}
 // from rx.c
-uint16_t rssi = 0;                  // range: [0;1023]
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];     // interval [1000;2000]
-// TODO: proper way to do this is to write a mock receiver
-int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
-void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
-uint16_t rc_get_rssi(void){ return rssi; }
-rxRuntimeConfig_t rxRuntimeConfig;
 void ninja_calibrate_acc(){ }
 void ninja_calibrate_mag() {}
 // from system_stm32fN0x.c

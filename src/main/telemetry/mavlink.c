@@ -69,6 +69,8 @@
 
 #include "ninjaflight.h"
 
+// TODO: reenable telemetry after adding sitl serial ports
+#if 0
 #define TELEMETRY_MAVLINK_INITIAL_PORT_MODE MODE_TX
 #define TELEMETRY_MAVLINK_MAXRATE 50
 #define TELEMETRY_MAVLINK_DELAY ((1000 * 1000) / TELEMETRY_MAVLINK_MAXRATE)
@@ -549,4 +551,4 @@ void handleMAVLinkTelemetry(void)
         lastMavlinkMessage = now;
     }
 }
-
+#endif

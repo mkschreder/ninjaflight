@@ -20,11 +20,16 @@
 #include "blackbox/blackbox_fielddefs.h"
 #include "config/blackbox.h"
 
+struct blackbox {
+	struct ninja *ninja;
+};
+
+void blackbox_init(struct blackbox *self, struct ninja *owner);
+
 void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data);
 
-void initBlackbox(void);
-void handleBlackbox(void);
-void startBlackbox(void);
-void finishBlackbox(void);
+void blackbox_update(struct blackbox *self);
+void blackbox_start(struct blackbox *self);
+void blackbox_stop(struct blackbox *self);
 
 bool blackboxMayEditConfig(void);

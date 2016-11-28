@@ -28,7 +28,6 @@
 
 #include "io/beeper.h"
 #include "io/display.h"
-#include "io/rc_curves.h"
 #include "io/gps.h"
 #include "io/msp.h"
 #include "io/ledstrip.h"
@@ -228,8 +227,6 @@ void ninja_config_reset(struct ninja *self){
 	// TODO: all of this function needs to be a callback in order to work correctly
     //setControlRateProfile(0);
 
-    //parseRcChannels("AETR1234", rxConfig());
-
     featureClearAll();
 
     featureSet(DEFAULT_RX_FEATURE | FEATURE_FAILSAFE | FEATURE_BLACKBOX);
@@ -317,7 +314,7 @@ void ninja_config_validate(struct ninja *self){
 void ninja_config_save_and_beep(struct ninja *self){
     ninja_config_save(self);
     ninja_config_load(self);
-    beeperConfirmationBeeps(1);
+    beeper_multi_beeps(&self->beeper, 1);
 }
 
 void ninja_config_change_profile(struct ninja *self, uint8_t profileIndex){

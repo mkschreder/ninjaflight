@@ -59,6 +59,8 @@
 
 #include "../ninja.h"
 
+// TODO: navigation 
+#if 0
 // **********************
 // GPS
 // **********************
@@ -735,4 +737,4 @@ void updateGpsWaypointsAndMode(void)
         GPS_reset_nav();
     }
 }
-
+#endif

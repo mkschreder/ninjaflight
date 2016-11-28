@@ -63,4 +63,4 @@ uint16_t battery_get_cell_voltage(struct battery *self);
 int32_t battery_get_current(struct battery *self);
 int32_t battery_get_spent_capacity(struct battery *self);
 
-void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt, throttleStatus_e throttleStatus);
+void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt);

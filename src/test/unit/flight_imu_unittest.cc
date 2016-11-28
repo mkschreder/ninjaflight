@@ -160,7 +160,7 @@ TEST(FlightImuTest, TestEulerAngleCalculation){
 extern "C" {
 uint32_t rcModeActivationMask;
 int16_t rcCommand[4];
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
+int16_t rcData[RX_MAX_SUPPORTED_RC_CHANNELS];
 // TODO: proper way to do this is to write a mock receiver
 int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
 void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }

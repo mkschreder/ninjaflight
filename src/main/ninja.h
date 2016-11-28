@@ -10,8 +10,19 @@
 #include "rc_commands.h"
 #include "io/rc_adjustments.h"
 #include "flight/failsafe.h"
+#include "io/ledstrip.h"
+#include "io/beeper.h"
 
 struct ninja;
+
+typedef enum {
+	NINJA_SENSOR_GYRO		= (1 << 0),
+	NINJA_SENSOR_ACC		= (1 << 1),
+	NINJA_SENSOR_MAG		= (1 << 2),
+	NINJA_SENSOR_GPS		= (1 << 3),
+	NINJA_SENSOR_BARO		= (1 << 4),
+	NINJA_SENSOR_SONAR		= (1 << 5)
+} sensor_mask_t;
 
 struct ninja_rc_input {
 	int16_t raw[8];
@@ -27,6 +38,8 @@ struct ninja {
 	struct rx rx;
 	struct rc_adj rc_adj;
 	struct failsafe failsafe;
+	struct ledstrip ledstrip;
+	struct beeper beeper;
 
 	bool isRXDataNew;
 
@@ -44,15 +57,29 @@ struct ninja {
 	struct ninja_rc_input rc_input;
 	const struct ninja_state *state;
 
+	bool is_armed;
+	uint32_t sensors;
+
 	struct ninja_sched sched;
 
-	const struct system_calls *syscalls;
+	//! this is used for directly controlling motors while we are disarmed (from gcs)
+	uint16_t direct_outputs[MIXER_OUTPUT_COUNT];
+
+	//uint8_t armingFlags;
+	//uint8_t stateFlags;
+	//uint16_t flightModeFlags;
+	//uint32_t enabledSensors;
+
+	const struct system_calls *system;
 };
 
 void ninja_init(struct ninja *self, const struct system_calls *syscalls);
 
 void ninja_arm(struct ninja *self);
 void ninja_disarm(struct ninja *self);
+
+uint32_t ninja_has_sensors(struct ninja *self, sensor_mask_t sensor_mask);
+bool ninja_is_armed(struct ninja *self);
 
 void ninja_heartbeat(struct ninja *self);
 void ninja_input_rc(struct ninja *self, const struct ninja_rc_input *rc);

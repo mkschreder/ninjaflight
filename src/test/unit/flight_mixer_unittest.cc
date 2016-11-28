@@ -90,10 +90,6 @@ rxRuntimeConfig_t rxRuntimeConfig;
 
 struct pid_controller_output pid_output; 
 int16_t rcCommand[4];
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-// TODO: proper way to do this is to write a mock receiver
-int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
-void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
 
 uint32_t rcModeActivationMask;
 int16_t debug[DEBUG16_VALUE_COUNT];
@@ -145,10 +141,10 @@ bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId
 }
 
 void resetRX(){
-	rcData[ROLL] = 1500;
-	rcData[PITCH] = 1500;
-	rcData[YAW] = 1500;
-	rcData[THROTTLE] = 1000;
+	mock_rc_pwm[ROLL] = 1500;
+	mock_rc_pwm[PITCH] = 1500;
+	mock_rc_pwm[YAW] = 1500;
+	mock_rc_pwm[THROTTLE] = 1000;
 }
 
 TEST(FlightAxisUnittest, TestAxisIndices)
@@ -731,18 +727,10 @@ protected:
     };
 
     virtual void SetUp() {
+		mock_system_reset();
+
         updatedServoCount = 0;
         updatedMotorCount = 0;
-
-        memset(mixerConfig(), 0, sizeof(*mixerConfig()));
-        memset(rxConfig(), 0, sizeof(*rxConfig()));
-        memset(motorAndServoConfig(), 0, sizeof(*motorAndServoConfig()));
-        memset(servoProfile(), 0, sizeof(*servoProfile()));
-
-        memset(rcData, 0, sizeof(rcData));
-        memset(rcCommand, 0, sizeof(rcCommand));
-        memset(&pid_output, 0, sizeof(pid_output));
-        memset(customMotorMixer_arr(), 0, sizeof(*customMotorMixer_arr()));
     }
 
     virtual void withDefaultmotorAndServoConfiguration(void) {
@@ -754,7 +742,6 @@ protected:
     }
 
     virtual void configureMixer(uint8_t mixerMode) {
-		mock_system_reset();
         mixerConfig()->mixerMode = mixerMode;
     }
 };
@@ -763,6 +750,7 @@ class CustomMixerIntegrationTest : public BasicMixerIntegrationTest {
 protected:
 
     virtual void SetUp() {
+		mock_system_reset();
 
         BasicMixerIntegrationTest::SetUp();
 
@@ -787,6 +775,7 @@ protected:
 
 TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 {
+	struct mixer mixer;
     // given
     enum {
         EXPECTED_SERVOS_TO_MIX_COUNT = 6,
@@ -815,8 +804,7 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 	motorAndServoConfig()->minthrottle = 1000;
 	motorAndServoConfig()->maxthrottle = 2000;
 
-
-    mixer_init(&default_mixer, 
+    mixer_init(&mixer, 
 		mixerConfig(),
 		motor3DConfig(),
 		motorAndServoConfig(),
@@ -833,19 +821,19 @@ TEST_F(CustomMixerIntegrationTest, TestCustomMixer)
 		servoProfile()->servoConf[c].middle = 1500;
 	}
 
-	mixer_load_motor_mixer(&default_mixer, customMotorMixer(0));
-	mixer_load_servo_mixer(&default_mixer, customServoMixer(0));
+	mixer_load_motor_mixer(&mixer, customMotorMixer(0));
+	mixer_load_servo_mixer(&mixer, customServoMixer(0));
     // and
-	mixer_input_command(&default_mixer, MIXER_INPUT_G0_THROTTLE, -500);
-	mixer_input_command(&default_mixer, MIXER_INPUT_G3_RC_AUX1, 500);
+	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -500);
+	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX1, 500);
 
     // when
-	mixer_enable_armed(&default_mixer, true);
-    mixer_update(&default_mixer);
+	mixer_enable_armed(&mixer, true);
+    mixer_update(&mixer);
 
     // then
-    EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, mixer_get_motor_count(&default_mixer));
-    EXPECT_EQ(EXPECTED_SERVOS_TO_MIX_COUNT, mixer_get_servo_count(&default_mixer));
+    EXPECT_EQ(EXPECTED_MOTORS_TO_MIX_COUNT, mixer_get_motor_count(&mixer));
+    EXPECT_EQ(EXPECTED_SERVOS_TO_MIX_COUNT, mixer_get_servo_count(&mixer));
 
     EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[0]);
     EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[1]);

@@ -117,15 +117,15 @@ struct rc_adj {
 	uint8_t adjustmentStateMask;
 	adjustmentState_t adjustmentStates[MAX_SIMULTANEOUS_ADJUSTMENT_COUNT];
 
-	struct rx *rx;
-	struct system_calls *system;
+	//! pointer to the ninja object on which we are going to be adjusting things
+	struct ninja *ninja;
 };
 
 // TODO: remove this include 
 #include "flight/rate_profile.h"
 #include "../config/rate_profile.h"
 
-void rc_adj_init(struct rc_adj *self, struct rx *rx);
+void rc_adj_init(struct rc_adj *self, struct ninja *ninja);
 void rc_adj_reset(struct rc_adj *self);
 void rc_adj_add_range(struct rc_adj *self, adjustmentRange_t *adjustmentRange);
 void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges);

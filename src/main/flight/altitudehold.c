@@ -97,54 +97,24 @@ static void _apply_multi_althold(struct althold *self){
 	}
 }
 
-static void _apply_airplane_althold(struct althold *self){
-	// handle fixedwing-related althold. UNTESTED! and probably wrong
-	// most likely need to check changes on pitch channel and 'reset' althold similar to
-	// how throttle does it on multirotor
-
-	rcCommand[PITCH] += self->altHoldThrottleAdjustment * airplaneConfig()->fixedwing_althold_dir;
-}
-
 void althold_apply(struct althold *self){
+	// TODO: generic althold that works for both airplane and multi
+	/*
 	if (STATE(FIXED_WING)) {
 		_apply_airplane_althold(self);
 	} else {
 		_apply_multi_althold(self);
 	}
+	*/
+	_apply_multi_althold(self);
 }
 
 void althold_update(struct althold *self){
-	// Baro alt hold activate
-	if (!rcModeIsActive(BOXBARO)) {
-		DISABLE_FLIGHT_MODE(BARO_MODE);
-		return;
-	}
-
-	if (!FLIGHT_MODE(BARO_MODE)) {
-		ENABLE_FLIGHT_MODE(BARO_MODE);
-		self->AltHold = self->EstAlt;
-		self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
-		self->initialThrottleHold = rcCommand[THROTTLE];
-		self->errorVelocityI = 0;
-		self->altHoldThrottleAdjustment = 0;
-	}
-}
-
-void althold_update_sonar(struct althold *self){
-	// Sonar alt hold activate
-	if (!rcModeIsActive(BOXSONAR)) {
-		DISABLE_FLIGHT_MODE(SONAR_MODE);
-		return;
-	}
-
-	if (!FLIGHT_MODE(SONAR_MODE)) {
-		ENABLE_FLIGHT_MODE(SONAR_MODE);
-		self->AltHold = self->EstAlt;
-		self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
-		self->initialThrottleHold = rcCommand[THROTTLE];
-		self->errorVelocityI = 0;
-		self->altHoldThrottleAdjustment = 0;
-	}
+	self->AltHold = self->EstAlt;
+	self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
+	self->initialThrottleHold = rcCommand[THROTTLE];
+	self->errorVelocityI = 0;
+	self->altHoldThrottleAdjustment = 0;
 }
 
 static int32_t _calc_althold_throttle_delta(struct althold *self, int32_t vel_tmp, float accZ_tmp, float accZ_old){

@@ -22,7 +22,7 @@
 
 #include "drivers/system.h"
 #include "drivers/light_led.h"
-#include "drivers/sound_beeper.h"
+//#include "drivers/sound_beeper.h"
 
 #include "statusindicator.h"
 

@@ -64,6 +64,8 @@
 
 #include "config/runtime_config.h"
 
+// TODO: telemetry will be done after sitl serial interface
+#if 0
 #define TELEMETRY_LTM_INITIAL_PORT_MODE MODE_TX
 #define LTM_CYCLETIME   100
 
@@ -289,3 +291,4 @@ void checkLtmTelemetryState(void)
     else
         freeLtmTelemetryPort();
 }
+#endif

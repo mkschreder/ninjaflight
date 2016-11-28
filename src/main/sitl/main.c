@@ -24,7 +24,6 @@
 #include "drivers/sensor.h"
 #include "drivers/system.h"
 #include "drivers/light_led.h"
-#include "drivers/sound_beeper.h"
 #include "drivers/serial.h"
 #include "drivers/serial_softserial.h"
 #include "drivers/serial_uart.h"
@@ -102,58 +101,10 @@ struct application {
 static void _application_send_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 	cl->update_euler_angles(cl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
-#if 0
-	struct sitl_server_packet pkt;
-	memset(&pkt, 0, sizeof(pkt));
-	pkt.mode = SITL_MODE_PHYSICS_ON_CLIENT;
-	pkt.frame = (uint8_t)SITL_FRAME_QUAD_X;
-	union attitude_euler_angles att;
-	imu_get_attitude_dd(&self->imu, &att);
-	//pkt.euler[0] = att.values.roll * 0.1f; pkt.euler[1] = att.values.pitch * 0.1f; pkt.euler[2] = att.values.yaw * 0.1f;
-	for(int c = 0; c < 4; c++){
-		self->sitl
-	pkt.servo[0] = mixer_get_motor_value(&self->ninja.mixer, 1);
-	pkt.servo[1] = mixer_get_motor_value(&self->ninja.mixer, 2);
-	pkt.servo[2] = mixer_get_motor_value(&self->ninja.mixer, 3);
-	pkt.servo[3] = mixer_get_motor_value(&self->ninja.mixer, 0);
-	for(int c = 4; c < 8; c++){
-		pkt.servo[c] = 1500;
-	}
-	printf("motors: %d %d %d %d\n",
-		mixer_get_motor_value(&self->ninja.mixer,0),
-		mixer_get_motor_value(&self->ninja.mixer,1),
-		mixer_get_motor_value(&self->ninja.mixer,2),
-		mixer_get_motor_value(&self->ninja.mixer,3)
-	);
-	sitl_send_state(&pkt);
-#endif
 }
 
 static void _application_fc_run(struct application *self){
 	ninja_heartbeat(&self->ninja);
-	/*
-	int16_t roll = (rc_get_channel_value(0) - 1500);
-	int16_t pitch = (rc_get_channel_value(1) - 1500);
-	int16_t yaw = (rc_get_channel_value(3) - 1500);
-	int16_t throttle = rc_get_channel_value(2) - 1000;
-	anglerate_input_user(&self->ninja.ctrl, roll, pitch, yaw);
-	anglerate_input_body_rates(&self->ninja.ctrl, ins_get_gyro_x(&self->ninja.ins), ins_get_gyro_y(&self->ninja.ins), ins_get_gyro_z(&self->ninja.ins));
-	anglerate_input_body_angles(&self->ninja.ctrl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
-	anglerate_set_level_percent(&self->ninja.ctrl, 100, 100);
-	anglerate_update(&self->ninja.ctrl, 0.001);
-	printf("rcCommand: %d %d %d %d\n", roll, pitch, yaw, throttle);
-	printf("pid output: %d %d %d\n", anglerate_get_roll(&self->ninja.ctrl), anglerate_get_pitch(&self->ninja.ctrl), anglerate_get_yaw(&self->ninja.ctrl));
-	//printf("acc: %d %d %d\n", ins_get_acc_x(&self->ninja.ins), ins_get_acc_y(&self->ninja.ins), ins_get_acc_z(&self->ninja.ins));
-	printf("gyro: %d %d %d\n", ins_get_gyro_x(&self->ninja.ins), ins_get_gyro_y(&self->ninja.ins), ins_get_gyro_z(&self->ninja.ins));
-	printf("roll: %d, pitch: %d, yaw: %d\n", ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
-
-	mixer_enable_armed(&self->ninja.mixer, true);
-	mixer_input_command(&self->ninja.mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ninja.ctrl));
-	mixer_input_command(&self->ninja.mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ninja.ctrl));
-	mixer_input_command(&self->ninja.mixer, MIXER_INPUT_G0_YAW, anglerate_get_yaw(&self->ninja.ctrl));
-	mixer_input_command(&self->ninja.mixer, MIXER_INPUT_G0_THROTTLE, throttle - 500);
-	mixer_update(&self->ninja.mixer);
-	*/
 }
 
 static void application_run(struct application *self){
@@ -264,9 +215,8 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
-	sensorsSet(SENSOR_ACC);
-
 	self->sitl = server;
+	ninja_config_reset(&self->ninja);
 
 	self->syscalls = (struct system_calls){
 		.pwm = {
@@ -316,7 +266,6 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 	mixerConfig()->mixerMode = MIXER_QUADX;
 
 	pthread_create(&self->thread, NULL, _application_thread, self);
-
 }
 
 #include <fcntl.h>
@@ -414,10 +363,12 @@ bool isEEPROMContentValid(void){ return true; }
 int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
 bool isAccelerationCalibrationComplete(void){ return true; }
 bool isGyroCalibrationComplete(void){ return true; }
-bool isPPMDataBeingReceived(void){ return true; }
+
+// for rx reception stuff
+/*bool isPPMDataBeingReceived(void){ return true; }
 bool resetPPMDataReceivedState(void){ return true; }
 bool isPWMDataBeingReceived(void){ return true; }
-
+*/
 serialPort_t *usbVcpOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options){ 
 	(void)id;
 	(void) callback;

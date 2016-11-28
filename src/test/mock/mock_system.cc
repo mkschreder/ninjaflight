@@ -28,7 +28,7 @@ extern "C" {
 
 uint16_t mock_motor_pwm[8];
 uint16_t mock_servo_pwm[8];
-uint16_t mock_rc_pwm[8];
+uint16_t mock_rc_pwm[RX_MAX_SUPPORTED_RC_CHANNELS];
 uint16_t mock_pwm_errors = 0;
 int16_t mock_acc[3];
 int16_t mock_gyro[3];
@@ -136,9 +136,16 @@ const struct system_calls *mock_syscalls(){
 
 #include <string.h>
 
+extern "C" {
+struct ninja;
+void ninja_config_reset(struct ninja *self);
+}
+
 void mock_system_reset(){
+	ninja_config_reset(NULL);
 	memset(mock_motor_pwm, 0, sizeof(mock_motor_pwm));
 	memset(mock_servo_pwm, 0, sizeof(mock_servo_pwm));
+	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
 	mock_pwm_errors = 0;
 }
 

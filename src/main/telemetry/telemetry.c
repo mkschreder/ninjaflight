@@ -40,6 +40,8 @@
 #include "telemetry/ltm.h"
 #include "telemetry/mavlink.h"
 
+// TODO: telemetry
+#if 0
 void telemetryInit(void)
 {
     initFrSkyTelemetry();
@@ -81,4 +83,4 @@ void telemetryProcess(uint16_t deadband3d_throttle)
     handleLtmTelemetry();
     handleMAVLinkTelemetry();
 }
-
+#endif

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -28,7 +29,6 @@
 
 #include "io/beeper.h"
 #include "io/display.h"
-#include "io/rc_curves.h"
 #include "io/gps.h"
 #include "io/msp.h"
 #include "io/ledstrip.h"
@@ -43,7 +43,6 @@
 #include "rx/msp.h"
 
 #include "telemetry/telemetry.h"
-#include "blackbox/blackbox.h"
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"
@@ -66,72 +65,10 @@
 // TODO: this is not used so we need to remove it
 int16_t rcCommand[4];
 
-struct ninja_state {
-	void (*on_event)(struct ninja *self, const struct ninja_state *state, uint8_t ev);
-	const struct ninja_state *parent;
-};
-
-enum {
-	NEV_ENTER,
-	NEV_LEAVE,
-	NEV_RC,
-	NEV_GYRO,
-	NEV_ACC
-};
-
-#define STATE_HANDLER(name) \
-	static void _state_handler_##name (struct ninja __attribute__((unused))  *self, const struct ninja_state __attribute__((unused)) *current_state, uint8_t __attribute__((unused))  ev);\
-	extern const struct ninja_state _state_ ##name;
-
-#define DECLARE_STATE(name, parent_state) \
-	static void _state_handler_##name (struct ninja __attribute__((unused))  *self, const struct ninja_state __attribute__((unused)) *current_state, uint8_t __attribute__((unused))  ev);\
-	const struct ninja_state _state_ ##name = { \
-		.on_event = _state_handler_ ##name ,\
-		.parent = &_state_ ##parent_state \
-	};\
-	static void _state_handler_##name (struct ninja __attribute__((unused))  *self, const struct ninja_state __attribute__((unused)) *current_state, uint8_t __attribute__((unused))  ev)
-
-#define PARENT_STATE_HANDLE_EVENT() if(current_state->parent && current_state->parent != current_state){ current_state->parent->on_event(self, current_state->parent, ev); }
-
-#define STATE_TRANSITION(newstate) do { \
-	if(self->state) self->state->on_event(self, self->state, NEV_LEAVE); \
-	self->state = &_state_ ##newstate;\
-	self->state->on_event(self, self->state, NEV_ENTER); \
-} while(0);
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wredundant-decls"
-
-DECLARE_STATE(NULL, NULL){}
-
-STATE_HANDLER(ST_IDLE2);
-
-DECLARE_STATE(ST_IDLE, NULL){
-	switch(ev){
-		case NEV_RC: {
-			if(self->rc_input.raw[0] < 1200){
-				STATE_TRANSITION(ST_IDLE2);
-			}
-		} break;
-	}
-}
-
-DECLARE_STATE(ST_IDLE2, NULL){
-	switch(ev){
-		case NEV_RC: {
-			if(self->rc_input.raw[0] > 1200){
-				STATE_TRANSITION(ST_IDLE);
-			}
-		} break;
-	}
-}
-
-#pragma GCC diagnostic pop
-
 void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	memset(self, 0, sizeof(struct ninja));
 
-	self->syscalls = syscalls;
+	self->system = syscalls;
 
 	mixer_init(&self->mixer,
 		mixerConfig(),
@@ -176,9 +113,19 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 
 	battery_init(&self->bat, batteryConfig());
-	rx_init(&self->rx, self->syscalls, &self->failsafe, modeActivationProfile()->modeActivationConditions);
+	rx_init(&self->rx, self->system);
+
+	if (feature(FEATURE_RX_SERIAL))
+		rx_set_type(&self->rx, RX_SERIAL);
+	else if (feature(FEATURE_RX_MSP))
+		rx_set_type(&self->rx, RX_MSP);
+	else if (feature(FEATURE_RX_PPM))
+		rx_set_type(&self->rx, RX_PPM);
+	else
+		rx_set_type(&self->rx, RX_PWM);
+
 	rc_command_init(&self->rc_command, &self->rx);
-	rc_command_set_rate_config(&self->rc_command, controlRateProfiles(0)); 
+	rc_command_set_rate_config(&self->rc_command, controlRateProfiles(0));
 
 #ifdef GPS
 	if (feature(FEATURE_GPS)) {
@@ -194,7 +141,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	cliInit();
 #endif
 
-	failsafe_init(&self->failsafe, &self->rx, self->syscalls);
+	failsafe_init(&self->failsafe, self);
 
 #ifdef SONAR
 	if (feature(FEATURE_SONAR)) {
@@ -203,7 +150,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 #endif
 
 #ifdef LED_STRIP
-	ledstrip_init(&self->ledstrip);
+	ledstrip_init(&self->ledstrip, self->system, &self->bat, &self->failsafe, &self->rx);
 
 	if (feature(FEATURE_LED_STRIP)) {
 		ledStripEnable();
@@ -226,79 +173,69 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 #endif
 
 #ifdef BLACKBOX
-	initBlackbox();
+	blackbox_init(&self->blackbox, self);
 #endif
 
-	sys_led_on(self->syscalls, 1);
-	sys_led_off(self->syscalls, 0);
+	sys_led_on(self->system, 1);
+	sys_led_off(self->system, 0);
 	for (uint8_t i = 0; i < 10; i++) {
-		sys_led_toggle(self->syscalls, 1);
-		sys_led_toggle(self->syscalls, 0);
+		sys_led_toggle(self->system, 1);
+		sys_led_toggle(self->system, 0);
 		usleep(25000);
-		sys_beep_on(self->syscalls);
+		sys_beeper_on(self->system);
 		usleep(25000);
-		sys_beep_off(self->syscalls);
+		sys_beeper_off(self->system);
 	}
-	sys_led_off(self->syscalls, 0);
-	sys_led_off(self->syscalls, 1);
+	sys_led_off(self->system, 0);
+	sys_led_off(self->system, 1);
 
 	ninja_config_load(self);
 
-	ninja_sched_init(&self->sched, &syscalls->time);
-
-	STATE_TRANSITION(ST_IDLE);
+	ninja_sched_init(&self->sched, &self->system->time);
 }
 
 void ninja_arm(struct ninja *self){
-	if (ARMING_FLAG(OK_TO_ARM)) {
-		if (ARMING_FLAG(ARMED)) {
-			return;
-		}
-		if (rcModeIsActive(BOXFAILSAFE)) {
-			return;
-		}
-		if (!ARMING_FLAG(PREVENT_ARMING)) {
-			ENABLE_ARMING_FLAG(ARMED);
-			self->headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&self->ins));
-			mixer_enable_armed(&self->mixer, true);
+	if (self->is_armed) {
+		return;
+	}
+	if (rcModeIsActive(BOXFAILSAFE)) {
+		return;
+	}
+	if (!self->is_armed) {
+		self->is_armed = true;
+		self->headFreeModeHold = DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&self->ins));
+		mixer_enable_armed(&self->mixer, true);
 
 #ifdef BLACKBOX
-			if (feature(FEATURE_BLACKBOX)) {
-				serialPort_t *sharedBlackboxAndMspPort = findSharedSerialPort(FUNCTION_BLACKBOX, FUNCTION_MSP);
-				if (sharedBlackboxAndMspPort) {
-					mspSerialReleasePortIfAllocated(sharedBlackboxAndMspPort);
-				}
-				startBlackbox();
+		if (feature(FEATURE_BLACKBOX)) {
+			serialPort_t *sharedBlackboxAndMspPort = findSharedSerialPort(FUNCTION_BLACKBOX, FUNCTION_MSP);
+			if (sharedBlackboxAndMspPort) {
+				mspSerialReleasePortIfAllocated(sharedBlackboxAndMspPort);
 			}
-#endif
-			// TODO: fix the delay
-			//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
-
-			//beep to indicate arming
-#ifdef GPS
-			if (feature(FEATURE_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5)
-				beeper(BEEPER_ARMING_GPS_FIX);
-			else
-				beeper(BEEPER_ARMING);
-#else
-			beeper(BEEPER_ARMING);
-#endif
-
-			return;
+			startBlackbox();
 		}
-	}
+#endif
+		// TODO: fix the delay
+		//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
 
-	if (!ARMING_FLAG(ARMED)) {
-		beeperConfirmationBeeps(1);
+		//beep to indicate arming
+#ifdef GPS
+		if (feature(FEATURE_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5)
+			beeper_start(&self->beeper, BEEPER_ARMING_GPS_FIX);
+		else
+			beeper_start(&self->beeper, BEEPER_ARMING);
+#else
+		beeper_start(&self->beeper, BEEPER_ARMING);
+#endif
+
+		return;
 	}
 }
 
 void ninja_disarm(struct ninja *self){
-	if (ARMING_FLAG(ARMED)) {
+	if (self->is_armed) {
 		// reset mixer minimum values in case something else has changed them
 		mixer_enable_armed(&self->mixer, false);
-
-		DISABLE_ARMING_FLAG(ARMED);
 
 #ifdef BLACKBOX
 		if (feature(FEATURE_BLACKBOX)) {
@@ -306,7 +243,8 @@ void ninja_disarm(struct ninja *self){
 		}
 #endif
 
-		beeper(BEEPER_DISARMING);	  // emit disarm tone
+		beeper_start(&self->beeper, BEEPER_DISARMING);	  // emit disarm tone
+		self->is_armed = false;
 	}
 }
 
@@ -368,6 +306,8 @@ static void _process_tilt_controls(struct ninja *self){
 	*/
 }
 
+/*
+TODO: 3d throttle control
 void _process_3d_throttle(struct ninja *self){
 	// Scale roll/pitch/yaw uniformly to fit within throttle range
 	int16_t throttleRange, throttle;
@@ -403,13 +343,61 @@ void _process_3d_throttle(struct ninja *self){
 	mixer_set_throttle_range(&self->mixer, throttleMin + throttleRange / 2, throttleMin, throttleMax);
 	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, throttle - 500);
 }
+*/
+
+uint32_t ninja_has_sensors(struct ninja *self, uint32_t sensor_mask){
+	return !!(self->sensors & sensor_mask);
+}
+
+bool ninja_is_armed(struct ninja *self){
+	return self->is_armed;
+}
+
+/*
+void _check_battery(struct ninja *self){
+	// TODO: batter low voltage notification
+	switch(battery_get_state(&self->battery)){
+		case BATTERY_OK:
+			if (self->vbat <= (self->batteryWarningVoltage - VBATT_HYSTERESIS)) {
+				self->batteryState = BATTERY_WARNING;
+				beeper(BEEPER_BAT_LOW);
+			}
+			break;
+		case BATTERY_WARNING:
+			if (self->vbat <= (self->batteryCriticalVoltage - VBATT_HYSTERESIS)) {
+				self->batteryState = BATTERY_CRITICAL;
+				beeper(BEEPER_BAT_CRIT_LOW);
+			} else if (self->vbat > (self->batteryWarningVoltage + VBATT_HYSTERESIS)){
+				self->batteryState = BATTERY_OK;
+			} else {
+				beeper(BEEPER_BAT_LOW);
+			}
+			break;
+		case BATTERY_CRITICAL:
+			if (self->vbat > (self->batteryCriticalVoltage + VBATT_HYSTERESIS)){
+				self->batteryState = BATTERY_WARNING;
+				beeper(BEEPER_BAT_LOW);
+			} else {
+				beeper(BEEPER_BAT_CRIT_LOW);
+			}
+			break;
+		case BATTERY_NOT_PRESENT:
+			break;
+		default:break;
+	}
+}
+*/
 
 void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	int16_t gyroRaw[3];
-	if(self->syscalls->imu.read_gyro(&self->syscalls->imu, gyroRaw) == 0){
-		ins_process_gyro(&self->ins, gyroRaw[0], gyroRaw[1], gyroRaw[2]);
-		ins_update(&self->ins, dt_us * 1e-6f);
+	if(sys_gyro_read(self->system, gyroRaw) < 0){
+		self->sensors &= ~NINJA_SENSOR_GYRO;
+		return;
 	}
+	self->sensors |= NINJA_SENSOR_GYRO;
+
+	ins_process_gyro(&self->ins, gyroRaw[0], gyroRaw[1], gyroRaw[2]);
+	ins_update(&self->ins, dt_us * 1e-6f);
 
 	if(!ins_is_calibrated(&self->ins)){
 		return;
@@ -431,8 +419,10 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 
 	_process_tilt_controls(self);
 
-	//printf("input: %d %d %d\n", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
-	//printf("gyro: %d %d %d", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	/*printf("input: %d %d %d, ", rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
+	printf("rx: %d %d %d, ", rx_get_channel(&self->rx, ROLL), rx_get_channel(&self->rx, PITCH), rx_get_channel(&self->rx, YAW));
+	printf("gyro: %d %d %d, ", ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	*/
 	anglerate_input_user(&self->ctrl, rcCommand[ROLL], rcCommand[PITCH], rcCommand[YAW]);
 	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
 	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
@@ -451,17 +441,18 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 		mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rcCommand[THROTTLE]);
 	//}
 
-	if (FLIGHT_MODE(PASSTHRU_MODE)) {
+	// TODO: flight modes
+	//if (FLIGHT_MODE(PASSTHRU_MODE)) {
 		// Direct passthru from RX
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
-	} else {
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
+	//} else {
 		// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
 		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
 		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
 		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
-	}
+	//}
 
 	// center the RC input value around the RC middle value
 	// by subtracting the RC middle value from the RC input value, we get:
@@ -484,3 +475,51 @@ void ninja_heartbeat(struct ninja *self){
 	ninja_sched_run(&self->sched);
 }
 
+/**
+ * Enables the given flight mode.  A beep is sounded if the flight mode
+ * has changed.  Returns the new 'flightModeFlags' value.
+ */
+ /*
+ // TODO: flight modes
+uint16_t enableFlightMode(struct ninja *self, flightModeFlags_e mask){
+    uint16_t oldVal = self->flightModeFlags;
+
+    self->flightModeFlags |= (mask);
+    if (self->flightModeFlags != oldVal)
+        beeper_multi_beep(&self->beeper, 1);
+    return self->flightModeFlags;
+}
+*/
+/**
+ * Disables the given flight mode.  A beep is sounded if the flight mode
+ * has changed.  Returns the new 'flightModeFlags' value.
+ */
+ /*
+uint16_t disableFlightMode(struct ninja *self, flightModeFlags_e mask){
+    uint16_t oldVal = self->flightModeFlags;
+
+    self->flightModeFlags &= ~(mask);
+    if (self->flightModeFlags != oldVal)
+        beeper_multi_beeps(&self->beeper, 1);
+    return self->flightModeFlags;
+}
+bool sensors_enabled(struct ninja *self, uint32_t mask){
+    return self->enabledSensors & mask;
+}
+
+void enable_sensor(struct ninja *self, uint32_t mask){
+    self->enabledSensors |= mask;
+}
+
+void disable_sensor(struct ninja *self, uint32_t mask){
+    self->enabledSensors &= ~(mask);
+}
+
+uint32_t enabled_sensors(struct ninja *self){
+    return self->enabledSensors;
+}
+
+*/
+/**
+ * @defgroup INDICATORS Indicators
+ */

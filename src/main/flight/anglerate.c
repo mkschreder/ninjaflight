@@ -141,7 +141,7 @@ static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
 						- self->body_angles[axis] + self->angle_trim->raw[axis];
 				// blend in the angle based on level of blending
-				angleRate += (errorAngle * self->config->P8[PIDLEVEL] * self->level_percent[axis] / 100) >> 4;
+				angleRate += (errorAngle * self->config->P8[PIDLEVEL] * (uint16_t)self->level_percent[axis] / 100) >> 4;
 			}
 		}
 
@@ -227,7 +227,7 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 		} else {
 			// control is GYRO based for ACRO and HORIZON - direct sticks control is applied to rate PID
 			// also if we use blending then we lower the rate mode percentage depending on how much angle mode percentage we need
-			angleRate = (float)((rate + 27) * self->user[axis] * (100 - self->level_percent[axis]) / 100) / 16.0f; // 200dps to 1200dps max roll/pitch rate
+			angleRate = (float)(rate + 27) * self->user[axis] * ((100.0f - self->level_percent[axis]) / 100) / 16.0f; // 200dps to 1200dps max roll/pitch rate
 
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination

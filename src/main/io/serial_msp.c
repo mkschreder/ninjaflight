@@ -223,7 +223,7 @@ void mspSerialProcess(void)
             uint8_t c = serialRead(msp->port);
             bool consumed = mspSerialProcessReceivedByte(msp, c);
 
-            if (!consumed && !ARMING_FLAG(ARMED)) {
+            if (!consumed) {
                 evaluateOtherData(msp->port, c);
             }
 

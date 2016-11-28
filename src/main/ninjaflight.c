@@ -54,7 +54,6 @@
 
 #include "io/beeper.h"
 #include "io/display.h"
-#include "io/rc_curves.h"
 #include "io/gps.h"
 #include "io/ledstrip.h"
 #include "io/serial.h"

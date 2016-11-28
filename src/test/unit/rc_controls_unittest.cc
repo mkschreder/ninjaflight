@@ -797,9 +797,4 @@ void baroSetCalibrationCycles(uint16_t) {}
 uint8_t armingFlags = 0;
 int16_t heading;
 uint8_t stateFlags = 0;
-int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];
-int16_t rc_get_channel_value(uint8_t id){ return rcData[id]; }
-void rc_set_channel_value(uint8_t id, int16_t value){ rcData[id] = value; }
-
-rxRuntimeConfig_t rxRuntimeConfig;
 }

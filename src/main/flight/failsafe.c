@@ -43,17 +43,7 @@
 // TODO: this is not correct dependency wise
 #include "../ninjaflight.h"
 
-/*
- * Usage:
- *
- * failsafeInit() and useFailsafeConfig() must be called before the other methods are used.
- *
- * failsafeInit() and useFailsafeConfig() can be called in any order.
- * failsafeInit() should only be called once.
- *
- * enable() should be called after system initialisation.
- */
-
+// TODO: failsafe
 void failsafe_reset(struct failsafe *self){
 	self->rxDataFailurePeriod = PERIOD_RXDATA_FAILURE + failsafeConfig()->failsafe_delay * MILLIS_PER_TENTH_SECOND;
 	self->validRxDataReceivedAt = 0;
@@ -66,11 +56,10 @@ void failsafe_reset(struct failsafe *self){
 	self->rxLinkState = FAILSAFE_RXLINK_DOWN;
 }
 
-void failsafe_init(struct failsafe *self, struct rx *rx, const struct system_calls *system){
+void failsafe_init(struct failsafe *self, struct ninja *ninja){
 	self->events = 0;
 	self->monitoring = false;
-	self->system = system;
-	self->rx = rx;
+	self->ninja = ninja;
 	failsafe_reset(self);
 	return;
 }
@@ -91,28 +80,29 @@ void failsafe_start_monitoring(struct failsafe *self){
 	self->monitoring = true;
 }
 
+/*
 static bool failsafeShouldHaveCausedLandingByNow(struct failsafe *self){
-	return (sys_millis(self->system) > self->landingShouldBeFinishedAt);
+	return (sys_millis(self->ninja->system) > self->landingShouldBeFinishedAt);
 }
 
 static void failsafe_activate(struct failsafe *self){
 	self->active = true;
 	self->phase = FAILSAFE_LANDING;
-	ENABLE_FLIGHT_MODE(FAILSAFE_MODE);
-	self->landingShouldBeFinishedAt = sys_millis(self->system) + failsafeConfig()->failsafe_off_delay * MILLIS_PER_TENTH_SECOND;
+	self->landingShouldBeFinishedAt = sys_millis(self->ninja->system) + failsafeConfig()->failsafe_off_delay * MILLIS_PER_TENTH_SECOND;
 
 	self->events++;
 }
 
 static void failsafeApplyControlInput(struct failsafe *self){
 	(void)self;
-	// TODO: clean up this kind of crap
+	// TODO: make failsafe work without interfering with the rx
 	for (int i = 0; i < 3; i++) {
-		rx_set_channel(self->rx, i, rxConfig()->midrc);
+		//rx_set_channel(self->rx, i, rxConfig()->midrc);
 	}
-	rx_set_channel(self->rx, THROTTLE, failsafeConfig()->failsafe_throttle);
+	//rx_set_channel(self->rx, THROTTLE, failsafeConfig()->failsafe_throttle);
 }
 
+*/
 bool failsafe_is_receiving_rx(struct failsafe *self){
 	return (self->rxLinkState == FAILSAFE_RXLINK_UP);
 }
@@ -122,33 +112,36 @@ void failsafe_on_rx_suspend(struct failsafe *self, uint32_t usSuspendPeriod){
 }
 
 void failsafe_on_rx_resume(struct failsafe *self){
-	self->validRxDataReceivedAt = sys_millis(self->system);					 // prevent RX link down trigger, restart rx link up
+	self->validRxDataReceivedAt = sys_millis(self->ninja->system);					 // prevent RX link down trigger, restart rx link up
 	self->rxLinkState = FAILSAFE_RXLINK_UP;					 // do so while rx link is up
 }
 
 void failsafe_on_valid_data_received(struct failsafe *self){
-	self->validRxDataReceivedAt = sys_millis(self->system);
+	self->validRxDataReceivedAt = sys_millis(self->ninja->system);
 	if ((self->validRxDataReceivedAt - self->validRxDataFailedAt) > PERIOD_RXDATA_RECOVERY) {
 		self->rxLinkState = FAILSAFE_RXLINK_UP;
 	}
 }
 
 void failsafe_on_valid_data_failed(struct failsafe *self){
-	self->validRxDataFailedAt = sys_millis(self->system);
+	self->validRxDataFailedAt = sys_millis(self->ninja->system);
 	if ((self->validRxDataFailedAt - self->validRxDataReceivedAt) > self->rxDataFailurePeriod) {
 		self->rxLinkState = FAILSAFE_RXLINK_DOWN;
 	}
 }
 
 void failsafe_update(struct failsafe *self){
+	(void)self;
+	// TODO: failsafe
+	/*
 	if (!failsafe_is_monitoring(self)) {
 		return;
 	}
 
 	bool receivingRxData = failsafe_is_receiving_rx(self);
-	bool armed = ARMING_FLAG(ARMED);
+	bool armed = self->ninja->is_armed;
 	bool failsafeSwitchIsOn = rcModeIsActive(BOXFAILSAFE);
-	beeperMode_e beeperMode = BEEPER_SILENCE;
+	beeper_command_t beeperMode = BEEPER_SILENCE;
 
 	if (!receivingRxData) {
 		beeperMode = BEEPER_RX_LOST;
@@ -278,4 +271,5 @@ void failsafe_update(struct failsafe *self){
 	if (beeperMode != BEEPER_SILENCE) {
 		beeper(beeperMode);
 	}
+	*/
 }

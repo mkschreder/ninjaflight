@@ -57,11 +57,10 @@ struct failsafe {
     failsafePhase_e phase;
     failsafeRxLinkState_e rxLinkState;
 
-	const struct system_calls *system;
-	struct rx *rx;
+	struct ninja *ninja;
 };
 
-void failsafe_init(struct failsafe *self, struct rx *rx, const struct system_calls *system);
+void failsafe_init(struct failsafe *self, struct ninja *ninja);
 
 void failsafe_start_monitoring(struct failsafe *self);
 void failsafe_update(struct failsafe *self);

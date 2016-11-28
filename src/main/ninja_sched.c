@@ -163,7 +163,7 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 	ninja_sched_set_task_enabled(self, TASK_GYROPID, true);
 	// TODO: we need to make sure that gyro has correct value here. That predisposes that all hardware is initialized before ninja_init. However there are back and forth dependencies that need to be sorted first.
 	//rescheduleTask(TASK_GYROPID, imuConfig()->gyroSync ? gyro_sync_get_looptime() - INTERRUPT_WAIT_TIME : gyro_sync_get_looptime());
-	ninja_sched_set_task_enabled(self, TASK_ACCEL, sensors(SENSOR_ACC));
+	ninja_sched_set_task_enabled(self, TASK_ACCEL, true);
 	ninja_sched_set_task_enabled(self, TASK_SERIAL, true);
 #ifdef BEEPER
 	ninja_sched_set_task_enabled(self, TASK_BEEPER, true);
@@ -350,9 +350,12 @@ static void _task_gyro(struct ninja_sched *sched){
 static void _task_acc(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	int16_t accADCRaw[3];
-	if (sensors(SENSOR_ACC) && self->syscalls->imu.read_acc(&self->syscalls->imu, accADCRaw) == 0) {
-		ins_process_acc(&self->ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
+	if (sys_acc_read(self->system, accADCRaw) < 0) {
+		self->sensors &= ~NINJA_SENSOR_ACC;
+		return;
 	}
+	self->sensors |= NINJA_SENSOR_ACC;
+	ins_process_acc(&self->ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
 }
 
 static void _task_serial(struct ninja_sched *sched){
@@ -404,21 +407,16 @@ static bool _task_rx_check(struct ninja_sched *sched, uint32_t currentDeltaTime)
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	UNUSED(currentDeltaTime);
 
-	int32_t currentTime = sched->time->micros(sched->time);
-	rx_update(&self->rx, currentTime);
-	return rx_data_received(&self->rx, currentTime);
+	rx_update(&self->rx);
+	return rx_has_signal(&self->rx);
 }
 
 static void updateLEDs(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
-	if (ARMING_FLAG(ARMED)) {
-		self->syscalls->leds.on(&self->syscalls->leds, 0, true);
+	if (self->is_armed) {
+		sys_led_on(self->system, 0);
 	} else {
-		if (rcModeIsActive(BOXARM) == 0) {
-			ENABLE_ARMING_FLAG(OK_TO_ARM);
-		}
-
-/*
+		/*
 		// TODO: for now allow arming when not leveled but rethink this logic entirely
 		if (!imu_is_leveled(&default_imu, armingConfig()->max_arm_angle)) {
 			DISABLE_ARMING_FLAG(OK_TO_ARM);
@@ -436,16 +434,11 @@ static void updateLEDs(struct ninja_sched *sched){
 		//if (isCalibrating() || isSystemOverloaded()) {
 		if (sched->averageSystemLoadPercent > 100) {
 			warningLedFlash();
-			DISABLE_ARMING_FLAG(OK_TO_ARM);
 		} else {
-			if (ARMING_FLAG(OK_TO_ARM)) {
-				warningLedDisable();
-			} else {
-				warningLedFlash();
-			}
+			warningLedFlash();
 		}
 
-		warningLedUpdate(&self->syscalls->leds, sched->time->micros(sched->time));
+		warningLedUpdate(&self->system->leds, sched->time->micros(sched->time));
 	}
 }
 

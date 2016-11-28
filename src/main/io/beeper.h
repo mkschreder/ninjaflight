@@ -17,33 +17,77 @@
 
 #pragma once
 
+#include "system_calls.h"
+
+/**
+ * @defgroup BEEPER Beeper
+ * @ingroup INDICATORS
+ *
+ * @brief Beeper is used for auditory indication of various states and events
+ *
+ * The role of the beeper module is to provide a more advanced interface to the
+ * system beeper function (which can only turn the beeper on or off). This
+ * module provides several standard beep sequences that can be started by user
+ * code and run asynchronously by periodically calling the update function.
+ */
+
 typedef enum {
     // IMPORTANT: these are in priority order, 0 = Highest
-    BEEPER_SILENCE = 0,             // Silence, see beeperSilence()
-
+    BEEPER_SILENCE = 0,             //!< Silence, see beeperSilence()
     BEEPER_GYRO_CALIBRATED,
-    BEEPER_RX_LOST_LANDING,         // Beeps SOS when armed and TX is turned off or signal lost (autolanding/autodisarm)
-    BEEPER_RX_LOST,                 // Beeps when TX is turned off or signal lost (repeat until TX is okay)
-    BEEPER_DISARMING,               // Beep when disarming the board
-    BEEPER_ARMING,                  // Beep when arming the board
-    BEEPER_ARMING_GPS_FIX,          // Beep a special tone when arming the board and GPS has fix
-    BEEPER_BAT_CRIT_LOW,            // Longer warning beeps when battery is critically low (repeats)
-    BEEPER_BAT_LOW,                 // Warning beeps when battery is getting low (repeats)
-    BEEPER_GPS_STATUS,
-    BEEPER_RX_SET,                  // Beeps when aux channel is set for beep or beep sequence how many satellites has found if GPS enabled
-    BEEPER_DISARM_REPEAT,           // Beeps sounded while stick held in disarm position
-    BEEPER_ACC_CALIBRATION,         // ACC inflight calibration completed confirmation
-    BEEPER_ACC_CALIBRATION_FAIL,    // ACC inflight calibration failed
-    BEEPER_READY_BEEP,              // Ring a tone when GPS is locked and ready
-    BEEPER_MULTI_BEEPS,             // Internal value used by 'beeperConfirmationBeeps()'.
-    BEEPER_ARMED,                   // Warning beeps when board is armed (repeats until board is disarmed or throttle is increased)
-} beeperMode_e;
+    BEEPER_RX_LOST_LANDING,         //!< Beeps SOS when armed and TX is turned off or signal lost (autolanding/autodisarm)
+    BEEPER_RX_LOST,                 //!< Beeps when TX is turned off or signal lost (repeat until TX is okay)
+    BEEPER_DISARMING,               //!< Beep when disarming the board
+    BEEPER_ARMING,                  //!< Beep when arming the board
+    BEEPER_ARMING_GPS_FIX,          //!< Beep a special tone when arming the board and GPS has fix
+    BEEPER_BAT_CRIT_LOW,            //!< Longer warning beeps when battery is critically low (repeats)
+    BEEPER_BAT_LOW,                 //!< Warning beeps when battery is getting low (repeats)
+    BEEPER_GPS_STATUS,				//!< Beep used for indicating changed gps status (such as sattelites being aquired)
+    BEEPER_RX_SET,                  //!< Beeps when aux channel is set for beep or beep sequence how many satellites has found if GPS enabled
+    BEEPER_DISARM_REPEAT,           //!< Beeps sounded while stick held in disarm position
+    BEEPER_ACC_CALIBRATION,         //!< ACC inflight calibration completed confirmation
+    BEEPER_ACC_CALIBRATION_FAIL,    //!< ACC inflight calibration failed
+    BEEPER_READY_BEEP,              //!< Ring a tone when GPS is locked and ready
+    BEEPER_MULTI_BEEPS,             //!< Internal value used by 'beeperConfirmationBeeps()'.
+    BEEPER_ARMED,                   //!< Warning beeps when board is armed (repeats until board is disarmed or throttle is increased)
+} beeper_command_t;
 
-void beeper(beeperMode_e mode);
-void beeperSilence(void);
-void beeperUpdate(void);
-void beeperConfirmationBeeps(uint8_t beepCount);
+typedef struct beeperTableEntry_s {
+    uint8_t mode;
+    uint8_t priority; // 0 = Highest
+    const uint8_t *sequence;
+#ifdef BEEPER_NAMES
+    const char *name;
+#endif
+} beeperTableEntry_t;
+
+struct beeper {
+	//! Beeper off = 0 Beeper on = 1
+	uint8_t beeperIsOn;
+	//! Place in current sequence
+	uint16_t beeperPos;
+	//! Time when beeper routine must act next time
+	uint32_t beeperNextToggleTime;
+	//! Time of last arming beep in microseconds (for blackbox)
+	uint32_t armingBeepTimeMicros;
+	const beeperTableEntry_t *currentBeeperEntry;
+
+	const struct system_calls *system;
+};
+
+//! Initializes defaults for beeper function
+void beeper_init(struct beeper *self, const struct system_calls *system);
+//! Initiates a sequence of multiple 20ms beeps with 200ms pauses. Does not block.
+void beeper_multi_beeps(struct beeper *self, uint8_t beepCount);
+//! Puts beeper into a new beep state
+void beeper_start(struct beeper *self, beeper_command_t cmd);
+//! Aborts current beeper function
+void beeper_stop(struct beeper *self);
+//! Updates beeper state
+void beeper_update(struct beeper *self);
+/*
 uint32_t getArmingBeepTimeMicros(void);
 beeperMode_e beeperModeForTableIndex(int idx);
 const char *beeperNameForTableIndex(int idx);
 int beeperTableEntryCount(void);
+*/

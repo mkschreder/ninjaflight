@@ -486,15 +486,32 @@ typedef struct HOTT_AIRESC_MSG_s {
     uint8_t stop_byte;      //#44 constant value 0x7d
 } HOTT_AIRESC_MSG_t;
 
-void handleHoTTTelemetry(void);
+struct hott {
+	uint32_t lastHoTTRequestCheckAt;
+	uint32_t lastMessagesPreparedAt;
+	uint32_t lastHottAlarmSoundTime;
+	bool hottIsSending;
+	uint8_t *hottMsg;
+	uint8_t hottMsgRemainingBytesToSendCount;
+	uint8_t hottMsgCrc;
+	serialPort_t *hottPort;
+	serialPortConfig_t *portConfig;
+	bool hottTelemetryEnabled;
+	portSharing_e hottPortSharing;
+	HOTT_GPS_MSG_t hottGPSMessage;
+	HOTT_EAM_MSG_t hottEAMMessage;
+};
+
+struct battery;
+void hott_init(struct hott *self, struct system_calls *system, struct battery *bat);
+void hott_process_data(struct hott *self);
 void checkHoTTTelemetryState(void);
 
-void initHoTTTelemetry(void);
 void configureHoTTTelemetryPort(void);
 void freeHoTTTelemetryPort(void);
 
 uint32_t getHoTTTelemetryProviderBaudRate(void);
 
-void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t longitude); 
-void hottPrepareGPSResponse(HOTT_GPS_MSG_t *hottGPSMessage);
+//void addGPSCoordinates(HOTT_GPS_MSG_t *hottGPSMessage, int32_t latitude, int32_t longitude); 
+//void hottPrepareGPSResponse(HOTT_GPS_MSG_t *hottGPSMessage);
 

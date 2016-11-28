@@ -88,31 +88,13 @@
 #define HOTT_RX_SCHEDULE 4000
 #define HOTT_TX_DELAY_US 3000
 #define MILLISECONDS_IN_A_SECOND 1000
-
-static uint32_t lastHoTTRequestCheckAt = 0;
-static uint32_t lastMessagesPreparedAt = 0;
-static uint32_t lastHottAlarmSoundTime = 0;
-
-static bool hottIsSending = false;
-
-static uint8_t *hottMsg = NULL;
-static uint8_t hottMsgRemainingBytesToSendCount;
-static uint8_t hottMsgCrc;
-
 #define HOTT_CRC_SIZE (sizeof(hottMsgCrc))
 
 #define HOTT_BAUDRATE 19200
 #define HOTT_INITIAL_PORT_MODE MODE_RX
 
-static serialPort_t *hottPort = NULL;
-static serialPortConfig_t *portConfig;
-
-static bool hottTelemetryEnabled =  false;
-static portSharing_e hottPortSharing;
-
-static HOTT_GPS_MSG_t hottGPSMessage;
-static HOTT_EAM_MSG_t hottEAMMessage;
-
+#if 0
+// TODO: need to refactor telemetry once we have sitl system calls for serial ports done
 static void initialiseEAMMessage(HOTT_EAM_MSG_t *msg, size_t size)
 {
     memset(msg, 0, size);
@@ -513,4 +495,4 @@ void handleHoTTTelemetry(void)
     hottSendTelemetryData();
     serialTimer = now;
 }
-
+#endif

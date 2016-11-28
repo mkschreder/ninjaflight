@@ -18,8 +18,14 @@
  */
 
 /**
- * @defgroup RXSPEC Receiver Specification
- * @ingroup SPEC
+ * @defgroup RXSPEC Guarantees
+ * @ingroup RX
+ *
+ * @page RXSPEC
+ * @ingroup RXSPEC
+ * This is a summary of automatic tests that are done against the receiver
+ * module to guarantee that the module behaves according to the requirements
+ * set forth below.
  */
 
 

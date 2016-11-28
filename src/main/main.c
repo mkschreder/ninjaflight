@@ -22,6 +22,7 @@
 
 #include <platform.h>
 
+#include "system_calls.h"
 #include "build_config.h"
 #include "debug.h"
 
@@ -106,9 +107,6 @@
 #endif
 
 #include "ninjaflight.h"
-#include "scheduler.h"
-
-struct ninja ninja;
 
 // TODO: refactor this to use proper timeouts
 extern uint32_t currentTime;
@@ -130,7 +128,6 @@ serialPort_t *loopbackPort;
 void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
 void rxInit(modeActivationCondition_t *modeActivationConditions);
 
-void navigationInit(struct pid_config *pidProfile);
 const struct sonar_hardware *sonarGetHardwareConfiguration(current_sensor_type_t  currentMeterType);
 
 #ifdef STM32F303xC
@@ -211,6 +208,8 @@ static void buttonsHandleColdBootButtonPresses(void)
 
 #endif
 
+//static const struct system_calls system_calls = {0};
+
 static void init(void)
 {
     drv_pwm_config_t pwm_params;
@@ -218,9 +217,6 @@ static void init(void)
     printfSupportInit();
 
     initEEPROM();
-
-    ensureEEPROMContainsValidData();
-    readEEPROM();
 
     systemState |= SYSTEM_STATE_CONFIG_LOADED;
 
@@ -493,16 +489,7 @@ static void init(void)
     if (USE_MAG && sensors(SENSOR_MAG))
     	mag.init();
 
-	ninja_init(&ninja);
-
-	// TODO: sensor scale and alignment should be completely handled by the driver!
-	ins_set_gyro_scale(&ninja.ins, gyro.scale);
-	ins_set_acc_scale(&ninja.ins, acc.acc_1G);
-	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
-	ins_set_acc_alignment(&ninja.ins, accAlign);
-	ins_set_mag_alignment(&ninja.ins, magAlign);
-
-#ifdef USB_CABLE_DETECTION
+	#ifdef USB_CABLE_DETECTION
     usbCableDetectInit();
 #endif
 
@@ -583,7 +570,6 @@ static void init(void)
 
     // Latch active features AGAIN since some may be modified by init().
     latchActiveFeatures();
-    ninja.motorControlEnable = true;
 
     systemState |= SYSTEM_STATE_READY;
 }
@@ -605,51 +591,19 @@ void processLoopback(void) {
 int main(void) {
     init();
 
-    // Setup scheduler
-    schedulerInit();
-    setTaskEnabled(TASK_GYROPID, true);
-    rescheduleTask(TASK_GYROPID, imuConfig()->gyroSync ? gyro_sync_get_looptime() - INTERRUPT_WAIT_TIME : gyro_sync_get_looptime());
-    setTaskEnabled(TASK_ACCEL, sensors(SENSOR_ACC));
-    setTaskEnabled(TASK_SERIAL, true);
-#ifdef BEEPER
-    setTaskEnabled(TASK_BEEPER, true);
-#endif
-    setTaskEnabled(TASK_BATTERY, feature(FEATURE_VBAT) || feature(FEATURE_CURRENT_METER));
-    setTaskEnabled(TASK_RX, true);
-#ifdef GPS
-    setTaskEnabled(TASK_GPS, feature(FEATURE_GPS));
-#endif
-#if USE_MAG == 1
-	setTaskEnabled(TASK_COMPASS, sensors(SENSOR_MAG));
-	#if defined(MPU6500_SPI_INSTANCE) && defined(USE_MAG_AK8963)
-		// fixme temporary solution for AK6983 via slave I2C on MPU9250
-		rescheduleTask(TASK_COMPASS, 1000000 / 40);
-	#endif
-#endif
-#ifdef BARO
-    setTaskEnabled(TASK_BARO, sensors(SENSOR_BARO));
-#endif
-#ifdef SONAR
-    setTaskEnabled(TASK_SONAR, sensors(SENSOR_SONAR));
-#endif
-#if defined(BARO) || defined(SONAR)
-    setTaskEnabled(TASK_ALTITUDE, sensors(SENSOR_BARO) || sensors(SENSOR_SONAR));
-#endif
-#ifdef DISPLAY
-    setTaskEnabled(TASK_DISPLAY, feature(FEATURE_DISPLAY));
-#endif
-#ifdef TELEMETRY
-    setTaskEnabled(TASK_TELEMETRY, feature(FEATURE_TELEMETRY));
-#endif
-#ifdef LED_STRIP
-    setTaskEnabled(TASK_LEDSTRIP, feature(FEATURE_LED_STRIP));
-#endif
-#ifdef TRANSPONDER
-    setTaskEnabled(TASK_TRANSPONDER, feature(FEATURE_TRANSPONDER));
-#endif
+	struct ninja ninja;
 
-    while (true) {
-        scheduler();
+	ninja_init(&ninja, NULL);
+
+	// TODO: sensor scale and alignment should be completely handled by the driver!
+	ins_set_gyro_scale(&ninja.ins, gyro.scale);
+	ins_set_acc_scale(&ninja.ins, acc.acc_1G);
+	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
+	ins_set_acc_alignment(&ninja.ins, accAlign);
+	ins_set_mag_alignment(&ninja.ins, magAlign);
+
+	while (true) {
+        ninja_heartbeat(&ninja);
         processLoopback();
     }
 }

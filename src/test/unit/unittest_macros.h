@@ -17,8 +17,21 @@
 
 #pragma once
 
+/**
+ * @defgroup SPEC SPEC
+ * @page SPEC
+ * @ingroup SPEC
+ *
+ * This is automatically generated specification for all unit tested
+ * components. It consists of documentation for each unit test based on
+ * requirement that that unit test satisfies.
+ */
+
+#include "rx/rx.h"
+
 extern uint16_t mock_motor_pwm[8];
 extern uint16_t mock_servo_pwm[8];
+extern uint16_t mock_rc_pwm[RX_MAX_SUPPORTED_RC_CHANNELS];
 extern uint16_t mock_pwm_errors;
 extern int16_t mock_acc[3];
 extern int16_t mock_gyro[3];

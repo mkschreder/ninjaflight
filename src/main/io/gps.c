@@ -62,6 +62,8 @@
 
 #define GPS_SV_MAXSATS   16
 
+// TODO: gps
+#if 0
 char gpsPacketLog[GPS_PACKET_LOG_ENTRY_COUNT];
 static char *gpsPacketLogChar = gpsPacketLog;
 // **********************
@@ -1099,3 +1101,4 @@ void updateGpsIndicator(uint32_t currentTime)
         led_toggle(1);
     }
 }
+#endif

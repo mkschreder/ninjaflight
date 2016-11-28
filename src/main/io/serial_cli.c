@@ -500,7 +500,7 @@ const clivalue_t valueTable[] = {
     { "mid_rc",                     VAR_UINT16 | MASTER_VALUE, .config.minmax = { 1200,  1700 } , PG_RX_CONFIG, offsetof(rxConfig_t, midrc)},
     { "min_check",                  VAR_UINT16 | MASTER_VALUE, .config.minmax = { PWM_RANGE_ZERO,  PWM_RANGE_MAX } , PG_RX_CONFIG, offsetof(rxConfig_t, mincheck)},
     { "max_check",                  VAR_UINT16 | MASTER_VALUE, .config.minmax = { PWM_RANGE_ZERO,  PWM_RANGE_MAX } , PG_RX_CONFIG, offsetof(rxConfig_t, maxcheck)},
-    { "rssi_channel",               VAR_INT8   | MASTER_VALUE, .config.minmax = { 0,  MAX_SUPPORTED_RC_CHANNEL_COUNT } , PG_RX_CONFIG, offsetof(rxConfig_t, rssi_channel)},
+    { "rssi_channel",               VAR_INT8   | MASTER_VALUE, .config.minmax = { 0,  RX_MAX_SUPPORTED_RC_CHANNELS } , PG_RX_CONFIG, offsetof(rxConfig_t, rssi_channel)},
     { "rssi_scale",                 VAR_UINT8  | MASTER_VALUE, .config.minmax = { RSSI_SCALE_MIN,  RSSI_SCALE_MAX } , PG_RX_CONFIG, offsetof(rxConfig_t, rssi_scale)},
     { "rssi_ppm_invert",            VAR_INT8   | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } , PG_RX_CONFIG, offsetof(rxConfig_t, rssi_ppm_invert)},
     { "rc_smoothing",               VAR_INT8   | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } , PG_RX_CONFIG, offsetof(rxConfig_t, rcSmoothing)},
@@ -786,18 +786,18 @@ static void cliRxFail(char *cmdline)
 
     if (isEmpty(cmdline)) {
         // print out rxConfig failsafe settings
-        for (channel = 0; channel < MAX_SUPPORTED_RC_CHANNEL_COUNT; channel++) {
+        for (channel = 0; channel < RX_MAX_SUPPORTED_RC_CHANNELS; channel++) {
             cliRxFail(itoa(channel, buf, 10));
         }
     } else {
         char *ptr = cmdline;
         channel = atoi(ptr++);
-        if ((channel < MAX_SUPPORTED_RC_CHANNEL_COUNT)) {
+        if ((channel < RX_MAX_SUPPORTED_RC_CHANNELS)) {
 
             rxFailsafeChannelConfig_t *failsafeChannelConfig = failsafeChannelConfigs(channel);
 
             uint16_t value;
-            rxFailsafeChannelType_e type = (channel < NON_AUX_CHANNEL_COUNT) ? RX_FAILSAFE_TYPE_FLIGHT : RX_FAILSAFE_TYPE_AUX;
+            rxFailsafeChannelType_e type = (channel < RX_NON_AUX_CHANNEL_COUNT) ? RX_FAILSAFE_TYPE_FLIGHT : RX_FAILSAFE_TYPE_AUX;
             rxFailsafeChannelMode_e mode = failsafeChannelConfig->mode;
             bool requireValue = failsafeChannelConfig->mode == RX_FAILSAFE_MODE_SET;
 
@@ -859,7 +859,7 @@ static void cliRxFail(char *cmdline)
                 );
             }
         } else {
-            cliShowArgumentRangeError("channel", 0, MAX_SUPPORTED_RC_CHANNEL_COUNT - 1);
+            cliShowArgumentRangeError("channel", 0, RX_MAX_SUPPORTED_RC_CHANNELS - 1);
         }
     }
 }
@@ -1249,7 +1249,7 @@ static void cliRxRange(char *cmdline)
     char *ptr;
 
     if (isEmpty(cmdline)) {
-        for (i = 0; i < NON_AUX_CHANNEL_COUNT; i++) {
+        for (i = 0; i < RX_NON_AUX_CHANNEL_COUNT; i++) {
             rxChannelRangeConfiguration_t *channelRangeConfiguration = channelRanges(i);
             cliPrintf("rxrange %u %u %u\r\n", i, channelRangeConfiguration->min, channelRangeConfiguration->max);
         }
@@ -1258,7 +1258,7 @@ static void cliRxRange(char *cmdline)
     } else {
         ptr = cmdline;
         i = atoi(ptr);
-        if (i >= 0 && i < NON_AUX_CHANNEL_COUNT) {
+        if (i >= 0 && i < RX_NON_AUX_CHANNEL_COUNT) {
             int rangeMin, rangeMax;
 
             ptr = strchr(ptr, ' ');
@@ -1283,7 +1283,7 @@ static void cliRxRange(char *cmdline)
                 channelRangeConfiguration->max = rangeMax;
             }
         } else {
-            cliShowArgumentRangeError("channel", 0, NON_AUX_CHANNEL_COUNT - 1);
+            cliShowArgumentRangeError("channel", 0, RX_NON_AUX_CHANNEL_COUNT - 1);
         }
     }
 }
@@ -1291,12 +1291,15 @@ static void cliRxRange(char *cmdline)
 #ifdef LED_STRIP
 static void cliLed(char *cmdline)
 {
+	(void)cmdline;
+	// TODO: ledstrip cli support
+	/*
     int i;
     char ledConfigBuffer[20];
 
     if (isEmpty(cmdline)) {
         for (i = 0; i < LED_MAX_STRIP_LENGTH; i++) {
-            generateLedConfig(i, ledConfigBuffer, sizeof(ledConfigBuffer));
+            ledstrip_reload_config(&ninja->ledstrip, i, ledConfigBuffer, sizeof(ledConfigBuffer));
             cliPrintf("led %u %s\r\n", i, ledConfigBuffer);
         }
     } else {
@@ -1311,6 +1314,7 @@ static void cliLed(char *cmdline)
             cliShowArgumentRangeError("index", 0, LED_MAX_STRIP_LENGTH - 1);
         }
     }
+	*/
 }
 
 static void cliColor(char *cmdline)
@@ -1372,7 +1376,7 @@ static void cliModeColor(char *cmdline)
         int modeIdx  = args[MODE];
         int funIdx = args[FUNCTION];
         int color = args[COLOR];
-        if(!setModeColor(modeIdx, funIdx, color)) {
+        if(!ledstrip_set_mode_color(&ninja->ledstrip, modeIdx, funIdx, color)) {
             cliShowParseError();
             return;
         }
@@ -1455,7 +1459,7 @@ static void cliServo(char *cmdline)
             arguments[MIDDLE] < arguments[MIN] || arguments[MIDDLE] > arguments[MAX] ||
             arguments[MIN] > arguments[MAX] || arguments[MAX] < arguments[MIN] ||
             arguments[RATE] < -100 || arguments[RATE] > 100 ||
-            arguments[FORWARD] >= MAX_SUPPORTED_RC_CHANNEL_COUNT ||
+            arguments[FORWARD] >= RX_MAX_SUPPORTED_RC_CHANNELS ||
             arguments[ANGLE_AT_MIN] < 0 || arguments[ANGLE_AT_MIN] > 180 ||
             arguments[ANGLE_AT_MAX] < 0 || arguments[ANGLE_AT_MAX] > 180
         ) {

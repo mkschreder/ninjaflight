@@ -54,6 +54,12 @@
 
 #include "io/gps.h"
 
+/**
+ * @defgroup Instruments
+ * @{
+ * @defgroup IMU
+ * @{
+ */
 enum {
 	IMU_FLAG_USE_ACC = (1 << 0),
 	IMU_FLAG_USE_MAG = (1 << 1),
@@ -154,7 +160,6 @@ static void _imu_vector_bf_to_ef(struct imu *self, t_fp_vector * v){
 
 // rotate acc into Earth frame and calculate acceleration in it
 static void _imu_update_acceleration(struct imu *self, float dT){
-	static int32_t accZoffset = 0;
 	static float accz_smooth = 0;
 	t_fp_vector accel_ned;
 
@@ -164,7 +169,8 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 
 	_imu_vector_bf_to_ef(self, &accel_ned);
 
-	if(0){
+	#if 0
+	static int32_t accZoffset = 0;
 		// TODO: remove this and make sure we initiate calibration outside and that it is done in instruments module
 		if (self->acc_config->acc_unarmedcal == 1) {
 			if (!ARMING_FLAG(ARMED)) {
@@ -175,8 +181,9 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 		} else
 			accel_ned.V.Z -= self->acc_1G;
 	} else {
+	#endif
 		accel_ned.V.Z -= self->acc_1G;
-	}
+	//}
 
 	float fc_acc = 0.5f / (M_PIf * self->acc_config->accz_lpf_cutoff);
 	accz_smooth = accz_smooth + (dT / (fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
@@ -484,3 +491,7 @@ void imu_enable_fast_dcm_convergence(struct imu *self, bool on){
 	if(on) self->flags |= IMU_FLAG_DCM_CONVERGE_FASTER;
 	else self->flags &= ~IMU_FLAG_DCM_CONVERGE_FASTER;
 }
+/**
+ * @}
+ * @}
+ */

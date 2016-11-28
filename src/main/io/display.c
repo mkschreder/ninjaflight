@@ -63,6 +63,8 @@
 
 #include "../ninja.h"
 
+#if 0
+// TODO: display
 static uint32_t nextDisplayUpdateAt = 0;
 static bool displayPresent = false;
 static char lineBuffer[SCREEN_CHARACTER_COLUMN_COUNT + 1];
@@ -218,7 +220,7 @@ static void updateRxStatus(void)
 {
     i2c_OLED_set_xy(SCREEN_CHARACTER_COLUMN_COUNT - 2, 0);
     char rxStatus = '!';
-    if (rxIsReceivingSignal()) {
+    if (rx_has_signal()) {
         rxStatus = 'r';
     } if (rxAreFlightChannelsValid()) {
         rxStatus = 'R';
@@ -748,5 +750,5 @@ void displayDisablePageCycling(void)
 {
     pageState.pageFlags &= ~PAGE_STATE_FLAG_CYCLE_ENABLED;
 }
-
+#endif
 #endif

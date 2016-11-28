@@ -18,6 +18,10 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @defgroup RX Receiver
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -160,6 +164,27 @@ void rx_init(struct rx *self, const struct system_calls *system){
 	*/
 }
 
+/**
+ * @page RX
+ * @ingroup RX
+ * A receiver is used to receive radio control signals from your transmitter
+ * and convert them into signals that the flight controller can understand.
+ *
+ * There are 3 basic types of receivers:
+ *
+ * - Parallel PWM Receivers
+ * - PPM Receivers
+ * - Serial Receivers
+ * 
+ * As of 2016 the recommendation for new purchases is a Serial or PPM based
+ * receiver. Avoid Parallel PWM recievers (1 wire per channel). This is due to
+ * the amount of IO pins parallel PWM based receivers use. Some new FC's do not
+ * support parallel PWM.
+ */
+
+/**
+ * Sets receiver type.
+ */
 void rx_set_type(struct rx *self, rx_type_t type){
 	bool enabled = false;
 	uint8_t t = type;

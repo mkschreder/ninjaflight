@@ -38,10 +38,10 @@ extern "C" {
 
 extern "C" {
     uint32_t rcModeActivationMask;
-
-    extern uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t *range);
 }
 
+#if 0
+// TODO: rx ranges
 #define RANGE_CONFIGURATION(min, max) (const rxChannelRangeConfiguration_t) {min, max}
 
 uint16_t testApplyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t range) {
@@ -99,90 +99,4 @@ TEST(RxChannelRangeTest, TestRxChannelRanges)
     EXPECT_EQ(testApplyRxChannelRangeConfiguraton(10000, RANGE_CONFIGURATION(1300, 1700)), 2250);
     EXPECT_EQ(testApplyRxChannelRangeConfiguraton(10000, RANGE_CONFIGURATION(900, 2100)), 2250);
 }
-
-
-// stubs
-extern "C" {
-
-bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
-
-void failsafeOnRxSuspend(uint32_t ) {}
-void failsafeOnRxResume(void) {}
-
-uint32_t micros(void) { return 0; }
-uint32_t millis(void) { return 0; }
-
-void rxPwmInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-}
-
-bool sbusInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-    return true;
-}
-
-bool spektrumInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-    return true;
-}
-
-bool sumdInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-    return true;
-}
-
-bool sumhInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-    return true;
-}
-
-bool rxMspInit(rxRuntimeConfig_t *rxRuntimeConfig, rcReadRawDataPtr *callback)
-{
-    UNUSED(rxRuntimeConfig);
-    UNUSED(callback);
-    return true;
-}
-
-bool feature(uint32_t) {
-    return false;
-}
-
-bool rxMspFrameComplete(void)
-{
-    return false;
-}
-
-bool isPPMDataBeingReceived(void)
-{
-    return false;
-}
-
-bool isPWMDataBeingReceived(void)
-{
-    return false;
-}
-
-void resetPPMDataReceivedState(void)
-{
-}
-
-void failsafeOnValidDataReceived(void)
-{
-}
-
-void failsafeOnValidDataFailed(void)
-{
-}
-
-}
-
+#endif

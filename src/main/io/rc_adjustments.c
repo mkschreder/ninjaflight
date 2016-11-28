@@ -43,9 +43,9 @@
 
 #include "io/beeper.h"
 
+#include "ninja.h"
 #include "flight/rate_profile.h"
 #include "io/rc_controls.h"
-#include "io/rc_curves.h"
 #include "io/rc_adjustments.h"
 
 #define MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex) self->adjustmentStateMask |= (1 << adjustmentIndex)
@@ -118,13 +118,13 @@ static void setAdjustment(uint8_t* ptr, uint8_t adjustment, int delta, uint8_t m
     blackboxLogInflightAdjustmentEvent(adjustment, *ptr);
 }
 
-static void applyStepAdjustment(struct rate_config *controlRateConfig, uint8_t adjustmentFunction, int delta)
+static void applyStepAdjustment(struct rc_adj *self, struct rate_config *controlRateConfig, uint8_t adjustmentFunction, int delta)
 {
 
     if (delta > 0) {
-        beeperConfirmationBeeps(2);
+        beeper_multi_beeps(&self->ninja->beeper, 2);
     } else {
-        beeperConfirmationBeeps(1);
+        beeper_multi_beeps(&self->ninja->beeper, 1);
     }
     switch(adjustmentFunction) {
         case ADJUSTMENT_RC_RATE:
@@ -250,7 +250,7 @@ static void applyStepAdjustment(struct rate_config *controlRateConfig, uint8_t a
     };
 }
 
-static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
+static void applySelectAdjustment(struct rc_adj *self, uint8_t adjustmentFunction, uint8_t position)
 {
     bool applied = false;
 
@@ -267,7 +267,7 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
     }
 
     if (applied) {
-        beeperConfirmationBeeps(position + 1);
+        beeper_multi_beeps(&self->ninja->beeper, position + 1);
     }
 }
 
@@ -275,10 +275,9 @@ static void applySelectAdjustment(uint8_t adjustmentFunction, uint8_t position)
 
 void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, rxConfig_t *rxConfig){
     uint8_t adjustmentIndex;
-    uint32_t now = sys_millis(self->system);
+    uint32_t now = sys_millis(self->ninja->system);
 
-    bool canUseRxData = rx_is_receiving(self->rx);
-
+    bool canUseRxData = rx_has_signal(&self->ninja->rx);
 
     for (adjustmentIndex = 0; adjustmentIndex < MAX_SIMULTANEOUS_ADJUSTMENT_COUNT; adjustmentIndex++) {
         adjustmentState_t *adjustmentState = &self->adjustmentStates[adjustmentIndex];
@@ -300,8 +299,8 @@ void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, r
             continue;
         }
 
-        uint8_t channelIndex = NON_AUX_CHANNEL_COUNT + adjustmentState->auxChannelIndex;
-		int16_t rcin = rx_get_channel(self->rx, channelIndex); 
+        uint8_t channelIndex = RX_NON_AUX_CHANNEL_COUNT + adjustmentState->auxChannelIndex;
+		int16_t rcin = rx_get_channel(&self->ninja->rx, channelIndex); 
 
         if (adjustmentState->config.mode == ADJUSTMENT_MODE_STEP) {
             int delta;
@@ -319,12 +318,12 @@ void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, r
                 continue;
             }
 
-            applyStepAdjustment(controlRateConfig, adjustmentFunction, delta);
+            applyStepAdjustment(self, controlRateConfig, adjustmentFunction, delta);
         } else if (adjustmentState->config.mode == ADJUSTMENT_MODE_SELECT) {
             uint16_t rangeWidth = ((2100 - 900) / adjustmentState->config.data.selectConfig.switchPositions);
             uint8_t position = (constrain(rcin, 900, 2100 - 1) - 900) / rangeWidth;
 
-            applySelectAdjustment(adjustmentFunction, position);
+            applySelectAdjustment(self, adjustmentFunction, position);
         }
         MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex);
     }
@@ -336,7 +335,7 @@ void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRang
     for (index = 0; index < MAX_ADJUSTMENT_RANGE_COUNT; index++) {
         adjustmentRange_t *adjustmentRange = &adjustmentRanges[index];
 
-        if (isRangeActive(self->rx, adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
+        if (isRangeActive(&self->ninja->rx, adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
 
             rc_adj_add_range(self, adjustmentRange);
         }

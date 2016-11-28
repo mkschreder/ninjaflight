@@ -7,12 +7,39 @@
 #include "imu.h"
 #include "instruments.h"
 
+/**
+ * @defgroup Instruments
+ * @{
+ * @defgroup Instruments_Main
+ * @{
+ *
+ * The purpose of this module is to maintain a filtered state of all flight
+ * instruments that are available to the pilot. Instrumentation shall report
+ * data in SI units or multiples of such (for example decidegrees for
+ * represetnting fractions of degrees when not using floating point).
+ *
+ * Instruments object accepts raw sensor data as input and maintains estimated
+ * state that can be directly used by other parts of the flight controller.
+ * This module also handles sensor alignment.
+ *
+ * Currently supported input sensors include:
+ * - Accelerometer
+ * - Gyroscope
+ * - Magnetometer
+ *
+ * Estimated quantities include:
+ * - Orientation (quaternion and euler angles)
+ * - Altitude
+ * - Position
+ * - Velocity
+ */
 enum {
 	INS_USE_SENSOR_GYRO		= (1 << 0),
 	INS_USE_SENSOR_ACC		= (1 << 1),
 	INS_USE_SENSOR_MAG		= (1 << 2)
 };
 
+//! Initializes all instruments using specified configuration
 void ins_init(struct instruments *self,
 	struct board_alignment_config *ba_conf,
 	struct imu_config *imu_config,
@@ -150,4 +177,22 @@ int16_t ins_get_acc_scale(struct instruments *self){
 	return self->acc.acc_1G;
 }
 
+//! returns estimated altitude above sea level in cm
+uint32_t ins_get_altitude_cm(struct instruments *self){
+	(void)self;
+	// TODO: calculate altitude here as we currently do in altitude hold code
+	return 0;
+}
+
+//! returns vertical speed in cm/s
+int16_t ins_get_vertical_speed_cms(struct instruments *self){
+	(void)self;
+	// TODO: calculate vertical speed
+	return 0;
+}
+
+/**
+ * @}
+ * @}
+ */
 

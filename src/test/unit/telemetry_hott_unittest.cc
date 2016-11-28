@@ -55,6 +55,8 @@ extern "C" {
 }
 // See http://en.wikipedia.org/wiki/Geographic_coordinate_conversion
 
+// TODO: hott unit test
+#if 0
 HOTT_GPS_MSG_t hottGPSMessage;
 
 HOTT_GPS_MSG_t *getGPSMessageForTest(void)
@@ -266,4 +268,4 @@ uint16_t battery_get_cell_voltage(struct battery *self){
 
 
 }
-
+#endif
