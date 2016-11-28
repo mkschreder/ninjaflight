@@ -620,14 +620,6 @@ $(OBJECT_DIR)/version.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'__TARGET__="TEST"' -D'__REVISION__="revision"' -c $(USER_DIR)/version.c -o $@
 
-$(OBJECT_DIR)/drivers/buf_writer.o : \
-	$(USER_DIR)/drivers/buf_writer.c \
-	$(USER_DIR)/drivers/buf_writer.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'__TARGET__="TEST"' -D'__REVISION__="revision"' -c $(USER_DIR)/drivers/buf_writer.c -o $@
-
 $(OBJECT_DIR)/common/streambuf.o : \
 	$(USER_DIR)/common/streambuf.c \
 	$(USER_DIR)/common/streambuf.h \

@@ -41,11 +41,6 @@
 
 #include "io/beeper.h"
 
-#if defined(FLASH_SIZE) && FLASH_SIZE > 64
-#define BEEPER_NAMES
-#endif
-
-
 #define BEEPER_COMMAND_REPEAT 0xFE
 #define BEEPER_COMMAND_STOP   0xFF
 

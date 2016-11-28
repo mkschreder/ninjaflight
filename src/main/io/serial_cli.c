@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <strings.h>
 #include <math.h>
 #include <ctype.h>
 
@@ -51,7 +52,7 @@
 #include "drivers/pwm_rx.h"
 #include "drivers/sdcard.h"
 #include "drivers/pwm_output.h"
-#include "drivers/buf_writer.h"
+#include "common/buf_writer.h"
 
 #include "io/gps.h"
 #include "io/rc_controls.h"
@@ -99,84 +100,65 @@
 
 #include "serial_cli.h"
 
-// FIXME remove this for targets that don't need a CLI.  Perhaps use a no-op macro when USE_CLI is not enabled
-// signal that we're in cli mode
-uint8_t cliMode = 0;
-
-#ifdef USE_CLI
-
-extern uint16_t cycleTime; // FIXME dependency on mw.c
-
-// TODO: remove
-extern struct mixer mixer; 
-
-static serialPort_t *cliPort;
-static bufWriter_t *cliWriter;
-static uint8_t cliWriteBuffer[sizeof(*cliWriter) + 16];
-
-static void cliAux(char *cmdline);
-static void cliRxFail(char *cmdline);
-static void cliAdjustmentRange(char *cmdline);
-static void cliMotorMix(char *cmdline);
-static void cliDefaults(char *cmdline);
-static void cliDump(char *cmdLine);
-static void cliExit(char *cmdline);
-static void cliFeature(char *cmdline);
-static void cliMotor(char *cmdline);
-static void cliPlaySound(char *cmdline);
-static void cliProfile(char *cmdline);
-static void cliRateProfile(char *cmdline);
-static void cliReboot(void);
-static void cliSave(char *cmdline);
-static void cliSerial(char *cmdline);
+static void cliAux(struct cli *self, char *cmdline);
+static void cliRxFail(struct cli *self, char *cmdline);
+static void cliAdjustmentRange(struct cli *self, char *cmdline);
+static void cliMotorMix(struct cli *self, char *cmdline);
+static void cliDefaults(struct cli *self, char *cmdline);
+static void cliDump(struct cli *self, char *cmdLine);
+static void cliExit(struct cli *self, char *cmdline);
+static void cliFeature(struct cli *self, char *cmdline);
+static void cliMotor(struct cli *self, char *cmdline);
+static void cliPlaySound(struct cli *self, char *cmdline);
+static void cliProfile(struct cli *self, char *cmdline);
+static void cliRateProfile(struct cli *self, char *cmdline);
+static void cliReboot(struct cli *self);
+static void cliSave(struct cli *self, char *cmdline);
+static void cliSerial(struct cli *self, char *cmdline);
 
 #ifdef USE_SERVOS
-static void cliServo(char *cmdline);
-static void cliServoMix(char *cmdline);
+static void cliServo(struct cli *self, char *cmdline);
+static void cliServoMix(struct cli *self, char *cmdline);
 #endif
 
-static void cliSet(char *cmdline);
-static void cliGet(char *cmdline);
-static void cliStatus(char *cmdline);
+static void cliSet(struct cli *self, char *cmdline);
+static void cliGet(struct cli *self, char *cmdline);
+static void cliStatus(struct cli *self, char *cmdline);
 #ifndef SKIP_TASK_STATISTICS
-static void cliTasks(char *cmdline);
+static void cliTasks(struct cli *self, char *cmdline);
 #endif
-static void cliVersion(char *cmdline);
-static void cliRxRange(char *cmdline);
+static void cliVersion(struct cli *self, char *cmdline);
+static void cliRxRange(struct cli *self, char *cmdline);
 
 #ifdef GPS
-static void cliGpsPassthrough(char *cmdline);
+static void cliGpsPassthrough(struct cli *self, char *cmdline);
 #endif
 
-static void cliHelp(char *cmdline);
-static void cliMap(char *cmdline);
+static void cliHelp(struct cli *self, char *cmdline);
+static void cliMap(struct cli *self, char *cmdline);
 
 #ifdef LED_STRIP
-static void cliLed(char *cmdline);
-static void cliColor(char *cmdline);
-static void cliModeColor(char *cmdline);
+static void cliLed(struct cli *self, char *cmdline);
+static void cliColor(struct cli *self, char *cmdline);
+static void cliModeColor(struct cli *self, char *cmdline);
 #endif
 
-static void cliMixer(char *cmdline);
+static void cliMixer(struct cli *self, char *cmdline);
 
 #ifdef USE_FLASHFS
-static void cliFlashInfo(char *cmdline);
-static void cliFlashErase(char *cmdline);
+static void cliFlashInfo(struct cli *self, char *cmdline);
+static void cliFlashErase(struct cli *self, char *cmdline);
 #ifdef USE_FLASH_TOOLS
-static void cliFlashWrite(char *cmdline);
-static void cliFlashRead(char *cmdline);
+static void cliFlashWrite(struct cli *self, char *cmdline);
+static void cliFlashRead(struct cli *self, char *cmdline);
 #endif
 #endif
 
 #ifdef USE_SDCARD
-static void cliSdInfo(char *cmdline);
+static void cliSdInfo(struct cli *self, char *cmdline);
 #endif
 
-static void cliTilt(char *cmdline); 
-
-// buffer
-static char cliBuffer[48];
-static uint32_t bufferIndex = 0;
+static void cliTilt(struct cli *self, char *cmdline); 
 
 //  this with mixerMode_e
 static const char * const mixerNames[] = {
@@ -227,7 +209,7 @@ typedef struct {
     const char *description;
     const char *args;
 #endif
-    void (*func)(char *cmdline);
+    void (*func)(struct cli *self, char *cmdline);
 } clicmd_t;
 
 #ifndef SKIP_CLI_COMMAND_HELP
@@ -728,26 +710,26 @@ typedef union {
     float float_value;
 } int_float_value_t;
 
-static void cliSetVar(const clivalue_t *var, const int_float_value_t value);
-static void cliPrintVar(const clivalue_t *var, uint32_t full);
-static void cliPrint(const char *str);
-static void cliPrintf(const char *fmt, ...);
-static void cliWrite(uint8_t ch);
+static void cliSetVar(struct cli *self, const clivalue_t *var, const int_float_value_t value);
+static void cliPrintVar(struct cli *self, const clivalue_t *var, uint32_t full);
+static void cliPrint(struct cli *self, const char *str);
+static void cliPrintf(struct cli *self, const char *fmt, ...);
+static void cliWrite(struct cli *self, uint8_t ch);
 
-static void cliPrompt(void)
+static void cliPrompt(struct cli *self)
 {
-    cliPrint("\r\n# ");
-    bufWriterFlush(cliWriter);
+    cliPrint(self, "\r\n# ");
+    bufWriterFlush(self->cliWriter);
 }
 
-static void cliShowParseError(void)
+static void cliShowParseError(struct cli *self)
 {
-    cliPrint("Parse error\r\n");
+    cliPrint(self, "Parse error\r\n");
 }
 
-static void cliShowArgumentRangeError(const char *name, int min, int max)
+static void cliShowArgumentRangeError(struct cli *self, const char *name, int min, int max)
 {
-    cliPrintf("%s must be between %d and %d\r\n", name, min, max);
+    cliPrintf(self, "%s must be between %d and %d\r\n", name, min, max);
 }
 
 static char *processChannelRangeArgs(char *ptr, channelRange_t *range, uint8_t *validArgumentCount)
@@ -779,7 +761,7 @@ static bool isEmpty(const char *string)
     return !string || *string == '\0';
 }
 
-static void cliRxFail(char *cmdline)
+static void cliRxFail(struct cli *self, char *cmdline)
 {
     uint8_t channel;
     char buf[3];
@@ -787,7 +769,7 @@ static void cliRxFail(char *cmdline)
     if (isEmpty(cmdline)) {
         // print out rxConfig failsafe settings
         for (channel = 0; channel < RX_MAX_SUPPORTED_RC_CHANNELS; channel++) {
-            cliRxFail(itoa(channel, buf, 10));
+            cliRxFail(self, itoa(channel, buf, 10));
         }
     } else {
         char *ptr = cmdline;
@@ -811,7 +793,7 @@ static void cliRxFail(char *cmdline)
                     mode = RX_FAILSAFE_MODE_INVALID;
                 }
                 if (mode == RX_FAILSAFE_MODE_INVALID) {
-                    cliShowParseError();
+                    cliShowParseError(self);
                     return;
                 }
 
@@ -820,19 +802,19 @@ static void cliRxFail(char *cmdline)
                 ptr = strchr(ptr, ' ');
                 if (ptr) {
                     if (!requireValue) {
-                        cliShowParseError();
+                        cliShowParseError(self);
                         return;
                     }
                     value = atoi(++ptr);
                     value = CHANNEL_VALUE_TO_RXFAIL_STEP(value);
                     if (value > MAX_RXFAIL_RANGE_STEP) {
-                        cliPrint("Value out of range\r\n");
+                        cliPrint(self, "Value out of range\r\n");
                         return;
                     }
 
                     failsafeChannelConfig->step = value;
                 } else if (requireValue) {
-                    cliShowParseError();
+                    cliShowParseError(self);
                     return;
                 }
                 failsafeChannelConfig->mode = mode;
@@ -847,25 +829,25 @@ static void cliRxFail(char *cmdline)
             // 3. recursive use for full list.
 
             if (requireValue) {
-                cliPrintf("rxfail %u %c %d\r\n",
+                cliPrintf(self, "rxfail %u %c %d\r\n",
                     channel,
                     modeCharacter,
                     RXFAIL_STEP_TO_CHANNEL_VALUE(failsafeChannelConfig->step)
                 );
             } else {
-                cliPrintf("rxfail %u %c\r\n",
+                cliPrintf(self, "rxfail %u %c\r\n",
                     channel,
                     modeCharacter
                 );
             }
         } else {
-            cliShowArgumentRangeError("channel", 0, RX_MAX_SUPPORTED_RC_CHANNELS - 1);
+            cliShowArgumentRangeError(self, "channel", 0, RX_MAX_SUPPORTED_RC_CHANNELS - 1);
         }
     }
 }
 
-static void cliAux(char *cmdline)
-{
+static void cliAux(struct cli *self, char *cmdline){
+	(void)self;
     int i, val = 0;
     char *ptr;
 
@@ -873,7 +855,7 @@ static void cliAux(char *cmdline)
         // print out aux channel settings
         for (i = 0; i < MAX_MODE_ACTIVATION_CONDITION_COUNT; i++) {
             modeActivationCondition_t *mac = &modeActivationProfile()->modeActivationConditions[i];
-            cliPrintf("aux %u %u %u %u %u\r\n",
+            cliPrintf(self, "aux %u %u %u %u %u\r\n",
                 i,
                 mac->modeId,
                 mac->auxChannelIndex,
@@ -909,13 +891,14 @@ static void cliAux(char *cmdline)
                 memset(mac, 0, sizeof(modeActivationCondition_t));
             }
         } else {
-            cliShowArgumentRangeError("index", 0, MAX_MODE_ACTIVATION_CONDITION_COUNT - 1);
+            cliShowArgumentRangeError(self, "index", 0, MAX_MODE_ACTIVATION_CONDITION_COUNT - 1);
         }
     }
 }
 
-static void cliSerial(char *cmdline)
+static void cliSerial(struct cli *self, char *cmdline)
 {
+	(void)self;
     int i, val;
     char *ptr;
 
@@ -924,7 +907,7 @@ static void cliSerial(char *cmdline)
             if (!serialIsPortAvailable(serialConfig()->portConfigs[i].identifier)) {
                 continue;
             };
-            cliPrintf("serial %d %d %ld %ld %ld %ld\r\n" ,
+            cliPrintf(self, "serial %d %d %ld %ld %ld %ld\r\n" ,
                 serialConfig()->portConfigs[i].identifier,
                 serialConfig()->portConfigs[i].functionMask,
                 baudRates[serialConfig()->portConfigs[i].msp_baudrateIndex],
@@ -1004,7 +987,7 @@ static void cliSerial(char *cmdline)
     }
 
     if (validArgumentCount < 6) {
-        cliShowParseError();
+        cliShowParseError(self);
         return;
     }
 
@@ -1012,8 +995,9 @@ static void cliSerial(char *cmdline)
 
 }
 
-static void cliAdjustmentRange(char *cmdline)
+static void cliAdjustmentRange(struct cli *self, char *cmdline)
 {
+	(void)self;
     int i, val = 0;
     char *ptr;
 
@@ -1021,7 +1005,7 @@ static void cliAdjustmentRange(char *cmdline)
         // print out adjustment ranges channel settings
         for (i = 0; i < MAX_ADJUSTMENT_RANGE_COUNT; i++) {
             adjustmentRange_t *ar = &adjustmentProfile()->adjustmentRanges[i];
-            cliPrintf("adjrange %u %u %u %u %u %u %u\r\n",
+            cliPrintf(self, "adjrange %u %u %u %u %u %u %u\r\n",
                 i,
                 ar->adjustmentIndex,
                 ar->auxChannelIndex,
@@ -1076,15 +1060,15 @@ static void cliAdjustmentRange(char *cmdline)
 
             if (validArgumentCount != 6) {
                 memset(ar, 0, sizeof(adjustmentRange_t));
-                cliShowParseError();
+                cliShowParseError(self);
             }
         } else {
-            cliShowArgumentRangeError("index", 0, MAX_ADJUSTMENT_RANGE_COUNT - 1);
+            cliShowArgumentRangeError(self, "index", 0, MAX_ADJUSTMENT_RANGE_COUNT - 1);
         }
     }
 }
 
-static void cliMotorMix(char *cmdline)
+static void cliMotorMix(struct cli *self, char *cmdline)
 {
 	if(USE_QUAD_MIXER_ONLY) return;
 
@@ -1095,16 +1079,16 @@ static void cliMotorMix(char *cmdline)
     char *ptr;
 
     if (!cmdline || isEmpty(cmdline)) {
-        cliPrint("Motor\tThr\tRoll\tPitch\tYaw\r\n");
+        cliPrint(self, "Motor\tThr\tRoll\tPitch\tYaw\r\n");
         for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
             if (fabsf(customMotorMixer(i)->throttle) < 1e-6f)
                 break;
             num_motors++;
-            cliPrintf("#%d:\t", i);
-            cliPrintf("%s\t", ftoa(customMotorMixer(i)->throttle, ftoaBuffer));
-            cliPrintf("%s\t", ftoa(customMotorMixer(i)->roll, ftoaBuffer));
-            cliPrintf("%s\t", ftoa(customMotorMixer(i)->pitch, ftoaBuffer));
-            cliPrintf("%s\r\n", ftoa(customMotorMixer(i)->yaw, ftoaBuffer));
+            cliPrintf(self, "#%d:\t", i);
+            cliPrintf(self, "%s\t", ftoa(customMotorMixer(i)->throttle, ftoaBuffer));
+            cliPrintf(self, "%s\t", ftoa(customMotorMixer(i)->roll, ftoaBuffer));
+            cliPrintf(self, "%s\t", ftoa(customMotorMixer(i)->pitch, ftoaBuffer));
+            cliPrintf(self, "%s\r\n", ftoa(customMotorMixer(i)->yaw, ftoaBuffer));
         }
         return;
     } else if (strncasecmp(cmdline, "reset", 5) == 0) {
@@ -1117,14 +1101,14 @@ static void cliMotorMix(char *cmdline)
             len = strlen(++ptr);
             for (i = 0; ; i++) {
                 if (mixerNames[i] == NULL) {
-                    cliPrint("Invalid name\r\n");
+                    cliPrint(self, "Invalid name\r\n");
                     break;
                 }
                 if (strncasecmp(ptr, mixerNames[i], len) == 0) {
 					// TODO: fix this once we have fixed custom mixer support
                     //mixer_copy_rules(&mixer, i, customMotorMixer(0), MIXER_MAX_RULES);
-                    cliPrintf("Loaded %s\r\n", mixerNames[i]);
-                    cliMotorMix(NULL);
+                    cliPrintf(self, "Loaded %s\r\n", mixerNames[i]);
+                    cliMotorMix(self, NULL);
                     break;
                 }
             }
@@ -1154,17 +1138,17 @@ static void cliMotorMix(char *cmdline)
                 check++;
             }
             if (check != 4) {
-                cliShowParseError();
+                cliShowParseError(self);
             } else {
-                cliMotorMix(NULL);
+                cliMotorMix(self, NULL);
             }
         } else {
-            cliShowArgumentRangeError("index", 0, MAX_SUPPORTED_MOTORS - 1);
+            cliShowArgumentRangeError(self, "index", 0, MAX_SUPPORTED_MOTORS - 1);
         }
     }
 }
 
-static const __unused char *_channel_name(uint8_t chan){
+static const __attribute__((unused)) char *_channel_name(uint8_t chan){
 	switch(chan){
 		case ROLL: return "ROLL"; 
 		case PITCH: return "PITCH"; 
@@ -1176,22 +1160,23 @@ static const __unused char *_channel_name(uint8_t chan){
 	}
 }
 
-static void cliTilt(char *cmdline)
+static void cliTilt(struct cli *self, char *cmdline)
 {
+	(void)self;
     struct tilt_config *tilt = tiltConfig();
 
 	if(!USE_TILT){
-		cliPrintf("Not supported!\n"); 
+		cliPrintf(self, "Not supported!\n"); 
 	} else {
 		if (isEmpty(cmdline)) {
 			// print out settings
-			cliPrintf("mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
-			cliPrintf("control channel: %s\n", _channel_name(tilt->control_channel)); 
-			cliPrintf("compensate: "); 
-			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf("THRUST "); 
-			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf("TILT "); 
-			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) cliPrintf("BODY "); 
-			cliPrintf("\n"); 
+			cliPrintf(self, "mode: %s\n", (tilt->mode == MIXER_TILT_MODE_DYNAMIC)?"dynamic":"static"); 
+			cliPrintf(self, "control channel: %s\n", _channel_name(tilt->control_channel)); 
+			cliPrintf(self, "compensate: "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_THRUST) cliPrintf(self, "THRUST "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_TILT) cliPrintf(self, "TILT "); 
+			if(tilt->compensation_flags & MIXER_TILT_COMPENSATE_BODY) cliPrintf(self, "BODY "); 
+			cliPrintf(self, "\n"); 
 		} else {
 			char params[4][16]; 
 			if(sscanf(cmdline, "%s %s", params[0], params[1]) == 2){
@@ -1201,7 +1186,7 @@ static void cliTilt(char *cmdline)
 					} else if(strcmp(params[1], "static") == 0){
 						tilt->mode = MIXER_TILT_MODE_STATIC; 
 					} else {
-						cliPrintf("Valid values: static,dynamic\n"); 
+						cliPrintf(self, "Valid values: static,dynamic\n"); 
 					}
 				} else if(strcmp(params[0], "in") == 0){
 					if(strcmp(params[1], "PITCH") == 0){
@@ -1213,7 +1198,7 @@ static void cliTilt(char *cmdline)
 					} else if(strcmp(params[1], "AUX2") == 0){
 						tilt->control_channel = AUX2; 
 					} else {
-						cliPrintf("Unsupported control channel!\n"); 
+						cliPrintf(self, "Unsupported control channel!\n"); 
 					}
 				} else if(strcmp(params[0], "compon") == 0){
 					if(strcmp(params[1], "body") == 0)
@@ -1223,7 +1208,7 @@ static void cliTilt(char *cmdline)
 					else if(strcmp(params[1], "tilt") == 0)
 						tilt->compensation_flags |= MIXER_TILT_COMPENSATE_TILT; 
 					else
-						cliPrintf("Invalid argument!\n"); 
+						cliPrintf(self, "Invalid argument!\n"); 
 				} else if(strcmp(params[0], "compoff") == 0){
 					if(strcmp(params[1], "body") == 0)
 						tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_BODY; 
@@ -1232,26 +1217,27 @@ static void cliTilt(char *cmdline)
 					else if(strcmp(params[1], "tilt") == 0)
 						tilt->compensation_flags &= ~MIXER_TILT_COMPENSATE_TILT; 
 					else
-						cliPrintf("Invalid argument!\n"); 
+						cliPrintf(self, "Invalid argument!\n"); 
 				} else {
-					cliPrintf("Invalid argument!\n"); 
+					cliPrintf(self, "Invalid argument!\n"); 
 				}
 			} else {
-				cliPrintf("Invalid argument!\n"); 
+				cliPrintf(self, "Invalid argument!\n"); 
 			}
 		}
 	}
 }
 
-static void cliRxRange(char *cmdline)
+static void cliRxRange(struct cli *self, char *cmdline)
 {
+	(void)self;
     int i, validArgumentCount = 0;
     char *ptr;
 
     if (isEmpty(cmdline)) {
         for (i = 0; i < RX_NON_AUX_CHANNEL_COUNT; i++) {
             rxChannelRangeConfiguration_t *channelRangeConfiguration = channelRanges(i);
-            cliPrintf("rxrange %u %u %u\r\n", i, channelRangeConfiguration->min, channelRangeConfiguration->max);
+            cliPrintf(self, "rxrange %u %u %u\r\n", i, channelRangeConfiguration->min, channelRangeConfiguration->max);
         }
     } else if (strcasecmp(cmdline, "reset") == 0) {
         PG_RESET_CURRENT(channelRanges);
@@ -1274,23 +1260,24 @@ static void cliRxRange(char *cmdline)
             }
 
             if (validArgumentCount != 2) {
-                cliShowParseError();
+                cliShowParseError(self);
             } else if (rangeMin < PWM_PULSE_MIN || rangeMin > PWM_PULSE_MAX || rangeMax < PWM_PULSE_MIN || rangeMax > PWM_PULSE_MAX) {
-                cliShowParseError();
+                cliShowParseError(self);
             } else {
                 rxChannelRangeConfiguration_t *channelRangeConfiguration = channelRanges(i);
                 channelRangeConfiguration->min = rangeMin;
                 channelRangeConfiguration->max = rangeMax;
             }
         } else {
-            cliShowArgumentRangeError("channel", 0, RX_NON_AUX_CHANNEL_COUNT - 1);
+            cliShowArgumentRangeError(self, "channel", 0, RX_NON_AUX_CHANNEL_COUNT - 1);
         }
     }
 }
 
 #ifdef LED_STRIP
-static void cliLed(char *cmdline)
+static void cliLed(struct cli *self, char *cmdline)
 {
+	(void)self;
 	(void)cmdline;
 	// TODO: ledstrip cli support
 	/*
@@ -1300,7 +1287,7 @@ static void cliLed(char *cmdline)
     if (isEmpty(cmdline)) {
         for (i = 0; i < LED_MAX_STRIP_LENGTH; i++) {
             ledstrip_reload_config(&ninja->ledstrip, i, ledConfigBuffer, sizeof(ledConfigBuffer));
-            cliPrintf("led %u %s\r\n", i, ledConfigBuffer);
+            cliPrintf(self, "led %u %s\r\n", i, ledConfigBuffer);
         }
     } else {
         char *ptr = cmdline;
@@ -1308,22 +1295,22 @@ static void cliLed(char *cmdline)
         if (i < LED_MAX_STRIP_LENGTH) {
             ptr = strchr(ptr, ' ');
             if (!ptr || !parseLedStripConfig(i, ptr + 1)) {
-                cliShowParseError();
+                cliShowParseError(self);
             }
         } else {
-            cliShowArgumentRangeError("index", 0, LED_MAX_STRIP_LENGTH - 1);
+            cliShowArgumentRangeError(self, "index", 0, LED_MAX_STRIP_LENGTH - 1);
         }
     }
 	*/
 }
 
-static void cliColor(char *cmdline)
+static void cliColor(struct cli *self, char *cmdline)
 {
     int i;
 
     if (isEmpty(cmdline)) {
         for (i = 0; i < LED_CONFIGURABLE_COLOR_COUNT; i++) {
-            cliPrintf("color %u %d,%u,%u\r\n",
+            cliPrintf(self, "color %u %d,%u,%u\r\n",
                 i,
                 colors(i)->h,
                 colors(i)->s,
@@ -1336,27 +1323,27 @@ static void cliColor(char *cmdline)
         if (i < LED_CONFIGURABLE_COLOR_COUNT) {
             ptr = strchr(ptr, ' ');
             if (!ptr || !parseColor(i, ptr + 1)) {
-                cliShowParseError();
+                cliShowParseError(self);
             }
         } else {
-            cliShowArgumentRangeError("index", 0, LED_CONFIGURABLE_COLOR_COUNT - 1);
+            cliShowArgumentRangeError(self, "index", 0, LED_CONFIGURABLE_COLOR_COUNT - 1);
         }
     }
 }
 
-static void cliModeColor(char *cmdline)
+static void cliModeColor(struct cli *self, char *cmdline)
 {
     if (isEmpty(cmdline)) {
         for (int i = 0; i < LED_MODE_COUNT; i++) {
             for (int j = 0; j < LED_DIRECTION_COUNT; j++) {
                 int colorIndex = modeColors(i)->color[j];
-                cliPrintf("mode_color %u %u %u\r\n", i, j, colorIndex);
+                cliPrintf(self, "mode_color %u %u %u\r\n", i, j, colorIndex);
             }
         }
 
         for (int j = 0; j < LED_SPECIAL_COLOR_COUNT; j++) {
             int colorIndex = specialColors(0)->color[j];
-            cliPrintf("mode_color %u %u %u\r\n", LED_SPECIAL, j, colorIndex);
+            cliPrintf(self, "mode_color %u %u %u\r\n", LED_SPECIAL, j, colorIndex);
         }
     } else {
         enum {MODE = 0, FUNCTION, COLOR, ARGS_COUNT};
@@ -1369,25 +1356,23 @@ static void cliModeColor(char *cmdline)
         }
 
         if (ptr != NULL || argNo != ARGS_COUNT) {
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
 
         int modeIdx  = args[MODE];
         int funIdx = args[FUNCTION];
         int color = args[COLOR];
-        if(!ledstrip_set_mode_color(&ninja->ledstrip, modeIdx, funIdx, color)) {
-            cliShowParseError();
+        if(!ledstrip_set_mode_color(&self->ninja->ledstrip, modeIdx, funIdx, color)) {
+            cliShowParseError(self);
             return;
         }
         // values are validated
-        cliPrintf("mode_color %u %u %u\r\n", modeIdx, funIdx, color);
+        cliPrintf(self, "mode_color %u %u %u\r\n", modeIdx, funIdx, color);
     }
 }
-#endif
 
-#ifdef USE_SERVOS
-static void cliServo(char *cmdline)
+static void cliServo(struct cli *self, char *cmdline)
 {
     enum { SERVO_ARGUMENT_COUNT = 8 };
     int16_t arguments[SERVO_ARGUMENT_COUNT];
@@ -1402,7 +1387,7 @@ static void cliServo(char *cmdline)
         for (i = 0; i < MAX_SUPPORTED_SERVOS; i++) {
             servo = &servoProfile()->servoConf[i];
 
-            cliPrintf("servo %u %d %d %d %d %d %d %d\r\n",
+            cliPrintf(self, "servo %u %d %d %d %d %d %d %d\r\n",
                 i,
                 servo->min,
                 servo->max,
@@ -1424,7 +1409,7 @@ static void cliServo(char *cmdline)
         while (*ptr) {
             if (*ptr == '-' || (*ptr >= '0' && *ptr <= '9')) {
                 if (validArgumentCount >= SERVO_ARGUMENT_COUNT) {
-                    cliShowParseError();
+                    cliShowParseError(self);
                     return;
                 }
 
@@ -1436,7 +1421,7 @@ static void cliServo(char *cmdline)
             } else if (*ptr == ' ') {
                 ptr++;
             } else {
-                cliShowParseError();
+                cliShowParseError(self);
                 return;
             }
         }
@@ -1447,7 +1432,7 @@ static void cliServo(char *cmdline)
 
         // Check we got the right number of args and the servo index is correct (don't validate the other values)
         if (validArgumentCount != SERVO_ARGUMENT_COUNT || i < 0 || i >= MAX_SUPPORTED_SERVOS) {
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
 
@@ -1463,7 +1448,7 @@ static void cliServo(char *cmdline)
             arguments[ANGLE_AT_MIN] < 0 || arguments[ANGLE_AT_MIN] > 180 ||
             arguments[ANGLE_AT_MAX] < 0 || arguments[ANGLE_AT_MAX] > 180
         ) {
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
 
@@ -1476,10 +1461,8 @@ static void cliServo(char *cmdline)
         servo->forwardFromChannel = arguments[7];
     }
 }
-#endif
 
-#ifdef USE_SERVOS
-static void cliServoMix(char *cmdline)
+static void cliServoMix(struct cli *self, char *cmdline)
 {
     int i;
     char *ptr;
@@ -1487,13 +1470,13 @@ static void cliServoMix(char *cmdline)
 
     if (!cmdline || strlen(cmdline) == 0) {
 
-        cliPrint("Rule\tServo\tSource\tRate\tSpeed\tMin\tMax\tBox\r\n");
+        cliPrint(self, "Rule\tServo\tSource\tRate\tSpeed\tMin\tMax\tBox\r\n");
 
         for (i = 0; i < MAX_SERVO_RULES; i++) {
             if (customServoMixer(i)->rate == 0)
                 break;
 
-            cliPrintf("#%d:\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n",
+            cliPrintf(self, "#%d:\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n",
                 i,
                 customServoMixer(i)->targetChannel,
                 customServoMixer(i)->inputSource,
@@ -1504,7 +1487,7 @@ static void cliServoMix(char *cmdline)
                 customServoMixer(i)->box
             );
         }
-        cliPrintf("\r\n");
+        cliPrintf(self, "\r\n");
         return;
     } else if (strncasecmp(cmdline, "reset", 5) == 0) {
         // erase custom mixer
@@ -1518,14 +1501,14 @@ static void cliServoMix(char *cmdline)
             int len = strlen(++ptr);
             for (i = 0; ; i++) {
                 if (mixerNames[i] == NULL) {
-                    cliPrintf("Invalid name\r\n");
+                    cliPrintf(self, "Invalid name\r\n");
                     break;
                 }
                 if (strncasecmp(ptr, mixerNames[i], len) == 0) {
 					// TODO: this needs to be fixed
                     //servoMixerLoadMix(i, customServoMixer(0));
-                    cliPrintf("Loaded %s\r\n", mixerNames[i]);
-                    cliServoMix(NULL);
+                    cliPrintf(self, "Loaded %s\r\n", mixerNames[i]);
+                    cliServoMix(self, NULL);
                     break;
                 }
             }
@@ -1538,17 +1521,17 @@ static void cliServoMix(char *cmdline)
 
         int len = strlen(ptr);
         if (len == 0) {
-            cliPrintf("s");
+            cliPrintf(self, "s");
             for (inputSource = 0; inputSource < MIXER_INPUT_COUNT; inputSource++)
-                cliPrintf("\ti%d", inputSource);
-            cliPrintf("\r\n");
+                cliPrintf(self, "\ti%d", inputSource);
+            cliPrintf(self, "\r\n");
 			// TODO: this does not work currently
 			/*
             for (servoIndex = 0; servoIndex < MAX_SUPPORTED_SERVOS; servoIndex++) {
-                cliPrintf("%d", servoIndex);
+                cliPrintf(self, "%d", servoIndex);
                 for (inputSource = 0; inputSource < INPUT_SOURCE_COUNT; inputSource++)
-                    cliPrintf("\t%s  ", (servoProfile()->servoConf[servoIndex].reversedSources & (1 << inputSource)) ? "r" : "n");
-                cliPrintf("\r\n");
+                    cliPrintf(self, "\t%s  ", (servoProfile()->servoConf[servoIndex].reversedSources & (1 << inputSource)) ? "r" : "n");
+                cliPrintf(self, "\r\n");
             }
 			*/
             return;
@@ -1561,7 +1544,7 @@ static void cliServoMix(char *cmdline)
         }
 
         if (ptr == NULL || check != ARGS_COUNT - 1) {
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
 		//TODO: this does not work right now.
@@ -1574,7 +1557,7 @@ static void cliServoMix(char *cmdline)
             else
                 servoProfile()->servoConf[args[SERVO]].reversedSources &= ~(1 << args[INPUT]);
         } else
-            cliShowParseError();
+            cliShowParseError(self);
 		*/
         //cliServoMix("reverse");
     } else {
@@ -1586,7 +1569,7 @@ static void cliServoMix(char *cmdline)
         }
 
         if (ptr != NULL || check != ARGS_COUNT) {
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
 
@@ -1606,9 +1589,9 @@ static void cliServoMix(char *cmdline)
             customServoMixer(i)->min = args[MIN];
             customServoMixer(i)->max = args[MAX];
             customServoMixer(i)->box = args[BOX];
-            cliServoMix(NULL);
+            cliServoMix(self, NULL);
         } else {
-            cliShowParseError();
+            cliShowParseError(self);
         }
     }
 }
@@ -1625,25 +1608,25 @@ static void cliWriteBytes(const uint8_t *buffer, int count)
     }
 }
 
-static void cliSdInfo(char *cmdline)
+static void cliSdInfo(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrint("SD card: ");
+    cliPrint(self, "SD card: ");
 
     if (!sdcard_isInserted()) {
-        cliPrint("None inserted\r\n");
+        cliPrint(self, "None inserted\r\n");
         return;
     }
 
     if (!sdcard_isInitialized()) {
-        cliPrint("Startup failed\r\n");
+        cliPrint(self, "Startup failed\r\n");
         return;
     }
 
     const sdcardMetadata_t *metadata = sdcard_getMetadata();
 
-    cliPrintf("Manufacturer 0x%x, %ukB, %02d/%04d, v%d.%d, '",
+    cliPrintf(self, "Manufacturer 0x%x, %ukB, %02d/%04d, v%d.%d, '",
         metadata->manufacturerID,
         metadata->numBlocks / 2, /* One block is half a kB */
         metadata->productionMonth,
@@ -1654,25 +1637,25 @@ static void cliSdInfo(char *cmdline)
 
     cliWriteBytes((uint8_t*)metadata->productName, sizeof(metadata->productName));
 
-    cliPrint("'\r\n" "Filesystem: ");
+    cliPrint(self, "'\r\n" "Filesystem: ");
 
     switch (afatfs_getFilesystemState()) {
         case AFATFS_FILESYSTEM_STATE_READY:
-            cliPrint("Ready");
+            cliPrint(self, "Ready");
         break;
         case AFATFS_FILESYSTEM_STATE_INITIALIZATION:
-            cliPrint("Initializing");
+            cliPrint(self, "Initializing");
         break;
         case AFATFS_FILESYSTEM_STATE_UNKNOWN:
         case AFATFS_FILESYSTEM_STATE_FATAL:
-            cliPrint("Fatal");
+            cliPrint(self, "Fatal");
 
             switch (afatfs_getLastError()) {
                 case AFATFS_ERROR_BAD_MBR:
-                    cliPrint(" - no FAT MBR partitions");
+                    cliPrint(self, " - no FAT MBR partitions");
                 break;
                 case AFATFS_ERROR_BAD_FILESYSTEM_HEADER:
-                    cliPrint(" - bad FAT header");
+                    cliPrint(self, " - bad FAT header");
                 break;
                 case AFATFS_ERROR_GENERIC:
                 case AFATFS_ERROR_NONE:
@@ -1680,7 +1663,7 @@ static void cliSdInfo(char *cmdline)
                 break;
             }
 
-            cliPrint("\r\n");
+            cliPrint(self, "\r\n");
         break;
     }
 }
@@ -1689,49 +1672,49 @@ static void cliSdInfo(char *cmdline)
 
 #ifdef USE_FLASHFS
 
-static void cliFlashInfo(char *cmdline)
+static void cliFlashInfo(struct cli *self, char *cmdline)
 {
     const flashGeometry_t *layout = flashfsGetGeometry();
 
     UNUSED(cmdline);
 
-    cliPrintf("Flash sectors=%u, sectorSize=%u, pagesPerSector=%u, pageSize=%u, totalSize=%u, usedSize=%u\r\n",
+    cliPrintf(self, "Flash sectors=%u, sectorSize=%u, pagesPerSector=%u, pageSize=%u, totalSize=%u, usedSize=%u\r\n",
             layout->sectors, layout->sectorSize, layout->pagesPerSector, layout->pageSize, layout->totalSize, flashfsGetOffset());
 }
 
-static void cliFlashErase(char *cmdline)
+static void cliFlashErase(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrintf("Erasing...\r\n");
+    cliPrintf(self, "Erasing...\r\n");
     flashfsEraseCompletely();
 
     while (!flashfsIsReady()) {
         usleep(100000);
     }
 
-    cliPrintf("Done.\r\n");
+    cliPrintf(self, "Done.\r\n");
 }
 
 #ifdef USE_FLASH_TOOLS
 
-static void cliFlashWrite(char *cmdline)
+static void cliFlashWrite(struct cli *self, char *cmdline)
 {
     uint32_t address = atoi(cmdline);
     char *text = strchr(cmdline, ' ');
 
     if (!text) {
-        cliShowParseError();
+        cliShowParseError(self);
     } else {
         flashfsSeekAbs(address);
         flashfsWrite((uint8_t*)text, strlen(text), true);
         flashfsFlushSync();
 
-        cliPrintf("Wrote %u bytes at %u.\r\n", strlen(text), address);
+        cliPrintf(self, "Wrote %u bytes at %u.\r\n", strlen(text), address);
     }
 }
 
-static void cliFlashRead(char *cmdline)
+static void cliFlashRead(struct cli *self, char *cmdline)
 {
     uint32_t address = atoi(cmdline);
     uint32_t length;
@@ -1742,11 +1725,11 @@ static void cliFlashRead(char *cmdline)
     char *nextArg = strchr(cmdline, ' ');
 
     if (!nextArg) {
-        cliShowParseError();
+        cliShowParseError(self);
     } else {
         length = atoi(nextArg);
 
-        cliPrintf("Reading %u bytes at %u:\r\n", length, address);
+        cliPrintf(self, "Reading %u bytes at %u:\r\n", length, address);
 
         while (length > 0) {
             int bytesRead;
@@ -1765,14 +1748,14 @@ static void cliFlashRead(char *cmdline)
                 break;
             }
         }
-        cliPrintf("\r\n");
+        cliPrintf(self, "\r\n");
     }
 }
 
 #endif
 #endif
 
-static void dumpValues(uint16_t valueSection)
+static void dumpValues(struct cli *self, uint16_t valueSection)
 {
     uint32_t i;
     const clivalue_t *value;
@@ -1783,9 +1766,9 @@ static void dumpValues(uint16_t valueSection)
             continue;
         }
 
-        cliPrintf("set %s = ", valueTable[i].name);
-        cliPrintVar(value, 0);
-        cliPrint("\r\n");
+        cliPrintf(self, "set %s = ", valueTable[i].name);
+        cliPrintVar(self, value, 0);
+        cliPrint(self, "\r\n");
     }
 }
 
@@ -1800,9 +1783,9 @@ typedef enum {
 
 static const char* const sectionBreak = "\r\n";
 
-#define printSectionBreak() cliPrintf((char *)sectionBreak)
+#define printSectionBreak() cliPrintf(self, (char *)sectionBreak)
 
-static void cliDump(char *cmdline)
+static void cliDump(struct cli *self, char *cmdline)
 {
     unsigned int i;
     char buf[16];
@@ -1823,16 +1806,16 @@ static void cliDump(char *cmdline)
 
     if (dumpMask & DUMP_MASTER) {
 
-        cliPrint("\r\n# version\r\n");
-        cliVersion(NULL);
+        cliPrint(self, "\r\n# version\r\n");
+        cliVersion(self, NULL);
 
-        cliPrint("\r\n# dump master\r\n");
-        cliPrint("\r\n# mixer\r\n");
+        cliPrint(self, "\r\n# dump master\r\n");
+        cliPrint(self, "\r\n# mixer\r\n");
 
 		if(!USE_QUAD_MIXER_ONLY){
-			cliPrintf("mixer %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
+			cliPrintf(self, "mixer %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
 		}
-		cliPrintf("mmix reset\r\n");
+		cliPrintf(self, "mmix reset\r\n");
 
 		for (i = 0; i < MAX_SUPPORTED_MOTORS; i++) {
 			if (fabsf(customMotorMixer(i)->throttle) < 1e-6f)
@@ -1841,31 +1824,31 @@ static void cliDump(char *cmdline)
 			roll = customMotorMixer(i)->roll;
 			pitch = customMotorMixer(i)->pitch;
 			yaw = customMotorMixer(i)->yaw;
-			cliPrintf("mmix %d", i);
+			cliPrintf(self, "mmix %d", i);
 			if (thr < 0)
-				cliWrite(' ');
-			cliPrintf("%s", ftoa(thr, buf));
+				cliWrite(self, ' ');
+			cliPrintf(self, "%s", ftoa(thr, buf));
 			if (roll < 0)
-				cliWrite(' ');
-			cliPrintf("%s", ftoa(roll, buf));
+				cliWrite(self, ' ');
+			cliPrintf(self, "%s", ftoa(roll, buf));
 			if (pitch < 0)
-				cliWrite(' ');
-			cliPrintf("%s", ftoa(pitch, buf));
+				cliWrite(self, ' ');
+			cliPrintf(self, "%s", ftoa(pitch, buf));
 			if (yaw < 0)
-				cliWrite(' ');
-			cliPrintf("%s\r\n", ftoa(yaw, buf));
+				cliWrite(self, ' ');
+			cliPrintf(self, "%s\r\n", ftoa(yaw, buf));
 		}
 
 #ifdef USE_SERVOS
 		// print custom servo mixer if exists
-		cliPrintf("smix reset\r\n");
+		cliPrintf(self, "smix reset\r\n");
 
 		for (i = 0; i < MAX_SERVO_RULES; i++) {
 
 			if (customServoMixer(i)->rate == 0)
 				break;
 
-			cliPrintf("smix %d %d %d %d %d %d %d %d\r\n",
+			cliPrintf(self, "smix %d %d %d %d %d %d %d %d\r\n",
 				i,
 				customServoMixer(i)->targetChannel,
 				customServoMixer(i)->inputSource,
@@ -1879,70 +1862,70 @@ static void cliDump(char *cmdline)
 
 	#endif
 
-        cliPrint("\r\n\r\n# feature\r\n");
+        cliPrint(self, "\r\n\r\n# feature\r\n");
 
         mask = featureMask();
         for (i = 0; ; i++) { // disable all feature first
             if (featureNames[i] == NULL)
                 break;
-            cliPrintf("feature -%s\r\n", featureNames[i]);
+            cliPrintf(self, "feature -%s\r\n", featureNames[i]);
         }
         for (i = 0; ; i++) {  // reenable what we want.
             if (featureNames[i] == NULL)
                 break;
             if (mask & (1 << i))
-                cliPrintf("feature %s\r\n", featureNames[i]);
+                cliPrintf(self, "feature %s\r\n", featureNames[i]);
         }
 
-        cliPrint("\r\n\r\n# map\r\n");
+        cliPrint(self, "\r\n\r\n# map\r\n");
 
         for (i = 0; i < 8; i++)
-            buf[rxConfig()->rcmap[i]] = rcChannelLetters[i];
+            buf[rxConfig()->rcmap[i]] = rx_get_channel_letter(i);
         buf[i] = '\0';
-        cliPrintf("map %s\r\n", buf);
+        cliPrintf(self, "map %s\r\n", buf);
 
-        cliPrint("\r\n\r\n# serial\r\n");
-        cliSerial(NULL);
+        cliPrint(self, "\r\n\r\n# serial\r\n");
+        cliSerial(self, NULL);
 
 #ifdef LED_STRIP
-        cliPrint("\r\n\r\n# led\r\n");
-        cliLed(NULL);
+        cliPrint(self, "\r\n\r\n# led\r\n");
+        cliLed(self, NULL);
 
-        cliPrint("\r\n\r\n# color\r\n");
-        cliColor(NULL);
+        cliPrint(self, "\r\n\r\n# color\r\n");
+        cliColor(self, NULL);
 
-        cliPrint("\r\n\r\n# mode_color\r\n");
-        cliModeColor(NULL);
+        cliPrint(self, "\r\n\r\n# mode_color\r\n");
+        cliModeColor(self, NULL);
 #endif
         printSectionBreak();
-        dumpValues(MASTER_VALUE);
+        dumpValues(self, MASTER_VALUE);
 
-        cliPrint("\r\n# rxfail\r\n");
-        cliRxFail(NULL);
+        cliPrint(self, "\r\n# rxfail\r\n");
+        cliRxFail(self, NULL);
     }
 
     if (dumpMask & DUMP_PROFILE) {
-        cliPrint("\r\n# dump profile\r\n");
+        cliPrint(self, "\r\n# dump profile\r\n");
 
-        cliPrint("\r\n# profile\r\n");
-        cliProfile(NULL);
+        cliPrint(self, "\r\n# profile\r\n");
+        cliProfile(self, NULL);
 
-        cliPrint("\r\n# aux\r\n");
+        cliPrint(self, "\r\n# aux\r\n");
 
-        cliAux(NULL);
+        cliAux(self, NULL);
 
-        cliPrint("\r\n# adjrange\r\n");
+        cliPrint(self, "\r\n# adjrange\r\n");
 
-        cliAdjustmentRange(NULL);
+        cliAdjustmentRange(self, NULL);
 
-        cliPrintf("\r\n# rxrange\r\n");
+        cliPrintf(self, "\r\n# rxrange\r\n");
 
-        cliRxRange(NULL);
+        cliRxRange(self, NULL);
 
 #ifdef USE_SERVOS
-        cliPrint("\r\n# servo\r\n");
+        cliPrint(self, "\r\n# servo\r\n");
 
-        cliServo(NULL);
+        cliServo(self, NULL);
 
         // print servo directions
 
@@ -1952,7 +1935,7 @@ static void cliDump(char *cmdline)
         for (i = 0; i < MAX_SUPPORTED_SERVOS; i++) {
             for (channel = 0; channel < MIXER_INPUT_COUNT; channel++) {
                 //if (servoDirection(i, channel) < 0) {
-                    cliPrintf("smix reverse %d %d r\r\n", i , channel);
+                    cliPrintf(self, "smix reverse %d %d r\r\n", i , channel);
                 //}
             }
         }
@@ -1961,56 +1944,56 @@ static void cliDump(char *cmdline)
 
         printSectionBreak();
 
-        dumpValues(PROFILE_VALUE);
+        dumpValues(self, PROFILE_VALUE);
     }
 
     if (dumpMask & DUMP_CONTROL_RATE_PROFILE) {
-        cliPrint("\r\n# dump rates\r\n");
+        cliPrint(self, "\r\n# dump rates\r\n");
 
-        cliPrint("\r\n# rateprofile\r\n");
-        cliRateProfile(NULL);
+        cliPrint(self, "\r\n# rateprofile\r\n");
+        cliRateProfile(self, NULL);
 
         printSectionBreak();
 
-        dumpValues(CONTROL_RATE_VALUE);
+        dumpValues(self, CONTROL_RATE_VALUE);
     }
 }
 
-// TODO: this one is abused elsewhere. 
-void cliEnter(serialPort_t *serialPort); 
-void cliEnter(serialPort_t *serialPort)
+void cli_start(struct cli *self, serialPort_t *serialPort)
 {
-    cliMode = 1;
-    cliPort = serialPort;
-    setPrintfSerialPort(cliPort);
-    cliWriter = bufWriterInit(cliWriteBuffer, sizeof(cliWriteBuffer),
+    self->cliMode = 1;
+    self->cliPort = serialPort;
+    setPrintfSerialPort(serialPort);
+    self->cliWriter = bufWriterInit(self->cliWriteBuffer, sizeof(self->cliWriteBuffer),
                               (bufWrite_t)serialWriteBufShim, serialPort);
     
-    cliPrint("\r\nEntering CLI Mode, type 'exit' to return, or 'help'\r\n");
-    cliPrompt();
-    ENABLE_ARMING_FLAG(PREVENT_ARMING);
+    cliPrint(self, "\r\nEntering CLI Mode, type 'exit' to return, or 'help'\r\n");
+    cliPrompt(self);
 }
 
-static void cliExit(char *cmdline)
+static void cliExit(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrint("\r\nLeaving CLI mode, unsaved changes lost.\r\n");
-    bufWriterFlush(cliWriter);
-    
-    *cliBuffer = '\0';
-    bufferIndex = 0;
-    cliMode = 0;
+    cliPrint(self, "\r\nLeaving CLI mode, unsaved changes lost.\r\n");
+    bufWriterFlush(self->cliWriter);
+   
+   // TODO: do not reboot the board when exiting cli
+    *self->cliBuffer = '\0';
+    self->bufferIndex = 0;
+    self->cliMode = 0;
 	// will basically reset the mixer (stopping all motors if any of them have been left running during test)
-	pwmStopMotors(feature(FEATURE_ONESHOT125));
+	// TODO: add oneshot stop motors support
+	//pwmStopMotors(feature(FEATURE_ONESHOT125));
     //mixer_reset(&ninja.mixer);
-    cliReboot();
+    cliReboot(self);
 
-    cliWriter = NULL;
+    self->cliWriter = NULL;
 }
 
-static void cliFeature(char *cmdline)
+static void cliFeature(struct cli *self, char *cmdline)
 {
+	(void)self;
     uint32_t i;
     uint32_t len;
     uint32_t mask;
@@ -2019,22 +2002,22 @@ static void cliFeature(char *cmdline)
     mask = featureMask();
 
     if (len == 0) {
-        cliPrint("Enabled: ");
+        cliPrint(self, "Enabled: ");
         for (i = 0; ; i++) {
             if (featureNames[i] == NULL)
                 break;
             if (mask & (1 << i))
-                cliPrintf("%s ", featureNames[i]);
+                cliPrintf(self, "%s ", featureNames[i]);
         }
-        cliPrint("\r\n");
+        cliPrint(self, "\r\n");
     } else if (strncasecmp(cmdline, "list", len) == 0) {
-        cliPrint("Available: ");
+        cliPrint(self, "Available: ");
         for (i = 0; ; i++) {
             if (featureNames[i] == NULL)
                 break;
-            cliPrintf("%s ", featureNames[i]);
+            cliPrintf(self, "%s ", featureNames[i]);
         }
-        cliPrint("\r\n");
+        cliPrint(self, "\r\n");
         return;
     } else {
         bool remove = false;
@@ -2047,7 +2030,7 @@ static void cliFeature(char *cmdline)
 
         for (i = 0; ; i++) {
             if (featureNames[i] == NULL) {
-                cliPrint("Invalid name\r\n");
+                cliPrint(self, "Invalid name\r\n");
                 break;
             }
 
@@ -2056,24 +2039,24 @@ static void cliFeature(char *cmdline)
                 mask = 1 << i;
 #ifndef GPS
                 if (mask & FEATURE_GPS) {
-                    cliPrint("unavailable\r\n");
+                    cliPrint(self, "unavailable\r\n");
                     break;
                 }
 #endif
 #ifndef SONAR
                 if (mask & FEATURE_SONAR) {
-                    cliPrint("unavailable\r\n");
+                    cliPrint(self, "unavailable\r\n");
                     break;
                 }
 #endif
                 if (remove) {
                     featureClear(mask);
-                    cliPrint("Disabled");
+                    cliPrint(self, "Disabled");
                 } else {
                     featureSet(mask);
-                    cliPrint("Enabled");
+                    cliPrint(self, "Enabled");
                 }
-                cliPrintf(" %s\r\n", featureNames[i]);
+                cliPrintf(self, " %s\r\n", featureNames[i]);
                 break;
             }
         }
@@ -2081,35 +2064,36 @@ static void cliFeature(char *cmdline)
 }
 
 #ifdef GPS
-static void cliGpsPassthrough(char *cmdline)
+static void cliGpsPassthrough(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    gpsEnablePassthrough(cliPort);
+    gpsEnablePassthrough(self->cliPort);
 }
 #endif
 
-static void cliHelp(char *cmdline)
+static void cliHelp(struct cli *self, char *cmdline)
 {
+	(void)self;
     uint32_t i = 0;
 
     UNUSED(cmdline);
 
     for (i = 0; i < CMD_COUNT; i++) {
-        cliPrint(cmdTable[i].name);
+        cliPrint(self, cmdTable[i].name);
 #ifndef SKIP_CLI_COMMAND_HELP
         if (cmdTable[i].description) {
-            cliPrintf(" - %s", cmdTable[i].description);
+            cliPrintf(self, " - %s", cmdTable[i].description);
         }
         if (cmdTable[i].args) {
-            cliPrintf("\r\n\t%s", cmdTable[i].args);
+            cliPrintf(self, "\r\n\t%s", cmdTable[i].args);
         }
 #endif
-        cliPrint("\r\n");
+        cliPrint(self, "\r\n");
     }
 }
 
-static void cliMap(char *cmdline)
+static void cliMap(struct cli *self, char *cmdline)
 {
     uint32_t len;
     uint32_t i;
@@ -2121,22 +2105,25 @@ static void cliMap(char *cmdline)
         // uppercase it
         for (i = 0; i < 8; i++)
             cmdline[i] = toupper((unsigned char)cmdline[i]);
+		/*
+		TODO: validate rc channel letters
         for (i = 0; i < 8; i++) {
             if (strchr(rcChannelLetters, cmdline[i]) && !strchr(cmdline + i + 1, cmdline[i]))
                 continue;
-            cliShowParseError();
+            cliShowParseError(self);
             return;
         }
-        parseRcChannels(cmdline, rxConfig());
+		*/
+        rx_remap_channels(&self->ninja->rx, cmdline);
     }
-    cliPrint("Map: ");
+    cliPrint(self, "Map: ");
     for (i = 0; i < 8; i++)
-        out[rxConfig()->rcmap[i]] = rcChannelLetters[i];
+        out[rxConfig()->rcmap[i]] = rx_get_channel_letter(i);
     out[i] = '\0';
-    cliPrintf("%s\r\n", out);
+    cliPrintf(self, "%s\r\n", out);
 }
 
-static void __attribute__((unused)) cliMixer(char *cmdline)
+static void __attribute__((unused)) cliMixer(struct cli *self, char *cmdline)
 {
 	if(USE_QUAD_MIXER_ONLY) return;
     int i;
@@ -2145,22 +2132,22 @@ static void __attribute__((unused)) cliMixer(char *cmdline)
     len = strlen(cmdline);
 
     if (len == 0) {
-        cliPrintf("Mixer: %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
+        cliPrintf(self, "Mixer: %s\r\n", mixerNames[mixerConfig()->mixerMode - 1]);
         return;
     } else if (strncasecmp(cmdline, "list", len) == 0) {
-        cliPrint("Available mixers: ");
+        cliPrint(self, "Available mixers: ");
         for (i = 0; ; i++) {
             if (mixerNames[i] == NULL)
                 break;
-            cliPrintf("%s ", mixerNames[i]);
+            cliPrintf(self, "%s ", mixerNames[i]);
         }
-        cliPrint("\r\n");
+        cliPrint(self, "\r\n");
         return;
     }
 
     for (i = 0; ; i++) {
         if (mixerNames[i] == NULL) {
-            cliPrint("Invalid name\r\n");
+            cliPrint(self, "Invalid name\r\n");
             return;
         }
         if (strncasecmp(cmdline, mixerNames[i], len) == 0) {
@@ -2169,10 +2156,10 @@ static void __attribute__((unused)) cliMixer(char *cmdline)
         }
     }
 
-    cliMixer(NULL);
+    cliMixer(self, NULL);
 }
 
-static void cliMotor(char *cmdline)
+static void cliMotor(struct cli *self, char *cmdline)
 {
     int motor_index = 0;
     int motor_value = 0;
@@ -2181,7 +2168,7 @@ static void cliMotor(char *cmdline)
     char *saveptr;
 
     if (isEmpty(cmdline)) {
-        cliShowParseError();
+        cliShowParseError(self);
         return;
     }
 
@@ -2202,30 +2189,28 @@ static void cliMotor(char *cmdline)
     }
 
     if (motor_index < 0 || motor_index >= MAX_SUPPORTED_MOTORS) {
-        cliShowArgumentRangeError("index", 0, MAX_SUPPORTED_MOTORS - 1);
+        cliShowArgumentRangeError(self, "index", 0, MAX_SUPPORTED_MOTORS - 1);
         return;
     }
 
     if (index == 2) {
         if (motor_value < PWM_RANGE_MIN || motor_value > PWM_RANGE_MAX) {
-            cliShowArgumentRangeError("value", 1000, 2000);
+            cliShowArgumentRangeError(self, "value", 1000, 2000);
             return;
         } else {
-			mixer_input_command(&ninja.mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
+			mixer_input_command(&self->ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
         }
     }
 
-	// needed in order to get the value out to the outputs
-	mixer_update(&ninja.mixer);
-
-    cliPrintf("motor %d: %d\r\n", motor_index, mixer_get_motor_value(&ninja.mixer, motor_index));
+	// TODO: read motor output
+    //cliPrintf(self, "motor %d: %d\r\n", motor_index, mixer_get_motor_value(&ninja.mixer, motor_index));
 }
 
-static void cliPlaySound(char *cmdline)
+static void cliPlaySound(struct cli *self, char *cmdline)
 {
-#if FLASH_SIZE <= 64
-    UNUSED(cmdline);
-#else
+	(void)self; (void)cmdline;
+#if 0
+// TODO: beeper play sound cli
     int i;
     const char *name;
     static int lastSoundIdx = -1;
@@ -2239,7 +2224,7 @@ static void cliPlaySound(char *cmdline)
                 if ((name=beeperNameForTableIndex(i)) != NULL)
                     break;   //if name OK then play sound below
                 if (i == lastSoundIdx + 1) {     //prevent infinite loop
-                    cliPrintf("Error playing sound\r\n");
+                    cliPrintf(self, "Error playing sound\r\n");
                     return;
                 }
             }
@@ -2247,81 +2232,84 @@ static void cliPlaySound(char *cmdline)
     } else {       //index value was given
         i = atoi(cmdline);
         if ((name=beeperNameForTableIndex(i)) == NULL) {
-            cliPrintf("No sound for index %d\r\n", i);
+            cliPrintf(self, "No sound for index %d\r\n", i);
             return;
         }
     }
     lastSoundIdx = i;
     beeperSilence();
-    cliPrintf("Playing sound %d: %s\r\n", i, name);
+    cliPrintf(self, "Playing sound %d: %s\r\n", i, name);
     beeper(beeperModeForTableIndex(i));
 #endif
 }
 
-static void cliProfile(char *cmdline)
+static void cliProfile(struct cli *self, char *cmdline)
 {
     int i;
 
     if (isEmpty(cmdline)) {
-        cliPrintf("profile %d\r\n", getCurrentProfile());
+        cliPrintf(self, "profile %d\r\n", getCurrentProfile());
         return;
     } else {
         i = atoi(cmdline);
         if (i >= 0 && i < MAX_PROFILE_COUNT) {
-            changeProfile(i);
-            cliProfile(NULL);
+			// TODO: chane profile
+            //changeProfile(self, i);
+            cliProfile(self, NULL);
         }
     }
 }
 
-static void cliRateProfile(char *cmdline)
+static void cliRateProfile(struct cli *self, char *cmdline)
 {
     int i;
 
     if (isEmpty(cmdline)) {
-        cliPrintf("rateprofile %d\r\n", getCurrentControlRateProfile());
+        //cliPrintf(self, "rateprofile %d\r\n", getCurrentControlRateProfile());
         return;
     } else {
         i = atoi(cmdline);
         if (i >= 0 && i < MAX_CONTROL_RATE_PROFILE_COUNT) {
-            changeControlRateProfile(i);
-            cliRateProfile(NULL);
+            //changeControlRateProfile(i);
+			// TODO: cli change control rate profile
+            cliRateProfile(self, NULL);
         }
     }
 }
 
-static void cliReboot(void)
+static void cliReboot(struct cli *self)
 {
-    cliPrint("\r\nRebooting");
-    bufWriterFlush(cliWriter);
-    waitForSerialPortToFinishTransmitting(cliPort);
-	pwmStopMotors(feature(FEATURE_ONESHOT125));
+    cliPrint(self, "\r\nRebooting");
+    bufWriterFlush(self->cliWriter);
+    waitForSerialPortToFinishTransmitting(self->cliPort);
+	// TODO: pwm oneshot stop
+	//pwmStopMotors(feature(FEATURE_ONESHOT125));
     handleOneshotFeatureChangeOnRestart();
     systemReset();
 }
 
-static void cliSave(char *cmdline)
+static void cliSave(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrint("Saving");
-    writeEEPROM();
-    cliReboot();
+    cliPrint(self, "Saving");
+    ninja_config_save(self->ninja);
+    cliReboot(self);
 }
 
-static void cliDefaults(char *cmdline)
+static void cliDefaults(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrint("Resetting to defaults");
-    resetEEPROM();
-    cliReboot();
+    cliPrint(self, "Resetting to defaults");
+    ninja_config_reset(self->ninja);
+    cliReboot(self);
 }
 
-static void cliPrint(const char *str)
+static void cliPrint(struct cli *self, const char *str)
 {
     while (*str)
-        bufWriterAppend(cliWriter, *str++);
+        bufWriterAppend(self->cliWriter, *str++);
 }
 
 static void cliPutp(void *p, char ch)
@@ -2329,28 +2317,31 @@ static void cliPutp(void *p, char ch)
     bufWriterAppend(p, ch);
 }
 
-static void cliPrintf(const char *fmt, ...)
+static void cliPrintf(struct cli *self, const char *fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
-    tfp_format(cliWriter, cliPutp, fmt, va);
+    tfp_format(self->cliWriter, cliPutp, fmt, va);
     va_end(va);
 }
 
-static void cliWrite(uint8_t ch)
+static void cliWrite(struct cli *self, uint8_t ch)
 {
-    bufWriterAppend(cliWriter, ch);
+    bufWriterAppend(self->cliWriter, ch);
 }
 
-static void* cliVarPtr(const clivalue_t *var)
+static void* cliVarPtr(struct cli *self, const clivalue_t *var)
 {
+	(void)self;
     const pgRegistry_t* rec = pgFind(var->pgn);
 
     switch (var->type & VALUE_SECTION_MASK) {
         case MASTER_VALUE:
             return rec->address + var->offset;
         case CONTROL_RATE_VALUE:
-            return rec->address + (sizeof(struct rate_config) * getCurrentControlRateProfile()) + var->offset;
+			// TODO: current control rate profile
+            //return rec->address + (sizeof(struct rate_config) * getCurrentControlRateProfile()) + var->offset;
+            return rec->address + var->offset;
         case PROFILE_VALUE:
             return *rec->ptr + var->offset;
 		default:break;
@@ -2358,12 +2349,12 @@ static void* cliVarPtr(const clivalue_t *var)
     return NULL;
 }
 
-static void cliPrintVar(const clivalue_t *var, uint32_t full)
+static void cliPrintVar(struct cli *self, const clivalue_t *var, uint32_t full)
 {
     int32_t value = 0;
     char ftoaBuffer[FTOA_BUFFER_SIZE];
 
-    void *ptr = cliVarPtr(var);
+    void *ptr = cliVarPtr(self, var);
 
     if (!ptr) {
         return;
@@ -2391,10 +2382,10 @@ static void cliPrintVar(const clivalue_t *var, uint32_t full)
             break;
 
         case VAR_FLOAT:
-            cliPrintf("%s", ftoa(*(float *)ptr, ftoaBuffer));
+            cliPrintf(self, "%s", ftoa(*(float *)ptr, ftoaBuffer));
             if (full && (var->type & VALUE_MODE_MASK) == MODE_DIRECT) {
-                cliPrintf(" %s", ftoa((float)var->config.minmax.min, ftoaBuffer));
-                cliPrintf(" %s", ftoa((float)var->config.minmax.max, ftoaBuffer));
+                cliPrintf(self, " %s", ftoa((float)var->config.minmax.min, ftoaBuffer));
+                cliPrintf(self, " %s", ftoa((float)var->config.minmax.max, ftoaBuffer));
             }
             return; // return from case for float only
 		default:break;
@@ -2402,21 +2393,21 @@ static void cliPrintVar(const clivalue_t *var, uint32_t full)
 
     switch(var->type & VALUE_MODE_MASK) {
         case MODE_DIRECT:
-            cliPrintf("%d", value);
+            cliPrintf(self, "%d", value);
             if (full) {
-                cliPrintf(" %d %d", var->config.minmax.min, var->config.minmax.max);
+                cliPrintf(self, " %d %d", var->config.minmax.min, var->config.minmax.max);
             }
             break;
         case MODE_LOOKUP:
-            cliPrintf(lookupTables[var->config.lookup.tableIndex].values[value]);
+            cliPrintf(self, lookupTables[var->config.lookup.tableIndex].values[value]);
             break;
 		default:break;
     }
 }
 
-static void cliSetVar(const clivalue_t *var, const int_float_value_t value)
+static void cliSetVar(struct cli *self, const clivalue_t *var, const int_float_value_t value)
 {
-    void *ptr = cliVarPtr(var);
+    void *ptr = cliVarPtr(self, var);
 
     if (!ptr) {
         return;
@@ -2444,7 +2435,7 @@ static void cliSetVar(const clivalue_t *var, const int_float_value_t value)
     }
 }
 
-static void cliSet(char *cmdline)
+static void cliSet(struct cli *self, char *cmdline)
 {
     uint32_t i;
     uint32_t len;
@@ -2454,12 +2445,12 @@ static void cliSet(char *cmdline)
     len = strlen(cmdline);
 
     if (len == 0 || (len == 1 && cmdline[0] == '*')) {
-        cliPrint("Current settings: \r\n");
+        cliPrint(self, "Current settings: \r\n");
         for (i = 0; i < ARRAYLEN(valueTable); i++) {
             val = &valueTable[i];
-            cliPrintf("%s = ", valueTable[i].name);
-            cliPrintVar(val, len); // when len is 1 (when * is passed as argument), it will print min/max values as well, for gui
-            cliPrint("\r\n");
+            cliPrintf(self, "%s = ", valueTable[i].name);
+            cliPrintVar(self, val, len); // when len is 1 (when * is passed as argument), it will print min/max values as well, for gui
+            cliPrint(self, "\r\n");
         }
     } else if ((eqptr = strstr(cmdline, "=")) != NULL) {
         // has equals
@@ -2520,25 +2511,25 @@ static void cliSet(char *cmdline)
                 }
 
                 if (changeValue) {
-                    cliSetVar(val, tmp);
+                    cliSetVar(self, val, tmp);
 
-                    cliPrintf("%s set to ", valueTable[i].name);
-                    cliPrintVar(val, 0);
+                    cliPrintf(self, "%s set to ", valueTable[i].name);
+                    cliPrintVar(self, val, 0);
                 } else {
-                    cliPrint("Invalid value\r\n");
+                    cliPrint(self, "Invalid value\r\n");
                 }
 
                 return;
             }
         }
-        cliPrint("Invalid name\r\n");
+        cliPrint(self, "Invalid name\r\n");
     } else {
         // no equals, check for matching variables.
-        cliGet(cmdline);
+        cliGet(self, cmdline);
     }
 }
 
-static void cliGet(char *cmdline)
+static void cliGet(struct cli *self, char *cmdline)
 {
     uint32_t i;
     const clivalue_t *val;
@@ -2547,9 +2538,9 @@ static void cliGet(char *cmdline)
     for (i = 0; i < ARRAYLEN(valueTable); i++) {
         if (strstr(valueTable[i].name, cmdline)) {
             val = &valueTable[i];
-            cliPrintf("%s = ", valueTable[i].name);
-            cliPrintVar(val, 0);
-            cliPrint("\r\n");
+            cliPrintf(self, "%s = ", valueTable[i].name);
+            cliPrintVar(self, val, 0);
+            cliPrint(self, "\r\n");
 
             matchedCommands++;
         }
@@ -2560,23 +2551,24 @@ static void cliGet(char *cmdline)
     	return;
     }
 
-    cliPrint("Invalid name\r\n");
+    cliPrint(self, "Invalid name\r\n");
 }
 
-static void cliStatus(char *cmdline)
+static void cliStatus(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
-    cliPrintf("System Uptime: %d seconds, Voltage: %d * 0.1V (%dS battery - %s), System load: %d.%02d\r\n",
-        millis() / 1000,
-        battery_get_voltage(&default_battery),
-        battery_get_cell_count(&default_battery),
-        battery_get_state_str(&default_battery),
-        averageSystemLoadPercent / 100,
-        averageSystemLoadPercent % 100
+    cliPrintf(self, "System Uptime: %d seconds, Voltage: %d * 0.1V (%dS battery - %s), System load: %d.%02d\r\n",
+        sys_millis(self->ninja->system) / 1000,
+        battery_get_voltage(&self->ninja->bat),
+        battery_get_cell_count(&self->ninja->bat),
+        battery_get_state_str(&self->ninja->bat),
+        ninja_sched_get_load(&self->ninja->sched) / 100,
+        ninja_sched_get_load(&self->ninja->sched) % 100
     );
 
-    cliPrintf("CPU Clock=%dMHz", (SystemCoreClock / 1000000));
+	// TODO: cli core clock
+    //cliPrintf(self, "CPU Clock=%dMHz", (SystemCoreClock / 1000000));
 
 #ifndef CJMCU
 #if 0
@@ -2596,16 +2588,16 @@ static void cliStatus(char *cmdline)
             uint8_t sensorHardwareIndex = detectedSensors[i];
             sensorHardware = sensorHardwareNames[i][sensorHardwareIndex];
 
-            cliPrintf(", %s=%s", sensorTypeNames[i], sensorHardware);
+            cliPrintf(self, ", %s=%s", sensorTypeNames[i], sensorHardware);
 
             if (mask == SENSOR_ACC && acc.revisionCode) {
-                cliPrintf(".%c", acc.revisionCode);
+                cliPrintf(self, ".%c", acc.revisionCode);
             }
         }
     }
 #endif
 #endif
-    cliPrint("\r\n");
+    cliPrint(self, "\r\n");
 
 #ifdef USE_I2C
     uint16_t i2cErrorCounter = i2cGetErrorCounter();
@@ -2613,25 +2605,26 @@ static void cliStatus(char *cmdline)
     uint16_t i2cErrorCounter = 0;
 #endif
 
-    cliPrintf("Cycle Time: %d, I2C Errors: %d, registry size: %d\r\n", cycleTime, i2cErrorCounter, PG_REGISTRY_SIZE);
+    //cliPrintf(self, "Cycle Time: %d, I2C Errors: %d, registry size: %d\r\n", cycleTime, i2cErrorCounter, PG_REGISTRY_SIZE);
+    cliPrintf(self, "I2C Errors: %d, registry size: %d\r\n", i2cErrorCounter, PG_REGISTRY_SIZE);
 }
 
 #ifndef SKIP_TASK_STATISTICS
-static void cliTasks(char *cmdline)
+static void cliTasks(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
 
     cfTaskId_e taskId;
     cfTaskInfo_t taskInfo;
 
-    cliPrintf("Task list          max/us  avg/us rate/hz maxload avgload     total/ms\r\n");
+    cliPrintf(self, "Task list          max/us  avg/us rate/hz maxload avgload     total/ms\r\n");
     for (taskId = 0; taskId < TASK_COUNT; taskId++) {
-        getTaskInfo(taskId, &taskInfo);
+        ninja_sched_get_task_info(&self->ninja->sched, taskId, &taskInfo);
         if (taskInfo.isEnabled) {
             const int taskFrequency = (int)(1000000.0f / ((float)taskInfo.latestDeltaTime));
             const int maxLoad = (taskInfo.maxExecutionTime * taskFrequency + 5000) / 1000;
             const int averageLoad = (taskInfo.averageExecutionTime * taskFrequency + 5000) / 1000;
-            cliPrintf("%2d - %12s  %6d   %5d   %5d %4d.%1d%% %4d.%1d%%  %8d\r\n",
+            cliPrintf(self, "%2d - %12s  %6d   %5d   %5d %4d.%1d%% %4d.%1d%%  %8d\r\n",
                     taskId, taskInfo.taskName, taskInfo.maxExecutionTime, taskInfo.averageExecutionTime,
                     taskFrequency, maxLoad/10, maxLoad%10, averageLoad/10, averageLoad%10, taskInfo.totalExecutionTime / 1000);
         }
@@ -2639,129 +2632,136 @@ static void cliTasks(char *cmdline)
 }
 #endif
 
-static void cliVersion(char *cmdline)
+static void cliVersion(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
-
-    cliPrintf("# Ninjaflight/%s %s %s / %s (%s)",
+	cliPrintf(self, "# Ninjaflight");
+	// TODO: build date etc for sitl
+/*
+    cliPrintf(self, "# Ninjaflight/%s %s %s / %s (%s)",
         targetName,
         FC_VERSION_STRING,
         buildDate,
         buildTime,
         shortGitRevision
     );
+	*/
 }
 
-void cliProcess(void)
+void cli_update(struct cli *self)
 {
-    if (!cliWriter) {
+    if (!self->cliWriter) {
         return;
     }
 
     // Be a little bit tricky.  Flush the last inputs buffer, if any.
-    bufWriterFlush(cliWriter);
+    bufWriterFlush(self->cliWriter);
     
-    while (serialRxBytesWaiting(cliPort)) {
-        uint8_t c = serialRead(cliPort);
+    while (serialRxBytesWaiting(self->cliPort)) {
+        uint8_t c = serialRead(self->cliPort);
         if (c == '\t' || c == '?') {
             // do tab completion
             const clicmd_t *cmd, *pstart = NULL, *pend = NULL;
-            uint32_t i = bufferIndex;
+            uint32_t i = self->bufferIndex;
             for (cmd = cmdTable; cmd < cmdTable + CMD_COUNT; cmd++) {
-                if (bufferIndex && (strncasecmp(cliBuffer, cmd->name, bufferIndex) != 0))
+                if (self->bufferIndex && (strncasecmp(self->cliBuffer, cmd->name, self->bufferIndex) != 0))
                     continue;
                 if (!pstart)
                     pstart = cmd;
                 pend = cmd;
             }
             if (pstart) {    /* Buffer matches one or more commands */
-                for (; ; bufferIndex++) {
-                    if (pstart->name[bufferIndex] != pend->name[bufferIndex])
+                for (; ; self->bufferIndex++) {
+                    if (pstart->name[self->bufferIndex] != pend->name[self->bufferIndex])
                         break;
-                    if (!pstart->name[bufferIndex] && bufferIndex < sizeof(cliBuffer) - 2) {
+                    if (!pstart->name[self->bufferIndex] && self->bufferIndex < sizeof(self->cliBuffer) - 2) {
                         /* Unambiguous -- append a space */
-                        cliBuffer[bufferIndex++] = ' ';
-                        cliBuffer[bufferIndex] = '\0';
+                        self->cliBuffer[self->bufferIndex++] = ' ';
+                        self->cliBuffer[self->bufferIndex] = '\0';
                         break;
                     }
-                    cliBuffer[bufferIndex] = pstart->name[bufferIndex];
+                    self->cliBuffer[self->bufferIndex] = pstart->name[self->bufferIndex];
                 }
             }
-            if (!bufferIndex || pstart != pend) {
+            if (!self->bufferIndex || pstart != pend) {
                 /* Print list of ambiguous matches */
-                cliPrint("\r\033[K");
+                cliPrint(self, "\r\033[K");
                 for (cmd = pstart; cmd <= pend; cmd++) {
-                    cliPrint(cmd->name);
-                    cliWrite('\t');
+                    cliPrint(self, cmd->name);
+                    cliWrite(self, '\t');
                 }
-                cliPrompt();
+                cliPrompt(self);
                 i = 0;    /* Redraw prompt */
             }
-            for (; i < bufferIndex; i++)
-                cliWrite(cliBuffer[i]);
-        } else if (!bufferIndex && c == 4) {   // CTRL-D
-            cliExit(cliBuffer);
+            for (; i < self->bufferIndex; i++)
+                cliWrite(self, self->cliBuffer[i]);
+        } else if (!self->bufferIndex && c == 4) {   // CTRL-D
+            cliExit(self, self->cliBuffer);
             return;
         } else if (c == 12) {                  // NewPage / CTRL-L
             // clear screen
-            cliPrint("\033[2J\033[1;1H");
-            cliPrompt();
-        } else if (bufferIndex && (c == '\n' || c == '\r')) {
+            cliPrint(self, "\033[2J\033[1;1H");
+            cliPrompt(self);
+        } else if (self->bufferIndex && (c == '\n' || c == '\r')) {
             // enter pressed
-            cliPrint("\r\n");
+            cliPrint(self, "\r\n");
 
             // Strip comment starting with # from line
-            char *p = cliBuffer;
+            char *p = self->cliBuffer;
             p = strchr(p, '#');
             if (NULL != p) {
-                bufferIndex = (uint32_t)(p - cliBuffer);
+                self->bufferIndex = (uint32_t)(p - self->cliBuffer);
             }
 
             // Strip trailing whitespace
-            while (bufferIndex > 0 && cliBuffer[bufferIndex - 1] == ' ') {
-                bufferIndex--;
+            while (self->bufferIndex > 0 && self->cliBuffer[self->bufferIndex - 1] == ' ') {
+                self->bufferIndex--;
             }
 
             // Process non-empty lines
-            if (bufferIndex > 0) {
-                cliBuffer[bufferIndex] = 0; // null terminate
+            if (self->bufferIndex > 0) {
+                self->cliBuffer[self->bufferIndex] = 0; // null terminate
 
                 const clicmd_t *cmd;
                 for (cmd = cmdTable; cmd < cmdTable + CMD_COUNT; cmd++) {
-                    if(!strncasecmp(cliBuffer, cmd->name, strlen(cmd->name))   // command names match
-                       && !isalnum((unsigned)cliBuffer[strlen(cmd->name)]))    // next characted in bufffer is not alphanumeric (command is correctly terminated)
+                    if(!strncasecmp(self->cliBuffer, cmd->name, strlen(cmd->name))   // command names match
+                       && !isalnum((unsigned)self->cliBuffer[strlen(cmd->name)]))    // next characted in bufffer is not alphanumeric (command is correctly terminated)
                         break;
                 }
                 if(cmd < cmdTable + CMD_COUNT)
-                    cmd->func(cliBuffer + strlen(cmd->name) + 1);
+                    cmd->func(self, self->cliBuffer + strlen(cmd->name) + 1);
                 else
-                    cliPrint("Unknown command, try 'help'");
-                bufferIndex = 0;
+                    cliPrint(self, "Unknown command, try 'help'");
+                self->bufferIndex = 0;
             }
 
-            memset(cliBuffer, 0, sizeof(cliBuffer));
+            memset(self->cliBuffer, 0, sizeof(self->cliBuffer));
 
             // 'exit' will reset this flag, so we don't need to print prompt again
-            if (!cliMode)
+            if (!self->cliMode)
                 return;
 
-            cliPrompt();
+            cliPrompt(self);
         } else if (c == 127) {
             // backspace
-            if (bufferIndex) {
-                cliBuffer[--bufferIndex] = 0;
-                cliPrint("\010 \010");
+            if (self->bufferIndex) {
+                self->cliBuffer[--self->bufferIndex] = 0;
+                cliPrint(self, "\010 \010");
             }
-        } else if (bufferIndex < sizeof(cliBuffer) && c >= 32 && c <= 126) {
-            if (!bufferIndex && c == ' ')
+        } else if (self->bufferIndex < sizeof(self->cliBuffer) && c >= 32 && c <= 126) {
+            if (!self->bufferIndex && c == ' ')
                 continue; // Ignore leading spaces
-            cliBuffer[bufferIndex++] = c;
-            cliWrite(c);
+            self->cliBuffer[self->bufferIndex++] = c;
+            cliWrite(self, c);
         }
     }
 }
 
-void cliInit(void)
-{
+bool cli_is_active(struct cli *self){
+	return self->cliMode;
 }
-#endif
+
+void cli_init(struct cli *self, struct ninja *ninja){
+	memset(self, 0, sizeof(struct cli));
+	self->ninja = ninja;
+}

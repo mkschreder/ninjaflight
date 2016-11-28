@@ -249,16 +249,19 @@ COMMON_SRC = build_config.c \
 		   config/profile.c \
 		   common/maths.c \
 		   common/quaternion.c \
+		   common/buf_writer.c \
 		   common/printf.c \
 		   common/typeconversion.c \
 		   common/encoding.c \
 		   common/filter.c \
 		   common/streambuf.c \
-		   scheduler.c \
 		   main.c \
-		   ninjaflight.c \
-		   ninja.c \
-		   ninja_input.c \
+			ninja.c \
+			ninja_config.c \
+			ninja_sched.c \
+			ninja_input.c \
+			ninjaflight.c \
+			rc_commands.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
@@ -269,7 +272,6 @@ COMMON_SRC = build_config.c \
 		   drivers/sound_beeper.c \
 		   drivers/system.c \
 		   drivers/dma.c \
-		   drivers/buf_writer.c \
 		   drivers/gyro_sync.c \
 		   io/beeper.c \
 		   io/rc_adjustments.c \
@@ -727,10 +729,13 @@ IRCFUSIONF3_SRC = \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
+			common/buf_writer.c \
 			common/filter.c \
 			common/maths.c \
-			common/streambuf.c \
+			common/printf.c \
 			common/quaternion.c \
+			common/streambuf.c \
+			common/typeconversion.c \
 			config/config.c \
 			config/parameter_group.c \
 			config/profile.c \

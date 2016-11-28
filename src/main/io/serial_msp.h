@@ -79,7 +79,9 @@ typedef struct mspPort_s {
     uint8_t inBuf[MSP_PORT_INBUF_SIZE];
 } mspPort_t;
 
+struct ninja;
+
 void mspSerialInit(void);
-void mspSerialProcess(void);
+void mspSerialProcess(struct ninja *ninja);
 void mspSerialAllocatePorts(void);
 void mspSerialReleasePortIfAllocated(serialPort_t *serialPort);

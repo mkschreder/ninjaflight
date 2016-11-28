@@ -41,6 +41,7 @@
 #include "io/transponder_ir.h"
 #include "io/display.h"
 #include "io/ledstrip.h"
+#include "io/serial_msp.h"
 
 #include "flight/altitudehold.h"
 
@@ -181,13 +182,13 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 	#endif
 #endif
 #ifdef BARO
-	ninja_sched_set_task_enabled(self, TASK_BARO, sensors(SENSOR_BARO));
+	ninja_sched_set_task_enabled(self, TASK_BARO, true);
 #endif
 #ifdef SONAR
-	ninja_sched_set_task_enabled(self, TASK_SONAR, sensors(SENSOR_SONAR));
+	ninja_sched_set_task_enabled(self, TASK_SONAR, true);
 #endif
 #if defined(BARO) || defined(SONAR)
-	ninja_sched_set_task_enabled(self, TASK_ALTITUDE, sensors(SENSOR_BARO) || sensors(SENSOR_SONAR));
+	ninja_sched_set_task_enabled(self, TASK_ALTITUDE, true);
 #endif
 #ifdef DISPLAY
 	ninja_sched_set_task_enabled(self, TASK_DISPLAY, feature(FEATURE_DISPLAY));
@@ -286,6 +287,10 @@ void ninja_sched_run(struct ninja_sched *self){
 	}
 }
 
+uint16_t ninja_sched_get_load(struct ninja_sched *self){
+	return self->averageSystemLoadPercent;
+}
+
 static void _task_transponder(struct ninja_sched *sched){
 	(void)sched;
 	#ifdef TRANSPONDER
@@ -359,14 +364,21 @@ static void _task_acc(struct ninja_sched *sched){
 }
 
 static void _task_serial(struct ninja_sched *sched){
-	(void)sched;
-	handleSerial();
+	struct ninja *self = container_of(sched, struct ninja, sched);
+
+    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
+    if (cli_is_active(&self->cli)) {
+        cli_update(&self->cli);
+        return;
+    }
+
+    mspSerialProcess(self);
 }
 
 #ifdef BEEPER
 static void _task_beeper(struct ninja_sched *sched){
-	(void)sched;
-	beeperUpdate();		  //call periodic beeper handler
+	struct ninja *self = container_of(sched, struct ninja, sched);
+	beeper_update(&self->beeper);		  //call periodic beeper handler
 }
 #endif
 
@@ -472,6 +484,7 @@ static void _task_rx(struct ninja_sched *sched){
 
 #ifdef GPS
 static void _task_gps(struct ninja_sched *sched){
+	(void)sched;
 	// if GPS feature is enabled, gpsThread() will be called at some intervals to check for stuck
 	// hardware, wrong baud rates, init GPS if needed, etc. Don't use SENSOR_GPS here as gpsThread() can and will
 	// change this based on available hardware
@@ -479,9 +492,12 @@ static void _task_gps(struct ninja_sched *sched){
 		gpsThread();
 	}
 
+	// TODO: better way to detect if we have gps
+	/*
 	if (sensors(SENSOR_GPS)) {
 		updateGpsIndicator(sched->time->micros(sched->time));
 	}
+	*/
 }
 #endif
 
@@ -500,25 +516,36 @@ static void _task_mag(struct ninja_sched *sched){
 
 #ifdef BARO
 static void _task_baro(struct ninja_sched *sched){
+	(void)sched;
+	// TODO: baro read
+	/*
 	if (sensors(SENSOR_BARO)) {
 		uint32_t newDeadline = baroUpdate();
 		ninja_sched_set_task_period(sched, TASK_SELF, newDeadline);
 	}
+	*/
 }
 #endif
 
 #ifdef SONAR
 static void _task_sonar(struct ninja_sched *sched)
 {
+	(void)sched;
+	/*
+	// TODO: sonar
 	if (sensors(SENSOR_SONAR)) {
 		sonar_update(&default_sonar);
 	}
+	*/
 }
 #endif
 
 #if defined(BARO) || defined(SONAR)
 static void _task_altitude(struct ninja_sched *sched)
 {
+	(void)sched;
+	// TODO: calc altitude
+	/*
 	if (false
 #if defined(BARO)
 		|| (sensors(SENSOR_BARO) && isBaroReady())
@@ -528,7 +555,9 @@ static void _task_altitude(struct ninja_sched *sched)
 #endif
 		) {
 		calculateEstimatedAltitude(sched->time->micros(sched->time));
-	}}
+	}
+	*/
+}
 #endif
 
 #ifdef DISPLAY
@@ -555,9 +584,9 @@ static void _task_telemetry(struct ninja_sched *sched){
 
 #ifdef LED_STRIP
 static void _task_ledstrip(struct ninja_sched *sched){
-	(void)sched;
+	struct ninja *self = container_of(sched, struct ninja, sched);
 	if (feature(FEATURE_LED_STRIP)) {
-		updateLedStrip();
+		ledstrip_update(&self->ledstrip);
 	}
 }
 #endif

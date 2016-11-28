@@ -17,8 +17,27 @@
 
 #pragma once
 
-extern uint8_t cliMode;
+#include "drivers/serial.h"
+#include "common/buf_writer.h"
 
-void cliInit(void);
-void cliProcess(void);
-bool cliIsActiveOnPort(serialPort_t *serialPort);
+struct ninja;
+struct cli {
+	uint8_t cliMode;
+
+	serialPort_t *cliPort;
+	bufWriter_t *cliWriter;
+
+	// buffer
+	char cliBuffer[48];
+	uint32_t bufferIndex;
+	uint8_t cliWriteBuffer[48];
+	//uint8_t cliWriteBuffer[sizeof(bufWriter_t) + 16];
+
+	struct ninja *ninja;
+};
+
+void cli_init(struct cli *self, struct ninja *ninja);
+void cli_start(struct cli *self, serialPort_t *serialPort);
+void cli_update(struct cli *self);
+bool cli_is_active(struct cli *self);
+bool cli_uses_port(struct cli *self, serialPort_t *serialPort);

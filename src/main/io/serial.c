@@ -361,19 +361,6 @@ bool serialIsPortAvailable(serialPortIdentifier_e identifier)
     return false;
 }
 
-void handleSerial(void)
-{
-#ifdef USE_CLI
-    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
-    if (cliMode) {
-        cliProcess();
-        return;
-    }
-#endif
-
-    mspSerialProcess();
-}
-
 void waitForSerialPortToFinishTransmitting(serialPort_t *serialPort)
 {
     while (!isSerialTransmitBufferEmpty(serialPort)) {
@@ -381,18 +368,3 @@ void waitForSerialPortToFinishTransmitting(serialPort_t *serialPort)
     };
 }
 
-void cliEnter(serialPort_t *serialPort);
-
-void evaluateOtherData(serialPort_t *serialPort, uint8_t receivedChar)
-{
-#ifndef USE_CLI
-    UNUSED(serialPort);
-#else
-    if (receivedChar == '#') {
-        cliEnter(serialPort);
-    }
-#endif
-    if (receivedChar == serialConfig()->reboot_character) {
-        systemResetToBootloader();
-    }
-}

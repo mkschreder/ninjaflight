@@ -178,6 +178,7 @@ uint16_t rx_get_refresh_rate(struct rx *self);
 
 uint16_t rx_get_rssi(struct rx *self);
 
+char rx_get_channel_letter(uint8_t ch);
 uint8_t rx_get_channel_count(struct rx *self);
 int16_t rx_get_channel(struct rx *self, uint8_t chan);
 

@@ -486,7 +486,7 @@ static void init(void)
         failureMode(FAILURE_MISSING_ACC);
     }
 	
-    if (USE_MAG && sensors(SENSOR_MAG))
+    if (USE_MAG && mag.init)
     	mag.init();
 
 	#ifdef USB_CABLE_DETECTION
@@ -539,9 +539,6 @@ static void init(void)
     // start all timers
     // TODO - not implemented yet
     timerStart();
-
-    ENABLE_STATE(SMALL_ANGLE);
-    DISABLE_ARMING_FLAG(PREVENT_ARMING);
 
 #ifdef SOFTSERIAL_LOOPBACK
     // FIXME this is a hack, perhaps add a FUNCTION_LOOPBACK to support it properly

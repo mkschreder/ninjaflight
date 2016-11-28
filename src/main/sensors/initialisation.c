@@ -355,7 +355,7 @@ static bool detectGyro(void)
     }
 
     detectedSensors[SENSOR_INDEX_GYRO] = gyroHardware;
-    sensorsSet(SENSOR_GYRO);
+    //sensorsSet(SENSOR_GYRO);
 
     return true;
 }
@@ -503,7 +503,7 @@ retry:
     }
 
     detectedSensors[SENSOR_INDEX_ACC] = accHardware;
-    sensorsSet(SENSOR_ACC);
+    //sensorsSet(SENSOR_ACC);
 }
 
 static void detectBaro(baroSensor_e baroHardwareToUse)
@@ -575,7 +575,7 @@ static void detectBaro(baroSensor_e baroHardwareToUse)
     }
 
     detectedSensors[SENSOR_INDEX_BARO] = baroHardware;
-    sensorsSet(SENSOR_BARO);
+    //sensorsSet(SENSOR_BARO);
 #endif
 }
 
@@ -690,7 +690,7 @@ retry:
     }
 
     detectedSensors[SENSOR_INDEX_MAG] = magHardware;
-    sensorsSet(SENSOR_MAG);
+    //sensorsSet(SENSOR_MAG);
 }
 
 static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
@@ -727,7 +727,7 @@ bool sensorsAutodetect(void)
 
 
     // Now time to init things, acc first
-    if (sensors(SENSOR_ACC)) {
+    if (acc.init) {
         acc.acc_1G = 256; // set default
         acc.init(&acc);
     }

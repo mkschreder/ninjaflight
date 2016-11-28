@@ -28,7 +28,7 @@
 #include "config/parameter_group.h"
 #include "drivers/system.h"
 #include "drivers/serial.h"
-#include "drivers/buf_writer.h"
+#include "common/buf_writer.h"
 #include "drivers/pwm_mapping.h"
 #include "drivers/gpio.h"
 #include "io/serial.h"

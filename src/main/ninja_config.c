@@ -99,7 +99,8 @@ static void ninja_validate_config(struct ninja *self){
     }
 #endif
 
-
+/*
+// TODO: ledstrip config
 #if defined(LED_STRIP)
 #if (defined(USE_SOFTSERIAL1) || defined(USE_SOFTSERIAL2))
     if (featureConfigured(FEATURE_SOFTSERIAL) && (
@@ -122,7 +123,7 @@ static void ninja_validate_config(struct ninja *self){
     }
 #endif
 #endif // LED_STRIP
-
+*/
 #if defined(CC3D)
 #if defined(DISPLAY) && defined(USE_UART3)
     if (featureConfigured(FEATURE_DISPLAY) && doesConfigurationUsePort(SERIAL_PORT_UART3)) {

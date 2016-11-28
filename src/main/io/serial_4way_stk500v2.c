@@ -25,7 +25,7 @@
 #include <platform.h>
 #include "common/utils.h"
 #include "drivers/gpio.h"
-#include "drivers/buf_writer.h"
+#include "common/buf_writer.h"
 #include "drivers/pwm_mapping.h"
 #include "drivers/serial.h"
 #include "drivers/system.h"

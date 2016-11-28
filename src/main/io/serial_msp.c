@@ -42,6 +42,9 @@
 #include "io/msp.h"
 #include "io/serial_msp.h"
 #include "io/serial_4way.h"
+#include "io/serial_cli.h"
+
+#include "ninja.h"
 
 mspPort_t mspPorts[MAX_MSP_PORT_COUNT];
 
@@ -211,8 +214,7 @@ static bool mspSerialProcessReceivedByte(mspPort_t *msp, uint8_t c)
     return true;
 }
 
-void mspSerialProcess(void)
-{
+void mspSerialProcess(struct ninja *ninja){
     for (int i = 0; i < MAX_MSP_PORT_COUNT; i++) {
         mspPort_t *msp = &mspPorts[i];
         if (!msp->port) {
@@ -224,7 +226,13 @@ void mspSerialProcess(void)
             bool consumed = mspSerialProcessReceivedByte(msp, c);
 
             if (!consumed) {
-                evaluateOtherData(msp->port, c);
+				// TODO: this is madness. There should be an msp message for entering cli
+				if (c == '#') {
+					cli_start(&ninja->cli, msp->port);
+				}
+				if (c == serialConfig()->reboot_character) {
+					systemResetToBootloader();
+				}
             }
 
             if (msp->c_state == COMMAND_RECEIVED) {

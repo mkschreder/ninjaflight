@@ -240,7 +240,7 @@ void ninja_process_rc_sticks(struct ninja *self, rxConfig_t *rxConfig, throttleS
 #endif
 
 #ifdef BARO
-		if (sensors(SENSOR_BARO))
+		if (ninja_has_sensors(self, NINJA_SENSOR_BARO))
 			baroSetCalibrationCycles(10); // calibrate baro to new ground level (10 * 25 ms = ~250 ms non blocking)
 #endif
 
@@ -458,7 +458,7 @@ void ninja_process_rx(struct ninja *self){
 
 	rcModeUpdateActivated(&self->rx, modeActivationProfile()->modeActivationConditions);
 
-	if (!cliMode) {
+	if (!cli_is_active(&self->cli)) {
 		rc_adj_update_states(&self->rc_adj, adjustmentProfile()->adjustmentRanges);
 		//processRcAdjustments(currentControlRateProfile, rxConfig());
 	}
@@ -520,9 +520,12 @@ void ninja_process_rx(struct ninja *self){
 #endif
 
 #ifdef GPS
+	// TODO: ninja gps waypoint update
+	/*
 	if (sensors(SENSOR_GPS)) {
 		updateGpsWaypointsAndMode();
 	}
+	*/
 #endif
 
 /* TODO: passthrough mode

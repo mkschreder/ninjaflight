@@ -298,7 +298,7 @@ extern uint32_t currentTime;
 
 static BlackboxState blackboxState = BLACKBOX_STATE_DISABLED;
 
-static uint32_t blackboxLastArmingBeep = 0;
+//static uint32_t blackboxLastArmingBeep = 0;
 
 static struct {
     uint32_t headerIndex;
@@ -379,12 +379,12 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 
         case FLIGHT_LOG_FIELD_CONDITION_MAG:
 			if(USE_MAG)
-            	return sensors(SENSOR_MAG);
+            	return ninja_has_sensors(self->ninja, NINJA_SENSOR_MAG);
             return false;
 
         case FLIGHT_LOG_FIELD_CONDITION_BARO:
 #ifdef BARO
-            return sensors(SENSOR_BARO);
+            return ninja_has_sensors(self->ninja, NINJA_SENSOR_BARO);
 #else
             return false;
 #endif
@@ -704,8 +704,9 @@ static void writeSlowFrame(void)
  */
 static void loadSlowState(struct blackbox *self, blackboxSlowState_t *slow)
 {
-    slow->flightModeFlags = flightModeFlags;
-    slow->stateFlags = stateFlags;
+	// TODO: blackbox flight mode flags
+    //slow->flightModeFlags = flightModeFlags;
+    //slow->stateFlags = stateFlags;
     slow->failsafePhase = failsafe_get_state(&self->ninja->failsafe);
     slow->rxSignalReceived = rx_has_signal(&self->ninja->rx);
     slow->rxFlightChannelsValid = rx_flight_channels_valid(&self->ninja->rx);
@@ -826,7 +827,7 @@ void blackbox_start(struct blackbox *self)
          * Record the beeper's current idea of the last arming beep time, so that we can detect it changing when
          * it finally plays the beep for this arming event.
          */
-        blackboxLastArmingBeep = getArmingBeepTimeMicros();
+        //blackboxLastArmingBeep = getArmingBeepTimeMicros();
 
         blackboxSetState(self, BLACKBOX_STATE_PREPARE_LOG_FILE);
     }
@@ -1204,6 +1205,8 @@ void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data)
 /* If an arming beep has played since it was last logged, write the time of the arming beep to the log as a synchronization point */
 static void blackboxCheckAndLogArmingBeep(void)
 {
+/*
+ *  // TODO: blackbox arming beep crap
     flightLogEvent_syncBeep_t eventData;
 
     // Use != so that we can still detect a change if the counter wraps
@@ -1214,6 +1217,7 @@ static void blackboxCheckAndLogArmingBeep(void)
 
         blackboxLogEvent(FLIGHT_LOG_EVENT_SYNC_BEEP, (flightLogEventData_t *) &eventData);
     }
+	*/
 }
 
 /* 

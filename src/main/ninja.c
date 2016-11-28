@@ -137,9 +137,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	mspInit(self);
 	mspSerialInit();
 
-#ifdef USE_CLI
-	cliInit();
-#endif
+	cli_init(&self->cli, self);
 
 	failsafe_init(&self->failsafe, self);
 
@@ -219,14 +217,15 @@ void ninja_arm(struct ninja *self){
 		//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
 
 		//beep to indicate arming
+		/*
 #ifdef GPS
 		if (feature(FEATURE_GPS) && STATE(GPS_FIX) && GPS_numSat >= 5)
 			beeper_start(&self->beeper, BEEPER_ARMING_GPS_FIX);
 		else
 			beeper_start(&self->beeper, BEEPER_ARMING);
 #else
+*/
 		beeper_start(&self->beeper, BEEPER_ARMING);
-#endif
 
 		return;
 	}
@@ -345,7 +344,7 @@ void _process_3d_throttle(struct ninja *self){
 }
 */
 
-uint32_t ninja_has_sensors(struct ninja *self, uint32_t sensor_mask){
+uint32_t ninja_has_sensors(struct ninja *self, sensor_mask_t sensor_mask){
 	return !!(self->sensors & sensor_mask);
 }
 

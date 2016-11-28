@@ -12,6 +12,7 @@
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
 #include "io/beeper.h"
+#include "io/serial_cli.h"
 
 struct ninja;
 
@@ -40,6 +41,7 @@ struct ninja {
 	struct failsafe failsafe;
 	struct ledstrip ledstrip;
 	struct beeper beeper;
+	struct cli cli;
 
 	bool isRXDataNew;
 

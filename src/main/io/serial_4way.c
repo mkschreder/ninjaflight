@@ -339,12 +339,6 @@ void esc4wayProcess(serialPort_t *serial)
 
     port = serial;
 
-#ifdef BEEPER
-    // fix for buzzer often starts beeping continuously when the ESCs are read
-    // switch beeper silent here
-    beeperSilence();
-#endif
-
     esc4wayExitRequested = false;
     while(!esc4wayExitRequested) {
         // restart looking for new sequence from host

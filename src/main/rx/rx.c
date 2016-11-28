@@ -64,7 +64,12 @@
 
 static uint16_t nullReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t channel); 
 
-const char rcChannelLetters[] = "AERT12345678abcdefgh";
+static const char rcChannelLetters[] = "AERT12345678abcdefgh";
+
+char rx_get_channel_letter(uint8_t ch){
+	if(ch >= 20) return 'x';
+	return rcChannelLetters[ch];
+}
 
 static uint16_t nullReadRawRC(rxRuntimeConfig_t *rconf, uint8_t channel)
 {

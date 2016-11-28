@@ -47,7 +47,7 @@
 #include "drivers/serial.h"
 #include "drivers/bus_i2c.h"
 #include "drivers/sdcard.h"
-#include "drivers/buf_writer.h"
+#include "common/buf_writer.h"
 
 #include "rx/rx.h"
 #include "rx/msp.h"
@@ -785,7 +785,8 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
 
 #ifdef GPS
         case MSP_RAW_GPS:
-            sbufWriteU8(dst, STATE(GPS_FIX));
+            //sbufWriteU8(dst, STATE(GPS_FIX));
+            sbufWriteU8(dst, false);
             sbufWriteU8(dst, GPS_numSat);
             sbufWriteU32(dst, GPS_coord[LAT]);
             sbufWriteU32(dst, GPS_coord[LON]);
@@ -1313,10 +1314,11 @@ static int processInCommand(mspPacket_t *cmd)
 
 #ifdef GPS
         case MSP_SET_RAW_GPS:
+			// TODO: msp gps fix
             if (sbufReadU8(src)) {
-                ENABLE_STATE(GPS_FIX);
+                //ENABLE_STATE(GPS_FIX);
             } else {
-                DISABLE_STATE(GPS_FIX);
+                //DISABLE_STATE(GPS_FIX);
             }
             GPS_numSat = sbufReadU8(src);
             GPS_coord[LAT] = sbufReadU32(src);
@@ -1337,8 +1339,9 @@ static int processInCommand(mspPacket_t *cmd)
             if (wp_no == 0) {
                 GPS_home[LAT] = lat;
                 GPS_home[LON] = lon;
-                DISABLE_FLIGHT_MODE(GPS_HOME_MODE);     // with this flag, GPS_set_next_wp will be called in the next loop -- OK with SERIAL GPS / OK with I2C GPS
-                ENABLE_STATE(GPS_FIX_HOME);
+				// TODO: gps
+                //DISABLE_FLIGHT_MODE(GPS_HOME_MODE);     // with this flag, GPS_set_next_wp will be called in the next loop -- OK with SERIAL GPS / OK with I2C GPS
+                //ENABLE_STATE(GPS_FIX_HOME);
                 //if (alt != 0)
                  //   AltHold = alt;                      // temporary implementation to test feature with apps
             } else if (wp_no == 16) {                   // OK with SERIAL GPS  --  NOK for I2C GPS / needs more code dev in order to inject GPS coord inside I2C GPS

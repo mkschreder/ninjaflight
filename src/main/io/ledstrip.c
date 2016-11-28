@@ -456,6 +456,7 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 
 #ifdef GPS
 static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool updateNow, uint32_t *timer){
+	(void)self;
 	static uint8_t gpsFlashCounter = 0;
 	static uint8_t gpsPauseCounter = 0;
 	const uint8_t blinkPauseLength = 4;
@@ -473,8 +474,9 @@ static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool
 		*timer += LED_STRIP_HZ(2.5);
 	}
 
+/*
 	const hsvColor_t *gpsColor;
-
+	// TODO: ledstrip gps stuff
 	if (GPS_numSat == 0 || !sensors(SENSOR_GPS)) {
 		gpsColor = getSC(LED_SCOLOR_GPSNOSATS);
 	} else {
@@ -485,7 +487,6 @@ static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool
 			gpsColor = colorOn ? getSC(LED_SCOLOR_GPSNOLOCK) : getSC(LED_SCOLOR_GPSNOSATS);
 		}
 	}
-
 	for (int i = 0; i < self->ledCount; ++i) {
 		const ledConfig_t *ledConfig = ledConfigs(i);
 		if (!(ledConfig->flags & LED_FLAG_FUNCTION(LED_FUNCTION_GPS)))
@@ -493,6 +494,7 @@ static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool
 
 		setLedHsv(i, gpsColor);
 	}
+*/
 }
 #endif
 

@@ -105,7 +105,6 @@ struct sonar default_sonar;
 void sonar_init(struct sonar *self){
     hcsr04_init(self);
 	self->distance = SONAR_OUT_OF_RANGE; 
-    sensorsSet(SENSOR_SONAR);
     self->cf_alt_cm = self->max_range_cm / 2;
     self->max_tilt_deci_degrees =  self->detection_cone_extended_deci_degrees / 2;
     self->max_tilt_cos = cos_approx(self->max_tilt_deci_degrees / 10.0f * RAD);
