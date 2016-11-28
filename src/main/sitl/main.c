@@ -271,34 +271,18 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 #include <fcntl.h>
 #include <termio.h>
 #include <sys/stat.h>
+
+struct sitl_serial_port {
+	serialPort_t dev;
+	int fd;
+};
+
 // shared library entry point used by client to instantiate a flight controller
 // client is allocated by the client and passed to us as a pointer so we safe it within the server object
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
 struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
 	UNUSED(cl);
-/*	
-	int fd = open("/dev/ptmx", O_RDWR);
-	if(fd <= 0){
-		perror("opening serial terminal");
-		return NULL;
-	}
-	int nr;
-	if(ioctl(fd, TIOCGPTN, &nr) != 0){
-		return NULL;
-	}
-	char ptsname[32]; 
-	sprintf(ptsname, "/dev/pts/%d", nr);
-	printf("opened serial device %s\n", ptsname);
-	grantpt(fd);
-	unlockpt(fd);
-	int sfd = open(ptsname, O_RDWR);
-	if(sfd <= 0) perror("open");
-	//if(write(sfd, "Hello", 6) < 0) perror("write");
-	if(read(fd, ptsname, 6) < 0) perror("read");
 
-	printf("Got: %s\n", ptsname);
-	exit(0);
-*/
 	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
 
 	// save client interface pointer so we can send pwm to it and read rc inputs
@@ -377,13 +361,106 @@ serialPort_t *usbVcpOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t
 	(void)options;
 	return NULL; 
 }
+
+static void _serial_write_char(serialPort_t *port, uint8_t ch){
+	struct sitl_serial_port *self = container_of(port, struct sitl_serial_port, dev);
+	write(self->fd, &ch, 1);
+}
+
+static uint8_t _serial_rx_waiting(serialPort_t *port){
+	struct sitl_serial_port *self = container_of(port, struct sitl_serial_port, dev);
+	int bytes;
+	ioctl(self->fd, FIONREAD, &bytes);
+	return bytes;
+}
+
+static uint8_t _serial_tx_free(serialPort_t *port){
+	(void)port;
+	return 255;
+}
+
+static uint8_t _serial_read_char(serialPort_t *port){
+	struct sitl_serial_port *self = container_of(port, struct sitl_serial_port, dev);
+	uint8_t ch = 0;
+	read(self->fd, &ch, 1);
+	return ch;
+}
+
+static void _serial_set_baud_rate(serialPort_t *port, uint32_t baud){
+	printf("UART%d: baud rate %d\n", port->identifier, baud);
+}
+
+static bool _serial_tx_empty(serialPort_t *port){
+	(void)port;
+	return true;
+}
+
+static void _serial_set_mode(serialPort_t *port, portMode_t mode){
+	(void)port; (void)mode;
+}
+
+static void _serial_write(serialPort_t *port, void *data, int count){
+	struct sitl_serial_port *self = container_of(port, struct sitl_serial_port, dev);
+	uint8_t *ptr = (uint8_t*)data;
+	while(count > 0){
+		int r = write(self->fd, ptr, count);
+		if(r < 0) {
+			perror("UART write");
+			break;
+		}
+		count -= r;
+	}
+}
+
+static void _serial_begin_write(serialPort_t *port){
+	(void)port;
+}
+
+static void _serial_end_write(serialPort_t *port){
+	(void)port;
+}
+
+static struct serial_port_ops _serial_port_ops = {
+	.put = _serial_write_char,
+	.serialTotalRxWaiting = _serial_rx_waiting,
+	.serialTotalTxFree = _serial_tx_free,
+	.serialRead = _serial_read_char,
+	.serialSetBaudRate = _serial_set_baud_rate,
+	.isSerialTransmitBufferEmpty = _serial_tx_empty,
+	.setMode = _serial_set_mode,
+	.writeBuf = _serial_write,
+	.beginWrite = _serial_begin_write,
+	.endWrite = _serial_end_write
+};
+
 serialPort_t *uartOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options) { 
 	(void)id;
 	(void) callback;
 	(void)baudRate;
 	(void)mode;
 	(void)options;
-	return NULL; 
+	int fd = open("/dev/ptmx", O_RDWR);
+	if(fd <= 0){
+		perror("opening serial terminal");
+		return NULL;
+	}
+	int nr;
+	if(ioctl(fd, TIOCGPTN, &nr) != 0){
+		return NULL;
+	}
+	char ptsname[32]; 
+	sprintf(ptsname, "/dev/pts/%d", nr);
+	printf("UART%d, baud %d, created at '%s'\n", id, baudRate, ptsname);
+	grantpt(fd);
+	unlockpt(fd);
+
+	struct sitl_serial_port *port = calloc(1, sizeof(struct sitl_serial_port));
+	port->dev.vTable = &_serial_port_ops;
+	port->dev.baudRate = baudRate;
+	port->fd = fd;
+
+	sleep(1);
+	return &port->dev;
 }
 serialPort_t *openSoftSerial(softSerialPortIndex_e id, serialReceiveCallbackPtr callback, uint32_t baudRate, portOptions_t options) { 
 	(void)id;
@@ -392,24 +469,8 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e id, serialReceiveCallbackPtr 
 	(void)options;
 	return NULL; 
 }
-void serialSetMode(serialPort_t* port,portMode_t mode){
-	(void)port;
-	(void)mode;
-}
-bool isSerialTransmitBufferEmpty(serialPort_t* port){
-	(void)port;
-	return true;
-}
+
 void systemResetToBootloader(void){}
-void serialBeginWrite(serialPort_t* port){ (void)port; }
-void serialWriteBuf(serialPort_t* port,uint8_t * data,int count){ (void)port; (void)data; (void)count;}
-void serialWrite(serialPort_t* port,uint8_t data){ (void)port; (void)data; }
-void serialEndWrite(serialPort_t* port){ (void)port;}
-uint8_t serialRead(serialPort_t* port){ (void)port; return 0;}
-uint8_t serialRxBytesWaiting(serialPort_t* port){ (void)port; return 0;}
-void serialSetBaudRate(serialPort_t *port, uint32_t baud) { (void)port; (void)baud; }
-uint32_t serialGetBaudRate(serialPort_t *port){ (void)port; return 9600; }
-void serialPrint(serialPort_t *port, const char *str){ (void)port; (void)str; }
 void systemReset(void){}
 
 // TODO: fix these
