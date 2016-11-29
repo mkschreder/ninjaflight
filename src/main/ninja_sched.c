@@ -602,14 +602,22 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 	[TASK_GYROPID] = {
 		.taskName = "GYRO/PID",
 		.taskFunc = _task_gyro,
+#ifdef SITL
 		.desiredPeriod = 3500,				  // every 1 ms
+#else
+		.desiredPeriod = 1000,
+#endif
 		.staticPriority = TASK_PRIORITY_REALTIME,
 	},
 
 	[TASK_ACCEL] = {
 		.taskName = "ACCEL",
 		.taskFunc = _task_acc,
+#ifdef SITL
 		.desiredPeriod = 3500,				  // every 1 ms
+#else
+		.desiredPeriod = 1000,
+#endif
 		.staticPriority = TASK_PRIORITY_MEDIUM,
 	},
 

@@ -294,11 +294,8 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_i
 // TODO: these should be part of a struct (defined in flight controller)
 uint8_t stateFlags;
 uint16_t flightModeFlags;
-//int32_t gyroADC[3];
-//int32_t magADC[3];
 uint32_t rcModeActivationMask = 0;
 float magneticDeclination = 0;
-//void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
 
 #include "config/config_streamer.h"
@@ -310,6 +307,7 @@ void config_streamer_start(config_streamer_t *c, uintptr_t base, int size){
 
 int config_streamer_write(config_streamer_t *c, const uint8_t *p, uint32_t size){
 	UNUSED(c); UNUSED(p); UNUSED(size);
+	printf("config_streamer_write: %d\n", size);
 	return 0;
 }
 

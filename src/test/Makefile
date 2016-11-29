@@ -52,7 +52,7 @@ COVERAGE_FLAGS := -fprofile-arcs -ftest-coverage --coverage
 
 C_FLAGS   += $(COVERAGE_FLAGS) 
 CXX_FLAGS += $(COVERAGE_FLAGS)
-LDFLAGS +=  $(COVERAGE_FLAGS) -lgcov -L$(OBJECT_DIR)/../.. -lninjaflight
+LDFLAGS += $(COVERAGE_FLAGS) -lgcov -L$(OBJECT_DIR)/../.. -lninjaflight
 
 #enable fast Maths tests
 C_FLAGS   += -DFAST_MATH
@@ -781,7 +781,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	cd $(OBJECT_DIR)/../..; LD_LIBRARY_PATH=. obj/test/$(basename $<) $(EXEC_OPTS)
+	LD_LIBRARY_PATH=$(PWD)/../../ LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%

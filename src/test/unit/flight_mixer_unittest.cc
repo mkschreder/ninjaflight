@@ -57,11 +57,12 @@ extern "C" {
 #include "gtest/gtest.h"
 
 /**
- * @defgroup MIXERSPEC Guarantees
+ * @page MIXER
  * @ingroup MIXER
  *
- * @page MIXERSPEC
- * @ingroup MIXERSPEC
+ * Mixer Unit Tests
+ * ----------------
+ *
  * This is a summary of automatic tests that are done against the mixer module
  * to guarantee that the module behaves according to the requirements set forth
  * below.
@@ -158,11 +159,13 @@ protected:
 };
 
 /**
- * @page MIXERSPEC
- * @ingroup MIXERSPEC
+ * @page MIXER
+ * @ingroup MIXER
  *
  * - When mixer is started and not armed it will output G4 inputs as
- * passthrough to the motors and will output midrc values on servos.
+ * passthrough to the motors and will output midrc values on servos. When
+ * armed, mixer shall output minimum value that was set by
+ * mixer_set_throttle_range.
  **/
 TEST_F(MixerBasicTest, TestMixerArmed){
 	testedModes = 0;
@@ -216,6 +219,13 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 	}
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - 3d mode is set in mixer using mixer_set_throttle_range(). TODO: this test
+ * needs to be improved.
+ */
 TEST_F(MixerBasicTest, Test3dThrottleRange){
 	_init_mixer_defaults(MIXER_QUADX);
 
@@ -238,10 +248,15 @@ TEST_F(MixerBasicTest, Test3dThrottleRange){
 	EXPECT_EQ(1250, mock_motor_pwm[1]);
 	EXPECT_EQ(1250, mock_motor_pwm[2]);
 	EXPECT_EQ(1250, mock_motor_pwm[3]);
-
-
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - When mixer is disarmed it should pass MIXER_INPUT_G4_Mx inputs to the
+ * motors and should keep servos at midpoint.
+ */
 TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
 	motorAndServoConfig()->mincommand = 1000;
 
@@ -268,9 +283,22 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
     for (uint8_t i = 0; i < MIXER_MAX_MOTORS; i++) {
         EXPECT_EQ(1501 + i, mock_motor_pwm[i]);
     }
+	// check that servo outputs have been centered
+	for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
+		EXPECT_EQ(rxConfig()->midrc, mock_servo_pwm[c]);
+	}
 }
 
-
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - Inputs in group G3 that correspond to AUX channels should always be
+ * automatically forwarded to servos that are not controlled by the mixer
+ * (starting with the next servo after the last one that is controlled by the
+ * mixer rules). TODO: make sure that this output is mixed according to servo
+ * configuration rules.
+ */
 TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 	// center all servos
 	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX1, 0);
@@ -296,6 +324,16 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 	EXPECT_EQ(motorAndServoConfig()->mincommand, mock_servo_pwm[2]);
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - Mixer scales motor output such that differential thrust is maintained as
+ * much as possible. If some motors are above maximum output range, mixer moves
+ * all motors down such that the difference between motor with least thrust and
+ * motor with most thrust is maintained. If both top and bottom limits are
+ * exceeded then all motors are scaled to fit in the allowed output range.
+ */
 TEST_F(MixerBasicTest, TestMixerExtremes){
 	// set up some config defaults
 	rxConfig()->mincheck = 1010;
@@ -371,6 +409,14 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - Motors that are unused by the mixer are always held at *mincommand*
+ * setting as specified in the mixer configuration. This only applies to motor
+ * outputs (not servos).
+ */
 TEST_F(MixerBasicTest, TestMixerUnusedMotorsAtMin){
 	// set up some config defaults
 	rxConfig()->mincheck = 1010;
@@ -514,6 +560,14 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	testedModes++;
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - Mixer supports loading and saving settings in cleanflight old-style mixer
+ * format where motor and servo rules are separate. Loading a mixer replaces
+ * current mixer. Currently used ruleset is always copied into mixer instance.
+ */
 TEST_F(MixerBasicTest, TestMixerLoadSave){
 	// set up some config defaults
 	rxConfig()->mincheck = 1010;
@@ -613,6 +667,13 @@ TEST_F(MixerBasicTest, TestQuadMotors)
     EXPECT_EQ(TEST_MIN_COMMAND, mock_motor_pwm[3]);
 }
 
+/**
+ * @page MIXER
+ * @ingroup MIXER
+ *
+ * - Mixer has basic tolerance against invalid configuration values. Values are
+ * constrained in some places. Do keep configuration valid for best result.
+ */
 TEST_F(MixerBasicTest, TestInvalidConfig){
 	// this test will just fill configs with random data and we will see if mixer performs well
 	memset(mixerConfig(), 0xff, sizeof(struct mixer_config));

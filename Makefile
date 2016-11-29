@@ -79,7 +79,7 @@ USBFS_DIR	= $(ROOT)/lib/main/STM32_USB-FS-Device_Driver
 USBPERIPH_SRC = $(notdir $(wildcard $(USBFS_DIR)/src/*.c))
 
 # Compiler flags for coverage instrumentation
-COVERAGE_FLAGS = -g -O0 -fprofile-arcs -ftest-coverage --coverage
+COVERAGE_FLAGS = --coverage -DDEBUG -g3 -O0 -fprofile-arcs -ftest-coverage
 
 CSOURCES        := $(shell find $(SRC_DIR) -name '*.c')
 
@@ -807,9 +807,9 @@ VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
 # Tool names
 ifeq ($(TARGET),SITL)
 SIZE = size
-ARCH_FLAGS += -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) 
-LD_SCRIPT = ./src/test/unit/parameter_group.ld
-LDFLAGS += -lgcov -Wl,-gc-sections,-Map,$(TARGET_MAP) 
+#ARCH_FLAGS += -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) 
+#LD_SCRIPT = ./src/test/unit/parameter_group.ld
+#LDFLAGS += -lgcov -Wl,-gc-sections,-Map,$(TARGET_MAP) 
 else
 CC		 = arm-none-eabi-gcc
 OBJCOPY		 = arm-none-eabi-objcopy
@@ -1008,13 +1008,12 @@ help: Makefile
 ## test        : run the ninjaflight test suite
 ## junittest   : run the ninjaflight test suite, producing Junit XML result files.
 test junittest:
-	lcov --directory . --zerocounters
 	cd src/test && $(MAKE) $@
 	make lcov
 
 lcov:
 	# visualize coverage
-	lcov --directory . -b src/test --capture --output-file coverage.info
+	lcov --directory obj/main -b src/main --capture --output-file coverage.info
 	lcov --remove coverage.info 'lib/test/*' 'src/test/*' '/usr/*' 'ninjasitl/*' --output-file coverage.info
 	lcov --list coverage.info
 	if [ "$$(which genhtml)" != "" ]; then genhtml coverage.info --output-directory coverage-html; fi

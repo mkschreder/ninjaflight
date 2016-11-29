@@ -116,8 +116,11 @@ TEST(InsUnitTest, ArmingTest){
 
 	ninja_init(&ninja, mock_syscalls());
 
-	run_loop(&ninja, 5000);
-
+	run_loop(&ninja, 100);
+	
+	cfTaskInfo_t info;
+	ninja_sched_get_task_info(&ninja.sched, TASK_GYROPID, &info);
+	printf("%s: %d%%\n", info.taskName, info.latestDeltaTime);
 	// double check that all motors are at mincommand (we are disarmed)
 	/*
 	EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[0]);
