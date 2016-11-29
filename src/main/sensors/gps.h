@@ -18,8 +18,8 @@
 #pragma once
 
 #include "../config/gps.h"
-
-struct serialPort_s;
+#include "../system_calls.h"
+#include "../drivers/serial.h"
 
 #define LAT 0
 #define LON 1
@@ -60,38 +60,44 @@ typedef struct gpsData_s {
     uint32_t lastLastMessage;       // last-last valid GPS message. Used to calculate delta.
 
     uint32_t state_position;        // incremental variable for loops
-    uint32_t state_ts;              // timestamp for last state_position increment
+    sys_millis_t state_ts;              // timestamp for last state_position increment
     gpsMessageState_e messageState;
 } gpsData_t;
 
 #define GPS_PACKET_LOG_ENTRY_COUNT 21 // To make this useful we should log as many packets as we can fit characters a single line of a OLED display.
-extern char gpsPacketLog[GPS_PACKET_LOG_ENTRY_COUNT];
 
-extern gpsData_t gpsData;
-extern int32_t GPS_coord[2];               // LAT/LON
+struct gps {
+	char gpsPacketLog[GPS_PACKET_LOG_ENTRY_COUNT];
+	char *gpsPacketLogChar;
 
-extern uint8_t GPS_numSat;
-extern uint16_t GPS_hdop;                  // GPS signal quality
-extern uint8_t GPS_update;                 // it's a binary toogle to distinct a GPS position update
-extern uint32_t GPS_packetCount;
-extern uint32_t GPS_svInfoReceivedCount;
-extern uint16_t GPS_altitude;              // altitude in 0.1m
-extern uint16_t GPS_speed;                 // speed in 0.1m/s
-extern uint16_t GPS_ground_course;         // degrees * 10
-extern uint8_t GPS_numCh;                  // Number of channels
-extern uint8_t GPS_svinfo_chn[16];         // Channel number
-extern uint8_t GPS_svinfo_svid[16];        // Satellite ID
-extern uint8_t GPS_svinfo_quality[16];     // Bitfield Qualtity
-extern uint8_t GPS_svinfo_cno[16];         // Carrier to Noise Ratio (Signal Strength)
+	gpsData_t gpsData;
+	int32_t GPS_coord[2];               // LAT/LON
 
-extern uint32_t GPS_garbageByteCount;
+	uint8_t GPS_numSat;
+	uint16_t GPS_hdop;                  // GPS signal quality
+	uint8_t GPS_update;                 // it's a binary toogle to distinct a GPS position update
+	uint32_t GPS_packetCount;
+	uint32_t GPS_svInfoReceivedCount;
+	uint16_t GPS_altitude;              // altitude in 0.1m
+	uint16_t GPS_speed;                 // speed in 0.1m/s
+	uint16_t GPS_ground_course;         // degrees * 10
+	uint8_t GPS_numCh;                  // Number of channels
+	uint8_t GPS_svinfo_chn[16];         // Channel number
+	uint8_t GPS_svinfo_svid[16];        // Satellite ID
+	uint8_t GPS_svinfo_quality[16];     // Bitfield Qualtity
+	uint8_t GPS_svinfo_cno[16];         // Carrier to Noise Ratio (Signal Strength)
+
+	uint32_t GPS_garbageByteCount;
+
+	serialPort_t *gpsPort;
+	const struct system_calls *system;
+};
 
 #define GPS_DBHZ_MIN 0
 #define GPS_DBHZ_MAX 55
 
-void gpsInit(void);
+void gps_init(struct gps *self, const struct system_calls *system);
 
-void gpsEnablePassthrough(struct serialPort_s *gpsPassthroughPort); 
-void gpsThread(void);
-bool gpsNewFrame(uint8_t c);
-void updateGpsIndicator(uint32_t currentTime);
+void gps_enable_passthrough(struct gps *self, struct serialPort_s *gpsPassthroughPort); 
+void gps_update(struct gps *self);
+bool gps_process_char(struct gps *self, uint8_t c);
