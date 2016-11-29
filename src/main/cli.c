@@ -36,10 +36,10 @@
 #include "common/color.h"
 #include "common/typeconversion.h"
 
-#include "../config/parameter_group.h"
-#include "../config/parameter_group_ids.h"
-#include "../config/tilt.h"
-#include "../config/gimbal.h"
+#include "config/parameter_group.h"
+#include "config/parameter_group_ids.h"
+#include "config/tilt.h"
+#include "config/gimbal.h"
 
 #include "drivers/system.h"
 
@@ -54,7 +54,6 @@
 #include "drivers/pwm_output.h"
 #include "common/buf_writer.h"
 
-#include "io/gps.h"
 #include "io/rc_controls.h"
 #include "flight/rate_profile.h"
 #include "io/rc_adjustments.h"
@@ -84,11 +83,11 @@
 #include "flight/altitudehold.h"
 #include "flight/tilt.h"
 
-#include "telemetry/telemetry.h"
-#include "telemetry/frsky.h"
-#include "telemetry/hott.h"
+//#include "telemetry/telemetry.h"
+//#include "telemetry/frsky.h"
+//#include "telemetry/hott.h"
 
-#include "../ninja.h"
+#include "ninja.h"
 
 #include "config/runtime_config.h"
 #include "config/config.h"
@@ -98,7 +97,7 @@
 
 #include "common/printf.h"
 
-#include "serial_cli.h"
+#include "cli.h"
 
 static void cliAux(struct cli *self, char *cmdline);
 static void cliRxFail(struct cli *self, char *cmdline);
@@ -328,7 +327,6 @@ static const char * const lookupTableAlignment[] = {
     "CW270FLIP"
 };
 
-#ifdef GPS
 static const char * const lookupTableGPSProvider[] = {
     "NMEA", "UBLOX"
 };
@@ -336,7 +334,6 @@ static const char * const lookupTableGPSProvider[] = {
 static const char * const lookupTableGPSSBASMode[] = {
     "AUTO", "EGNOS", "WAAS", "MSAS", "GAGAN"
 };
-#endif
 
 static const char * const lookupTableCurrentSensor[] = {
     "NONE", "ADC", "VIRTUAL"
@@ -387,13 +384,9 @@ typedef enum {
     TABLE_OFF_ON = 0,
     TABLE_UNIT,
     TABLE_ALIGNMENT,
-#ifdef GPS
     TABLE_GPS_PROVIDER,
     TABLE_GPS_SBAS_MODE,
-#endif
-#ifdef BLACKBOX
     TABLE_BLACKBOX_DEVICE,
-#endif
     TABLE_CURRENT_SENSOR,
     TABLE_GIMBAL_MODE,
     TABLE_PID_CONTROLLER,
@@ -406,13 +399,9 @@ static const lookupTableEntry_t lookupTables[] = {
     { lookupTableOffOn, sizeof(lookupTableOffOn) / sizeof(char *) },
     { lookupTableUnit, sizeof(lookupTableUnit) / sizeof(char *) },
     { lookupTableAlignment, sizeof(lookupTableAlignment) / sizeof(char *) },
-#ifdef GPS
     { lookupTableGPSProvider, sizeof(lookupTableGPSProvider) / sizeof(char *) },
     { lookupTableGPSSBASMode, sizeof(lookupTableGPSSBASMode) / sizeof(char *) },
-#endif
-#ifdef BLACKBOX
     { lookupTableBlackboxDevice, sizeof(lookupTableBlackboxDevice) / sizeof(char *) },
-#endif
     { lookupTableCurrentSensor, sizeof(lookupTableCurrentSensor) / sizeof(char *) },
     { lookupTableGimbalMode, sizeof(lookupTableGimbalMode) / sizeof(char *) },
     { lookupTablePidController, sizeof(lookupTablePidController) / sizeof(char *) },
@@ -2067,8 +2056,10 @@ static void cliFeature(struct cli *self, char *cmdline)
 static void cliGpsPassthrough(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
+	(void)self;
 
-    gpsEnablePassthrough(self->cliPort);
+	// TODO: cli gps passthrough
+    //gps_enable_passthrough(self->cliPort);
 }
 #endif
 

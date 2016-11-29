@@ -55,7 +55,6 @@
 #include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
-#include "io/gps.h"
 #include "io/serial.h"
 #include "io/ledstrip.h"
 #include "io/flashfs.h"
@@ -65,10 +64,11 @@
 #include "io/serial_msp.h"
 #include "io/serial_4way.h"
 
-#include "telemetry/telemetry.h"
+//#include "telemetry/telemetry.h"
 
 #include "sensors/boardalignment.h"
 #include "sensors/battery.h"
+#include "sensors/gps.h"
 #include "sensors/sonar.h"
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
@@ -91,7 +91,7 @@
 #include "hardware_revision.h"
 #endif
 
-#include "io/msp.h"
+#include "msp.h"
 
 extern void resetPidProfile(struct pid_config *pidProfile);
 
@@ -787,18 +787,19 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         case MSP_RAW_GPS:
             //sbufWriteU8(dst, STATE(GPS_FIX));
             sbufWriteU8(dst, false);
-            sbufWriteU8(dst, GPS_numSat);
-            sbufWriteU32(dst, GPS_coord[LAT]);
-            sbufWriteU32(dst, GPS_coord[LON]);
-            sbufWriteU16(dst, GPS_altitude);
-            sbufWriteU16(dst, GPS_speed);
-            sbufWriteU16(dst, GPS_ground_course);
+            sbufWriteU8(dst, ninja->gps.GPS_numSat);
+            sbufWriteU32(dst, ninja->gps.GPS_coord[LAT]);
+            sbufWriteU32(dst, ninja->gps.GPS_coord[LON]);
+            sbufWriteU16(dst, ninja->gps.GPS_altitude);
+            sbufWriteU16(dst, ninja->gps.GPS_speed);
+            sbufWriteU16(dst, ninja->gps.GPS_ground_course);
             break;
 
         case MSP_COMP_GPS:
-            sbufWriteU16(dst, GPS_distanceToHome);
-            sbufWriteU16(dst, GPS_directionToHome);
-            sbufWriteU8(dst, GPS_update & 1);
+			// TODO: msp comp gps
+            //sbufWriteU16(dst, ninja->gps.GPS_distanceToHome);
+            //sbufWriteU16(dst, ninja->gps.GPS_directionToHome);
+            sbufWriteU8(dst, ninja->gps.GPS_update & 1);
             break;
 
         case MSP_WP: {
@@ -822,12 +823,12 @@ static int processOutCommand(mspPacket_t *cmd, mspPacket_t *reply)
         }
 
         case MSP_GPSSVINFO:
-            sbufWriteU8(dst, GPS_numCh);
-            for (int i = 0; i < GPS_numCh; i++){
-                sbufWriteU8(dst, GPS_svinfo_chn[i]);
-                sbufWriteU8(dst, GPS_svinfo_svid[i]);
-                sbufWriteU8(dst, GPS_svinfo_quality[i]);
-                sbufWriteU8(dst, GPS_svinfo_cno[i]);
+            sbufWriteU8(dst, ninja->gps.GPS_numCh);
+            for (int i = 0; i < ninja->gps.GPS_numCh; i++){
+                sbufWriteU8(dst, ninja->gps.GPS_svinfo_chn[i]);
+                sbufWriteU8(dst, ninja->gps.GPS_svinfo_svid[i]);
+                sbufWriteU8(dst, ninja->gps.GPS_svinfo_quality[i]);
+                sbufWriteU8(dst, ninja->gps.GPS_svinfo_cno[i]);
             }
             break;
 #endif
@@ -1320,12 +1321,12 @@ static int processInCommand(mspPacket_t *cmd)
             } else {
                 //DISABLE_STATE(GPS_FIX);
             }
-            GPS_numSat = sbufReadU8(src);
-            GPS_coord[LAT] = sbufReadU32(src);
-            GPS_coord[LON] = sbufReadU32(src);
-            GPS_altitude = sbufReadU16(src);
-            GPS_speed = sbufReadU16(src);
-            GPS_update |= 2;        // New data signalisation to GPS functions // FIXME Magic Numbers
+            ninja->gps.GPS_numSat = sbufReadU8(src);
+            ninja->gps.GPS_coord[LAT] = sbufReadU32(src);
+            ninja->gps.GPS_coord[LON] = sbufReadU32(src);
+            ninja->gps.GPS_altitude = sbufReadU16(src);
+            ninja->gps.GPS_speed = sbufReadU16(src);
+            ninja->gps.GPS_update |= 2;        // New data signalisation to GPS functions // FIXME Magic Numbers
             break;
 
         case MSP_SET_WP: {
