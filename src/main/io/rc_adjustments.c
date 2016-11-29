@@ -37,14 +37,9 @@
 #include "config/config.h"
 #include "config/feature.h"
 
-#include "flight/anglerate.h"
-
-#include "blackbox/blackbox.h"
-
 #include "io/beeper.h"
 
 #include "ninja.h"
-#include "flight/rate_profile.h"
 #include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 

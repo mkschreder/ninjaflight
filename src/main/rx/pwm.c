@@ -28,8 +28,6 @@
 #include "config/config.h"
 #include "config/parameter_group.h"
 
-#include "drivers/pwm_rx.h"
-
 #include "config/config.h"
 #include "config/parameter_group.h"
 #include "config/feature.h"

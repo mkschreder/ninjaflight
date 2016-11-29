@@ -36,7 +36,6 @@ extern "C" {
 
     #include "io/rc_controls.h"
     #include "io/serial.h"
-    #include "io/gps.h"
 
     #include "sensors/battery.h"
 

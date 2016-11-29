@@ -32,9 +32,6 @@
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
 
-#include "io/rc_controls.h"
-#include "io/beeper.h"
-
 #include "sensors/battery.h"
 #include "sensors/boardalignment.h"
 

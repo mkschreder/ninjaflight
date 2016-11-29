@@ -23,8 +23,6 @@
 #include <platform.h>
 #include "build_config.h"
 
-#ifdef DISPLAY
-
 #include "version.h"
 #include "debug.h"
 
@@ -47,23 +45,10 @@
 #include "config/profile.h"
 
 #include "io/display.h"
-#include "io/gps.h"
-
-#include "sensors/battery.h"
-#include "sensors/compass.h"
-#include "sensors/acceleration.h"
-#include "sensors/gyro.h"
-#include "sensors/sonar.h"
-#include "sensors/instruments.h"
-
-#include "flight/rate_profile.h"
-#include "flight/anglerate.h"
-#include "flight/failsafe.h"
-#include "flight/navigation.h"
-
-#include "../ninja.h"
 
 #if 0
+#include "../ninja.h"
+
 // TODO: display
 static uint32_t nextDisplayUpdateAt = 0;
 static bool displayPresent = false;
@@ -750,5 +735,4 @@ void displayDisablePageCycling(void)
 {
     pageState.pageFlags &= ~PAGE_STATE_FLAG_CYCLE_ENABLED;
 }
-#endif
 #endif

@@ -54,10 +54,8 @@
 
 #include "io/beeper.h"
 #include "io/display.h"
-#include "io/gps.h"
 #include "io/ledstrip.h"
 #include "io/serial.h"
-#include "io/serial_cli.h"
 #include "io/serial_msp.h"
 #include "io/statusindicator.h"
 #include "io/asyncfatfs/asyncfatfs.h"

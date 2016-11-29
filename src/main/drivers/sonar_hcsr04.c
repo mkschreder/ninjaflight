@@ -68,8 +68,6 @@ typedef struct sonarRange_s {
 volatile int64_t measurement = -1;
 static uint32_t lastMeasurementAt;
 
-static const struct sonar_hardware *sonar_hardware; 
-
 #if !defined(UNIT_TEST)
 static void ECHO_EXTI_IRQHandler(void)
 {
@@ -131,7 +129,7 @@ void EXTI9_5_IRQHandler(void)
     };
 #endif
 
-void hcsr04_init(struct sonar *self){
+void hcsr04_init(struct hcsr04 *self){
 #if defined(SONAR_PWM_TRIGGER_PIN)
 	self->hw = sonar_hardware = &sonarPWM; 
 #elif !defined(UNIT_TEST)
@@ -139,6 +137,7 @@ void hcsr04_init(struct sonar *self){
 #else
 	// TODO: fix sonar in unit tests
 #endif
+	self->distance = -1; 
     self->max_range_cm = HCSR04_MAX_RANGE_CM;
     self->detection_cone_deci_degrees = HCSR04_DETECTION_CONE_DECIDEGREES;
     self->detection_cone_extended_deci_degrees = HCSR04_DETECTION_CONE_EXTENDED_DECIDEGREES;
@@ -202,7 +201,7 @@ void hcsr04_init(struct sonar *self){
 }
 
 // measurement reading is done asynchronously, using interrupt
-void hcsr04_start_reading(struct sonar *self)
+void hcsr04_start_reading(struct hcsr04 *self)
 {
 #if !defined(UNIT_TEST)
     uint32_t now = millis();
@@ -227,7 +226,7 @@ void hcsr04_start_reading(struct sonar *self)
 /**
  * Get the distance that was measured by the last pulse, in centimeters.
  */
-int32_t hcsr04_get_distance(struct sonar *self)
+int32_t hcsr04_get_distance(struct hcsr04 *self)
 {
     // The speed of sound is 340 m/s or approx. 29 microseconds per centimeter.
     // The ping travels out and back, so to find the distance of the

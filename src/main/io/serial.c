@@ -36,15 +36,15 @@
 #include "drivers/serial_usb_vcp.h"
 
 #include "io/serial.h"
-#include "serial_cli.h"
+#include "cli.h"
 #include "serial_msp.h"
 
 #include "config/config.h"
 #include "config/parameter_group.h"
 
-#ifdef TELEMETRY
-#include "telemetry/telemetry.h"
-#endif
+//#ifdef TELEMETRY
+//#include "telemetry/telemetry.h"
+//#endif
 
 static serialPortUsage_t serialPortUsageList[SERIAL_PORT_COUNT];
 uint8_t serialPortCount;

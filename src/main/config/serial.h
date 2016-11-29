@@ -35,6 +35,37 @@ typedef enum {
     SERIAL_PORT_IDENTIFIER_MAX = SERIAL_PORT_SOFTSERIAL2
 } serialPortIdentifier_e;
 
+typedef enum {
+    PORTSHARING_UNUSED = 0,
+    PORTSHARING_NOT_SHARED,
+    PORTSHARING_SHARED
+} portSharing_e;
+
+typedef enum {
+    FUNCTION_NONE                = 0,
+    FUNCTION_MSP                 = (1 << 0), // 1
+    FUNCTION_GPS                 = (1 << 1), // 2
+    FUNCTION_TELEMETRY_FRSKY     = (1 << 2), // 4
+    FUNCTION_TELEMETRY_HOTT      = (1 << 3), // 8
+    FUNCTION_TELEMETRY_LTM       = (1 << 4), // 16
+    FUNCTION_TELEMETRY_SMARTPORT = (1 << 5), // 32
+    FUNCTION_RX_SERIAL           = (1 << 6), // 64
+    FUNCTION_BLACKBOX            = (1 << 7), // 128
+    FUNCTION_TELEMETRY_MAVLINK   = (1 << 8)  // 256
+} serialPortFunction_e;
+
+typedef enum {
+    BAUD_AUTO = 0,
+    BAUD_9600,
+    BAUD_19200,
+    BAUD_38400,
+    BAUD_57600,
+    BAUD_115200,
+    BAUD_230400,
+    BAUD_250000,
+} baudRate_e;
+
+
 typedef struct serialPortConfig_s {
     serialPortIdentifier_e identifier;
     uint16_t functionMask;

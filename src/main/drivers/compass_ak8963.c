@@ -37,8 +37,6 @@
 #include "bus_i2c.h"
 #include "bus_spi.h"
 
-#include "sensors/boardalignment.h"
-
 #include "sensor.h"
 #include "compass.h"
 

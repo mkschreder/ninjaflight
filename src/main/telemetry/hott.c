@@ -77,7 +77,6 @@
 
 #include "flight/anglerate.h"
 #include "flight/navigation.h"
-#include "io/gps.h"
 
 #include "telemetry/telemetry.h"
 #include "telemetry/hott.h"

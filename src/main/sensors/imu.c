@@ -43,16 +43,12 @@
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
 
-#include "sensors/gyro.h"
-#include "sensors/compass.h"
-#include "sensors/acceleration.h"
-#include "sensors/barometer.h"
-#include "sensors/sonar.h"
-
-#include "flight/mixer.h"
-#include "flight/anglerate.h"
-
-#include "io/gps.h"
+#include "imu.h"
+#include "gyro.h"
+#include "compass.h"
+#include "acceleration.h"
+#include "barometer.h"
+#include "sonar.h"
 
 /**
  * @defgroup Instruments

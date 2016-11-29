@@ -39,20 +39,13 @@
 #include "drivers/system.h"
 #include "drivers/serial.h"
 
-#include "flight/anglerate.h"
-#include "flight/failsafe.h"
-
-#include "io/gps.h"
-#include "rx/rx.h"
-
-#include "sensors/battery.h"
-
 #include "io/ledstrip.h"
 
 #include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
-#include "sensors/battery.h"
+
+#include "rx/rx.h"
 
 static void ledStripDisable(void);
 
@@ -416,10 +409,12 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 		if (warningFlashCounter == 0) {	  // update when old flags was processed
 			warningFlags = 0;
 			// TODO: refactor. This type of battery logic should be outside of ledstrip module!
+			/*
 			if (feature(FEATURE_VBAT) && battery_get_state(self->battery) != BATTERY_OK)
 				warningFlags |= 1 << WARNING_LOW_BATTERY;
 			if (feature(FEATURE_FAILSAFE) && failsafe_is_active(self->failsafe))
 				warningFlags |= 1 << WARNING_FAILSAFE;
+			*/
 		}
 		*timer += LED_STRIP_HZ(10);
 	}
@@ -457,6 +452,9 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 #ifdef GPS
 static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool updateNow, uint32_t *timer){
 	(void)self;
+	(void)updateNow;
+	(void)timer;
+/*
 	static uint8_t gpsFlashCounter = 0;
 	static uint8_t gpsPauseCounter = 0;
 	const uint8_t blinkPauseLength = 4;
@@ -474,7 +472,6 @@ static void __attribute__((unused)) applyLedGpsLayer(struct ledstrip *self, bool
 		*timer += LED_STRIP_HZ(2.5);
 	}
 
-/*
 	const hsvColor_t *gpsColor;
 	// TODO: ledstrip gps stuff
 	if (GPS_numSat == 0 || !sensors(SENSOR_GPS)) {
@@ -812,10 +809,8 @@ bool ledstrip_set_mode_color(struct ledstrip *self, ledModeIndex_e modeIndex, in
 	return true;
 }
 
-void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct battery *bat, struct failsafe *failsafe, struct rx *rx){
+void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct rx *rx){
 	memset(self, 0, sizeof(struct ledstrip));
-	self->failsafe = failsafe;
-	self->battery = bat;
 	self->rx = rx;
 	self->system = system;
 	self->ledStripInitialised = false;

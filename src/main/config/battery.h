@@ -28,6 +28,12 @@ typedef enum {
     CURRENT_SENSOR_MAX = CURRENT_SENSOR_VIRTUAL
 } current_sensor_type_t;
 
+#define VBAT_SCALE_DEFAULT 110
+#define VBAT_RESDIVVAL_DEFAULT 10
+#define VBAT_RESDIVMULTIPLIER_DEFAULT 1
+#define VBAT_SCALE_MIN 0
+#define VBAT_SCALE_MAX 255
+
 struct battery_config {
     uint8_t vbatscale;                      // adjust this to match battery voltage to reported value
     uint8_t vbatresdivval;                  // resistor divider R2 (default NAZE 10(K))

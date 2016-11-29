@@ -27,40 +27,21 @@
 #include "common/maths.h"
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-#include "config/config.h"
-#include "config/config_eeprom.h"
-#include "config/feature.h"
-#include "config/profile.h"
-#include "config/config_reset.h"
-#include "config/config_system.h"
-
-#include "drivers/sensor.h"
-#include "drivers/accgyro.h"
-#include "drivers/compass.h"
-#include "drivers/system.h"
-#include "drivers/serial.h"
-
-#include "io/rc_adjustments.h"
-#include "io/beeper.h"
-#include "io/serial.h"
-
-#include "sensors/compass.h"
-#include "sensors/acceleration.h"
-
-#include "telemetry/telemetry.h"
-
-#include "flight/rate_profile.h"
-#include "flight/mixer.h"
-#include "flight/failsafe.h"
-#include "flight/anglerate.h"
-#include "flight/navigation.h"
-#include "flight/tilt.h"
+#include "parameter_group.h"
+#include "parameter_group_ids.h"
+#include "config.h"
+#include "config_eeprom.h"
+#include "feature.h"
+#include "profile.h"
+#include "config_reset.h"
+#include "config_system.h"
 
 #include "accelerometer.h"
 #include "altitudehold.h"
+#include "anglerate.h"
 #include "blackbox.h"
+#include "battery.h"
+#include "compass.h"
 #include "failsafe.h"
 #include "gps.h"
 #include "imu.h"
@@ -82,12 +63,9 @@
 #include "gyro.h"
 #include "pwm_rx.h"
 #include "gtune.h"
+#include "telemetry.h"
+#include "serial.h"
 
-// FIXME remove the includes below when target specific configuration is moved out of this file
-#include "sensors/battery.h"
-
-// BLACKBOX
-#include "blackbox/blackbox_io.h"
 PG_REGISTER_WITH_RESET_TEMPLATE(blackboxConfig_t, blackboxConfig, PG_BLACKBOX_CONFIG, 0);
 
 #ifdef ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT

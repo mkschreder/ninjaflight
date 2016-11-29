@@ -37,15 +37,12 @@
 
 #include "io/serial.h"
 #include "io/flashfs.h"
-#include "io/gps.h"
 #include "io/rc_controls.h"
 #include "io/ledstrip.h"
 #include "io/display.h"
 #include "io/asyncfatfs/asyncfatfs.h"
 #include "io/transponder_ir.h"
-#include "io/msp.h"
 #include "io/serial_msp.h"
-#include "io/serial_cli.h"
 
 #include "sensors/sonar.h"
 #include "sensors/barometer.h"

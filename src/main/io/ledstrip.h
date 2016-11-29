@@ -20,6 +20,7 @@
 #include <stddef.h>
 
 #include "../config/ledstrip.h"
+#include "rc_controls.h"
 
 static inline int ledGetX(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_X_BIT_OFFSET) & LED_XY_MASK; }
 static inline int ledGetY(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_Y_BIT_OFFSET) & LED_XY_MASK; }
@@ -49,7 +50,7 @@ struct ledstrip {
 	struct rx *rx;
 };
 
-void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct battery *bat, struct failsafe *failsafe, struct rx *rx);
+void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct rx *rx);
 
 bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config);
 void ledstrip_update(struct ledstrip *self);

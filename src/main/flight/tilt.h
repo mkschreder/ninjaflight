@@ -3,12 +3,6 @@
 #include <stdint.h>
 #include "../config/tilt.h"
 
-//! mixer tilt mode type
-typedef enum {
-	MIXER_TILT_MODE_STATIC,
-	MIXER_TILT_MODE_DYNAMIC
-} mixer_tilt_mode_t;
-
 struct tilt_input_params {
 	int16_t motor_pitch_dd;
 	int16_t body_pitch_dd;

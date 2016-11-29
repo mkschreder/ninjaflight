@@ -122,7 +122,6 @@ struct rc_adj {
 };
 
 // TODO: remove this include 
-#include "flight/rate_profile.h"
 #include "../config/rate_profile.h"
 
 void rc_adj_init(struct rc_adj *self, struct ninja *ninja);

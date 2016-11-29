@@ -29,11 +29,8 @@
 
 #include "io/beeper.h"
 #include "io/display.h"
-#include "io/gps.h"
-#include "io/msp.h"
 #include "io/ledstrip.h"
 #include "io/serial.h"
-#include "io/serial_cli.h"
 #include "io/serial_msp.h"
 #include "io/statusindicator.h"
 #include "io/asyncfatfs/asyncfatfs.h"
@@ -52,12 +49,15 @@
 #include "flight/gtune.h"
 #include "flight/navigation.h"
 #include "flight/tilt.h"
+
 #include "sensors/instruments.h"
+#include "sensors/gps.h"
 
 #include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
 
+#include "msp.h"
 #include "ninjaflight.h"
 #include "ninja.h"
 #include "ninja_sched.h"
@@ -129,7 +129,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 
 #ifdef GPS
 	if (feature(FEATURE_GPS)) {
-		gpsInit();
+		gps_init(&self->gps, self->system);
 		navigationInit(pidProfile());
 	}
 #endif

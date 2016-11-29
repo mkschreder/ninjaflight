@@ -36,14 +36,11 @@
 #include "drivers/system.h"
 #include "drivers/pwm_output.h"
 
-#include "flight/mixer.h"
-
 #include "io/serial.h"
-#include "io/msp.h"
 #include "io/serial_msp.h"
 #include "io/serial_4way.h"
-#include "io/serial_cli.h"
-
+#include "cli.h"
+#include "msp.h"
 #include "ninja.h"
 
 mspPort_t mspPorts[MAX_MSP_PORT_COUNT];

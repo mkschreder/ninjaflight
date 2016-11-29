@@ -27,6 +27,13 @@
 #define MIXER_TILT_COMPENSATE_TILT (1 << 1)
 #define MIXER_TILT_COMPENSATE_BODY (1 << 2)
 
+//! mixer tilt mode type
+typedef enum {
+	MIXER_TILT_MODE_STATIC,
+	MIXER_TILT_MODE_DYNAMIC
+} mixer_tilt_mode_t;
+
+
 struct tilt_config {
 	uint8_t mode;
 	uint8_t compensation_flags;

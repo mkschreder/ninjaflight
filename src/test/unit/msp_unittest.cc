@@ -42,14 +42,12 @@ extern "C" {
     #include "drivers/compass.h"
     #include "drivers/serial.h"
     #include "drivers/serial_softserial.h"
-    #include "drivers/buf_writer.h"
 
     #include "rx/rx.h"
 
     #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
-    #include "io/gps.h"
     #include "io/ledstrip.h"
     #include "io/msp_protocol.h"
     #include "io/transponder_ir.h"
@@ -72,8 +70,6 @@ extern "C" {
     #include "config/parameter_group_ids.h"
     #include "config/runtime_config.h"
     #include "config/config.h"
-
-    #include "io/msp.h"
 }
 
 #include "unittest_macros.h"

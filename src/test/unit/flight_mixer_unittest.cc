@@ -56,6 +56,17 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
+/**
+ * @defgroup MIXERSPEC Guarantees
+ * @ingroup MIXER
+ *
+ * @page MIXERSPEC
+ * @ingroup MIXERSPEC
+ * This is a summary of automatic tests that are done against the mixer module
+ * to guarantee that the module behaves according to the requirements set forth
+ * below.
+ */
+
 struct mixer default_mixer; 
 
 // input
@@ -64,81 +75,6 @@ struct mixer default_mixer;
 // output
 #define TEST_MIN_COMMAND 1000
 #define TEST_SERVO_MID 1500
-
-typedef struct motor_s {
-    uint16_t value;
-} motor_t;
-
-typedef struct servo_s {
-    uint16_t value;
-} servo_t;
-
-motor_t motors[MAX_SUPPORTED_MOTORS];
-servo_t servos[MAX_SUPPORTED_SERVOS];
-
-uint8_t lastOneShotUpdateMotorCount;
-
-uint32_t testFeatureMask = 0;
-
-int updatedServoCount;
-int updatedMotorCount;
-
-// STUBS
-
-extern "C" {
-rxRuntimeConfig_t rxRuntimeConfig;
-
-struct pid_controller_output pid_output; 
-int16_t rcCommand[4];
-
-uint32_t rcModeActivationMask;
-int16_t debug[DEBUG16_VALUE_COUNT];
-
-uint8_t stateFlags;
-uint16_t flightModeFlags;
-uint8_t armingFlags;
-
-uint32_t targetLooptime;
-
-float applyBiQuadFilter(float sample, biquad_t *state) {UNUSED(state);return sample;}
-void BiQuadNewLpf(float filterCutFreq, biquad_t *newState, uint32_t refreshRate) {UNUSED(filterCutFreq);UNUSED(newState);UNUSED(refreshRate);}
-
-
-bool feature(uint32_t mask) {
-    return (mask & testFeatureMask);
-}
-
-void pwmWriteMotor(uint8_t index, uint16_t value) {
-    motors[index].value = value;
-    updatedMotorCount++;
-}
-
-void pwmShutdownPulsesForAllMotors(uint8_t motorCount)
-{
-    uint8_t index;
-
-    for(index = 0; index < motorCount; index++){
-        motors[index].value = 0;
-    }
-}
-
-void pwmCompleteOneshotMotorUpdate(uint8_t motorCount) {
-    lastOneShotUpdateMotorCount = motorCount;
-}
-
-void pwmWriteServo(uint8_t index, uint16_t value) {
-    // FIXME logic in test, mimic's production code.
-    // Perhaps the solution is to remove the logic from the production code version and assume that
-    // anything calling calling pwmWriteServo always uses a valid index?
-    // See MAX_SERVOS in pwm_output (driver) and MAX_SUPPORTED_SERVOS (flight)
-    if (index < MAX_SERVOS) {
-        servos[index].value = value;
-    }
-    updatedServoCount++;
-}
-
-bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
-}
 
 void resetRX(){
 	mock_rc_pwm[ROLL] = 1500;
@@ -187,7 +123,6 @@ static int testedModes = 0;
 class MixerBasicTest : public ::testing::Test {
 protected:
     virtual void SetUp() {
-        memset(&servos, 0, sizeof(servos));
 		_init_mixer_defaults(MIXER_QUADX);
 		mock_system_reset();
     }
@@ -222,6 +157,13 @@ protected:
 	struct mixer mixer;
 };
 
+/**
+ * @page MIXERSPEC
+ * @ingroup MIXERSPEC
+ *
+ * - When mixer is started and not armed it will output G4 inputs as
+ * passthrough to the motors and will output midrc values on servos.
+ **/
 TEST_F(MixerBasicTest, TestMixerArmed){
 	testedModes = 0;
 	// test mixer armed in normal mode
@@ -248,6 +190,10 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 	// check that all motor outputs have been set to mincommand
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
 		EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[c]);
+	}
+	// check that servo outputs have been centered
+	for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
+		EXPECT_EQ(rxConfig()->midrc, mock_servo_pwm[c]);
 	}
 
 	// try arming (should change them to minthrottle)
@@ -655,10 +601,6 @@ TEST_F(MixerBasicTest, TestQuadMotors)
     // and
     memset(rcCommand, 0, sizeof(rcCommand));
 
-    // and
-    memset(&pid_output, 0, sizeof(pid_output));
-	pid_output.axis[FD_YAW] = 0; 
-
     // when
     mixer_update(&mixer);
 
@@ -696,13 +638,6 @@ TEST_F(MixerBasicTest, TestInvalidConfig){
 			customMotorMixer(0), MAX_SUPPORTED_MOTORS);
 	mixer_enable_armed(&mixer, true);
 
-    // and
-    memset(rcCommand, 0, sizeof(rcCommand));
-
-    // and
-    memset(&pid_output, 0, sizeof(pid_output));
-	pid_output.axis[FD_YAW] = 0; 
-
     // when
     mixer_update(&mixer);
 
@@ -728,9 +663,6 @@ protected:
 
     virtual void SetUp() {
 		mock_system_reset();
-
-        updatedServoCount = 0;
-        updatedMotorCount = 0;
     }
 
     virtual void withDefaultmotorAndServoConfiguration(void) {

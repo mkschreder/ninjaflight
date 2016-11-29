@@ -24,10 +24,6 @@
 
 #include "config/parameter_group.h"
 
-#include "drivers/system.h"
-
-#include "drivers/serial.h"
-#include "drivers/serial_uart.h"
 #include "io/serial.h"
 
 #include "rx/rx.h"

@@ -19,8 +19,17 @@
 
 #include <platform.h>
 
-#include "sensors/sonar.h"
+struct hcsr04 {
+	uint16_t max_range_cm; 
+	uint16_t detection_cone_deci_degrees; 
+	uint16_t detection_cone_extended_deci_degrees; 
 
-void hcsr04_init(struct sonar *self);
-void hcsr04_start_reading(struct sonar *self);
-int32_t hcsr04_get_distance(struct sonar *self);
+	int16_t distance; 
+
+	struct sonar_ops *ops; 
+	const struct sonar_hardware *hw; 
+};
+
+void hcsr04_init(struct hcsr04 *self);
+void hcsr04_start_reading(struct hcsr04 *self);
+int32_t hcsr04_get_distance(struct hcsr04 *self);

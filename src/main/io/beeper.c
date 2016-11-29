@@ -35,10 +35,6 @@
 
 #include "io/statusindicator.h"
 
-#ifdef GPS
-#include "io/gps.h"
-#endif
-
 #include "io/beeper.h"
 
 #define BEEPER_COMMAND_REPEAT 0xFE

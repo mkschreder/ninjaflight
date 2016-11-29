@@ -12,7 +12,8 @@
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
 #include "io/beeper.h"
-#include "io/serial_cli.h"
+#include "cli.h"
+#include "sensors/gps.h"
 
 struct ninja;
 
@@ -42,6 +43,7 @@ struct ninja {
 	struct ledstrip ledstrip;
 	struct beeper beeper;
 	struct cli cli;
+	struct gps gps;
 
 	bool isRXDataNew;
 

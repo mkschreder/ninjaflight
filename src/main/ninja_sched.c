@@ -37,7 +37,6 @@
 #include "io/serial.h"
 #include "io/beeper.h"
 #include "io/statusindicator.h"
-#include "io/gps.h"
 #include "io/transponder_ir.h"
 #include "io/display.h"
 #include "io/ledstrip.h"
@@ -484,12 +483,12 @@ static void _task_rx(struct ninja_sched *sched){
 
 #ifdef GPS
 static void _task_gps(struct ninja_sched *sched){
-	(void)sched;
+	struct ninja *self = container_of(sched, struct ninja, sched);
 	// if GPS feature is enabled, gpsThread() will be called at some intervals to check for stuck
 	// hardware, wrong baud rates, init GPS if needed, etc. Don't use SENSOR_GPS here as gpsThread() can and will
 	// change this based on available hardware
 	if (feature(FEATURE_GPS)) {
-		gpsThread();
+		gps_update(&self->gps);
 	}
 
 	// TODO: better way to detect if we have gps

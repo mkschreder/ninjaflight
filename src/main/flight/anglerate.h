@@ -32,16 +32,6 @@
 
 #include "../config/anglerate.h"
 
-#define PID_MAX_I 256
-#define PID_MAX_D 512
-#define PID_MAX_TOTAL_PID 1000
-
-#define GYRO_I_MAX 256                      // Gyro I limiter
-#define YAW_P_LIMIT_MIN 100                 // Maximum value for yaw P limiter
-#define YAW_P_LIMIT_MAX 500                 // Maximum value for yaw P limiter
-
-#define DTERM_AVERAGE_COUNT 4
-
 union rollAndPitchTrims_u;
 struct rxConfig_s;
 

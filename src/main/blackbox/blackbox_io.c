@@ -26,23 +26,17 @@
 
 #include "common/maths.h"
 #include "common/encoding.h"
+#include "common/printf.h"
 
 #include "config/config.h"
 
-#include "drivers/serial.h"
-#include "drivers/gyro_sync.h"
-
 #include "io/serial.h"
 #include "io/serial_msp.h"
-#include "common/printf.h"
-
 #include "io/flashfs.h"
 #include "io/asyncfatfs/asyncfatfs.h"
 
 #include "blackbox.h"
 #include "blackbox_io.h"
-
-#ifdef BLACKBOX
 
 #define BLACKBOX_SERIAL_PORT_MODE MODE_TX
 
@@ -581,7 +575,8 @@ bool blackboxDeviceOpen(void)
                  *                              = floor((looptime_ns * 3) / 500.0)
                  *                              = (looptime_ns * 3) / 500
                  */
-                blackboxMaxHeaderBytesPerIteration = constrain((gyro_sync_get_looptime() * 3) / 500, 1, BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION);
+				 //TODO: blackbox bytes per iteration
+                //blackboxMaxHeaderBytesPerIteration = constrain((gyro_sync_get_looptime() * 3) / 500, 1, BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION);
 
                 return blackboxPort != NULL;
             }
@@ -934,4 +929,3 @@ blackboxBufferReserveStatus_e blackboxDeviceReserveBufferSpace(int32_t bytes)
     }
 }
 
-#endif

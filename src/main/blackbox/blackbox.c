@@ -29,13 +29,7 @@
 #include "config/parameter_group_ids.h"
 #include "config/parameter_group.h"
 
-#include "drivers/sensor.h"
-#include "drivers/system.h"
-#include "drivers/compass.h"
-#include "drivers/accgyro.h"
-
 #include "flight/rate_profile.h"
-#include "io/rc_controls.h"
 
 #include "sensors/boardalignment.h"
 #include "sensors/sonar.h"
@@ -45,10 +39,8 @@
 #include "sensors/gyro.h"
 #include "sensors/battery.h"
 
-#include "io/beeper.h"
-
-#include "io/gps.h"
-
+//#include "io/rc_controls.h"
+//#include "io/gps.h"
 
 #include "flight/mixer.h"
 #include "flight/altitudehold.h"
@@ -208,7 +200,6 @@ static const blackboxDeltaFieldDefinition_t blackboxMainFields[] = {
     {"servo",      5, UNSIGNED, .Ipredict = PREDICT(1500),    .Iencode = ENCODING(SIGNED_VB),   .Ppredict = PREDICT(PREVIOUS),      .Pencode = ENCODING(SIGNED_VB), CONDITION(TRICOPTER)}
 };
 
-#ifdef GPS
 // GPS position/vel frame
 static const blackboxConditionalFieldDefinition_t blackboxGpsGFields[] = {
     {"time",              -1, UNSIGNED, PREDICT(LAST_MAIN_FRAME_TIME), ENCODING(UNSIGNED_VB), CONDITION(NOT_LOGGING_EVERY_FRAME)},
@@ -225,7 +216,6 @@ static const blackboxSimpleFieldDefinition_t blackboxGpsHFields[] = {
     {"GPS_home",           0, SIGNED,   PREDICT(0),          ENCODING(SIGNED_VB)},
     {"GPS_home",           1, SIGNED,   PREDICT(0),          ENCODING(SIGNED_VB)}
 };
-#endif
 
 // Rarely-updated fields
 static const blackboxSimpleFieldDefinition_t blackboxSlowFields[] = {
@@ -308,7 +298,7 @@ static struct {
      */
     union {
         int fieldIndex;
-        uint32_t startTime;
+        sys_millis_t startTime;
     } u;
 } xmitState;
 
@@ -444,7 +434,7 @@ static void blackboxSetState(struct blackbox *self, BlackboxState newState)
         case BLACKBOX_STATE_SEND_HEADER:
             blackboxHeaderBudget = 0;
             xmitState.headerIndex = 0;
-            xmitState.u.startTime = millis();
+            xmitState.u.startTime = sys_millis(self->ninja->system);
         break;
         case BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER:
         case BLACKBOX_STATE_SEND_GPS_G_HEADER:
@@ -460,7 +450,7 @@ static void blackboxSetState(struct blackbox *self, BlackboxState newState)
             blackboxSlowFrameIterationTimer = SLOW_FRAME_INTERVAL; //Force a slow frame to be written on the first iteration
         break;
         case BLACKBOX_STATE_SHUTTING_DOWN:
-            xmitState.u.startTime = millis();
+            xmitState.u.startTime = sys_millis(self->ninja->system);
         break;
 		case BLACKBOX_STATE_DISABLED:
 		case BLACKBOX_STATE_STOPPED:
@@ -864,20 +854,23 @@ void blackbox_stop(struct blackbox *self)
 }
 
 #ifdef GPS
-static void writeGPSHomeFrame(void)
+static void writeGPSHomeFrame(struct blackbox *self)
 {
+	(void)self;
     blackboxWrite('H');
 
-    blackboxWriteSignedVB(GPS_home[0]);
-    blackboxWriteSignedVB(GPS_home[1]);
+	// TODO: navigaiton data in blackbox
+    //blackboxWriteSignedVB(self->ninja->gps.GPS_home[0]);
+    //blackboxWriteSignedVB(self->ninja->gps.GPS_home[1]);
     //TODO it'd be great if we could grab the GPS current time and write that too
 
-    gpsHistory.GPS_home[0] = GPS_home[0];
-    gpsHistory.GPS_home[1] = GPS_home[1];
+    //gpsHistory.GPS_home[0] = self->ninja->gps.GPS_home[0];
+    //gpsHistory.GPS_home[1] = self->ninja->gps.GPS_home[1];
 }
 
-static void writeGPSFrame(void)
+static void writeGPSFrame(struct blackbox *self)
 {
+	struct gps *gps = &self->ninja->gps;
     blackboxWrite('G');
 
     /*
@@ -888,19 +881,19 @@ static void writeGPSFrame(void)
      */
     if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_NOT_LOGGING_EVERY_FRAME)) {
         // Predict the time of the last frame in the main log
-        blackboxWriteUnsignedVB(currentTime - blackboxHistory[1]->time);
+        blackboxWriteUnsignedVB(sys_micros(self->ninja->system) - blackboxHistory[1]->time);
     }
 
-    blackboxWriteUnsignedVB(GPS_numSat);
-    blackboxWriteSignedVB(GPS_coord[0] - gpsHistory.GPS_home[0]);
-    blackboxWriteSignedVB(GPS_coord[1] - gpsHistory.GPS_home[1]);
-    blackboxWriteUnsignedVB(GPS_altitude);
-    blackboxWriteUnsignedVB(GPS_speed);
-    blackboxWriteUnsignedVB(GPS_ground_course);
+    blackboxWriteUnsignedVB(gps->GPS_numSat);
+    blackboxWriteSignedVB(gps->GPS_coord[0] - gpsHistory.GPS_home[0]);
+    blackboxWriteSignedVB(gps->GPS_coord[1] - gpsHistory.GPS_home[1]);
+    blackboxWriteUnsignedVB(gps->GPS_altitude);
+    blackboxWriteUnsignedVB(gps->GPS_speed);
+    blackboxWriteUnsignedVB(gps->GPS_ground_course);
 
-    gpsHistory.GPS_numSat = GPS_numSat;
-    gpsHistory.GPS_coord[0] = GPS_coord[0];
-    gpsHistory.GPS_coord[1] = GPS_coord[1];
+    gpsHistory.GPS_numSat = gps->GPS_numSat;
+    gpsHistory.GPS_coord[0] = gps->GPS_coord[0];
+    gpsHistory.GPS_coord[1] = gps->GPS_coord[1];
 }
 #endif // GPS
 
@@ -912,7 +905,7 @@ static void loadMainState(struct blackbox *self)
     blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
     int i;
 
-    blackboxCurrent->time = currentTime;
+    blackboxCurrent->time = sys_micros(self->ninja->system);
 
 	/* TODO: this kind of thing should be solved differently. If debugging is needed then debug other values, not intermediate calculations.
 	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->ninja->ctrl); 
@@ -1124,10 +1117,11 @@ static bool blackboxWriteSysinfo(void)
             blackboxPrintfHeaderLine("maxthrottle:%d", motorAndServoConfig()->maxthrottle);
         break;
         case 8:
-            blackboxPrintfHeaderLine("gyro.scale:0x%x", castFloatBytesToInt(gyro.scale));
+			// TODO: blackbox gyro scale and acc1g
+            //blackboxPrintfHeaderLine("gyro.scale:0x%x", castFloatBytesToInt(gyro.scale));
         break;
         case 9:
-            blackboxPrintfHeaderLine("acc_1G:%u", acc.acc_1G);
+            //blackboxPrintfHeaderLine("acc_1G:%u", acc.acc_1G);
         break;
         case 10:
             if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_VBAT)) {
@@ -1288,12 +1282,13 @@ static void blackboxLogIteration(struct blackbox *self)
             if (GPS_home[0] != gpsHistory.GPS_home[0] || GPS_home[1] != gpsHistory.GPS_home[1]
                 || (blackboxPFrameIndex == BLACKBOX_I_INTERVAL / 2 && blackboxIFrameIndex % 128 == 0)) {
 
-                writeGPSHomeFrame();
-                writeGPSFrame();
-            } else if (GPS_numSat != gpsHistory.GPS_numSat || GPS_coord[0] != gpsHistory.GPS_coord[0]
-                    || GPS_coord[1] != gpsHistory.GPS_coord[1]) {
+                writeGPSHomeFrame(self);
+                writeGPSFrame(self);
+				// TODO: accessing gps data directly is not good
+            } else if (self->ninja->gps.GPS_numSat != gpsHistory.GPS_numSat || self->ninja->gps.GPS_coord[0] != gpsHistory.GPS_coord[0]
+                    || self->ninja->gps.GPS_coord[1] != gpsHistory.GPS_coord[1]) {
                 //We could check for velocity changes as well but I doubt it changes independent of position
-                writeGPSFrame();
+                writeGPSFrame(self);
             }
         }
 #endif
@@ -1327,7 +1322,7 @@ void blackbox_update(struct blackbox *self)
              * Once the UART has had time to init, transmit the header in chunks so we don't overflow its transmit
              * buffer, overflow the OpenLog's buffer, or keep the main loop busy for too long.
              */
-            if (millis() > xmitState.u.startTime + 100) {
+            if (sys_millis(self->ninja->system) > xmitState.u.startTime + 100) {
                 if (blackboxDeviceReserveBufferSpace(BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION) == BLACKBOX_RESERVE_SUCCESS) {
                     for (i = 0; i < BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION && blackboxHeader[xmitState.headerIndex] != '\0'; i++, xmitState.headerIndex++) {
                         blackboxWrite(blackboxHeader[xmitState.headerIndex]);
@@ -1344,15 +1339,12 @@ void blackbox_update(struct blackbox *self)
             //On entry of this state, xmitState.headerIndex is 0 and xmitState.u.fieldIndex is -1
             if (!sendFieldDefinition('I', 'P', blackboxMainFields, blackboxMainFields + 1, ARRAY_LENGTH(blackboxMainFields),
                     &blackboxMainFields[0].condition, &blackboxMainFields[1].condition)) {
-#ifdef GPS
                 if (feature(FEATURE_GPS)) {
                     blackboxSetState(self, BLACKBOX_STATE_SEND_GPS_H_HEADER);
                 } else
-#endif
                     blackboxSetState(self, BLACKBOX_STATE_SEND_SLOW_HEADER);
             }
         break;
-#ifdef GPS
         case BLACKBOX_STATE_SEND_GPS_H_HEADER:
             //On entry of this state, xmitState.headerIndex is 0 and xmitState.u.fieldIndex is -1
             if (!sendFieldDefinition('H', 0, blackboxGpsHFields, blackboxGpsHFields + 1, ARRAY_LENGTH(blackboxGpsHFields),
@@ -1367,7 +1359,6 @@ void blackbox_update(struct blackbox *self)
                 blackboxSetState(self, BLACKBOX_STATE_SEND_SLOW_HEADER);
             }
         break;
-#endif
         case BLACKBOX_STATE_SEND_SLOW_HEADER:
             //On entry of this state, xmitState.headerIndex is 0 and xmitState.u.fieldIndex is -1
             if (!sendFieldDefinition('S', 0, blackboxSlowFields, blackboxSlowFields + 1, ARRAY_LENGTH(blackboxSlowFields),
@@ -1398,7 +1389,7 @@ void blackbox_update(struct blackbox *self)
                 flightLogEvent_loggingResume_t resume;
 
                 resume.logIteration = blackboxIteration;
-                resume.currentTime = currentTime;
+                resume.currentTime = sys_micros(self->ninja->system);
 
                 blackboxLogEvent(FLIGHT_LOG_EVENT_LOGGING_RESUME, (flightLogEventData_t *) &resume);
                 blackboxSetState(self, BLACKBOX_STATE_RUNNING);
@@ -1428,7 +1419,7 @@ void blackbox_update(struct blackbox *self)
              *
              * Don't wait longer than it could possibly take if something funky happens.
              */
-            if (blackboxDeviceEndLog(blackboxLoggedAnyFrames) && (millis() > xmitState.u.startTime + BLACKBOX_SHUTDOWN_TIMEOUT_MILLIS || blackboxDeviceFlushForce())) {
+            if (blackboxDeviceEndLog(blackboxLoggedAnyFrames) && (sys_millis(self->ninja->system) > xmitState.u.startTime + BLACKBOX_SHUTDOWN_TIMEOUT_MILLIS || blackboxDeviceFlushForce())) {
                 blackboxDeviceClose();
                 blackboxSetState(self, BLACKBOX_STATE_STOPPED);
             }

@@ -45,7 +45,6 @@
 
 #include "io/serial.h"
 #include "io/rc_controls.h"
-#include "io/gps.h"
 #include "io/ledstrip.h"
 
 #include "sensors/acceleration.h"

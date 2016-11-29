@@ -21,6 +21,11 @@
  * Mixer implementation
  */
 
+/**
+ * @defgroup MIXER Mixer
+ * @{
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -828,6 +833,10 @@ void mixer_update(struct mixer *self){
 		for(int c = 0; c < MIXER_MAX_MOTORS; c++){
 			output[MIXER_OUTPUT_MOTORS + c] = constrain(self->midthrottle + self->input[MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + c], self->motor_servo_config->mincommand, 2000);
 		}
+		// set servos to middle
+		for(int c = 0; c < MIXER_MAX_SERVOS; c++){
+			output[MIXER_OUTPUT_SERVOS + c] = 1500;
+		}
 		goto finish;
 	}
 
@@ -915,14 +924,17 @@ uint8_t mixer_get_motor_count(struct mixer *self){
 uint8_t mixer_get_servo_count(struct mixer *self){
 	return self->servoCount;
 }
-
 /**
-* @file mixer.c
+ * @}
+ */
+/**
+* @page MIXER
+* @ingroup MIXER
 *
-* NinjaMixer
-* ==========
+* Mixer
+* =====
 *
-* @brief the rewritten universal aircraft mixer
+* @brief The rewritten universal aircraft mixer
 *
 * @author Rewrite: Martin Schröder <mkschreder.uk@gmail.com>
 * @author Original: Cleanflight

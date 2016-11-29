@@ -64,12 +64,6 @@ void rc_command_update(struct rc_command *self);
 //! Get current stick value in range [-500;500], stick is only ROLL, PITCH, YAw
 int16_t rc_command_axis(struct rc_command *self, uint8_t stick);
 
-//! Get current angle command in decidegrees, range [-450;450]
-int16_t rc_command_angle(struct rc_command *self, uint8_t stick);
-
-//! Get rate command in degrees per second (with rate config applied), range [-3625;3625]
-int16_t rc_command_rate(struct rc_command *self, uint8_t stick);
-
 //! Get current throttle value in range [-500;500]
 static inline int16_t rc_command_throttle(struct rc_command *self) { return self->throttle; }
 

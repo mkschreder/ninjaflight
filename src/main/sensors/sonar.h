@@ -19,6 +19,8 @@
 
 #define SONAR_OUT_OF_RANGE (-1)
 
+#include "drivers/sonar_hcsr04.h"
+
 struct sonar_hardware; 
 struct sonar; 
 
@@ -27,18 +29,13 @@ struct sonar_ops {
 }; 
 
 struct sonar {
-	int16_t distance; 
+	struct hcsr04 dev;
 	int16_t altitude; 
-	uint16_t max_range_cm; 
-	uint16_t detection_cone_deci_degrees; 
-	uint16_t detection_cone_extended_deci_degrees; 
 	int16_t max_alt_with_tilt_cm; 
 	int16_t cf_alt_cm; 
 	int16_t max_tilt_deci_degrees; 
 	float max_tilt_cos; 
 	int16_t max_alt_with_tilt; 
-	struct sonar_ops *ops; 
-	const struct sonar_hardware *hw; 
 }; 
 
 // TODO: remove after refactoring

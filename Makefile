@@ -111,7 +111,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(ROOT)/src/main/vcp
+		   $(ROOT)/src/main/drivers/vcp
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -191,7 +191,7 @@ DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(USBFS_DIR)/inc \
-		   $(ROOT)/src/main/vcp
+		   $(ROOT)/src/main/drivers/vcp
 
 VPATH := $(VPATH):$(USBFS_DIR)/src
 
@@ -262,6 +262,8 @@ COMMON_SRC = build_config.c \
 			ninja_input.c \
 			ninjaflight.c \
 			rc_commands.c \
+			cli.c \
+		   msp.c \
 		   flight/altitudehold.c \
 		   flight/failsafe.c \
 		   flight/anglerate.c \
@@ -275,13 +277,11 @@ COMMON_SRC = build_config.c \
 		   drivers/gyro_sync.c \
 		   io/beeper.c \
 		   io/rc_adjustments.c \
-		   io/msp.c \
 		   io/serial.c \
+		   io/serial_msp.c \
 		   io/serial_4way.c \
 		   io/serial_4way_avrootloader.c \
 		   io/serial_4way_stk500v2.c \
-		   io/serial_cli.c \
-		   io/serial_msp.c \
 		   io/statusindicator.c \
 		   rx/msp.c \
 		   rx/rx.c \
@@ -309,7 +309,6 @@ HIGHEND_SRC = \
 		   flight/navigation.c \
 		   flight/gps_conversion.c \
 		   common/colorconversion.c \
-		   io/gps.c \
 		   io/ledstrip.c \
 		   io/display.c \
 		   telemetry/telemetry.c \
@@ -318,19 +317,20 @@ HIGHEND_SRC = \
 		   telemetry/smartport.c \
 		   telemetry/ltm.c \
 		   telemetry/mavlink.c \
+		   sensors/gps.c \
 		   sensors/sonar.c \
 		   sensors/barometer.c \
 		   blackbox/blackbox.c \
 		   blackbox/blackbox_io.c
 
 VCP_SRC = \
-		   vcp/hw_config.c \
-		   vcp/stm32_it.c \
-		   vcp/usb_desc.c \
-		   vcp/usb_endp.c \
-		   vcp/usb_istr.c \
-		   vcp/usb_prop.c \
-		   vcp/usb_pwr.c \
+		   drivers/vcp/hw_config.c \
+		   drivers/vcp/stm32_it.c \
+		   drivers/vcp/usb_desc.c \
+		   drivers/vcp/usb_endp.c \
+		   drivers/vcp/usb_istr.c \
+		   drivers/vcp/usb_prop.c \
+		   drivers/vcp/usb_pwr.c \
 		   drivers/serial_usb_vcp.c \
 		   drivers/usb_io.c 
 
@@ -729,6 +729,8 @@ IRCFUSIONF3_SRC = \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
+			blackbox/blackbox.c \
+			blackbox/blackbox_io.c \
 			common/buf_writer.c \
 			common/filter.c \
 			common/maths.c \
@@ -736,6 +738,7 @@ SITL_SRC = \
 			common/quaternion.c \
 			common/streambuf.c \
 			common/typeconversion.c \
+			common/encoding.c \
 			config/config.c \
 			config/parameter_group.c \
 			config/profile.c \
@@ -751,12 +754,9 @@ SITL_SRC = \
 			flight/navigation.c \
 			io/beeper.c \
 			io/display.c \
-			io/gps.c \
 			io/ledstrip.c \
-			io/msp.c \
 			io/rc_adjustments.c \
 			io/serial.c \
-			io/serial_cli.c \
 			io/serial_msp.c \
 			io/statusindicator.c \
 			sensors/acceleration.c \
@@ -764,6 +764,7 @@ SITL_SRC = \
 			sensors/battery.c \
 			sensors/boardalignment.c \
 			sensors/compass.c \
+			sensors/gps.c \
 			sensors/gyro.c \
 			sensors/imu.c \
 			sensors/instruments.c \
@@ -791,6 +792,8 @@ SITL_SRC = \
 			ninja_sched.c \
 			ninja_input.c \
 			ninjaflight.c \
+			cli.c \
+			msp.c \
 			rc_commands.c \
 			../../ninjasitl/fc_sitl.c 
 

@@ -20,21 +20,6 @@
 #include "../config/rx.h"
 #include "../config/rc_controls.h"
 
-typedef enum rc_alias {
-    ROLL = 0,
-    PITCH,
-    YAW,
-    THROTTLE,
-    AUX1,
-    AUX2,
-    AUX3,
-    AUX4,
-    AUX5,
-    AUX6,
-    AUX7,
-    AUX8
-} rc_alias_e;
-
 typedef enum {
     THROTTLE_LOW = 0,
     THROTTLE_HIGH

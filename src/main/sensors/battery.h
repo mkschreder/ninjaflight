@@ -21,12 +21,6 @@
 #include "../io/rc_controls.h" // TODO: remove this because battery should not depend on throttleStatus_e
 #include "../config/battery.h"
 
-#define VBAT_SCALE_DEFAULT 110
-#define VBAT_RESDIVVAL_DEFAULT 10
-#define VBAT_RESDIVMULTIPLIER_DEFAULT 1
-#define VBAT_SCALE_MIN 0
-#define VBAT_SCALE_MAX 255
-
 typedef enum {
     BATTERY_OK = 0,
     BATTERY_WARNING,

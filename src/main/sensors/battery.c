@@ -34,9 +34,6 @@
 #include "config/runtime_config.h"
 #include "config/feature.h"
 
-#include "io/rc_controls.h"
-#include "io/beeper.h"
-
 #include "sensors/battery.h"
 
 

@@ -27,13 +27,7 @@
 
 #include "config/parameter_group.h"
 #include "config/parameter_group_ids.h"
-/*
-#include "drivers/sensor.h"
-#include "drivers/compass.h"
-#include "drivers/compass_hmc5883l.h"
-#include "drivers/gpio.h"
-#include "drivers/light_led.h"
-*/
+
 #include "sensors/boardalignment.h"
 #include "config/runtime_config.h"
 #include "config/config.h"

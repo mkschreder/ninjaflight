@@ -100,12 +100,13 @@ const struct sonar_hardware *sonarGetHardwareConfiguration(currentSensor_e  curr
 
 #endif
 
+#if 0
+// TODO: sonar should be a sensor implemented in the system code
 struct sonar default_sonar; 
 
 void sonar_init(struct sonar *self){
-    hcsr04_init(self);
-	self->distance = SONAR_OUT_OF_RANGE; 
-    self->cf_alt_cm = self->max_range_cm / 2;
+    hcsr04_init(&self->dev);
+    self->cf_alt_cm = self->dev.max_range_cm / 2;
     self->max_tilt_deci_degrees =  self->detection_cone_extended_deci_degrees / 2;
     self->max_tilt_cos = cos_approx(self->max_tilt_deci_degrees / 10.0f * RAD);
     self->max_alt_with_tilt = self->max_range_cm * self->max_tilt_cos;
@@ -179,5 +180,5 @@ int32_t sonar_get_altitude(struct sonar *self)
 {
     return self->altitude;
 }
-
+#endif
 #endif

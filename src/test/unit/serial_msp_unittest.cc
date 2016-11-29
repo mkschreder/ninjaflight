@@ -39,20 +39,21 @@ extern "C" {
     #include "drivers/compass.h"
     #include "drivers/serial.h"
     #include "drivers/serial_softserial.h"
-    #include "drivers/buf_writer.h"
 
     #include "rx/rx.h"
 
     #include "io/msp_protocol.h"
     #include "io/serial.h"
     #include "io/serial_msp.h"
-    #include "io/msp.h"
 
 	#include "flight/mixer.h"
 
     #include "config/parameter_group_ids.h"
     #include "config/runtime_config.h"
     #include "config/config.h"
+
+	#include "msp.h"
+	#include "ninja.h"
 }
 
 #include "unittest_macros.h"
@@ -235,7 +236,9 @@ TEST_F(SerialMspUnitTest, Test_TestMspSerialInFraming)
 
     serialReadEnd = sbufPtr(&pbuf) - serialReadBuffer.buf;
 
-    mspSerialProcess();
+	// TODO: this is not good enough as a unit test for msp
+	struct ninja ninja;
+    mspSerialProcess(&ninja);
 
     EXPECT_EQ('$', serialWriteBuffer.header.dollar);
     EXPECT_EQ('M', serialWriteBuffer.header.m);

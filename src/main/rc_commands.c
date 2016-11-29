@@ -169,26 +169,6 @@ int16_t rc_command_axis(struct rc_command *self, uint8_t axis){
 	}
 }
 
-//! Get current angle command in decidegrees, range [-450;450]
-int16_t rc_command_angle(struct rc_command *self, uint8_t stick){
-	switch(stick){
-		case 0: return self->roll * 450 / 500;
-		case 1: return self->pitch * 450 / 500;
-		case 2: return self->yaw * 450 / 500;
-		default: return 0;
-	}
-}
-
-//! Get rate command in degrees per second (with rate config applied), range [-3625;3625]
-int16_t rc_command_rate(struct rc_command *self, uint8_t stick){
-	switch(stick){
-		case 0: return (16 + self->config->rates[0]) * self->roll / 16;
-		case 1: return (16 + self->config->rates[1]) * self->pitch / 16;
-		case 2: return (16 + self->config->rates[2]) * self->yaw / 16;
-		default: return 0;
-	}
-}
-
 //! Updates internal variables to use new rates and also recalculates the lookup tables if the supplied profile is different than the one that is currently being used.
 void rc_command_set_rate_config(struct rc_command *self, struct rate_config *rates){
 	struct rate_config *cur = self->config;

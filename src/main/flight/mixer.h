@@ -120,52 +120,7 @@ typedef enum {
 	MIXER_OUTPUT_COUNT = MIXER_OUTPUT_S8 + 1
 } mixer_output_t;
 
-//! sets mixer frame configuration
-typedef enum {
-    MIXER_TRI = 1,
-    MIXER_QUADP = 2,
-    MIXER_QUADX = 3,
-    MIXER_BICOPTER = 4,
-    MIXER_GIMBAL = 5,
-    MIXER_Y6 = 6,
-    MIXER_HEX6 = 7,
-    MIXER_FLYING_WING = 8,
-    MIXER_Y4 = 9,
-    MIXER_HEX6X = 10,
-    MIXER_OCTOX8 = 11,
-    MIXER_OCTOFLATP = 12,
-    MIXER_OCTOFLATX = 13,
-    MIXER_AIRPLANE = 14,        // airplane / singlecopter / dualcopter (not yet properly supported)
-    MIXER_HELI_120_CCPM = 15,
-    MIXER_HELI_90_DEG = 16,
-    MIXER_VTAIL4 = 17,
-    MIXER_HEX6H = 18,
-    MIXER_PPM_TO_SERVO = 19,    // PPM -> servo relay
-    MIXER_DUALCOPTER = 20,
-    MIXER_SINGLECOPTER = 21,
-    MIXER_ATAIL4 = 22,
-    MIXER_QUADX_TILT1 = 23,
-    MIXER_QUADX_TILT2 = 24,
-    MIXER_CUSTOM,
-    MIXER_CUSTOM_AIRPLANE,
-    MIXER_CUSTOM_TRI,
-	MIXER_MODE_COUNT,
-} mixer_mode_t;
-
 // TODO: all mixers should actually be stored in the client and we should only be supporting custom mixers (and possibly a default)
-
-//! general mixer settings
-struct mixer_config {
-    uint8_t mixerMode;				//!< one of the mixer_mode_t values
-    uint8_t pid_at_min_throttle;	//!< when enabled pids are used at minimum throttle (valid values 0 or 1)
-	int8_t yaw_motor_direction;		//!< allows reversing yaw direction (values -1 or 1)
-    uint16_t yaw_jump_prevention_limit; //!< make limit configurable (original fixed value was 100)
-#ifdef USE_SERVOS
-    uint8_t tri_unarmed_servo;		//!< send tail servo correction pulses even when unarmed
-    float servo_lowpass_freq;		//!< lowpass servo filter frequency selection; 1/1000ths of loop freq
-    int8_t servo_lowpass_enable;	//!< enable/disable lowpass filter for servo output
-#endif
-};
 
 //! mixer rule definition in new format
 struct mixer_rule_def {

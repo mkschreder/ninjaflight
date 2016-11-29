@@ -48,7 +48,6 @@
 
 #include "io/beeper.h"
 #include "io/serial.h"
-#include "io/gps.h"
 #include "io/rc_controls.h"
 
 #include "rx/rx.h"
@@ -56,6 +55,8 @@
 #include "config/config.h"
 #include "config/config_reset.h"
 #include "config/runtime_config.h"
+
+#include "sensors/gps.h"
 
 #include "../ninja.h"
 
