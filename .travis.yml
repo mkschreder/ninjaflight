@@ -23,6 +23,8 @@ env:
   - TARGET=OLIMEXINO
   - TARGET=NAZE32PRO
   - TARGET=IRCFUSIONF3
+  global:
+    - secure: "eKZWFUUekRGL8s8M87jOod6onST8tAzsFBZqXq8iOdzVODJe82VQpk5z7HCDKMrpikToQJ/XRhyx4rI3jkg0a2aHmAH1GWSaQ8Sbe/Fj+12V0qlVfRcU8aYRQ0fYAVlQzrbGrU9e12mmXUeyIV6OpbPA0CNIb3bclDxai9KutMYx8QgGAHD1Z0wiuCn1hAw/jj3LCcQAsZBRdKcdVOz//x7GYah42QsujdNf0fG+i8R1qeMgc/2JLeNLvYM6cvgnfea4mn9dunM8WwhklodIe7zvO4xykn8tKqEefe3TsyeO1v4C6GGjhUVf6uU6ilKOl/52yRIHaA5x53pbQfudYIlkVavdN6OhJ2RMZJ1x8XoQu6jLGPt64E4welf9QA2YPdVD1x+vBvbXcq1s8T0LbB2NwFrUGM3I3qerW4RzRUc5kIAjQlP1IuIYuRroz2iciNRrKp8KjF2PJ11vL1fxs7LbRaAajpIPf0G1MI1Vno/MRgNXX1x7zHohGyEF3jsxavNXnYM1S24PjIhFeU6cb/jZX6gvvonMiODhIJm4SzHHrzFl0b8Tlfh7VA8F+Z+afJCGQpZrYeEU1PeO7dB6pQbyB8PUozRHiR5hlxsAVP0poca6iAvlOnb1xZ9jasaGtUjDr/NtZMS5snXjihXdXbe+Y3cZ5ogG0XI2sVlPveY="
 
 # use new docker environment
 sudo: true
@@ -39,8 +41,16 @@ addons:
       - wkhtmltopdf
       - libxml2-dev
       - libxslt-dev
+  coverity_scan:
+    project:
+      name: "mkschreder/ninjaflight"
+      description: "Build submitted via Travis CI"
+    notification_email: mkschreder.uk@gmail.com
+    build_command_prepend: "make clean"
+    build_command:   "make -j 4"
+    branch_pattern: coverity_scan
 
-# We use cpp for unit tests, and c for the main project.
+i We use cpp for unit tests, and c for the main project.
 language: cpp
 compiler: clang
 
@@ -48,6 +58,7 @@ before_install:
   - pip install --user cpp-coveralls
   - gem install coveralls-lcov
   - curl --retry 10 --retry-max-time 120 -L "https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q2-update/+download/gcc-arm-none-eabi-4_9-2015q2-20150609-linux.tar.bz2" | tar xfj -
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_9-2015q2/bin
