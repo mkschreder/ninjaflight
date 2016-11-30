@@ -50,7 +50,7 @@ addons:
     build_command:   "make -j 4"
     branch_pattern: coverity_scan
 
-i We use cpp for unit tests, and c for the main project.
+# We use cpp for unit tests, and c for the main project.
 language: cpp
 compiler: clang
 
