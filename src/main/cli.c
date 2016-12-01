@@ -1657,7 +1657,7 @@ static void cliSdInfo(struct cli *self, char *cmdline)
 #endif
 
 #ifdef USE_FLASHFS
-
+#include "drivers/flashfs.h"
 static void cliFlashInfo(struct cli *self, char *cmdline)
 {
     const flashGeometry_t *layout = flashfsGetGeometry();

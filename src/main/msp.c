@@ -45,6 +45,7 @@
 #include "drivers/serial.h"
 #include "drivers/bus_i2c.h"
 #include "drivers/sdcard.h"
+#include "drivers/flashfs.h"
 #include "common/buf_writer.h"
 
 #include "rx/rx.h"

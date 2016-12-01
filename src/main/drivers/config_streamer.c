@@ -15,7 +15,7 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "config_streamer.h"
+#include "drivers/config_streamer.h"
 
 #include "platform.h"
 

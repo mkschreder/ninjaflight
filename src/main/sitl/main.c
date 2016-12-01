@@ -295,7 +295,7 @@ uint32_t rcModeActivationMask = 0;
 float magneticDeclination = 0;
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
 
-#include "config/config_streamer.h"
+#include "drivers/config_streamer.h"
 void config_streamer_init(config_streamer_t *c){UNUSED(c); }
 
 void config_streamer_start(config_streamer_t *c, uintptr_t base, int size){

@@ -27,7 +27,7 @@
 
 #include "config/config.h"
 #include "config/parameter_group.h"
-#include "config/config_streamer.h"
+#include "drivers/config_streamer.h"
 #include "config_eeprom.h"
 
 static const uint8_t EEPROM_CONF_VERSION = 112;

@@ -242,7 +242,7 @@ COMMON_SRC = build_config.c \
 		   $(TARGET_SRC) \
 		   config/config.c \
 		   config/vars.c \
-		   config/config_streamer.c \
+		   drivers/config_streamer.c \
 		   config/config_eeprom.c \
 		   config/parameter_group.c \
 		   config/feature.c \

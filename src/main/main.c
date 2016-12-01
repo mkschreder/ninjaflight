@@ -64,15 +64,15 @@
 #include "drivers/usb_io.h"
 #include "drivers/transponder_ir.h"
 #include "drivers/gyro_sync.h"
+#include "drivers/flashfs.h"
+#include "drivers/asyncfatfs/asyncfatfs.h"
 
 #include "rx/rx.h"
 #include "rx/spektrum.h"
 
 #include "io/serial.h"
-#include "io/flashfs.h"
 #include "io/ledstrip.h"
 #include "io/display.h"
-#include "io/asyncfatfs/asyncfatfs.h"
 #include "io/transponder_ir.h"
 #include "io/serial_msp.h"
 
