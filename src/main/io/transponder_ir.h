@@ -18,8 +18,9 @@
 #pragma once
 
 #include "../config/transponder.h"
+#include "system_calls.h"
 
-void transponderInit(uint8_t* transponderCode);
+void transponderInit(uint8_t* transponderCode, struct system_calls *system);
 
 void transponderEnable(void);
 void transponderDisable(void);

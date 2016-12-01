@@ -36,6 +36,10 @@
 #include "io/transponder_ir.h"
 #include "config/config.h"
 
+#if 0
+// TODO: transponder
+static struct system_calls *_system = 0;
+
 static bool transponderInitialised = false;
 static bool transponderRepeat = false;
 
@@ -53,7 +57,7 @@ void updateTransponder(void)
         return;
     }
 
-    uint32_t now = micros();
+    sys_micros_t now = sys_micros(_system);
 
     bool updateNow = (int32_t)(now - nextUpdateAt) >= 0L;
     if (!updateNow) {
@@ -78,8 +82,9 @@ void updateTransponder(void)
     transponderIrTransmit();
 }
 
-void transponderInit(uint8_t* transponderData)
+void transponderInit(uint8_t* transponderData, struct system_calls *sys)
 {
+	_system = sys;
     transponderInitialised = false;
     transponderIrInit();
     transponderIrUpdateData(transponderData);
@@ -118,3 +123,4 @@ void transponderTransmitOnce(void)
     }
     transponderIrTransmit();
 }
+#endif

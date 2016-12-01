@@ -36,10 +36,8 @@
 #include "rx/spektrum.h"
 
 #include "io/serial.h"
-#include "io/flashfs.h"
 #include "io/ledstrip.h"
 #include "io/display.h"
-#include "io/asyncfatfs/asyncfatfs.h"
 #include "io/transponder_ir.h"
 #include "io/serial_msp.h"
 
@@ -321,8 +319,6 @@ int config_streamer_finish(config_streamer_t *c){
 }
 
 uint8_t cliMode;
-void scanEEPROM(void);
-void scanEEPROM(void){}
 void validateAndFixConfig(void);
 void validateAndFixConfig(void){}
 void setAccelerationTrims(flightDynamicsTrims_t *trims);
@@ -333,11 +329,7 @@ void recalculateMagneticDeclination(void){}
 //void beeperConfirmationBeeps(void);
 //void beeperConfirmationBeeps(void){}
 //void beeper(uint8_t type) { (void)type; }
-void writeConfigToEEPROM(void);
-void writeConfigToEEPROM(void){}
 void failureMode(uint8_t mode){UNUSED(mode);}
-bool isEEPROMContentValid(void);
-bool isEEPROMContentValid(void){ return true; }
 int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
 bool isAccelerationCalibrationComplete(void){ return true; }
 bool isGyroCalibrationComplete(void){ return true; }
@@ -466,11 +458,6 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e id, serialReceiveCallbackPtr 
 
 void systemResetToBootloader(void){}
 void systemReset(void){}
-
-// TODO: fix these
-const char *buildDate = "JAN 01 1970";
-const char *buildTime = "1234567890";
-const char *shortGitRevision = "123123123123123";
 
 int16_t debug[DEBUG16_VALUE_COUNT];
 

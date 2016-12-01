@@ -58,9 +58,7 @@
 #include "io/rc_adjustments.h"
 #include "io/serial.h"
 #include "io/ledstrip.h"
-#include "io/flashfs.h"
 #include "io/beeper.h"
-#include "io/asyncfatfs/asyncfatfs.h"
 
 #include "rx/rx.h"
 #include "rx/spektrum.h"

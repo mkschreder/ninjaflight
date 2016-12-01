@@ -32,8 +32,7 @@
 
 #include "io/serial.h"
 #include "io/serial_msp.h"
-#include "io/flashfs.h"
-#include "io/asyncfatfs/asyncfatfs.h"
+#include "drivers/asyncfatfs/asyncfatfs.h"
 
 #include "blackbox.h"
 #include "blackbox_io.h"

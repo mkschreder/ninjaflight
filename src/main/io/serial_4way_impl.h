@@ -16,6 +16,8 @@
  * Author: 4712
 */
 
+#include "drivers/gpio.h"
+
 typedef struct {
     GPIO_TypeDef* gpio;
     uint16_t pinpos;

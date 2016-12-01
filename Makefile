@@ -374,7 +374,7 @@ NAZE_SRC = startup_stm32f10x_md_gcc.S \
 		   drivers/system_stm32f10x.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f10x.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   hardware_revision.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
@@ -418,7 +418,7 @@ EUSTM32F103RC_SRC = startup_stm32f10x_hd_gcc.S \
 		   drivers/system_stm32f10x.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f10x.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
@@ -505,7 +505,7 @@ CC3D_SRC = \
 		   drivers/system_stm32f10x.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f10x.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC) \
 		   $(VCP_SRC)
@@ -558,8 +558,8 @@ STM32F3DISCOVERY_SRC = \
 		   drivers/compass_ak8975.c \
 		   drivers/sdcard.c \
 		   drivers/sdcard_standard.c \
-		   io/asyncfatfs/asyncfatfs.c \
-		   io/asyncfatfs/fat_standard.c \
+		   drivers/asyncfatfs/asyncfatfs.c \
+		   drivers/asyncfatfs/fat_standard.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
@@ -637,7 +637,7 @@ RMDO_SRC = \
 		   drivers/light_ws2811strip_stm32f30x.c \
 		   drivers/serial_softserial.c \
 		   drivers/sonar_hcsr04.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
@@ -654,7 +654,7 @@ SPRACINGF3_SRC = \
 		   drivers/light_ws2811strip_stm32f30x.c \
 		   drivers/serial_softserial.c \
 		   drivers/sonar_hcsr04.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
@@ -673,8 +673,8 @@ SPRACINGF3EVO_SRC	 = \
 		   drivers/sdcard_standard.c \
 		   drivers/transponder_ir.c \
 		   drivers/transponder_ir_stm32f30x.c \
-		   io/asyncfatfs/asyncfatfs.c \
-		   io/asyncfatfs/fat_standard.c \
+		   drivers/asyncfatfs/asyncfatfs.c \
+		   drivers/asyncfatfs/fat_standard.c \
 		   io/transponder_ir.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC) \
@@ -692,7 +692,7 @@ MOTOLAB_SRC = \
 		   drivers/light_ws2811strip_stm32f30x.c \
 		   drivers/serial_usb_vcp.c \
 		   drivers/flash_m25p16.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC) \
 		   $(VCP_SRC)
@@ -715,8 +715,8 @@ SPRACINGF3MINI_SRC	 = \
 		   drivers/sdcard_standard.c \
 		   drivers/transponder_ir.c \
 		   drivers/transponder_ir_stm32f30x.c \
-		   io/asyncfatfs/asyncfatfs.c \
-		   io/asyncfatfs/fat_standard.c \
+		   drivers/asyncfatfs/asyncfatfs.c \
+		   drivers/asyncfatfs/fat_standard.c \
 		   io/transponder_ir.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC) \
@@ -728,82 +728,89 @@ IRCFUSIONF3_SRC = \
 		   drivers/accgyro_mpu6050.c \
 		   drivers/barometer_bmp085.c \
 		   drivers/flash_m25p16.c \
-		   io/flashfs.c \
+		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
-			blackbox/blackbox.c \
-			blackbox/blackbox_io.c \
-			common/buf_writer.c \
-			common/filter.c \
-			common/maths.c \
-			common/printf.c \
-			common/quaternion.c \
-			common/streambuf.c \
-			common/typeconversion.c \
-			common/encoding.c \
-			config/config.c \
-			config/parameter_group.c \
-			config/profile.c \
-			config/feature.c \
-			config/vars.c \
-			drivers/serial.c \
-			flight/altitudehold.c \
-			flight/anglerate.c \
-			flight/mixer.c \
-			flight/tilt.c \
-			flight/failsafe.c \
-			flight/gps_conversion.c \
-			flight/navigation.c \
-			io/beeper.c \
-			io/display.c \
-			io/ledstrip.c \
-			io/rc_adjustments.c \
-			io/serial.c \
-			io/serial_msp.c \
-			io/statusindicator.c \
-			sensors/acceleration.c \
-			sensors/barometer.c \
-			sensors/battery.c \
-			sensors/boardalignment.c \
-			sensors/compass.c \
-			sensors/gps.c \
-			sensors/gyro.c \
-			sensors/imu.c \
-			sensors/instruments.c \
-			sensors/sonar.c \
-			rx/msp.c \
-			rx/rc.c \
-			rx/rc_command.c \
-			rx/rx.c \
-			rx/pwm.c \
-			rx/msp.c \
-			rx/sbus.c \
-			rx/sumd.c \
-			rx/sumh.c \
-			rx/spektrum.c \
-			rx/xbus.c \
-			rx/ibus.c \
-			sitl/flash.c \
-			sitl/main.c \
-			telemetry/hott.c \
-			telemetry/frsky.c \
-			telemetry/ltm.c \
-			telemetry/mavlink.c \
-			telemetry/smartport.c \
-			telemetry/telemetry.c \
-			ninja.c \
-			ninja_config.c \
-			ninja_sched.c \
-			ninja_input.c \
-			ninjaflight.c \
-			ns_idle.c \
-			ns_armed.c \
-			ns_calibration.c \
-			cli.c \
-			msp.c \
-			../../ninjasitl/fc_sitl.c 
+		blackbox/blackbox.c \
+		blackbox/blackbox_io.c \
+		build_config.c \
+		cli.c \
+		common/buf_writer.c \
+		common/colorconversion.c \
+		common/encoding.c \
+		common/filter.c \
+		common/maths.c \
+		common/printf.c \
+		common/quaternion.c \
+		common/streambuf.c \
+		common/typeconversion.c \
+		config/config.c \
+		config/config_eeprom.c \
+		config/feature.c \
+		config/parameter_group.c \
+		config/profile.c \
+		config/vars.c \
+		debug.c \
+		flight/altitudehold.c \
+		flight/anglerate.c \
+		flight/failsafe.c \
+		flight/gps_conversion.c \
+		flight/gtune.c \
+		flight/mixer.c \
+		flight/navigation.c \
+		flight/tilt.c \
+		io/beeper.c \
+		io/display.c \
+		io/ledstrip.c \
+		io/rc_adjustments.c \
+		io/serial.c \
+		io/serial_msp.c \
+		io/statusindicator.c \
+		io/transponder_ir.c \
+		msp.c \
+		ninja.c \
+		ninja_config.c \
+		ninjaflight.c \
+		ninja_input.c \
+		ninja_sched.c \
+		ns_arm.c \
+		ns_armed.c \
+		ns_calibration.c \
+		ns_idle.c \
+		rx/ibus.c \
+		rx/msp.c \
+		rx/pwm.c \
+		rx/rc.c \
+		rx/rc_command.c \
+		rx/rx.c \
+		rx/sbus.c \
+		rx/spektrum.c \
+		rx/sumd.c \
+		rx/sumh.c \
+		rx/xbus.c \
+		sensors/acceleration.c \
+		sensors/barometer.c \
+		sensors/battery.c \
+		sensors/boardalignment.c \
+		sensors/compass.c \
+		sensors/gps.c \
+		sensors/gyro.c \
+		sensors/imu.c \
+		sensors/instruments.c \
+		sensors/sonar.c \
+		sitl/flash.c \
+		sitl/main.c \
+		telemetry/frsky.c \
+		telemetry/hott.c \
+		telemetry/ltm.c \
+		telemetry/mavlink.c \
+		telemetry/smartport.c \
+		telemetry/telemetry.c \
+		version.c \
+		drivers/serial.c \
+		../../ninjasitl/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src
