@@ -22,11 +22,78 @@
 #include "rc_command.h"
 #include <stdbool.h>
 
+/**
+ * Defines supported virtual keys. Certain stick combinations may trigger these
+ * keys. Most of these keys specify a kind of virtual rc keyboard. How they are
+ * actually interpreted is up to the current state of the flight controller.
+ */
+typedef enum {
+	// these keys are result of stick movement
+	RC_KEY_GYROCAL,
+	RC_KEY_ACCCAL,
+	RC_KEY_MAGCAL,
+	RC_KEY_PROFILE1,
+	RC_KEY_PROFILE2,
+	RC_KEY_PROFILE3,
+	RC_KEY_SAVE,
+	RC_KEY_STICK_ARM,
+	RC_KEY_STICK_DISARM,
+	RC_KEY_ACC_TRIM_PITCH_INC,
+	RC_KEY_ACC_TRIM_PITCH_DEC,
+	RC_KEY_ACC_TRIM_ROLL_INC,
+	RC_KEY_ACC_TRIM_ROLL_DEC,
+	RC_KEY_DISPLAY_OFF,
+	RC_KEY_DISPLAY_ON,
+	// following keys are related to range functions and do not generate repeat events
+	RC_KEY_FUNC_LEVEL,
+	RC_KEY_FUNC_ARM,			//!< arming through box range
+	RC_KEY_FUNC_BLEND,
+	RC_KEY_FUNC_ALTSTAB,
+	RC_KEY_FUNC_HEADSTAB,
+	RC_KEY_FUNC_HEADFIX,
+	RC_KEY_FUNC_CALIBRATE,
+	RC_NUM_KEYS
+} rc_key_t;
+
+/**
+ * This enum defines key state. To support cases where an rc range is not
+ * configured (ie you can't really tell if the key is pressed or released) the
+ * third option has been added which is returned by rc_key_state() if the key
+ * does not exist.
+ */
+typedef enum {
+	RC_KEY_DISABLED, //!< returned by rc_key_state() if the key does not exist (not configured etc.)
+	RC_KEY_PRESSED, //!< returned by rc_key_state() when the key is pressed
+	RC_KEY_RELEASED //!< returned by rc_key_state() when the key is not pressed
+} rc_key_state_t;
+
+/**
+ * This event listener should be embedded in another struct and you can then
+ * use container_of() macro to retreive pointer to your enclosing struct in the
+ * event handler. Callbacks can be set to NULL if user does not wish to use them.
+ */
+struct rc_event_listener {
+	/**
+	 * This callback is called when key changes state.
+	 */
+	void (*on_key_state)(struct rc_event_listener *self, rc_key_t key, rc_key_state_t newstate);
+	/**
+	 * This callback is called when a stick combination (or a key) is held in
+	 * PRESSED state for a duration of RC_KEY_REPEAT_MS. It is not called for
+	 * range keys that are always held down.
+	 */
+	void (*on_key_repeat)(struct rc_event_listener *self, rc_key_t key, rc_key_state_t newstate);
+};
+
 struct rc {
 	struct rc_command rc_command;
 	uint32_t boxes;
-	uint32_t keys;
 	struct rx *rx;
+	struct rc_event_listener *evl;
+	//! holds the key bits. This mask grows as we add more keys.
+	uint8_t key_mask[RC_NUM_KEYS / 8 + 1];
+	uint8_t key_enabled_mask[RC_NUM_KEYS / 8 + 1];
+	uint32_t range_mask;
 };
 
 typedef enum {
@@ -39,18 +106,7 @@ typedef enum {
     CENTERED
 } rollPitchStatus_e;
 
-#define ROL_LO (1 << (2 * ROLL))
-#define ROL_CE (3 << (2 * ROLL))
-#define ROL_HI (2 << (2 * ROLL))
-#define PIT_LO (1 << (2 * PITCH))
-#define PIT_CE (3 << (2 * PITCH))
-#define PIT_HI (2 << (2 * PITCH))
-#define YAW_LO (1 << (2 * YAW))
-#define YAW_CE (3 << (2 * YAW))
-#define YAW_HI (2 << (2 * YAW))
-#define THR_LO (1 << (2 * THROTTLE))
-#define THR_CE (3 << (2 * THROTTLE))
-#define THR_HI (2 << (2 * THROTTLE))
+#define RC_KEY_REPEAT_MS 200
 
 #define CHANNEL_RANGE_MIN 900
 #define CHANNEL_RANGE_MAX 2100
@@ -72,34 +128,33 @@ typedef enum {
 #define IS_RANGE_USABLE(range) ((range)->startStep < (range)->endStep)
 
 struct rx;
+/**
+ * Initializes a new rc struct.
+ * @param rx instance of the underlying rx to read values from.
+ * @param evl event listener or NULL
+ */
+void rc_init(struct rc *self, struct rx *rx, struct rc_event_listener *evl);
 
-// MUTUALLY EXCLUSIVE KEYS (only one active at a time)
-#define RC_KEY_GYROCAL					(1UL << 1)
-#define RC_KEY_ACCCAL					(1UL << 2)
-#define RC_KEY_MAGCAL					(1UL << 3)
-#define RC_KEY_PROFILE1					(1UL << 4)
-#define RC_KEY_PROFILE2					(1UL << 5)
-#define RC_KEY_PROFILE3					(1UL << 6)
-#define RC_KEY_SAVE						(1UL << 7)
-#define RC_KEY_ARM						(1UL << 8)
-#define RC_KEY_DISARM					(1UL << 9)
-#define RC_KEY_ACC_TRIM_PITCH_INC		(1UL << 10)
-#define RC_KEY_ACC_TRIM_PITCH_DEC		(1UL << 11)
-#define RC_KEY_ACC_TRIM_ROLL_INC		(1UL << 12)
-#define RC_KEY_ACC_TRIM_ROLL_DEC		(1UL << 13)
-#define RC_KEY_DISPLAY_OFF				(1UL << 14)
-#define RC_KEY_DISPLAY_ON				(1UL << 15)
-// NONEXCLUSIVE INPUTS (several can be active at the same time)
-#define RC_KEY_LEVEL					(1UL << (16 + 0))
-#define RC_KEY_BLEND					(1UL << (16 + 1))
-#define RC_KEY_ALTSTAB					(1UL << (16 + 2))
-#define RC_KEY_HEADSTAB					(1UL << (16 + 3))
-#define RC_KEY_HEADFIX					(1UL << (16 + 4))
-#define RC_KEY_CALIBRATE				(1UL << (16 + 5))
+/**
+ * @param key the key for which to return state
+ * @return current state of the key (PRESSED, RELEASED, DISABLED)
+ */
+rc_key_state_t rc_key_state(struct rc *rc, rc_key_t key);
 
-typedef uint64_t rc_key_t;
-
-void rc_init(struct rc *self, struct rx *rx);
-bool rc_key_active(struct rc *rc, rc_key_t key);
+/**
+ * This function is used to get stick commands after exponential curves have
+ * been applied to the rx input.
+ *
+ * @param axis one of ROLL, PITCH, YAW, THROTTLE
+ * @return a value between -500 and 500.
+ */
 int16_t rc_get_command(struct rc *self, uint8_t axis);
+
+/**
+ * Runs an iteration of the rc calculations. This function does not call update
+ * on the underlying receiver object - user is expected to update the receiver
+ * object outside of rc object (and possibly at a different rate). The
+ * responsibility of this function is mainly taking care of repeat logic and
+ * firing new events for keys that are pressed for a while.
+ */
 void rc_update(struct rc *self);

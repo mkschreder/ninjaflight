@@ -20,6 +20,10 @@
 /**
  * @page RX
  * @ingroup RX
+ *
+ * Receiver Unit Tests
+ * -------------------
+ *
  * This is a summary of automatic tests that are done against the receiver
  * module to guarantee that the module behaves according to the requirements
  * set forth below.

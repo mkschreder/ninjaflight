@@ -29,11 +29,11 @@ static struct ninja_state* _state_run(struct ninja_state *state, struct ninja *n
 	}
 
 	if(self->arm_timeout == 0){
-		if(rc_key_active(&ninja->rc, RC_KEY_ARM)){
+		if(rc_key_state(&ninja->rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED){
 			self->arm_timeout = sys_millis(ninja->system) + 500;
 		}
 	} else {
-		bool still_arming = rc_key_active(&ninja->rc, RC_KEY_ARM);
+		bool still_arming = rc_key_state(&ninja->rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED;
 		if(still_arming && (sys_millis(ninja->system) - self->arm_timeout > 0)) {
 			self->arm_timeout = 0;
 			return &ninja->ns_armed.state;
@@ -50,6 +50,7 @@ void ns_idle_init(struct ns_idle *self, struct ninja_state *parent){
 		.enter = _state_enter,
 		.leave = _state_leave,
 		.run = _state_run,
+		.on_key_event = NULL,
 		.parent = parent
 	};
 }

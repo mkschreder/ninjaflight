@@ -337,8 +337,8 @@ static uint32_t packFlightModeFlags(void)
             boxEnabledMask |= 1 << flightMode_boxId_map[i];
     }
 	*/
-	if(rc_key_active(&ninja->rc, RC_KEY_LEVEL)) boxEnabledMask |= (1 << BOXANGLE);
-	if(rc_key_active(&ninja->rc, RC_KEY_BLEND)) boxEnabledMask |= (1 << BOXHORIZON);
+	if(rc_key_state(&ninja->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) boxEnabledMask |= (1 << BOXANGLE);
+	if(rc_key_state(&ninja->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED) boxEnabledMask |= (1 << BOXHORIZON);
 /*
     // enable BOXes dependent on rcMode bits, indexes are the same.
     // only subset of BOXes depend on rcMode, use mask to mark them

@@ -22,6 +22,24 @@
  * @defgroup RX Receiver
  */
 
+/**
+ * @page RX
+ * @ingroup RX
+ *
+ * RX (Lower level receiver)
+ * -------------------------
+ *
+ * RX module is responsible for interfacing with various types of receivers. It
+ * does so by using system calls (struct system_calls) and supports
+ * interpreting pwm/ppm as well as serial receivers. The main responsibility of
+ * this module is to provide uniform access to receivers which usually involves
+ * remapping channels to a layout that is standard for the rest of Ninjaflight.
+ * This module also provides basic failsafe functionality by allowing user to
+ * configure how each channel responds to signal loss (it is possible to set a
+ * static value, keep previously received value or reset the channel to default
+ * value).
+ **/
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -126,6 +144,7 @@ static uint16_t _get_failsafe_channel_value(struct rx *self, uint8_t channel){
 	// if we get here then we return midrc because this is where we would get also when we first start up
 	return rxConfig()->midrc;
 }
+
 void rx_init(struct rx *self, const struct system_calls *system){
 	memset(self, 0, sizeof(struct rx));
 
@@ -166,24 +185,6 @@ void rx_init(struct rx *self, const struct system_calls *system){
 	}
 	*/
 }
-
-/**
- * @page RX
- * @ingroup RX
- * A receiver is used to receive radio control signals from your transmitter
- * and convert them into signals that the flight controller can understand.
- *
- * There are 3 basic types of receivers:
- *
- * - Parallel PWM Receivers
- * - PPM Receivers
- * - Serial Receivers
- * 
- * As of 2016 the recommendation for new purchases is a Serial or PPM based
- * receiver. Avoid Parallel PWM recievers (1 wire per channel). This is due to
- * the amount of IO pins parallel PWM based receivers use. Some new FC's do not
- * support parallel PWM.
- */
 
 /**
  * Sets receiver type.

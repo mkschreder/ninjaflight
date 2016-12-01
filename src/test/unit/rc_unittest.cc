@@ -61,7 +61,7 @@ protected:
 		rx_init(&rx, mock_syscalls());
 		rx_set_type(&rx, RX_PPM);
 		rx_remap_channels(&rx, "AERT1234");
-		rc_init(&rc, &rx);
+		rc_init(&rc, &rx, NULL);
 
 		// we use auto mode by default
 		for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
@@ -84,14 +84,15 @@ protected:
  * @page RC
  * @ingroup RC
  *
- * - RC should trigger arming key when throttle is low, yaw is high and roll and
- * pitch are centered.
+ * - When RC sticks are in THR_LO + YAW_HI + PIT_CE + ROL_CE the
+ * RC_KEY_STICK_ARM goes into PRESSED state and should go back to RELEASED
+ * state when sticks are centered.
  */
 TEST_F(RcTest, TestStartupValues){
 	// setting all zeros is like saying that rx is disconnected
 	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
 
-	EXPECT_FALSE(rc_key_active(&rc, RC_KEY_ARM));
+	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED);
 
 	mock_rc_pwm[ROLL] = 1500;
 	mock_rc_pwm[PITCH] = 1500;
@@ -100,9 +101,46 @@ TEST_F(RcTest, TestStartupValues){
 
 	rc_run(5);
 
-	EXPECT_EQ(1000, rx_get_channel(&rx, THROTTLE));
-	EXPECT_EQ(2000, rx_get_channel(&rx, YAW));
+	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED);
+}
 
-	EXPECT_TRUE(rc_key_active(&rc, RC_KEY_ARM));
+/**
+ * @page RC
+ * @ingroup RC
+ *
+ * - When any key is triggered the event callback of the event listener should
+ * be called as well.
+ **/
+
+static int _arm_count = 0;
+static int _evt_count = 0;
+void _arm_event(struct rc_event_listener *evt, rc_key_t key, rc_key_state_t state){
+	(void)evt;
+	if(key == RC_KEY_STICK_ARM && state == RC_KEY_PRESSED) _arm_count++;
+	_evt_count++;
+}
+
+TEST_F(RcTest, TestKeyEvents){
+	// setting all zeros is like saying that rx is disconnected
+	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
+
+	struct rc_event_listener evl = {
+		.on_key_state = _arm_event,
+		.on_key_repeat = NULL
+	};
+	rc.evl = &evl;
+
+	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED);
+
+	mock_rc_pwm[ROLL] = 1500;
+	mock_rc_pwm[PITCH] = 1500;
+	mock_rc_pwm[YAW] = 2000;
+	mock_rc_pwm[THROTTLE] = 1000;
+
+	rc_run(5);
+
+	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED);
+	EXPECT_EQ(1, _evt_count);
+	EXPECT_EQ(1, _arm_count);
 }
 

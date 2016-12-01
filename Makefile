@@ -775,7 +775,6 @@ SITL_SRC = \
 		ninjaflight.c \
 		ninja_input.c \
 		ninja_sched.c \
-		ns_arm.c \
 		ns_armed.c \
 		ns_calibration.c \
 		ns_idle.c \

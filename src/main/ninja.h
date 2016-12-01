@@ -44,6 +44,7 @@ struct ninja {
 	struct anglerate ctrl;
 	struct battery bat;
 	struct rc rc;
+	struct rc_event_listener rc_evl;
 	struct rx rx;
 	struct rc_adj rc_adj;
 	struct failsafe failsafe;

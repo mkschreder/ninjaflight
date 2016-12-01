@@ -110,6 +110,12 @@ static void _run_state(struct ninja *self, struct ninja_state *r){
     }
 }
 
+static void _rc_key_state_change(struct rc_event_listener *evl, rc_key_t key, rc_key_state_t state){
+	struct ninja *self = container_of(evl, struct ninja, rc_evl);
+	// forward to the current state if the state has defined a callback
+	if(self->state->on_key_event) self->state->on_key_event(self->state, self, key, state);
+}
+
 void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	memset(self, 0, sizeof(struct ninja));
 
@@ -169,7 +175,12 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	else
 		rx_set_type(&self->rx, RX_PWM);
 
-	rc_init(&self->rc, &self->rx);
+	self->rc_evl = (struct rc_event_listener){
+		.on_key_state = _rc_key_state_change,
+		.on_key_repeat = NULL
+	};
+
+	rc_init(&self->rc, &self->rx, &self->rc_evl);
 
 	#ifdef GPS
 	if (feature(FEATURE_GPS)) {

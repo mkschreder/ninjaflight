@@ -31,6 +31,7 @@ void ns_calibration_init(struct ns_calibration *self, struct ninja_state *parent
 		.enter = _state_enter,
 		.leave = _state_leave,
 		.run = _state_run,
+		.on_key_event = NULL,
 		.parent = parent
 	};
 }

@@ -46,7 +46,7 @@ static struct ninja_state * _state_run(struct ninja_state *_state, struct ninja 
 	(void)_state;
 	//struct ns_armed *state = container_of(_state, struct ns_armed, state);
 
-	if(rc_key_active(&self->rc, RC_KEY_DISARM)){
+	if(rc_key_state(&self->rc, RC_KEY_FUNC_ARM) == RC_KEY_RELEASED){
 		return &self->ns_idle.state;
 	}
 
@@ -58,9 +58,9 @@ static struct ninja_state * _state_run(struct ninja_state *_state, struct ninja 
 	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 	anglerate_set_algo(&self->ctrl, PID_CONTROLLER_LUX_FLOAT);
 
-	if (rc_key_active(&self->rc, RC_KEY_LEVEL)) {
+	if (rc_key_state(&self->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) {
 		anglerate_set_level_percent(&self->ctrl, 100, 100);
-	} else if(rc_key_active(&self->rc, RC_KEY_BLEND)){
+	} else if(rc_key_state(&self->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED){
 		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
 		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
 		if(ABS(ins_get_pitch_dd(&self->ins)) > 800)
@@ -137,6 +137,7 @@ void ns_armed_init(struct ns_armed *self, struct ninja_state *parent){
 		.enter = _state_enter,
 		.leave = _state_leave,
 		.run = _state_run,
+		.on_key_event = NULL,
 		.parent = parent
 	};
 }
