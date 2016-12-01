@@ -259,11 +259,7 @@ COMMON_SRC = build_config.c \
 			ninja.c \
 			ninja_config.c \
 			ninja_sched.c \
-			ninja_input.c \
 			ninjaflight.c \
-			ns_idle.c \
-			ns_armed.c \
-			ns_calibration.c\
 			cli.c \
 		   msp.c \
 		   flight/altitudehold.c \
@@ -773,11 +769,7 @@ SITL_SRC = \
 		ninja.c \
 		ninja_config.c \
 		ninjaflight.c \
-		ninja_input.c \
 		ninja_sched.c \
-		ns_armed.c \
-		ns_calibration.c \
-		ns_idle.c \
 		rx/ibus.c \
 		rx/msp.c \
 		rx/pwm.c \

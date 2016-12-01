@@ -29,9 +29,11 @@
  */
 typedef enum {
 	// these keys are result of stick movement
+	RC_KEY_IDLE,
 	RC_KEY_GYROCAL,
 	RC_KEY_ACCCAL,
 	RC_KEY_MAGCAL,
+	RC_KEY_ACC_INFLIGHT_CALIB,
 	RC_KEY_PROFILE1,
 	RC_KEY_PROFILE2,
 	RC_KEY_PROFILE3,

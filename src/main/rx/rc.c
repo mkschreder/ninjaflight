@@ -118,9 +118,11 @@ void rc_update(struct rc *self){
 	memcpy(old_mask, self->key_mask, sizeof(old_mask));
 	memset(self->key_mask, 0, sizeof(self->key_mask));
 
+	if(sticks == THR_LO + YAW_CE + PIT_CE + ROL_CE) _key_down(self, RC_KEY_IDLE);
 	if(sticks == THR_LO + YAW_LO + PIT_LO + ROL_CE) _key_down(self, RC_KEY_GYROCAL);
 	if(sticks == THR_HI + YAW_LO + PIT_LO + ROL_CE) _key_down(self, RC_KEY_ACCCAL);
 	if(sticks == THR_HI + YAW_HI + PIT_LO + ROL_CE) _key_down(self, RC_KEY_MAGCAL);
+	if(sticks == THR_LO + YAW_LO + PIT_HI + ROL_HI) _key_down(self, RC_KEY_ACC_INFLIGHT_CALIB);
 	if(sticks == THR_LO + YAW_LO + PIT_CE + ROL_LO) _key_down(self, RC_KEY_PROFILE1);		  // ROLL left  -> Profile 1
 	if(sticks == THR_LO + YAW_LO + PIT_HI + ROL_CE) _key_down(self, RC_KEY_PROFILE2);	 // PITCH up   -> Profile 2
 	if(sticks == THR_LO + YAW_LO + PIT_CE + ROL_HI) _key_down(self, RC_KEY_PROFILE3);	 // ROLL right -> Profile 3

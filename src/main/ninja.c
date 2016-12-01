@@ -13,6 +13,7 @@
 #include "common/utils.h"
 #include "common/filter.h"
 
+#include "config/config.h"
 #include "config/parameter_group.h"
 #include "config/config_eeprom.h"
 #include "config/profile.h"
@@ -61,59 +62,23 @@
 #include "ninja.h"
 #include "ninja_sched.h"
 
-static struct ninja_state *_find_common_ancestor(struct ninja_state *a, struct ninja_state *b){
-	if(!b || !a || a == b) return NULL;
-	// for each parent of b
-	while(b){
-		// for each parent of a
-		while(a){
-			// check if b is equal to the parent of a
-			if(a == b) return a;
-			a = a->parent;
-		}
-		// check further up the chain
-		b = b->parent;
-	}
-	return NULL;
-}
-
-static bool _do_enter_callback(struct ninja *self, struct ninja_state *anc, struct ninja_state *r){
-	if(!r || (r == anc)) return false;
-	_do_enter_callback(self, anc, r->parent);
-	r->enter(r, self);
-	return true;
-}
-
-static bool _do_leave_callback(struct ninja *self, struct ninja_state *anc, struct ninja_state *r){
-	if(!r || (r == anc)) return false;
-	r->leave(r, self);
-	_do_leave_callback(self, anc, r->parent);
-	return true;
-}
-
-static bool _switch_state(struct ninja *self, struct ninja_state *cur, struct ninja_state *r){
-	if(!r || cur == r) return false;
-	struct ninja_state *anc = _find_common_ancestor(cur, r);
-	_do_leave_callback(self, anc, cur);
-	_do_enter_callback(self, anc, r);
-	self->state = r;
-	return true;
-}
-
-static void _run_state(struct ninja *self, struct ninja_state *r){
-	// run all states from child to ancestor
-    while(r){
-		struct ninja_state *new_state = r->run(r, self);
-        if(new_state && _switch_state(self, self->state, new_state))
-			break;
-        r = r->parent;
-    }
-}
-
 static void _rc_key_state_change(struct rc_event_listener *evl, rc_key_t key, rc_key_state_t state){
 	struct ninja *self = container_of(evl, struct ninja, rc_evl);
+	(void)self;
+	(void)key;
+	(void)state;
 	// forward to the current state if the state has defined a callback
-	if(self->state->on_key_event) self->state->on_key_event(self->state, self, key, state);
+	//if(self->state->on_key_event) self->state->on_key_event(self->state, self, key, state);
+}
+
+static void _output_motors_disarmed(struct ninja *self){
+	// TODO: here we can output values from the ground control
+	for(int c = 0; c < MIXER_MAX_MOTORS; c++){
+		sys_motor_write(self->system, c, 1000);
+	}
+	for(int c = 0; c < MIXER_MAX_SERVOS; c++){
+		sys_servo_write(self->system, c, 1500);
+	}
 }
 
 void ninja_init(struct ninja *self, const struct system_calls *syscalls){
@@ -244,23 +209,23 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 
 	ninja_config_load(self);
 
-	ns_idle_init(&self->ns_idle, NULL);
-	ns_calibration_init(&self->ns_calibration, &self->ns_idle.state);
-	ns_armed_init(&self->ns_armed, NULL);
-
-	_switch_state(self, NULL, &self->ns_calibration.state);
-
 	ninja_sched_init(&self->sched, &self->system->time);
+
+	_output_motors_disarmed(self);
 }
 
 void ninja_arm(struct ninja *self){
-	(void)self;
-	// TODO: armind should be passed to current state.
+	self->is_armed = true;
+	mixer_enable_armed(&self->mixer, true);
+	//beep to indicate arming
+	beeper_start(&self->beeper, BEEPER_ARMING);
 }
 
 void ninja_disarm(struct ninja *self){
 	(void)self;
-	// TODO: this is handled by states now so either remove or solve in another way
+	mixer_enable_armed(&self->mixer, false);
+	beeper_start(&self->beeper, BEEPER_DISARMING);	  // emit disarm tone
+	self->is_armed = false;
 }
 
 	/*
@@ -421,6 +386,261 @@ static void _update_beeper(struct ninja *self){
 }
 #endif
 
+bool _prearm_checks_ok(struct ninja *self){
+	// we can only arm if we are calibrated
+	if(!ins_is_calibrated(&self->ins)) return false;
+	return true;
+}
+
+bool _disarm_checks_ok(struct ninja *self){
+	// we don't want to allow disarming if quad is moving
+	if(ABS(ins_get_gyro_x(&self->ins)) > 100 || ABS(ins_get_gyro_y(&self->ins)) > 100 || ABS(ins_get_gyro_z(&self->ins))) return false;
+	return true;
+}
+
+static void _run_control_loop(struct ninja *self){
+	//struct ns_armed *state = container_of(_state, struct ns_armed, state);
+	sys_micros_t dt_us = self->loop_time;
+
+	// TODO: set pid algo when config is applied
+	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
+	anglerate_set_algo(&self->ctrl, PID_CONTROLLER_LUX_FLOAT);
+
+	if (rc_key_state(&self->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) {
+		anglerate_set_level_percent(&self->ctrl, 100, 100);
+	} else if(rc_key_state(&self->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED){
+		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
+		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
+		if(ABS(ins_get_pitch_dd(&self->ins)) > 800)
+			hp_roll = hp_pitch = 0;
+		int16_t strength = MIN(hp_roll, hp_pitch);
+		anglerate_set_level_percent(&self->ctrl, strength, strength);
+	} else {
+		anglerate_set_level_percent(&self->ctrl, 0, 0);
+	}
+	//_process_tilt_controls(self);
+
+	int16_t roll = rc_get_command(&self->rc, ROLL);
+	int16_t pitch =  rc_get_command(&self->rc, PITCH);
+	int16_t yaw = rc_get_command(&self->rc, YAW);
+
+	// prevent spinup when just armed
+	if(rc_get_command(&self->rc, THROTTLE) < -480) yaw = 0;
+
+	float combined = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&self->ins)));
+    float tmpCosine = cos_approx(combined);
+	float rollCompensation = roll * tmpCosine;
+	float rollCompensationInv = roll - rollCompensation;
+	float yawCompensation = yaw * tmpCosine;
+	float yawCompensationInv = yaw - yawCompensation;
+
+	roll = (yawCompensationInv + rollCompensation);
+	yaw = -(yawCompensation + rollCompensationInv);
+
+	anglerate_input_user(&self->ctrl, roll, pitch, yaw);
+	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
+	anglerate_update(&self->ctrl, dt_us * 1e-6f);
+
+	mixer_set_throttle_range(&self->mixer, 1500, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rc_get_command(&self->rc, THROTTLE));
+
+	// TODO: flight modes
+	//if (FLIGHT_MODE(PASSTHRU_MODE)) {
+		// Direct passthru from RX
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
+		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
+	//} else {
+		// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
+	//}
+
+	//printf("out: %d %d %d\n", anglerate_get_roll(&self->ctrl), anglerate_get_pitch(&self->ctrl), anglerate_get_yaw(&self->ctrl));
+	// center the RC input value around the RC middle value
+	// by subtracting the RC middle value from the RC input value, we get:
+	// data - middle = input
+	// 2000 - 1500 = +500
+	// 1500 - 1500 = 0
+	// 1000 - 1500 = -500
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rx_get_channel(&self->rx, ROLL) - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rx_get_channel(&self->rx, PITCH)	- rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rx_get_channel(&self->rx, YAW)	  - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rx_get_channel(&self->rx, THROTTLE) - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rx_get_channel(&self->rx, AUX1)	 - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rx_get_channel(&self->rx, AUX2)	 - rxConfig()->midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rx_get_channel(&self->rx, AUX3)	 - rxConfig()->midrc);
+
+	mixer_update(&self->mixer);
+
+	//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
+}
+
+/**
+ * This is the seemingly "complicated" (it's actually quite smart)
+ * arming/disarming state routine. We add support for delay when arming and we
+ * also handle special cases such as duplicate disarms and automatic disarm
+ * after a certain idle period - all in the same little code block. It is
+ * written with protothread concept making it quite compact. Not that this is a
+ * state machine and not an ordinary function. Since we jump around in it back
+ * and forth, using local variables must be avoided.
+ */
+static PT_THREAD(_fsm_arming(struct ninja *self)){
+	// specifies how long we need to keep stick in arming position until we actually arm
+	static const int NINJA_ARM_DURATION = 500;
+	// specifies how long sticks need to be idle before disarm (throttle low, rpy centered)
+	static const int NINJA_AUTO_DISARM_DURATION = 5000;
+	PT_BEGIN(&self->state_arming);
+	// spin for ever
+	while(true){
+		// we assume disarmed state
+wait_for_arm:
+		// wait untill arming is allowed and user triggers arming with controls
+		// we also check for the disarm action so we can sound the beeper if user tries to do it
+		PT_WAIT_UNTIL(&self->state_arming,
+			(_prearm_checks_ok(self) &&
+			(rc_key_state(&self->rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED ||
+			rc_key_state(&self->rc, RC_KEY_FUNC_ARM) == RC_KEY_PRESSED)) ||
+			rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_PRESSED);
+		// if user mistakenly tries to disarm when we are disarmed then we sound the beeper and yield
+		if(rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_PRESSED){
+			// use arming delay here because it is not used for anything
+			self->arming_delay = sys_millis(self->system) + NINJA_ARM_DURATION;
+			beeper_start(&self->beeper, BEEPER_DISARM_REPEAT);
+			PT_YIELD(&self->state_arming);
+			goto wait_for_arm;
+		}
+		// if arming via sticks then we need to do the delay
+		if(rc_key_state(&self->rc, RC_KEY_STICK_ARM) == RC_KEY_PRESSED){
+			self->arming_delay = sys_millis(self->system) + NINJA_ARM_DURATION;
+			// wait until either the timer times out or user aborts the arming by releasing the sticks
+			PT_WAIT_UNTIL(&self->state_arming,
+				rc_key_state(&self->rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED || (self->arming_delay - sys_millis(self->system) < 0));
+			// if it was aborted then we restart the operation
+			if(rc_key_state(&self->rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED)
+				goto wait_for_arm;
+		}
+		// arm the copter and if arming for whatever reason fails we fall back to the top
+		ninja_arm(self);
+wait_for_disarm:
+		// wait until either the stick disarm is initiated or disarm switch is activated
+		PT_WAIT_UNTIL(&self->state_arming,
+			rc_key_state(&self->rc, RC_KEY_IDLE) == RC_KEY_PRESSED ||
+			rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_PRESSED ||
+			rc_key_state(&self->rc, RC_KEY_FUNC_ARM) == RC_KEY_RELEASED);
+
+		// if we wake up because user has put sticks into idle position then we need
+		// to start a timer and wait while stick remains in that position and timer has not expired.
+		// if stick remains in idle position for the required time then we disarm
+		if(rc_key_state(&self->rc, RC_KEY_IDLE) == RC_KEY_PRESSED){
+			self->disarm_timeout = sys_millis(self->system) + NINJA_AUTO_DISARM_DURATION;
+			PT_WAIT_WHILE(&self->state_arming,
+				rc_key_state(&self->rc, RC_KEY_IDLE) == RC_KEY_PRESSED &&
+				(self->disarm_timeout - sys_millis(self->system)) >= 0);
+			// if timeout has expired then disarm
+			if(_disarm_checks_ok(self) && (self->disarm_timeout - sys_millis(self->system)) < 0){
+				ninja_disarm(self);
+				goto wait_for_arm;
+			}
+			// otherwise go back to loop
+			goto wait_for_disarm;
+		}
+		// if it is the disarm timeout then we need to check that sticks are idle and disarm if this is the case
+		if((self->disarm_timeout - sys_millis(self->system)) < 0){
+			// we check if disarming is a good idea too (and that sticks are in default position)
+			if(_disarm_checks_ok(self) && rc_key_state(&self->rc, RC_KEY_IDLE) == RC_KEY_PRESSED){
+				ninja_disarm(self);
+				goto wait_for_arm;
+			}
+			// otherwise we extend the timeout and go back to sleep
+			self->disarm_timeout = sys_millis(self->system) + NINJA_AUTO_DISARM_DURATION;
+			goto wait_for_disarm;
+		}
+		// if disarming using sticks then we need to do the disarm delay sequence
+		if(rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_PRESSED){
+			// if we disarm using sticks then we want to do the disarm checks.
+			// switch disarm is instantaneous though and does not do this check
+			if(!_disarm_checks_ok(self)){
+				// have to yield because above PT_WAIT_UNTIL will no yield as long as sticks are in this position
+				PT_YIELD(&self->state_arming);
+				goto wait_for_disarm;
+			}
+			self->arming_delay = sys_millis(self->system) + NINJA_ARM_DURATION;
+			// wait until either the timer times out or user aborts disarm by releasing the sticks
+			PT_WAIT_UNTIL(&self->state_arming,
+				rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_RELEASED || (self->arming_delay < sys_millis(self->system)));
+			// if it was aborted then we restart the operation
+			if(rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_RELEASED)
+				goto wait_for_disarm;
+		}
+		// when we get here we disarm and start over from the start waiting for arming command
+		ninja_disarm(self);
+	}
+	PT_END(&self->state_arming);
+}
+
+static PT_THREAD(_fsm_controller(struct ninja *self)){
+	PT_BEGIN(&self->state_ctrl);
+	while(true){
+		// controller starts off by waiting until all sensors are calibrated
+		PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+		// while armed we run the controller at each tick
+		while(true){
+			if(self->is_armed) {
+				_run_control_loop(self);
+
+				// these inputs are valid for armed mode
+				if(rc_key_state(&self->rc, RC_KEY_ACC_INFLIGHT_CALIB) == RC_KEY_PRESSED){
+					// TODO: handle inflight calibration
+				}
+			} else {
+				_output_motors_disarmed(self);
+
+				// these inputs will only be allowed when we are disarmed
+				if(rc_key_state(&self->rc, RC_KEY_GYROCAL) == RC_KEY_PRESSED){
+					// TODO: maybe also handle baro calibration here
+					ins_start_gyro_calibration(&self->ins);
+					// wait until gyro has been calibrated
+					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+				}
+
+				if(rc_key_state(&self->rc, RC_KEY_ACCCAL) == RC_KEY_PRESSED){
+					ins_start_acc_calibration(&self->ins);
+					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+				}
+
+				if(rc_key_state(&self->rc, RC_KEY_MAGCAL) == RC_KEY_PRESSED){
+					// TODO: mag calibration involves multiple states which we need to code
+					ins_start_mag_calibration(&self->ins);
+					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+				}
+
+				if(rc_key_state(&self->rc, RC_KEY_PROFILE1) == RC_KEY_PRESSED){
+					ninja_config_change_profile(self, 0);
+					beeper_multi_beeps(&self->beeper, 1);
+				}
+				if(rc_key_state(&self->rc, RC_KEY_PROFILE2) == RC_KEY_PRESSED){
+					ninja_config_change_profile(self, 1);
+					beeper_multi_beeps(&self->beeper, 2);
+				}
+				if(rc_key_state(&self->rc, RC_KEY_PROFILE3) == RC_KEY_PRESSED){
+					ninja_config_change_profile(self, 2);
+					beeper_multi_beeps(&self->beeper, 3);
+				}
+
+				if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){
+					// TODO: handle config save action
+				}
+			}
+			// we must remember to yield, otherwise we will lock up
+			PT_YIELD(&self->state_ctrl);
+		}
+	}
+	PT_END(&self->state_ctrl);
+}
+
 void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	int16_t gyroRaw[3];
 	if(sys_gyro_read(self->system, gyroRaw) < 0){
@@ -434,8 +654,10 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	ins_process_gyro(&self->ins, gyroRaw[0], gyroRaw[1], gyroRaw[2]);
 	ins_update(&self->ins, dt_us * 1e-6f);
 
-	// execute state hierarchy
-	_run_state(self, self->state);
+	// handle arming/disarming
+	_fsm_arming(self);
+
+	_fsm_controller(self);
 }
 
 /**
@@ -445,51 +667,6 @@ void ninja_heartbeat(struct ninja *self){
 	ninja_sched_run(&self->sched);
 }
 
-/**
- * Enables the given flight mode.  A beep is sounded if the flight mode
- * has changed.  Returns the new 'flightModeFlags' value.
- */
- /*
- // TODO: flight modes
-uint16_t enableFlightMode(struct ninja *self, flightModeFlags_e mask){
-	uint16_t oldVal = self->flightModeFlags;
-
-	self->flightModeFlags |= (mask);
-	if (self->flightModeFlags != oldVal)
-		beeper_multi_beep(&self->beeper, 1);
-	return self->flightModeFlags;
-}
-*/
-/**
- * Disables the given flight mode.  A beep is sounded if the flight mode
- * has changed.  Returns the new 'flightModeFlags' value.
- */
- /*
-uint16_t disableFlightMode(struct ninja *self, flightModeFlags_e mask){
-	uint16_t oldVal = self->flightModeFlags;
-
-	self->flightModeFlags &= ~(mask);
-	if (self->flightModeFlags != oldVal)
-		beeper_multi_beeps(&self->beeper, 1);
-	return self->flightModeFlags;
-}
-bool sensors_enabled(struct ninja *self, uint32_t mask){
-	return self->enabledSensors & mask;
-}
-
-void enable_sensor(struct ninja *self, uint32_t mask){
-	self->enabledSensors |= mask;
-}
-
-void disable_sensor(struct ninja *self, uint32_t mask){
-	self->enabledSensors &= ~(mask);
-}
-
-uint32_t enabled_sensors(struct ninja *self){
-	return self->enabledSensors;
-}
-
-*/
 /**
  * @defgroup INDICATORS Indicators
  */

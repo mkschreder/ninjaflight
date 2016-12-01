@@ -8,7 +8,6 @@
 #include "system_calls.h"
 #include "flight/anglerate.h"
 #include "ninja_sched.h"
-#include "ninja_input.h"
 #include "io/rc_adjustments.h"
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
@@ -16,6 +15,8 @@
 #include "cli.h"
 #include "sensors/gps.h"
 #include "rx/rc.h"
+
+#include "common/pt.h"
 
 struct ninja;
 
@@ -31,11 +32,6 @@ typedef enum {
 struct ninja_rc_input {
 	int16_t raw[8];
 };
-
-#include "ns_state.h"
-#include "ns_idle.h"
-#include "ns_calibration.h"
-#include "ns_armed.h"
 
 struct ninja_state;
 struct ninja {
@@ -68,11 +64,11 @@ struct ninja {
 
 	struct ninja_rc_input rc_input;
 
-	struct ninja_state *state;
+	struct pt	state_ctrl;
 
-	struct ns_armed ns_armed;
-	struct ns_idle ns_idle;
-	struct ns_calibration ns_calibration;
+	struct pt	state_arming;
+	sys_millis_t arming_delay;
+	sys_millis_t disarm_timeout;
 
 	bool is_armed;
 	uint32_t sensors;
