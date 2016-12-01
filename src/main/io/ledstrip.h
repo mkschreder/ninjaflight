@@ -20,7 +20,6 @@
 #include <stddef.h>
 
 #include "../config/ledstrip.h"
-#include "rc_controls.h"
 
 static inline int ledGetX(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_X_BIT_OFFSET) & LED_XY_MASK; }
 static inline int ledGetY(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_Y_BIT_OFFSET) & LED_XY_MASK; }
@@ -62,7 +61,8 @@ void ledstrip_genconfig(struct ledstrip *self, int ledIndex, char *ledConfigBuff
 bool parseColor(int index, const char *colorConfig);
 void applyDefaultColors(void);
 
-void ledStripEnable(void);
+void ledstrip_enable(struct ledstrip *self);
+void ledstrip_disable(struct ledstrip *self);
 
 //! Currently reloads config from the global store TODO: pass config to init!
 void ledstrip_reload_config(struct ledstrip *self);

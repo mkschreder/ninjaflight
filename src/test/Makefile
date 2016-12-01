@@ -360,6 +360,15 @@ $(OBJECT_DIR)/telemetry_hott_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
+$(OBJECT_DIR)/rc_unittest.o : \
+	$(TEST_DIR)/rc_unittest.cc \
+	$(USER_DIR)/io/rc_controls.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/rc_unittest.cc -o $@
+
+
 $(OBJECT_DIR)/rc_controls_unittest.o : \
 	$(TEST_DIR)/rc_controls_unittest.cc \
 	$(USER_DIR)/io/rc_controls.h \
@@ -373,6 +382,14 @@ $(OBJECT_DIR)/rc_controls_unittest : \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
+$(OBJECT_DIR)/rc_unittest : \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/rc_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
 
 $(OBJECT_DIR)/ledstrip_unittest.o : \
 	$(TEST_DIR)/ledstrip_unittest.cc \
@@ -781,7 +798,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	LD_LIBRARY_PATH=$(PWD)/../../ LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
+	LD_LIBRARY_PATH=$(PWD) LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%

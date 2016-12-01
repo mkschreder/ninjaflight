@@ -37,7 +37,6 @@
 
 #include "io/serial.h"
 #include "io/flashfs.h"
-#include "io/rc_controls.h"
 #include "io/ledstrip.h"
 #include "io/display.h"
 #include "io/asyncfatfs/asyncfatfs.h"
@@ -240,25 +239,25 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 
 	ninja_init(&self->ninja, &self->syscalls);
 
-	pidProfile()->P8[PIDROLL] = 90;
-	pidProfile()->I8[PIDROLL] = 10;
-	pidProfile()->D8[PIDROLL] = 30;
+	pidProfile()->P8[PIDROLL] = 40;
+	pidProfile()->I8[PIDROLL] = 0;
+	pidProfile()->D8[PIDROLL] = 20;
 	
-	pidProfile()->P8[PIDPITCH] = 90;
-	pidProfile()->I8[PIDPITCH] = 10;
-	pidProfile()->D8[PIDPITCH] = 30;
+	pidProfile()->P8[PIDPITCH] = 40;
+	pidProfile()->I8[PIDPITCH] = 0;
+	pidProfile()->D8[PIDPITCH] = 20;
 
-	pidProfile()->P8[PIDYAW] = 98;
+	pidProfile()->P8[PIDYAW] = 50;
 	pidProfile()->I8[PIDYAW] = 5;
-	pidProfile()->D8[PIDYAW] = 60;
+	pidProfile()->D8[PIDYAW] = 30;
 
 	pidProfile()->P8[PIDLEVEL] = 20;
 	pidProfile()->I8[PIDLEVEL] = 10;
 	pidProfile()->D8[PIDLEVEL] = 100;
 
-	controlRateProfiles(0)->rates[ROLL] = 173;
-    controlRateProfiles(0)->rates[PITCH] = 173;
-    controlRateProfiles(0)->rates[YAW] = 173;
+	controlRateProfiles(0)->rates[ROLL] = 100;
+    controlRateProfiles(0)->rates[PITCH] = 100;
+    controlRateProfiles(0)->rates[YAW] = 100;
 
 	mixerConfig()->mixerMode = MIXER_QUADX;
 

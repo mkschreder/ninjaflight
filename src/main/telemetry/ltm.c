@@ -45,8 +45,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/serial.h"
 
-#include "io/rc_controls.h"
-
 #include "sensors/acceleration.h"
 #include "sensors/battery.h"
 

@@ -19,6 +19,15 @@
 
 #include "../config/rx.h"
 #include "../config/rc_controls.h"
+#include "rc_command.h"
+#include <stdbool.h>
+
+struct rc {
+	struct rc_command rc_command;
+	uint32_t boxes;
+	uint32_t keys;
+	struct rx *rx;
+};
 
 typedef enum {
     THROTTLE_LOW = 0,
@@ -63,22 +72,34 @@ typedef enum {
 #define IS_RANGE_USABLE(range) ((range)->startStep < (range)->endStep)
 
 struct rx;
-extern int16_t rcCommand[4];
-bool areUsingSticksToArm(void);
 
-bool areSticksInApModePosition(uint16_t ap_mode);
-throttleStatus_e calculateThrottleStatus(struct rx *self, rxConfig_t *rxConfig, uint16_t deadband3d_throttle);
-rollPitchStatus_e calculateRollPitchCenterStatus(struct rx *self, rxConfig_t *rxConfig);
+// MUTUALLY EXCLUSIVE KEYS (only one active at a time)
+#define RC_KEY_GYROCAL					(1UL << 1)
+#define RC_KEY_ACCCAL					(1UL << 2)
+#define RC_KEY_MAGCAL					(1UL << 3)
+#define RC_KEY_PROFILE1					(1UL << 4)
+#define RC_KEY_PROFILE2					(1UL << 5)
+#define RC_KEY_PROFILE3					(1UL << 6)
+#define RC_KEY_SAVE						(1UL << 7)
+#define RC_KEY_ARM						(1UL << 8)
+#define RC_KEY_DISARM					(1UL << 9)
+#define RC_KEY_ACC_TRIM_PITCH_INC		(1UL << 10)
+#define RC_KEY_ACC_TRIM_PITCH_DEC		(1UL << 11)
+#define RC_KEY_ACC_TRIM_ROLL_INC		(1UL << 12)
+#define RC_KEY_ACC_TRIM_ROLL_DEC		(1UL << 13)
+#define RC_KEY_DISPLAY_OFF				(1UL << 14)
+#define RC_KEY_DISPLAY_ON				(1UL << 15)
+// NONEXCLUSIVE INPUTS (several can be active at the same time)
+#define RC_KEY_LEVEL					(1UL << (16 + 0))
+#define RC_KEY_BLEND					(1UL << (16 + 1))
+#define RC_KEY_ALTSTAB					(1UL << (16 + 2))
+#define RC_KEY_HEADSTAB					(1UL << (16 + 3))
+#define RC_KEY_HEADFIX					(1UL << (16 + 4))
+#define RC_KEY_CALIBRATE				(1UL << (16 + 5))
 
-bool rcModeIsActive(boxId_e modeId);
-void rcModeUpdateActivated(struct rx *self, modeActivationCondition_t *modeActivationConditions);
-bool rcModeIsActivationConditionPresent(modeActivationCondition_t *modeActivationConditions, boxId_e modeId);
+typedef uint64_t rc_key_t;
 
-
-bool isUsingSticksForArming(void);
-
-int32_t getRcStickDeflection(struct rx *self, int32_t axis, uint16_t midrc);
-
-void useRcControlsConfig(modeActivationCondition_t *modeActivationConditions);
-
-bool isRangeActive(struct rx *self, uint8_t auxChannelIndex, channelRange_t *range);
+void rc_init(struct rc *self, struct rx *rx);
+bool rc_key_active(struct rc *rc, rc_key_t key);
+int16_t rc_get_command(struct rc *self, uint8_t axis);
+void rc_update(struct rc *self);

@@ -48,7 +48,6 @@
 
 #include "io/beeper.h"
 #include "io/serial.h"
-#include "io/rc_controls.h"
 
 #include "rx/rx.h"
 

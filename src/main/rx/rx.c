@@ -37,8 +37,6 @@
 #include "../common/maths.h"
 #include "../common/utils.h"
 
-#include "../io/rc_controls.h"
-
 #include "../drivers/pwm_rx.h"
 #include "../drivers/adc.h"
 #include "../drivers/system.h"
@@ -398,6 +396,8 @@ static void _read_channels(struct rx *self){
 
 void rx_update(struct rx *self){
 	_read_channels(self);
+
+	rx_update_rssi(self);
 }
 
 void rx_remap_channels(struct rx *self, const char *input){

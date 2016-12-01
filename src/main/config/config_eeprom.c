@@ -248,5 +248,6 @@ void writeConfigToEEPROM(void)
     }
 
     // Flash write failed - just die now
-    failureMode(FAILURE_FLASH_WRITE_FAILED);
+	// TODO: handle flash write failure
+    //failureMode(FAILURE_FLASH_WRITE_FAILED);
 }

@@ -36,7 +36,6 @@
 
 #include "sensors/battery.h"
 
-
 #define VBATT_PRESENT_THRESHOLD_MV	10
 #define VBATT_LPF_FREQ  1.0f
 

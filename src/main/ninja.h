@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 #include "sensors/instruments.h"
 #include "flight/mixer.h"
 #include "sensors/battery.h"
@@ -7,13 +9,13 @@
 #include "flight/anglerate.h"
 #include "ninja_sched.h"
 #include "ninja_input.h"
-#include "rc_commands.h"
 #include "io/rc_adjustments.h"
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
 #include "io/beeper.h"
 #include "cli.h"
 #include "sensors/gps.h"
+#include "rx/rc.h"
 
 struct ninja;
 
@@ -30,13 +32,18 @@ struct ninja_rc_input {
 	int16_t raw[8];
 };
 
+#include "ns_state.h"
+#include "ns_idle.h"
+#include "ns_calibration.h"
+#include "ns_armed.h"
+
 struct ninja_state;
 struct ninja {
 	struct instruments ins;
 	struct mixer mixer;
 	struct anglerate ctrl;
 	struct battery bat;
-	struct rc_command rc_command;
+	struct rc rc;
 	struct rx rx;
 	struct rc_adj rc_adj;
 	struct failsafe failsafe;
@@ -59,10 +66,17 @@ struct ninja {
 	uint16_t cycleTime;
 
 	struct ninja_rc_input rc_input;
-	const struct ninja_state *state;
+
+	struct ninja_state *state;
+
+	struct ns_armed ns_armed;
+	struct ns_idle ns_idle;
+	struct ns_calibration ns_calibration;
 
 	bool is_armed;
 	uint32_t sensors;
+
+	sys_micros_t loop_time;
 
 	struct ninja_sched sched;
 

@@ -46,3 +46,5 @@ struct system_calls {
 #define sys_micros(sys) (sys->time.micros(&sys->time))
 #define sys_gyro_read(sys, data) (sys->imu.read_gyro(&sys->imu, data))
 #define sys_acc_read(sys, data) (sys->imu.read_acc(&sys->imu, data))
+#define sys_motor_write(sys, id, val) (sys->pwm.write_motor(&sys->pwm, id, val))
+#define sys_servo_write(sys, id, val) (sys->pwm.write_servo(&sys->pwm, id, val))

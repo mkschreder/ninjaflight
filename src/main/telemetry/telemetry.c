@@ -31,7 +31,6 @@
 #include "io/serial.h"
 
 #include "rx/rx.h"
-#include "io/rc_controls.h"
 
 #include "telemetry/telemetry.h"
 #include "telemetry/frsky.h"

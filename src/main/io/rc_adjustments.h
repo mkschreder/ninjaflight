@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "rc_controls.h"
+#include "../config/rx.h"
 #include "../config/rc_adjustments.h"
 
 struct rx;

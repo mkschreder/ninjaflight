@@ -18,7 +18,6 @@
 #pragma once
 
 #include "common/filter.h"
-#include "../io/rc_controls.h" // TODO: remove this because battery should not depend on throttleStatus_e
 #include "../config/battery.h"
 
 typedef enum {

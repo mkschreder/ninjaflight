@@ -121,8 +121,9 @@
 #define LED0
 #define LED1
 #define INVERTER
-#define DISPLAY
+//#define DISPLAY
 
+#if 0
 #define SONAR
 #define SONAR_PWM_TRIGGER_PIN       Pin_8   // PWM5 (PB8) - 5v tolerant
 #define SONAR_PWM_TRIGGER_GPIO      GPIOB
@@ -138,6 +139,7 @@
 #define SONAR_EXTI_LINE             EXTI_Line1
 #define SONAR_EXTI_PIN_SOURCE       GPIO_PinSource1
 #define SONAR_EXTI_IRQN             EXTI1_IRQn
+#endif 
 
 #define USE_UART1
 #define USE_UART2
@@ -191,16 +193,16 @@
 #define WS2811_DMA_TC_FLAG           DMA1_FLAG_TC6
 #define WS2811_DMA_HANDLER_IDENTIFER DMA1_CH6_HANDLER
 
-#define GPS
+//#define GPS
 //#define GTUNE
 //#define BLACKBOX
 //#define TELEMETRY
-#define SERIAL_RX
+//#define SERIAL_RX
 #define USE_SERVOS
 #define USE_CLI
 #define USE_TILT 1
 
-#define SPEKTRUM_BIND
+//#define SPEKTRUM_BIND
 // UART2, PA3
 #define BIND_PORT  GPIOA
 #define BIND_PIN   Pin_3

@@ -180,8 +180,6 @@ void ninja_config_load(struct ninja *self){
 
     rc_adj_reset(&self->rc_adj);
 
-    useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
-
 #ifdef GPS
     gpsUsePIDs(pidProfile());
 #endif

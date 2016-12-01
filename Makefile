@@ -261,7 +261,9 @@ COMMON_SRC = build_config.c \
 			ninja_sched.c \
 			ninja_input.c \
 			ninjaflight.c \
-			rc_commands.c \
+			ns_idle.c \
+			ns_armed.c \
+			ns_calibration.c\
 			cli.c \
 		   msp.c \
 		   flight/altitudehold.c \
@@ -284,6 +286,8 @@ COMMON_SRC = build_config.c \
 		   io/serial_4way_stk500v2.c \
 		   io/statusindicator.c \
 		   rx/msp.c \
+		   rx/rc.c \
+		   rx/rc_command.c \
 		   rx/rx.c \
 		   rx/pwm.c \
 		   rx/msp.c \
@@ -770,6 +774,8 @@ SITL_SRC = \
 			sensors/instruments.c \
 			sensors/sonar.c \
 			rx/msp.c \
+			rx/rc.c \
+			rx/rc_command.c \
 			rx/rx.c \
 			rx/pwm.c \
 			rx/msp.c \
@@ -792,9 +798,11 @@ SITL_SRC = \
 			ninja_sched.c \
 			ninja_input.c \
 			ninjaflight.c \
+			ns_idle.c \
+			ns_armed.c \
+			ns_calibration.c \
 			cli.c \
 			msp.c \
-			rc_commands.c \
 			../../ninjasitl/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
@@ -895,7 +903,6 @@ LDFLAGS	+= -lm \
 		   $(WARN_FLAGS) \
 		   $(DEBUG_FLAGS) \
 		   -Wl,-L$(LINKER_DIR) \
-		   -Wl,--cref \
 		   $(if $(LD_SCRIPT),-T$(LD_SCRIPT),)
 
 ###############################################################################

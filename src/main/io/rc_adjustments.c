@@ -40,7 +40,6 @@
 #include "io/beeper.h"
 
 #include "ninja.h"
-#include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 
 #define MARK_ADJUSTMENT_FUNCTION_AS_BUSY(adjustmentIndex) self->adjustmentStateMask |= (1 << adjustmentIndex)
@@ -325,15 +324,19 @@ void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, r
 }
 
 void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges){
+	(void)self;
+	(void)adjustmentRanges;
     uint8_t index;
 
     for (index = 0; index < MAX_ADJUSTMENT_RANGE_COUNT; index++) {
+/*
         adjustmentRange_t *adjustmentRange = &adjustmentRanges[index];
-
+		// TODO: RC adjustment ranges
         if (isRangeActive(&self->ninja->rx, adjustmentRange->auxChannelIndex, &adjustmentRange->range)) {
 
             rc_adj_add_range(self, adjustmentRange);
         }
+		*/
     }
 }
 

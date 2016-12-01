@@ -48,8 +48,6 @@
 
 #include "blackbox/blackbox.h"
 
-#include "io/rc_controls.h"
-
 #include "gtune.h"
 
 extern uint16_t cycleTime;

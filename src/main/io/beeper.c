@@ -27,8 +27,6 @@
 #include "config/parameter_group.h"
 #include "config/feature.h"
 
-#include "io/rc_controls.h"
-
 //#include "../drivers/sound_beeper.h"
 #include "../drivers/system.h"
 #include "../sensors/battery.h"

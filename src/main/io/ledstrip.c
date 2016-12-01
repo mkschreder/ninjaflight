@@ -47,8 +47,6 @@
 
 #include "rx/rx.h"
 
-static void ledStripDisable(void);
-
 //#define USE_LED_ANIMATION
 //#define USE_LED_RING_DEFAULT_CONFIG
 
@@ -248,7 +246,7 @@ typedef enum {
 	QUADRANT_ANY		= QUADRANT_NORTH | QUADRANT_SOUTH | QUADRANT_EAST | QUADRANT_WEST | QUADRANT_NONE,
 } quadrant_e;
 
-static quadrant_e getLedQuadrant(struct ledstrip *self, const int ledIndex){
+static quadrant_e __attribute__((unused)) getLedQuadrant(struct ledstrip *self, const int ledIndex){
 	const ledConfig_t *ledConfig = ledConfigs(ledIndex);
 
 	int quad = 0;
@@ -505,13 +503,14 @@ static void applyLedIndicatorLayer(struct ledstrip *self, bool updateNow, uint32
 			*timer += LED_STRIP_HZ(5);  // try again soon
 		} else {
 			// calculate update frequency
-			int scale = MAX(ABS(rcCommand[ROLL]), ABS(rcCommand[PITCH]));  // 0 - 500
+			int scale = 0; //MAX(ABS(rcCommand[ROLL]), ABS(rcCommand[PITCH]));  // 0 - 500
 			scale += (50 - INDICATOR_DEADBAND);  // start increasing frequency right after deadband
 			*timer += LED_STRIP_HZ(5) * 50 / MAX(50, scale);   // 5 - 50Hz update, 2.5 - 25Hz blink
 
 			flashCounter = !flashCounter;
 		}
 	}
+/*
 	const hsvColor_t *flashColor = flashCounter ? &HSV(ORANGE) : &HSV(BLACK); // TODO - use user color?
 
 	quadrant_e quadrants = 0;
@@ -534,6 +533,7 @@ static void applyLedIndicatorLayer(struct ledstrip *self, bool updateNow, uint32
 		if(getLedQuadrant(self, ledIndex) & quadrants)
 			setLedHsv(ledIndex, flashColor);
 	}
+	*/
 }
 
 #define ROTATION_SEQUENCE_LED_COUNT 6 // 2 on, 4 off
@@ -696,14 +696,7 @@ void ledstrip_update(struct ledstrip *self){
 		return;
 	}
 
-	if (rcModeIsActive(BOXLEDLOW)) {
-		if (self->ledStripEnabled) {
-			ledStripDisable();
-			self->ledStripEnabled = false;
-		}
-		return;
-	}
-	self->ledStripEnabled = true;
+	if(!self->ledStripEnabled) return;
 
 	uint32_t now = sys_micros(self->system);
 
@@ -822,11 +815,13 @@ void ledstrip_enable(struct ledstrip *self){
 	self->ledStripInitialised = true;
 
 	ws2811LedStripInit();
+	self->ledStripEnabled = true;
 }
 
-static void ledStripDisable(void)
-{
+void ledstrip_disable(struct ledstrip *self){
+	if(!self->ledStripEnabled) return;
 	setStripColor(&HSV(BLACK));
 
 	ws2811UpdateStrip();
+	self->ledStripEnabled = false;
 }

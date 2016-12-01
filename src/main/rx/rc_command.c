@@ -33,9 +33,7 @@
 #include "config/config.h"
 #include "config/config_reset.h"
 
-#include "io/rc_controls.h"
-
-#include "rc_commands.h"
+#include "rc_command.h"
 #include "rx/rx.h"
 
 
@@ -143,14 +141,13 @@ void rc_command_update(struct rc_command *self){
 		self->roll = _lookup_expo(self->lookup_roll_pitch, roll);
 		self->pitch = _lookup_expo(self->lookup_roll_pitch, pitch);
 		self->yaw = _lookup_expo(self->lookup_yaw, yaw);
-		self->throttle = _lookup_expo(self->lookup_throttle, yaw);
+		self->throttle = _lookup_expo(self->lookup_throttle, throttle);
 	} else {
 		self->roll = roll - 1500;
 		self->pitch = pitch - 1500;
 		self->yaw = yaw - 1500;
 		self->throttle = throttle - 1500;
 	}
-
 	/*
 	if (rxConfig()->rcSmoothing) {
 		_filter_rc_commands(self, dt);

@@ -44,8 +44,6 @@
 
 #include "rx/rx.h"
 
-#include "io/rc_controls.h"
-
 #include "flight/mixer.h"
 #include "flight/anglerate.h"
 
@@ -73,13 +71,13 @@ static void _apply_multi_althold(struct althold *self){
 		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
 			self->errorVelocityI = 0;
 			self->isAltHoldChanged = 1;
-			rcCommand[THROTTLE] += (rx_get_channel(self->rx, THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
+			self->throttle = (rx_get_channel(self->rx, THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
 		} else {
 			if (self->isAltHoldChanged) {
 				self->AltHold = self->EstAlt;
 				self->isAltHoldChanged = 0;
 			}
-			rcCommand[THROTTLE] = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+			self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
 		}
 	} else {
 		// slow alt changes, mostly used for aerial photography
@@ -93,7 +91,7 @@ static void _apply_multi_althold(struct althold *self){
 			self->velocityControl = 0;
 			self->isAltHoldChanged = 0;
 		}
-		rcCommand[THROTTLE] = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+		self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
 	}
 }
 
@@ -112,7 +110,7 @@ void althold_apply(struct althold *self){
 void althold_update(struct althold *self){
 	self->AltHold = self->EstAlt;
 	self->initialRawThrottleHold = rx_get_channel(self->rx, THROTTLE);
-	self->initialThrottleHold = rcCommand[THROTTLE];
+	self->initialThrottleHold = 0;
 	self->errorVelocityI = 0;
 	self->altHoldThrottleAdjustment = 0;
 }

@@ -74,9 +74,7 @@
 #include "io/display.h"
 #include "io/asyncfatfs/asyncfatfs.h"
 #include "io/transponder_ir.h"
-#include "io/msp.h"
 #include "io/serial_msp.h"
-#include "io/serial_cli.h"
 
 #include "sensors/sonar.h"
 #include "sensors/barometer.h"
@@ -584,12 +582,89 @@ void processLoopback(void) {
 #define processLoopback()
 #endif
 
+static sys_micros_t _micros(const struct system_calls_time *time){
+	(void)time;
+	return micros();
+}
+
+static void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
+	(void)pwm;
+	pwmWriteMotor(id, value);
+}
+
+static void _write_servo(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
+	(void)pwm;
+	pwmWriteServo(id, value);
+}
+
+static uint16_t _read_pwm(const struct system_calls_pwm *pwm, uint8_t id){
+	(void)pwm;
+	return pwmRead(id);
+}
+
+static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
+	(void)pwm;
+	return ppmRead(id);
+}
+
+static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
+	(void)imu;
+	gyro.read(output);
+	return 0;
+}
+
+static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
+	(void)imu;
+	acc.read(output);
+	return 0;
+}
+
+static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
+	(void)leds;
+	if(on) led_on(id);
+	else led_off(id);
+}
+
+static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
+	(void)leds;
+	led_toggle(id);
+}
+
+static void _beeper_on(const struct system_calls_beeper *calls, bool on){
+	(void)calls;
+	if(on) BEEP_ON;
+	else BEEP_OFF;
+}
+
+static struct system_calls syscalls = {
+	.pwm = {
+		.write_motor = _write_motor,
+		.write_servo = _write_servo,
+		.read_ppm = _read_ppm,
+		.read_pwm = _read_pwm
+	},
+	.imu = {
+		.read_gyro = _read_gyro,
+		.read_acc = _read_acc
+	},
+	.leds = {
+		.on = _led_on,
+		.toggle = _led_toggle
+	},
+	.beeper = {
+		.on = _beeper_on
+	},
+	.time = {
+		.micros = _micros
+	}
+};
+
 int main(void) {
     init();
 
 	struct ninja ninja;
 
-	ninja_init(&ninja, NULL);
+	ninja_init(&ninja, &syscalls);
 
 	// TODO: sensor scale and alignment should be completely handled by the driver!
 	ins_set_gyro_scale(&ninja.ins, gyro.scale);

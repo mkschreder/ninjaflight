@@ -38,6 +38,8 @@
 
 #if defined(SONAR)
 
+static const struct sonar_hardware *sonar_hardware = NULL;
+
 // TODO: double check that sonar works (this code looks very messy and we also change things) 
 // TODO: make sure we use workaround for cheap hcsr04 sonars that have locking issue
 
@@ -68,7 +70,6 @@ typedef struct sonarRange_s {
 volatile int64_t measurement = -1;
 static uint32_t lastMeasurementAt;
 
-#if !defined(UNIT_TEST)
 static void ECHO_EXTI_IRQHandler(void)
 {
     static uint32_t timing_start;
@@ -104,7 +105,6 @@ void EXTI9_5_IRQHandler(void)
 {
     ECHO_EXTI_IRQHandler();
 }
-#endif
 
 #if defined(SONAR_PWM_TRIGGER_PIN)
     static const struct sonar_hardware const sonarPWM = {

@@ -52,7 +52,7 @@
 #define BARO
 #define USE_BARO_MS5611
 
-#define USE_MAG 1
+#define USE_MAG 0
 #define USE_MAG_AK8975
 #define USE_MAG_HMC5883
 #define MAG_HMC5883_ALIGN CW270_DEG
@@ -63,7 +63,7 @@
 #define BEEPER
 #define LED0
 
-#define SONAR
+//#define SONAR
 #define SONAR_TRIGGER_PIN           Pin_0   // RC_CH7 (PB0) - only 3.3v ( add a 1K Ohms resistor )
 #define SONAR_TRIGGER_GPIO          GPIOB
 #define SONAR_ECHO_PIN              Pin_1   // RC_CH8 (PB1) - only 3.3v ( add a 1K Ohms resistor )
@@ -159,18 +159,18 @@
 
 #define DEFAULT_RX_FEATURE FEATURE_RX_PPM
 
-#define BLACKBOX
+//#define BLACKBOX
 #define ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT
 
-#define DISPLAY
-#define GPS
-#define GTUNE
-#define SERIAL_RX
-#define TELEMETRY
+//#define DISPLAY
+//#define GPS
+//#define GTUNE
+//#define SERIAL_RX
+//#define TELEMETRY
 #define USE_SERVOS
 #define USE_CLI
 
-#define SPEKTRUM_BIND
+//#define SPEKTRUM_BIND
 // UART3,
 #define BIND_PORT  GPIOB
 #define BIND_PIN   Pin_11

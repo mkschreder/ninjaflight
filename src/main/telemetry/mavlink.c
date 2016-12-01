@@ -44,7 +44,6 @@
 #include "drivers/pwm_rx.h"
 
 #include "io/serial.h"
-#include "io/rc_controls.h"
 #include "io/ledstrip.h"
 
 #include "sensors/acceleration.h"

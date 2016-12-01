@@ -32,7 +32,6 @@
 #include "rx/rx.h"
 
 #include "io/beeper.h"
-#include "io/rc_controls.h"
 
 #include "config/parameter_group_ids.h"
 #include "config/runtime_config.h"

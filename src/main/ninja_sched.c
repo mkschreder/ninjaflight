@@ -52,6 +52,7 @@
 
 #include "ninja.h"
 #include "ninja_sched.h"
+#include "rx/rc.h"
 
 void led_on(int id);
 void led_off(int id);
@@ -174,7 +175,7 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 	ninja_sched_set_task_enabled(self, TASK_GPS, feature(FEATURE_GPS));
 #endif
 #if USE_MAG == 1
-	ninja_sched_set_task_enabled(self, TASK_COMPASS, sensors(SENSOR_MAG));
+	ninja_sched_set_task_enabled(self, TASK_COMPASS, true);
 	#if defined(MPU6500_SPI_INSTANCE) && defined(USE_MAG_AK8963)
 		// fixme temporary solution for AK6983 via slave I2C on MPU9250
 		ninja_sched_set_task_period(self, TASK_COMPASS, 1000000 / 40);
@@ -457,28 +458,9 @@ static void _task_rx(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	updateLEDs(sched);
 
-	ninja_process_rx(self);
-
-#if 0
-// TODO: make sure alt hold and sonar work again
-#ifdef BARO
-	// updateRcCommands() sets rcCommand[], updateAltHoldState depends on valid rcCommand[] data.
-	if (haveUpdatedRcCommandsOnce) {
-		if (sensors(SENSOR_BARO)) {
-			updateAltHoldState();
-		}
-	}
-#endif
-
-#ifdef SONAR
-	// updateRcCommands() sets rcCommand[], updateAltHoldState depends on valid rcCommand[] data.
-	if (haveUpdatedRcCommandsOnce) {
-		if (sensors(SENSOR_SONAR)) {
-			updateSonarAltHoldState();
-		}
-	}
-#endif
-#endif
+	// read rx and update rc state
+	rx_update(&self->rx);
+	rc_update(&self->rc);
 }
 
 #ifdef GPS

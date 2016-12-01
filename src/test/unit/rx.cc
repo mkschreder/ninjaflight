@@ -18,11 +18,8 @@
  */
 
 /**
- * @defgroup RXSPEC Guarantees
+ * @page RX
  * @ingroup RX
- *
- * @page RXSPEC
- * @ingroup RXSPEC
  * This is a summary of automatic tests that are done against the receiver
  * module to guarantee that the module behaves according to the requirements
  * set forth below.
@@ -83,8 +80,8 @@ protected:
 };
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - RX should output data on 16 channels. If hardware supports less then rx
  * should output failsafe values on the remaining channels. If supplied channel
  * is out of range then rx should output *midrc*.
@@ -108,8 +105,8 @@ TEST_F(RxTest, TestStartupValues){
 }
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - On startup all receiver channels should return failsafe values. As new
  * channels are connected rx will return the received values. However as any of
  * the channels lose signal rx should hold the value for a timeout and then
@@ -162,8 +159,8 @@ TEST_F(RxTest, TestFailsafeOnSingleChannelLoss){
 }
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - Upon signal loss (all channels first valid then invalid) all channels should
  * be outputting failsafe values.
  */
@@ -213,8 +210,8 @@ TEST_F(RxTest, TestSignalLoss){
 }
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - Each channel shall have configurable failsafe that can output one of three
  * alternatives: 1) auto: all channels are set to midrc except throttle. 2)
  * hold: holds old channel information. 3) set: failsafe returnes a user
@@ -274,8 +271,8 @@ TEST_F(RxTest, TestFailsafeModes){
 }
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - Receiver shall support channel remapping using a string that specifies
  * ordering of the channels. Incoming signal shall be mapped from supplied
  * configuration into standard "AERT12345678abcdefgh" channel ordering. 
@@ -313,8 +310,8 @@ TEST_F(RxTest, ChannelRemapping){
 }
 
 /**
- * @page RXSPEC
- * @ingroup RXSPEC
+ * @page RX
+ * @ingroup RX
  * - RX outputs shall be represented by microsecond interval in range of
  * rx_min_usec* to *rx_max_usec*. If any inputs are outside of this range then
  * they should be properly constrianed.

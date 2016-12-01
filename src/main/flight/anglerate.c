@@ -37,8 +37,6 @@
 
 #include "rx/rx.h"
 
-#include "io/rc_controls.h"
-
 #include "anglerate.h"
 #include "rate_profile.h"
 #include "navigation.h"
@@ -174,12 +172,10 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 	// I coefficient (I8) moved before integration to make limiting independent from PID settings
 	ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
 	// Anti windup protection
-	if (rcModeIsActive(BOXAIRMODE)) {
-		if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
-			ITerm = constrainf(ITerm, -self->ITermLimitf[axis], self->ITermLimitf[axis]);
-		} else {
-			self->ITermLimitf[axis] = ABS(ITerm);
-		}
+	if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
+		ITerm = constrainf(ITerm, -self->ITermLimitf[axis], self->ITermLimitf[axis]);
+	} else {
+		self->ITermLimitf[axis] = ABS(ITerm);
 	}
 	self->lastITermf[axis] = ITerm;
 

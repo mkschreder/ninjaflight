@@ -71,7 +71,6 @@
 
 #include "drivers/serial.h"
 #include "io/serial.h"
-#include "io/rc_controls.h"
 
 #include "sensors/battery.h"
 

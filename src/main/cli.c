@@ -54,7 +54,6 @@
 #include "drivers/pwm_output.h"
 #include "common/buf_writer.h"
 
-#include "io/rc_controls.h"
 #include "flight/rate_profile.h"
 #include "io/rc_adjustments.h"
 #include "io/serial.h"

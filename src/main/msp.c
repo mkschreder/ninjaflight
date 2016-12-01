@@ -51,7 +51,6 @@
 #include "rx/msp.h"
 
 #include "flight/rate_profile.h"
-#include "io/rc_controls.h"
 #include "io/rc_adjustments.h"
 #include "io/serial.h"
 #include "io/ledstrip.h"
@@ -224,6 +223,8 @@ static void initActiveBoxIds(void)
     uint32_t ena = 0;
 
     ena |= 1 << BOXARM;
+	ena |= 1 << BOXANGLE;
+    ena |= 1 << BOXHORIZON;
 
 	// TODO: BOXANGLE and BOXHORIZON
 	/*
@@ -322,10 +323,10 @@ static uint32_t packFlightModeFlags(void)
     // It would be preferable to setting the enabled bits based on BOXINDEX.
 
 	// TODO: pack flight mode flags MSP
-	#if 0
     uint32_t boxEnabledMask = 0;      // enabled BOXes, bits indexed by boxId_e
 
     // enable BOXes dependent on FLIGHT_MODE, use mapping table
+	/*
     static const int8_t flightMode_boxId_map[] = FLIGHT_MODE_BOXID_MAP_INITIALIZER;
     flightModeFlags_e flightModeCopyMask = ~(GTUNE_MODE);  // BOXGTUNE is based on rcMode, not flight mode
     for(unsigned i = 0; i < ARRAYLEN(flightMode_boxId_map); i++) {
@@ -336,7 +337,10 @@ static uint32_t packFlightModeFlags(void)
         if(FLIGHT_MODE(1 << i))
             boxEnabledMask |= 1 << flightMode_boxId_map[i];
     }
-
+	*/
+	if(rc_key_active(&ninja->rc, RC_KEY_LEVEL)) boxEnabledMask |= (1 << BOXANGLE);
+	if(rc_key_active(&ninja->rc, RC_KEY_BLEND)) boxEnabledMask |= (1 << BOXHORIZON);
+/*
     // enable BOXes dependent on rcMode bits, indexes are the same.
     // only subset of BOXes depend on rcMode, use mask to mark them
 #define BM(x) (1 << (x))
@@ -346,14 +350,14 @@ static uint32_t packFlightModeFlags(void)
     for(unsigned i = 0; i < sizeof(rcModeCopyMask) * 8; i++) {
         if((rcModeCopyMask & BM(i)) == 0)
             continue;
-        if(rcModeIsActive(i))
+        if(rc_key_(i))
             boxEnabledMask |= 1 << i;
     }
 #undef BM
     // copy ARM state
     if(ARMING_FLAG(ARMED))
         boxEnabledMask |= 1 << BOXARM;
-
+*/
     // map boxId_e enabled bits to MSP status indexes
     // only active boxIds are sent in status over MSP, other bits are not counted
     uint32_t mspBoxEnabledMask = 0;
@@ -366,8 +370,6 @@ static uint32_t packFlightModeFlags(void)
         mspBoxIdx++;                  // next output bit ID
     }
     return mspBoxEnabledMask;
-	#endif
-	return 0xffff;
 }
 
 static void serializeSDCardSummaryReply(mspPacket_t *reply)
@@ -1117,7 +1119,6 @@ static int processInCommand(mspPacket_t *cmd)
             mac->range.startStep = sbufReadU8(src);
             mac->range.endStep = sbufReadU8(src);
 
-            useRcControlsConfig(modeActivationProfile()->modeActivationConditions);
             break;
         }
 

@@ -252,7 +252,9 @@ serialPort_t *openSerialPort(
 
     switch(identifier) {
         case SERIAL_PORT_USB_VCP:
+		#ifdef USE_VCP
             serialPort = usbVcpOpen();
+		#endif
             break;
         case SERIAL_PORT_UART1:
             serialPort = uartOpen(1, callback, baudRate, mode, options);

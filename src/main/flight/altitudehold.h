@@ -16,7 +16,6 @@
  */
 #pragma once
 
-#include "io/rc_controls.h"
 #include "flight/anglerate.h"
 
 #include "sensors/barometer.h"
@@ -36,6 +35,8 @@ struct althold {
 	int32_t EstAlt;                // in cm
 
     uint8_t isAltHoldChanged;
+
+	int16_t throttle; //!< output throttle difference
 
 	struct instruments *ins;
 	struct rx *rx;

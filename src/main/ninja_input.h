@@ -1,4 +1,4 @@
 #pragma once
 
-void ninja_process_rx(struct ninja *self);
+void ninja_handle_input(struct ninja *self);
 
