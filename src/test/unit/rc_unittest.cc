@@ -92,8 +92,6 @@ TEST_F(RcTest, TestStartupValues){
 	// setting all zeros is like saying that rx is disconnected
 	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
 
-	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED);
-
 	mock_rc_pwm[ROLL] = 1500;
 	mock_rc_pwm[PITCH] = 1500;
 	mock_rc_pwm[YAW] = 2000;
@@ -129,8 +127,6 @@ TEST_F(RcTest, TestKeyEvents){
 		.on_key_repeat = NULL
 	};
 	rc.evl = &evl;
-
-	EXPECT_TRUE(rc_key_state(&rc, RC_KEY_STICK_ARM) == RC_KEY_RELEASED);
 
 	mock_rc_pwm[ROLL] = 1500;
 	mock_rc_pwm[PITCH] = 1500;

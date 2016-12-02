@@ -39,7 +39,6 @@ extern "C" {
     #include "sensors/acceleration.h"
 
     #include "io/beeper.h"
-    #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
 

@@ -362,7 +362,6 @@ $(OBJECT_DIR)/telemetry_hott_unittest : \
 
 $(OBJECT_DIR)/rc_unittest.o : \
 	$(TEST_DIR)/rc_unittest.cc \
-	$(USER_DIR)/io/rc_controls.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
@@ -371,7 +370,6 @@ $(OBJECT_DIR)/rc_unittest.o : \
 
 $(OBJECT_DIR)/rc_controls_unittest.o : \
 	$(TEST_DIR)/rc_controls_unittest.cc \
-	$(USER_DIR)/io/rc_controls.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
@@ -764,13 +762,13 @@ $(OBJECT_DIR)/config_eeprom_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
-$(OBJECT_DIR)/config/config_streamer.o : \
-	$(USER_DIR)/config/config_streamer.c \
-	$(USER_DIR)/config/config_streamer.h \
+$(OBJECT_DIR)/drivers/config_streamer.o : \
+	$(USER_DIR)/drivers/config_streamer.c \
+	$(USER_DIR)/drivers/config_streamer.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/config/config_streamer.c -o $@
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/drivers/config_streamer.c -o $@
 
 $(OBJECT_DIR)/config_streamer_unittest.o : \
 	$(TEST_DIR)/config_streamer_unittest.cc \
@@ -781,14 +779,18 @@ $(OBJECT_DIR)/config_streamer_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/config_streamer_unittest.cc -o $@
 
 $(OBJECT_DIR)/config_streamer_unittest : \
-	$(OBJECT_DIR)/config/config_streamer.o \
+	$(OBJECT_DIR)/drivers/config_streamer.o \
 	$(OBJECT_DIR)/config_streamer_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
 ## test        : Build and run the Unit Tests
-test: $(TESTS:%=test-%) 
+ninjaflight:
+	make -C $(PWD)/../../ TARGET=SITL
+.PHONY: ninjaflight
+
+test: ninjaflight $(TESTS:%=test-%) 
 test-memory: $(TESTS:%=test-memory-%) 
 test-cache: $(TESTS:%=test-cache-%)
 test-stack: $(TESTS:%=test-stack-%)
@@ -798,7 +800,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	LD_LIBRARY_PATH=$(PWD) LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
+	LD_LIBRARY_PATH=$(PWD)/../../ LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%

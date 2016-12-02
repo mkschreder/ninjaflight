@@ -44,7 +44,6 @@ extern "C" {
 
     #include "rx/rx.h"
 	#include "flight/failsafe.h"
-    #include "io/rc_controls.h"
     #include "common/maths.h"
 
 	#include "ninja.h"

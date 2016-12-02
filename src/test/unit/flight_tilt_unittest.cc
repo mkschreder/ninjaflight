@@ -47,8 +47,6 @@ extern "C" {
     #include "flight/mixer.h"
     #include "flight/tilt.h"
 
-    #include "io/rc_controls.h"
-
     #include "config/config.h"
 
     //void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);

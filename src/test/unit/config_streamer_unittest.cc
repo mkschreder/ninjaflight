@@ -18,7 +18,7 @@
 #include <stdint.h>
 
 extern "C" {
-    #include "config/config_streamer.h"
+    #include "drivers/config_streamer.h"
     #include "platform.h"
 }
 

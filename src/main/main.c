@@ -609,13 +609,13 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	gyro.read(output);
+	if(gyro.read) gyro.read(output);
 	return 0;
 }
 
 static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	acc.read(output);
+	if(acc.read) acc.read(output);
 	return 0;
 }
 

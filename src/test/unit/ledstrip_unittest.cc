@@ -32,7 +32,6 @@ extern "C" {
     #include "config/runtime_config.h"
     #include "config/config.h"
 
-    #include "io/rc_controls.h"
     #include "rx/rx.h"
 
     #include "sensors/battery.h"

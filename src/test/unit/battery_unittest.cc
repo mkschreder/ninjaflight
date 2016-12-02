@@ -24,8 +24,6 @@ extern "C" {
 	//#include "config/parameter_group.h"
 	//#include "config/parameter_group_ids.h"
 
-	#include "io/rc_controls.h"
-
 	#include "sensors/battery.h"
 	#include "io/beeper.h"
 
@@ -293,14 +291,6 @@ bool feature(uint32_t mask)
 {
 	UNUSED(mask);
 	return false;
-}
-
-throttleStatus_e calculateThrottleStatus(struct rx *rx, rxConfig_t *rxConfig, uint16_t deadband3d_throttle)
-{
-	UNUSED(*rxConfig);
-	UNUSED(deadband3d_throttle);
-	(void)rx;
-	return THROTTLE_HIGH;
 }
 
 uint16_t adcGetChannel(uint8_t channel)

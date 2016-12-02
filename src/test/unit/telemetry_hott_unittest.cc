@@ -34,7 +34,6 @@ extern "C" {
     #include "drivers/system.h"
     #include "drivers/serial.h"
 
-    #include "io/rc_controls.h"
     #include "io/serial.h"
 
     #include "sensors/battery.h"

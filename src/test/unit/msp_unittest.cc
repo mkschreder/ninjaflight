@@ -45,7 +45,6 @@ extern "C" {
 
     #include "rx/rx.h"
 
-    #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
     #include "io/ledstrip.h"

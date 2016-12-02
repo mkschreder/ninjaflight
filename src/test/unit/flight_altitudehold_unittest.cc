@@ -43,8 +43,6 @@ extern "C" {
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
 
-    #include "io/rc_controls.h"
-
     #include "rx/rx.h"
 
     #include "flight/mixer.h"

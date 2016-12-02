@@ -46,8 +46,6 @@ extern "C" {
     #include "flight/anglerate.h"
     #include "flight/mixer.h"
 
-    #include "io/rc_controls.h"
-
     #include "config/config.h"
 
     //void mixerUsePWMIOConfiguration(struct mixer *self, pwmIOConfiguration_t *pwmIOConfiguration);
@@ -652,8 +650,6 @@ TEST_F(MixerBasicTest, TestQuadMotors)
 	motorAndServoConfig()->maxthrottle = 2000;
 
     _init_mixer_defaults(MIXER_QUADX);
-    // and
-    memset(rcCommand, 0, sizeof(rcCommand));
 
     // when
     mixer_update(&mixer);
