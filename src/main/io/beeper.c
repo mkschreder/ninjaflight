@@ -19,6 +19,7 @@
 #include "stdint.h"
 #include "stdlib.h"
 
+#include <string.h>
 #include <platform.h>
 #include "build_config.h"
 
@@ -138,6 +139,11 @@ static const beeperTableEntry_t beeperTable[] = {
 };
 
 #define BEEPER_TABLE_ENTRY_COUNT (sizeof(beeperTable) / sizeof(beeperTableEntry_t))
+
+void beeper_init(struct beeper *self, const struct system_calls *system){
+	memset(self, 0, sizeof(*self));
+	self->system = system;
+}
 
 /*
  * Called to activate/deactivate beeper, using the given "BEEPER_..." value.

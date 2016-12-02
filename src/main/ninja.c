@@ -126,6 +126,8 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 	ins_set_mag_alignment(&ninja.ins, magAlign);
 */
 
+	beeper_init(&self->beeper, self->system);
+
 	anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 
 	battery_init(&self->bat, batteryConfig());
@@ -631,7 +633,7 @@ static PT_THREAD(_fsm_controller(struct ninja *self)){
 				}
 
 				if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){
-					// TODO: handle config save action
+					ninja_config_save(self);
 				}
 			}
 			// we must remember to yield, otherwise we will lock up
