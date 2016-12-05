@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 //! maximum number of inputs that we can remap
 #define RX_MAX_MAPPABLE_RX_INPUTS 8
 //! maximum supported channels when calling rx_get_channel
@@ -68,17 +66,22 @@ typedef enum rc_alias {
     AUX8
 } rc_alias_e;
 
-typedef struct rxFailsafeChannelConfiguration_s {
+struct rx_failsafe_chan_config {
     uint8_t mode; // See rxFailsafeChannelMode_e
     uint8_t step;
-} rxFailsafeChannelConfig_t;
+};
 
-typedef struct rxChannelRangeConfiguration_s {
+struct rx_channel_range_config {
     uint16_t min;
     uint16_t max;
-} rxChannelRangeConfiguration_t;
+};
 
-typedef struct rxConfig_s {
+struct rx_output_config {
+	struct rx_channel_range_config range[RX_NON_AUX_CHANNEL_COUNT];
+	struct rx_failsafe_chan_config failsafe[RX_MAX_SUPPORTED_RC_CHANNELS];
+};
+
+struct rx_config {
     uint8_t rcmap[RX_MAX_MAPPABLE_RX_INPUTS];  //!< mapping of radio channels to internal RPYTA+ order
     uint8_t serialrx_provider;              //!< type of UART-based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by FEATURE_RX_SERIAL first.
     uint8_t sbus_inversion;                 //!< default sbus (Futaba, FrSKY) is inverted. Support for uninverted OpenLRS (and modified FrSKY) receivers.
@@ -93,11 +96,6 @@ typedef struct rxConfig_s {
 
     uint16_t rx_min_usec;					//!< minimum value of rx pulse from receiver (below this point we consider signal being corrupt)
     uint16_t rx_max_usec;					//!< maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe)
-}  rxConfig_t;
-
-PG_DECLARE(rxConfig_t, rxConfig);
-
-PG_DECLARE_ARR(rxFailsafeChannelConfig_t, RX_MAX_SUPPORTED_RC_CHANNELS, failsafeChannelConfigs);
-PG_DECLARE_ARR(rxChannelRangeConfiguration_t, RX_NON_AUX_CHANNEL_COUNT, channelRanges);
+};
 
 

@@ -25,16 +25,12 @@
 
 #include "common/axis.h"
 
-#include "config/parameter_group.h"
-
 #include "drivers/system.h"
 
 #include "rx/rx.h"
 
 #include "io/beeper.h"
 
-#include "config/parameter_group_ids.h"
-#include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/config_reset.h"
 
@@ -44,7 +40,7 @@
 
 // TODO: failsafe
 void failsafe_reset(struct failsafe *self){
-	self->rxDataFailurePeriod = PERIOD_RXDATA_FAILURE + failsafeConfig()->failsafe_delay * MILLIS_PER_TENTH_SECOND;
+	self->rxDataFailurePeriod = PERIOD_RXDATA_FAILURE + self->config->failsafe.failsafe_delay * MILLIS_PER_TENTH_SECOND;
 	self->validRxDataReceivedAt = 0;
 	self->validRxDataFailedAt = 0;
 	self->throttleLowPeriod = 0;
@@ -55,10 +51,11 @@ void failsafe_reset(struct failsafe *self){
 	self->rxLinkState = FAILSAFE_RXLINK_DOWN;
 }
 
-void failsafe_init(struct failsafe *self, struct ninja *ninja){
+void failsafe_init(struct failsafe *self, struct ninja *ninja, const struct config const *config){
 	self->events = 0;
 	self->monitoring = false;
 	self->ninja = ninja;
+	self->config = config;
 	failsafe_reset(self);
 	return;
 }

@@ -21,8 +21,7 @@
 
 #pragma once
 
-typedef struct hottTelemetryConfig_s {
+struct hott_telemetry_config {
     uint8_t hottAlarmSoundInterval;
-} hottTelemetryConfig_t;
+} ;
 
-PG_DECLARE(hottTelemetryConfig_t, hottTelemetryConfig);

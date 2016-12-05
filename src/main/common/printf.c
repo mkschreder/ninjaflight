@@ -38,8 +38,6 @@
 
 #include "build_config.h"
 
-#include "config/parameter_group.h"
-
 #include "build_config.h"
 #include "printf.h"
 

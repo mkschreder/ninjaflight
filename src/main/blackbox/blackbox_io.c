@@ -15,6 +15,8 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// TODO: blackbox
+#if 0
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -69,9 +71,9 @@ static struct {
 
 #endif
 
-void blackboxWrite(uint8_t value)
+void blackboxWrite(struct blackbox *self, uint8_t value)
 {
-    switch (blackboxConfig()->device) {
+    switch (self->config->blackbox.device) {
 #ifdef USE_FLASHFS
         case BLACKBOX_DEVICE_FLASH:
             flashfsWriteByte(value); // Write byte asynchronously
@@ -928,4 +930,4 @@ blackboxBufferReserveStatus_e blackboxDeviceReserveBufferSpace(int32_t bytes)
             return BLACKBOX_RESERVE_PERMANENT_FAILURE;
     }
 }
-
+#endif

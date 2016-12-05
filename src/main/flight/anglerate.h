@@ -76,16 +76,13 @@ struct anglerate {
 	struct pid_controller_output output;
 
 	bool _delta_state_set;
-	const struct rate_config *rate_config;
-	const struct pid_config *config;
 	uint16_t max_angle_inclination;
-	const rollAndPitchTrims_t *angle_trim;
-	const rxConfig_t *rx_config;
 
 	uint8_t level_percent[2];
 	uint8_t flags;
 
 	struct instruments *ins;
+	const struct config const * config;
 };
 
 #define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
@@ -94,11 +91,8 @@ struct anglerate {
 
 void anglerate_init(struct anglerate *self,
 	struct instruments *ins,
-	const struct pid_config *config,
-	const struct rate_config *rate_config,
 	uint16_t max_angle_inclination,
-	const rollAndPitchTrims_t *angleTrim,
-	const rxConfig_t *rxConfig);
+	const struct config const * config);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);

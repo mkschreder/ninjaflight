@@ -21,11 +21,9 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 #define MAX_CONTROL_RATE_PROFILE_COUNT 3
 
-struct rate_config {
+struct rate_profile {
     uint8_t rcRate8;
     uint8_t rcExpo8;
     uint8_t thrMid8;
@@ -37,9 +35,10 @@ struct rate_config {
 };
 
 struct rate_profile_selection {
-    uint8_t defaultRateProfileIndex;
+    uint8_t profile_id;
 };
 
-PG_DECLARE_ARR(struct rate_config, MAX_CONTROL_RATE_PROFILE_COUNT, controlRateProfiles);
-PG_DECLARE_PROFILE(struct rate_profile_selection, rateProfileSelection);
+struct rate_config {
+	struct rate_profile profile[MAX_CONTROL_RATE_PROFILE_COUNT];
+};
 

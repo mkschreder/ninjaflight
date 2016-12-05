@@ -38,9 +38,8 @@ typedef struct adjustmentRange_s {
 
 #define MAX_ADJUSTMENT_RANGE_COUNT 12 // enough for 2 * 6pos switches.
 
-typedef struct adjustmentProfile_s {
+struct rc_adjustment_profile {
     adjustmentRange_t adjustmentRanges[MAX_ADJUSTMENT_RANGE_COUNT];
-} adjustmentProfile_t;
+};
 
-PG_DECLARE_PROFILE(adjustmentProfile_t, adjustmentProfile);
 

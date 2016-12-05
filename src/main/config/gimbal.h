@@ -27,8 +27,7 @@ typedef enum {
 	GIMBAL_MODE_MAX
 } gimbalMode_e;
 
-typedef struct gimbalConfig_s {
+struct gimbal_config {
     uint8_t mode;
-} gimbalConfig_t;
+};
 
-PG_DECLARE_PROFILE(gimbalConfig_t, gimbalConfig);

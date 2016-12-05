@@ -62,4 +62,3 @@ struct pid_config {
     uint16_t dterm_cut_hz;                  // dterm filtering
 };
 
-PG_DECLARE_PROFILE(struct pid_config, pidProfile);

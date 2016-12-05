@@ -35,6 +35,7 @@
 #include <platform.h>
 #include "build_config.h"
 
+#include "config/config.h"
 #include "mixer.h"
 
 enum mixer_flags {
@@ -596,26 +597,11 @@ void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
 /**
  * Initializes an empty mixer objects clearing memory first.
  */
-void mixer_init(struct mixer *self,
-	struct mixer_config *mixer_config,
-	struct motor_3d_config *motor_3d_config,
-	motorAndServoConfig_t *motor_servo_config,
-	rxConfig_t *rx_config,
-	rcControlsConfig_t *rc_controls_config,
-	struct servo_config *servo_config,
-	const struct system_calls_pwm *pwm,
-	struct motor_mixer *initialCustomMixers, uint8_t count){
-	(void)initialCustomMixers;
-	(void)count;
+void mixer_init(struct mixer *self, const struct config const *config, const struct system_calls_pwm *pwm) {
 	memset(self, 0, sizeof(struct mixer));
 	
 	self->pwm = pwm;
-	self->mixer_config = mixer_config;
-	self->motor_3d_config = motor_3d_config;
-	self->motor_servo_config = motor_servo_config;
-	self->rx_config = rx_config;
-	self->rc_controls_config = rc_controls_config;
-	self->servo_config = servo_config;
+	self->config = config;
 
 	// safety measure
 	self->input[MIXER_INPUT_G0_THROTTLE] = -500;
@@ -625,13 +611,14 @@ void mixer_init(struct mixer *self,
 
 	// set default throttle range
 	mixer_set_throttle_range(self, 1500,
-		self->motor_servo_config->minthrottle,
-		self->motor_servo_config->maxthrottle);
+		self->config->pwm_out.minthrottle,
+		self->config->pwm_out.maxthrottle);
 
 	// load the configured mixer profile
-	mixer_load_preset(self, mixer_config->mixerMode);
+	mixer_load_preset(self, self->config->mixer.mixerMode);
 }
 
+#if 0
 /**
  * Saves current motor mixer motor settings into the motor_mixer struct which
  * is exposed through the config
@@ -746,6 +733,7 @@ int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output){
 	}
 	return ret;
 }
+#endif
 
 void mixer_clear_rules(struct mixer *self){
 	self->ruleCount = 0;
@@ -831,7 +819,7 @@ void mixer_update(struct mixer *self){
 	// if we are disarmed then we write preset disarmed values (this is necessary so we can test motors from configurator)
 	if(!(self->flags & MIXER_FLAG_ARMED)){
 		for(int c = 0; c < MIXER_MAX_MOTORS; c++){
-			output[MIXER_OUTPUT_MOTORS + c] = constrain(self->midthrottle + self->input[MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + c], self->motor_servo_config->mincommand, 2000);
+			output[MIXER_OUTPUT_MOTORS + c] = constrain(self->midthrottle + self->input[MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + c], self->config->pwm_out.mincommand, 2000);
 		}
 		// set servos to middle
 		for(int c = 0; c < MIXER_MAX_SERVOS; c++){
@@ -857,12 +845,12 @@ void mixer_update(struct mixer *self){
 
 	// set unused outputs to mincommand
 	for(int c = self->motorCount; c < MIXER_MAX_MOTORS; c++){
-		output[c] = self->motor_servo_config->mincommand;
+		output[c] = self->config->pwm_out.mincommand;
 	}
 
 	// limit servos according to config
 	for (int i = 0; i < MIXER_MAX_SERVOS; i++) {
-		struct servo_config *conf = &self->servo_config[i];
+		const struct servo_config *conf = &config_get_profile(self->config)->servos.servoConf[i];
 		uint16_t servo_width = conf->max - conf->min;
 		// TODO: the 0 and 100 were supposed to be part of servo mixer rule but never seemed to be used so replaced by constants for now.
 		int16_t min = constrain(0 * servo_width / 100 - servo_width / 2, -500, 500);
@@ -875,7 +863,7 @@ void mixer_update(struct mixer *self){
 finish:
 	// forward rc channels to servos that are not controller by the mixer
 	for(int i = self->servoCount, chan = 0; i < MIXER_MAX_SERVOS && chan < MIXER_INPUT_G3_RC_AUX3; i++, chan++){
-		struct servo_config *conf = &self->servo_config[i];
+		const struct servo_config *conf = &config_get_profile(self->config)->servos.servoConf[i];
 		output[MIXER_OUTPUT_SERVOS + i] = constrain(conf->middle + self->input[MIXER_INPUT_G3_RC_AUX1+chan], 1000, 2000);
 	}
 

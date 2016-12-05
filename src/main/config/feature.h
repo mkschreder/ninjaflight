@@ -17,8 +17,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 // Keep synchronized with featureNames[] in serial_cli.c
 typedef enum {
     FEATURE_RX_PPM = 1 << 0,
@@ -45,11 +43,9 @@ typedef enum {
     FEATURE_TRANSPONDER = 1 << 21,
 } features_e;
 
-typedef struct featureConfig_s {
+struct feature_config {
     uint32_t enabledFeatures;
-} featureConfig_t;
-
-PG_DECLARE(featureConfig_t, featureConfig);
+};
 
 void latchActiveFeatures(void);
 bool featureConfigured(uint32_t mask);

@@ -122,11 +122,11 @@ struct rc_adj {
 };
 
 // TODO: remove this include 
-#include "../config/rate_profile.h"
+#include "../config/config.h"
 
 void rc_adj_init(struct rc_adj *self, struct ninja *ninja);
 void rc_adj_reset(struct rc_adj *self);
 void rc_adj_add_range(struct rc_adj *self, adjustmentRange_t *adjustmentRange);
 void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges);
-void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, rxConfig_t *rxConfig);
+void rc_adj_update(struct rc_adj *self, const struct config * const config);
 

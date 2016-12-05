@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 typedef enum {
     SENSOR_GYRO = 1 << 0, // always present
     SENSOR_ACC = 1 << 1,
@@ -45,17 +43,17 @@ typedef enum {
     CW270_DEG_FLIP = 8
 } sensor_align_e;
 
-typedef struct sensorAlignmentConfig_s {
+struct sensor_alignment_config {
     sensor_align_e gyro_align;              // gyro alignment
     sensor_align_e acc_align;               // acc alignment
     sensor_align_e mag_align;               // mag alignment
-} sensorAlignmentConfig_t;
+};
 
-typedef struct sensorSelectionConfig_s {
+struct sensor_selection_config {
     uint8_t acc_hardware;                   // Which acc hardware to use on boards with more than one device
     uint8_t mag_hardware;                   // Which mag hardware to use on boards with more than one device
     uint8_t baro_hardware;                  // Barometer hardware to use
-} sensorSelectionConfig_t;
+};
 
 typedef struct int16_flightDynamicsTrims_s {
     int16_t roll;
@@ -73,7 +71,10 @@ struct sensor_trims_config {
     flightDynamicsTrims_t magZero;
 };
 
-PG_DECLARE(sensorSelectionConfig_t, sensorSelectionConfig);
-PG_DECLARE(sensorAlignmentConfig_t, sensorAlignmentConfig);
-PG_DECLARE(struct sensor_trims_config, sensorTrims);
+struct sensor_config {
+	struct sensor_selection_config selection;
+	struct sensor_alignment_config alignment;
+	struct sensor_trims_config trims;
+};
+
 

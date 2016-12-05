@@ -34,6 +34,7 @@ struct cli {
 	//uint8_t cliWriteBuffer[sizeof(bufWriter_t) + 16];
 
 	struct ninja *ninja;
+	struct config *config;
 };
 
 void cli_init(struct cli *self, struct ninja *ninja);

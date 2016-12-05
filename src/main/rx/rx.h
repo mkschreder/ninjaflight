@@ -18,7 +18,6 @@
 #pragma once
 
 #include <stdbool.h>
-#include "config/parameter_group.h"
 #include "../config/rc_controls.h"
 #include "target.h"
 #include "system_calls.h"
@@ -159,7 +158,6 @@ void rx_init(struct rx *self, const struct system_calls *system);
 void rx_set_type(struct rx *self, rx_type_t type);
 
 void rx_update_rssi(struct rx *self);
-void rx_reset_ranges(struct rx *self, rxChannelRangeConfiguration_t *rxChannelRangeConfiguration);
 
 void rx_suspend_signal(struct rx *self);
 void rx_resume_signal(struct rx *self);

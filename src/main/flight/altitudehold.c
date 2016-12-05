@@ -30,9 +30,6 @@
 #include "common/axis.h"
 
 #include "config/config.h"
-#include "config/runtime_config.h"
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
@@ -58,30 +55,32 @@
 
 #define DEGREES_80_IN_DECIDEGREES 800
 
-void althold_init(struct althold *self, struct instruments *ins, struct rx *rx){
+void althold_init(struct althold *self, struct instruments *ins, struct rx *rx, const struct config const *config){
 	memset(self, 0, sizeof(struct althold));
 	self->rx = rx;
 	self->ins = ins;
+	self->config = config;
 }
 
 static void _apply_multi_althold(struct althold *self){
+	const struct rc_controls_config *rc = &config_get_profile(self->config)->rc;
 	// multirotor alt hold
-	if (rcControlsConfig()->alt_hold_fast_change) {
+	if (rc->alt_hold_fast_change) {
 		// rapid alt changes
-		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rc->alt_hold_deadband) {
 			self->errorVelocityI = 0;
 			self->isAltHoldChanged = 1;
-			self->throttle = (rx_get_channel(self->rx, THROTTLE) > self->initialRawThrottleHold) ? -rcControlsConfig()->alt_hold_deadband : rcControlsConfig()->alt_hold_deadband;
+			self->throttle = (rx_get_channel(self->rx, THROTTLE) > self->initialRawThrottleHold) ? -rc->alt_hold_deadband : rc->alt_hold_deadband;
 		} else {
 			if (self->isAltHoldChanged) {
 				self->AltHold = self->EstAlt;
 				self->isAltHoldChanged = 0;
 			}
-			self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+			self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
 		}
 	} else {
 		// slow alt changes, mostly used for aerial photography
-		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rcControlsConfig()->alt_hold_deadband) {
+		if (ABS(rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) > rc->alt_hold_deadband) {
 			// set velocity proportional to stick movement +100 throttle gives ~ +50 cm/s
 			self->setVelocity = (rx_get_channel(self->rx, THROTTLE) - self->initialRawThrottleHold) / 2;
 			self->velocityControl = 1;
@@ -91,7 +90,7 @@ static void _apply_multi_althold(struct althold *self){
 			self->velocityControl = 0;
 			self->isAltHoldChanged = 0;
 		}
-		self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, motorAndServoConfig()->minthrottle, motorAndServoConfig()->maxthrottle);
+		self->throttle = constrain(self->initialThrottleHold + self->altHoldThrottleAdjustment, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
 	}
 }
 
@@ -120,6 +119,8 @@ static int32_t _calc_althold_throttle_delta(struct althold *self, int32_t vel_tm
 	int32_t error;
 	int32_t setVel;
 
+	const struct pid_config *pid = &config_get_profile(self->config)->pid;
+
 	bool is_thrust_downwards = ABS(ins_get_roll_dd(self->ins)) < DEGREES_80_IN_DECIDEGREES && ABS(ins_get_pitch_dd(self->ins)) < DEGREES_80_IN_DECIDEGREES;
 	if(!is_thrust_downwards){
 		return result;
@@ -130,7 +131,7 @@ static int32_t _calc_althold_throttle_delta(struct althold *self, int32_t vel_tm
 	if (!self->velocityControl) {
 		error = constrain(self->AltHold - self->EstAlt, -500, 500);
 		error = applyDeadband(error, 10); // remove small P parameter to reduce noise near zero position
-		setVel = constrain((pidProfile()->P8[PIDALT] * error / 128), -300, +300); // limit velocity to +/- 3 m/s
+		setVel = constrain((pid->P8[PIDALT] * error / 128), -300, +300); // limit velocity to +/- 3 m/s
 	} else {
 		setVel = self->setVelocity;
 	}
@@ -138,15 +139,15 @@ static int32_t _calc_althold_throttle_delta(struct althold *self, int32_t vel_tm
 
 	// P
 	error = setVel - vel_tmp;
-	result = constrain((pidProfile()->P8[PIDVEL] * error / 32), -300, +300);
+	result = constrain((pid->P8[PIDVEL] * error / 32), -300, +300);
 
 	// I
-	self->errorVelocityI += (pidProfile()->I8[PIDVEL] * error);
+	self->errorVelocityI += (pid->I8[PIDVEL] * error);
 	self->errorVelocityI = constrain(self->errorVelocityI, -(8192 * 200), (8192 * 200));
 	result += self->errorVelocityI / 8192;	 // I in range +/-200
 
 	// D
-	result -= constrain(pidProfile()->D8[PIDVEL] * (accZ_tmp + accZ_old) / 512, -150, 150);
+	result -= constrain(pid->D8[PIDVEL] * (accZ_tmp + accZ_old) / 512, -150, 150);
 
 	return result;
 }
@@ -168,6 +169,8 @@ void althold_calculate_altitude(struct althold *self, uint32_t currentTime){
 	static int32_t baroAlt_offset = 0;
 	float sonarTransition;
 #endif
+
+	const struct config_profile *profile = config_get_profile(self->config);
 
 	dTime = currentTime - previousTime;
 	if (dTime < BARO_UPDATE_FREQUENCY_40HZ)
@@ -251,7 +254,7 @@ void althold_calculate_altitude(struct althold *self, uint32_t currentTime){
 
 	// apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity).
 	// By using CF it's possible to correct the drift of integrated accZ (velocity) without loosing the phase, i.e without delay
-	vel = vel * barometerConfig()->baro_cf_vel + baroVel * (1.0f - barometerConfig()->baro_cf_vel);
+	vel = vel * profile->baro.baro_cf_vel + baroVel * (1.0f - profile->baro.baro_cf_vel);
 	vel_tmp = lrintf(vel);
 
 	// set vario

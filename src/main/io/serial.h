@@ -44,15 +44,15 @@ serialPort_t *findNextSharedSerialPort(uint16_t functionMask, serialPortFunction
 void serialRemovePort(serialPortIdentifier_e identifier);
 uint8_t serialGetAvailablePortCount(void);
 bool serialIsPortAvailable(serialPortIdentifier_e identifier);
-bool isSerialConfigValid(serialConfig_t *serialConfig);
-serialPortConfig_t *serialFindPortConfiguration(serialPortIdentifier_e identifier);
+bool isSerialConfigValid(struct serial_config *serialConfig);
+struct serial_port_config *serialFindPortConfiguration(serialPortIdentifier_e identifier);
 bool doesConfigurationUsePort(serialPortIdentifier_e portIdentifier);
-serialPortConfig_t *findSerialPortConfig(serialPortFunction_e function);
-serialPortConfig_t *findNextSerialPortConfig(serialPortFunction_e function);
+struct serial_port_config *findSerialPortConfig(serialPortFunction_e function);
+struct serial_port_config *findNextSerialPortConfig(serialPortFunction_e function);
 
-portSharing_e determinePortSharing(serialPortConfig_t *portConfig, serialPortFunction_e function);
-bool isSerialPortShared(serialPortConfig_t *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
-bool isSerialPortOpen(serialPortConfig_t *portConfig);
+portSharing_e determinePortSharing(struct serial_port_config *portConfig, serialPortFunction_e function);
+bool isSerialPortShared(struct serial_port_config *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
+bool isSerialPortOpen(struct serial_port_config *portConfig);
 
 
 //

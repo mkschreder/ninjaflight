@@ -26,4 +26,3 @@ struct mag_config {
                                             // For example, -6deg 37min, = -637 Japan, format is [sign]dddmm (degreesminutes) default is zero.
 };
 
-PG_DECLARE_PROFILE(struct mag_config, compassConfig);

@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 struct imu_config {
     // IMU configuration
     uint16_t looptime;                      // imu loop time in us
@@ -39,8 +37,4 @@ struct throttle_correction_config {
     uint16_t throttle_correction_angle;     // the angle when the throttle correction is maximal. in 0.1 degres, ex 225 = 22.5 ,30.0, 450 = 45.0 deg
     uint8_t throttle_correction_value;      // the correction that will be applied at throttle_correction_angle.
 };
-
-PG_DECLARE(struct imu_config, imuConfig);
-PG_DECLARE_PROFILE(struct throttle_correction_config, throttleCorrectionConfig);
-
 

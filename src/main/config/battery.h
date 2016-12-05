@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 typedef enum {
     CURRENT_SENSOR_NONE = 0,
     CURRENT_SENSOR_ADC,
@@ -53,4 +51,3 @@ struct battery_config {
     uint16_t batteryCapacity;               // mAh
 };
 
-PG_DECLARE(struct battery_config, batteryConfig);

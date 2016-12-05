@@ -45,11 +45,10 @@ typedef enum {
     SBAS_GAGAN
 } sbasMode_e;
 
-typedef struct gpsConfig_s {
+struct gps_config {
     gpsProvider_e provider;
     sbasMode_e sbasMode;
     gpsAutoConfig_e autoConfig;
     gpsAutoBaud_e autoBaud;
-} gpsConfig_t;
+};
 
-PG_DECLARE(gpsConfig_t, gpsConfig);

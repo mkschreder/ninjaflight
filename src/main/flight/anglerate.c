@@ -24,8 +24,8 @@
 
 #include "build_config.h"
 
-#include "config/runtime_config.h"
-#include "config/rate_profile.h"
+#include "config/config.h"
+
 #include "common/axis.h"
 #include "common/maths.h"
 #include "common/filter.h"
@@ -47,9 +47,10 @@
 #define ANGLERATE_FLAG_PLIMIT (1 << 0)
 
 static void _anglerate_delta_state_update(struct anglerate *self) {
-	if (!self->_delta_state_set && self->config->dterm_cut_hz) {
+	const struct pid_config *pid = &config_get_profile(self->config)->pid;
+	if (!self->_delta_state_set && pid->dterm_cut_hz) {
 		for (int axis = 0; axis < 3; axis++) {
-			BiQuadNewLpf(self->config->dterm_cut_hz, &self->deltaFilterState[axis], gyro_sync_get_looptime());
+			BiQuadNewLpf(pid->dterm_cut_hz, &self->deltaFilterState[axis], gyro_sync_get_looptime());
 		}
 		self->_delta_state_set = true;
 	}
@@ -58,15 +59,16 @@ static void _anglerate_delta_state_update(struct anglerate *self) {
 static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int32_t gyroRate, int32_t angleRate, uint32_t dt_us)
 {
 	const int32_t rateError = angleRate - gyroRate;
-	
+	const struct pid_config *pid = &config_get_profile(self->config)->pid;
+
 	// dt_us must be at least 16 to avoid division by zero
 	dt_us = constrain(dt_us, 100, 1000000);
 
 	// -----calculate P component
-	int32_t PTerm = (rateError * self->config->P8[axis] * self->PIDweight[axis] / 100) >> 7;
+	int32_t PTerm = (rateError * pid->P8[axis] * self->PIDweight[axis] / 100) >> 7;
 	// Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-	if (axis == YAW && self->config->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
-		PTerm = constrain(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
+	if (axis == YAW && pid->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
+		PTerm = constrain(PTerm, -pid->yaw_p_limit, pid->yaw_p_limit);
 	}
 
 	// -----calculate I component
@@ -75,7 +77,7 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
 	// Time correction (to avoid different I scaling for different builds based on average cycle time)
 	// is normalized to cycle time = 2048 (2^11).
 	// TODO: why is loop time cast from 32 bit to 16 bit??
-	int32_t ITerm = self->lastITerm[axis] + ((rateError * dt_us) >> 11) * self->config->I8[axis];
+	int32_t ITerm = self->lastITerm[axis] + ((rateError * dt_us) >> 11) * pid->I8[axis];
 	// limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
 	// I coefficient (I8) moved before integration to make limiting independent from PID settings
 	ITerm = constrain(ITerm, (int32_t)(-PID_MAX_I << 13), (int32_t)(PID_MAX_I << 13));
@@ -91,20 +93,20 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
 
 	// -----calculate D component
 	int32_t DTerm = 0;
-	if(self->config->D8[axis] != 0) {
+	if(pid->D8[axis] != 0) {
 		// delta calculated from measurement
 		int32_t delta = -(gyroRate - self->lastRateForDelta[axis]);
 		self->lastRateForDelta[axis] = gyroRate;
 		// Divide delta by targetLooptime to get differential (ie dr/dt)
 		delta = (delta * ((uint16_t)0xFFFF / (dt_us >> 4))) >> 5;
-		if (self->config->dterm_cut_hz) {
+		if (pid->dterm_cut_hz) {
 			// DTerm delta low pass filter
 			delta = lrintf(applyBiQuadFilter((float)delta, &self->deltaFilterState[axis]));
 		} else {
 			// When DTerm low pass filter disabled apply moving average to reduce noise
 			delta = filterApplyAverage(delta, DTERM_AVERAGE_COUNT, self->deltaStatei[axis]);
 		}
-		DTerm = (delta * self->config->D8[axis] * self->PIDweight[axis] / 100) >> 8;
+		DTerm = (delta * pid->D8[axis] * self->PIDweight[axis] / 100) >> 8;
 		DTerm = constrain(DTerm, -PID_MAX_D, PID_MAX_D);
 	}
 
@@ -118,11 +120,15 @@ static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int
 static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 	UNUSED(dt); // TODO: maybe we should use dt?
 
+	const struct rate_profile *rp = config_get_rate_profile(self->config);
+	const struct config_profile *profile = config_get_profile(self->config);
+	const struct pid_config *pid = &profile->pid;
+
 	_anglerate_delta_state_update(self);
 
 	// ----------PID controller----------
 	for (int axis = 0; axis < 3; axis++) {
-		const uint8_t rate = self->rate_config->rates[axis];
+		const uint8_t rate = rp->rates[axis];
 
 		// -----Get the desired angle rate depending on flight mode
 		int32_t angleRate;
@@ -137,9 +143,9 @@ static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 				// calculate error angle and limit the angle to the max inclination
 				// multiplication of user commands corresponds to changing the sticks scaling here
 				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-						- self->body_angles[axis] + self->angle_trim->raw[axis];
+						- self->body_angles[axis] + profile->acc.trims.raw[axis];
 				// blend in the angle based on level of blending
-				angleRate += (errorAngle * self->config->P8[PIDLEVEL] * (uint16_t)self->level_percent[axis] / 100) >> 4;
+				angleRate += (errorAngle * pid->P8[PIDLEVEL] * (uint16_t)self->level_percent[axis] / 100) >> 4;
 			}
 		}
 
@@ -158,16 +164,19 @@ static const float luxGyroScale = 16.4f / 4; // the 16.4 is needed because mwrew
 static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroRate, float angleRate, float dT){
 	const float rateError = angleRate - gyroRate;
 
+	const struct config_profile *profile = config_get_profile(self->config);
+	const struct pid_config *pid = &profile->pid;
+
 	// -----calculate P component
-	float PTerm = luxPTermScale * rateError * self->config->P8[axis] * self->PIDweight[axis] / 100;
+	float PTerm = luxPTermScale * rateError * pid->P8[axis] * self->PIDweight[axis] / 100;
 
 	// Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-	if (axis == YAW && self->config->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
-		PTerm = constrainf(PTerm, -self->config->yaw_p_limit, self->config->yaw_p_limit);
+	if (axis == YAW && pid->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
+		PTerm = constrainf(PTerm, -pid->yaw_p_limit, pid->yaw_p_limit);
 	}
 
 	// -----calculate I component
-	float ITerm = self->lastITermf[axis] + luxITermScale * rateError * dT * self->config->I8[axis];
+	float ITerm = self->lastITermf[axis] + luxITermScale * rateError * dT * pid->I8[axis];
 	// limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
 	// I coefficient (I8) moved before integration to make limiting independent from PID settings
 	ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
@@ -181,7 +190,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 
 	// -----calculate D component
 	float DTerm;
-	if (self->config->D8[axis] == 0) {
+	if (pid->D8[axis] == 0) {
 		// optimisation for when D8 is zero, often used by YAW axis
 		DTerm = 0;
 	} else {
@@ -190,14 +199,14 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 		self->lastRateForDelta[axis] = gyroRate;
 		// Divide delta by dT to get differential (ie dr/dt)
 		delta *= (1.0f / dT);
-		if (self->config->dterm_cut_hz) {
+		if (pid->dterm_cut_hz) {
 			// DTerm delta low pass filter
 			delta = applyBiQuadFilter(delta, &self->deltaFilterState[axis]);
 		} else {
 			// When DTerm low pass filter disabled apply moving average to reduce noise
 			delta = filterApplyAveragef(delta, DTERM_AVERAGE_COUNT, self->deltaStatef[axis]);
 		}
-		DTerm = luxDTermScale * delta * self->config->D8[axis] * self->PIDweight[axis] / 100;
+		DTerm = luxDTermScale * delta * pid->D8[axis] * self->PIDweight[axis] / 100;
 		DTerm = constrainf(DTerm, -PID_MAX_D, PID_MAX_D);
 	}
 
@@ -211,9 +220,13 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 static void _luxfloat_update(struct anglerate *self, float dT){
 	_anglerate_delta_state_update(self);
 
+	const struct rate_profile *rp = config_get_rate_profile(self->config);
+	const struct config_profile *profile = config_get_profile(self->config);
+	const struct pid_config *pid = &profile->pid;
+
 	// ----------PID controller----------
 	for (int axis = 0; axis < 3; axis++) {
-		const uint8_t rate = self->rate_config->rates[axis];
+		const uint8_t rate = rp->rates[axis];
 
 		// -----Get the desired angle rate depending on flight mode
 		float angleRate;
@@ -229,8 +242,8 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 				// calculate error angle and limit the angle to the max inclination
 				// multiplication of user input corresponds to changing the sticks scaling here
 				const float errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
-						- self->body_angles[axis] + self->angle_trim->raw[axis];
-				angleRate += errorAngle * self->config->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
+						- self->body_angles[axis] + profile->acc.trims.raw[axis];
+				angleRate += errorAngle * pid->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
 			}
 		}
 
@@ -244,11 +257,7 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 
 void anglerate_init(struct anglerate *self,
 	struct instruments *ins,
-	const struct pid_config *config,
-	const struct rate_config *rate_config,
-	uint16_t max_angle_inclination,
-	const rollAndPitchTrims_t *angle_trim,
-	const rxConfig_t *rx_config){
+	uint16_t max_angle_inclination, const struct config const *config){
 	memset(self, 0, sizeof(struct anglerate));
 	self->ins = ins;
 	self->update = _multiwii_rewrite_update;
@@ -257,10 +266,7 @@ void anglerate_init(struct anglerate *self,
 		self->PIDweight[c] = 100;
 	}
 	self->config = config;
-	self->rate_config = rate_config;
 	self->max_angle_inclination = max_angle_inclination;
-	self->angle_trim = angle_trim;
-	self->rx_config = rx_config;
 }
 
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){

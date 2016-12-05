@@ -40,9 +40,10 @@ struct althold {
 
 	struct instruments *ins;
 	struct rx *rx;
+	const struct config const *config;
 };
 
-void althold_init(struct althold *self, struct instruments *ins, struct rx *rx);
+void althold_init(struct althold *self, struct instruments *ins, struct rx *rx, const struct config const *config);
 
 void althold_calc_altitude(struct althold *self, uint32_t currentTime);
 

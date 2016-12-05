@@ -51,86 +51,6 @@
 #define YAW_JUMP_PREVENTION_LIMIT_LOW 80
 #define YAW_JUMP_PREVENTION_LIMIT_HIGH 500
 
-/**
- * Mixer input commands that command the mixer to either spin or translate the frame in specific direction.
- * All movement is in body frame and movements that are not physically supported by the frame will be ignored.
- */
-typedef enum {
-	MIXER_INPUT_GROUP_FC = 0,
-	MIXER_INPUT_G0_ROLL = 0,	//!< flight control angular rate for x axis
-	MIXER_INPUT_G0_PITCH,		//!< flight control angular rate for y axis
-	MIXER_INPUT_G0_YAW,			//!< flight control angular rate for z axis
-	MIXER_INPUT_G0_THROTTLE,	//!< flight control throttle
-	MIXER_INPUT_G0_FLAPS,		//!< flight control flaps
-	MIXER_INPUT_G0_SPOILERS,	//!< flight control spoilers
-	MIXER_INPUT_G0_AIRBREAKS,	//!< flight control airbreaks
-	MIXER_INPUT_G0_LANDINGGEAR, //!< flight control landing gear
-	MIXER_INPUT_GROUP_1 = (1 << 3),
-	MIXER_INPUT_G1_ROLL = MIXER_INPUT_GROUP_1,
-	MIXER_INPUT_G1_PITCH,
-	MIXER_INPUT_G1_YAW,
-	MIXER_INPUT_GROUP_GIMBAL = (2 << 3),
-	MIXER_INPUT_G2_GIMBAL_ROLL = MIXER_INPUT_GROUP_GIMBAL, //!< gimbal roll
-	MIXER_INPUT_G2_GIMBAL_PITCH,	//!< gimbal pitch
-	MIXER_INPUT_G2_GIMBAL_YAW,		//!< gimbal yaw
-	MIXER_INPUT_G2_GIMBAL_SHUTTER,	//!< gimbal shutter
-	MIXER_INPUT_GROUP_RC = (3 << 3),
-	MIXER_INPUT_G3_RC_ROLL = MIXER_INPUT_GROUP_RC, //!< rc roll input
-	MIXER_INPUT_G3_RC_PITCH,
-	MIXER_INPUT_G3_RC_YAW,
-	MIXER_INPUT_G3_RC_THROTTLE,
-	MIXER_INPUT_G3_RC_MODE,
-	MIXER_INPUT_G3_RC_AUX1,
-	MIXER_INPUT_G3_RC_AUX2,
-	MIXER_INPUT_G3_RC_AUX3,
-	MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH = (4 << 3),
-	MIXER_INPUT_G4_M1 = MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH,
-	MIXER_INPUT_G4_M2,
-	MIXER_INPUT_G4_M3,
-	MIXER_INPUT_G4_M4,
-	MIXER_INPUT_G4_M5,
-	MIXER_INPUT_G4_M6,
-	MIXER_INPUT_G4_M7,
-	MIXER_INPUT_G4_M8,
-	MIXER_INPUT_COUNT
-} mixer_input_t;
-
-//! Mixer output channels
-typedef enum {
-	MIXER_OUTPUT_MOTORS = 0,
-	MIXER_OUTPUT_M1 = MIXER_OUTPUT_MOTORS,
-	MIXER_OUTPUT_M2,
-	MIXER_OUTPUT_M3,
-	MIXER_OUTPUT_M4,
-	MIXER_OUTPUT_M5,
-	MIXER_OUTPUT_M6,
-	MIXER_OUTPUT_M7,
-	MIXER_OUTPUT_M8,
-	MIXER_MAX_MOTORS = MIXER_OUTPUT_M8 - MIXER_OUTPUT_MOTORS + 1,
-	MIXER_OUTPUT_SERVOS = MIXER_OUTPUT_M8 + 1,
-	MIXER_OUTPUT_S1 = MIXER_OUTPUT_SERVOS,
-	MIXER_OUTPUT_S2,
-	MIXER_OUTPUT_S3,
-	MIXER_OUTPUT_S4,
-	MIXER_OUTPUT_S5,
-	MIXER_OUTPUT_S6,
-	MIXER_OUTPUT_S7,
-	MIXER_OUTPUT_S8,
-	MIXER_MAX_SERVOS = MIXER_OUTPUT_S8 - MIXER_OUTPUT_SERVOS + 1,
-	MIXER_OUTPUT_COUNT = MIXER_OUTPUT_S8 + 1
-} mixer_output_t;
-
-// TODO: all mixers should actually be stored in the client and we should only be supporting custom mixers (and possibly a default)
-
-//! mixer rule definition in new format
-struct mixer_rule_def {
-	uint8_t output;
-	uint8_t input;
-	int16_t scale;
-} __attribute__((packed));
-
-#define MIXER_MAX_RULES 48
-
 struct mixer {
 	int16_t input[MIXER_INPUT_COUNT];
 
@@ -155,27 +75,13 @@ struct mixer {
 	biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
 
 	// TODO: mixer should not need so many configs. Need to factor out control logic out of the mixer!
-	struct mixer_config *mixer_config;
-	struct motor_3d_config *motor_3d_config;
-	motorAndServoConfig_t *motor_servo_config;
-	rxConfig_t *rx_config;
-	rcControlsConfig_t *rc_controls_config;
-	struct servo_config *servo_config;
+	const struct config *config;
 
 	const struct system_calls_pwm *pwm;
 };
 
 //! initializes a mixer struct
-void mixer_init(struct mixer *self,
-	struct mixer_config *mixer_config,
-	struct motor_3d_config *mixer_3d_config,
-	motorAndServoConfig_t *motor_servo_config,
-	rxConfig_t *rx_config,
-	rcControlsConfig_t *rc_controls_config,
-	struct servo_config *servo_config,
-	const struct system_calls_pwm *pwm,
-	struct motor_mixer *custom_mixers,
-	uint8_t count);
+void mixer_init(struct mixer *self, const struct config *config, const struct system_calls_pwm *pwm);
 
 //! inputs a command to one of the input channels of the mixer
 void mixer_input_command(struct mixer *self, mixer_input_t i, int16_t value);
@@ -210,16 +116,16 @@ uint8_t mixer_get_servo_count(struct mixer *self);
 // TODO: remove these mixer loading/saving methods once user interface has been changed to the new mixer format
 
 //! saves motor mixer into cleanflight motor mixer format
-int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output);
+//int mixer_save_motor_mixer(struct mixer *self, struct motor_mixer *output);
 
 //! loads a set of motor mixing rules from cleanflight format into current ruleset
-void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors);
+//void mixer_load_motor_mixer(struct mixer *self, const struct motor_mixer *motors);
 
 //! save servo mixer into cleanflight servo mixer format (sets some fields to defaults)
-int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output);
+//int mixer_save_servo_mixer(struct mixer *self, struct servo_mixer *output);
 
 //! loads servo mixing rules from cleanflight format into internal format
-void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos);
+//void mixer_load_servo_mixer(struct mixer *self, const struct servo_mixer *servos);
 
 //! clears all mixing rules
 void mixer_clear_rules(struct mixer *self);

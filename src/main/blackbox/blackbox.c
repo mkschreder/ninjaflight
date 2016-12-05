@@ -15,6 +15,7 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if 0
 #include <stdbool.h>
 #include <string.h>
 
@@ -25,9 +26,6 @@
 #include "common/axis.h"
 #include "common/encoding.h"
 #include "common/utils.h"
-
-#include "config/parameter_group_ids.h"
-#include "config/parameter_group.h"
 
 #include "flight/rate_profile.h"
 
@@ -47,7 +45,6 @@
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
-#include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
 #include "config/profile.h"
@@ -227,120 +224,18 @@ static const blackboxSimpleFieldDefinition_t blackboxSlowFields[] = {
 	{"rxFlightChannelsValid", -1, UNSIGNED, PREDICT(0),	  ENCODING(TAG2_3S32)}
 };
 
-typedef enum BlackboxState {
-	BLACKBOX_STATE_DISABLED = 0,
-	BLACKBOX_STATE_STOPPED,
-	BLACKBOX_STATE_PREPARE_LOG_FILE,
-	BLACKBOX_STATE_SEND_HEADER,
-	BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER,
-	BLACKBOX_STATE_SEND_GPS_H_HEADER,
-	BLACKBOX_STATE_SEND_GPS_G_HEADER,
-	BLACKBOX_STATE_SEND_SLOW_HEADER,
-	BLACKBOX_STATE_SEND_SYSINFO,
-	BLACKBOX_STATE_PAUSED,
-	BLACKBOX_STATE_RUNNING,
-	BLACKBOX_STATE_SHUTTING_DOWN
-} BlackboxState;
-
-#define BLACKBOX_FIRST_HEADER_SENDING_STATE BLACKBOX_STATE_SEND_HEADER
-#define BLACKBOX_LAST_HEADER_SENDING_STATE BLACKBOX_STATE_SEND_SYSINFO
-
-typedef struct blackboxMainState_s {
-	uint32_t time;
-
-	int32_t axisPID_P[XYZ_AXIS_COUNT], axisPID_I[XYZ_AXIS_COUNT], axisPID_D[XYZ_AXIS_COUNT];
-
-	int16_t rcCommand[4];
-	int16_t gyroADC[XYZ_AXIS_COUNT];
-	int16_t accSmooth[XYZ_AXIS_COUNT];
-	int16_t motor[MAX_SUPPORTED_MOTORS];
-	int16_t servo[MAX_SUPPORTED_SERVOS];
-
-	uint16_t vbatLatest;
-	uint16_t amperageLatest;
-
-#ifdef BARO
-	int32_t BaroAlt;
-#endif
-	int16_t magADC[XYZ_AXIS_COUNT];
-#ifdef SONAR
-	int32_t sonarRaw;
-#endif
-	uint16_t rssi;
-} blackboxMainState_t;
-
-typedef struct blackboxGpsState_s {
-	int32_t GPS_home[2], GPS_coord[2];
-	uint8_t GPS_numSat;
-} blackboxGpsState_t;
-
-// This data is updated really infrequently:
-typedef struct blackboxSlowState_s {
-	uint16_t flightModeFlags;
-	uint8_t stateFlags;
-	uint8_t failsafePhase;
-	bool rxSignalReceived;
-	bool rxFlightChannelsValid;
-} __attribute__((__packed__)) blackboxSlowState_t; // We pack this struct so that padding doesn't interfere with memcmp()
-
-//From mw.c:
-extern uint32_t currentTime;
-
-static BlackboxState blackboxState = BLACKBOX_STATE_DISABLED;
-
 //static uint32_t blackboxLastArmingBeep = 0;
-
-static struct {
-	uint32_t headerIndex;
-
-	/* Since these fields are used during different blackbox states (never simultaneously) we can
-	 * overlap them to save on RAM
-	 */
-	union {
-		int fieldIndex;
-		sys_millis_t startTime;
-	} u;
-} xmitState;
-
-// Cache for FLIGHT_LOG_FIELD_CONDITION_* test results:
-static uint32_t blackboxConditionCache;
-
-STATIC_ASSERT((sizeof(blackboxConditionCache) * 8) >= FLIGHT_LOG_FIELD_CONDITION_NEVER, too_many_flight_log_conditions);
-
-static uint32_t blackboxIteration;
-static uint16_t blackboxPFrameIndex, blackboxIFrameIndex;
-static uint16_t blackboxSlowFrameIterationTimer;
-static bool blackboxLoggedAnyFrames;
-
-/*
- * We store voltages in I-frames relative to this, which was the voltage when the blackbox was activated.
- * This helps out since the voltage is only expected to fall from that point and we can reduce our diffs
- * to encode:
- */
-static uint16_t vbatReference;
-
-static blackboxGpsState_t gpsHistory;
-static blackboxSlowState_t slowHistory;
-
-// Keep a history of length 2, plus a buffer for MW to store the new values into
-static blackboxMainState_t blackboxHistoryRing[3];
-
-// These point into blackboxHistoryRing, use them to know where to store history of a given age (0, 1 or 2 generations old)
-static blackboxMainState_t* blackboxHistory[3];
-
-static bool blackboxModeActivationConditionPresent = false;
 
 /**
  * Return true if it is safe to edit the Blackbox configuration.
  */
-bool blackboxMayEditConfig(void)
+bool blackboxMayEditConfig(struct blackbox *self)
 {
-	return blackboxState <= BLACKBOX_STATE_STOPPED;
+	return self->blackboxState <= BLACKBOX_STATE_STOPPED;
 }
 
-static bool blackboxIsOnlyLoggingIntraframes(void)
-{
-	return blackboxConfig()->rate_num == 1 && blackboxConfig()->rate_denom == 32;
+static bool blackboxIsOnlyLoggingIntraframes(struct blackbox *self){
+	return self->config->blackbox.rate_num == 1 && self->config->blackbox.rate_denom == 32;
 }
 
 static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldCondition condition)
@@ -360,12 +255,12 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 			return mixer_get_motor_count(&self->ninja->mixer) >= condition - FLIGHT_LOG_FIELD_CONDITION_AT_LEAST_MOTORS_1 + 1;
 		
 		case FLIGHT_LOG_FIELD_CONDITION_TRICOPTER:
-			return mixerConfig()->mixerMode == MIXER_TRI || mixerConfig()->mixerMode == MIXER_CUSTOM_TRI;
+			return self->config->mixer.mixerMode == MIXER_TRI || self->config->mixer.mixerMode == MIXER_CUSTOM_TRI;
 
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0:
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_1:
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_2:
-			return pidProfile()->D8[condition - FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0] != 0;
+			return config_get_current_profile(self->config)->pid.D8[condition - FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0] != 0;
 
 		case FLIGHT_LOG_FIELD_CONDITION_MAG:
 			if(USE_MAG)
@@ -383,7 +278,7 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 			return feature(FEATURE_VBAT);
 
 		case FLIGHT_LOG_FIELD_CONDITION_AMPERAGE_ADC:
-			return feature(FEATURE_CURRENT_METER) && batteryConfig()->currentMeterType == CURRENT_SENSOR_ADC;
+			return feature(FEATURE_CURRENT_METER) && self->config->bat.currentMeterType == CURRENT_SENSOR_ADC;
 
 		case FLIGHT_LOG_FIELD_CONDITION_SONAR:
 #ifdef SONAR
@@ -393,10 +288,10 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 #endif
 
 		case FLIGHT_LOG_FIELD_CONDITION_RSSI:
-			return rxConfig()->rssi_channel > 0 || feature(FEATURE_RSSI_ADC);
+			return self->config->rx.rssi_channel > 0 || feature(FEATURE_RSSI_ADC);
 
 		case FLIGHT_LOG_FIELD_CONDITION_NOT_LOGGING_EVERY_FRAME:
-			return blackboxConfig()->rate_num < blackboxConfig()->rate_denom;
+			return self->config->blackbox.rate_num < self->config->blackbox.rate_denom;
 
 		case FLIGHT_LOG_FIELD_CONDITION_NEVER:
 			return false;
@@ -409,48 +304,47 @@ static void blackboxBuildConditionCache(struct blackbox *self)
 {
 	FlightLogFieldCondition cond;
 
-	blackboxConditionCache = 0;
+	self->blackboxConditionCache = 0;
 
 	for (cond = FLIGHT_LOG_FIELD_CONDITION_FIRST; cond <= FLIGHT_LOG_FIELD_CONDITION_LAST; cond++) {
 		if (testBlackboxConditionUncached(self, cond)) {
-			blackboxConditionCache |= 1 << cond;
+			self->blackboxConditionCache |= 1 << cond;
 		}
 	}
 }
 
-static bool testBlackboxCondition(FlightLogFieldCondition condition)
+static bool testBlackboxCondition(struct blackbox *self, FlightLogFieldCondition condition)
 {
-	return (blackboxConditionCache & (1 << condition)) != 0;
+	return (self->blackboxConditionCache & (1 << condition)) != 0;
 }
 
 static void blackboxSetState(struct blackbox *self, BlackboxState newState)
 {
-	(void) self;
 	//Perform initial setup required for the new state
 	switch (newState) {
 		case BLACKBOX_STATE_PREPARE_LOG_FILE:
-			blackboxLoggedAnyFrames = false;
+			self->blackboxLoggedAnyFrames = false;
 		break;
 		case BLACKBOX_STATE_SEND_HEADER:
-			blackboxHeaderBudget = 0;
-			xmitState.headerIndex = 0;
-			xmitState.u.startTime = sys_millis(self->ninja->system);
+			self->blackboxHeaderBudget = 0;
+			self->xmitState.headerIndex = 0;
+			self->xmitState.u.startTime = sys_millis(self->ninja->system);
 		break;
 		case BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER:
 		case BLACKBOX_STATE_SEND_GPS_G_HEADER:
 		case BLACKBOX_STATE_SEND_GPS_H_HEADER:
 		case BLACKBOX_STATE_SEND_SLOW_HEADER:
-			xmitState.headerIndex = 0;
-			xmitState.u.fieldIndex = -1;
+			self->xmitState.headerIndex = 0;
+			self->xmitState.u.fieldIndex = -1;
 		break;
 		case BLACKBOX_STATE_SEND_SYSINFO:
-			xmitState.headerIndex = 0;
+			self->xmitState.headerIndex = 0;
 		break;
 		case BLACKBOX_STATE_RUNNING:
-			blackboxSlowFrameIterationTimer = SLOW_FRAME_INTERVAL; //Force a slow frame to be written on the first iteration
+			self->blackboxSlowFrameIterationTimer = SLOW_FRAME_INTERVAL; //Force a slow frame to be written on the first iteration
 		break;
 		case BLACKBOX_STATE_SHUTTING_DOWN:
-			xmitState.u.startTime = sys_millis(self->ninja->system);
+			self->xmitState.u.startTime = sys_millis(self->ninja->system);
 		break;
 		case BLACKBOX_STATE_DISABLED:
 		case BLACKBOX_STATE_STOPPED:
@@ -458,7 +352,7 @@ static void blackboxSetState(struct blackbox *self, BlackboxState newState)
 		default:
 			;
 	}
-	blackboxState = newState;
+	self->blackboxState = newState;
 }
 
 static void writeIntraframe(struct blackbox *self)
@@ -466,7 +360,7 @@ static void writeIntraframe(struct blackbox *self)
 	blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
 	int x;
 
-	blackboxWrite('I');
+	blackboxWrite(self, 'I');
 
 	blackboxWriteUnsignedVB(blackboxIteration);
 	blackboxWriteUnsignedVB(blackboxCurrent->time);
@@ -488,7 +382,7 @@ static void writeIntraframe(struct blackbox *self)
 	 * Write the throttle separately from the rest of the RC data so we can apply a predictor to it.
 	 * Throttle lies in range [minthrottle..maxthrottle]:
 	 */
-	blackboxWriteUnsignedVB(blackboxCurrent->rcCommand[THROTTLE] - motorAndServoConfig()->minthrottle);
+	blackboxWriteUnsignedVB(blackboxCurrent->rcCommand[THROTTLE] - self->config->pwm_out.minthrottle);
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_VBAT)) {
 		/*
@@ -529,7 +423,7 @@ static void writeIntraframe(struct blackbox *self)
 	blackboxWriteSigned16VBArray(blackboxCurrent->accSmooth, XYZ_AXIS_COUNT);
 
 	//Motors can be below minthrottle when disarmed, but that doesn't happen much
-	blackboxWriteUnsignedVB(blackboxCurrent->motor[0] - motorAndServoConfig()->minthrottle);
+	blackboxWriteUnsignedVB(blackboxCurrent->motor[0] - self->config->pwm_out.minthrottle);
 
 	//Motors tend to be similar to each other so use the first motor's value as a predictor of the others
 	for (x = 1; x < mixer_get_motor_count(&self->ninja->mixer); x++) {
@@ -575,7 +469,7 @@ static void writeInterframe(struct blackbox *self)
 	blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
 	blackboxMainState_t *blackboxLast = blackboxHistory[1];
 
-	blackboxWrite('P');
+	blackboxWrite(self, 'P');
 
 	//No need to store iteration count since its delta is always 1
 
@@ -669,11 +563,11 @@ static void writeInterframe(struct blackbox *self)
 
 /* Write the contents of the global "slowHistory" to the log as an "S" frame. Because this data is logged so
  * infrequently, delta updates are not reasonable, so we log independent frames. */
-static void writeSlowFrame(void)
+static void writeSlowFrame(struct blackbox *self)
 {
 	int32_t values[3];
 
-	blackboxWrite('S');
+	blackboxWrite(self, 'S');
 
 	blackboxWriteUnsignedVB(slowHistory.flightModeFlags);
 	blackboxWriteUnsignedVB(slowHistory.stateFlags);
@@ -729,51 +623,7 @@ static void writeSlowFrameIfNeeded(struct blackbox *self, bool allowPeriodicWrit
 	}
 
 	if (shouldWrite) {
-		writeSlowFrame();
-	}
-}
-
-static int gcd(int num, int denom)
-{
-	if (denom == 0) {
-		return num;
-	}
-
-	return gcd(denom, num % denom);
-}
-
-static void validateBlackboxConfig(void)
-{
-	int div;
-
-	if (blackboxConfig()->rate_num == 0 || blackboxConfig()->rate_denom == 0
-			|| blackboxConfig()->rate_num >= blackboxConfig()->rate_denom) {
-		blackboxConfig()->rate_num = 1;
-		blackboxConfig()->rate_denom = 1;
-	} else {
-		/* Reduce the fraction the user entered as much as possible (makes the recorded/skipped frame pattern repeat
-		 * itself more frequently)
-		 */
-		div = gcd(blackboxConfig()->rate_num, blackboxConfig()->rate_denom);
-
-		blackboxConfig()->rate_num /= div;
-		blackboxConfig()->rate_denom /= div;
-	}
-
-	// If we've chosen an unsupported device, change the device to serial
-	switch (blackboxConfig()->device) {
-#ifdef USE_FLASHFS
-		case BLACKBOX_DEVICE_FLASH:
-#endif
-#ifdef USE_SDCARD
-		case BLACKBOX_DEVICE_SDCARD:
-#endif
-		case BLACKBOX_DEVICE_SERIAL:
-			// Device supported, leave the setting alone
-		break;
-
-		default:
-			blackboxConfig()->device = BLACKBOX_DEVICE_SERIAL;
+		writeSlowFrame(self);
 	}
 }
 
@@ -782,9 +632,7 @@ static void validateBlackboxConfig(void)
  */
 void blackbox_start(struct blackbox *self)
 {
-	if (blackboxState == BLACKBOX_STATE_STOPPED) {
-		validateBlackboxConfig();
-
+	if (self->blackboxState == BLACKBOX_STATE_STOPPED) {
 		if (!blackboxDeviceOpen()) {
 			blackboxSetState(self, BLACKBOX_STATE_DISABLED);
 			return;
@@ -828,7 +676,7 @@ void blackbox_start(struct blackbox *self)
  */
 void blackbox_stop(struct blackbox *self)
 {
-	switch (blackboxState) {
+	switch (self->blackboxState) {
 		case BLACKBOX_STATE_DISABLED:
 		case BLACKBOX_STATE_STOPPED:
 		case BLACKBOX_STATE_SHUTTING_DOWN:
@@ -857,7 +705,7 @@ void blackbox_stop(struct blackbox *self)
 static void writeGPSHomeFrame(struct blackbox *self)
 {
 	(void)self;
-	blackboxWrite('H');
+	blackboxWrite(self, 'H');
 
 	// TODO: navigaiton data in blackbox
 	//blackboxWriteSignedVB(self->ninja->gps.GPS_home[0]);
@@ -871,7 +719,7 @@ static void writeGPSHomeFrame(struct blackbox *self)
 static void writeGPSFrame(struct blackbox *self)
 {
 	struct gps *gps = &self->ninja->gps;
-	blackboxWrite('G');
+	blackboxWrite(self, 'G');
 
 	/*
 	 * If we're logging every frame, then a GPS frame always appears just after a frame with the
@@ -983,7 +831,7 @@ static void loadMainState(struct blackbox *self)
  *
  * Returns true if there is still header left to transmit (so call again to continue transmission).
  */
-static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const void *fieldDefinitions,
+static bool sendFieldDefinition(struct blackbox *self, char mainFrameChar, char deltaFrameChar, const void *fieldDefinitions,
 		const void *secondFieldDefinition, int fieldCount, const uint8_t *conditions, const uint8_t *secondCondition)
 {
 	const blackboxFieldDefinition_t *def;
@@ -1015,7 +863,7 @@ static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const v
 			return true; // Try again later
 		}
 
-		blackboxHeaderBudget -= blackboxPrintf("H Field %c %s:", xmitState.headerIndex >= BLACKBOX_SIMPLE_FIELD_HEADER_COUNT ? deltaFrameChar : mainFrameChar, blackboxFieldHeaderNames[xmitState.headerIndex]);
+		self->blackboxHeaderBudget -= blackboxPrintf("H Field %c %s:", xmitState.headerIndex >= BLACKBOX_SIMPLE_FIELD_HEADER_COUNT ? deltaFrameChar : mainFrameChar, blackboxFieldHeaderNames[xmitState.headerIndex]);
 
 		xmitState.u.fieldIndex++;
 		needComma = false;
@@ -1046,10 +894,10 @@ static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const v
 				return true;
 			}
 
-			blackboxHeaderBudget -= bytesToWrite;
+			self->blackboxHeaderBudget -= bytesToWrite;
 
 			if (needComma) {
-				blackboxWrite(',');
+				blackboxWrite(self, ',');
 			} else {
 				needComma = true;
 			}
@@ -1071,8 +919,8 @@ static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const v
 
 	// Did we complete this line?
 	if (xmitState.u.fieldIndex == fieldCount && blackboxDeviceReserveBufferSpace(1) == BLACKBOX_RESERVE_SUCCESS) {
-		blackboxHeaderBudget--;
-		blackboxWrite('\n');
+		self-<blackboxHeaderBudget--;
+		blackboxWrite(self, '\n');
 		xmitState.headerIndex++;
 		xmitState.u.fieldIndex = -1;
 	}
@@ -1084,8 +932,7 @@ static bool sendFieldDefinition(char mainFrameChar, char deltaFrameChar, const v
  * Transmit a portion of the system information headers. Call the first time with xmitState.headerIndex == 0. Returns
  * true iff transmission is complete, otherwise call again later to continue transmission.
  */
-static bool blackboxWriteSysinfo(void)
-{
+static bool blackboxWriteSysinfo(struct blackbox *self){
 	// Make sure we have enough room in the buffer for our longest line (as of this writing, the "Firmware date" line)
 	if (blackboxDeviceReserveBufferSpace(64) != BLACKBOX_RESERVE_SUCCESS) {
 		return false;
@@ -1102,19 +949,19 @@ static bool blackboxWriteSysinfo(void)
 			blackboxPrintfHeaderLine("Firmware date:%s %s", buildDate, buildTime);
 		break;
 		case 3:
-			blackboxPrintfHeaderLine("P interval:%d/%d", blackboxConfig()->rate_num, blackboxConfig()->rate_denom);
+			blackboxPrintfHeaderLine("P interval:%d/%d", self->config->blackbox.rate_num, self->config->blackbox.rate_denom);
 		break;
 		case 4:
 			blackboxPrintfHeaderLine("Device UID:0x%x%x%x", U_ID_0, U_ID_1, U_ID_2);
 		break;
 		case 5:
-			blackboxPrintfHeaderLine("rcRate:%d", controlRateProfiles(getCurrentProfile())->rcRate8);
+			blackboxPrintfHeaderLine("rcRate:%d", config_get_rate_profile(self->config)->rcRate8);
 		break;
 		case 6:
-			blackboxPrintfHeaderLine("minthrottle:%d", motorAndServoConfig()->minthrottle);
+			blackboxPrintfHeaderLine("minthrottle:%d", self->config->pwm_out.minthrottle);
 		break;
 		case 7:
-			blackboxPrintfHeaderLine("maxthrottle:%d", motorAndServoConfig()->maxthrottle);
+			blackboxPrintfHeaderLine("maxthrottle:%d", self->config->pwm_out.maxthrottle);
 		break;
 		case 8:
 			// TODO: blackbox gyro scale and acc1g
@@ -1125,14 +972,14 @@ static bool blackboxWriteSysinfo(void)
 		break;
 		case 10:
 			if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_VBAT)) {
-				blackboxPrintfHeaderLine("vbatscale:%u", batteryConfig()->vbatscale);
+				blackboxPrintfHeaderLine("vbatscale:%u", self->config->bat.vbatscale);
 			} else {
 				xmitState.headerIndex += 2; // Skip the next two vbat fields too
 			}
 		break;
 		case 11:
-			blackboxPrintfHeaderLine("vbatcellvoltage:%u,%u,%u", batteryConfig()->vbatmincellvoltage,
-				batteryConfig()->vbatwarningcellvoltage, batteryConfig()->vbatmaxcellvoltage);
+			blackboxPrintfHeaderLine("vbatcellvoltage:%u,%u,%u", self->config->bat.vbatmincellvoltage,
+				self->config->bat.vbatwarningcellvoltage, self->config->bat.vbatmaxcellvoltage);
 		break;
 		case 12:
 			blackboxPrintfHeaderLine("vbatref:%u", vbatReference);
@@ -1140,7 +987,7 @@ static bool blackboxWriteSysinfo(void)
 		case 13:
 			//Note: Log even if this is a virtual current meter, since the virtual meter uses these parameters too:
 			if (feature(FEATURE_CURRENT_METER)) {
-				blackboxPrintfHeaderLine("currentMeter:%d,%d", batteryConfig()->currentMeterOffset, batteryConfig()->currentMeterScale);
+				blackboxPrintfHeaderLine("currentMeter:%d,%d", self->config->bat.currentMeterOffset, self->config->bat.currentMeterScale);
 			}
 		break;
 		default:
@@ -1154,16 +1001,16 @@ static bool blackboxWriteSysinfo(void)
 /**
  * Write the given event to the log immediately
  */
-void blackboxLogEvent(FlightLogEvent event, flightLogEventData_t *data)
+void blackboxLogEvent(struct blackbox *self, FlightLogEvent event, flightLogEventData_t *data)
 {
 	// Only allow events to be logged after headers have been written
-	if (!(blackboxState == BLACKBOX_STATE_RUNNING || blackboxState == BLACKBOX_STATE_PAUSED)) {
+	if (!(self->blackboxState == BLACKBOX_STATE_RUNNING || blackboxState == BLACKBOX_STATE_PAUSED)) {
 		return;
 	}
 
 	//Shared header for event frames
-	blackboxWrite('E');
-	blackboxWrite(event);
+	blackboxWrite(self, 'E');
+	blackboxWrite(self, event);
 
 	//Now serialize the data for this specific frame type
 	switch (event) {
@@ -1218,12 +1065,12 @@ static void blackboxCheckAndLogArmingBeep(void)
  * Use the user's num/denom settings to decide if the P-frame of the given index should be logged, allowing the user to control
  * the portion of logged loop iterations.
  */
-static bool blackboxShouldLogPFrame(uint32_t pFrameIndex)
+static bool blackboxShouldLogPFrame(struct blackbox *self, uint32_t pFrameIndex)
 {
-	/* Adding a magic shift of "blackboxConfig()->rate_num - 1" in here creates a better spread of
+	/* Adding a magic shift of "self->config->rate_num - 1" in here creates a better spread of
 	 * recorded / skipped frames when the I frame's position is considered:
 	 */
-	return (pFrameIndex + blackboxConfig()->rate_num - 1) % blackboxConfig()->rate_denom < blackboxConfig()->rate_num;
+	return (pFrameIndex + self->config->blackbox.rate_num - 1) % self->config->blackbox.rate_denom < self->config->blackbox.rate_num;
 }
 
 static bool blackboxShouldLogIFrame(void)
@@ -1253,14 +1100,14 @@ static void blackboxLogIteration(struct blackbox *self)
 		 * Don't log a slow frame if the slow data didn't change ("I" frames are already large enough without adding
 		 * an additional item to write at the same time). Unless we're *only* logging "I" frames, then we have no choice.
 		 */
-		writeSlowFrameIfNeeded(self, blackboxIsOnlyLoggingIntraframes());
+		writeSlowFrameIfNeeded(self, blackboxIsOnlyLoggingIntraframes(self));
 
 		loadMainState(self);
 		writeIntraframe(self);
 	} else {
 		blackboxCheckAndLogArmingBeep();
 		
-		if (blackboxShouldLogPFrame(blackboxPFrameIndex)) {
+		if (blackboxShouldLogPFrame(self, blackboxPFrameIndex)) {
 			/*
 			 * We assume that slow frames are only interesting in that they aid the interpretation of the main data stream.
 			 * So only log slow frames during loop iterations where we log a main frame.
@@ -1305,11 +1152,11 @@ void blackbox_update(struct blackbox *self)
 {
 	int i;
 
-	if (blackboxState >= BLACKBOX_FIRST_HEADER_SENDING_STATE && blackboxState <= BLACKBOX_LAST_HEADER_SENDING_STATE) {
+	if (self->blackboxState >= BLACKBOX_FIRST_HEADER_SENDING_STATE && self->blackboxState <= BLACKBOX_LAST_HEADER_SENDING_STATE) {
 		blackboxReplenishHeaderBudget();
 	}
 
-	switch (blackboxState) {
+	switch (self->blackboxState) {
 		case BLACKBOX_STATE_PREPARE_LOG_FILE:
 			if (blackboxDeviceBeginLog()) {
 				blackboxSetState(self, BLACKBOX_STATE_SEND_HEADER);
@@ -1326,7 +1173,7 @@ void blackbox_update(struct blackbox *self)
 				if (blackboxDeviceReserveBufferSpace(BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION) == BLACKBOX_RESERVE_SUCCESS) {
 					for (i = 0; i < BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION && blackboxHeader[xmitState.headerIndex] != '\0'; i++, xmitState.headerIndex++) {
 						blackboxWrite(blackboxHeader[xmitState.headerIndex]);
-						blackboxHeaderBudget--;
+						self->blackboxHeaderBudget--;
 					}
 
 					if (blackboxHeader[xmitState.headerIndex] == '\0') {
@@ -1370,7 +1217,7 @@ void blackbox_update(struct blackbox *self)
 			//On entry of this state, xmitState.headerIndex is 0
 
 			//Keep writing chunks of the system info headers until it returns true to signal completion
-			if (blackboxWriteSysinfo()) {
+			if (blackboxWriteSysinfo(self)) {
 
 				/*
 				 * Wait for header buffers to drain completely before data logging begins to ensure reliable header delivery
@@ -1434,8 +1281,14 @@ void blackbox_update(struct blackbox *self)
 /**
  * Call during system startup to initialize the blackbox.
  */
-void blackbox_init(struct blackbox *self, struct ninja *ninja){
+void blackbox_init(struct blackbox *self, struct ninja *ninja, const struct config * const config){
+	memset(self, 0, sizeof(*self));
+
 	self->ninja = ninja;
+	self->config = config;
+
+	self->blackboxState = BLACKBOX_STATE_DISABLED;
+
 	blackboxSetState(self, BLACKBOX_STATE_STOPPED);
 }
-
+#endif

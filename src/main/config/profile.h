@@ -17,11 +17,9 @@
 
 #pragma once
 
-typedef struct profileSelection_s {
+struct profile_config {
     uint8_t current_profile_index;
-} profileSelection_t;
-
-PG_DECLARE(profileSelection_t, profileSelection);
+};
 
 uint8_t getCurrentProfile(void);
 void setProfile(uint8_t profileIndex);

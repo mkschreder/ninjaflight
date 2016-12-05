@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 typedef struct rollAndPitchTrims_s {
     int16_t roll;
     int16_t pitch;
@@ -48,4 +46,3 @@ struct accelerometer_config {
     uint8_t acc_unarmedcal;                 // turn automatic acc compensation on/off
 };
 
-PG_DECLARE_PROFILE(struct accelerometer_config, accelerometerConfig);

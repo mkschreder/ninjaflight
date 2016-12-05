@@ -58,9 +58,10 @@ struct failsafe {
     failsafeRxLinkState_e rxLinkState;
 
 	struct ninja *ninja;
+	const struct config const *config;
 };
 
-void failsafe_init(struct failsafe *self, struct ninja *ninja);
+void failsafe_init(struct failsafe *self, struct ninja *ninja, const struct config const *config);
 
 void failsafe_start_monitoring(struct failsafe *self);
 void failsafe_update(struct failsafe *self);

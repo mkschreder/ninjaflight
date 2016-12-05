@@ -20,10 +20,6 @@
 #include "rx/rx.h"
 #include "../config/frsky.h"
 
-typedef enum {
-    FRSKY_VFAS_PRECISION_LOW = 0,
-    FRSKY_VFAS_PRECISION_HIGH
-} frskyVFasPrecision_e;
 void handleFrSkyTelemetry(uint16_t deadband3d_throttle);
 void checkFrSkyTelemetryState(void);
 

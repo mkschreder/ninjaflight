@@ -27,4 +27,3 @@ struct board_alignment_config {
     int16_t yawDegrees;
 } __attribute__((packed));
 
-PG_DECLARE(struct board_alignment_config, boardAlignment);

@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 #define MIXER_TILT_COMPENSATE_THRUST (1 << 0)
 #define MIXER_TILT_COMPENSATE_TILT (1 << 1)
 #define MIXER_TILT_COMPENSATE_BODY (1 << 2)
@@ -33,7 +31,6 @@ typedef enum {
 	MIXER_TILT_MODE_DYNAMIC
 } mixer_tilt_mode_t;
 
-
 struct tilt_config {
 	uint8_t mode;
 	uint8_t compensation_flags;
@@ -42,4 +39,3 @@ struct tilt_config {
 	int8_t servo_angle_max;
 };
 
-PG_DECLARE(struct tilt_config, tiltConfig);

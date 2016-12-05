@@ -26,10 +26,10 @@
 #include "common/maths.h"
 
 #include "config/config.h"
-#include "config/parameter_group.h"
 #include "drivers/config_streamer.h"
 #include "config_eeprom.h"
 
+#if 0
 static const uint8_t EEPROM_CONF_VERSION = 112;
 
 extern uint8_t __config_start;   // configured via linker script when building binaries.
@@ -251,3 +251,4 @@ void writeConfigToEEPROM(void)
 	// TODO: handle flash write failure
     //failureMode(FAILURE_FLASH_WRITE_FAILED);
 }
+#endif

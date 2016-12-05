@@ -79,7 +79,6 @@ typedef enum {
     COLOR_DEEP_PINK,
 } colorId_e;
 
-
 typedef enum {
     LED_DIRECTION_NORTH = 0,
     LED_DIRECTION_EAST,
@@ -110,23 +109,24 @@ typedef enum {
 // generate direction bit, used in initializers
 #define LED_FLAG_FUNCTION_MASK (((1 << LED_FUNCTION_COUNT) - 1) << LED_FUNCTION_BIT_OFFSET)
 
-typedef struct specialColorIndexes_s {
+struct led_spc_color_indices {
     uint8_t color[LED_SPECIAL_COLOR_COUNT];
-} specialColorIndexes_t;
+};
 
-typedef struct modeColorIndexes_s {
+struct led_mode_color_indices {
     uint8_t color[LED_DIRECTION_COUNT];
-} modeColorIndexes_t;
+};
 
-typedef struct ledConfig_s {
+struct led_config {
     uint8_t xy;     // see LED_X/Y_MASK defines
     uint8_t color;  // see colors (config_master)
     uint16_t flags; // see LED_FLAG_FUNCTION + LED_FLAG_DIRECTION
-} ledConfig_t;
+};
 
-PG_DECLARE_ARR(ledConfig_t, LED_MAX_STRIP_LENGTH, ledConfigs);
-PG_DECLARE_ARR(hsvColor_t, LED_CONFIGURABLE_COLOR_COUNT, colors);
-PG_DECLARE_ARR(modeColorIndexes_t, LED_MODE_COUNT, modeColors);
-PG_DECLARE_ARR(specialColorIndexes_t, 1, specialColors);
-
+struct ledstrip_config {
+	struct led_config leds[LED_MAX_STRIP_LENGTH];
+	struct hsvColor_s colors[LED_CONFIGURABLE_COLOR_COUNT];
+	struct led_mode_color_indices modeColors[LED_MODE_COUNT];
+	struct led_spc_color_indices spcColors[1];
+};
 

@@ -21,9 +21,9 @@
 
 #include "../config/ledstrip.h"
 
-static inline int ledGetX(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_X_BIT_OFFSET) & LED_XY_MASK; }
-static inline int ledGetY(const ledConfig_t *lcfg) { return (lcfg->xy >> LED_Y_BIT_OFFSET) & LED_XY_MASK; }
-static inline void ledSetXY(ledConfig_t *lcfg, int x, int y) {
+static inline int ledGetX(const struct led_config *lcfg) { return (lcfg->xy >> LED_X_BIT_OFFSET) & LED_XY_MASK; }
+static inline int ledGetY(const struct led_config *lcfg) { return (lcfg->xy >> LED_Y_BIT_OFFSET) & LED_XY_MASK; }
+static inline void ledSetXY(struct led_config *lcfg, int x, int y) {
     lcfg->xy = ((x & LED_XY_MASK) << LED_X_BIT_OFFSET) | ((y & LED_XY_MASK) << LED_Y_BIT_OFFSET);
 }
 

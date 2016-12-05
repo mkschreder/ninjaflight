@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "parameter_group.h"
-
 #define MAX_MODE_ACTIVATION_CONDITION_COUNT 20
 
 typedef enum {
@@ -67,33 +65,30 @@ typedef struct channelRange_s {
     uint8_t endStep;
 } channelRange_t;
 
-typedef struct modeActivationCondition_s {
+struct rc_func_range {
     boxId_e modeId;
     uint8_t auxChannelIndex;
     channelRange_t range;
-} modeActivationCondition_t;
+};
 
-typedef struct modeActivationProfile_s {
-    modeActivationCondition_t modeActivationConditions[MAX_MODE_ACTIVATION_CONDITION_COUNT];
-} modeActivationProfile_t;
+struct rc_function_profile {
+    struct rc_func_range ranges[MAX_MODE_ACTIVATION_CONDITION_COUNT];
+};
 
-typedef struct armingConfig_s {
+struct arming_config {
     // Arming configuration
-    uint8_t retarded_arm;                   // allow disarm/arm on throttle down + roll left/right
-    uint8_t disarm_kill_switch;             // allow disarm via AUX switch regardless of throttle value
-    uint8_t auto_disarm_delay;              // allow automatically disarming multicopters after auto_disarm_delay seconds of zero throttle. Disabled when 0
-    uint8_t max_arm_angle;                  // specifies the maximum angle allow arming at.
-} armingConfig_t;
+    uint8_t retarded_arm;                   //!< allow disarm/arm on throttle down + roll left/right
+    uint8_t disarm_kill_switch;             //!< allow disarm via AUX switch regardless of throttle value
+    uint8_t auto_disarm_delay;              //!< allow automatically disarming multicopters after auto_disarm_delay seconds of zero throttle. Disabled when 0
+    uint8_t max_arm_angle;                  //!< specifies the maximum angle allow arming at.
+};
 
-typedef struct rcControlsConfig_s {
-    uint8_t deadband;                       // introduce a deadband around the stick center for pitch and roll axis. Must be greater than zero.
-    uint8_t yaw_deadband;                   // introduce a deadband around the stick center for yaw axis. Must be greater than zero.
-    uint8_t alt_hold_deadband;              // defines the neutral zone of throttle stick during altitude hold, default setting is +/-40
-    uint8_t alt_hold_fast_change;           // when disabled, turn off the althold when throttle stick is out of deadband defined with alt_hold_deadband; when enabled, altitude changes slowly proportional to stick movement
-    int8_t yaw_control_direction;           // change control direction of yaw (inverted, normal)
-    uint16_t deadband3d_throttle;           // default throttle deadband from MIDRC
-} rcControlsConfig_t;
+struct rc_controls_config {
+    uint8_t deadband;                       //!< introduce a deadband around the stick center for pitch and roll axis. Must be greater than zero.
+    uint8_t yaw_deadband;                   //!< introduce a deadband around the stick center for yaw axis. Must be greater than zero.
+    uint8_t alt_hold_deadband;              //!< defines the neutral zone of throttle stick during altitude hold, default setting is +/-40
+    uint8_t alt_hold_fast_change;           //!< when disabled, turn off the althold when throttle stick is out of deadband defined with alt_hold_deadband; when enabled, altitude changes slowly proportional to stick movement
+    int8_t yaw_control_direction;           //!< change control direction of yaw (inverted, normal)
+    uint16_t deadband3d_throttle;           //!< default throttle deadband from MIDRC
+};
 
-PG_DECLARE_PROFILE(modeActivationProfile_t, modeActivationProfile);
-PG_DECLARE(armingConfig_t, armingConfig);
-PG_DECLARE_PROFILE(rcControlsConfig_t, rcControlsConfig);

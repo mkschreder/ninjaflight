@@ -20,28 +20,11 @@
 
 #include <platform.h>
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "config/feature.h"
 
-static uint32_t activeFeaturesLatch = 0;
-
-PG_REGISTER(featureConfig_t, featureConfig, PG_FEATURE_CONFIG, 0);
-
-void latchActiveFeatures(void)
-{
-    activeFeaturesLatch = featureConfig()->enabledFeatures;
-}
-
-bool featureConfigured(uint32_t mask)
-{
-    return featureConfig()->enabledFeatures & mask;
-}
-
-bool feature(uint32_t mask)
-{
-    return activeFeaturesLatch & mask;
+#if 0
+bool config_feature_enabled(const struct config const *self, uint32_t mask){
+    return config->feature.enabledFeatures & mask;
 }
 
 void featureSet(uint32_t mask)
@@ -63,3 +46,4 @@ uint32_t featureMask(void)
 {
     return featureConfig()->enabledFeatures;
 }
+#endif

@@ -22,15 +22,11 @@
 
 #include "build_config.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "config/config.h"
 
 #include "config/profile.h"
 
-PG_REGISTER(profileSelection_t, profileSelection, PG_PROFILE_SELECTION, 0);
-
+#if 0
 uint8_t getCurrentProfile(void)
 {
     return profileSelection()->current_profile_index;
@@ -43,4 +39,4 @@ void setProfile(uint8_t profileIndex)
 
     profileSelection()->current_profile_index = profileIndex;
 }
-
+#endif

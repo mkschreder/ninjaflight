@@ -241,10 +241,8 @@ COMMON_SRC = build_config.c \
 		   version.c \
 		   $(TARGET_SRC) \
 		   config/config.c \
-		   config/vars.c \
 		   drivers/config_streamer.c \
 		   config/config_eeprom.c \
-		   config/parameter_group.c \
 		   config/feature.c \
 		   config/profile.c \
 		   common/maths.c \
@@ -745,9 +743,7 @@ SITL_SRC = \
 		config/config.c \
 		config/config_eeprom.c \
 		config/feature.c \
-		config/parameter_group.c \
 		config/profile.c \
-		config/vars.c \
 		debug.c \
 		flight/altitudehold.c \
 		flight/anglerate.c \

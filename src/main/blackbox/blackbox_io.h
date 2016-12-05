@@ -37,7 +37,7 @@ typedef enum {
 
 extern int32_t blackboxHeaderBudget;
 
-void blackboxWrite(uint8_t value);
+void blackboxWrite(struct blackbox *self, uint8_t value);
 
 int blackboxPrintf(const char *fmt, ...);
 void blackboxPrintfHeaderLine(const char *fmt, ...);
