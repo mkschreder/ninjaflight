@@ -39,10 +39,8 @@ extern "C" {
     #include "drivers/pwm_rx.h"
     #include "drivers/serial.h"
 
-    #include "io/rc_controls.h"
     #include "flight/rate_profile.h"
     #include "io/rc_adjustments.h"
-    #include "io/gps.h"
     #include "io/serial.h"
     #include "io/ledstrip.h"
     #include "io/transponder_ir.h"
@@ -72,34 +70,6 @@ extern "C" {
 
     #include "platform.h"
 
-/*
-    PG_REGISTER(failsafeConfig_t, failsafeConfig, PG_FAILSAFE_CONFIG, 0);
-    PG_REGISTER_PROFILE(gimbalConfig_t, gimbalConfig, PG_GIMBAL_CONFIG, 0);
-    PG_REGISTER_PROFILE(rcControlsConfig_t, rcControlsConfig, PG_RC_CONTROLS_CONFIG, 0);
-    PG_REGISTER_PROFILE(accelerometerConfig_t, accelerometerConfig, PG_ACCELEROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(barometerConfig_t, barometerConfig, PG_BAROMETER_CONFIG, 0);
-    PG_REGISTER_PROFILE(compassConfig_t, compassConfig, PG_COMPASS_CONFIGURATION, 0);
-    PG_REGISTER_PROFILE(gpsProfile_t, gpsProfile, PG_NAVIGATION_CONFIG, 0);
-    PG_REGISTER_PROFILE(modeActivationProfile_t, modeActivationProfile, PG_MODE_ACTIVATION_PROFILE, 0);
-    PG_REGISTER_PROFILE(servoProfile_t, servoProfile, PG_SERVO_PROFILE, 0);
-
-    PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-    PG_REGISTER(sensorTrims_t, sensorTrims, PG_SENSOR_TRIMS, 0);
-    PG_REGISTER(serialConfig_t, serialConfig, PG_SERIAL_CONFIG, 0);
-    PG_REGISTER(pwmRxConfig_t, pwmRxConfig, PG_DRIVER_PWM_RX_CONFIG, 0);
-    PG_REGISTER(armingConfig_t, armingConfig, PG_ARMING_CONFIG, 0);
-    PG_REGISTER(transponderConfig_t, transponderConfig, PG_TRANSPONDER_CONFIG, 0);
-    PG_REGISTER(systemConfig_t, systemConfig, PG_SYSTEM_CONFIG, 0);
-    PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
-    PG_REGISTER(airplaneConfig_t, airplaneConfig, PG_AIRPLANE_ALT_HOLD_CONFIG, 0);
-    PG_REGISTER(gpsConfig_t, gpsConfig, PG_GPS_CONFIG, 0);
-    PG_REGISTER(telemetryConfig_t, telemetryConfig, PG_TELEMETRY_CONFIG, 0);
-    PG_REGISTER(frskyTelemetryConfig_t, frskyTelemetryConfig, PG_FRSKY_TELEMETRY_CONFIG, 0);
-    PG_REGISTER(hottTelemetryConfig_t, hottTelemetryConfig, PG_HOTT_TELEMETRY_CONFIG, 0);
-
-    PG_REGISTER(sensorSelectionConfig_t, sensorSelectionConfig, PG_SENSOR_SELECTION_CONFIG, 0);
-    PG_REGISTER(sensorAlignmentConfig_t, sensorAlignmentConfig, PG_SENSOR_ALIGNMENT_CONFIG, 0);
-*/
 	struct anglerate default_controller; 
 	struct imu default_imu; 
 	acc_t acc;

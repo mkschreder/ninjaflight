@@ -758,6 +758,7 @@ $(OBJECT_DIR)/mock/mock_system.o : \
 $(OBJECT_DIR)/config_eeprom_unittest : \
 	$(OBJECT_DIR)/mock/mock_flash.o \
 	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/config_eeprom_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
@@ -800,7 +801,7 @@ junittest: EXEC_OPTS = "--gtest_output=xml:$<_results.xml"
 junittest: $(TESTS:%=test-%)
 
 test-%: $(OBJECT_DIR)/%
-	LD_LIBRARY_PATH=$(PWD)/../../ LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
+	LD_LIBRARY_PATH=$(OBJECT_DIR)/../../ LD_PRELOAD=libninjaflight.so ../../obj/test/$< $(EXEC_OPTS)
 test-memory-%: $(OBJECT_DIR)/%
 	valgrind --tool=memcheck --leak-check=full $< $(EXEC_OPTS)
 test-cache-%: $(OBJECT_DIR)/%

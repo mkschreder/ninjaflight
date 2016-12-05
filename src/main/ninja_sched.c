@@ -30,7 +30,6 @@
 #include "common/utils.h"
 
 #include "drivers/system.h"
-#include "config/config_unittest.h"
 #include "config/runtime_config.h"
 #include "config/feature.h"
 
