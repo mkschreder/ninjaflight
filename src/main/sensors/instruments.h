@@ -19,17 +19,11 @@ struct instruments {
 	sensor_align_e acc_align;
 
 	uint8_t sensors;
+
+	const struct config *config;
 };
 
-void ins_init(struct instruments *self,
-	struct board_alignment_config *ba_conf,
-	struct imu_config *imu_config,
-	struct throttle_correction_config *thr_config,
-	struct gyro_config *gyro_config,
-	struct mag_config *mag_config,
-	struct sensor_trims_config *sensor_trims,
-	struct accelerometer_config *acc_config
-);
+void ins_init(struct instruments *self, const struct config *config);
 
 void ins_start_gyro_calibration(struct instruments *self);
 void ins_start_acc_calibration(struct instruments *self);

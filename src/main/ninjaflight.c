@@ -30,7 +30,6 @@
 #include "common/utils.h"
 #include "common/filter.h"
 
-#include "config/parameter_group.h"
 #include "config/tilt.h"
 
 #include "drivers/sensor.h"
@@ -77,7 +76,6 @@
 #include "flight/tilt.h"
 #include "sensors/instruments.h"
 
-#include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
 

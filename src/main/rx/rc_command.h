@@ -43,7 +43,7 @@ struct rc_command {
 	int16_t tpa;
 
 	//! current rate config
-	struct rate_config *config;
+	const struct rate_profile *config;
 
 	int16_t lookup_roll_pitch[PITCH_LOOKUP_LENGTH];		//!< lookup table for expo & RC rate PITCH+ROLL
 	int16_t lookup_yaw[YAW_LOOKUP_LENGTH];				//!< lookup table for expo & RC rate YAW
@@ -56,7 +56,7 @@ struct rc_command {
 void rc_command_init(struct rc_command *self, struct rx *rx);
 
 //! Updates internal variables to use new rates and also recalculates the lookup tables if the supplied profile is different than the one that is currently being used.
-void rc_command_set_rate_config(struct rc_command *self, struct rate_config *rates);
+void rc_command_set_rate_config(struct rc_command *self, const struct rate_profile *rates);
 
 //! Updates current rc rates from the current rc values. Inputs are in range [1000;2000] and should correspond to raw pwm values from rc receiver.
 void rc_command_update(struct rc_command *self);

@@ -38,21 +38,21 @@ typedef struct serialPortUsage_s {
     serialPortFunction_e function;
 } serialPortUsage_t;
 
-serialPort_t *findSharedSerialPort(uint16_t functionMask, serialPortFunction_e sharedWithFunction);
-serialPort_t *findNextSharedSerialPort(uint16_t functionMask, serialPortFunction_e sharedWithFunction);
+serialPort_t *findSharedSerialPort(const struct serial_config *self, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
+serialPort_t *findNextSharedSerialPort(const struct serial_config *self, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
 
 void serialRemovePort(serialPortIdentifier_e identifier);
 uint8_t serialGetAvailablePortCount(void);
 bool serialIsPortAvailable(serialPortIdentifier_e identifier);
-bool isSerialConfigValid(struct serial_config *serialConfig);
-struct serial_port_config *serialFindPortConfiguration(serialPortIdentifier_e identifier);
-bool doesConfigurationUsePort(serialPortIdentifier_e portIdentifier);
-struct serial_port_config *findSerialPortConfig(serialPortFunction_e function);
-struct serial_port_config *findNextSerialPortConfig(serialPortFunction_e function);
+bool isSerialConfigValid(const struct serial_config *serialConfig);
+const struct serial_port_config *serialFindPortConfiguration(const struct serial_config *self, serialPortIdentifier_e identifier);
+bool doesConfigurationUsePort(const struct serial_config *self, serialPortIdentifier_e portIdentifier);
 
-portSharing_e determinePortSharing(struct serial_port_config *portConfig, serialPortFunction_e function);
-bool isSerialPortShared(struct serial_port_config *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
-bool isSerialPortOpen(struct serial_port_config *portConfig);
+const struct serial_port_config *findSerialPortConfig(const struct serial_config *self, serialPortFunction_e function);
+const struct serial_port_config *findNextSerialPortConfig(const struct serial_config *self, serialPortFunction_e function);
+portSharing_e determinePortSharing(const struct serial_port_config *portConfig, serialPortFunction_e function);
+bool isSerialPortShared(const struct serial_port_config *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction);
+bool isSerialPortOpen(const struct serial_port_config *portConfig);
 
 
 //

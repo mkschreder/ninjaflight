@@ -96,6 +96,8 @@ struct rc {
 	uint8_t key_mask[RC_NUM_KEYS / 8 + 1];
 	uint8_t key_enabled_mask[RC_NUM_KEYS / 8 + 1];
 	uint32_t range_mask;
+
+	const struct config *config;
 };
 
 typedef enum {
@@ -130,12 +132,13 @@ typedef enum {
 #define IS_RANGE_USABLE(range) ((range)->startStep < (range)->endStep)
 
 struct rx;
+struct config;
 /**
  * Initializes a new rc struct.
  * @param rx instance of the underlying rx to read values from.
  * @param evl event listener or NULL
  */
-void rc_init(struct rc *self, struct rx *rx, struct rc_event_listener *evl);
+void rc_init(struct rc *self, struct rx *rx, struct rc_event_listener *evl, const struct config *config);
 
 /**
  * @param key the key for which to return state

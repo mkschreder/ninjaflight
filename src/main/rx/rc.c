@@ -16,6 +16,7 @@
  */
 
 #include <string.h>
+#include "config/config.h"
 
 #include "../common/maths.h"
 #include "rc.h"
@@ -57,9 +58,9 @@ static uint32_t _update_stick_positions(struct rc *self){
 	for (int i = 0; i < 4; i++) {
 		stTmp >>= 2;
 		int16_t chan = rx_get_channel(self->rx, i); 
-		if (chan > rxConfig()->mincheck)
+		if (chan > self->config->rx.mincheck)
 			stTmp |= 0x80;  // check for MIN
-		if (chan < rxConfig()->maxcheck)
+		if (chan < self->config->rx.maxcheck)
 			stTmp |= 0x40;  // check for MAX
 	}
 	/*
@@ -72,7 +73,7 @@ static uint32_t _update_stick_positions(struct rc *self){
 	return stTmp;
 }
 
-static bool _range_is_active(struct rc *self, uint8_t auxChannelIndex, channelRange_t *range){
+static bool _range_is_active(struct rc *self, uint8_t auxChannelIndex, const channelRange_t *range){
 	if (!IS_RANGE_USABLE(range)) {
 		return false;
 	}
@@ -83,12 +84,12 @@ static bool _range_is_active(struct rc *self, uint8_t auxChannelIndex, channelRa
 			&& channelValue < MODE_STEP_TO_CHANNEL_VALUE(range->endStep));
 }
 
-static uint32_t _update_boxes(struct rc *self, modeActivationCondition_t *modeActivationConditions){
+static uint32_t _update_boxes(struct rc *self, const struct rc_func_range *modeActivationConditions){
 	uint32_t newRcModeMask = 0;
 
 	self->range_mask = 0;
 	for (int index = 0; index < MAX_MODE_ACTIVATION_CONDITION_COUNT; index++) {
-		modeActivationCondition_t *modeActivationCondition = &modeActivationConditions[index];
+		const struct rc_func_range *modeActivationCondition = &modeActivationConditions[index];
 		self->range_mask |= 1 << modeActivationCondition->modeId;
 		if (_range_is_active(self, modeActivationCondition->auxChannelIndex, &modeActivationCondition->range)) {
 			newRcModeMask |= 1 << modeActivationCondition->modeId;
@@ -110,7 +111,7 @@ static void _key_down(struct rc *self, rc_key_t key){
 
 void rc_update(struct rc *self){
 	uint32_t sticks = _update_stick_positions(self);
-	self->boxes = _update_boxes(self, modeActivationProfile()->modeActivationConditions);
+	self->boxes = _update_boxes(self, config_get_profile(self->config)->rc_funcs.ranges);
 
 	rc_command_update(&self->rc_command);
 
@@ -151,12 +152,13 @@ void rc_update(struct rc *self){
 	}
 }
 
-void rc_init(struct rc *self, struct rx *rx, struct rc_event_listener *evl){
+void rc_init(struct rc *self, struct rx *rx, struct rc_event_listener *evl, const struct config *config){
 	memset(self, 0, sizeof(*self));
 	self->rx = rx;
 	self->evl = evl;
+	self->config = config;
 	rc_command_init(&self->rc_command, rx);
-	rc_command_set_rate_config(&self->rc_command, controlRateProfiles(0));
+	rc_command_set_rate_config(&self->rc_command, config_get_rate_profile(self->config));
 }
 
 int16_t rc_get_command(struct rc *self, uint8_t axis){

@@ -12,6 +12,8 @@
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
 #include "io/beeper.h"
+#include "io/serial_msp.h"
+#include "msp.h"
 #include "cli.h"
 #include "sensors/gps.h"
 #include "rx/rc.h"
@@ -48,6 +50,8 @@ struct ninja {
 	struct beeper beeper;
 	struct cli cli;
 	struct gps gps;
+	struct serial_msp serial_msp;
+	struct msp msp;
 
 	bool isRXDataNew;
 
@@ -86,6 +90,8 @@ struct ninja {
 	//uint32_t enabledSensors;
 
 	const struct system_calls *system;
+
+	struct config config;
 };
 
 void ninja_init(struct ninja *self, const struct system_calls *syscalls);

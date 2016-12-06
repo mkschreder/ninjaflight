@@ -40,16 +40,10 @@ enum {
 };
 
 //! Initializes all instruments using specified configuration
-void ins_init(struct instruments *self,
-	struct board_alignment_config *ba_conf,
-	struct imu_config *imu_config,
-	struct throttle_correction_config *thr_config,
-	struct gyro_config *gyro_config,
-	struct mag_config *mag_config,
-	struct sensor_trims_config *sensor_trims,
-	struct accelerometer_config *acc_config){
+void ins_init(struct instruments *self, const struct config *config){
 	memset(self, 0, sizeof(struct instruments));
-
+	
+	self->config = config;
 	self->sensors = INS_USE_SENSOR_ACC | INS_USE_SENSOR_GYRO | INS_USE_SENSOR_MAG;
 
     board_alignment_init(&self->alignment, ba_conf);

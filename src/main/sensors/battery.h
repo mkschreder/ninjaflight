@@ -41,10 +41,10 @@ struct battery {
 	battery_state_t batteryState;
 	biquad_t vbatFilterState;
 
-	struct battery_config *config;
+	const struct config *config;
 };
 
-void battery_init(struct battery *self, struct battery_config *config);
+void battery_init(struct battery *self, const struct config *config);
 battery_state_t battery_get_state(struct battery *self);
 const char *battery_get_state_str(struct battery *self);
 void battery_update(struct battery *self);

@@ -27,9 +27,6 @@
 #include "common/maths.h"
 #include "common/axis.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "config/config.h"
 #include "config/config_reset.h"
 
@@ -167,8 +164,8 @@ int16_t rc_command_axis(struct rc_command *self, uint8_t axis){
 }
 
 //! Updates internal variables to use new rates and also recalculates the lookup tables if the supplied profile is different than the one that is currently being used.
-void rc_command_set_rate_config(struct rc_command *self, struct rate_config *rates){
-	struct rate_config *cur = self->config;
+void rc_command_set_rate_config(struct rc_command *self, const struct rate_profile *rates){
+	const struct rate_profile *cur = self->config;
 	self->config = rates;
 	if(cur != rates)
 		_update_curves(self);

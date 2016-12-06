@@ -18,8 +18,8 @@
 #pragma once
 
 struct profile_config {
-    uint8_t current_profile_index;
+    uint8_t profile_id;
 };
 
-uint8_t getCurrentProfile(void);
-void setProfile(uint8_t profileIndex);
+//uint8_t getCurrentProfile(void);
+//void setProfile(uint8_t profileIndex);

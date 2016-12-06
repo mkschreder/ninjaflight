@@ -17,6 +17,10 @@
 
 #pragma once
 
+#include <stdint.h>
+#include <stdbool.h>
+
+
 #include "accelerometer.h"
 #include "altitudehold.h"
 #include "anglerate.h"
@@ -103,6 +107,7 @@ struct config {
 struct config_profile const * config_get_profile(const struct config * const self);
 struct config_profile *config_get_profile_rw(struct config *self);
 struct rate_profile const * config_get_rate_profile(const struct config * const self);
+struct rate_profile *config_get_rate_profile_rw(struct config *self);
 
 void config_save(const struct config const *self);
 void config_reset(struct config *self);

@@ -871,16 +871,17 @@ static void cliSerial(struct cli *self, char *cmdline)
 
     if (isEmpty(cmdline)) {
         for (i = 0; i < SERIAL_PORT_COUNT; i++) {
-            if (!serialIsPortAvailable(self->config->serial.portConfigs[i].identifier)) {
+			struct serial_port_config *port = &self->config->serial.portConfigs[i];
+            if (!serialIsPortAvailable(port->identifier)) {
                 continue;
             };
             cliPrintf(self, "serial %d %d %ld %ld %ld %ld\r\n" ,
-                self->config->serial.portConfigs[i].identifier,
-                self->config->serial.portConfigs[i].functionMask,
-                baudRates[self->config->serial.portConfigs[i].msp_baudrateIndex],
-                baudRates[self->config->serial.portConfigs[i].gps_baudrateIndex],
-                baudRates[self->config->serial.portConfigs[i].telemetry_baudrateIndex],
-                baudRates[self->config->serial.portConfigs[i].blackbox_baudrateIndex]
+                port->identifier,
+                port->functionMask,
+                baudRates[port->msp_baudrateIndex],
+                baudRates[port->gps_baudrateIndex],
+                baudRates[port->telemetry_baudrateIndex],
+                baudRates[port->blackbox_baudrateIndex]
             );
         }
         return;
@@ -889,14 +890,19 @@ static void cliSerial(struct cli *self, char *cmdline)
     struct serial_port_config portConfig;
     memset(&portConfig, 0 , sizeof(portConfig));
 
-    struct serial_port_config *currentConfig;
-
+    struct serial_port_config *currentConfig = NULL;
     uint8_t validArgumentCount = 0;
 
     ptr = cmdline;
 
     val = atoi(ptr++);
-    currentConfig = serialFindPortConfiguration(val);
+	for (int index = 0; index < SERIAL_PORT_COUNT; index++) {
+		if(self->config->serial.portConfigs[index].identifier == val){
+			currentConfig = &self->config->serial.portConfigs[index];
+			break;
+		}
+	}
+
     if (currentConfig) {
         portConfig.identifier = val;
         validArgumentCount++;
@@ -1249,6 +1255,115 @@ static void cliRxRange(struct cli *self, char *cmdline)
 }
 
 #ifdef LED_STRIP
+/*
+#define CHUNK_BUFFER_SIZE 11
+static bool _parse_ledstrip_config(struct ledstrip_config *self, int ledIndex, const char *config){
+	static const char directionCodes[LED_DIRECTION_COUNT] = { 'N', 'E', 'S', 'W', 'U', 'D' };
+	static const char functionCodes[LED_FUNCTION_COUNT]   = { 'I', 'W', 'F', 'A', 'T', 'R', 'C', 'G', 'S', 'B' };
+
+	if (ledIndex >= LED_MAX_STRIP_LENGTH)
+		return false;
+
+	enum parseState_e {
+		X_COORDINATE,
+		Y_COORDINATE,
+		DIRECTIONS,
+		FUNCTIONS,
+		RING_COLORS,
+		PARSE_STATE_COUNT
+	};
+	static const char chunkSeparators[PARSE_STATE_COUNT] = {',', ':', ':',':', '\0'};
+
+	struct led_config *ledConfig = &self->leds[ledIndex];
+	memset(ledConfig, 0, sizeof(struct led_config));
+
+	int x = 0, y = 0, color = 0;   // initialize to prevent warnings
+	int flags = 0;
+	for(enum parseState_e parseState = 0; parseState < PARSE_STATE_COUNT; parseState++) {
+		char chunk[CHUNK_BUFFER_SIZE];
+		{
+			char chunkSeparator = chunkSeparators[parseState];
+			int chunkIndex = 0;
+			while (*config  && *config != chunkSeparator && chunkIndex < CHUNK_BUFFER_SIZE-1) {
+				chunk[chunkIndex++] = *config++;
+			}
+			chunk[chunkIndex++] = 0; // zero-terminate chunk
+			if (*config != chunkSeparator) {
+				return false;
+			}
+			config++;   // skip separator
+		}
+		switch(parseState) {
+			case X_COORDINATE:
+				x = atoi(chunk);
+				break;
+			case Y_COORDINATE:
+				y = atoi(chunk);
+				break;
+			case DIRECTIONS:
+				for (char* ch = chunk; *ch; ch++) {
+					for (ledDirectionId_e dir = 0; dir < LED_DIRECTION_COUNT; dir++) {
+						if (directionCodes[dir] == *ch) {
+							flags |= LED_FLAG_DIRECTION(dir);
+							break;
+						}
+					}
+				}
+				break;
+			case FUNCTIONS:
+				for (char* ch = chunk; *ch; ch++) {
+					for (ledFunctionId_e fn = 0; fn < LED_FUNCTION_COUNT; fn++) {
+						if (functionCodes[fn] == *ch) {
+							flags |= LED_FLAG_FUNCTION(fn);
+							break;
+						}
+					}
+				}
+				break;
+			case RING_COLORS:
+				color = atoi(chunk);
+				if (color >= LED_CONFIGURABLE_COLOR_COUNT)
+					color = 0;
+				break;
+			default:
+			case PARSE_STATE_COUNT:; // prevent warning
+		}
+	}
+	ledSetXY(ledConfig, x, y);
+	ledConfig->color = color;
+	ledConfig->flags = flags;
+
+	return true;
+}
+
+void ledstrip_genconfig(struct ledstrip *self, int ledIndex, char *ledConfigBuffer, size_t bufferSize){
+	(void)self;
+	char functions[LED_FUNCTION_COUNT + 1];
+	char directions[LED_DIRECTION_COUNT + 1];
+
+	const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
+
+	memset(ledConfigBuffer, 0, bufferSize);
+	char *fptr = functions;
+	for (ledFunctionId_e fn = 0; fn < LED_FUNCTION_COUNT; fn++) {
+		if (ledConfig->flags & LED_FLAG_FUNCTION(fn)) {
+			*fptr++ = functionCodes[fn];
+		}
+	}
+	*fptr = 0;
+	char *dptr = directions;
+	for (ledDirectionId_e dir = 0; dir < LED_DIRECTION_COUNT; dir++) {
+		if (ledConfig->flags & LED_FLAG_DIRECTION(dir)) {
+			*dptr++ = directionCodes[dir];
+		}
+	}
+	*dptr = 0;
+	// TODO - check buffer length
+	//sprintf(ledConfigBuffer, "%u,%u:%s:%s:%u", ledGetX(ledConfig), ledGetY(ledConfig), directions, functions, ledConfig->color);
+}
+
+
+*/
 static void cliLed(struct cli *self, char *cmdline)
 {
 	(void)self;
@@ -1268,7 +1383,7 @@ static void cliLed(struct cli *self, char *cmdline)
         i = atoi(ptr);
         if (i < LED_MAX_STRIP_LENGTH) {
             ptr = strchr(ptr, ' ');
-            if (!ptr || !parseLedStripConfig(i, ptr + 1)) {
+            if (!ptr || !_parse_ledstrip_config(i, ptr + 1)) {
                 cliShowParseError(self);
             }
         } else {
@@ -1277,6 +1392,54 @@ static void cliLed(struct cli *self, char *cmdline)
     }
 	*/
 }
+
+static bool ledstrip_set_color(struct ledstrip_config *self, int index, const char *colorConfig){
+	const char *remainingCharacters = colorConfig;
+
+	hsvColor_t *color = &self->colors[index];
+
+	bool result = true;
+	static const uint16_t hsv_limit[HSV_COLOR_COMPONENT_COUNT] = {
+		[HSV_HUE] = HSV_HUE_MAX,
+		[HSV_SATURATION] = HSV_SATURATION_MAX,
+		[HSV_VALUE] = HSV_VALUE_MAX,
+	};
+	for (int componentIndex = 0; result && componentIndex < HSV_COLOR_COMPONENT_COUNT; componentIndex++) {
+		int val = atoi(remainingCharacters);
+		if(val > hsv_limit[componentIndex]) {
+			result = false;
+			break;
+		}
+		switch (componentIndex) {
+			case HSV_HUE:
+				color->h = val;
+				break;
+			case HSV_SATURATION:
+				color->s = val;
+				break;
+			case HSV_VALUE:
+				color->v = val;
+				break;
+			default:
+				break;
+		}
+		remainingCharacters = strchr(remainingCharacters, ',');
+		if (remainingCharacters) {
+			remainingCharacters++;  // skip separator
+		} else {
+			if (componentIndex < HSV_COLOR_COMPONENT_COUNT - 1) {
+				result = false;
+			}
+		}
+	}
+
+	if (!result) {
+		memset(color, 0, sizeof(*color));
+	}
+
+	return result;
+}
+
 
 static void cliColor(struct cli *self, char *cmdline)
 {
@@ -1296,7 +1459,7 @@ static void cliColor(struct cli *self, char *cmdline)
         i = atoi(ptr);
         if (i < LED_CONFIGURABLE_COLOR_COUNT) {
             ptr = strchr(ptr, ' ');
-            if (!ptr || !parseColor(i, ptr + 1)) {
+            if (!ptr || !ledstrip_set_color(&self->config->ledstrip, i, ptr + 1)) {
                 cliShowParseError(self);
             }
         } else {
@@ -1304,6 +1467,29 @@ static void cliColor(struct cli *self, char *cmdline)
         }
     }
 }
+
+/*
+ * Redefine a color in a mode.
+ * */
+static bool ledstrip_set_mode_color(struct ledstrip_config *self, ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex){
+	(void)self;
+	// check color
+	if(colorIndex < 0 || colorIndex >= LED_CONFIGURABLE_COLOR_COUNT)
+		return false;
+	if(modeIndex < LED_MODE_COUNT) {  // modeIndex_e is unsigned, so one-sided test is enough
+		if(modeColorIndex < 0 || modeColorIndex >= LED_DIRECTION_COUNT)
+			return false;
+		self->modeColors[modeIndex].color[modeColorIndex] = colorIndex;
+	} else if(modeIndex == LED_SPECIAL) {
+		if(modeColorIndex < 0 || modeColorIndex >= LED_SPECIAL_COLOR_COUNT)
+			return false;
+		self->spcColors[0].color[modeColorIndex] = colorIndex;
+	} else {
+		return false;
+	}
+	return true;
+}
+
 
 static void cliModeColor(struct cli *self, char *cmdline)
 {
@@ -1337,7 +1523,7 @@ static void cliModeColor(struct cli *self, char *cmdline)
         int modeIdx  = args[MODE];
         int funIdx = args[FUNCTION];
         int color = args[COLOR];
-        if(!ledstrip_set_mode_color(&self->ninja->ledstrip, modeIdx, funIdx, color)) {
+        if(!ledstrip_set_mode_color(&self->config->ledstrip, modeIdx, funIdx, color)) {
             cliShowParseError(self);
             return;
         }
@@ -2230,7 +2416,7 @@ static void cliProfile(struct cli *self, char *cmdline)
     int i;
 
     if (isEmpty(cmdline)) {
-        cliPrintf(self, "profile %d\r\n", getCurrentProfile());
+        cliPrintf(self, "profile %d\r\n", self->config->profile.profile_id);
         return;
     } else {
         i = atoi(cmdline);

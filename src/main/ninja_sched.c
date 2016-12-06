@@ -30,7 +30,6 @@
 #include "common/utils.h"
 
 #include "drivers/system.h"
-#include "config/runtime_config.h"
 #include "config/feature.h"
 
 #include "io/serial.h"
@@ -371,7 +370,7 @@ static void _task_serial(struct ninja_sched *sched){
         return;
     }
 
-    mspSerialProcess(self);
+    serial_msp_process(&self->serial_msp, self);
 }
 
 #ifdef BEEPER

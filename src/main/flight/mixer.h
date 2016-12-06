@@ -25,6 +25,7 @@
 #include "../common/filter.h"
 #include "../common/maths.h"
 
+struct config;
 /*
 #if USE_QUAD_MIXER_ONLY == 1
 #define MAX_SUPPORTED_SERVOS 1

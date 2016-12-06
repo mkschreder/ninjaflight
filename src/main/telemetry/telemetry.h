@@ -29,5 +29,5 @@ void telemetryProcess(uint16_t deadband3d_throttle);
 
 bool telemetryDetermineEnabledState(portSharing_e portSharing);
 
-void telemetryUseConfig(telemetryConfig_t *telemetryConfig);
+void telemetryUseConfig(struct telemetry_config *telemetryConfig);
 

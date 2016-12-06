@@ -27,8 +27,6 @@
 #include "common/axis.h"
 #include "common/maths.h"
 
-#include "config/parameter_group.h"
-
 #include "system.h"
 #include "nvic.h"
 #include "gpio.h"

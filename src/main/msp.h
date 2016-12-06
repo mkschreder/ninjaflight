@@ -25,12 +25,22 @@ typedef struct mspPacket_s {
     int16_t result;
 } mspPacket_t;
 
-extern bool isRebootScheduled;
-extern bool mspEnterEsc4way;
+struct msp {
+	//! mask of enabled IDs, calculated on start based on enabled features. boxId_e is used as bit index.
+	uint32_t activeBoxIds;
+
+	//! cause reboot after MSP processing complete
+	bool isRebootScheduled;
+	//! switch to 4wayIf (on current port)
+	#ifdef USE_SERIAL_4WAY_BLHELI_INTERFACE
+	bool mspEnterEsc4way;
+	#endif
+
+	struct ninja *ninja;
+	struct config *config;
+};
 
 struct ninja;
-void mspInit(struct ninja *ninja);
 
-int mspProcess(mspPacket_t *command, mspPacket_t *reply);
-uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria); 
-uint8_t pgMatcherForMSP(const pgRegistry_t *candidate, const void *criteria); 
+void msp_init(struct msp *self, struct ninja *ninja, struct config *config);
+int msp_process(struct msp *self, mspPacket_t *command, mspPacket_t *reply);

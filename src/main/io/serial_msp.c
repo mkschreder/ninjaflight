@@ -21,14 +21,11 @@
 
 #include "build_config.h"
 #include <platform.h>
-#include "config/runtime_config.h"
 #include "target.h"
 
 #include "common/streambuf.h"
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 #include "config/feature.h"
 #include "config/config.h"
 
@@ -43,35 +40,33 @@
 #include "msp.h"
 #include "ninja.h"
 
-mspPort_t mspPorts[MAX_MSP_PORT_COUNT];
 
 // assign serialPort to mspPort
 // free mspPort when serialPort is NULL
-static void resetMspPort(mspPort_t *mspPortToReset, serialPort_t *serialPort)
+static void resetMspPort(struct serial_msp_port *mspPortToReset, serialPort_t *serialPort)
 {
-    memset(mspPortToReset, 0, sizeof(mspPort_t));
+    memset(mspPortToReset, 0, sizeof(struct serial_msp_port));
 
     mspPortToReset->port = serialPort;
 }
 
-static mspPort_t* mspPortFindFree(void)
+static struct serial_msp_port* mspPortFindFree(struct serial_msp *self)
 {
     for(int i = 0; i < MAX_MSP_PORT_COUNT; i++)
-        if(mspPorts[i].port == NULL)
-            return &mspPorts[i];
+        if(self->ports[i].port == NULL)
+            return &self->ports[i];
     return NULL;
 }
 
-void mspSerialAllocatePorts(void)
-{
-    for(serialPortConfig_t *portConfig = findSerialPortConfig(FUNCTION_MSP);
+static void serial_msp_alloc_ports(struct serial_msp *self){
+    for(const struct serial_port_config *portConfig = findSerialPortConfig(&self->config->serial, FUNCTION_MSP);
         portConfig != NULL;
-        portConfig = findNextSerialPortConfig(FUNCTION_MSP)) {
+        portConfig = findNextSerialPortConfig(&self->config->serial, FUNCTION_MSP)) {
         if(isSerialPortOpen(portConfig))
             continue; // port is already open
 
         // find unused mspPort for this serial
-        mspPort_t *mspPort = mspPortFindFree();
+        struct serial_msp_port *mspPort = mspPortFindFree(self);
         if(mspPort == NULL) {
             // no mspPort available, give up
             // this error should be signalized to user (invalid configuration)
@@ -87,10 +82,10 @@ void mspSerialAllocatePorts(void)
     }
 }
 
-void mspSerialReleasePortIfAllocated(serialPort_t *serialPort)
+void serial_msp_release_port(struct serial_msp *self, serialPort_t *serialPort)
 {
     for (int i = 0; i < MAX_MSP_PORT_COUNT; i++) {
-        mspPort_t *mspPort = &mspPorts[i];
+        struct serial_msp_port *mspPort = &self->ports[i];
         if (mspPort->port == serialPort) {
             closeSerialPort(mspPort->port);
             resetMspPort(mspPort, NULL);
@@ -98,11 +93,13 @@ void mspSerialReleasePortIfAllocated(serialPort_t *serialPort)
     }
 }
 
-void mspSerialInit(void)
-{
+void serial_msp_init(struct serial_msp *self, const struct config *config, struct msp *msp){
+	memset(self, 0, sizeof(*self));
+	self->config = config;
+	self->msp = msp;
     for(int i = 0; i < MAX_MSP_PORT_COUNT; i++)
-        resetMspPort(&mspPorts[i], NULL);
-    mspSerialAllocatePorts();
+        resetMspPort(&self->ports[i], NULL);
+    serial_msp_alloc_ports(self);
 }
 
 static uint8_t mspSerialChecksum(uint8_t checksum, uint8_t byte)
@@ -117,7 +114,7 @@ static uint8_t mspSerialChecksumBuf(uint8_t checksum, uint8_t *data, int len)
     return checksum;
 }
 
-static void mspSerialResponse(mspPort_t *msp, mspPacket_t *reply)
+static void mspSerialResponse(struct serial_msp_port *msp, mspPacket_t *reply)
 {
     serialBeginWrite(msp->port);
     int len = sbufBytesRemaining(&reply->buf);
@@ -133,10 +130,7 @@ static void mspSerialResponse(mspPort_t *msp, mspPacket_t *reply)
     serialEndWrite(msp->port);
 }
 
-// TODO: make this static after refactoring unit tests
-void mspSerialProcessReceivedCommand(mspPort_t *msp);
-void mspSerialProcessReceivedCommand(mspPort_t *msp)
-{
+static void mspSerialProcessReceivedCommand(struct serial_msp_port *msp, struct msp *processor){
     mspPacket_t command = {
         .buf = {
             .ptr = msp->inBuf,
@@ -155,7 +149,7 @@ void mspSerialProcessReceivedCommand(mspPort_t *msp)
         .cmd = -1,
         .result = 0,
     };
-    if(mspProcess(&command, &reply)) {
+    if(msp_process(processor, &command, &reply)) {
         // reply should be sent back
         sbufSwitchToReader(&reply.buf, outBuf);     // change streambuf direction
         mspSerialResponse(msp, &reply);
@@ -163,7 +157,7 @@ void mspSerialProcessReceivedCommand(mspPort_t *msp)
     msp->c_state = IDLE;
 }
 
-static bool mspSerialProcessReceivedByte(mspPort_t *msp, uint8_t c)
+static bool mspSerialProcessReceivedByte(struct serial_msp_port *msp, uint8_t c)
 {
     switch(msp->c_state) {
         default:                 // be conservative with unexpected state
@@ -211,9 +205,9 @@ static bool mspSerialProcessReceivedByte(mspPort_t *msp, uint8_t c)
     return true;
 }
 
-void mspSerialProcess(struct ninja *ninja){
+void serial_msp_process(struct serial_msp *self, struct ninja *ninja){
     for (int i = 0; i < MAX_MSP_PORT_COUNT; i++) {
-        mspPort_t *msp = &mspPorts[i];
+        struct serial_msp_port *msp = &self->ports[i];
         if (!msp->port) {
             continue;
         }
@@ -227,13 +221,13 @@ void mspSerialProcess(struct ninja *ninja){
 				if (c == '#') {
 					cli_start(&ninja->cli, msp->port);
 				}
-				if (c == serialConfig()->reboot_character) {
+				if (c == self->config->serial.reboot_character) {
 					systemResetToBootloader();
 				}
             }
 
             if (msp->c_state == COMMAND_RECEIVED) {
-                mspSerialProcessReceivedCommand(msp);
+                mspSerialProcessReceivedCommand(msp, self->msp);
                 break; // process one command at a time so as not to block and handle modal command immediately
             }
         }
@@ -248,14 +242,17 @@ void mspSerialProcess(struct ninja *ninja){
             // continue processing
         }
 #endif
-        if (isRebootScheduled) {
+		// TODO: this should probably be in the main msp class
+		/*
+        if (self->isRebootScheduled) {
             waitForSerialPortToFinishTransmitting(msp->port);  // TODO - postpone reboot, allow all modules to react
 			// TODO: remove the ifdef once we have refactored pwm
 #ifndef UNIT_TEST
             pwmStopMotors(feature(FEATURE_ONESHOT125));
 #endif
-            handleOneshotFeatureChangeOnRestart();
+			// TODO: oneshot reset
+            //handleOneshotFeatureChangeOnRestart();
             systemReset();
-        }
+        }*/
     }
 }

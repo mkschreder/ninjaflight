@@ -22,8 +22,6 @@
 
 #include <platform.h>
 
-#include "config/parameter_group.h"
-
 #include "gpio.h"
 #include "timer.h"
 #include "drivers/bus_i2c.h"

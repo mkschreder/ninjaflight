@@ -150,7 +150,8 @@ bool rx_flight_channels_valid(struct rx *self);
 //! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
 void rx_remap_channels(struct rx *self, const char *input);
 
-void rx_init(struct rx *self, const struct system_calls *system);
+struct config;
+void rx_init(struct rx *self, const struct system_calls *system, const struct config *config);
 
 // TODO: make it possible to switch type at runtime (involves sorting out some init things)
 // currently it is only possible to set the type once

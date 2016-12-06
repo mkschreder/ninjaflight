@@ -26,9 +26,6 @@
 
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "drivers/system.h"
 #include "drivers/serial.h"
 #include "drivers/serial_softserial.h"
@@ -40,7 +37,6 @@
 #include "serial_msp.h"
 
 #include "config/config.h"
-#include "config/parameter_group.h"
 
 //#ifdef TELEMETRY
 //#include "telemetry/telemetry.h"
@@ -93,19 +89,19 @@ typedef struct findSerialPortConfigState_s {
     uint8_t lastIndex;
 } findSerialPortConfigState_t;
 
+// TODO: these functions are not reentrant due to all this crappy global state
 static findSerialPortConfigState_t findSerialPortConfigState;
 
-serialPortConfig_t *findSerialPortConfig(serialPortFunction_e function)
-{
+const struct serial_port_config *findSerialPortConfig(const struct serial_config *self, serialPortFunction_e function){
     memset(&findSerialPortConfigState, 0, sizeof(findSerialPortConfigState));
 
-    return findNextSerialPortConfig(function);
+    return findNextSerialPortConfig(self, function);
 }
 
-serialPortConfig_t *findNextSerialPortConfig(serialPortFunction_e function)
+const struct serial_port_config *findNextSerialPortConfig(const struct serial_config *self, serialPortFunction_e function)
 {
     while (findSerialPortConfigState.lastIndex < SERIAL_PORT_COUNT) {
-        serialPortConfig_t *candidate = &serialConfig()->portConfigs[findSerialPortConfigState.lastIndex++];
+        const struct serial_port_config *candidate = &self->portConfigs[findSerialPortConfigState.lastIndex++];
 
         if (candidate->functionMask & function) {
             return candidate;
@@ -118,7 +114,7 @@ typedef struct findSharedSerialPortState_s {
     uint8_t lastIndex;
 } findSharedSerialPortState_t;
 
-portSharing_e determinePortSharing(serialPortConfig_t *portConfig, serialPortFunction_e function)
+portSharing_e determinePortSharing(const struct serial_port_config *portConfig, serialPortFunction_e function)
 {
     if (!portConfig || (portConfig->functionMask & function) == 0) {
         return PORTSHARING_UNUSED;
@@ -126,12 +122,12 @@ portSharing_e determinePortSharing(serialPortConfig_t *portConfig, serialPortFun
     return portConfig->functionMask == function ? PORTSHARING_NOT_SHARED : PORTSHARING_SHARED;
 }
 
-bool isSerialPortShared(serialPortConfig_t *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction)
+bool isSerialPortShared(const struct serial_port_config *portConfig, uint16_t functionMask, serialPortFunction_e sharedWithFunction)
 {
     return (portConfig) && (portConfig->functionMask & sharedWithFunction) && (portConfig->functionMask & functionMask);
 }
 
-bool isSerialPortOpen(serialPortConfig_t *portConfig)
+bool isSerialPortOpen(const struct serial_port_config *portConfig)
 {
     serialPortUsage_t *serialPortUsage = findSerialPortUsageByIdentifier(portConfig->identifier);
     return serialPortUsage && serialPortUsage->function != FUNCTION_NONE;
@@ -140,17 +136,17 @@ bool isSerialPortOpen(serialPortConfig_t *portConfig)
 
 static findSharedSerialPortState_t findSharedSerialPortState;
 
-serialPort_t *findSharedSerialPort(uint16_t functionMask, serialPortFunction_e sharedWithFunction)
+serialPort_t *findSharedSerialPort(const struct serial_config *self, uint16_t functionMask, serialPortFunction_e sharedWithFunction)
 {
     memset(&findSharedSerialPortState, 0, sizeof(findSharedSerialPortState));
 
-    return findNextSharedSerialPort(functionMask, sharedWithFunction);
+    return findNextSharedSerialPort(self, functionMask, sharedWithFunction);
 }
 
-serialPort_t *findNextSharedSerialPort(uint16_t functionMask, serialPortFunction_e sharedWithFunction)
+serialPort_t *findNextSharedSerialPort(const struct serial_config *self, uint16_t functionMask, serialPortFunction_e sharedWithFunction)
 {
     while (findSharedSerialPortState.lastIndex < SERIAL_PORT_COUNT) {
-        serialPortConfig_t *candidate = &serialConfig()->portConfigs[findSharedSerialPortState.lastIndex++];
+        const struct serial_port_config *candidate = &self->portConfigs[findSharedSerialPortState.lastIndex++];
 
         if (isSerialPortShared(candidate, functionMask, sharedWithFunction)) {
             serialPortUsage_t *serialPortUsage = findSerialPortUsageByIdentifier(candidate->identifier);
@@ -166,7 +162,7 @@ serialPort_t *findNextSharedSerialPort(uint16_t functionMask, serialPortFunction
 #define ALL_TELEMETRY_FUNCTIONS_MASK (FUNCTION_TELEMETRY_FRSKY | FUNCTION_TELEMETRY_HOTT | FUNCTION_TELEMETRY_SMARTPORT | FUNCTION_TELEMETRY_LTM | FUNCTION_TELEMETRY_MAVLINK)
 #define ALL_FUNCTIONS_SHARABLE_WITH_MSP (FUNCTION_BLACKBOX | ALL_TELEMETRY_FUNCTIONS_MASK)
 
-bool isSerialConfigValid(serialConfig_t *serialConfigToCheck)
+bool isSerialConfigValid(const struct serial_config *serialConfigToCheck)
 {
     UNUSED(serialConfigToCheck);
     /*
@@ -179,7 +175,7 @@ bool isSerialConfigValid(serialConfig_t *serialConfigToCheck)
 
     uint8_t index;
     for (index = 0; index < SERIAL_PORT_COUNT; index++) {
-        serialPortConfig_t *portConfig = &serialConfigToCheck->portConfigs[index];
+        const struct serial_port_config *portConfig = &serialConfigToCheck->portConfigs[index];
 
         if (portConfig->functionMask & FUNCTION_MSP) {
             mspPortCount++;
@@ -209,11 +205,11 @@ bool isSerialConfigValid(serialConfig_t *serialConfigToCheck)
     return true;
 }
 
-serialPortConfig_t *serialFindPortConfiguration(serialPortIdentifier_e identifier)
+const struct serial_port_config *serialFindPortConfiguration(const struct serial_config *self, serialPortIdentifier_e identifier)
 {
     uint8_t index;
     for (index = 0; index < SERIAL_PORT_COUNT; index++) {
-        serialPortConfig_t *candidate = &serialConfig()->portConfigs[index];
+        const struct serial_port_config *candidate = &self->portConfigs[index];
         if (candidate->identifier == identifier) {
             return candidate;
         }
@@ -221,9 +217,9 @@ serialPortConfig_t *serialFindPortConfiguration(serialPortIdentifier_e identifie
     return NULL;
 }
 
-bool doesConfigurationUsePort(serialPortIdentifier_e identifier)
+bool doesConfigurationUsePort(const struct serial_config *self, serialPortIdentifier_e identifier)
 {
-    serialPortConfig_t *candidate = serialFindPortConfiguration(identifier);
+    const struct serial_port_config *candidate = serialFindPortConfiguration(self, identifier);
     return candidate != NULL && candidate->functionMask;
 }
 

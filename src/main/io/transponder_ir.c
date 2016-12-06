@@ -25,9 +25,6 @@
 
 #include <build_config.h>
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "drivers/transponder_ir.h"
 #include "drivers/system.h"
 

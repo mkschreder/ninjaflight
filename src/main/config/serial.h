@@ -21,6 +21,9 @@
 
 #pragma once
 
+// TODO: this should not depend on target just for serial_port_count
+#include "target.h"
+
 //! serial port identifiers
 typedef enum {
     SERIAL_PORT_NONE = -1,

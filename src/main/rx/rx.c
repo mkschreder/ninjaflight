@@ -145,10 +145,11 @@ static uint16_t _get_failsafe_channel_value(struct rx *self, uint8_t channel){
 	return rxConfig()->midrc;
 }
 
-void rx_init(struct rx *self, const struct system_calls *system){
+void rx_init(struct rx *self, const struct system_calls *system, const struct config *config){
 	memset(self, 0, sizeof(struct rx));
 
 	self->system = system;
+	self->config = config;
 
 	// at startup the receiver is in failsafe mode until some samples are received
 	self->rcReadRawFunc = nullReadRawRC;

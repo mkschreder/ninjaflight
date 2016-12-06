@@ -119,14 +119,17 @@ struct rc_adj {
 
 	//! pointer to the ninja object on which we are going to be adjusting things
 	struct ninja *ninja;
+
+	//! modifyable version of the config that is to be adjusted
+	struct config *config;
 };
 
 // TODO: remove this include 
 #include "../config/config.h"
 
-void rc_adj_init(struct rc_adj *self, struct ninja *ninja);
+void rc_adj_init(struct rc_adj *self, struct ninja *ninja, struct config *config);
 void rc_adj_reset(struct rc_adj *self);
 void rc_adj_add_range(struct rc_adj *self, adjustmentRange_t *adjustmentRange);
 void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRanges);
-void rc_adj_update(struct rc_adj *self, const struct config * const config);
+void rc_adj_update(struct rc_adj *self);
 

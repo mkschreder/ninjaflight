@@ -29,8 +29,6 @@
 
 #include "build_config.h"
 
-#include "config/parameter_group.h"
-
 #include "io/serial.h"
 
 #include "rx/rx.h"

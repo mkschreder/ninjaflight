@@ -26,7 +26,6 @@
 
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
 #include "config/config.h"
 
 #include "system.h"

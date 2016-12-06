@@ -12,7 +12,6 @@
 #include "common/utils.h"
 #include "common/filter.h"
 
-#include "config/parameter_group.h"
 #include "config/config_eeprom.h"
 #include "config/profile.h"
 #include "config/tilt.h"
@@ -50,7 +49,6 @@
 #include "flight/tilt.h"
 #include "sensors/instruments.h"
 
-#include "config/runtime_config.h"
 #include "config/config.h"
 #include "config/feature.h"
 
@@ -83,15 +81,15 @@ static void ninja_validate_config(struct ninja *self){
 
     // The retarded_arm setting is incompatible with pid_at_min_throttle because full roll causes the craft to roll over on the ground.
     // The pid_at_min_throttle implementation ignores yaw on the ground, but doesn't currently ignore roll when retarded_arm is enabled.
-    if (armingConfig()->retarded_arm && mixerConfig()->pid_at_min_throttle) {
-        mixerConfig()->pid_at_min_throttle = 0;
+    if (self->config.arm.retarded_arm && self->config.mixer.pid_at_min_throttle) {
+        self->config.mixer.pid_at_min_throttle = 0;
     }
 
 
 #ifdef STM32F10X
     // avoid overloading the CPU on F1 targets when using gyro sync and GPS.
-    if (imuConfig()->gyroSync && imuConfig()->gyroSyncDenominator < 2 && featureConfigured(FEATURE_GPS)) {
-        imuConfig()->gyroSyncDenominator = 2;
+    if (self->config.imu.gyroSync && self->config.imu.gyroSyncDenominator < 2 && featureConfigured(FEATURE_GPS)) {
+        self->config.imu.gyroSyncDenominator = 2;
     }
 #endif
 
@@ -150,12 +148,14 @@ static void ninja_validate_config(struct ninja *self){
     }
 #endif
 
+	/*
+	TODO
     if (!isSerialConfigValid(serialConfig())) {
         PG_RESET_CURRENT(serialConfig);
     }
-
+	*/
 #if defined(USE_VCP)
-    serialConfig()->portConfigs[0].functionMask = FUNCTION_MSP;
+    self->config.serial.portConfigs[0].functionMask = FUNCTION_MSP;
 #endif
 }
 
@@ -167,7 +167,7 @@ void ninja_config_load(struct ninja *self){
         failureMode(FAILURE_INVALID_EEPROM_CONTENTS);
     }
 
-    pgActivateProfile(getCurrentProfile());
+    //pgActivateProfile(getCurrentProfile());
 
 	// TODO: need to set the control rate profile here 
     //setControlRateProfile(rateProfileSelection()->defaultRateProfileIndex);
@@ -180,7 +180,7 @@ void ninja_config_load(struct ninja *self){
     rc_adj_reset(&self->rc_adj);
 
 #ifdef GPS
-    gpsUsePIDs(pidProfile());
+    gpsUsePIDs(&config_get_profile(&self->config)->pid);
 #endif
 
 	// TODO: make sure we move all of this activation stuff into ninja so that we have access to the local state
@@ -214,10 +214,10 @@ void ninja_config_save(struct ninja *self){
 
 void ninja_config_reset(struct ninja *self){
 	(void)self;
-    pgResetAll(MAX_PROFILE_COUNT);
+    //pgResetAll(MAX_PROFILE_COUNT);
 
-    setProfile(0);
-    pgActivateProfile(0);
+    //setProfile(0);
+    //pgActivateProfile(0);
 
 	// TODO: all of this function needs to be a callback in order to work correctly
     //setControlRateProfile(0);
@@ -285,14 +285,17 @@ void ninja_config_reset(struct ninja *self){
 #endif
 
     // copy first profile into remaining profile
+	// TODO: fix this
+	/*
     PG_FOREACH_PROFILE(reg) {
         for (int i = 1; i < MAX_PROFILE_COUNT; i++) {
             memcpy(reg->address + i * pgSize(reg), reg->address, pgSize(reg));
         }
     }
+	*/
 	// TODO: fix this
     for (int i = 1; i < MAX_PROFILE_COUNT; i++) {
-        configureRateProfileSelection(i, i % MAX_CONTROL_RATE_PROFILE_COUNT);
+        config_get_profile_rw(&self->config)->rate.profile_id = i % MAX_CONTROL_RATE_PROFILE_COUNT;
     }
 }
 
@@ -313,7 +316,8 @@ void ninja_config_save_and_beep(struct ninja *self){
 }
 
 void ninja_config_change_profile(struct ninja *self, uint8_t profileIndex){
-    setProfile(profileIndex);
+	(void)profileIndex;
+    //setProfile(profileIndex);
     ninja_config_save(self);
     ninja_config_load(self);
 }

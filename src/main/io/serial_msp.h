@@ -57,6 +57,8 @@
 // Each MSP port requires state and a receive buffer, revisit this default if someone needs more than 2 MSP ports.
 #define MAX_MSP_PORT_COUNT 2
 
+#include "drivers/serial.h"
+
 typedef enum {
     IDLE,
     HEADER_M,
@@ -70,18 +72,27 @@ typedef enum {
 #define MSP_PORT_INBUF_SIZE 64
 #define MSP_PORT_OUTBUF_SIZE 256
 
-typedef struct mspPort_s {
+struct serial_msp_port {
     serialPort_t *port;                      // NULL when port unused.
     mspState_e c_state;
     uint8_t offset;
     uint8_t dataSize;
     uint8_t cmdMSP;
     uint8_t inBuf[MSP_PORT_INBUF_SIZE];
-} mspPort_t;
+};
 
 struct ninja;
+struct msp;
 
-void mspSerialInit(void);
-void mspSerialProcess(struct ninja *ninja);
-void mspSerialAllocatePorts(void);
-void mspSerialReleasePortIfAllocated(serialPort_t *serialPort);
+struct serial_msp {
+	struct serial_msp_port ports[MAX_MSP_PORT_COUNT];
+	const struct config *config;
+	struct msp *msp;
+};
+
+// TODO: look into the dependency here. serial_msp is pointing to msp parser which processes commands received from multiple msp ports managed by single serial_msp object.
+
+void serial_msp_init(struct serial_msp *self, const struct config *config, struct msp *msp);
+void serial_msp_process(struct serial_msp *self, struct ninja *ninja);
+//void serial_msp_alloc_ports(struct serial_msp *self);
+void serial_msp_release_port(struct serial_msp *self, serialPort_t *serialPort);

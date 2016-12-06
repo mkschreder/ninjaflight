@@ -31,9 +31,6 @@
 
 #include "drivers/system.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "config/config.h"
 #include "config/feature.h"
 
@@ -112,9 +109,8 @@ static void setAdjustment(uint8_t* ptr, uint8_t adjustment, int delta, uint8_t m
     blackboxLogInflightAdjustmentEvent(adjustment, *ptr);
 }
 
-static void applyStepAdjustment(struct rc_adj *self, struct rate_config *controlRateConfig, uint8_t adjustmentFunction, int delta)
-{
-
+static void applyStepAdjustment(struct rc_adj *self, struct rate_profile *controlRateConfig, uint8_t adjustmentFunction, int delta){
+	struct pid_config *pid = &config_get_profile_rw(self->config)->pid;
     if (delta > 0) {
         beeper_multi_beeps(&self->ninja->beeper, 2);
     } else {
@@ -148,96 +144,96 @@ static void applyStepAdjustment(struct rc_adj *self, struct rate_config *control
             break;
         case ADJUSTMENT_PITCH_ROLL_P:
         case ADJUSTMENT_PITCH_P:
-            setAdjustment(&pidProfile()->P8[PIDPITCH],ADJUSTMENT_PITCH_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDPITCH],ADJUSTMENT_PITCH_P,delta,PID_MIN,PID_MAX);
             if (adjustmentFunction == ADJUSTMENT_PITCH_P) {
                 break;
             }
             // follow though for combined ADJUSTMENT_PITCH_ROLL_P
         case ADJUSTMENT_ROLL_P:
-            setAdjustment(&pidProfile()->P8[PIDROLL],ADJUSTMENT_ROLL_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDROLL],ADJUSTMENT_ROLL_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_PITCH_ROLL_I:
         case ADJUSTMENT_PITCH_I:
-            setAdjustment(&pidProfile()->I8[PIDPITCH],ADJUSTMENT_PITCH_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDPITCH],ADJUSTMENT_PITCH_I,delta,PID_MIN,PID_MAX);
             if (adjustmentFunction == ADJUSTMENT_PITCH_I) {
                 break;
             }
             // follow though for combined ADJUSTMENT_PITCH_ROLL_I
         case ADJUSTMENT_ROLL_I:
-           setAdjustment(&pidProfile()->I8[PIDROLL],ADJUSTMENT_ROLL_I,delta,PID_MIN,PID_MAX);
+           setAdjustment(&pid->I8[PIDROLL],ADJUSTMENT_ROLL_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_PITCH_ROLL_D:
         case ADJUSTMENT_PITCH_D:
-            setAdjustment(&pidProfile()->D8[PIDPITCH],ADJUSTMENT_PITCH_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDPITCH],ADJUSTMENT_PITCH_D,delta,PID_MIN,PID_MAX);
             if (adjustmentFunction == ADJUSTMENT_PITCH_D) {
                 break;
             }
             // follow though for combined ADJUSTMENT_PITCH_ROLL_D
         case ADJUSTMENT_ROLL_D:
-            setAdjustment(&pidProfile()->D8[PIDROLL],ADJUSTMENT_ROLL_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDROLL],ADJUSTMENT_ROLL_D,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_YAW_P:
-                setAdjustment(&pidProfile()->P8[PIDYAW],ADJUSTMENT_YAW_P,delta,PID_MIN,PID_MAX);
+                setAdjustment(&pid->P8[PIDYAW],ADJUSTMENT_YAW_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_YAW_I:
-            setAdjustment(&pidProfile()->I8[PIDYAW],ADJUSTMENT_YAW_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDYAW],ADJUSTMENT_YAW_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_YAW_D:
-                setAdjustment(&pidProfile()->D8[PIDYAW],ADJUSTMENT_YAW_D,delta,PID_MIN,PID_MAX);
+                setAdjustment(&pid->D8[PIDYAW],ADJUSTMENT_YAW_D,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_LEVEL_P:
-            setAdjustment(&pidProfile()->P8[PIDLEVEL],ADJUSTMENT_LEVEL_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDLEVEL],ADJUSTMENT_LEVEL_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_LEVEL_I:
-            setAdjustment(&pidProfile()->I8[PIDLEVEL],ADJUSTMENT_LEVEL_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDLEVEL],ADJUSTMENT_LEVEL_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_LEVEL_D:
-            setAdjustment(&pidProfile()->D8[PIDLEVEL],ADJUSTMENT_LEVEL_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDLEVEL],ADJUSTMENT_LEVEL_D,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_ALT_P:
-            setAdjustment(&pidProfile()->P8[PIDALT],ADJUSTMENT_ALT_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDALT],ADJUSTMENT_ALT_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_ALT_I:
-            setAdjustment(&pidProfile()->I8[PIDALT],ADJUSTMENT_ALT_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDALT],ADJUSTMENT_ALT_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_ALT_D:
-            setAdjustment(&pidProfile()->D8[PIDALT],ADJUSTMENT_ALT_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDALT],ADJUSTMENT_ALT_D,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_POS_P:
-            setAdjustment(&pidProfile()->P8[PIDPOS],ADJUSTMENT_POS_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDPOS],ADJUSTMENT_POS_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_POS_I:
-            setAdjustment(&pidProfile()->I8[PIDPOS],ADJUSTMENT_POS_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDPOS],ADJUSTMENT_POS_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_POSR_P:
-            setAdjustment(&pidProfile()->P8[PIDPOSR],ADJUSTMENT_POSR_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDPOSR],ADJUSTMENT_POSR_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_POSR_I:
-            setAdjustment(&pidProfile()->I8[PIDPOSR],ADJUSTMENT_POSR_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDPOSR],ADJUSTMENT_POSR_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_POSR_D:
-            setAdjustment(&pidProfile()->D8[PIDPOSR],ADJUSTMENT_POSR_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDPOSR],ADJUSTMENT_POSR_D,delta,PID_MIN,PID_MAX);
             break;
        case ADJUSTMENT_NAVR_P:
-            setAdjustment(&pidProfile()->P8[PIDNAVR],ADJUSTMENT_NAVR_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDNAVR],ADJUSTMENT_NAVR_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_NAVR_I:
-            setAdjustment(&pidProfile()->I8[PIDNAVR],ADJUSTMENT_NAVR_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDNAVR],ADJUSTMENT_NAVR_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_NAVR_D:
-            setAdjustment(&pidProfile()->D8[PIDNAVR],ADJUSTMENT_NAVR_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDNAVR],ADJUSTMENT_NAVR_D,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_MAG_P:
-            setAdjustment(&pidProfile()->P8[PIDMAG],ADJUSTMENT_MAG_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDMAG],ADJUSTMENT_MAG_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_VEL_P:
-            setAdjustment(&pidProfile()->P8[PIDVEL],ADJUSTMENT_VEL_P,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->P8[PIDVEL],ADJUSTMENT_VEL_P,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_VEL_I:
-            setAdjustment(&pidProfile()->I8[PIDVEL],ADJUSTMENT_VEL_I,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->I8[PIDVEL],ADJUSTMENT_VEL_I,delta,PID_MIN,PID_MAX);
             break;
         case ADJUSTMENT_VEL_D:
-            setAdjustment(&pidProfile()->D8[PIDVEL],ADJUSTMENT_VEL_D,delta,PID_MIN,PID_MAX);
+            setAdjustment(&pid->D8[PIDVEL],ADJUSTMENT_VEL_D,delta,PID_MIN,PID_MAX);
             break;
         default:
             break;
@@ -267,7 +263,7 @@ static void applySelectAdjustment(struct rc_adj *self, uint8_t adjustmentFunctio
 
 #define RESET_FREQUENCY_2HZ (1000 / 2)
 
-void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, rxConfig_t *rxConfig){
+void rc_adj_update(struct rc_adj *self){
     uint8_t adjustmentIndex;
     uint32_t now = sys_millis(self->ninja->system);
 
@@ -298,9 +294,9 @@ void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, r
 
         if (adjustmentState->config.mode == ADJUSTMENT_MODE_STEP) {
             int delta;
-            if (rcin > rxConfig->midrc + 200) {
+            if (rcin > self->config->rx.midrc + 200) {
                 delta = adjustmentState->config.data.stepConfig.step;
-            } else if (rcin < rxConfig->midrc - 200) {
+            } else if (rcin < self->config->rx.midrc - 200) {
                 delta = 0 - adjustmentState->config.data.stepConfig.step;
             } else {
                 // returning the switch to the middle immediately resets the ready state
@@ -312,7 +308,7 @@ void rc_adj_update(struct rc_adj *self, struct rate_config *controlRateConfig, r
                 continue;
             }
 
-            applyStepAdjustment(self, controlRateConfig, adjustmentFunction, delta);
+            applyStepAdjustment(self, config_get_rate_profile_rw(self->config), adjustmentFunction, delta);
         } else if (adjustmentState->config.mode == ADJUSTMENT_MODE_SELECT) {
             uint16_t rangeWidth = ((2100 - 900) / adjustmentState->config.data.selectConfig.switchPositions);
             uint8_t position = (constrain(rcin, 900, 2100 - 1) - 900) / rangeWidth;
@@ -338,6 +334,12 @@ void rc_adj_update_states(struct rc_adj *self, adjustmentRange_t *adjustmentRang
         }
 		*/
     }
+}
+
+void rc_adj_init(struct rc_adj *self, struct ninja *ninja, struct config *config){
+	memset(self, 0, sizeof(*self));
+	self->ninja = ninja;
+	self->config = config;
 }
 
 void rc_adj_reset(struct rc_adj *self){

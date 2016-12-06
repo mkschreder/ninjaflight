@@ -511,14 +511,18 @@ static void __attribute__((unused)) _validate_blackbox_config(struct config *sel
 }
 
 const struct config_profile const *config_get_profile(const struct config * const self){
-	return &self->profiles[self->profile.current_profile_index];
+	return &self->profiles[self->profile.profile_id];
 }
 
 struct config_profile *config_get_profile_rw(struct config *self){
-	return &self->profiles[self->profile.current_profile_index];
+	return &self->profiles[self->profile.profile_id];
 }
 
 struct rate_profile const * config_get_rate_profile(const struct config * const self){
+	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
+}
+
+struct rate_profile *config_get_rate_profile_rw(struct config *self){
 	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
 }
 

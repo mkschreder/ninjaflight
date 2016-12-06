@@ -26,10 +26,8 @@
 #include <platform.h>
 
 #include "config/config.h"
-#include "config/parameter_group.h"
 
 #include "config/config.h"
-#include "config/parameter_group.h"
 #include "config/feature.h"
 
 #include "rx/rx.h"

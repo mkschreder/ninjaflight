@@ -75,7 +75,7 @@ static void determineLedStripDimensions(struct ledstrip *self){
 	int maxY = 0;
 
 	for (int ledIndex = 0; ledIndex < self->ledCount; ledIndex++) {
-		const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 
 		maxX = MAX(ledGetX(ledConfig), maxX);
 		maxY = MAX(ledGetY(ledConfig), maxY);
@@ -95,7 +95,7 @@ static void updateLedCount(struct ledstrip *self){
 	int count = 0, countRing = 0;
 
 	for (int ledIndex = 0; ledIndex < LED_MAX_STRIP_LENGTH; ledIndex++) {
-		const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 		if (ledConfig->flags == 0 && ledConfig->xy == 0)
 			break;
 		count++;
@@ -114,116 +114,8 @@ void ledstrip_reload_config(struct ledstrip *self){
 }
 
 // get specialColor by index
-static hsvColor_t *getSC(ledSpecialColorIds_e index){
-	return colors(specialColors(0)->color[index]);
-}
-
-static const char directionCodes[LED_DIRECTION_COUNT] = { 'N', 'E', 'S', 'W', 'U', 'D' };
-static const char functionCodes[LED_FUNCTION_COUNT]   = { 'I', 'W', 'F', 'A', 'T', 'R', 'C', 'G', 'S', 'B' };
-
-#define CHUNK_BUFFER_SIZE 11
-
-bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config){
-	if (ledIndex >= LED_MAX_STRIP_LENGTH)
-		return false;
-
-	enum parseState_e {
-		X_COORDINATE,
-		Y_COORDINATE,
-		DIRECTIONS,
-		FUNCTIONS,
-		RING_COLORS,
-		PARSE_STATE_COUNT
-	};
-	static const char chunkSeparators[PARSE_STATE_COUNT] = {',', ':', ':',':', '\0'};
-
-	ledConfig_t *ledConfig = ledConfigs(ledIndex);
-	memset(ledConfig, 0, sizeof(ledConfig_t));
-
-	int x = 0, y = 0, color = 0;   // initialize to prevent warnings
-	int flags = 0;
-	for(enum parseState_e parseState = 0; parseState < PARSE_STATE_COUNT; parseState++) {
-		char chunk[CHUNK_BUFFER_SIZE];
-		{
-			char chunkSeparator = chunkSeparators[parseState];
-			int chunkIndex = 0;
-			while (*config  && *config != chunkSeparator && chunkIndex < CHUNK_BUFFER_SIZE-1) {
-				chunk[chunkIndex++] = *config++;
-			}
-			chunk[chunkIndex++] = 0; // zero-terminate chunk
-			if (*config != chunkSeparator) {
-				return false;
-			}
-			config++;   // skip separator
-		}
-		switch(parseState) {
-			case X_COORDINATE:
-				x = atoi(chunk);
-				break;
-			case Y_COORDINATE:
-				y = atoi(chunk);
-				break;
-			case DIRECTIONS:
-				for (char* ch = chunk; *ch; ch++) {
-					for (ledDirectionId_e dir = 0; dir < LED_DIRECTION_COUNT; dir++) {
-						if (directionCodes[dir] == *ch) {
-							flags |= LED_FLAG_DIRECTION(dir);
-							break;
-						}
-					}
-				}
-				break;
-			case FUNCTIONS:
-				for (char* ch = chunk; *ch; ch++) {
-					for (ledFunctionId_e fn = 0; fn < LED_FUNCTION_COUNT; fn++) {
-						if (functionCodes[fn] == *ch) {
-							flags |= LED_FLAG_FUNCTION(fn);
-							break;
-						}
-					}
-				}
-				break;
-			case RING_COLORS:
-				color = atoi(chunk);
-				if (color >= LED_CONFIGURABLE_COLOR_COUNT)
-					color = 0;
-				break;
-			default:
-			case PARSE_STATE_COUNT:; // prevent warning
-		}
-	}
-	ledSetXY(ledConfig, x, y);
-	ledConfig->color = color;
-	ledConfig->flags = flags;
-
-	ledstrip_reload_config(self);
-	return true;
-}
-
-void ledstrip_genconfig(struct ledstrip *self, int ledIndex, char *ledConfigBuffer, size_t bufferSize){
-	(void)self;
-	char functions[LED_FUNCTION_COUNT + 1];
-	char directions[LED_DIRECTION_COUNT + 1];
-
-	ledConfig_t *ledConfig = ledConfigs(ledIndex);
-
-	memset(ledConfigBuffer, 0, bufferSize);
-	char *fptr = functions;
-	for (ledFunctionId_e fn = 0; fn < LED_FUNCTION_COUNT; fn++) {
-		if (ledConfig->flags & LED_FLAG_FUNCTION(fn)) {
-			*fptr++ = functionCodes[fn];
-		}
-	}
-	*fptr = 0;
-	char *dptr = directions;
-	for (ledDirectionId_e dir = 0; dir < LED_DIRECTION_COUNT; dir++) {
-		if (ledConfig->flags & LED_FLAG_DIRECTION(dir)) {
-			*dptr++ = directionCodes[dir];
-		}
-	}
-	*dptr = 0;
-	// TODO - check buffer length
-	//sprintf(ledConfigBuffer, "%u,%u:%s:%s:%u", ledGetX(ledConfig), ledGetY(ledConfig), directions, functions, ledConfig->color);
+static const struct hsvColor_s *getSC(struct ledstrip *self, ledSpecialColorIds_e index){
+	return &self->config->ledstrip.colors[self->config->ledstrip.spcColors[0].color[index]];
 }
 
 typedef enum {
@@ -243,7 +135,7 @@ typedef enum {
 } quadrant_e;
 
 static quadrant_e __attribute__((unused)) getLedQuadrant(struct ledstrip *self, const int ledIndex){
-	const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+	const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 
 	int quad = 0;
 	if (ledGetY(ledConfig) <= self->highestYValueForNorth)
@@ -349,7 +241,7 @@ static void applyLedHue(struct ledstrip *self, ledFunctionId_e flag, int16_t val
 	scaled += HSV_HUE_MAX;   // wrap negative values correctly
 
 	for (int i = 0; i < self->ledCount; ++i) {
-		const ledConfig_t *ledConfig = ledConfigs(i);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[i];
 		if (!(ledConfig->flags & LED_FLAG_FUNCTION(flag)))
 			continue;
 
@@ -434,7 +326,7 @@ static void applyLedWarningLayer(struct ledstrip *self, bool updateNow, uint32_t
 		}
 
 		for (int ledIndex = 0; ledIndex < self->ledCount; ledIndex++) {
-			const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+			const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 			if (!(ledConfig->flags & LED_FLAG_FUNCTION(LED_FUNCTION_WARNING)))
 				continue;
 
@@ -564,14 +456,14 @@ static void applyLedThrustRingLayer(struct ledstrip *self, bool updateNow, uint3
 	}
 
 	for (int ledIndex = 0; ledIndex < self->ledCount; ledIndex++) {
-		const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 		if (!(ledConfig->flags & LED_FLAG_FUNCTION(LED_FUNCTION_THRUST_RING)))
 			continue;
 
 		bool applyColor;
 		applyColor = (ledRingIndex + rotationPhase) % self->ledRingSeqLen < ROTATION_SEQUENCE_LED_WIDTH;
 
-		const hsvColor_t *ringColor = applyColor ? colors(ledConfig->color) : &HSV(BLACK);
+		const hsvColor_t *ringColor = applyColor ? &self->config->ledstrip.colors[ledConfig->color] : &HSV(BLACK);
 		setLedHsv(ledIndex, ringColor);
 
 		ledRingIndex++;
@@ -595,11 +487,11 @@ static void applyLedBlinkLayer(struct ledstrip *self, bool updateNow, uint32_t *
 	bool ledOn = (blinkCounter & 1) == 0 && blinkCounter < 4;  // b_b_____...
 
 	for (int i = 0; i < self->ledCount; ++i) {
-		const ledConfig_t *ledConfig = ledConfigs(i);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[i];
 		if (!(ledConfig->flags & LED_FLAG_FUNCTION(LED_FUNCTION_BLINK)))
 			continue;
 
-		const hsvColor_t *blinkColor = ledOn ? colors(ledConfig->color) : getSC(LED_SCOLOR_BLINKBACKGROUND);
+		const hsvColor_t *blinkColor = ledOn ? &self->config->ledstrip.colors[ledConfig->color] : getSC(self, LED_SCOLOR_BLINKBACKGROUND);
 		setLedHsv(i, blinkColor);
 	}
 }
@@ -624,7 +516,7 @@ static void applyLedAnimationLayer(bool updateNow, uint32_t *timer)
 	int nextRow = (frameCounter + 1 < animationFrames) ? frameCounter + 1 : 0;
 
 	for (int ledIndex = 0; ledIndex < ledCount; ledIndex++) {
-		const ledConfig_t *ledConfig = ledConfigs(ledIndex);
+		const struct led_config *ledConfig = &self->config->ledstrip.leds[ledIndex];
 
 		if (ledGetY(ledConfig) == previousRow) {
 			setLedHsv(ledIndex, getSC(LED_SCOLOR_ANIMATION));
@@ -727,81 +619,12 @@ void ledstrip_update(struct ledstrip *self){
 	ws2811UpdateStrip();
 }
 
-bool parseColor(int index, const char *colorConfig)
-{
-	const char *remainingCharacters = colorConfig;
-
-	hsvColor_t *color = colors(index);
-
-	bool result = true;
-	static const uint16_t hsv_limit[HSV_COLOR_COMPONENT_COUNT] = {
-		[HSV_HUE] = HSV_HUE_MAX,
-		[HSV_SATURATION] = HSV_SATURATION_MAX,
-		[HSV_VALUE] = HSV_VALUE_MAX,
-	};
-	for (int componentIndex = 0; result && componentIndex < HSV_COLOR_COMPONENT_COUNT; componentIndex++) {
-		int val = atoi(remainingCharacters);
-		if(val > hsv_limit[componentIndex]) {
-			result = false;
-			break;
-		}
-		switch (componentIndex) {
-			case HSV_HUE:
-				color->h = val;
-				break;
-			case HSV_SATURATION:
-				color->s = val;
-				break;
-			case HSV_VALUE:
-				color->v = val;
-				break;
-			default:
-				break;
-		}
-		remainingCharacters = strchr(remainingCharacters, ',');
-		if (remainingCharacters) {
-			remainingCharacters++;  // skip separator
-		} else {
-			if (componentIndex < HSV_COLOR_COMPONENT_COUNT - 1) {
-				result = false;
-			}
-		}
-	}
-
-	if (!result) {
-		memset(color, 0, sizeof(*color));
-	}
-
-	return result;
-}
-
-/*
- * Redefine a color in a mode.
- * */
-bool ledstrip_set_mode_color(struct ledstrip *self, ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex)
-{
-	(void)self;
-	// check color
-	if(colorIndex < 0 || colorIndex >= LED_CONFIGURABLE_COLOR_COUNT)
-		return false;
-	if(modeIndex < LED_MODE_COUNT) {  // modeIndex_e is unsigned, so one-sided test is enough
-		if(modeColorIndex < 0 || modeColorIndex >= LED_DIRECTION_COUNT)
-			return false;
-		modeColors(modeIndex)->color[modeColorIndex] = colorIndex;
-	} else if(modeIndex == LED_SPECIAL) {
-		if(modeColorIndex < 0 || modeColorIndex >= LED_SPECIAL_COLOR_COUNT)
-			return false;
-		specialColors(0)->color[modeColorIndex] = colorIndex;
-	} else {
-		return false;
-	}
-	return true;
-}
-
-void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct rx *rx){
+void ledstrip_init(struct ledstrip *self, const struct config const *config, const struct system_calls *system, struct rx *rx, struct failsafe *failsafe){
 	memset(self, 0, sizeof(struct ledstrip));
 	self->rx = rx;
 	self->system = system;
+	self->failsafe = failsafe;
+	self->config = config;
 	self->ledStripInitialised = false;
 	self->ledStripEnabled = true;
 }

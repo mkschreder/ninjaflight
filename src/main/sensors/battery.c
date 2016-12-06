@@ -39,7 +39,7 @@
 #define VBATT_PRESENT_THRESHOLD_MV	10
 #define VBATT_LPF_FREQ  1.0f
 
-void battery_init(struct battery *self, struct battery_config *config){
+void battery_init(struct battery *self, const struct config *config){
 	memset(self, 0, sizeof(struct battery));
 	self->config = config;
 	self->batteryCellCount = 3;

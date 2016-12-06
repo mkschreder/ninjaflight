@@ -47,9 +47,10 @@ struct ledstrip {
 	struct failsafe *failsafe;
 	struct battery *battery;
 	struct rx *rx;
+	const struct config const *config;
 };
 
-void ledstrip_init(struct ledstrip *self, const struct system_calls *system, struct rx *rx);
+void ledstrip_init(struct ledstrip *self, const struct config const *config, const struct system_calls *system, struct rx *rx, struct failsafe *failsafe);
 
 bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config);
 void ledstrip_update(struct ledstrip *self);
@@ -58,7 +59,6 @@ void ledstrip_update_ring(struct ledstrip *self);
 void ledstrip_set_default_config(struct ledstrip *self);
 void ledstrip_genconfig(struct ledstrip *self, int ledIndex, char *ledConfigBuffer, size_t bufferSize);
 
-bool parseColor(int index, const char *colorConfig);
 void applyDefaultColors(void);
 
 void ledstrip_enable(struct ledstrip *self);
@@ -66,6 +66,4 @@ void ledstrip_disable(struct ledstrip *self);
 
 //! Currently reloads config from the global store TODO: pass config to init!
 void ledstrip_reload_config(struct ledstrip *self);
-
-bool ledstrip_set_mode_color(struct ledstrip *self, ledModeIndex_e modeIndex, int modeColorIndex, int colorIndex);
 
