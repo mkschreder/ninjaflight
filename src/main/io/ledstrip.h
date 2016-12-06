@@ -47,10 +47,11 @@ struct ledstrip {
 	struct failsafe *failsafe;
 	struct battery *battery;
 	struct rx *rx;
-	const struct config const *config;
+	const struct config *config;
 };
 
-void ledstrip_init(struct ledstrip *self, const struct config const *config, const struct system_calls *system, struct rx *rx, struct failsafe *failsafe);
+// TODO: ledstrip should not depend on rx and failsafe
+void ledstrip_init(struct ledstrip *self, const struct config *config, const struct system_calls *system, struct rx *rx, struct failsafe *failsafe);
 
 bool ledstrip_set_led_config(struct ledstrip *self, int ledIndex, const char *config);
 void ledstrip_update(struct ledstrip *self);

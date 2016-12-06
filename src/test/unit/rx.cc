@@ -39,8 +39,6 @@ extern "C" {
     #include <platform.h>
 
     #include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "rx/rx.h"
 	#include "flight/failsafe.h"
@@ -70,16 +68,19 @@ protected:
     virtual void SetUp() {
 		mock_system_reset();
 
-		rx_init(&rx, mock_syscalls());
+		config_reset(&config);
+
+		rx_init(&rx, mock_syscalls(), &config);
 		rx_set_type(&rx, RX_PPM);
-		rx_remap_channels(&rx, "AERT1234");
+		rx_config_set_mapping(&config.rx, "AERT1234");
 
 		// we use auto mode by default
 		for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
-			failsafeChannelConfigs(c)->mode = RX_FAILSAFE_MODE_AUTO;
+			config.rx_output.failsafe[c].mode = RX_FAILSAFE_MODE_AUTO;
 		}
     }
 	struct rx rx;
+	struct config config;
 };
 
 /**
@@ -103,7 +104,7 @@ TEST_F(RxTest, TestStartupValues){
 	// use less channels than max just to check failsafe function
 	for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
 		if(c == 3) EXPECT_EQ(1000, rx_get_channel(&rx, c));
-		else EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, c));
+		else EXPECT_EQ(config.rx.midrc, rx_get_channel(&rx, c));
 	}
 }
 
@@ -151,7 +152,7 @@ TEST_F(RxTest, TestFailsafeOnSingleChannelLoss){
 	EXPECT_FALSE(rx_is_healthy(&rx));
 
 	// should be failsafe
-	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, 1));
+	EXPECT_EQ(config.rx.midrc, rx_get_channel(&rx, 1));
 
 	// now reconnect the signal
 	mock_rc_pwm[1] = 1000;
@@ -199,7 +200,7 @@ TEST_F(RxTest, TestSignalLoss){
 	// check that all channels are failsafe
 	for(int c = 0; c < 6; c++){
 		if(c == THROTTLE) EXPECT_EQ(1000, rx_get_channel(&rx, c));
-		else EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, c));
+		else EXPECT_EQ(config.rx.midrc, rx_get_channel(&rx, c));
 	}
 
 	// reconnect all channels
@@ -233,8 +234,8 @@ TEST_F(RxTest, TestFailsafeModes){
 	EXPECT_EQ(1600, rx_get_channel(&rx, AUX2));
 
 	// configure roll and throttle to be in hold mode
-	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_HOLD;
-	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_HOLD;
+	config.rx_output.failsafe[AUX1].mode = RX_FAILSAFE_MODE_HOLD;
+	config.rx_output.failsafe[AUX2].mode = RX_FAILSAFE_MODE_HOLD;
 
 	EXPECT_TRUE(rx_is_healthy(&rx));
 
@@ -252,11 +253,11 @@ TEST_F(RxTest, TestFailsafeModes){
 	EXPECT_EQ(1600, rx_get_channel(&rx, AUX1));
 	EXPECT_EQ(1600, rx_get_channel(&rx, AUX2));
 
-	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_SET;
-	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_SET;
+	config.rx_output.failsafe[AUX1].mode = RX_FAILSAFE_MODE_SET;
+	config.rx_output.failsafe[AUX2].mode = RX_FAILSAFE_MODE_SET;
 
-	failsafeChannelConfigs(AUX1)->step = 13;
-	failsafeChannelConfigs(AUX2)->step = 13;
+	config.rx_output.failsafe[AUX1].step = 13;
+	config.rx_output.failsafe[AUX2].step = 13;
 
 	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
@@ -264,13 +265,13 @@ TEST_F(RxTest, TestFailsafeModes){
 	EXPECT_EQ(RXFAIL_STEP_TO_CHANNEL_VALUE(13), rx_get_channel(&rx, AUX1));
 	EXPECT_EQ(RXFAIL_STEP_TO_CHANNEL_VALUE(13), rx_get_channel(&rx, AUX2));
 
-	failsafeChannelConfigs(AUX1)->mode = RX_FAILSAFE_MODE_AUTO;
-	failsafeChannelConfigs(AUX2)->mode = RX_FAILSAFE_MODE_AUTO;
+	config.rx_output.failsafe[AUX1].mode = RX_FAILSAFE_MODE_AUTO;
+	config.rx_output.failsafe[AUX2].mode = RX_FAILSAFE_MODE_AUTO;
 
 	rx_run(&rx, RX_CHANNEL_TIMEOUT);
 
-	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX1));
-	EXPECT_EQ(rxConfig()->midrc, rx_get_channel(&rx, AUX2));
+	EXPECT_EQ(config.rx.midrc, rx_get_channel(&rx, AUX1));
+	EXPECT_EQ(config.rx.midrc, rx_get_channel(&rx, AUX2));
 }
 
 /**
@@ -296,7 +297,7 @@ TEST_F(RxTest, ChannelRemapping){
 	// pwm 0 = AUX4
 	// pwm 1 = AUX3
 	// etc
-	rx_remap_channels(&rx, "4321AETR");
+	rx_config_set_mapping(&config.rx, "4321AETR");
 
 	rx_run(&rx, 1);
 
@@ -328,8 +329,8 @@ TEST_F(RxTest, OutputRange){
 	rx_run(&rx, 1);
 
 	// just check
-	EXPECT_EQ(885, rxConfig()->rx_min_usec);
-	EXPECT_EQ(2115, rxConfig()->rx_max_usec);
+	EXPECT_EQ(885, config.rx.rx_min_usec);
+	EXPECT_EQ(2115, config.rx.rx_max_usec);
 
 	// set various valid and invalid ranges
 	mock_rc_pwm[0] = -123;

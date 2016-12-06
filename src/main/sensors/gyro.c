@@ -27,7 +27,6 @@
 #include "common/filter.h"
 
 #include "config/config.h"
-#include "config/config_reset.h"
 
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"

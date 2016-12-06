@@ -107,6 +107,20 @@ static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 	fflush(stdout);
 }
 
+static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+	(void)self;
+	(void)dst;
+	printf("EEPROM read from %04x, size %lu\n", addr, size);
+	return 0;
+}
+
+static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, void *data, size_t size){
+	(void)self;
+	(void)data;
+	printf("EEPROM write to %04x, size %lu\n", addr, size);
+	return 0;
+}
+
 static const struct system_calls syscalls {
 	.pwm = {
 		.write_motor = _write_motor,
@@ -127,6 +141,10 @@ static const struct system_calls syscalls {
 	},
 	.time = {
 		.micros = _micros
+	},
+	.eeprom = {
+		.read = _eeprom_read,
+		.write = _eeprom_write
 	}
 };
 
@@ -142,7 +160,7 @@ void ninja_config_reset(struct ninja *self);
 }
 
 void mock_system_reset(){
-	ninja_config_reset(NULL);
+	//ninja_config_reset(NULL);
 	memset(mock_motor_pwm, 0, sizeof(mock_motor_pwm));
 	memset(mock_servo_pwm, 0, sizeof(mock_servo_pwm));
 	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));

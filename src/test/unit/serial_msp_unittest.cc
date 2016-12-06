@@ -30,7 +30,6 @@ extern "C" {
     #include "common/streambuf.h"
     #include "common/utils.h"
 
-    #include "config/parameter_group.h"
     #include "config/config_eeprom.h"
 
     #include "drivers/system.h"
@@ -48,8 +47,6 @@ extern "C" {
 
 	#include "flight/mixer.h"
 
-    #include "config/parameter_group_ids.h"
-    #include "config/runtime_config.h"
     #include "config/config.h"
 
 	#include "msp.h"
@@ -59,10 +56,9 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
-
+// TODO: serial_msp
+#if 0
 extern "C" {
-    void mspSerialProcessReceivedCommand(mspPort_t *msp);
-    extern mspPort_t mspPorts[];
 }
 
 typedef struct mspHeader_s {
@@ -264,4 +260,4 @@ serialPort_t *openSoftSerial(softSerialPortIndex_e, serialReceiveCallbackPtr, ui
 void serialSetMode(serialPort_t *, portMode_t) {}
 bool isRebootScheduled = false;
 }
-
+#endif

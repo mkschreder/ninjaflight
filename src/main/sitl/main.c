@@ -81,6 +81,8 @@ int usleep(uint32_t us){
 
 struct application {
 	struct ninja ninja;
+	struct config config;
+
 	struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
 
@@ -229,9 +231,11 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		}
 	};
 
-	ninja_init(&self->ninja, &self->syscalls);
+	config_load(&self->config, &self->syscalls);
 
-	struct config *conf = &self->ninja.config;
+	ninja_init(&self->ninja, &self->syscalls, &self->config);
+
+	struct config *conf = &self->config;
 	struct pid_config *pid = &config_get_profile_rw(conf)->pid;
 	struct rate_profile *rates = config_get_rate_profile_rw(conf);
 

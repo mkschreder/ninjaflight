@@ -36,7 +36,7 @@
 #define VBATT_PRESENT_THRESHOLD_MV	10
 #define VBATT_LPF_FREQ  1.0f
 
-void battery_init(struct battery *self, const struct config *config){
+void battery_init(struct battery *self, const struct battery_config *config){
 	memset(self, 0, sizeof(struct battery));
 	self->config = config;
 	self->batteryCellCount = 3;
@@ -73,7 +73,7 @@ uint16_t _battery_adc_to_voltage(struct battery *self, uint16_t src);
 uint16_t _battery_adc_to_voltage(struct battery *self, uint16_t src){
 	// calculate battery voltage based on ADC reading
 	// result is Vbatt in 0.1V steps. 3.3V = ADC Vref, 0xFFF = 12bit adc, 110 = 11:1 voltage divider (10k:1k) * 10 for 0.1V
-	return ((((uint32_t)src * self->config->bat.vbatscale * 33 + (0xFFF * 5)) / (0xFFF * self->config->bat.vbatresdivval)) / self->config->bat.vbatresdivmultiplier);
+	return ((((uint32_t)src * self->config->vbatscale * 33 + (0xFFF * 5)) / (0xFFF * self->config->vbatresdivval)) / self->config->vbatresdivmultiplier);
 }
 
 static void _battery_update_voltage(struct battery *self){
@@ -102,14 +102,14 @@ void battery_update(struct battery *self){
 		usleep(VBATTERY_STABLE_DELAY * 1000);
 		_battery_update_voltage(self);
 
-		unsigned cells = (_battery_adc_to_voltage(self, self->vbatLatestADC) / self->config->bat.vbatmaxcellvoltage) + 1;
+		unsigned cells = (_battery_adc_to_voltage(self, self->vbatLatestADC) / self->config->vbatmaxcellvoltage) + 1;
 		if (cells > 8) {
 			// something is wrong, we expect 8 cells maximum (and autodetection will be problematic at 6+ cells)
 			cells = 8;
 		}
 		self->batteryCellCount = cells;
-		self->batteryWarningVoltage = self->batteryCellCount * self->config->bat.vbatwarningcellvoltage;
-		self->batteryCriticalVoltage = self->batteryCellCount * self->config->bat.vbatmincellvoltage;
+		self->batteryWarningVoltage = self->batteryCellCount * self->config->vbatwarningcellvoltage;
+		self->batteryCriticalVoltage = self->batteryCellCount * self->config->vbatmincellvoltage;
 	}
 	/* battery has been disconnected - can take a while for filter cap to disharge so we use a threshold of VBATT_PRESENT_THRESHOLD_MV */
 	else if (self->batteryState != BATTERY_NOT_PRESENT && self->vbat <= VBATT_PRESENT_THRESHOLD_MV)
@@ -136,22 +136,22 @@ static int32_t _battery_current_to_centiamps(struct battery *self, uint16_t src)
 	int32_t millivolts;
 
 	millivolts = ((uint32_t)src * ADCVREF) / 4096;
-	millivolts -= self->config->bat.currentMeterOffset;
+	millivolts -= self->config->currentMeterOffset;
 
-	return (millivolts * 1000) / (int32_t)self->config->bat.currentMeterScale; // current in 0.01A steps
+	return (millivolts * 1000) / (int32_t)self->config->currentMeterScale; // current in 0.01A steps
 }
 
 void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt){
 	static int32_t amperageRaw = 0;
 	static int64_t mAhdrawnRaw = 0;
-	switch(self->config->bat.currentMeterType) {
+	switch(self->config->currentMeterType) {
 		case CURRENT_SENSOR_ADC:
 			amperageRaw -= amperageRaw / 8;
 			amperageRaw += (self->amperageLatestADC = adcGetChannel(ADC_CURRENT));
 			self->amperage = _battery_current_to_centiamps(self, amperageRaw / 8);
 			break;
 		case CURRENT_SENSOR_VIRTUAL:
-			self->amperage = (int32_t)self->config->bat.currentMeterOffset;
+			self->amperage = (int32_t)self->config->currentMeterOffset;
 			break;
 		case CURRENT_SENSOR_NONE:
 			self->amperage = 0;
@@ -176,11 +176,11 @@ void battery_update_current_meter(struct battery *self, int32_t lastUpdateAt){
 
 uint8_t battery_get_remaining_percent(struct battery *self)
 {
-	return (((uint32_t)self->vbat - (self->config->bat.vbatmincellvoltage * self->batteryCellCount)) * 100) / ((self->config->bat.vbatmaxcellvoltage - self->config->bat.vbatmincellvoltage) * self->batteryCellCount);
+	return (((uint32_t)self->vbat - (self->config->vbatmincellvoltage * self->batteryCellCount)) * 100) / ((self->config->vbatmaxcellvoltage - self->config->vbatmincellvoltage) * self->batteryCellCount);
 }
 
 uint8_t battery_get_remaining_capacity(struct battery *self){
-	uint16_t batteryCapacity = self->config->bat.batteryCapacity;
+	uint16_t batteryCapacity = self->config->batteryCapacity;
 
 	return constrain((batteryCapacity - constrain(self->mAhDrawn, 0, 0xFFFF)) * 100.0f / batteryCapacity , 0, 100);
 }

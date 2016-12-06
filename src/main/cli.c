@@ -1393,53 +1393,6 @@ static void cliLed(struct cli *self, char *cmdline)
 	*/
 }
 
-static bool ledstrip_set_color(struct ledstrip_config *self, int index, const char *colorConfig){
-	const char *remainingCharacters = colorConfig;
-
-	hsvColor_t *color = &self->colors[index];
-
-	bool result = true;
-	static const uint16_t hsv_limit[HSV_COLOR_COMPONENT_COUNT] = {
-		[HSV_HUE] = HSV_HUE_MAX,
-		[HSV_SATURATION] = HSV_SATURATION_MAX,
-		[HSV_VALUE] = HSV_VALUE_MAX,
-	};
-	for (int componentIndex = 0; result && componentIndex < HSV_COLOR_COMPONENT_COUNT; componentIndex++) {
-		int val = atoi(remainingCharacters);
-		if(val > hsv_limit[componentIndex]) {
-			result = false;
-			break;
-		}
-		switch (componentIndex) {
-			case HSV_HUE:
-				color->h = val;
-				break;
-			case HSV_SATURATION:
-				color->s = val;
-				break;
-			case HSV_VALUE:
-				color->v = val;
-				break;
-			default:
-				break;
-		}
-		remainingCharacters = strchr(remainingCharacters, ',');
-		if (remainingCharacters) {
-			remainingCharacters++;  // skip separator
-		} else {
-			if (componentIndex < HSV_COLOR_COMPONENT_COUNT - 1) {
-				result = false;
-			}
-		}
-	}
-
-	if (!result) {
-		memset(color, 0, sizeof(*color));
-	}
-
-	return result;
-}
-
 
 static void cliColor(struct cli *self, char *cmdline)
 {
@@ -1459,7 +1412,7 @@ static void cliColor(struct cli *self, char *cmdline)
         i = atoi(ptr);
         if (i < LED_CONFIGURABLE_COLOR_COUNT) {
             ptr = strchr(ptr, ' ');
-            if (!ptr || !ledstrip_set_color(&self->config->ledstrip, i, ptr + 1)) {
+            if (!ptr || !ledstrip_config_set_color(&self->config->ledstrip, i, ptr + 1)) {
                 cliShowParseError(self);
             }
         } else {

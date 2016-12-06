@@ -32,8 +32,6 @@ extern "C" {
     #include "common/filter.h"
 
 	#include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -59,25 +57,6 @@ extern "C" {
 	rxRuntimeConfig_t rxRuntimeConfig;
 
 	struct pid_controller_output pid_output; 
-
-	uint32_t rcModeActivationMask;
-	int16_t debug[DEBUG16_VALUE_COUNT];
-
-	uint8_t stateFlags;
-	uint16_t flightModeFlags;
-	uint8_t armingFlags;
-
-	uint32_t targetLooptime;
-	uint8_t testFeatureMask;
-
-	float applyBiQuadFilter(float sample, biquad_t *state) {UNUSED(state);return sample;}
-	void BiQuadNewLpf(float filterCutFreq, biquad_t *newState, uint32_t refreshRate) {UNUSED(filterCutFreq);UNUSED(newState);UNUSED(refreshRate);}
-
-
-	bool feature(uint32_t mask) {
-		return (mask & testFeatureMask);
-	}
-	bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
 }
 
 TEST(TiltComensator, CompensationTest){

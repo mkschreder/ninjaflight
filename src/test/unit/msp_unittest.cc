@@ -33,7 +33,6 @@ extern "C" {
     #include "common/streambuf.h"
     #include "common/utils.h"
 
-    #include "config/parameter_group.h"
     #include "config/config_eeprom.h"
 
     #include "drivers/system.h"
@@ -66,8 +65,6 @@ extern "C" {
     #include "flight/navigation.h"
     #include "flight/failsafe.h"
 
-    #include "config/parameter_group_ids.h"
-    #include "config/runtime_config.h"
     #include "config/config.h"
 }
 
@@ -76,8 +73,6 @@ extern "C" {
 
 
 extern "C" {
-    uint8_t pgMatcherForMSPSet(const pgRegistry_t *candidate, const void *criteria);
-    uint8_t pgMatcherForMSP(const pgRegistry_t *candidate, const void *criteria);
 }
 
 
@@ -443,151 +438,3 @@ TEST_F(MspTest, TestMspCommands)
     }
 }
 #endif
-// STUBS
-extern "C" {
-#include "ninja.h"
-struct ninja ninja;
-// from acceleration.c
-acc_t acc;                       // acc access functions
-void accSetCalibrationCycles(uint16_t calibrationCyclesRequired) {UNUSED(calibrationCyclesRequired);}
-// from altitudehold.c
-int32_t AltHold;
-int32_t vario = 0;                      // variometer in cm/s
-int32_t altitudeHoldGetEstimatedAltitude(void) {return 0;}
-// from battery.c
-uint16_t vbat = 0;                   // battery voltage in 0.1V steps (filtered)
-int32_t amperage = 0;               // amperage read by current sensor in centiampere (1/100th A)
-int32_t mAhDrawn = 0;               // milliampere hours drawn from the battery since start
-// from compass.c
-int32_t magADC[XYZ_AXIS_COUNT];
-// from config.c
-struct rate_config controlRateProfile;
-struct rate_config *currentControlRateProfile = &controlRateProfile;
-void resetPidProfile(struct pid_config *pidProfile) {UNUSED(pidProfile);}
-void handleOneshotFeatureChangeOnRestart(void) {}
-void readEEPROM(void) {}
-void resetEEPROM(void) {}
-void writeEEPROM(void) {}
-void changeProfile(uint8_t) {};
-void setProfile(uint8_t) {};
-uint8_t getCurrentProfile(void) { return 0; };
-bool feature(uint32_t mask) {UNUSED(mask);return false;}
-void featureSet(uint32_t mask) {UNUSED(mask);}
-void featureClearAll() {}
-uint32_t featureMask(void) {return 0;}
-// from debug.c
-int16_t debug[DEBUG16_VALUE_COUNT];
-// from gps.c
-#define GPS_SV_MAXSATS   16
-int32_t GPS_coord[2];               // LAT/LON
-uint8_t GPS_numSat;
-uint8_t GPS_update = 0;             // it's a binary toggle to distinct a GPS position update
-uint16_t GPS_altitude;              // altitude in 0.1m
-uint16_t GPS_speed;                 // speed in 0.1m/s
-uint16_t GPS_ground_course = 0;     // degrees * 10
-uint8_t GPS_numCh;                          // Number of channels
-uint8_t GPS_svinfo_chn[GPS_SV_MAXSATS];     // Channel number
-uint8_t GPS_svinfo_svid[GPS_SV_MAXSATS];    // Satellite ID
-uint8_t GPS_svinfo_quality[GPS_SV_MAXSATS]; // Bitfield Qualtity
-uint8_t GPS_svinfo_cno[GPS_SV_MAXSATS];     // Carrier to Noise Ratio (Signal Strength)
-// from gyro.c
-int32_t gyroADC[XYZ_AXIS_COUNT];
-// from ledstrip.c
-void reevalulateLedConfig(void) {}
-bool setModeColor(ledModeIndex_e , int , int ) { return true; }
-// from mixer.c
-int16_t motor[MAX_SUPPORTED_MOTORS];
-int16_t motor_disarmed[MAX_SUPPORTED_MOTORS];
-int16_t servo[MAX_SUPPORTED_SERVOS];
-struct mixer default_mixer; 
-uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id){ (void)self; (void)id; return 1000; }
-uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id){ (void)self; (void)id; return 1000; }
-int16_t mixer_get_output_disarmed_pwm(struct mixer *self, uint8_t id){ (void)self; (void)id; return 900; }
-void mixer_input_command(struct mixer *self, mixer_input_t id, int16_t value){ (void)self; (void)id; (void)value; }
-void stopMotors(struct mixer *self) {(void)self;}
-void loadCustomServoMixer(void) {}
-// from msp.c
-void rxMspFrameReceive(uint16_t *, int ) {}
-// from mw.c
-uint16_t cycleTime = 0;         // this is the number in micro second to achieve a full loop, it can differ a little and is taken into account in the PID loop
-// from navigation.c
-int32_t GPS_home[2];
-int32_t GPS_hold[2];
-uint16_t GPS_distanceToHome;        // distance to home point in meters
-int16_t GPS_directionToHome;        // direction to home or hol point in degrees
-navigationMode_e navi_mode = NAV_MODE_NONE;    // Navigation mode
-void GPS_set_next_wp(int32_t *, int32_t *) {}
-// from pid.c
-struct anglerate default_controller; 
-void anglerate_set_algo(struct anglerate *self, pid_controller_type_t algo){ UNUSED(self); UNUSED(algo); }
-struct battery default_battery;
-struct instruments default_ins;
-// from rc_controls.c
-uint32_t rcModeActivationMask; // one bit per mode defined in boxId_e
-bool rcModeIsActive(boxId_e modeId) { return rcModeActivationMask & (1 << modeId); }
-void useRcControlsConfig(modeActivationCondition_t *) {};
-void ins_start_acc_calibration(struct instruments *self) { (void)self; }
-// from runtime_config.c
-uint8_t armingFlags = 0;
-uint8_t stateFlags = 0;
-uint16_t flightModeFlags = 0;
-bool sensors(uint32_t mask) {UNUSED(mask);return 0;}
-// from rx.c
-void ninja_calibrate_acc(){ }
-void ninja_calibrate_mag() {}
-// from system_stm32fN0x.c
-void systemReset(void) {}
-void systemResetToBootloader(void) {}
-// from scheduler.c
-uint16_t averageSystemLoadPercent = 0;
-// from transponder_ir.c
-void transponderUpdateData(uint8_t*) {}
-// from serial port drivers
-serialPort_t *usbVcpOpen(void) { return NULL; }
-serialPort_t *uartOpen(USART_TypeDef *, serialReceiveCallbackPtr, uint32_t, portMode_t, portOptions_t) { return NULL; }
-serialPort_t *openSoftSerial(softSerialPortIndex_e, serialReceiveCallbackPtr, uint32_t, portOptions_t) { return NULL; }
-void serialSetMode(serialPort_t *, portMode_t) {}
-
-void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc){
-	acc->values.x = self->accSmooth[X]; 
-	acc->values.y = self->accSmooth[Y]; 
-	acc->values.z = self->accSmooth[Z]; 
-}
-
-int16_t imu_get_roll_dd(struct imu *self){
-	return self->attitude.values.roll; 
-}
-
-int16_t imu_get_pitch_dd(struct imu *self){
-	return self->attitude.values.pitch; 
-}
-
-int16_t imu_get_yaw_dd(struct imu *self){
-	return self->attitude.values.yaw; 
-}
-
-uint16_t battery_get_voltage(struct battery *self){
-	return self->vbat;
-}
-
-uint8_t battery_get_cell_count(struct battery *self){
-	return self->batteryCellCount;
-}
-
-int32_t battery_get_current(struct battery *self){
-	return self->amperage;
-}
-
-int32_t battery_get_spent_capacity(struct battery *self){
-	return self->mAhDrawn;
-}
-
-uint16_t battery_get_cell_voltage(struct battery *self){
-	return ((uint32_t)self->vbat * 100 + self->batteryCellCount) / (self->batteryCellCount * 2);
-}
-
-
-void mspSerialProcess() {}
-bool isSerialTransmitBufferEmpty(serialPort_t *) { return true; }
-}
-

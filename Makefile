@@ -243,6 +243,7 @@ COMMON_SRC = build_config.c \
 		   drivers/config_streamer.c \
 		   config/config.c \
 		   config/rx.c \
+		   config/ledstrip.c \
 		   config/config_eeprom.c \
 		   config/feature.c \
 		   config/profile.c \
@@ -743,6 +744,7 @@ SITL_SRC = \
 		common/typeconversion.c \
 		config/config.c \
 		config/rx.c \
+		config/ledstrip.c \
 		config/config_eeprom.c \
 		config/feature.c \
 		config/profile.c \

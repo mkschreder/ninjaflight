@@ -398,6 +398,7 @@ $(OBJECT_DIR)/ledstrip_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ledstrip_unittest.cc -o $@
 
 $(OBJECT_DIR)/ledstrip_unittest : \
+	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/ledstrip_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 

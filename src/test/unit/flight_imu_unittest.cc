@@ -32,8 +32,6 @@ extern "C" {
     #include "common/maths.h"
 
 	#include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -44,7 +42,6 @@ extern "C" {
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
 
-    #include "config/runtime_config.h"
     #include "config/config.h"
 
     #include "rx/rx.h"
@@ -69,8 +66,8 @@ void input_imu_accel(int16_t x, int16_t y, int16_t z){
 	imu_reset(&default_imu);
 	imu_input_accelerometer(&default_imu, x, y, z);
 	imu_input_gyro(&default_imu, 0, 0, 0);
-	for(unsigned int c = 0; c < 10000UL; c++){
-		imu_update(&default_imu, 0.01);
+	for(unsigned int c = 0; c < 20000UL; c++){
+		imu_update(&default_imu, 0.02);
 	}
 /*
     if (initialRoll > 1800) initialRoll -= 3600;
@@ -96,18 +93,17 @@ void input_imu_accel(int16_t x, int16_t y, int16_t z){
 }
 
 TEST(FlightImuTest, TestEulerAngleCalculation){
-	imuConfig()->dcm_kp = 2500;
-    imuConfig()->looptime = 2000;
-    imuConfig()->gyroSync = 1;
-    imuConfig()->gyroSyncDenominator = 1;
-    imuConfig()->small_angle = 25;
-    imuConfig()->max_angle_inclination = 500;
+	struct config config;
+	config_reset(&config);
 
-	imu_init(&default_imu,
-		imuConfig(),
-		accelerometerConfig(),
-		throttleCorrectionConfig()
-	);
+	config.imu.dcm_kp = 500;
+    config.imu.looptime = 2000;
+    config.imu.gyroSync = 1;
+    config.imu.gyroSyncDenominator = 1;
+    config.imu.small_angle = 25;
+    config.imu.max_angle_inclination = 500;
+
+	imu_init(&default_imu, &config);
 
 	imu_set_gyro_scale(&default_imu, 1.0f/16.4f);
 	imu_set_acc_scale(&default_imu, 1024);

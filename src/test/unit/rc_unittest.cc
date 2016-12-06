@@ -35,8 +35,6 @@ extern "C" {
     #include <platform.h>
 
     #include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "rx/rx.h"
 	#include "flight/failsafe.h"
@@ -58,14 +56,16 @@ protected:
     virtual void SetUp() {
 		mock_system_reset();
 
-		rx_init(&rx, mock_syscalls());
+		config_reset(&config);
+
+		rx_init(&rx, mock_syscalls(), &config);
 		rx_set_type(&rx, RX_PPM);
-		rx_remap_channels(&rx, "AERT1234");
-		rc_init(&rc, &rx, NULL);
+		rx_config_set_mapping(&config.rx, "AERT1234");
+		rc_init(&rc, &rx, NULL, &config);
 
 		// we use auto mode by default
 		for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
-			failsafeChannelConfigs(c)->mode = RX_FAILSAFE_MODE_AUTO;
+			config.rx_output.failsafe[c].mode = RX_FAILSAFE_MODE_AUTO;
 		}
     }
 	void rc_run(uint32_t ms){
@@ -78,6 +78,7 @@ protected:
 	}
 	struct rx rx;
 	struct rc rc;
+	struct config config;
 };
 
 /**

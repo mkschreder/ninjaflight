@@ -30,7 +30,9 @@ struct ins_acc {
 	//int16_t accZero_saved[3];
 	//rollAndPitchTrims_t angleTrim_saved;
 	const struct accelerometer_config *config;
-	const struct sensor_trims_config *trims;
+
+	//! Local trims that we adjust as we calibrate.
+	struct sensor_trims_config trims;
 	int16_t acc_1G;
 };
 //extern int32_t accADC[XYZ_AXIS_COUNT];

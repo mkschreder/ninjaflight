@@ -32,8 +32,6 @@ extern "C" {
     #include "common/maths.h"
 
 	#include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
@@ -44,7 +42,6 @@ extern "C" {
     #include "sensors/acceleration.h"
     #include "sensors/barometer.h"
 
-    #include "config/runtime_config.h"
     #include "config/config.h"
 
     #include "rx/rx.h"
@@ -69,23 +66,27 @@ extern "C" {
  * controller in full. Each requirement is always backed by a unit test.
  */
 
-void reset_env(void){
-	imuConfig()->dcm_kp = 2500;
-    imuConfig()->looptime = 2000;
-    imuConfig()->gyroSync = 1;
-    imuConfig()->gyroSyncDenominator = 1;
-    imuConfig()->small_angle = 25;
-    imuConfig()->max_angle_inclination = 500;
+static struct config config;
 
-	rxConfig()->mincheck = 1010;
+void reset_env(void){
+	config_reset(&config);
+
+	config.imu.dcm_kp = 2500;
+    config.imu.looptime = 2000;
+    config.imu.gyroSync = 1;
+    config.imu.gyroSyncDenominator = 1;
+    config.imu.small_angle = 25;
+    config.imu.max_angle_inclination = 500;
+
+	config.rx.mincheck = 1010;
 
 	// default frame config
-	mixerConfig()->mixerMode = MIXER_QUADX;
+	config.mixer.mixerMode = MIXER_QUADX;
 
 	// mixer and motors output
-	motorAndServoConfig()->mincommand = 1010;
-	motorAndServoConfig()->minthrottle = 1020;
-	motorAndServoConfig()->maxthrottle = 2000;
+	config.pwm_out.mincommand = 1010;
+	config.pwm_out.minthrottle = 1020;
+	config.pwm_out.maxthrottle = 2000;
 }
 
 void run_loop(struct ninja *self, uint32_t ms){
@@ -109,7 +110,7 @@ TEST(InsUnitTest, ArmingTest){
 
 	reset_env();
 
-	ninja_init(&ninja, mock_syscalls());
+	ninja_init(&ninja, mock_syscalls(), &config);
 
 	run_loop(&ninja, 100);
 	

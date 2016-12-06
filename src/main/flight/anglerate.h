@@ -82,7 +82,7 @@ struct anglerate {
 	uint8_t flags;
 
 	struct instruments *ins;
-	const struct config const * config;
+	const struct config * config;
 };
 
 #define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
@@ -92,7 +92,7 @@ struct anglerate {
 void anglerate_init(struct anglerate *self,
 	struct instruments *ins,
 	uint16_t max_angle_inclination,
-	const struct config const * config);
+	const struct config * config);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);

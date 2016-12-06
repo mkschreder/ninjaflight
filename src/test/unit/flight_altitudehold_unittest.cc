@@ -34,9 +34,6 @@ extern "C" {
     #include "common/axis.h"
     #include "common/maths.h"
 
-    #include "config/parameter_group_ids.h"
-    #include "config/parameter_group.h"
-
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
 
@@ -49,7 +46,6 @@ extern "C" {
     #include "flight/anglerate.h"
     #include "flight/altitudehold.h"
 
-    #include "config/runtime_config.h"
     #include "config/config.h"
 	#include "config/rc_controls.h"
 	#include "config/altitudehold.h"

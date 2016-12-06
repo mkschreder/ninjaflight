@@ -66,11 +66,7 @@ void ins_init(struct instruments *self, const struct config *config){
 		&self->config->sensors.trims
 	);
 
-    imu_init(&self->imu,
-		&self->config->imu,
-		&config_get_profile(self->config)->acc,
-		&config_get_profile(self->config)->throttle
-	);
+    imu_init(&self->imu, self->config);
 }
 
 bool ins_is_calibrated(struct instruments *self){

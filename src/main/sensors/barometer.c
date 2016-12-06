@@ -29,7 +29,6 @@
 #include "drivers/system.h"
 
 #include "config/config.h"
-#include "config/config_reset.h"
 
 #include "sensors/barometer.h"
 

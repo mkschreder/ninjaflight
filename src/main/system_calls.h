@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdint.h>
+#include <stddef.h>
+
 typedef int32_t sys_millis_t;
 typedef int32_t sys_micros_t;
 
@@ -28,12 +31,18 @@ struct system_calls_time {
 	sys_micros_t (*micros)(const struct system_calls_time *self);
 };
 
+struct system_calls_eeprom {
+	int (*read)(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size);
+	int (*write)(const struct system_calls_eeprom *self, uint16_t addr, void *src, size_t size);
+};
+
 struct system_calls {
 	struct system_calls_pwm pwm;
 	struct system_calls_imu imu;
 	struct system_calls_leds leds;
 	struct system_calls_beeper beeper;
 	struct system_calls_time time;
+	struct system_calls_eeprom eeprom;
 };
 
 // these are just for convenience
@@ -48,3 +57,5 @@ struct system_calls {
 #define sys_acc_read(sys, data) (sys->imu.read_acc(&sys->imu, data))
 #define sys_motor_write(sys, id, val) (sys->pwm.write_motor(&sys->pwm, id, val))
 #define sys_servo_write(sys, id, val) (sys->pwm.write_servo(&sys->pwm, id, val))
+#define sys_eeprom_write(sys, addr, src, size) (sys->eeprom.write(&sys->eeprom, addr, src, size))
+#define sys_eeprom_read(sys, dst, addr, size) (sys->eeprom.read(&sys->eeprom, dst, addr, size))

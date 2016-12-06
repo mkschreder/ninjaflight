@@ -32,7 +32,6 @@
 #include "io/beeper.h"
 
 #include "config/config.h"
-#include "config/config_reset.h"
 
 #include "flight/failsafe.h"
 // TODO: this is not correct dependency wise

@@ -27,8 +27,6 @@ extern "C" {
     #include "common/maths.h"
     #include "common/axis.h"
 
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 	#include "config/anglerate.h"
 	#include "config/rx.h"
 	#include "config/mixer.h"
@@ -47,14 +45,6 @@ extern "C" {
     #include "config/config.h"
 
     #include "flight/anglerate.h"
-
-    void useRcControlsConfig(modeActivationCondition_t *);
-
-/*
-    PG_REGISTER_PROFILE(struct pid_config, pidProfile, PG_PID_PROFILE, 0);
-    PG_REGISTER(rxConfig_t, rxConfig, PG_RX_CONFIG, 0);
-    PG_REGISTER(motorAndServoConfig_t, motorAndServoConfig, PG_MOTOR_AND_SERVO_CONFIG, 0);
-*/
 }
 
 #include "unittest_macros.h"
@@ -768,32 +758,3 @@ TEST_F(RcControlsAdjustmentsTest, processPIDIncreasePidController2) // uses floa
 
 }
 #endif
-
-extern "C" {
-void saveConfigAndNotify(void) {}
-void generateThrottleCurve(struct rate_config *, motorAndServoConfig_t *) {}
-void changeProfile(uint8_t) {}
-void accSetCalibrationCycles(uint16_t) {}
-void gyroSetCalibrationCycles(uint16_t) {}
-void applyAndSaveAccelerometerTrimsDelta(rollAndPitchTrims_t*) {}
-void handleInflightCalibrationStickPosition(void) {}
-bool feature(uint32_t) { return false;}
-bool sensors(uint32_t) { return false;}
-void mwArm(void) {}
-void mwDisarm(void) {}
-void displayDisablePageCycling() {}
-void displayEnablePageCycling() {}
-
-bool failsafeIsActive() { return false; }
-bool rxIsReceivingSignal() { return true; }
-
-uint8_t getCurrentControlRateProfile(void) {
-    return 0;
-}
-void GPS_reset_home_position(void) {}
-void baroSetCalibrationCycles(uint16_t) {}
-
-uint8_t armingFlags = 0;
-int16_t heading;
-uint8_t stateFlags = 0;
-}

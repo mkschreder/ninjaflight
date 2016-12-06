@@ -33,7 +33,6 @@
 #include "common/quaternion.h"
 
 #include "config/config.h"
-#include "config/config_reset.h"
 
 #include "drivers/system.h"
 #include "drivers/sensor.h"
@@ -103,16 +102,10 @@ void imu_reset(struct imu *self){
 	self->flags &= ~(IMU_FLAG_USE_ACC | IMU_FLAG_USE_MAG);
 }
 
-void imu_init(struct imu *self,
-	const struct imu_config *imu_config,
-	const struct accelerometer_config *acc_config,
-	const struct throttle_correction_config *thr_config
-){
+void imu_init(struct imu *self, const struct config *config){
 	memset(self, 0, sizeof(struct imu));
 
-	self->config = imu_config;
-	self->acc_config = acc_config;
-	self->thr_config = thr_config;
+	self->config = config;
 
 	// TODO: this is rather wonky. Refactor this to be handled by the driver.
 	imu_set_acc_scale(self, 512);
@@ -178,13 +171,14 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 		accel_ned.V.Z -= self->acc_1G;
 	//}
 
-	float fc_acc = 0.5f / (M_PIf * self->acc_config->accz_lpf_cutoff);
+	const struct accelerometer_config *ac = &config_get_profile(self->config)->acc;
+	float fc_acc = 0.5f / (M_PIf * ac->accz_lpf_cutoff);
 	accz_smooth = accz_smooth + (dT / (fc_acc + dT)) * (accel_ned.V.Z - accz_smooth); // low pass filter
 
 	// apply Deadband to reduce integration drift and vibration influence
-	self->accSum[X] += applyDeadband(lrintf(accel_ned.V.X), self->acc_config->accDeadband.xy);
-	self->accSum[Y] += applyDeadband(lrintf(accel_ned.V.Y), self->acc_config->accDeadband.xy);
-	self->accSum[Z] += applyDeadband(lrintf(accz_smooth), self->acc_config->accDeadband.z);
+	self->accSum[X] += applyDeadband(lrintf(accel_ned.V.X), ac->accDeadband.xy);
+	self->accSum[Y] += applyDeadband(lrintf(accel_ned.V.Y), ac->accDeadband.xy);
+	self->accSum[Z] += applyDeadband(lrintf(accz_smooth), ac->accDeadband.z);
 
 	// sum up Values for later integration to get velocity and distance
 	self->accTimeSum += dT;
@@ -273,7 +267,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	}
 
 	// Compute and apply integral feedback if enabled
-	float dcm_ki = self->config->dcm_ki / 10000.0f;
+	float dcm_ki = self->config->imu.dcm_ki / 10000.0f;
 	if(dcm_ki > 0.0f) {
 		// Stop integrating if spinning beyond the certain limit
 		if (spin_rate < DEGREES_TO_RADIANS(SPIN_RATE_LIMIT)) {
@@ -292,7 +286,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float p_gain = (self->flags & IMU_FLAG_DCM_CONVERGE_FASTER)?10.0f:1.0f;
 
 	// Calculate kP gain. If we are acquiring initial attitude (not armed and within 20 sec from powerup) scale the kP to converge faster
-	float dcmKpGain = (self->config->dcm_kp / 10000.0f) * p_gain;
+	float dcmKpGain = (self->config->imu.dcm_kp / 10000.0f) * p_gain;
 
 	// Apply proportional and integral feedback
 	gx += dcmKpGain * ex + integralFBx;
@@ -349,9 +343,10 @@ void imu_update(struct imu *self, float dt){
 
 	// update smoothed acceleration
 	// Smooth and use only valid accelerometer readings
+	const struct accelerometer_config *ac = &config_get_profile(self->config)->acc;
 	for (axis = 0; axis < 3; axis++) {
-		if (self->acc_config->acc_cut_hz > 0) {
-			self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &accLPFState[axis], self->acc_config->acc_cut_hz, dt);
+		if (ac->acc_cut_hz > 0) {
+			self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &accLPFState[axis], ac->acc_cut_hz, dt);
 		} else {
 			self->accSmooth[axis] = self->acc[axis];
 		}
@@ -423,7 +418,7 @@ int16_t imu_calc_throttle_angle_correction(struct imu *self, uint8_t throttle_co
 	if (self->rMat[2][2] <= 0.015f) {
 		return 0;
 	}
-	float throttleAngleScale = (1800.0f / M_PIf) * (900.0f / self->thr_config->throttle_correction_angle);
+	float throttleAngleScale = (1800.0f / M_PIf) * (900.0f / config_get_profile(self->config)->throttle.throttle_correction_angle);
 	int angle = lrintf(acos_approx(self->rMat[2][2]) * throttleAngleScale);
 	if (angle > 900)
 		angle = 900;

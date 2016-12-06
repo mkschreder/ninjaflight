@@ -49,7 +49,6 @@
 #include "rx/rx.h"
 
 #include "config/config.h"
-#include "config/config_reset.h"
 
 #include "sensors/gps.h"
 

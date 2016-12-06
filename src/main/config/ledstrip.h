@@ -130,3 +130,4 @@ struct ledstrip_config {
 	struct led_spc_color_indices spcColors[1];
 };
 
+bool ledstrip_config_set_color(struct ledstrip_config *self, int index, const char *colorConfig);

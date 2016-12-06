@@ -18,6 +18,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <errno.h>
 
 #include <platform.h>
 
@@ -31,7 +32,7 @@
 #include "config_eeprom.h"
 #include "feature.h"
 #include "profile.h"
-#include "config_reset.h"
+#include "system_calls.h"
 
 #ifdef ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT
 #define DEFAULT_BLACKBOX_DEVICE BLACKBOX_DEVICE_FLASH
@@ -531,8 +532,21 @@ void config_save(const struct config *self){
 	(void)self;
 }
 
-void config_load(struct config *self){
+static bool config_store_valid(const struct config_store *self){
 	(void)self;
+	return true;
+}
+
+int config_load(struct config *self, const struct system_calls *system){
+	struct config_store store;
+	if(sys_eeprom_read(system, &store, 0, sizeof(store)) != 0){
+		return -EIO;
+	}
+	if(!config_store_valid(&store)){
+		return -EINVAL;
+	}
+	memcpy(self, &store.data, sizeof(*self));
+	return 0;
 }
 
 void handleOneshotFeatureChangeOnRestart(void)

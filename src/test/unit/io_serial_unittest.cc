@@ -24,8 +24,6 @@ extern "C" {
     #include <platform.h>
 
     #include "config/config.h"
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
 
     #include "drivers/serial.h"
     #include "drivers/serial_softserial.h"

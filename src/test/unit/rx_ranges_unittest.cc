@@ -23,9 +23,6 @@
 extern "C" {
     #include <platform.h>
 
-    #include "config/parameter_group.h"
-    #include "config/parameter_group_ids.h"
-
     #include "rx/rx.h"
     #include "common/maths.h"
 }

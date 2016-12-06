@@ -60,10 +60,6 @@ struct imu {
 
 	uint8_t flags;
 
-	const struct imu_config *config;
-	const struct accelerometer_config *acc_config;
-	const struct throttle_correction_config *thr_config;
-
 	quat_t q;
 
 	float rMat[3][3];
@@ -78,13 +74,11 @@ struct imu {
 
 	float gyroScale;
 	uint16_t acc_1G;
+
+	const struct config *config;
 };
 
-void imu_init(struct imu *self,
-	const struct imu_config *config,
-	const struct accelerometer_config *acc_config,
-	const struct throttle_correction_config *thr_config
-);
+void imu_init(struct imu *self, const struct config *config);
 
 void imu_reload_config(struct imu *self);
 void imu_input_accelerometer(struct imu *self, int16_t x, int16_t y, int16_t z);

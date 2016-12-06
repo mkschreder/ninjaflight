@@ -104,12 +104,21 @@ struct config {
 	struct transponder_config transponder;
 };
 
+//! structure used for storing config in the eeprom
+struct config_store {
+	struct config data;
+	uint16_t	crc;
+} __attribute__((aligned(2))); // must align to short because we will be storing 16 bit short words in the eeprom
+
+struct system_calls;
+
 struct config_profile const * config_get_profile(const struct config * const self);
 struct config_profile *config_get_profile_rw(struct config *self);
 struct rate_profile const * config_get_rate_profile(const struct config * const self);
 struct rate_profile *config_get_rate_profile_rw(struct config *self);
 
 void config_save(const struct config *self);
+int config_load(struct config *self, const struct system_calls *system);
 void config_reset(struct config *self);
 
 /*

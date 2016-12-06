@@ -109,7 +109,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 
 	anglerate_set_algo(&self->ctrl, config_get_profile(self->config)->pid.pidController);
 
-	battery_init(&self->bat, self->config);
+	battery_init(&self->bat, &self->config->bat);
 	rx_init(&self->rx, self->system, self->config);
 
 	if (feature(self->config, FEATURE_RX_SERIAL))
