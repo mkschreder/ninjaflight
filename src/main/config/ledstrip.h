@@ -111,23 +111,23 @@ typedef enum {
 
 struct led_spc_color_indices {
     uint8_t color[LED_SPECIAL_COLOR_COUNT];
-};
+} __attribute__((packed)) ;
 
 struct led_mode_color_indices {
     uint8_t color[LED_DIRECTION_COUNT];
-};
+} __attribute__((packed)) ;
 
 struct led_config {
     uint8_t xy;     // see LED_X/Y_MASK defines
     uint8_t color;  // see colors (config_master)
     uint16_t flags; // see LED_FLAG_FUNCTION + LED_FLAG_DIRECTION
-};
+} __attribute__((packed)) ;
 
 struct ledstrip_config {
 	struct led_config leds[LED_MAX_STRIP_LENGTH];
 	struct hsvColor_s colors[LED_CONFIGURABLE_COLOR_COUNT];
 	struct led_mode_color_indices modeColors[LED_MODE_COUNT];
 	struct led_spc_color_indices spcColors[1];
-};
+} __attribute__((packed)) ;
 
 bool ledstrip_config_set_color(struct ledstrip_config *self, int index, const char *colorConfig);

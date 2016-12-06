@@ -24,17 +24,17 @@
 typedef struct rollAndPitchTrims_s {
     int16_t roll;
     int16_t pitch;
-} rollAndPitchTrims_t_def;
+} __attribute__((packed)) rollAndPitchTrims_t_def;
 
 typedef union rollAndPitchTrims_u {
     int16_t raw[2];
     rollAndPitchTrims_t_def values;
-} rollAndPitchTrims_t;
+} __attribute__((packed)) rollAndPitchTrims_t;
 
 typedef struct accDeadband_s {
     uint8_t xy;                 // set the acc deadband for xy-Axis
     uint8_t z;                  // set the acc deadband for z-Axis, this ignores small accelerations
-} accDeadband_t;
+} __attribute__((packed))  accDeadband_t;
 
 struct accelerometer_config {
     rollAndPitchTrims_t trims; // accelerometer trim
@@ -44,5 +44,5 @@ struct accelerometer_config {
     float accz_lpf_cutoff;                  // cutoff frequency for the low pass filter used on the acc z-axis for althold in Hz
     accDeadband_t accDeadband;
     uint8_t acc_unarmedcal;                 // turn automatic acc compensation on/off
-};
+} __attribute__((packed)) ;
 

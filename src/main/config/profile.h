@@ -19,7 +19,7 @@
 
 struct profile_config {
     uint8_t profile_id;
-};
+} __attribute__((packed)) ;
 
 //uint8_t getCurrentProfile(void);
 //void setProfile(uint8_t profileIndex);

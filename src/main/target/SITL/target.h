@@ -60,7 +60,7 @@
 #define USE_UART3
 #define USE_SOFTSERIAL1
 #define USE_SOFTSERIAL2
-#define SERIAL_PORT_COUNT 5
+#define SERIAL_PORT_COUNT 8
 
 #ifndef UART1_GPIO
 #define UART1_TX_PIN        GPIO_Pin_9  // PA9

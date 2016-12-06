@@ -205,6 +205,27 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 	fflush(stdout);
 }
 
+char _flash[8000];
+
+static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+	(void)self;
+	(void)dst;
+	printf("EEPROM read from %04x, size %lu\n", addr, size);
+	if((addr + size) > sizeof(_flash)){
+		size = sizeof(_flash) - addr;
+	}
+	memcpy(dst, _flash + addr, size);
+	return 0;
+}
+
+static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
+	(void)self;
+	(void)data;
+	printf("EEPROM write to %04x, size %lu\n", addr, size);
+	memcpy(_flash + addr, data, size);
+	return 0;
+}
+
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	self->sitl = server;
 
@@ -228,6 +249,10 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		},
 		.time = {
 			.micros = _micros
+		},
+		.eeprom = {
+			.read = _eeprom_read,
+			.write = _eeprom_write
 		}
 	};
 

@@ -31,5 +31,5 @@ struct gps_profile {
     uint16_t nav_speed_min;                 // cm/sec
     uint16_t nav_speed_max;                 // cm/sec
     uint16_t ap_mode;                       // Temporarily Disables GPS_HOLD_MODE to be able to make it possible to adjust the Hold-position when moving the sticks, creating a deadspan for GPS
-};
+} __attribute__((packed)) ;
 

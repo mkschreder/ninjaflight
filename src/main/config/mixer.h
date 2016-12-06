@@ -59,7 +59,7 @@ struct motor_3d_config {
     uint16_t deadband3d_low;                // min 3d value
     uint16_t deadband3d_high;               // max 3d value
     uint16_t neutral3d;                     // center 3d value
-};
+} __attribute__((packed)) ;
 
 struct pwm_output_config {
     // PWM values, in milliseconds, common range is 1000-2000 (1 to 2ms)
@@ -67,10 +67,9 @@ struct pwm_output_config {
     uint16_t maxthrottle;                   // This is the maximum value for the ESCs at full power this value can be increased up to 2000
     uint16_t mincommand;                    // This is the value for the ESCs when they are not armed. In some cases, this value must be lowered down to 900 for some specific ESCs
     uint16_t servoCenterPulse;              // This is the value for servos when they should be in the middle. e.g. 1500.
-
     uint16_t motor_pwm_rate;                // The update rate of motor outputs (50-498Hz)
     uint16_t servo_pwm_rate;                // The update rate of servo outputs (50-498Hz)
-};
+} __attribute__((packed)) ;
 
 // the following few structures are cleanflight config for motor and servo mixers which is also currently used for custom mixers
 #define CHANNEL_FORWARDING_DISABLED (uint8_t)0xff
@@ -89,7 +88,7 @@ struct servo_config {
 
 struct servo_profile {
     struct servo_config servoConf[MAX_SUPPORTED_SERVOS];
-};
+} __attribute__((packed)) ;
 
 /**
  * Mixer input commands that command the mixer to either spin or translate the frame in specific direction.
@@ -214,7 +213,7 @@ struct mixer_config {
     float servo_lowpass_freq;		//!< lowpass servo filter frequency selection; 1/1000ths of loop freq
     int8_t servo_lowpass_enable;	//!< enable/disable lowpass filter for servo output
 	struct mixer_rule_def custom_rules[MIXER_MAX_RULES];
-};
+} __attribute__((packed)) ;
 
 // TODO: custom servo and motor mixers should use mixer_rule_def instead. Remove the above defs once we are using new structures!
 

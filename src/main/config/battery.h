@@ -49,5 +49,5 @@ struct battery_config {
     // FIXME this doesn't belong in here since it's a concern of MSP, not of the battery code.
     uint8_t multiwiiCurrentMeterOutput;     // if set to 1 output the amperage in milliamp steps instead of 0.01A steps via msp
     uint16_t batteryCapacity;               // mAh
-};
+} __attribute__((packed)) ;
 

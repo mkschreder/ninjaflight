@@ -60,5 +60,5 @@ struct pid_config {
     uint8_t pidController;
     uint16_t yaw_p_limit;                   // set P term limit (fixed value was 300)
     uint16_t dterm_cut_hz;                  // dterm filtering
-};
+} __attribute__((packed)) ;
 

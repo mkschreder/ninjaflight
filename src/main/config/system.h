@@ -20,5 +20,5 @@
 struct system_config {
     uint8_t emf_avoidance;                   // change pll settings to avoid noise in the uhf band
     uint8_t i2c_highspeed;                   // Overclock i2c Bus for faster IMU readings
-};
+} __attribute__((packed)) ;
 

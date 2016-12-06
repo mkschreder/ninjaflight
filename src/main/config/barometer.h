@@ -26,5 +26,5 @@ struct barometer_config {
     float baro_noise_lpf;                   // additional LPF to reduce baro noise
     float baro_cf_vel;                      // apply Complimentary Filter to keep the calculated velocity based on baro velocity (i.e. near real velocity)
     float baro_cf_alt;                      // apply CF to use ACC for height estimation
-};
+} __attribute__((packed)) ;
 

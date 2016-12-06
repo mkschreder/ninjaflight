@@ -141,7 +141,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 	msp_init(&self->msp, self, self->config);
 	serial_msp_init(&self->serial_msp, self->config, &self->msp);
 
-	cli_init(&self->cli, self);
+	cli_init(&self->cli, self, self->config, self->system);
 
 	failsafe_init(&self->failsafe, self, self->config);
 

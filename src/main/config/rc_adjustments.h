@@ -34,12 +34,12 @@ typedef struct adjustmentRange_s {
 
 	// ... via slot
 	uint8_t adjustmentIndex;
-} adjustmentRange_t;
+} __attribute__((packed))  adjustmentRange_t;
 
 #define MAX_ADJUSTMENT_RANGE_COUNT 12 // enough for 2 * 6pos switches.
 
 struct rc_adjustment_profile {
     adjustmentRange_t adjustmentRanges[MAX_ADJUSTMENT_RANGE_COUNT];
-};
+} __attribute__((packed)) ;
 
 

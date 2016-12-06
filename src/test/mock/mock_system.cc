@@ -107,17 +107,22 @@ static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 	fflush(stdout);
 }
 
+static char _flash[8000];
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	(void)dst;
 	printf("EEPROM read from %04x, size %lu\n", addr, size);
+	memcpy(dst, _flash + addr, size);
+	fflush(stdout);
 	return 0;
 }
 
-static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, void *data, size_t size){
+static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	(void)data;
 	printf("EEPROM write to %04x, size %lu\n", addr, size);
+	memcpy(_flash + addr, data, size);
+	fflush(stdout);
 	return 0;
 }
 

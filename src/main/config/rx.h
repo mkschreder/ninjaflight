@@ -69,17 +69,17 @@ typedef enum rc_alias {
 struct rx_failsafe_chan_config {
     uint8_t mode; // See rxFailsafeChannelMode_e
     uint8_t step;
-};
+} __attribute__((packed)) ;
 
 struct rx_channel_range_config {
     uint16_t min;
     uint16_t max;
-};
+} __attribute__((packed)) ;
 
 struct rx_output_config {
 	struct rx_channel_range_config range[RX_NON_AUX_CHANNEL_COUNT];
 	struct rx_failsafe_chan_config failsafe[RX_MAX_SUPPORTED_RC_CHANNELS];
-};
+} __attribute__((packed)) ;
 
 struct rx_config {
     uint8_t rcmap[RX_MAX_MAPPABLE_RX_INPUTS];  //!< mapping of radio channels to internal RPYTA+ order
@@ -96,7 +96,7 @@ struct rx_config {
 
     uint16_t rx_min_usec;					//!< minimum value of rx pulse from receiver (below this point we consider signal being corrupt)
     uint16_t rx_max_usec;					//!< maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe)
-};
+} __attribute__((packed)) ;
 
 //! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
 void rx_config_set_mapping(struct rx_config *self, const char *input);

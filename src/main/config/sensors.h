@@ -47,34 +47,34 @@ struct sensor_alignment_config {
     sensor_align_e gyro_align;              // gyro alignment
     sensor_align_e acc_align;               // acc alignment
     sensor_align_e mag_align;               // mag alignment
-};
+} __attribute__((packed)) ;
 
 struct sensor_selection_config {
     uint8_t acc_hardware;                   // Which acc hardware to use on boards with more than one device
     uint8_t mag_hardware;                   // Which mag hardware to use on boards with more than one device
     uint8_t baro_hardware;                  // Barometer hardware to use
-};
+} __attribute__((packed)) ;
 
 typedef struct int16_flightDynamicsTrims_s {
     int16_t roll;
     int16_t pitch;
     int16_t yaw;
-} flightDynamicsTrims_def_t;
+} __attribute__((packed))  flightDynamicsTrims_def_t;
 
 typedef union {
     int16_t raw[3];
     flightDynamicsTrims_def_t values;
-} flightDynamicsTrims_t;
+} __attribute__((packed))  flightDynamicsTrims_t;
 
 struct sensor_trims_config {
     flightDynamicsTrims_t accZero;
     flightDynamicsTrims_t magZero;
-};
+} __attribute__((packed)) ;
 
 struct sensor_config {
 	struct sensor_selection_config selection;
 	struct sensor_alignment_config alignment;
 	struct sensor_trims_config trims;
-};
+} __attribute__((packed)) ;
 
 

@@ -2414,7 +2414,7 @@ static void cliSave(struct cli *self, char *cmdline)
     UNUSED(cmdline);
 
     cliPrint(self, "Saving");
-    config_save(self->config);
+    config_save(self->config, self->system);
     cliReboot(self);
 }
 
@@ -2879,7 +2879,9 @@ bool cli_is_active(struct cli *self){
 	return self->cliMode;
 }
 
-void cli_init(struct cli *self, struct ninja *ninja){
+void cli_init(struct cli *self, struct ninja *ninja, struct config *config, const struct system_calls *system){
 	memset(self, 0, sizeof(struct cli));
 	self->ninja = ninja;
+	self->config = config;
+	self->system = system;
 }

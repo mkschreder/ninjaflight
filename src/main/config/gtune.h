@@ -29,5 +29,5 @@ struct gtune_config {
     uint8_t  gtune_pwr;                     // [0..10] Strength of adjustment
     uint16_t gtune_settle_time;             // [200..1000] Settle time in ms
     uint8_t  gtune_average_cycles;          // [8..128] Number of looptime cycles used for gyro average calculation
-};
+} __attribute__((packed)) ;
 

@@ -50,5 +50,5 @@ struct gps_config {
     sbasMode_e sbasMode;
     gpsAutoConfig_e autoConfig;
     gpsAutoBaud_e autoBaud;
-};
+} __attribute__((packed)) ;
 

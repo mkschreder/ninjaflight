@@ -45,7 +45,7 @@ typedef enum {
 
 struct feature_config {
     uint32_t enabledFeatures;
-};
+} __attribute__((packed)) ;
 
 struct config;
 bool feature(const struct config *self, uint32_t mask);

@@ -209,7 +209,7 @@ void ninja_config_load(struct ninja *self){
 void ninja_config_save(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-	config_save(self->config);
+	config_save(self->config, self->system);
 
     rx_resume_signal(&self->rx);
 }

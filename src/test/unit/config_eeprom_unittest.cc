@@ -21,7 +21,8 @@
 extern "C" {
     #include "platform.h"
     #include "build_config.h"
-    
+   
+   #include "config/config.h"
     #include "common/axis.h"
     #include "common/maths.h"
     #include "common/color.h"
@@ -70,4 +71,90 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
+class ConfigTest : public ::testing::Test {
+protected:
+    virtual void SetUp() {
+		mock_system_reset();
 
+		config_reset(&config);
+    }
+	struct config config;
+};
+
+TEST_F(ConfigTest, Dummy){
+	printf("config size: %lu (0x%04x) bytes, %lu words\n", sizeof(struct config), (unsigned int)sizeof(struct config), sizeof(struct config)/2);
+	// some code assumes config comes first followed by checksum
+	EXPECT_EQ(0, offsetof(struct config_store, data));
+	EXPECT_EQ(offsetof(struct config_store, crc), sizeof(struct config));
+	// config must be word aligned
+	EXPECT_EQ(0, sizeof(struct config) % sizeof(uint16_t));
+}
+
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Config reset must set all fields in the config to appropriate defaults. If
+ * some fields do not have defaults then this is an error!
+ */
+TEST_F(ConfigTest, TestConfigCoverage){
+	uint8_t magic[] = {0xAA, 0xFF, 0x00, 0x77};
+	uint8_t good[sizeof(struct config)];
+
+	memset(good, 0, sizeof(good));
+
+	uint8_t *buf = (uint8_t*)&config;
+	for(unsigned int c = 0; c < sizeof(magic); c++){
+		printf("testing magic %02x\n", magic[c]);
+		// fill config with magic values
+		memset(&config, magic[c], sizeof(config));
+		// reset
+		config_reset(&config);
+		// check
+		for(unsigned int j = 0; j < sizeof(config); j++){
+			if(buf[j] != magic[c]){
+				good[j] = 1;
+			}
+		}
+	}
+	int failed = 0;
+	for(unsigned int j = 0; j < sizeof(config); j++){
+		if(!good[j]){
+			failed = 1;
+			break;
+		}
+	}
+	if(failed){
+		printf("Not all values in the config have preset defaults:\n");
+		printf("0x%04x: ", (int)0);
+		int fail = 0;
+		for(unsigned int j = 0; j < sizeof(config); j++){
+			if(!good[j]){
+				printf("%02x", buf[j]);
+				fail++;
+			} else {
+				printf(".");
+			}
+			if((j % 64) == 63){
+				printf("\n0x%04x: ", j);
+			}
+		}
+		printf("\n");
+		EXPECT_EQ(0, fail);
+	}
+}
+
+TEST_F(ConfigTest, TestSaveLoad){
+	struct config a, b;
+	memset(&a, 0, sizeof(a));
+	memset(&b, 0, sizeof(b));
+	config_reset(&a);
+	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
+	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
+	uint8_t *aa = (uint8_t*)&a;
+	uint8_t *bb = (uint8_t*)&b;
+	for(unsigned c = 0; c < sizeof(a); c++){
+		//if(aa[c] != bb[c]) printf("mismatch at %d\n", c);
+	}
+	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
+}

@@ -63,13 +63,13 @@ typedef enum {
 typedef struct channelRange_s {
     uint8_t startStep;
     uint8_t endStep;
-} channelRange_t;
+} __attribute__((packed))  channelRange_t;
 
 struct rc_func_range {
     boxId_e modeId;
     uint8_t auxChannelIndex;
     channelRange_t range;
-};
+} __attribute__((packed)) ;
 
 struct rc_function_profile {
     struct rc_func_range ranges[MAX_MODE_ACTIVATION_CONDITION_COUNT];

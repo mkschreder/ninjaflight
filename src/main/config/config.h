@@ -54,7 +54,7 @@
 #include "system.h"
 #include "feature.h"
 
-#define MAX_PROFILE_COUNT 3
+#define MAX_PROFILE_COUNT 1
 #define ONESHOT_FEATURE_CHANGED_DELAY_ON_BOOT_MS 1500
 
 struct config_profile {
@@ -71,7 +71,7 @@ struct config_profile {
 	struct rc_adjustment_profile rc_adj;
 	struct rc_function_profile rc_funcs;
 	struct rc_controls_config rc;
-};
+} __attribute__((packed)) ;
 
 struct config {
 	struct profile_config profile;
@@ -102,7 +102,7 @@ struct config {
 	struct telemetry_config telemetry;
 	struct tilt_config tilt;
 	struct transponder_config transponder;
-};
+} __attribute__((packed,aligned(2))) ;
 
 //! structure used for storing config in the eeprom
 struct config_store {
@@ -117,10 +117,9 @@ struct config_profile *config_get_profile_rw(struct config *self);
 struct rate_profile const * config_get_rate_profile(const struct config * const self);
 struct rate_profile *config_get_rate_profile_rw(struct config *self);
 
-void config_save(const struct config *self);
+int config_save(const struct config *self, const struct system_calls *system);
 int config_load(struct config *self, const struct system_calls *system);
 void config_reset(struct config *self);
-
 /*
 #include "parameter_group.h"
 

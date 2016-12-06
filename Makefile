@@ -860,16 +860,15 @@ CFLAGS		 = $(ARCH_FLAGS) \
            -Wmissing-field-initializers \
            -Wmissing-include-dirs \
            -Wmissing-include-dirs \
-           -Wno-nested-externs \
-           -Wno-cast-align \
-           -Wno-cast-qual \
-           -Wno-conversion \
+           -Wno-error=nested-externs \
+           -Wno-error=cast-align \
+           -Wno-error=cast-qual \
+           -Wno-error=conversion \
            -Wold-style-definition \
            -Wpointer-arith \
            -Wredundant-decls \
            -Wreturn-type \
            -Wshadow \
-           -Wno-switch-default \
            -Wswitch-enum \
 		   -Wno-error=strict-overflow \
 		   -Wno-error=switch-enum \

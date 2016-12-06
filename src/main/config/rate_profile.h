@@ -21,7 +21,7 @@
 
 #pragma once
 
-#define MAX_CONTROL_RATE_PROFILE_COUNT 3
+#define MAX_CONTROL_RATE_PROFILE_COUNT 1
 
 struct rate_profile {
     uint8_t rcRate8;
@@ -32,13 +32,13 @@ struct rate_profile {
     uint8_t dynThrPID;
     uint8_t rcYawExpo8;
     uint16_t tpa_breakpoint;                // Breakpoint at which TPA is activated
-};
+} __attribute__((packed)) ;
 
 struct rate_profile_selection {
     uint8_t profile_id;
-};
+} __attribute__((packed)) ;
 
 struct rate_config {
 	struct rate_profile profile[MAX_CONTROL_RATE_PROFILE_COUNT];
-};
+} __attribute__((packed)) ;
 

@@ -23,5 +23,5 @@
 
 struct hott_telemetry_config {
     uint8_t hottAlarmSoundInterval;
-} ;
+} __attribute__((packed))  ;
 

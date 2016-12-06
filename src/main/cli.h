@@ -35,9 +35,10 @@ struct cli {
 
 	struct ninja *ninja;
 	struct config *config;
+	const struct system_calls *system;
 };
 
-void cli_init(struct cli *self, struct ninja *ninja);
+void cli_init(struct cli *self, struct ninja *ninja, struct config *config, const struct system_calls *system);
 void cli_start(struct cli *self, serialPort_t *serialPort);
 void cli_update(struct cli *self);
 bool cli_is_active(struct cli *self);

@@ -39,5 +39,5 @@ struct blackbox_config {
     uint8_t rate_num;
     uint8_t rate_denom;
     uint8_t device;
-};
+} __attribute__((packed)) ;
 

@@ -37,5 +37,5 @@ struct tilt_config {
 	uint8_t control_channel;
 	int8_t servo_angle_min;
 	int8_t servo_angle_max;
-};
+} __attribute__((packed)) ;
 

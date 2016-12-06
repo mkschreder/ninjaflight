@@ -29,5 +29,5 @@ typedef enum {
 
 struct gimbal_config {
     uint8_t mode;
-};
+} __attribute__((packed)) ;
 

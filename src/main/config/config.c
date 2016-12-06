@@ -246,7 +246,7 @@ const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
 
 
 static void _reset_serial_config(struct serial_config *self){
-	    struct serial_port_config portConfig_Reset = {
+	struct serial_port_config portConfig_Reset = {
         .msp_baudrateIndex = BAUD_115200,
         .gps_baudrateIndex = BAUD_57600,
         .telemetry_baudrateIndex = BAUD_AUTO,
@@ -264,12 +264,10 @@ static void _reset_serial_config(struct serial_config *self){
     // This allows MSP connection via USART & VCP so the board can be reconfigured.
     self->portConfigs[1].functionMask = FUNCTION_MSP;
 #endif
-
-    self->reboot_character = 'R';
 }
 
-static void _reset_profile(struct config_profile *self){
-	self->pid = (struct pid_config){
+static const struct config_profile _default_profile = {
+	.pid = {
 		.pidController = PID_CONTROLLER_MWREWRITE,
 		.P8[PIDROLL] = 40,
 		.I8[PIDROLL] = 30,
@@ -302,22 +300,19 @@ static void _reset_profile(struct config_profile *self){
 
 		.yaw_p_limit = YAW_P_LIMIT_MAX,
 		.dterm_cut_hz = 0,
-	};
-	self->acc = (struct accelerometer_config){
+	},
+	.acc = {
 		.acc_cut_hz = 15,
 		.accz_lpf_cutoff = 5.0f,
 		.accDeadband.z = 40,
 		.accDeadband.xy = 40,
 		.acc_unarmedcal = 1,
-		.trims = (rollAndPitchTrims_t){
+		.trims = {
 			.values.roll = 0,
 			.values.pitch = 0
 		}
-    };
-	for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
-		_reset_servo_profile(&self->servos.servoConf[c]);
-	}
-	self->gps = (struct gps_profile){
+    },
+	.gps = {
 		.gps_wp_radius = 200,
 		.gps_lpf = 20,
 		.nav_slew_rate = 30,
@@ -325,8 +320,8 @@ static void _reset_profile(struct config_profile *self){
 		.nav_speed_min = 100,
 		.nav_speed_max = 300,
 		.ap_mode = 40,
-	};
-	self->gtune = (struct gtune_config){
+	},
+	.gtune = {
 		.gtune_lolimP[FD_ROLL] = 10,          // [0..200] Lower limit of ROLL P during G tune.
 		.gtune_lolimP[FD_PITCH] = 10,         // [0..200] Lower limit of PITCH P during G tune.
 		.gtune_lolimP[FD_YAW] = 10,           // [0..200] Lower limit of YAW P during G tune.
@@ -336,43 +331,44 @@ static void _reset_profile(struct config_profile *self){
 		.gtune_pwr = 0,                       // [0..10] Strength of adjustment
 		.gtune_settle_time = 450,             // [200..1000] Settle time in ms
 		.gtune_average_cycles = 16,           // [8..128] Number of looptime cycles used for gyro average calculation
-	};
-	self->rc = (struct rc_controls_config){
+	},
+	.rc = {
 		.deadband = 0,
 		.yaw_deadband = 0,
 		.alt_hold_deadband = 40,
 		.alt_hold_fast_change = 1,
 		.yaw_control_direction = 1,
 		.deadband3d_throttle = 50,
-	};
-	self->baro = (struct barometer_config){
+	},
+	.baro = {
 		.baro_sample_count = 21,
 		.baro_noise_lpf = 0.6f,
 		.baro_cf_vel = 0.985f,
 		.baro_cf_alt = 0.965f,
-	};
-	self->mag = (struct mag_config){
+	},
+	.mag = {
 		.mag_declination = 0,
-	};
-	self->throttle = (struct throttle_correction_config){
+	},
+	.throttle = {
 		.throttle_correction_value = 0,      // could 10 with althold or 40 for fpv
 		.throttle_correction_angle = 800,    // could be 80.0 deg with atlhold or 45.0 for fpv
-	};
-}
+	}
+};
 
-void config_reset(struct config *self){
-	self->blackbox = (struct blackbox_config){
-		.device = DEFAULT_BLACKBOX_DEVICE,
-		.rate_num = 1,
-		.rate_denom = 1
-	};
-	self->gyro = (struct gyro_config){
+static const struct config _default_config = {
+	.profile = {
+		.profile_id = 0
+	},
+	.gyro = {
 		.gyro_lpf = 1,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
 		.soft_gyro_lpf_hz = 60,        // Software based lpf filter for gyro
 		.move_threshold = 32,
-	};
-
-	self->bat = (struct battery_config){
+	},
+	//.profiles = { 0 },
+	.airplane_althold = {
+		.fixedwing_althold_dir = 0
+	},
+	.bat = {
 		.vbatscale = VBAT_SCALE_DEFAULT,
 		.vbatresdivval = VBAT_RESDIVVAL_DEFAULT,
 		.vbatresdivmultiplier = VBAT_RESDIVMULTIPLIER_DEFAULT,
@@ -380,92 +376,192 @@ void config_reset(struct config *self){
 		.vbatmincellvoltage = 33,
 		.vbatwarningcellvoltage = 35,
 		.currentMeterScale = 400, // for Allegro ACS758LCB-100U (40mV/A)
+		.currentMeterOffset = 0,
 		.currentMeterType = CURRENT_SENSOR_ADC,
-	};
-	self->motor_3d = (struct motor_3d_config){
+		.multiwiiCurrentMeterOutput = 0,
+		.batteryCapacity = 0
+	},
+	.blackbox = {
+		.device = DEFAULT_BLACKBOX_DEVICE,
+		.rate_num = 1,
+		.rate_denom = 1
+	},
+	.alignment = {
+		.rollDegrees = 0,
+		.pitchDegrees = 0,
+		.yawDegrees = 0
+	},
+	.system = {
+		.emf_avoidance = 0,
+		.i2c_highspeed = 1
+	},
+	.failsafe = {
+		.failsafe_delay = 10,              // 1sec
+		.failsafe_off_delay = 200,         // 20sec
+		.failsafe_throttle = 1000,         // default throttle off.
+		.failsafe_kill_switch = 0,
+		.failsafe_throttle_low_delay = 100, // default throttle low delay for "just disarm" on failsafe condition
+		.failsafe_procedure = 1
+	},
+	.feature = {
+		.enabledFeatures = 0
+	},
+	.frsky = {
+		.gpsNoFixLatitude = 0,
+		.gpsNoFixLongitude = 0,
+		.frsky_coordinate_format = 0,
+		.frsky_unit = 0,
+		.frsky_vfas_precision = 0
+	},
+	.hott = {
+		.hottAlarmSoundInterval = 0
+	},
+	.gps = {
+		.provider = 0,
+		.sbasMode = 0,
+		.autoConfig = GPS_AUTOCONFIG_ON,
+		.autoBaud = 1
+	},
+	.imu = {
+		.looptime = 2000,
+		.gyroSync = 1,
+		.gyroSyncDenominator = 1,
+		.dcm_kp = 2500,                // 1.0 * 10000
+		.dcm_ki = 0,
+		.small_angle = 25,
+		.max_angle_inclination = 500,    // 50 degrees
+	},
+	//.ledstrip = {0},
+	.mixer = {
+		.mixerMode = MIXER_QUADX,
+		.pid_at_min_throttle = 1,
+		.yaw_motor_direction = 1,
+		.yaw_jump_prevention_limit = 200,
+		.tri_unarmed_servo = 1,
+		.servo_lowpass_freq = 400.0f,
+		.servo_lowpass_enable = 0,
+		//.custom_rules = {0}
+	},
+	.motor_3d = {
 		.deadband3d_low = 1406,
 		.deadband3d_high = 1514,
 		.neutral3d = 1460,
-	};
-	for(int c = 0; c < MAX_CONTROL_RATE_PROFILE_COUNT; c++){
-		_reset_rate_profile(&self->rate.profile[c]);
-	}
-	for(int c = 0; c < MAX_PROFILE_COUNT; c++){
-		_reset_profile(&self->profiles[c]);
-	}
-	self->pwm_out = (struct pwm_output_config){
+	},
+	.pwm_out = {
 		.minthrottle = 1150,
 		.maxthrottle = 1850,
 		.mincommand = 1000,
 		.servoCenterPulse = 1500,
 		.motor_pwm_rate = DEFAULT_PWM_RATE,
 		.servo_pwm_rate = 50,
-	};
-	self->gps = (struct gps_config){
-		.autoConfig = GPS_AUTOCONFIG_ON
-	};
-	_reset_ledstrip_config(&self->ledstrip);
-	self->transponder = (struct transponder_config){
-		.data =  { 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC }, // Note, this is NOT a valid transponder code, it's just for testing production hardware
-	};
-	self->telemetry = (struct telemetry_config){
-		.telemetry_inversion = DEFAULT_TELEMETRY_INVERSION,
-	};
-	self->hott = (struct hott_telemetry_config){
-		.hottAlarmSoundInterval = 5,
-	};
-	self->rx = (struct rx_config){
+	},
+	.pwm_in = {
+		.inputFilteringMode = 0
+	},
+	/*
+	.rate = {
+		.profile[0] = _default_rate_profile,
+		.profile[1] = _default_rate_profile,
+		.profile[2] = _default_rate_profile
+	},
+	*/
+	.arm = {
+		.retarded_arm = 0,
+		.disarm_kill_switch = 1,
+		.auto_disarm_delay = 5,
+		.max_arm_angle = 25,
+	},
+	.rx = {
+		.rcmap = {0},
+		.serialrx_provider = 0,
 		.sbus_inversion = 1,		//!< specifies if sbus signal is inverted
+		.spektrum_sat_bind = 0,
+		.rssi_channel = 0,
+		.rssi_scale = RSSI_SCALE_DEFAULT,
+		.rssi_ppm_invert = 0,
+		.rcSmoothing = 0,
 		.midrc = 1500,				//!< middle point in usec of the rx signal (also zero point for all channels besides throttle)
 		.mincheck = 1100,			//!< used for checking if a channel is at minimum
 		.maxcheck = 1900,			//!< used to check if channel is at maximum
 		.rx_min_usec = 885,          //!< any of first 4 channels below this value will trigger rx loss detection
 		.rx_max_usec = 2115,         //!< any of first 4 channels above this value will trigger rx loss detection
-		.rssi_scale = RSSI_SCALE_DEFAULT,
-	};
-	rx_config_set_mapping(&self->rx, "AERT1234");
-	_reset_rx_output_config(&self->rx_output, &self->rx);
-	self->arm = (struct arming_config){
-		.disarm_kill_switch = 1,
-		.auto_disarm_delay = 5,
-		.max_arm_angle = 25,
-	};
-	self->imu = (struct imu_config){
-		.dcm_kp = 2500,                // 1.0 * 10000
-		.looptime = 2000,
-		.gyroSync = 1,
-		.gyroSyncDenominator = 1,
-		.small_angle = 25,
-		.max_angle_inclination = 500,    // 50 degrees
-	};
-	self->mixer = (struct mixer_config){
-		.mixerMode = MIXER_QUADX,
-		.pid_at_min_throttle = 1,
-		.yaw_motor_direction = 1,
-		.yaw_jump_prevention_limit = 200,
-
-		.tri_unarmed_servo = 1,
-		.servo_lowpass_freq = 400.0f,
-	};
-	self->tilt = (struct tilt_config){
+	},
+	/*
+	.rx_output = {
+		.range = {0},
+		.failsafe = {0}
+	},
+	*/
+	.sensors = {
+		.selection = {
+			.acc_hardware = 0,
+			.mag_hardware = 0,
+			.baro_hardware = 0
+		},
+		.alignment = {
+			.gyro_align = 0,
+			.acc_align = 0,
+			.mag_align = 0
+		},
+		.trims = {
+			.accZero = {
+				.values = {
+					.roll = 0,
+					.pitch = 0,
+					.yaw = 0
+				}
+			},
+			.magZero = {
+				.values = {
+					.roll = 0,
+					.pitch = 0,
+					.yaw = 0
+				}
+			}
+		}
+	},
+	.serial = {
+		.reboot_character = 'R',
+		//.portConfigs = {0}
+	},
+	.telemetry = {
+		.telemetry_switch = 0,
+		.telemetry_inversion = DEFAULT_TELEMETRY_INVERSION,
+	},
+	.tilt = {
 		.mode = MIXER_TILT_MODE_DYNAMIC,
-		.control_channel = AUX1,
 		.compensation_flags = MIXER_TILT_COMPENSATE_THRUST | MIXER_TILT_COMPENSATE_TILT | MIXER_TILT_COMPENSATE_BODY,
+		.control_channel = AUX1,
 		.servo_angle_min = -45,
 		.servo_angle_max = 45
-	};
-	self->failsafe = (struct failsafe_config){
-		.failsafe_delay = 10,              // 1sec
-		.failsafe_off_delay = 200,         // 20sec
-		.failsafe_throttle = 1000,         // default throttle off.
-		.failsafe_throttle_low_delay = 100, // default throttle low delay for "just disarm" on failsafe condition
-	};
-	self->airplane_althold = (struct airplane_althold_config){
-		.fixedwing_althold_dir = 1,
-	};
-	self->system = (struct system_config){
-		.i2c_highspeed = 1
-	};
+	},
+	.transponder = {
+		.data =  { 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC }, // Note, this is NOT a valid transponder code, it's just for testing production hardware
+	}
+};
+
+static void _reset_profile(struct config_profile *self){
+	memcpy(self, &_default_profile, sizeof(*self));
+	for(int c = 0; c < MAX_SUPPORTED_SERVOS; c++){
+		_reset_servo_profile(&self->servos.servoConf[c]);
+	}
+}
+
+size_t config_size(void){
+	return sizeof(struct config);
+}
+
+void config_reset(struct config *self){
+	memcpy(self, &_default_config, sizeof(struct config));
+	for(int c = 0; c < MAX_CONTROL_RATE_PROFILE_COUNT; c++){
+		_reset_rate_profile(&self->rate.profile[c]);
+	}
+	for(int c = 0; c < MAX_PROFILE_COUNT; c++){
+		_reset_profile(&self->profiles[c]);
+	}
+	_reset_ledstrip_config(&self->ledstrip);
+	rx_config_set_mapping(&self->rx, "AERT1234");
+	_reset_rx_output_config(&self->rx_output, &self->rx);
 	_reset_serial_config(&self->serial);
 }
 
@@ -528,8 +624,31 @@ struct rate_profile *config_get_rate_profile_rw(struct config *self){
 	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
 }
 
-void config_save(const struct config *self){
-	(void)self;
+int config_save(const struct config *self, const struct system_calls *system){
+	struct config_store store;
+	// first load existing config and validate it
+	if(sys_eeprom_read(system, &store, 0, sizeof(store)) != 0){
+		return -EIO;
+	}
+	// underlying implementation should probably only write delta
+	if(sys_eeprom_write(system, 0, self, sizeof(*self)) != 0){
+		return -EIO;
+	}
+	/*
+	uint16_t *stored = (uint16_t*)&store.data;
+	uint16_t *cur = (uint16_t*)self;
+	for(unsigned c = 0; c < (sizeof(store) >> 1); c++){
+		if(*cur != *stored) {
+			sys_eeprom_write_word(system, c, *cur);
+		}
+	}
+	uint16_t cur_crc = _calculate_checksum(self);
+	uint16_t stored_crc = _calculate_checksum(store.data);
+	if(cur_crc != stored_crc){ // usually will be different
+		sys_eeprom_write_word(system, offsetof(struct config_store, crc), crc);
+	}
+	*/
+	return 0;
 }
 
 static bool config_store_valid(const struct config_store *self){

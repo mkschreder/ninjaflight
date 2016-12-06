@@ -24,5 +24,5 @@
 struct telemetry_config {
     uint8_t telemetry_switch;               // Use aux channel to change serial output & baudrate( MSP / Telemetry ). It disables automatic switching to Telemetry when armed.
     uint8_t telemetry_inversion;            // also shared with smartport inversion
-};
+} __attribute__((packed)) ;
 

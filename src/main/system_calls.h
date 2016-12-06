@@ -33,7 +33,7 @@ struct system_calls_time {
 
 struct system_calls_eeprom {
 	int (*read)(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size);
-	int (*write)(const struct system_calls_eeprom *self, uint16_t addr, void *src, size_t size);
+	int (*write)(const struct system_calls_eeprom *self, uint16_t addr, const void *src, size_t size);
 };
 
 struct system_calls {

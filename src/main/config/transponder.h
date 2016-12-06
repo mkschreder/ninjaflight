@@ -23,5 +23,5 @@
 
 struct transponder_config {
     uint8_t data[6];
-};
+} __attribute__((packed)) ;
 

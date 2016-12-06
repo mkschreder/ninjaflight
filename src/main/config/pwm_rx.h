@@ -28,5 +28,5 @@ typedef enum {
 
 struct pwm_input_config {
     inputFilteringMode_e inputFilteringMode;  // Use hardware input filtering, e.g. for OrangeRX PPM/PWM receivers.
-} ;
+} __attribute__((packed))  ;
 

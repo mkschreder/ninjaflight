@@ -42,5 +42,5 @@ struct frsky_telemetry_config {
     frskyGpsCoordFormat_e frsky_coordinate_format;
     frskyUnit_e frsky_unit;
     uint8_t frsky_vfas_precision;
-};
+} __attribute__((packed)) ;
 
