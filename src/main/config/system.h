@@ -15,30 +15,10 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdbool.h>
-#include <stdint.h>
+#pragma once
 
-#include <platform.h>
+struct system_config {
+    uint8_t emf_avoidance;                   // change pll settings to avoid noise in the uhf band
+    uint8_t i2c_highspeed;                   // Overclock i2c Bus for faster IMU readings
+};
 
-#include "config/config.h"
-#include "config/feature.h"
-
-bool feature(const struct config *self, uint32_t mask){
-    return self->feature.enabledFeatures & mask;
-}
-
-void featureSet(struct config *self, uint32_t mask){
-    self->feature.enabledFeatures |= mask;
-}
-
-void featureClear(struct config *self, uint32_t mask){
-    self->feature.enabledFeatures &= ~(mask);
-}
-
-void featureClearAll(struct config *self){
-    self->feature.enabledFeatures = 0;
-}
-
-uint32_t featureMask(const struct config *self){
-    return self->feature.enabledFeatures;
-}

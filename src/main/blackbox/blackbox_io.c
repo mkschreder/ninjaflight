@@ -16,12 +16,12 @@
  */
 
 // TODO: blackbox
-#if 0
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
+#if 0
 #include <platform.h>
 
 #include "build_config.h"

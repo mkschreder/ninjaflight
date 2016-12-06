@@ -232,11 +232,11 @@ static void initActiveBoxIds(struct msp *self)
         ena |= 1 << BOXHEADADJ;
     }
 */
-    if (feature(FEATURE_SERVO_TILT))
+    if (feature(self->config, FEATURE_SERVO_TILT))
         ena |= 1 << BOXCAMSTAB;
 
 #ifdef GPS
-    if (feature(FEATURE_GPS)) {
+    if (feature(self->config, FEATURE_GPS)) {
         ena |= 1 << BOXGPSHOME;
         ena |= 1 << BOXGPSHOLD;
     }
@@ -250,22 +250,22 @@ static void initActiveBoxIds(struct msp *self)
     ena |= 1 << BOXBEEPERON;
 
 #ifdef LED_STRIP
-    if (feature(FEATURE_LED_STRIP)) {
+    if (feature(self->config, FEATURE_LED_STRIP)) {
         ena |= 1 << BOXLEDLOW;
     }
 #endif
 
-    if (feature(FEATURE_INFLIGHT_ACC_CAL))
+    if (feature(self->config, FEATURE_INFLIGHT_ACC_CAL))
         ena |= 1 << BOXCALIB;
 
     ena |= 1 << BOXOSD;
 
 #ifdef TELEMETRY
-    if (feature(FEATURE_TELEMETRY) && telemetryConfig()->telemetry_switch)
+    if (feature(self->config, FEATURE_TELEMETRY) && self->config->telemetry.telemetry_switch)
         ena |= 1 << BOXTELEMETRY;
 #endif
 
-    if (feature(FEATURE_SONAR)){
+    if (feature(self->config, FEATURE_SONAR)){
         ena |= 1 << BOXSONAR;
     }
 
@@ -278,12 +278,12 @@ static void initActiveBoxIds(struct msp *self)
 #endif
 
 #ifdef BLACKBOX
-    if (feature(FEATURE_BLACKBOX)){
+    if (feature(self->config, FEATURE_BLACKBOX)){
         ena |= 1 << BOXBLACKBOX;
     }
 #endif
 
-    if (feature(FEATURE_FAILSAFE)){
+    if (feature(self->config, FEATURE_FAILSAFE)){
         ena |= 1 << BOXFAILSAFE;
     }
 
@@ -807,7 +807,7 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
             break;
 
         case MSP_FEATURE:
-            sbufWriteU32(dst, featureMask());
+            sbufWriteU32(dst, featureMask(self->config));
             break;
 
         case MSP_VOLTAGE_METER_CONFIG:
@@ -857,7 +857,7 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
         case MSP_BF_CONFIG:
             sbufWriteU8(dst, self->config->mixer.mixerMode);
 
-            sbufWriteU32(dst, featureMask());
+            sbufWriteU32(dst, featureMask(self->config));
 
             sbufWriteU8(dst, self->config->rx.serialrx_provider);
 
@@ -990,7 +990,7 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
         case MSP_SET_4WAY_IF:
             // initialize 4way ESC interface, return number of ESCs available
             sbufWriteU8(dst, esc4wayInit());
-            mspEnterEsc4way = true;     // request protocol switch
+            self->mspEnterEsc4way = true;     // request protocol switch
             break;
 #endif
 
@@ -1311,8 +1311,8 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
 #endif
 
         case MSP_SET_FEATURE:
-            featureClearAll();
-            featureSet(sbufReadU32(src)); // features bitmap
+            featureClearAll(self->config);
+            featureSet(self->config, sbufReadU32(src)); // features bitmap
             break;
 
         case MSP_SET_VOLTAGE_METER_CONFIG:
@@ -1367,8 +1367,8 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
         case MSP_SET_BF_CONFIG:
             self->config->mixer.mixerMode = sbufReadU8(src);        // mixerMode
 
-            featureClearAll();
-            featureSet(sbufReadU32(src));                      // features bitmap
+            featureClearAll(self->config);
+            featureSet(self->config, sbufReadU32(src));                      // features bitmap
 
             self->config->rx.serialrx_provider = sbufReadU8(src);   // serialrx_type
 

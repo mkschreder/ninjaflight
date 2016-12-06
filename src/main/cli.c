@@ -2030,7 +2030,7 @@ static void cliDump(struct cli *self, char *cmdline)
 */
         cliPrint(self, "\r\n\r\n# feature\r\n");
 
-        mask = featureMask();
+        mask = featureMask(self->config);
         for (i = 0; ; i++) { // disable all feature first
             if (featureNames[i] == NULL)
                 break;
@@ -2046,7 +2046,7 @@ static void cliDump(struct cli *self, char *cmdline)
         cliPrint(self, "\r\n\r\n# map\r\n");
 
         for (i = 0; i < 8; i++)
-            buf[self->config->rx.rcmap[i]] = rx_get_channel_letter(i);
+            buf[self->config->rx.rcmap[i]] = rx_config_channel_letter(i);
         buf[i] = '\0';
         cliPrintf(self, "map %s\r\n", buf);
 
@@ -2165,7 +2165,7 @@ static void cliFeature(struct cli *self, char *cmdline)
     uint32_t mask;
 
     len = strlen(cmdline);
-    mask = featureMask();
+    mask = featureMask(self->config);
 
     if (len == 0) {
         cliPrint(self, "Enabled: ");
@@ -2216,10 +2216,10 @@ static void cliFeature(struct cli *self, char *cmdline)
                 }
 #endif
                 if (remove) {
-                    featureClear(mask);
+                    featureClear(self->config, mask);
                     cliPrint(self, "Disabled");
                 } else {
-                    featureSet(mask);
+                    featureSet(self->config, mask);
                     cliPrint(self, "Enabled");
                 }
                 cliPrintf(self, " %s\r\n", featureNames[i]);
@@ -2286,7 +2286,7 @@ static void cliMap(struct cli *self, char *cmdline)
     }
     cliPrint(self, "Map: ");
     for (i = 0; i < 8; i++)
-        out[self->config->rx.rcmap[i]] = rx_get_channel_letter(i);
+        out[self->config->rx.rcmap[i]] = rx_config_channel_letter(i);
     out[i] = '\0';
     cliPrintf(self, "%s\r\n", out);
 }

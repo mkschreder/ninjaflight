@@ -35,4 +35,4 @@ extern sensor_align_e gyroAlign;
 extern sensor_align_e accAlign;
 extern sensor_align_e magAlign;
 
-bool sensorsAutodetect(void);
+bool sensorsAutodetect(const struct config *config);

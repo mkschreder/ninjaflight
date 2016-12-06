@@ -106,6 +106,7 @@ struct ninja_sched {
 	int taskQueueSize;
 
 	const struct system_calls_time *time;
+	const struct config *config;
 };
 
 /*
@@ -118,7 +119,7 @@ uint32_t getTaskDeltaTime(cfTaskId_e taskId);
 #define LOAD_PERCENTAGE_ONE 100
 
 struct ninja;
-void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *time);
+void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *time, const struct config *config);
 void ninja_sched_run(struct ninja_sched *self);
 void ninja_sched_get_task_info(struct ninja_sched *self, cfTaskId_e taskId, cfTaskInfo_t * taskInfo);
 uint16_t ninja_sched_get_load(struct ninja_sched *self);

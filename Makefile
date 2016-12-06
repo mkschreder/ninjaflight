@@ -153,7 +153,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
-TARGET_FLAGS = -D$(TARGET) -pedantic
+TARGET_FLAGS = -D$(TARGET) 
 DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
@@ -203,7 +203,7 @@ endif
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f103_$(FLASH_SIZE)k.ld
 
 ARCH_FLAGS	 = -mthumb -mcpu=cortex-m3
-TARGET_FLAGS = -D$(TARGET) -pedantic
+TARGET_FLAGS = -D$(TARGET)
 DEVICE_FLAGS = -DSTM32F10X_MD -DSTM32F10X
 
 endif #TARGETS
@@ -240,8 +240,9 @@ COMMON_SRC = build_config.c \
 		   debug.c \
 		   version.c \
 		   $(TARGET_SRC) \
-		   config/config.c \
 		   drivers/config_streamer.c \
+		   config/config.c \
+		   config/rx.c \
 		   config/config_eeprom.c \
 		   config/feature.c \
 		   config/profile.c \
@@ -741,6 +742,7 @@ SITL_SRC = \
 		common/streambuf.c \
 		common/typeconversion.c \
 		config/config.c \
+		config/rx.c \
 		config/config_eeprom.c \
 		config/feature.c \
 		config/profile.c \

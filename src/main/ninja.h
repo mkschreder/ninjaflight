@@ -91,10 +91,11 @@ struct ninja {
 
 	const struct system_calls *system;
 
-	struct config config;
+	//! pointer to current configuration
+	struct config *config;
 };
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls);
+void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config *config);
 
 void ninja_arm(struct ninja *self);
 void ninja_disarm(struct ninja *self);

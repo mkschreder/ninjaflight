@@ -60,8 +60,6 @@
 #include "drivers/sonar_hcsr04.h"
 
 #include "config/config.h"
-#include "config/runtime_config.h"
-#include "config/parameter_group.h"
 
 #include "sensors/acceleration.h"
 #include "sensors/barometer.h"
@@ -693,7 +691,7 @@ retry:
     //sensorsSet(SENSOR_MAG);
 }
 
-static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
+static void reconfigureAlignment(const struct sensor_alignment_config *sensorAlignmentConfig)
 {
     if (sensorAlignmentConfig->gyro_align != ALIGN_DEFAULT) {
         gyroAlign = sensorAlignmentConfig->gyro_align;
@@ -706,7 +704,7 @@ static void reconfigureAlignment(sensorAlignmentConfig_t *sensorAlignmentConfig)
     }
 }
 
-bool sensorsAutodetect(void)
+bool sensorsAutodetect(const struct config *config)
 {
     memset(&acc, 0, sizeof(acc));
     memset(&gyro, 0, sizeof(gyro));
@@ -722,8 +720,8 @@ bool sensorsAutodetect(void)
     if (!detectGyro()) {
         return false;
     }
-    detectAcc(sensorSelectionConfig()->acc_hardware);
-    detectBaro(sensorSelectionConfig()->baro_hardware);
+    detectAcc(config->sensors.selection.acc_hardware);
+    detectBaro(config->sensors.selection.baro_hardware);
 
 
     // Now time to init things, acc first
@@ -732,13 +730,13 @@ bool sensorsAutodetect(void)
         acc.init(&acc);
     }
     // this is safe because either mpu6050 or mpu3050 or lg3d20 sets it, and in case of fail, we never get here.
-    gyro.init(gyroConfig()->gyro_lpf);
+    gyro.init(config->gyro.gyro_lpf);
 
 	if(USE_MAG){
-		detectMag(sensorSelectionConfig()->mag_hardware);
+		detectMag(config->sensors.selection.mag_hardware);
 	}
 
-    reconfigureAlignment(sensorAlignmentConfig());
+    reconfigureAlignment(&config->sensors.alignment);
 
     return true;
 }

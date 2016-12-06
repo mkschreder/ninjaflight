@@ -641,13 +641,17 @@ pwmIOConfiguration_t *pwmGetOutputConfiguration(void){
 // TODO: this is an odd dependency from pwm_rx.c
 void ppmAvoidPWMTimerClash(const timerHardware_t *timerHardwarePtr, TIM_TypeDef *sharedPwmTimer); 
 
-pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init)
+// TODO: do not use static variables
+bool pwmUseInputFiltering = false;
+
+pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init, const struct pwm_input_config *config)
 {
     int i = 0;
     const uint16_t *setup;
 
     int channelIndex = 0;
 
+	pwmUseInputFiltering = config->inputFilteringMode == INPUT_FILTERING_ENABLED;
 
     memset(&pwmIOConfiguration, 0, sizeof(pwmIOConfiguration));
 

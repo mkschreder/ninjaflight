@@ -151,9 +151,10 @@ uint32_t ninja_sched_get_task_dt(struct ninja_sched *self, cfTaskId_e taskId){
 	}
 }
 
-void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *time){
+void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *time, const struct config *config){
 	memset(self, 0, sizeof(struct ninja_sched));
 	self->time = time;
+	self->config = config;
 	self->realtimeGuardInterval = REALTIME_GUARD_INTERVAL_MAX;
 
 	_queue_clear(self);
@@ -167,10 +168,10 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 #ifdef BEEPER
 	ninja_sched_set_task_enabled(self, TASK_BEEPER, true);
 #endif
-	ninja_sched_set_task_enabled(self, TASK_BATTERY, feature(FEATURE_VBAT) || feature(FEATURE_CURRENT_METER));
+	ninja_sched_set_task_enabled(self, TASK_BATTERY, feature(self->config, FEATURE_VBAT) || feature(self->config, FEATURE_CURRENT_METER));
 	ninja_sched_set_task_enabled(self, TASK_RX, true);
 #ifdef GPS
-	ninja_sched_set_task_enabled(self, TASK_GPS, feature(FEATURE_GPS));
+	ninja_sched_set_task_enabled(self, TASK_GPS, feature(self->config, FEATURE_GPS));
 #endif
 #if USE_MAG == 1
 	ninja_sched_set_task_enabled(self, TASK_COMPASS, true);
@@ -189,16 +190,16 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 	ninja_sched_set_task_enabled(self, TASK_ALTITUDE, true);
 #endif
 #ifdef DISPLAY
-	ninja_sched_set_task_enabled(self, TASK_DISPLAY, feature(FEATURE_DISPLAY));
+	ninja_sched_set_task_enabled(self, TASK_DISPLAY, feature(self->config, FEATURE_DISPLAY));
 #endif
 #ifdef TELEMETRY
-	ninja_sched_set_task_enabled(self, TASK_TELEMETRY, feature(FEATURE_TELEMETRY));
+	ninja_sched_set_task_enabled(self, TASK_TELEMETRY, feature(self->config, FEATURE_TELEMETRY));
 #endif
 #ifdef LED_STRIP
-	ninja_sched_set_task_enabled(self, TASK_LEDSTRIP, feature(FEATURE_LED_STRIP));
+	ninja_sched_set_task_enabled(self, TASK_LEDSTRIP, feature(self->config, FEATURE_LED_STRIP));
 #endif
 #ifdef TRANSPONDER
-	ninja_sched_set_task_enabled(self, TASK_TRANSPONDER, feature(FEATURE_TRANSPONDER));
+	ninja_sched_set_task_enabled(self, TASK_TRANSPONDER, feature(self->config, FEATURE_TRANSPONDER));
 #endif
 }
 
@@ -386,12 +387,11 @@ static void _task_beeper(struct ninja_sched *sched){
 #define IBATINTERVAL (6 * 3500)
 
 static void _task_bat(struct ninja_sched *sched){
-	(void)sched;
 	static uint32_t vbatLastServiced = 0;
 	static uint32_t ibatLastServiced = 0;
 
 	int32_t currentTime = sched->time->micros(sched->time);
-	if (feature(FEATURE_VBAT)) {
+	if (feature(sched->config, FEATURE_VBAT)) {
 		if (cmp32(currentTime, vbatLastServiced) >= VBATINTERVAL) {
 			vbatLastServiced = currentTime;
 			// TODO: fix this
@@ -399,7 +399,7 @@ static void _task_bat(struct ninja_sched *sched){
 		}
 	}
 
-	if (feature(FEATURE_CURRENT_METER)) {
+	if (feature(sched->config, FEATURE_CURRENT_METER)) {
 		int32_t ibatTimeSinceLastServiced = cmp32(currentTime, ibatLastServiced);
 
 		if (ibatTimeSinceLastServiced >= IBATINTERVAL) {
@@ -467,7 +467,7 @@ static void _task_gps(struct ninja_sched *sched){
 	// if GPS feature is enabled, gpsThread() will be called at some intervals to check for stuck
 	// hardware, wrong baud rates, init GPS if needed, etc. Don't use SENSOR_GPS here as gpsThread() can and will
 	// change this based on available hardware
-	if (feature(FEATURE_GPS)) {
+	if (feature(sched->config, FEATURE_GPS)) {
 		gps_update(&self->gps);
 	}
 
@@ -542,7 +542,7 @@ static void _task_altitude(struct ninja_sched *sched)
 #ifdef DISPLAY
 static void _task_display(struct ninja_sched *sched){
 	(void)sched;
-	if (feature(FEATURE_DISPLAY)) {
+	if (feature(sched->config, FEATURE_DISPLAY)) {
 		updateDisplay();
 	}
 }
@@ -564,7 +564,7 @@ static void _task_telemetry(struct ninja_sched *sched){
 #ifdef LED_STRIP
 static void _task_ledstrip(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
-	if (feature(FEATURE_LED_STRIP)) {
+	if (feature(sched->config, FEATURE_LED_STRIP)) {
 		ledstrip_update(&self->ledstrip);
 	}
 }

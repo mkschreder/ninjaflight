@@ -140,6 +140,10 @@ enum {
     PWM16
 };
 
-pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init);
+// TODO: this variable needs to be refactored. Just use it for now as a static flag but later move it into an object.
+extern bool pwmUseInputFiltering;
+
+struct pwm_input_config;
+pwmIOConfiguration_t *pwmInit(drv_pwm_config_t *init, const struct pwm_input_config *config);
 pwmIOConfiguration_t *pwmGetOutputConfiguration(void);
 

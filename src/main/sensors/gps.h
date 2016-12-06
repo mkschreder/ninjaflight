@@ -97,7 +97,7 @@ struct gps {
 #define GPS_DBHZ_MIN 0
 #define GPS_DBHZ_MAX 55
 
-void gps_init(struct gps *self, const struct system_calls *system, const struct config *config);
+int gps_init(struct gps *self, const struct system_calls *system, const struct config *config);
 
 void gps_enable_passthrough(struct gps *self, struct serialPort_s *gpsPassthroughPort); 
 void gps_update(struct gps *self);

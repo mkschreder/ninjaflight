@@ -109,7 +109,7 @@ struct config_profile *config_get_profile_rw(struct config *self);
 struct rate_profile const * config_get_rate_profile(const struct config * const self);
 struct rate_profile *config_get_rate_profile_rw(struct config *self);
 
-void config_save(const struct config const *self);
+void config_save(const struct config *self);
 void config_reset(struct config *self);
 
 /*

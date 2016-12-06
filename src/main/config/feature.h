@@ -47,10 +47,9 @@ struct feature_config {
     uint32_t enabledFeatures;
 };
 
-void latchActiveFeatures(void);
-bool featureConfigured(uint32_t mask);
-bool feature(uint32_t mask);
-void featureSet(uint32_t mask);
-void featureClear(uint32_t mask);
-void featureClearAll(void);
-uint32_t featureMask(void);
+struct config;
+bool feature(const struct config *self, uint32_t mask);
+void featureSet(struct config *self, uint32_t mask);
+void featureClear(struct config *self, uint32_t mask);
+void featureClearAll(struct config *self);
+uint32_t featureMask(const struct config *self);

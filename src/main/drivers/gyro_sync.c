@@ -28,7 +28,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/gyro_sync.h"
 
-#include "config/runtime_config.h"
 #include "config/config.h"
 
 static uint32_t targetLooptime;

@@ -166,7 +166,7 @@ static void gpsSetState(struct gps *self, gpsState_e state){
 	self->gpsData.messageState = GPS_MESSAGE_STATE_IDLE;
 }
 
-void gps_init(struct gps *self, const struct system_calls *system, const struct config *config){
+int gps_init(struct gps *self, const struct system_calls *system, const struct config *config){
 	memset(self, 0, sizeof(struct gps));
 
 	self->config = config;
@@ -183,8 +183,7 @@ void gps_init(struct gps *self, const struct system_calls *system, const struct 
 
 	const struct serial_port_config *gpsPortConfig = findSerialPortConfig(&self->config->serial, FUNCTION_GPS);
 	if (!gpsPortConfig) {
-		featureClear(FEATURE_GPS);
-		return;
+		return -1;
 	}
 
 	while (gpsInitData[self->gpsData.baudrateIndex].baudrateIndex != gpsPortConfig->gps_baudrateIndex) {
@@ -203,12 +202,13 @@ void gps_init(struct gps *self, const struct system_calls *system, const struct 
 	// no callback - buffer will be consumed in gpsThread()
 	self->gpsPort = openSerialPort(gpsPortConfig->identifier, FUNCTION_GPS, NULL, gpsInitData[self->gpsData.baudrateIndex].baudrateIndex, mode, SERIAL_NOT_INVERTED);
 	if (!self->gpsPort) {
-		featureClear(FEATURE_GPS);
-		return;
+		return -1;
 	}
 
 	// signal GPS "thread" to initialize when it gets to it
 	gpsSetState(self, GPS_INITIALIZING);
+
+	return 0;
 }
 
 static void gpsInitNmea(struct gps *self)

@@ -81,17 +81,18 @@ static void _output_motors_disarmed(struct ninja *self){
 	}
 }
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls){
+void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config *config){
 	memset(self, 0, sizeof(struct ninja));
 
 	self->system = syscalls;
+	self->config = config;
 
-	config_reset(&self->config);
+	config_reset(self->config);
 
-	rc_adj_init(&self->rc_adj, self, &self->config);
-	mixer_init(&self->mixer, &self->config, &syscalls->pwm);
-	ins_init(&self->ins, &self->config);
-	anglerate_init(&self->ctrl, &self->ins, 0, &self->config);
+	rc_adj_init(&self->rc_adj, self, self->config);
+	mixer_init(&self->mixer, self->config, &syscalls->pwm);
+	ins_init(&self->ins, self->config);
+	anglerate_init(&self->ctrl, &self->ins, 0, self->config);
 /*
 	float gs = 1.0f/16.4f;
 	int16_t as = 512;
@@ -106,16 +107,16 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 
 	beeper_init(&self->beeper, self->system);
 
-	anglerate_set_algo(&self->ctrl, config_get_profile(&self->config)->pid.pidController);
+	anglerate_set_algo(&self->ctrl, config_get_profile(self->config)->pid.pidController);
 
-	battery_init(&self->bat, &self->config);
-	rx_init(&self->rx, self->system, &self->config);
+	battery_init(&self->bat, self->config);
+	rx_init(&self->rx, self->system, self->config);
 
-	if (feature(FEATURE_RX_SERIAL))
+	if (feature(self->config, FEATURE_RX_SERIAL))
 		rx_set_type(&self->rx, RX_SERIAL);
-	else if (feature(FEATURE_RX_MSP))
+	else if (feature(self->config, FEATURE_RX_MSP))
 		rx_set_type(&self->rx, RX_MSP);
-	else if (feature(FEATURE_RX_PPM))
+	else if (feature(self->config, FEATURE_RX_PPM))
 		rx_set_type(&self->rx, RX_PPM);
 	else
 		rx_set_type(&self->rx, RX_PWM);
@@ -125,21 +126,24 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 		.on_key_repeat = NULL
 	};
 
-	rc_init(&self->rc, &self->rx, &self->rc_evl, &self->config);
+	rc_init(&self->rc, &self->rx, &self->rc_evl, self->config);
 
 	#ifdef GPS
 	if (feature(FEATURE_GPS)) {
-		gps_init(&self->gps, self->system);
-		navigationInit(pidProfile());
+		if(gps_init(&self->gps, self->system) < 0){
+			featureClear(self->config, FEATURE_GPS);
+		} else {
+			navigationInit(&config_get_profile(self->config)->pid);
+		}
 	}
 #endif
 
-	msp_init(&self->msp, self, &self->config);
-	serial_msp_init(&self->serial_msp, &self->config, &self->msp);
+	msp_init(&self->msp, self, self->config);
+	serial_msp_init(&self->serial_msp, self->config, &self->msp);
 
 	cli_init(&self->cli, self);
 
-	failsafe_init(&self->failsafe, self, &self->config);
+	failsafe_init(&self->failsafe, self, self->config);
 
 #ifdef SONAR
 	if (feature(FEATURE_SONAR)) {
@@ -148,15 +152,15 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 #endif
 
 #ifdef LED_STRIP
-	ledstrip_init(&self->ledstrip, &self->config, self->system, &self->rx, &self->failsafe);
+	ledstrip_init(&self->ledstrip, self->config, self->system, &self->rx, &self->failsafe);
 
-	if (feature(FEATURE_LED_STRIP)) {
+	if (feature(self->config, FEATURE_LED_STRIP)) {
 		//ledStripEnable();
 	}
 #endif
 
 #ifdef TELEMETRY
-	if (feature(FEATURE_TELEMETRY)) {
+	if (feature(self->config, FEATURE_TELEMETRY)) {
 		telemetryInit();
 	}
 #endif
@@ -189,7 +193,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 
 	//ninja_config_load(self);
 
-	ninja_sched_init(&self->sched, &self->system->time);
+	ninja_sched_init(&self->sched, &self->system->time, self->config);
 
 	_output_motors_disarmed(self);
 }
@@ -422,7 +426,7 @@ static void _run_control_loop(struct ninja *self){
 	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
 	anglerate_update(&self->ctrl, dt_us * 1e-6f);
 
-	mixer_set_throttle_range(&self->mixer, 1500, self->config.pwm_out.minthrottle, self->config.pwm_out.maxthrottle);
+	mixer_set_throttle_range(&self->mixer, 1500, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
 	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rc_get_command(&self->rc, THROTTLE));
 
 	// TODO: flight modes
@@ -445,13 +449,13 @@ static void _run_control_loop(struct ninja *self){
 	// 2000 - 1500 = +500
 	// 1500 - 1500 = 0
 	// 1000 - 1500 = -500
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rx_get_channel(&self->rx, ROLL) - self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rx_get_channel(&self->rx, PITCH)	- self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rx_get_channel(&self->rx, YAW)	  - self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rx_get_channel(&self->rx, THROTTLE) - self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rx_get_channel(&self->rx, AUX1)	 - self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rx_get_channel(&self->rx, AUX2)	 - self->config.rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rx_get_channel(&self->rx, AUX3)	 - self->config.rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rx_get_channel(&self->rx, ROLL) - self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rx_get_channel(&self->rx, PITCH)	- self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rx_get_channel(&self->rx, YAW)	  - self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rx_get_channel(&self->rx, THROTTLE) - self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rx_get_channel(&self->rx, AUX1)	 - self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rx_get_channel(&self->rx, AUX2)	 - self->config->rx.midrc);
+	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rx_get_channel(&self->rx, AUX3)	 - self->config->rx.midrc);
 
 	mixer_update(&self->mixer);
 

@@ -15,10 +15,10 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if 0
 #include <stdbool.h>
 #include <string.h>
 
+#if 0
 #include <platform.h>
 #include "version.h"
 

@@ -216,8 +216,7 @@ static void _reset_rx_output_config(struct rx_output_config *self, const struct 
     }
 }
 
-static void _reset_serial_config(struct serial_config *self){
-	static const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
+const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
 	#ifdef USE_VCP
 		SERIAL_PORT_USB_VCP,
 	#endif
@@ -244,7 +243,9 @@ static void _reset_serial_config(struct serial_config *self){
 	#endif
 	};
 
-    struct serial_port_config portConfig_Reset = {
+
+static void _reset_serial_config(struct serial_config *self){
+	    struct serial_port_config portConfig_Reset = {
         .msp_baudrateIndex = BAUD_115200,
         .gps_baudrateIndex = BAUD_57600,
         .telemetry_baudrateIndex = BAUD_AUTO,
@@ -356,8 +357,7 @@ static void _reset_profile(struct config_profile *self){
 		.throttle_correction_value = 0,      // could 10 with althold or 40 for fpv
 		.throttle_correction_angle = 800,    // could be 80.0 deg with atlhold or 45.0 for fpv
 	};
-
-};
+}
 
 void config_reset(struct config *self){
 	self->blackbox = (struct blackbox_config){
@@ -466,7 +466,7 @@ void config_reset(struct config *self){
 		.i2c_highspeed = 1
 	};
 	_reset_serial_config(&self->serial);
-};
+}
 
 static int gcd(int num, int denom)
 {
@@ -525,6 +525,14 @@ struct rate_profile const * config_get_rate_profile(const struct config * const 
 
 struct rate_profile *config_get_rate_profile_rw(struct config *self){
 	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
+}
+
+void config_save(const struct config *self){
+	(void)self;
+}
+
+void config_load(struct config *self){
+	(void)self;
 }
 
 void handleOneshotFeatureChangeOnRestart(void)

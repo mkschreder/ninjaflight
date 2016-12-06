@@ -59,37 +59,37 @@
 
 static void ninja_validate_config(struct ninja *self){
 	(void)self;
-    if (!(featureConfigured(FEATURE_RX_PARALLEL_PWM) || featureConfigured(FEATURE_RX_PPM) || featureConfigured(FEATURE_RX_SERIAL) || featureConfigured(FEATURE_RX_MSP))) {
-        featureSet(DEFAULT_RX_FEATURE);
+    if (!(feature(self->config, FEATURE_RX_PARALLEL_PWM) || feature(self->config, FEATURE_RX_PPM) || feature(self->config, FEATURE_RX_SERIAL) || feature(self->config, FEATURE_RX_MSP))) {
+        featureSet(self->config, DEFAULT_RX_FEATURE);
     }
 
-    if (featureConfigured(FEATURE_RX_PPM)) {
-        featureClear(FEATURE_RX_PARALLEL_PWM | FEATURE_RX_SERIAL | FEATURE_RX_MSP);
+    if (feature(self->config, FEATURE_RX_PPM)) {
+        featureClear(self->config, FEATURE_RX_PARALLEL_PWM | FEATURE_RX_SERIAL | FEATURE_RX_MSP);
     }
 
-    if (featureConfigured(FEATURE_RX_MSP)) {
-        featureClear(FEATURE_RX_SERIAL | FEATURE_RX_PARALLEL_PWM | FEATURE_RX_PPM);
+    if (feature(self->config, FEATURE_RX_MSP)) {
+        featureClear(self->config, FEATURE_RX_SERIAL | FEATURE_RX_PARALLEL_PWM | FEATURE_RX_PPM);
     }
 
-    if (featureConfigured(FEATURE_RX_SERIAL)) {
-        featureClear(FEATURE_RX_PARALLEL_PWM | FEATURE_RX_MSP | FEATURE_RX_PPM);
+    if (feature(self->config, FEATURE_RX_SERIAL)) {
+        featureClear(self->config, FEATURE_RX_PARALLEL_PWM | FEATURE_RX_MSP | FEATURE_RX_PPM);
     }
 
-    if (featureConfigured(FEATURE_RX_PARALLEL_PWM)) {
-        featureClear(FEATURE_RX_SERIAL | FEATURE_RX_MSP | FEATURE_RX_PPM);
+    if (feature(self->config, FEATURE_RX_PARALLEL_PWM)) {
+        featureClear(self->config, FEATURE_RX_SERIAL | FEATURE_RX_MSP | FEATURE_RX_PPM);
     }
 
     // The retarded_arm setting is incompatible with pid_at_min_throttle because full roll causes the craft to roll over on the ground.
     // The pid_at_min_throttle implementation ignores yaw on the ground, but doesn't currently ignore roll when retarded_arm is enabled.
-    if (self->config.arm.retarded_arm && self->config.mixer.pid_at_min_throttle) {
-        self->config.mixer.pid_at_min_throttle = 0;
+    if (self->config->arm.retarded_arm && self->config->mixer.pid_at_min_throttle) {
+        self->config->mixer.pid_at_min_throttle = 0;
     }
 
 
 #ifdef STM32F10X
     // avoid overloading the CPU on F1 targets when using gyro sync and GPS.
-    if (self->config.imu.gyroSync && self->config.imu.gyroSyncDenominator < 2 && featureConfigured(FEATURE_GPS)) {
-        self->config.imu.gyroSyncDenominator = 2;
+    if (self->config->imu.gyroSync && self->config->imu.gyroSyncDenominator < 2 && feature(self->config, FEATURE_GPS)) {
+        self->config->imu.gyroSyncDenominator = 2;
     }
 #endif
 
@@ -97,7 +97,7 @@ static void ninja_validate_config(struct ninja *self){
 // TODO: ledstrip config
 #if defined(LED_STRIP)
 #if (defined(USE_SOFTSERIAL1) || defined(USE_SOFTSERIAL2))
-    if (featureConfigured(FEATURE_SOFTSERIAL) && (
+    if (feature(FEATURE_SOFTSERIAL) && (
             0
 #ifdef USE_SOFTSERIAL1
             || (LED_STRIP_TIMER == SOFTSERIAL_1_TIMER)
@@ -112,7 +112,7 @@ static void ninja_validate_config(struct ninja *self){
 #endif
 
 #if defined(TRANSPONDER) && !defined(UNIT_TEST)
-    if ((WS2811_DMA_TC_FLAG == TRANSPONDER_DMA_TC_FLAG) && featureConfigured(FEATURE_TRANSPONDER) && featureConfigured(FEATURE_LED_STRIP)) {
+    if ((WS2811_DMA_TC_FLAG == TRANSPONDER_DMA_TC_FLAG) && feature(FEATURE_TRANSPONDER) && feature(FEATURE_LED_STRIP)) {
         featureClear(FEATURE_LED_STRIP);
     }
 #endif
@@ -120,30 +120,30 @@ static void ninja_validate_config(struct ninja *self){
 */
 #if defined(CC3D)
 #if defined(DISPLAY) && defined(USE_UART3)
-    if (featureConfigured(FEATURE_DISPLAY) && doesConfigurationUsePort(SERIAL_PORT_UART3)) {
-        featureClear(FEATURE_DISPLAY);
+    if (feature(self->config, FEATURE_DISPLAY) && doesConfigurationUsePort(SERIAL_PORT_UART3)) {
+        featureClear(self->config, FEATURE_DISPLAY);
     }
 #endif
 
 #if defined(SONAR) && defined(USE_SOFTSERIAL1)
-    if (featureConfigured(FEATURE_SONAR) && featureConfigured(FEATURE_SOFTSERIAL)) {
-        featureClear(FEATURE_SONAR);
+    if (feature(self->config, FEATURE_SONAR) && feature(self->config, FEATURE_SOFTSERIAL)) {
+        featureClear(self->config, FEATURE_SONAR);
     }
 #endif
 
 #if defined(SONAR) && defined(USE_SOFTSERIAL1) && defined(RSSI_ADC_GPIO)
     // shared pin
-    if ((featureConfigured(FEATURE_SONAR) + featureConfigured(FEATURE_SOFTSERIAL) + featureConfigured(FEATURE_RSSI_ADC)) > 1) {
-        featureClear(FEATURE_SONAR);
-        featureClear(FEATURE_SOFTSERIAL);
-        featureClear(FEATURE_RSSI_ADC);
+    if ((feature(self->config, FEATURE_SONAR) + feature(self->config, FEATURE_SOFTSERIAL) + feature(self->config, FEATURE_RSSI_ADC)) > 1) {
+        featureClear(self->config, FEATURE_SONAR);
+        featureClear(self->config, FEATURE_SOFTSERIAL);
+        featureClear(self->config, FEATURE_RSSI_ADC);
     }
 #endif
 #endif // CC3D
 
 #if defined(COLIBRI_RACE)
     serialConfig()->portConfigs[0].functionMask = FUNCTION_MSP;
-    if (featureConfigured(FEATURE_RX_SERIAL)) {
+    if (feature(self->config, FEATURE_RX_SERIAL)) {
         serialConfig()->portConfigs[2].functionMask = FUNCTION_RX_SERIAL;
     }
 #endif
@@ -155,7 +155,7 @@ static void ninja_validate_config(struct ninja *self){
     }
 	*/
 #if defined(USE_VCP)
-    self->config.serial.portConfigs[0].functionMask = FUNCTION_MSP;
+    self->config->serial.portConfigs[0].functionMask = FUNCTION_MSP;
 #endif
 }
 
@@ -163,10 +163,12 @@ void ninja_config_load(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
     // Sanity check, read flash
+	// TODO: load config
+	/*
     if (!scanEEPROM(true)) {
         failureMode(FAILURE_INVALID_EEPROM_CONTENTS);
     }
-
+*/
     //pgActivateProfile(getCurrentProfile());
 
 	// TODO: need to set the control rate profile here 
@@ -180,7 +182,7 @@ void ninja_config_load(struct ninja *self){
     rc_adj_reset(&self->rc_adj);
 
 #ifdef GPS
-    gpsUsePIDs(&config_get_profile(&self->config)->pid);
+    gpsUsePIDs(&config_get_profile(self->config)->pid);
 #endif
 
 	// TODO: make sure we move all of this activation stuff into ninja so that we have access to the local state
@@ -207,7 +209,7 @@ void ninja_config_load(struct ninja *self){
 void ninja_config_save(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-    writeConfigToEEPROM();
+	config_save(self->config);
 
     rx_resume_signal(&self->rx);
 }
@@ -222,17 +224,17 @@ void ninja_config_reset(struct ninja *self){
 	// TODO: all of this function needs to be a callback in order to work correctly
     //setControlRateProfile(0);
 
-    featureClearAll();
+    featureClearAll(self->config);
 
-    featureSet(DEFAULT_RX_FEATURE | FEATURE_FAILSAFE | FEATURE_BLACKBOX);
+    featureSet(self->config, DEFAULT_RX_FEATURE | FEATURE_FAILSAFE | FEATURE_BLACKBOX);
 #ifdef DEFAULT_FEATURES
-    featureSet(DEFAULT_FEATURES);
+    featureSet(self->config, DEFAULT_FEATURES);
 #endif
 
 #ifdef BOARD_HAS_VOLTAGE_DIVIDER
     // only enable the VBAT feature by default if the board has a voltage divider otherwise
     // the user may see incorrect readings and unexpected issues with pin mappings may occur.
-    featureSet(FEATURE_VBAT);
+    featureSet(self->config, FEATURE_VBAT);
 #endif
 
 #if defined(COLIBRI_RACE)
@@ -295,16 +297,20 @@ void ninja_config_reset(struct ninja *self){
 	*/
 	// TODO: fix this
     for (int i = 1; i < MAX_PROFILE_COUNT; i++) {
-        config_get_profile_rw(&self->config)->rate.profile_id = i % MAX_CONTROL_RATE_PROFILE_COUNT;
+        config_get_profile_rw(self->config)->rate.profile_id = i % MAX_CONTROL_RATE_PROFILE_COUNT;
     }
 }
 
 void ninja_config_validate(struct ninja *self){
+	(void)self;
+	// TODO: validate and load config from eeprom
+	/*
     if (isEEPROMContentValid()) {
         return;
     }
 	ninja_config_reset(self);
     ninja_config_save(self);
+	*/
 
 }
 

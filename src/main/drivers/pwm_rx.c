@@ -364,7 +364,7 @@ void pwmICConfig(TIM_TypeDef *tim, uint8_t channel, uint16_t polarity)
     TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
 
-    if (pwmRxConfig()->inputFilteringMode == INPUT_FILTERING_ENABLED) {
+    if (pwmUseInputFiltering) {
         TIM_ICInitStructure.TIM_ICFilter = INPUT_FILTER_TO_HELP_WITH_NOISE_FROM_OPENLRS_TELEMETRY_RX;
     } else {
         TIM_ICInitStructure.TIM_ICFilter = 0x00;

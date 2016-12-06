@@ -232,8 +232,10 @@ void serial_msp_process(struct serial_msp *self, struct ninja *ninja){
             }
         }
 #ifdef USE_SERIAL_4WAY_BLHELI_INTERFACE
-        if(mspEnterEsc4way) {
-            mspEnterEsc4way = false;
+		// TODO: 4way interface
+		/*
+        if(self->mspEnterEsc4way) {
+            self->mspEnterEsc4way = false;
             waitForSerialPortToFinishTransmitting(msp->port);
             // esc4wayInit() was called in msp command
             // modal switch to esc4way, will return only after 4way exit command
@@ -241,6 +243,7 @@ void serial_msp_process(struct serial_msp *self, struct ninja *ninja){
             esc4wayProcess(msp->port);
             // continue processing
         }
+*/
 #endif
 		// TODO: this should probably be in the main msp class
 		/*
