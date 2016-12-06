@@ -60,9 +60,9 @@ struct imu {
 
 	uint8_t flags;
 
-	struct imu_config *config;
-	struct accelerometer_config *acc_config;
-	struct throttle_correction_config *thr_config;
+	const struct imu_config *config;
+	const struct accelerometer_config *acc_config;
+	const struct throttle_correction_config *thr_config;
 
 	quat_t q;
 
@@ -81,9 +81,9 @@ struct imu {
 };
 
 void imu_init(struct imu *self,
-	struct imu_config *config,
-	struct accelerometer_config *acc_config,
-	struct throttle_correction_config *thr_config
+	const struct imu_config *config,
+	const struct accelerometer_config *acc_config,
+	const struct throttle_correction_config *thr_config
 );
 
 void imu_reload_config(struct imu *self);

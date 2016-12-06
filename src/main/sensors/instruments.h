@@ -6,11 +6,13 @@
 #include "gyro.h"
 #include "compass.h"
 #include "boardalignment.h"
+#include "barometer.h"
 
 struct instruments {
 	struct ins_acc acc;
 	struct ins_gyro gyro;
 	struct ins_mag mag;
+	struct baro baro;
 	struct imu imu;
 
 	struct board_alignment alignment;

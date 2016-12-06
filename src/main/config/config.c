@@ -422,6 +422,7 @@ void config_reset(struct config *self){
 		.rx_max_usec = 2115,         //!< any of first 4 channels above this value will trigger rx loss detection
 		.rssi_scale = RSSI_SCALE_DEFAULT,
 	};
+	rx_config_set_mapping(&self->rx, "AERT1234");
 	_reset_rx_output_config(&self->rx_output, &self->rx);
 	self->arm = (struct arming_config){
 		.disarm_kill_switch = 1,

@@ -30,12 +30,16 @@ typedef enum {
 #define BARO_SAMPLE_COUNT_MAX   48
 #define BARO_MAX BARO_BMP280
 
-extern int32_t BaroAlt;
-extern int32_t baroTemperature;             // Use temperature for telemetry
+struct baro {
+	int32_t BaroAlt;
+	int32_t baroTemperature;             // Use temperature for telemetry
 
-bool isBaroCalibrationComplete(void);
-void baroSetCalibrationCycles(uint16_t calibrationCyclesRequired);
-uint32_t baroUpdate(void);
-bool isBaroReady(void);
-int32_t baroCalculateAltitude(void);
-void performBaroCalibrationCycle(void);
+	const struct config *config;
+};
+
+void baro_init(struct baro *self, const struct config *config);
+bool baro_is_calibrated(struct baro *self);
+void baro_start_calibration(struct baro *self);
+uint32_t baro_update(struct baro *self);
+bool baro_is_ready(struct baro *self);
+int32_t baro_calc_altitude(struct baro *self);

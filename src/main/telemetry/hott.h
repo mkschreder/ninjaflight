@@ -495,7 +495,7 @@ struct hott {
 	uint8_t hottMsgRemainingBytesToSendCount;
 	uint8_t hottMsgCrc;
 	serialPort_t *hottPort;
-	serialPortConfig_t *portConfig;
+	struct serial_port_config *portConfig;
 	bool hottTelemetryEnabled;
 	portSharing_e hottPortSharing;
 	HOTT_GPS_MSG_t hottGPSMessage;

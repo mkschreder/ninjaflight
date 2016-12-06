@@ -38,7 +38,6 @@
 #include "common/maths.h"
 #include "common/axis.h"
 
-#include "config/parameter_group.h"
 
 #include "drivers/system.h"
 #include "drivers/sensor.h"
@@ -58,8 +57,6 @@
 
 #include "telemetry/telemetry.h"
 #include "telemetry/ltm.h"
-
-#include "config/runtime_config.h"
 
 // TODO: telemetry will be done after sitl serial interface
 #if 0

@@ -26,8 +26,6 @@
 #include "common/axis.h"
 
 #include "config/config.h"
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 
 #include "drivers/sensor.h"
 #include "drivers/accgyro.h"
@@ -35,7 +33,6 @@
 #include "sensors/battery.h"
 #include "sensors/boardalignment.h"
 
-#include "config/runtime_config.h"
 #include "config/config_reset.h"
 #include "config/feature.h"
 
@@ -52,7 +49,7 @@ extern bool AccInflightCalibrationActive;
 static flightDynamicsTrims_t *accelerationTrims;
 */
 
-void ins_acc_init(struct ins_acc *self, struct sensor_trims_config *trims, struct accelerometer_config *config){
+void ins_acc_init(struct ins_acc *self, const struct sensor_trims_config *trims, const struct accelerometer_config *config){
 	memset(self, 0, sizeof(struct ins_acc));
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
@@ -131,10 +128,12 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 
 		if (self->calibratingA == 1) {
 			// Calculate average, shift Z down by acc_1G and store values in EEPROM at end of calibration
+			// TODO: save sensor trims
+			/*
 			self->trims->accZero.raw[X] = self->a[X] / CALIBRATING_ACC_CYCLES;
 			self->trims->accZero.raw[Y] = self->a[Y] / CALIBRATING_ACC_CYCLES;
 			self->trims->accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - self->acc_1G;
-
+			*/
 			//trims->values.roll = 0;
 			//trims->values.pitch = 0;
 		}

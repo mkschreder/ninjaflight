@@ -48,6 +48,8 @@
 
 #include <platform.h>
 
+#include "config/config.h"
+
 #include "system_calls.h"
 #include "build_config.h"
 #include "debug.h"
@@ -80,13 +82,6 @@
 
 static uint16_t nullReadRawRC(rxRuntimeConfig_t *rxRuntimeConfig, uint8_t channel); 
 
-static const char rcChannelLetters[] = "AERT12345678abcdefgh";
-
-char rx_get_channel_letter(uint8_t ch){
-	if(ch >= 20) return 'x';
-	return rcChannelLetters[ch];
-}
-
 static uint16_t nullReadRawRC(rxRuntimeConfig_t *rconf, uint8_t channel)
 {
 	UNUSED(rconf);
@@ -95,14 +90,14 @@ static uint16_t nullReadRawRC(rxRuntimeConfig_t *rconf, uint8_t channel)
 	return PPM_RCVR_TIMEOUT;
 }
 
-void serialRxInit(rxConfig_t *rxConfig);
+void serialRxInit(struct rx_config *rxConfig);
 
-bool isPulseValid(uint16_t pulseDuration){
-	return  pulseDuration >= rxConfig()->rx_min_usec &&
-			pulseDuration <= rxConfig()->rx_max_usec;
+bool isPulseValid(const struct rx_config *conf, uint16_t pulseDuration){
+	return  pulseDuration >= conf->rx_min_usec &&
+			pulseDuration <= conf->rx_max_usec;
 }
 
-static uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfiguration_t *range){
+static uint16_t applyRxChannelRangeConfiguraton(int sample, const struct rx_channel_range_config *range){
 	// Avoid corruption of channel with a value of PPM_RCVR_TIMEOUT
 	if (sample == PPM_RCVR_TIMEOUT) {
 		return PPM_RCVR_TIMEOUT;
@@ -116,7 +111,7 @@ static uint16_t applyRxChannelRangeConfiguraton(int sample, rxChannelRangeConfig
 
 //! Returns either previously read rc value or failsafe defaults for each channel
 static uint16_t _get_failsafe_channel_value(struct rx *self, uint8_t channel){
-	rxFailsafeChannelConfig_t *failsafeChannelConfig = failsafeChannelConfigs(channel);
+	const struct rx_failsafe_chan_config *failsafeChannelConfig = &self->config->rx_output.failsafe[channel];
 	uint8_t mode = failsafeChannelConfig->mode;
 
 	// force auto mode to prevent fly away when failsafe stage 2 is disabled
@@ -130,7 +125,7 @@ static uint16_t _get_failsafe_channel_value(struct rx *self, uint8_t channel){
 				case THROTTLE:
 					return PWM_RANGE_MIN;
 				default:
-					return rxConfig()->midrc;
+					return self->config->rx.midrc;
 			}
 			/* no break */
 		default:
@@ -142,7 +137,7 @@ static uint16_t _get_failsafe_channel_value(struct rx *self, uint8_t channel){
 	}
 
 	// if we get here then we return midrc because this is where we would get also when we first start up
-	return rxConfig()->midrc;
+	return self->config->rx.midrc;
 }
 
 void rx_init(struct rx *self, const struct system_calls *system, const struct config *config){
@@ -154,15 +149,12 @@ void rx_init(struct rx *self, const struct system_calls *system, const struct co
 	// at startup the receiver is in failsafe mode until some samples are received
 	self->rcReadRawFunc = nullReadRawRC;
 
-	// TODO: does this mean we always reset the mapping
-	rx_remap_channels(self, "AERT1234");
-
 	self->rcSampleIndex = 0;
 
 	for (int i = 0; i < RX_MAX_SUPPORTED_RC_CHANNELS; i++) {
 		// this is necessary since failsafe could be in HOLD mode
 		if(i == THROTTLE) self->rcData[THROTTLE] = PWM_RANGE_MIN;
-		else self->rcData[i] = rxConfig()->midrc; 
+		else self->rcData[i] = self->config->rx.midrc; 
 		// now get the failsafe value which could be the same value as we set above
 		self->rcData[i] = _get_failsafe_channel_value(self, i);;
 		self->rcInvalidPulsPeriod[i] = sys_millis(self->system) + RX_CHANNEL_TIMEOUT;
@@ -278,7 +270,7 @@ uint8_t serialRxFrameStatus(struct rx *self){
 	return SERIAL_RX_FRAME_PENDING;
 }
 
-static uint8_t calculateChannelRemapping(uint8_t *channelMap, uint8_t channelMapEntryCount, uint8_t channelToRemap){
+static uint8_t calculateChannelRemapping(const uint8_t *channelMap, uint8_t channelMapEntryCount, uint8_t channelToRemap){
 	if (channelToRemap < channelMapEntryCount) {
 		return channelMap[channelToRemap];
 	}
@@ -319,13 +311,13 @@ static void _read_all_channels(struct rx *self){
 	uint32_t valid = 0;
 	// try to read all channels and return if we fail
 	for (int channel = 0; channel < chan_count; channel++) {
-		uint8_t id = calculateChannelRemapping(rxConfig()->rcmap, ARRAYLEN(rxConfig()->rcmap), channel);
+		uint8_t id = calculateChannelRemapping(self->config->rx.rcmap, ARRAYLEN(self->config->rx.rcmap), channel);
 
 		// sample should be 0 if channel could not be read
 		uint16_t sample = self->rcReadRawFunc(&self->rxRuntimeConfig, id);
 
 		sys_millis_t milli_time = sys_millis(self->system);
-		if (!isPulseValid(sample)) {
+		if (!isPulseValid(&self->config->rx, sample)) {
 			// hold the signal for a little while before resorting to signal failure
 			if (milli_time >= self->rcInvalidPulsPeriod[channel]) {
 				// if any channel has timed out then put receiver into failsafe mode
@@ -340,7 +332,7 @@ static void _read_all_channels(struct rx *self){
 		} else {
 			// apply the rx calibration
 			if (channel < RX_NON_AUX_CHANNEL_COUNT) {
-				self->rcData[channel] = applyRxChannelRangeConfiguraton(sample, channelRanges(channel));
+				self->rcData[channel] = applyRxChannelRangeConfiguraton(sample, &self->config->rx_output.range[channel]);
 			} else {
 				self->rcData[channel] = sample;
 			}
@@ -402,26 +394,15 @@ void rx_update(struct rx *self){
 	rx_update_rssi(self);
 }
 
-void rx_remap_channels(struct rx *self, const char *input){
-	(void)self;
-	const char *c, *s;
-
-	for (c = input; *c; c++) {
-		s = strchr(rcChannelLetters, *c);
-		if (s && (s < rcChannelLetters + RX_MAX_MAPPABLE_RX_INPUTS))
-			rxConfig()->rcmap[s - rcChannelLetters] = c - input;
-	}
-}
-
 static void updateRSSIPWM(struct rx *self){
 	int16_t pwmRssi = 0;
-	uint8_t chan = constrain(rxConfig()->rssi_channel - 1, 0, RX_MAX_SUPPORTED_RC_CHANNELS);
+	uint8_t chan = constrain(self->config->rx.rssi_channel - 1, 0, RX_MAX_SUPPORTED_RC_CHANNELS);
 
 	// Read value of AUX channel as rssi
 	pwmRssi = self->rcData[chan];
 
 	// RSSI_Invert option
-	if (rxConfig()->rssi_ppm_invert) {
+	if (self->config->rx.rssi_ppm_invert) {
 		pwmRssi = ((PWM_RANGE_MAX - pwmRssi) + PWM_RANGE_MIN);
 	}
 
@@ -443,7 +424,7 @@ static void updateRSSIADC(struct rx *self)
 
 	int16_t adcRssiMean = 0;
 	uint16_t adcRssiSample = adcGetChannel(ADC_RSSI);
-	uint8_t rssiPercentage = adcRssiSample / rxConfig()->rssi_scale;
+	uint8_t rssiPercentage = adcRssiSample / self->config->rx.rssi_scale;
 
 	self->adcRssiSampleIndex = (adcRssiSampleIndex + 1) % RSSI_ADC_SAMPLE_COUNT;
 
@@ -463,7 +444,7 @@ static void updateRSSIADC(struct rx *self)
 */
 
 void rx_update_rssi(struct rx *self){
-	if (rxConfig()->rssi_channel > 0) {
+	if (self->config->rx.rssi_channel > 0) {
 		updateRSSIPWM(self);
 	} 
 	// TODO: rssi adc

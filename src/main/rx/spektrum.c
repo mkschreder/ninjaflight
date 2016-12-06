@@ -22,7 +22,6 @@
 #include <platform.h>
 #include "debug.h"
 
-#include "config/parameter_group.h"
 #include "config/config.h"
 
 #include "io/serial.h"

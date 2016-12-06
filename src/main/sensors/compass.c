@@ -25,11 +25,7 @@
 
 #include "common/axis.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "sensors/boardalignment.h"
-#include "config/runtime_config.h"
 #include "config/config.h"
 
 #include "sensors/compass.h"
@@ -40,7 +36,7 @@
 
 #define MAG_CALIBRATION_SAMPLES 240
 
-void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims){
+void ins_mag_init(struct ins_mag *self, const struct mag_config *config, const struct sensor_trims_config *trims){
 	memset(self, 0, sizeof(struct ins_mag));
 	self->config = config;
 	self->trims = trims;
@@ -66,7 +62,7 @@ void ins_mag_start_calibration(struct ins_mag *self){
 }
 
 void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z){
-	flightDynamicsTrims_t *magZero = &self->trims->magZero;
+	const flightDynamicsTrims_t *magZero = &self->trims->magZero;
 
 	int32_t raw[3] = { x, y, z };
 
@@ -78,10 +74,12 @@ void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t 
 		}
 		if(self->calibratingM == 1){
 			// Get hard iron correction
+			// TODO: save mag trims
+			/*
 			magZero->raw[X] = ((int32_t)self->mag_max[0] + self->mag_min[0])/2;  // get average x mag bias in counts
 			magZero->raw[Y] = ((int32_t)self->mag_max[1] + self->mag_min[1])/2;  // get average y mag bias in counts
 			magZero->raw[Z] = ((int32_t)self->mag_max[2] + self->mag_min[2])/2;  // get average z mag bias in counts
-
+			*/
 			// Get soft iron correction estimate
 			self->mag_scale[0]  = ((int32_t)self->mag_max[0] - self->mag_min[0])/2;  // get average x axis max chord length in counts
 			self->mag_scale[1]  = ((int32_t)self->mag_max[1] - self->mag_min[1])/2;  // get average y axis max chord length in counts

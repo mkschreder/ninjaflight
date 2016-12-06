@@ -32,13 +32,13 @@ struct ins_mag {
 	int16_t mag_max[3];
 	int16_t mag_min[3];
 
-	struct mag_config *config;
-	struct sensor_trims_config *trims;
+	const struct mag_config *config;
+	const struct sensor_trims_config *trims;
 
 	int16_t calibratingM;
 };
 
-void ins_mag_init(struct ins_mag *self, struct mag_config *config, struct sensor_trims_config *trims);
+void ins_mag_init(struct ins_mag *self, const struct mag_config *config, const struct sensor_trims_config *trims);
 void ins_mag_process_sample(struct ins_mag *self, int32_t x, int32_t y, int32_t z);
 
 void ins_mag_start_calibration(struct ins_mag *self);

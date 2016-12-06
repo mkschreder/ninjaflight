@@ -50,6 +50,8 @@
 
 #include <string.h>
 
+// TODO: althold
+#if 0
 // 40hz update rate (20hz LPF on acc)
 #define BARO_UPDATE_FREQUENCY_40HZ (1000 * 25)
 
@@ -179,13 +181,13 @@ void althold_calculate_altitude(struct althold *self, uint32_t currentTime){
 	previousTime = currentTime;
 
 #ifdef BARO
-	if (!isBaroCalibrationComplete()) {
+	if (!baro_is_calibrated(self->baro)) {
 		performBaroCalibrationCycle();
 		vel = 0;
 		accAlt = 0;
 	}
 
-	BaroAlt = baroCalculateAltitude();
+	BaroAlt = baro_calc_altitude(self->baro);
 #else
 	BaroAlt = 0;
 #endif
@@ -273,4 +275,4 @@ int32_t althold_get_est_alt(struct althold *self){
 	return self->EstAlt;
 }
 
-
+#endif

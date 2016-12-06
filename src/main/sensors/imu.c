@@ -32,9 +32,6 @@
 #include "common/filter.h"
 #include "common/quaternion.h"
 
-#include "config/runtime_config.h"
-#include "config/parameter_group_ids.h"
-#include "config/parameter_group.h"
 #include "config/config.h"
 #include "config/config_reset.h"
 
@@ -107,9 +104,9 @@ void imu_reset(struct imu *self){
 }
 
 void imu_init(struct imu *self,
-	struct imu_config *imu_config,
-	struct accelerometer_config *acc_config,
-	struct throttle_correction_config *thr_config
+	const struct imu_config *imu_config,
+	const struct accelerometer_config *acc_config,
+	const struct throttle_correction_config *thr_config
 ){
 	memset(self, 0, sizeof(struct imu));
 

@@ -22,8 +22,8 @@
 struct board_alignment {
 	bool standardBoardAlignment;
 	float rMat[3][3];              // matrix
-	struct board_alignment_config *config;
+	const struct board_alignment_config *config;
 };
 
-void board_alignment_init(struct board_alignment *self, struct board_alignment_config *config); 
+void board_alignment_init(struct board_alignment *self, const struct board_alignment_config *config); 
 void board_alignment_rotate_vector(struct board_alignment *self, int32_t *src, int32_t *dest, uint8_t rotation);

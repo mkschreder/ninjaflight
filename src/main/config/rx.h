@@ -98,4 +98,8 @@ struct rx_config {
     uint16_t rx_max_usec;					//!< maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe)
 };
 
+//! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
+void rx_config_set_mapping(struct rx_config *self, const char *input);
+char rx_config_channel_letter(uint8_t ch);
+
 

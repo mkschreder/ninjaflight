@@ -86,6 +86,8 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls){
 
 	self->system = syscalls;
 
+	config_reset(&self->config);
+
 	rc_adj_init(&self->rc_adj, self, &self->config);
 	mixer_init(&self->mixer, &self->config, &syscalls->pwm);
 	ins_init(&self->ins, &self->config);

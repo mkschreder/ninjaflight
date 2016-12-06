@@ -93,6 +93,7 @@ typedef enum {
 	RX_SERIAL_IBUS
 } rx_type_t;
 
+struct config;
 struct rx {
 	rx_type_t rx_type;
 
@@ -134,6 +135,7 @@ struct rx {
 	rxRuntimeConfig_t rxRuntimeConfig;
 
 	const struct system_calls *system;
+	const struct config *config;
 };
 
 void rx_update(struct rx *self);
@@ -147,10 +149,6 @@ bool rx_is_healthy(struct rx *self);
 //! Returns true if channels 0-3 are active
 bool rx_flight_channels_valid(struct rx *self);
 
-//! Configures the rx using the specified channel layout and config. (channel layout example: AETR1234)
-void rx_remap_channels(struct rx *self, const char *input);
-
-struct config;
 void rx_init(struct rx *self, const struct system_calls *system, const struct config *config);
 
 // TODO: make it possible to switch type at runtime (involves sorting out some init things)

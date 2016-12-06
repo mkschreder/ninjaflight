@@ -4,6 +4,8 @@
 
 #include <platform.h>
 
+#include "config/config.h"
+
 #include "imu.h"
 #include "instruments.h"
 
@@ -46,26 +48,28 @@ void ins_init(struct instruments *self, const struct config *config){
 	self->config = config;
 	self->sensors = INS_USE_SENSOR_ACC | INS_USE_SENSOR_GYRO | INS_USE_SENSOR_MAG;
 
-    board_alignment_init(&self->alignment, ba_conf);
+	baro_init(&self->baro, config);
+
+    board_alignment_init(&self->alignment, &self->config->alignment);
 
 	ins_acc_init(&self->acc,
-		sensor_trims,
-		acc_config
+		&self->config->sensors.trims,
+		&config_get_profile(self->config)->acc
 	);
 
 	ins_gyro_init(&self->gyro,
-		gyro_config
+		&self->config->gyro
 	);
 
 	ins_mag_init(&self->mag,
-		mag_config,
-		sensor_trims
+		&config_get_profile(self->config)->mag,
+		&self->config->sensors.trims
 	);
 
     imu_init(&self->imu,
-		imu_config,
-		acc_config,
-		thr_config
+		&self->config->imu,
+		&config_get_profile(self->config)->acc,
+		&config_get_profile(self->config)->throttle
 	);
 }
 

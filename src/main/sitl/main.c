@@ -18,9 +18,6 @@
 #include "common/streambuf.h"
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
-
 #include "drivers/sensor.h"
 #include "drivers/system.h"
 #include "drivers/light_led.h"
@@ -58,9 +55,7 @@
 #include "flight/failsafe.h"
 #include "flight/navigation.h"
 
-#include "config/runtime_config.h"
 #include "config/config.h"
-#include "config/config_system.h"
 #include "config/feature.h"
 
 #ifdef USE_HARDWARE_REVISION_DETECTION
@@ -210,7 +205,6 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	self->sitl = server;
-	ninja_config_reset(&self->ninja);
 
 	self->syscalls = (struct system_calls){
 		.pwm = {
@@ -237,27 +231,31 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 
 	ninja_init(&self->ninja, &self->syscalls);
 
-	pidProfile()->P8[PIDROLL] = 40;
-	pidProfile()->I8[PIDROLL] = 0;
-	pidProfile()->D8[PIDROLL] = 20;
+	struct config *conf = &self->ninja.config;
+	struct pid_config *pid = &config_get_profile_rw(conf)->pid;
+	struct rate_profile *rates = config_get_rate_profile_rw(conf);
+
+	pid->P8[PIDROLL] = 40;
+	pid->I8[PIDROLL] = 0;
+	pid->D8[PIDROLL] = 20;
 	
-	pidProfile()->P8[PIDPITCH] = 40;
-	pidProfile()->I8[PIDPITCH] = 0;
-	pidProfile()->D8[PIDPITCH] = 20;
+	pid->P8[PIDPITCH] = 40;
+	pid->I8[PIDPITCH] = 0;
+	pid->D8[PIDPITCH] = 20;
 
-	pidProfile()->P8[PIDYAW] = 50;
-	pidProfile()->I8[PIDYAW] = 5;
-	pidProfile()->D8[PIDYAW] = 30;
+	pid->P8[PIDYAW] = 50;
+	pid->I8[PIDYAW] = 5;
+	pid->D8[PIDYAW] = 30;
 
-	pidProfile()->P8[PIDLEVEL] = 20;
-	pidProfile()->I8[PIDLEVEL] = 10;
-	pidProfile()->D8[PIDLEVEL] = 100;
+	pid->P8[PIDLEVEL] = 20;
+	pid->I8[PIDLEVEL] = 10;
+	pid->D8[PIDLEVEL] = 100;
 
-	controlRateProfiles(0)->rates[ROLL] = 100;
-    controlRateProfiles(0)->rates[PITCH] = 100;
-    controlRateProfiles(0)->rates[YAW] = 100;
+	rates->rates[ROLL] = 100;
+    rates->rates[PITCH] = 100;
+    rates->rates[YAW] = 100;
 
-	mixerConfig()->mixerMode = MIXER_QUADX;
+	conf->mixer.mixerMode = MIXER_QUADX;
 
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }

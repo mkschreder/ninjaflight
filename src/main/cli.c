@@ -2282,7 +2282,7 @@ static void cliMap(struct cli *self, char *cmdline)
             return;
         }
 		*/
-        rx_remap_channels(&self->ninja->rx, cmdline);
+        rx_config_set_mapping(&self->config->rx, cmdline);
     }
     cliPrint(self, "Map: ");
     for (i = 0; i < 8; i++)

@@ -27,8 +27,6 @@
 #include "common/filter.h"
 
 #include "config/config.h"
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 #include "config/config_reset.h"
 
 #include "drivers/sensor.h"
@@ -40,7 +38,7 @@
 
 #define CALIBRATING_GYRO_CYCLES			 1000
 
-void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config){
+void ins_gyro_init(struct ins_gyro *self, const struct gyro_config *config){
 	memset(self, 0, sizeof(struct ins_gyro));
 	self->config = config;
 	self->gyro_scale = 1.0f / 16.4f;

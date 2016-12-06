@@ -63,9 +63,6 @@
 #include "common/axis.h"
 
 #include "config/config.h"
-#include "config/runtime_config.h"
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 
 #include "drivers/system.h"
 

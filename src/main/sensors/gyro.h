@@ -37,12 +37,12 @@ struct ins_gyro {
 	int32_t g[3];
 	stdev_t var[3];
 
-	struct gyro_config *config;
+	const struct gyro_config *config;
 
 	float gyro_scale;
 };
 
-void ins_gyro_init(struct ins_gyro *self, struct gyro_config *config);
+void ins_gyro_init(struct ins_gyro *self, const struct gyro_config *config);
 void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_t z);
 void ins_gyro_calibrate(struct ins_gyro *self);
 bool ins_gyro_is_calibrated(struct ins_gyro *self);

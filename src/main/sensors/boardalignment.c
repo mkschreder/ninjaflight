@@ -24,16 +24,15 @@
 #include "common/axis.h"
 
 #include "config/config.h"
-#include "config/parameter_group_ids.h"
 #include "config/sensors.h"
 
 #include "boardalignment.h"
 
-void board_alignment_init(struct board_alignment *self, struct board_alignment_config *config){ 
-	memset(self, 0, sizeof(struct board_alignment)); 
-	self->config = config; 
-	self->standardBoardAlignment = true; 
-	matrix_set_identity(self->rMat); 
+void board_alignment_init(struct board_alignment *self, const struct board_alignment_config *config){
+	memset(self, 0, sizeof(struct board_alignment));
+	self->config = config;
+	self->standardBoardAlignment = true;
+	matrix_set_identity(self->rMat);
 
 	// check if standard alignment
     if(!config || (!config->rollDegrees && !config->pitchDegrees && !config->yawDegrees)){

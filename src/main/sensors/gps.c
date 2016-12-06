@@ -30,10 +30,7 @@
 #include "common/axis.h"
 #include "common/utils.h"
 
-#include "config/parameter_group.h"
-#include "config/parameter_group_ids.h"
 #include "config/config.h"
-#include "config/runtime_config.h"
 #include "config/feature.h"
 
 #include "drivers/system.h"
@@ -169,9 +166,10 @@ static void gpsSetState(struct gps *self, gpsState_e state){
 	self->gpsData.messageState = GPS_MESSAGE_STATE_IDLE;
 }
 
-void gps_init(struct gps *self, const struct system_calls *system){
+void gps_init(struct gps *self, const struct system_calls *system, const struct config *config){
 	memset(self, 0, sizeof(struct gps));
 
+	self->config = config;
 	self->gpsPacketLogChar = self->gpsPacketLog;
 	self->system = system;
 	self->gpsData.baudrateIndex = 0;
@@ -183,7 +181,7 @@ void gps_init(struct gps *self, const struct system_calls *system){
 
 	self->gpsData.lastMessage = sys_millis(self->system);
 
-	serialPortConfig_t *gpsPortConfig = findSerialPortConfig(FUNCTION_GPS);
+	const struct serial_port_config *gpsPortConfig = findSerialPortConfig(&self->config->serial, FUNCTION_GPS);
 	if (!gpsPortConfig) {
 		featureClear(FEATURE_GPS);
 		return;
@@ -199,7 +197,7 @@ void gps_init(struct gps *self, const struct system_calls *system){
 
 	portMode_t mode = MODE_RXTX;
 	// only RX is needed for NMEA-style GPS
-	if (gpsConfig()->provider == GPS_NMEA)
+	if (self->config->gps.provider == GPS_NMEA)
 		mode &= ~MODE_TX;
 
 	// no callback - buffer will be consumed in gpsThread()
@@ -270,7 +268,7 @@ static void gpsInitUblox(struct gps *self)
 		case GPS_CONFIGURE:
 
 			// Either use specific config file for GPS or let dynamically upload config
-			if( gpsConfig()->autoConfig == GPS_AUTOCONFIG_OFF ) {
+			if( self->config->gps.autoConfig == GPS_AUTOCONFIG_OFF ) {
 				gpsSetState(self, GPS_RECEIVING_DATA);
 				break;
 			}
@@ -292,7 +290,7 @@ static void gpsInitUblox(struct gps *self)
 
 			if (self->gpsData.messageState == GPS_MESSAGE_STATE_SBAS) {
 				if (self->gpsData.state_position < UBLOX_SBAS_MESSAGE_LENGTH) {
-					serialWrite(self->gpsPort, ubloxSbas[gpsConfig()->sbasMode].message[self->gpsData.state_position]);
+					serialWrite(self->gpsPort, ubloxSbas[self->config->gps.sbasMode].message[self->gpsData.state_position]);
 					self->gpsData.state_position++;
 				} else {
 					self->gpsData.messageState++;
@@ -311,7 +309,7 @@ static void gpsInitUblox(struct gps *self)
 
 static void gpsInitHardware(struct gps *self)
 {
-	switch (gpsConfig()->provider) {
+	switch (self->config->gps.provider) {
 		case GPS_NMEA:
 			gpsInitNmea(self);
 			break;
@@ -345,7 +343,7 @@ void gps_update(struct gps *self)
 
 		case GPS_LOST_COMMUNICATION:
 			self->gpsData.timeouts++;
-			if (gpsConfig()->autoBaud) {
+			if (self->config->gps.autoBaud) {
 				// try another rate
 				self->gpsData.baudrateIndex++;
 				self->gpsData.baudrateIndex %= GPS_INIT_ENTRIES;
@@ -367,7 +365,7 @@ void gps_update(struct gps *self)
 }
 
 static bool gpsNewFrame(struct gps *self, uint8_t c){
-	switch (gpsConfig()->provider) {
+	switch (self->config->gps.provider) {
 		case GPS_NMEA:		  // NMEA
 			return gpsNewFrameNMEA(self, c);
 		case GPS_UBLOX:		 // UBX binary
