@@ -15,6 +15,28 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file cli.c
+ * @author Cleanflight
+ * @author Martin Schröder 2016
+ */
+
+/**
+ * @addtogroup ninja
+ * @{
+ */
+
+/**
+ * @defgroup cli Command line interface
+ * @{
+ *
+ * The cli module implements a command line interface for setting various
+ * ninjaflight config variables. It operates on a struct ninja object and on
+ * corresponding struct config object. It also provides various commands for
+ * diagnostics and control. It is similar to other configuration interfaces
+ * such as msp but in contrast to msp does not use a binary protocol, instead
+ * using a human readable stream of data.
+ */
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -2885,3 +2907,6 @@ void cli_init(struct cli *self, struct ninja *ninja, struct config *config, cons
 	self->config = config;
 	self->system = system;
 }
+
+/** @} */
+/** @} */

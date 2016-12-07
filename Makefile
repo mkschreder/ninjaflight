@@ -244,9 +244,7 @@ COMMON_SRC = build_config.c \
 		   config/config.c \
 		   config/rx.c \
 		   config/ledstrip.c \
-		   config/config_eeprom.c \
 		   config/feature.c \
-		   config/profile.c \
 		   common/maths.c \
 		   common/quaternion.c \
 		   common/buf_writer.c \
@@ -745,9 +743,7 @@ SITL_SRC = \
 		config/config.c \
 		config/rx.c \
 		config/ledstrip.c \
-		config/config_eeprom.c \
 		config/feature.c \
-		config/profile.c \
 		debug.c \
 		flight/altitudehold.c \
 		flight/anglerate.c \

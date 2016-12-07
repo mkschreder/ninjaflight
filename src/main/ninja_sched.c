@@ -15,8 +15,28 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define SRC_MAIN_SCHEDULER_C_
-
+/**
+ * @file ninja_sched.c
+ * @author Cleanflight
+ * @author Martin Schröder 2016
+ */
+/**
+ * @addtogroup ninja
+ * @{
+ */
+/**
+ * @defgroup scheduler Scheduler
+ * @{
+ *
+ * Primary responsibility of this module is to define core tasks and their
+ * timing for the ninjaflight application. The scheduler is nothing more than a
+ * small cooperative scheduler that helps organize different cooperative
+ * processes. For example, you can define that the pid loop should run every
+ * 1000 microseconds and that receiver loop should run at 20000. This module
+ * helps decouple timing from the tasks themselves and uses current tick
+ * counter for determining when tasks need to run. It does not (and should not)
+ * do any preemptive task switching. It is a rather primitive scheduler actually.
+ */
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -710,3 +730,5 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 #endif
 };
 
+/** @} */
+/** @} */

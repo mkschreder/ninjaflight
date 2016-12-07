@@ -12,8 +12,6 @@
 #include "common/utils.h"
 #include "common/filter.h"
 
-#include "config/config_eeprom.h"
-#include "config/profile.h"
 #include "config/tilt.h"
 
 #include "io/rc_adjustments.h"

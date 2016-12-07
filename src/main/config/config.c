@@ -15,6 +15,33 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file config.c
+ * @author Cleanflight 2013-2016
+ * @author Martin Schröder 2016
+ */
+/**
+ * @addtogroup Config
+ * @{
+ */
+/**
+ * @defgroup config Configuration
+ * @{
+ *
+ * The purpose of this module is to provide a systemwide configuration
+ * structure where all settings can be stored. It uses system calls to save the
+ * configuration to an eeprom (or equivalent) storage. This module decouples
+ * configuration variables from implementation of the subsystems and organizes
+ * them into a single packed structure called struct config. Many other systems
+ * depend on this module for their settings. It also provides reasonable
+ * default values and perhaps later will also provide validation of values for
+ * each config. It should be seen as an equivalent of a database where each
+ * configuration submodule does contain some module specifics but always only
+ * uses basic types to represent the data. You should never ever make any data
+ * structures in this module depend on any driver/hardware/implementation
+ * specific data structures. It should be kept very simple and completely
+ * implementation-agnostic.
+ */
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -29,10 +56,14 @@
 #include "common/utils.h"
 
 #include "config.h"
-#include "config_eeprom.h"
 #include "feature.h"
 #include "profile.h"
 #include "system_calls.h"
+
+//! this is the starting address of the config eeprom area
+#define CONFIG_EEPROM_START 0
+//! this is the size of the eeporm area used by the config
+#define CONFIG_EEPROM_SIZE 4096
 
 #ifdef ENABLE_BLACKBOX_LOGGING_ON_SPIFLASH_BY_DEFAULT
 #define DEFAULT_BLACKBOX_DEVICE BLACKBOX_DEVICE_FLASH
@@ -51,12 +82,19 @@
 #define DEFAULT_PWM_RATE BRUSHLESS_MOTORS_PWM_RATE
 #endif
 
+// TODO: remove this kind of choices as well as dependencies on target.h
+// this needs to be reconfigured as part of init
 #ifdef STM32F303xC
 // hardware supports serial port inversion, make users life easier for those that want to connect SBus RX's
 #define DEFAULT_TELEMETRY_INVERSION 1
 #else
 #define DEFAULT_TELEMETRY_INVERSION 0
 #endif
+
+struct eeprom_delta {
+	uint16_t addr;
+	uint16_t data;
+} __attribute__((packed));
 
 static void _reset_rate_profile(struct rate_profile *self){
 	*self = (struct rate_profile) {
@@ -624,47 +662,158 @@ struct rate_profile *config_get_rate_profile_rw(struct config *self){
 	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
 }
 
-int config_save(const struct config *self, const struct system_calls *system){
-	struct config_store store;
-	// first load existing config and validate it
-	if(sys_eeprom_read(system, &store, 0, sizeof(store)) != 0){
-		return -EIO;
-	}
-	// underlying implementation should probably only write delta
-	if(sys_eeprom_write(system, 0, self, sizeof(*self)) != 0){
-		return -EIO;
-	}
-	/*
-	uint16_t *stored = (uint16_t*)&store.data;
-	uint16_t *cur = (uint16_t*)self;
-	for(unsigned c = 0; c < (sizeof(store) >> 1); c++){
-		if(*cur != *stored) {
-			sys_eeprom_write_word(system, c, *cur);
+static uint16_t crc16(char *data_p, size_t length){
+	unsigned char i;
+	uint32_t data;
+	uint32_t crc = 0xffff;
+	const unsigned int POLY = 0x8408;
+
+	if (length == 0)
+		return (~crc);
+
+	do
+	{
+		for (i=0, data=(uint32_t)0xff & *data_p++;
+			 i < 8; 
+			 i++, data >>= 1)
+		{
+			  if ((crc & 0x0001) ^ (data & 0x0001))
+					crc = (crc >> 1) ^ POLY;
+			  else  crc >>= 1;
 		}
-	}
-	uint16_t cur_crc = _calculate_checksum(self);
-	uint16_t stored_crc = _calculate_checksum(store.data);
-	if(cur_crc != stored_crc){ // usually will be different
-		sys_eeprom_write_word(system, offsetof(struct config_store, crc), crc);
-	}
-	*/
-	return 0;
+	} while (--length);
+
+	crc = ~crc;
+	data = crc;
+	crc = (crc << 8) | (data >> 8 & 0xff);
+
+	return (crc);
+}
+
+static void config_store_update_checksum(struct config_store *self){
+	self->crc = crc16((char*)&self->data, sizeof(self->data));
 }
 
 static bool config_store_valid(const struct config_store *self){
-	(void)self;
-	return true;
+	return self->crc == crc16((char*)&self->data, sizeof(self->data));
 }
 
-int config_load(struct config *self, const struct system_calls *system){
-	struct config_store store;
-	if(sys_eeprom_read(system, &store, 0, sizeof(store)) != 0){
-		return -EIO;
+/**
+ * @addtogroup config
+ * @section config-load Loading of config
+ *
+ * Config module stores only deltas in the eeprom. For this it uses the
+ * sys_eeprom_write_delta system call that computes and stores modified values
+ * (including the new checksum).
+ **/
+
+static int _load_deltas(struct config_store *store, const struct system_calls *system){
+	uint16_t *ptr = (uint16_t*)store;
+
+	// first load existing config and validate it
+	size_t c = 0;
+	for(c = 0; c < (CONFIG_EEPROM_SIZE / sizeof(struct eeprom_delta)); c++){
+		struct eeprom_delta delta;
+		memset(&delta, 0, sizeof(delta));
+		// read one delta at a time until we reach the end and load each into the store
+		if(sys_eeprom_read(system, &delta, CONFIG_EEPROM_START + sizeof(struct eeprom_delta) * c, sizeof(struct eeprom_delta)) < 0)
+			return -EOF;
+		// all addresses will have first bit explicitly set
+		// on a flash eeprom this will be done by design of the flash, on a normal eeprom this will ensure that we stop when we reach erased area with only zeros
+		if(!(delta.addr & 0x8000)) // is an invalid address?
+			break;
+
+		// remove the magic bit
+		delta.addr &= ~0x8000;
+
+		// this test will ensure we stop on a flash eeprom when we reach an area with just 0xffff (erased flash data)
+		if(delta.addr >= sizeof(struct config_store))
+			break;
+
+		// address is actual eeprom address which we need to divide by 2 in order to get word address
+		ptr[delta.addr >> 1] = delta.data;
 	}
+	// return position where to write next record (presumably an empty area)
+	return c * sizeof(struct eeprom_delta);
+}
+
+/**
+ * NOTE: this function makes heavy use of the stack to store 2 * sizeof(config)
+ * which can be up to 4k. It may therefore cause stack overflow if ram if
+ * almost used up when it is called
+ * @param self config which is to be saved to eeprom
+ */
+int config_save(const struct config *self, const struct system_calls *system){
+	struct config_store eeprom_store;
+	struct config_store new_store;
+
+	memset(&eeprom_store, 0, sizeof(eeprom_store));
+	memset(&new_store, 0, sizeof(new_store));
+
+	// start with a default config before loading the delta
+	config_reset(&eeprom_store.data);
+	int start = _load_deltas(&eeprom_store, system);
+	if(start < 0)
+		return -EIO;
+	// create a new store with our config data
+	memcpy(&new_store.data, self, sizeof(new_store.data));
+	config_store_update_checksum(&new_store);
+
+	// store the new delta
+	int retry_count = 0;
+	bool fail = false;
+	do {
+		uint16_t *stored = (uint16_t*)&eeprom_store;
+		uint16_t *cur = (uint16_t*)&new_store;
+		fail = false;
+		for(unsigned c = 0; c < (sizeof(struct config_store) / sizeof(uint16_t)); c++){
+			if(cur[c] != stored[c]) {
+				struct eeprom_delta delta = {
+					.addr = (c << 1) | 0x8000,
+					.data = cur[c]
+				};
+				if(sys_eeprom_write(system, start, &delta, sizeof(delta)) < 0){
+					// this is used to catch a write past end of eeprom etc
+					// in this case a crude solution is to just restart from the beginning a few times before giving up
+					retry_count++;
+					fail = true;
+					// restart at the beginning of the config area
+					start = CONFIG_EEPROM_START;
+					break;
+				}
+				start += sizeof(struct eeprom_delta);
+			}
+		}
+	} while(fail && retry_count < 3);
+	if(fail)
+		return -1;
+	return 0;
+}
+
+/**
+ * @addtogroup config
+ * @section config-load Loading of config
+ *
+ * Config module typically only stores deltas in the eeprom. Before loading a
+ * config, the data area is filled with available defaults. Then deltas are
+ * loaded from the eeprom which overwrite some values that have been modified
+ * by the user from defaults. Finally the new checksum is loaded from the
+ * eeprom as well. If checksum of the loaded data matches the checksum loaded
+ * from the eeprom then all config data is copied to the config struct supplied
+ * to config_load. If data can not be loaded then config_load will return an
+ * error.
+ */
+int config_load(struct config *self, const struct system_calls *system){
+	(void)system;
+	struct config_store store;
+	memset(&store, 0, sizeof(store));
+
+	config_reset(&store.data);
+	_load_deltas(&store, system);
 	if(!config_store_valid(&store)){
 		return -EINVAL;
 	}
-	memcpy(self, &store.data, sizeof(*self));
+	memcpy(self, &store.data, sizeof(struct config));
 	return 0;
 }
 
@@ -688,4 +837,5 @@ void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileInde
 }
 */
 
-
+/** @} */
+/** @} */

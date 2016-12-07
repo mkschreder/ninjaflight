@@ -32,6 +32,14 @@ uint16_t mock_rc_pwm[RX_MAX_SUPPORTED_RC_CHANNELS];
 uint16_t mock_pwm_errors = 0;
 int16_t mock_acc[3];
 int16_t mock_gyro[3];
+uint32_t mock_eeprom_written = 0;
+uint16_t mock_eeprom_pages = 2;
+uint16_t mock_eeprom_page_size = 512;
+uint8_t mock_eeprom_erase_byte = 0xff;
+
+#define MOCK_EEPROM_MAX_SIZE 4096
+
+static char _flash[MOCK_EEPROM_MAX_SIZE];
 
 void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
 	(void)pwm;
@@ -107,11 +115,10 @@ static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 	fflush(stdout);
 }
 
-static char _flash[8000];
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
-	(void)dst;
-	printf("EEPROM read from %04x, size %lu\n", addr, size);
+	//printf("EEPROM read from %04x, size %lu\n", addr, size);
+	if((size + addr) >= (mock_eeprom_pages * mock_eeprom_page_size)) return EOF;
 	memcpy(dst, _flash + addr, size);
 	fflush(stdout);
 	return 0;
@@ -119,11 +126,21 @@ static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint1
 
 static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
-	(void)data;
-	printf("EEPROM write to %04x, size %lu\n", addr, size);
+	// simulate erase
+	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return EOF;
+	if((size + addr) > (mock_eeprom_pages * mock_eeprom_page_size))
+		size = (mock_eeprom_pages * mock_eeprom_page_size) - addr;
+	if(addr % mock_eeprom_page_size == 0) memset(_flash + addr, mock_eeprom_erase_byte, mock_eeprom_page_size);
+		/*
+	printf("EEPROM write to %04x (%d), size %lu: ", addr, addr, size);
+	for(size_t c = 0; c < size; c++) printf("%02x ", (int)((char*)data)[c] & 0xff);
+	printf("\n");
+	*/
+
 	memcpy(_flash + addr, data, size);
+	mock_eeprom_written+=size;
 	fflush(stdout);
-	return 0;
+	return size;
 }
 
 static const struct system_calls syscalls {
@@ -169,7 +186,9 @@ void mock_system_reset(){
 	memset(mock_motor_pwm, 0, sizeof(mock_motor_pwm));
 	memset(mock_servo_pwm, 0, sizeof(mock_servo_pwm));
 	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
+	memset(_flash, mock_eeprom_erase_byte, sizeof(_flash));
 	mock_pwm_errors = 0;
+	mock_eeprom_written = 0;
 }
 
 #include "unittest_macros.h"

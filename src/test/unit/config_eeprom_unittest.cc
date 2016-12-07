@@ -60,7 +60,6 @@ extern "C" {
     #include "telemetry/hott.h"
 
     #include "config/config.h"
-    #include "config/config_eeprom.h"
     #include "config/feature.h"
     #include "config/profile.h"
 	#include "config/frsky.h"
@@ -82,12 +81,14 @@ protected:
 };
 
 TEST_F(ConfigTest, Dummy){
+	struct config_store store;
 	printf("config size: %lu (0x%04x) bytes, %lu words\n", sizeof(struct config), (unsigned int)sizeof(struct config), sizeof(struct config)/2);
 	// some code assumes config comes first followed by checksum
 	EXPECT_EQ(0, offsetof(struct config_store, data));
 	EXPECT_EQ(offsetof(struct config_store, crc), sizeof(struct config));
 	// config must be word aligned
 	EXPECT_EQ(0, sizeof(struct config) % sizeof(uint16_t));
+	EXPECT_EQ(sizeof(store.crc), sizeof(uint16_t));
 }
 
 /**
@@ -150,11 +151,61 @@ TEST_F(ConfigTest, TestSaveLoad){
 	memset(&b, 0, sizeof(b));
 	config_reset(&a);
 	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
+	// since we are using default config, we should not have any writes besides crc (one size of a delta)
+	EXPECT_EQ(4, mock_eeprom_written);
+
 	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
-	uint8_t *aa = (uint8_t*)&a;
-	uint8_t *bb = (uint8_t*)&b;
-	for(unsigned c = 0; c < sizeof(a); c++){
-		//if(aa[c] != bb[c]) printf("mismatch at %d\n", c);
-	}
 	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
 }
+
+TEST_F(ConfigTest, TestPageBoundarySaveLoad){
+	struct config a, b;
+	memset(&a, 0, sizeof(a));
+	memset(&b, 0, sizeof(b));
+
+	uint8_t *data = (uint8_t*)&a;
+	// fill with random data
+	for(size_t c = 0; c < sizeof(a); c++){
+		data[c] = rand();
+	}
+
+	// small eeprom
+	mock_eeprom_page_size = 256;
+	mock_eeprom_pages = 2;
+
+	// this should fail
+	EXPECT_TRUE(config_save(&a, mock_syscalls()) < 0);
+
+	mock_eeprom_page_size = 512;
+	mock_eeprom_pages = 8;
+
+	// this should be ok
+	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
+
+	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
+	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
+}
+
+TEST_F(ConfigTest, TestFlashvsNormalSaveLoad){
+	struct config a, b;
+	memset(&a, 0, sizeof(a));
+	memset(&b, 0, sizeof(b));
+
+	uint8_t *data = (uint8_t*)&a;
+	// fill with random data
+	for(size_t c = 0; c < sizeof(a); c++){
+		data[c] = rand();
+	}
+
+	mock_eeprom_erase_byte = 0x00;
+	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
+	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
+	mock_eeprom_erase_byte = 0xff;
+	memset(&b, 0, sizeof(b));
+	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
+	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
+
+	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
+}
+
+

@@ -35,6 +35,10 @@ extern uint16_t mock_rc_pwm[RX_MAX_SUPPORTED_RC_CHANNELS];
 extern uint16_t mock_pwm_errors;
 extern int16_t mock_acc[3];
 extern int16_t mock_gyro[3];
+extern uint32_t mock_eeprom_written;
+extern uint16_t mock_eeprom_pages;
+extern uint16_t mock_eeprom_page_size;
+extern uint8_t mock_eeprom_erase_byte;
 
 struct system_calls;
 const struct system_calls *mock_syscalls();

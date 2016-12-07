@@ -16,7 +16,6 @@
 #include "common/filter.h"
 
 #include "config/config.h"
-#include "config/config_eeprom.h"
 #include "config/profile.h"
 #include "config/tilt.h"
 

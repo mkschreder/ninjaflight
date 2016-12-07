@@ -108,7 +108,7 @@ struct config {
 struct config_store {
 	struct config data;
 	uint16_t	crc;
-} __attribute__((aligned(2))); // must align to short because we will be storing 16 bit short words in the eeprom
+} __attribute__((aligned(4)));
 
 struct system_calls;
 
