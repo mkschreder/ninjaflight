@@ -548,7 +548,7 @@ static void _update_motor_and_servo_count(struct mixer *self){
 	}
 }
 
-void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
+static void _load_preset(struct mixer *self, mixer_mode_t preset){
 	int rule_count = 0;
 	const struct mixer_rule_def *rules = NULL;
 	// setting mixer like this makes sure that we save flash space
@@ -592,6 +592,8 @@ void mixer_load_preset(struct mixer *self, mixer_mode_t preset){
 	memcpy(self->active_rules, rules, sizeof(struct mixer_rule_def) * self->ruleCount);
 
 	_update_motor_and_servo_count(self);
+
+	self->mode = preset;
 }
 
 /**
@@ -613,9 +615,6 @@ void mixer_init(struct mixer *self, const struct config const *config, const str
 	mixer_set_throttle_range(self, 1500,
 		self->config->pwm_out.minthrottle,
 		self->config->pwm_out.maxthrottle);
-
-	// load the configured mixer profile
-	mixer_load_preset(self, self->config->mixer.mixerMode);
 }
 
 #if 0
@@ -815,6 +814,9 @@ void mixer_update(struct mixer *self){
 	// we will copy this into mixer output when we are done
 	int16_t output[MIXER_OUTPUT_COUNT];
 	memset(output, 0, sizeof(output));
+
+	if(self->mode != self->config->mixer.mixerMode)
+		_load_preset(self, self->config->mixer.mixerMode);
 
 	// if we are disarmed then we write preset disarmed values (this is necessary so we can test motors from configurator)
 	if(!(self->flags & MIXER_FLAG_ARMED)){

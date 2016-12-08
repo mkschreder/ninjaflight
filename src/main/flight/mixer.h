@@ -68,6 +68,9 @@ struct mixer {
 
 	bool motorLimitReached;
 
+	//! currently used mixer mode
+	uint8_t mode;
+
 	struct mixer_rule_def active_rules[MIXER_MAX_RULES];
 
 	//! output offset, min and max for motors
@@ -86,9 +89,6 @@ void mixer_init(struct mixer *self, const struct config *config, const struct sy
 
 //! inputs a command to one of the input channels of the mixer
 void mixer_input_command(struct mixer *self, mixer_input_t i, int16_t value);
-
-//! loads a mixer preset into the current ruleset
-void mixer_load_preset(struct mixer *self, mixer_mode_t preset);
 
 //! calculates outputs from all mixer inputs and mixing rules
 void mixer_update(struct mixer *self);
