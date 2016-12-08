@@ -27,7 +27,6 @@
 
 #include "sound_beeper.h"
 
-#ifdef BEEPER
 void initBeeperHardware(beeperConfig_t *config)
 {
     gpio_config_t gpioConfig = {
@@ -40,4 +39,3 @@ void initBeeperHardware(beeperConfig_t *config)
 
     gpioInit(config->gpioPort, &gpioConfig);
 }
-#endif

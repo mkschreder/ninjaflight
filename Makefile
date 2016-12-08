@@ -240,7 +240,7 @@ COMMON_SRC = build_config.c \
 		   debug.c \
 		   version.c \
 		   $(TARGET_SRC) \
-		   drivers/config_streamer.c \
+		   drivers/config_flash.c \
 		   config/config.c \
 		   config/rx.c \
 		   config/ledstrip.c \
@@ -787,7 +787,6 @@ SITL_SRC = \
 		sensors/imu.c \
 		sensors/instruments.c \
 		sensors/sonar.c \
-		sitl/flash.c \
 		sitl/main.c \
 		telemetry/frsky.c \
 		telemetry/hott.c \

@@ -29,9 +29,7 @@ typedef enum {
     TASK_GYROPID,
     TASK_ACCEL,
     TASK_SERIAL,
-#ifdef BEEPER
     TASK_BEEPER,
-#endif
     TASK_BATTERY,
     TASK_RX,
 #ifdef GPS
@@ -84,10 +82,8 @@ typedef struct cfTask_s {
     /* Statistics */
     uint32_t averageExecutionTime;  // Moving average over 6 samples, used to calculate guard interval
     uint32_t taskLatestDeltaTime;   //
-#ifndef SKIP_TASK_STATISTICS
     uint32_t maxExecutionTime;
     uint32_t totalExecutionTime;    // total time consumed by task since boot
-#endif
 } cfTask_t;
 
 struct ninja_sched {

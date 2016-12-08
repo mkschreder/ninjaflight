@@ -218,6 +218,7 @@ $(OBJECT_DIR)/flight_imu_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/flight_imu_unittest.cc -o $@
 
 $(OBJECT_DIR)/flight_imu_unittest : \
+	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/flight_imu_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 

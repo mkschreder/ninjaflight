@@ -185,9 +185,9 @@ void ninja_sched_init(struct ninja_sched *self, const struct system_calls_time *
 	//rescheduleTask(TASK_GYROPID, imuConfig()->gyroSync ? gyro_sync_get_looptime() - INTERRUPT_WAIT_TIME : gyro_sync_get_looptime());
 	ninja_sched_set_task_enabled(self, TASK_ACCEL, true);
 	ninja_sched_set_task_enabled(self, TASK_SERIAL, true);
-#ifdef BEEPER
-	ninja_sched_set_task_enabled(self, TASK_BEEPER, true);
-#endif
+	if(USE_BEEPER){
+		ninja_sched_set_task_enabled(self, TASK_BEEPER, true);
+	}
 	ninja_sched_set_task_enabled(self, TASK_BATTERY, feature(self->config, FEATURE_VBAT) || feature(self->config, FEATURE_CURRENT_METER));
 	ninja_sched_set_task_enabled(self, TASK_RX, true);
 #ifdef GPS
@@ -394,12 +394,12 @@ static void _task_serial(struct ninja_sched *sched){
     serial_msp_process(&self->serial_msp, self);
 }
 
-#ifdef BEEPER
 static void _task_beeper(struct ninja_sched *sched){
-	struct ninja *self = container_of(sched, struct ninja, sched);
-	beeper_update(&self->beeper);		  //call periodic beeper handler
+	if(USE_BEEPER){
+		struct ninja *self = container_of(sched, struct ninja, sched);
+		beeper_update(&self->beeper);		  //call periodic beeper handler
+	}
 }
-#endif
 
 /* VBAT monitoring interval (in microseconds) - 1s*/
 #define VBATINTERVAL (6 * 3500)
@@ -628,14 +628,12 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 		.staticPriority = TASK_PRIORITY_LOW,
 	},
 
-#ifdef BEEPER
 	[TASK_BEEPER] = {
 		.taskName = "BEEPER",
 		.taskFunc = _task_beeper,
 		.desiredPeriod = 1000000 / 100,		 // 100 Hz, every 10 ms
 		.staticPriority = TASK_PRIORITY_MEDIUM,
 	},
-#endif
 
 	[TASK_BATTERY] = {
 		.taskName = "BATTERY",

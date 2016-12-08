@@ -19,17 +19,16 @@
 
 #include "gpio.h"
 
-#ifdef BEEPER
+#if USE_BEEPER == 1
 #define BEEP_TOGGLE              digitalToggle(BEEP_GPIO, BEEP_PIN)
 #define BEEP_OFF                 systemBeep(false)
 #define BEEP_ON                  systemBeep(true)
 #else
-#define BEEP_TOGGLE
-#define BEEP_OFF
-#define BEEP_ON
+#define BEEP_TOGGLE do{} while(0)
+#define BEEP_OFF do {} while(0)
+#define BEEP_ON do {} while(0)
 #endif
 
-#ifdef BEEPER
 typedef struct beeperConfig_s {
     uint32_t gpioPeripheral;
     uint16_t gpioPin;
@@ -40,7 +39,6 @@ typedef struct beeperConfig_s {
 
 void initBeeperHardware(beeperConfig_t *config);
 void beeperInit(beeperConfig_t *beeperConfig);
-#endif
 
 void systemBeep(bool onoff);
 

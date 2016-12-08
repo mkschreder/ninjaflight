@@ -82,7 +82,7 @@
 #define USE_MAG_AK8963
 #define USE_MAG_AK8975
 
-#define BEEPER
+#define USE_BEEPER 1
 #define LED0
 #define LED1
 #define LED2

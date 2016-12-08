@@ -69,7 +69,7 @@
 #define USE_MAG_HMC5883
 
 #define INVERTER
-#define BEEPER
+#define USE_BEEPER 1
 #define DISPLAY
 
 #define USB_IO

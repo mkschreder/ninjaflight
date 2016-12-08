@@ -165,12 +165,29 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 #endif
 
 #ifdef TRANSPONDER
-	if (feature(FEATURE_TRANSPONDER)) {
+	if (feature(self->config, FEATURE_TRANSPONDER)) {
 		transponderInit(transponderConfig()->data);
 		transponderEnable();
 		transponderStartRepeating();
 		systemState |= SYSTEM_STATE_TRANSPONDER_ENABLED;
 	}
+#endif
+
+#ifdef SPEKTRUM_BIND
+    if (feature(self->config, FEATURE_RX_SERIAL)) {
+        switch (self->config->rx.serialrx_provider) {
+            case SERIALRX_SPEKTRUM1024:
+            case SERIALRX_SPEKTRUM2048:
+                // Spektrum satellite binding if enabled on startup.
+                // Must be called before that 100ms sleep so that we don't lose satellite's binding window after startup.
+                // The rest of Spektrum initialization will happen later - via spektrumInit()
+				// TODO: spectrum bind
+                //spektrumBind(&self->config->rx);
+                break;
+			default:
+				break;
+        }
+    }
 #endif
 
 #ifdef BLACKBOX

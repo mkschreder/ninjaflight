@@ -109,7 +109,7 @@
 
 #define MAG_AK8975_ALIGN CW90_DEG_FLIP
 
-#define BEEPER
+#define USE_BEEPER 1
 #define LED0
 #define LED1
 

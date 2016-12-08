@@ -41,6 +41,7 @@
 #include "drivers/system.h"
 #include "drivers/dma.h"
 #include "drivers/gpio.h"
+#include "drivers/config_flash.h"
 #include "drivers/light_led.h"
 #include "drivers/sound_beeper.h"
 #include "drivers/timer.h"
@@ -243,51 +244,35 @@ static void init(const struct config *config)
     led_init(false);
 #endif
 
-#ifdef BEEPER
-    beeperConfig_t beeperConfig = {
-        .gpioPeripheral = BEEP_PERIPHERAL,
-        .gpioPin = BEEP_PIN,
-        .gpioPort = BEEP_GPIO,
-#ifdef BEEPER_INVERTED
-        .gpioMode = Mode_Out_PP,
-        .isInverted = true
-#else
-        .gpioMode = Mode_Out_OD,
-        .isInverted = false
-#endif
-    };
-#ifdef NAZE
-    if (hardwareRevision >= NAZE32_REV5) {
-        // naze rev4 and below used opendrain to PNP for buzzer. Rev5 and above use PP to NPN.
-        beeperConfig.gpioMode = Mode_Out_PP;
-        beeperConfig.isInverted = true;
-    }
-#endif
+	if(USE_BEEPER){
+		beeperConfig_t beeperConfig = {
+			.gpioPeripheral = BEEP_PERIPHERAL,
+			.gpioPin = BEEP_PIN,
+			.gpioPort = BEEP_GPIO,
+	#ifdef BEEPER_INVERTED
+			.gpioMode = Mode_Out_PP,
+			.isInverted = true
+	#else
+			.gpioMode = Mode_Out_OD,
+			.isInverted = false
+	#endif
+		};
+	#ifdef NAZE
+		if (hardwareRevision >= NAZE32_REV5) {
+			// naze rev4 and below used opendrain to PNP for buzzer. Rev5 and above use PP to NPN.
+			beeperConfig.gpioMode = Mode_Out_PP;
+			beeperConfig.isInverted = true;
+		}
+	#endif
 
-    beeperInit(&beeperConfig);
-#endif
+		beeperInit(&beeperConfig);
+	}
 
 #ifdef BUTTONS
     buttonsInit();
 
     if (!isMPUSoftReset()) {
         buttonsHandleColdBootButtonPresses();
-    }
-#endif
-
-#ifdef SPEKTRUM_BIND
-    if (feature(FEATURE_RX_SERIAL)) {
-        switch (rxConfig()->serialrx_provider) {
-            case SERIALRX_SPEKTRUM1024:
-            case SERIALRX_SPEKTRUM2048:
-                // Spektrum satellite binding if enabled on startup.
-                // Must be called before that 100ms sleep so that we don't lose satellite's binding window after startup.
-                // The rest of Spektrum initialization will happen later - via spektrumInit()
-                spektrumBind(rxConfig());
-                break;
-			default:
-				break;
-        }
     }
 #endif
 
@@ -302,8 +287,6 @@ static void init(const struct config *config)
     memset(&pwm_params, 0, sizeof(pwm_params));
 
 #ifdef SONAR
-
-    if (feature(FEATURE_SONAR)) {
 		sonar_init(&default_sonar);
 		// TODO: fix this
 		/*
@@ -625,9 +608,33 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 
 static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 	(void)calls;
-	if(on) BEEP_ON;
-	else BEEP_OFF;
+	if(USE_BEEPER){
+		if(on) BEEP_ON;
+		else BEEP_OFF;
+	}
 }
+
+static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+	(void)self;
+	return flash_read(addr, dst, size);
+}
+
+static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
+	(void)self;
+	return flash_write(addr, data, size);
+}
+
+static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+	(void)self;
+	return flash_erase_page(addr);
+}
+
+static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+	(void)self;
+	info->page_size = flash_get_page_size();
+	info->num_pages = flash_get_num_pages();
+}
+
 
 static struct system_calls syscalls = {
 	.pwm = {
@@ -649,7 +656,14 @@ static struct system_calls syscalls = {
 	},
 	.time = {
 		.micros = _micros
+	},
+	.eeprom = {
+		.read = _eeprom_read,
+		.write = _eeprom_write,
+		.erase_page = _eeprom_erase_page,
+		.get_info = _eeprom_get_info
 	}
+
 };
 
 int main(void) {

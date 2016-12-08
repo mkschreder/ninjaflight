@@ -33,7 +33,7 @@
 #define BEEP_PIN    Pin_0
 #define BEEP_PERIPHERAL RCC_AHBPeriph_GPIOA
 #define BEEPER_INVERTED
-#define BEEPER
+#define USE_BEEPER 1
 
 #define USABLE_TIMER_CHANNEL_COUNT 9
 

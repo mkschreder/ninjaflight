@@ -41,6 +41,7 @@
 #define GYRO
 #define USE_GYRO_MPU6050
 
+#define USE_BEEPER 0
 #define USE_MAG 1
 #define USE_MAG_HMC5883
 

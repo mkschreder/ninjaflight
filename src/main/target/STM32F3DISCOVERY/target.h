@@ -34,7 +34,6 @@
 #define BEEP_PERIPHERAL RCC_AHBPeriph_GPIOE
 #define BEEPER_INVERTED
 
-
 #define BEEPER_INVERTED
 
 #define USE_SPI
@@ -106,7 +105,7 @@
 #define USE_MAG 1
 #define USE_MAG_HMC5883
 
-#define BEEPER
+#define USE_BEEPER 1
 #define LED0
 #define LED1
 

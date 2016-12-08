@@ -29,8 +29,6 @@
 #include "sound_beeper.h"
 
 
-#ifdef BEEPER
-
 void (*systemBeepPtr)(bool onoff) = NULL;
 
 static void beepNormal(bool onoff)
@@ -50,25 +48,20 @@ static void beepInverted(bool onoff)
         digitalLo(BEEP_GPIO, BEEP_PIN);
     }
 }
-#endif
 
 void systemBeep(bool onoff)
 {
-#ifndef BEEPER
-    UNUSED(onoff);
-#else
-    systemBeepPtr(onoff);
-#endif
+    if(USE_BEEPER) systemBeepPtr(onoff);
 }
 
-#ifdef BEEPER
 void beeperInit(beeperConfig_t *config)
 {
-    initBeeperHardware(config);
-    if (config->isInverted)
-        systemBeepPtr = beepInverted;
-    else
-        systemBeepPtr = beepNormal;
-    BEEP_OFF;
+	if(USE_BEEPER){
+		initBeeperHardware(config);
+		if (config->isInverted)
+			systemBeepPtr = beepInverted;
+		else
+			systemBeepPtr = beepNormal;
+		BEEP_OFF;
+	}
 }
-#endif

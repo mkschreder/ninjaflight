@@ -205,7 +205,10 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 	fflush(stdout);
 }
 
-char _flash[8000];
+#define SITL_EEPROM_PAGE_SIZE 4096
+#define SITL_EEPROM_NUM_PAGES 1
+
+char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES];
 
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
@@ -224,6 +227,19 @@ static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, 
 	printf("EEPROM write to %04x, size %lu\n", addr, size);
 	memcpy(_flash + addr, data, size);
 	return 0;
+}
+
+static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+	(void)self;
+	(void)addr;
+	// we don't use pages
+	return 0;
+}
+
+static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+	(void)self;
+	info->page_size = SITL_EEPROM_PAGE_SIZE;
+	info->num_pages = SITL_EEPROM_NUM_PAGES;
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
@@ -252,7 +268,9 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		},
 		.eeprom = {
 			.read = _eeprom_read,
-			.write = _eeprom_write
+			.write = _eeprom_write,
+			.erase_page = _eeprom_erase_page,
+			.get_info = _eeprom_get_info
 		}
 	};
 
@@ -321,29 +339,6 @@ uint16_t flightModeFlags;
 uint32_t rcModeActivationMask = 0;
 float magneticDeclination = 0;
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
-
-#include "drivers/config_streamer.h"
-void config_streamer_init(config_streamer_t *c){UNUSED(c); }
-
-void config_streamer_start(config_streamer_t *c, uintptr_t base, int size){
-	UNUSED(c); UNUSED(base); UNUSED(size);
-}
-
-int config_streamer_write(config_streamer_t *c, const uint8_t *p, uint32_t size){
-	UNUSED(c); UNUSED(p); UNUSED(size);
-	printf("config_streamer_write: %d\n", size);
-	return 0;
-}
-
-int config_streamer_flush(config_streamer_t *c){
-	UNUSED(c);
-	return 0;
-}
-
-int config_streamer_finish(config_streamer_t *c){
-	UNUSED(c);
-	return 0;
-}
 
 uint8_t cliMode;
 void validateAndFixConfig(void);

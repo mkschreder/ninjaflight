@@ -28,7 +28,7 @@
 #define BEEP_PIN    Pin_10
 #define BEEP_PERIPHERAL RCC_AHBPeriph_GPIOB
 
-#define BEEPER
+#define USE_BEEPER 1
 #define LED0
 
 #define GYRO

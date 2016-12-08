@@ -99,7 +99,7 @@
 #define USE_FLASHTOOLS
 #define USE_FLASH_M25P16
 
-#define BEEPER
+#define USE_BEEPER 1
 #define LED0
 #define LED1
 #define LED2
