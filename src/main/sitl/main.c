@@ -208,7 +208,7 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 #define SITL_EEPROM_PAGE_SIZE 4096
 #define SITL_EEPROM_NUM_PAGES 1
 
-char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES];
+char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES] = {0};
 
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
@@ -218,7 +218,7 @@ static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint1
 		size = sizeof(_flash) - addr;
 	}
 	memcpy(dst, _flash + addr, size);
-	return 0;
+	return size;
 }
 
 static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
@@ -226,7 +226,7 @@ static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, 
 	(void)data;
 	printf("EEPROM write to %04x, size %lu\n", addr, size);
 	memcpy(_flash + addr, data, size);
-	return 0;
+	return size;
 }
 
 static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
@@ -243,6 +243,7 @@ static void _eeprom_get_info(const struct system_calls_eeprom *self, struct syst
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
+	memset(_flash, 0, sizeof(_flash));
 	self->sitl = server;
 
 	self->syscalls = (struct system_calls){

@@ -690,9 +690,11 @@ static int _load_deltas(struct config_store *store, const struct system_calls *s
 	struct system_eeprom_info info;
 	sys_eeprom_get_info(system, &info);
 
+	uint32_t eeprom_size = MIN(info.page_size * info.num_pages, CONFIG_EEPROM_SIZE);
+
 	// first load existing config and validate it
 	size_t c = 0;
-	for(c = 0; c < (CONFIG_EEPROM_SIZE / sizeof(struct eeprom_delta)); c++){
+	for(c = 0; c < (eeprom_size / sizeof(struct eeprom_delta)); c++){
 		struct eeprom_delta delta;
 		memset(&delta, 0, sizeof(delta));
 		// read one delta at a time until we reach the end and load each into the store
@@ -739,8 +741,9 @@ int config_save(const struct config *self, const struct system_calls *system){
 	// start with a default config and load current deltas over it
 	config_reset(&eeprom_store.data);
 	int start = _load_deltas(&eeprom_store, system);
-	if(start < 0)
+	if(start < 0){
 		return -EIO;
+	}
 
 	// create a new store with our config data
 	memcpy(&new_store.data, self, sizeof(new_store.data));

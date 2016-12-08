@@ -77,6 +77,7 @@
 
 #include "blackbox/blackbox.h"
 
+#include "ninja_config.h"
 #include "ninjaflight.h"
 
 #include "version.h"
@@ -1095,7 +1096,6 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
         case MSP_SET_RC_TUNING: {
             if (len < 10)
                 return -1;
-			// TODO: fix rate profiles. We should use current profile but atm it is not available
 			struct rate_profile *currentControlRateProfile = config_get_rate_profile_rw(self->config);
             currentControlRateProfile->rcRate8 = sbufReadU8(src);
             currentControlRateProfile->rcExpo8 = sbufReadU8(src);
@@ -1217,10 +1217,10 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
             break;
 
         case MSP_RESET_CONF:
-            if (!ninja_is_armed(self->ninja)) {
-                //ninja_config_reset(self->ninja);
-                //ninja_config_load(self->ninja);
-            }
+			if(!ninja_is_armed(self->ninja)){
+				ninja_config_reset(self->ninja);
+				ninja_config_save(self->ninja);
+			}
             break;
 
         case MSP_ACC_CALIBRATION:
@@ -1234,10 +1234,7 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
             break;
 
         case MSP_EEPROM_WRITE:
-            if (!ninja_is_armed(self->ninja)){
-				//ninja_config_save(self->ninja);
-				//ninja_config_load(self->ninja);
-			}
+			ninja_config_save(self->ninja);
             break;
 
 #ifdef BLACKBOX

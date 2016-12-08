@@ -160,13 +160,8 @@ static void ninja_validate_config(struct ninja *self){
 void ninja_config_load(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-    // Sanity check, read flash
-	// TODO: load config
-	/*
-    if (!scanEEPROM(true)) {
-        failureMode(FAILURE_INVALID_EEPROM_CONTENTS);
-    }
-*/
+	config_load(self->config, self->system);
+
     //pgActivateProfile(getCurrentProfile());
 
 	// TODO: need to set the control rate profile here 
@@ -207,20 +202,16 @@ void ninja_config_load(struct ninja *self){
 void ninja_config_save(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-	config_save(self->config, self->system);
+	if(config_save(self->config, self->system) < 0){
+		// handle fail
+	}
 
     rx_resume_signal(&self->rx);
 }
 
 void ninja_config_reset(struct ninja *self){
 	(void)self;
-    //pgResetAll(MAX_PROFILE_COUNT);
-
-    //setProfile(0);
-    //pgActivateProfile(0);
-
-	// TODO: all of this function needs to be a callback in order to work correctly
-    //setControlRateProfile(0);
+	config_reset(self->config);
 
     featureClearAll(self->config);
 
@@ -264,39 +255,7 @@ void ninja_config_reset(struct ninja *self){
     currentControlRateProfile->rates[ROLL] = 20;
     currentControlRateProfile->rates[YAW] = 20;
     parseRcChannels("TAER1234", rxConfig());
-
-#if 0
-	// TODO: finish porting this
-	tiltConfig->flagEnabled = TILT_ARM_ENABLE_PITCH_DIVIDER;
-	tiltConfig->pitchDivisior = 30;
-	tiltConfig->thrustLiftoffPercent = 0;
-	tiltConfig->gearRatioPercent = 100;
-	tiltConfig->channel = AUX1;
 #endif
-
-    *customMotorMixer(0) = (struct motor_mixer){ 1.0f, -0.414178f,  1.0f, -1.0f };    // REAR_R
-    *customMotorMixer(1) = (struct motor_mixer){ 1.0f, -0.414178f, -1.0f,  1.0f };    // FRONT_R
-    *customMotorMixer(2) = (struct motor_mixer){ 1.0f,  0.414178f,  1.0f,  1.0f };    // REAR_L
-    *customMotorMixer(3) = (struct motor_mixer){ 1.0f,  0.414178f, -1.0f, -1.0f };    // FRONT_L
-    *customMotorMixer(4) = (struct motor_mixer){ 1.0f, -1.0f, -0.414178f, -1.0f };    // MIDFRONT_R
-    *customMotorMixer(5) = (struct motor_mixer){ 1.0f,  1.0f, -0.414178f,  1.0f };    // MIDFRONT_L
-    *customMotorMixer(6) = (struct motor_mixer){ 1.0f, -1.0f,  0.414178f,  1.0f };    // MIDREAR_R
-    *customMotorMixer(7) = (struct motor_mixer){ 1.0f,  1.0f,  0.414178f, -1.0f };    // MIDREAR_L
-#endif
-
-    // copy first profile into remaining profile
-	// TODO: fix this
-	/*
-    PG_FOREACH_PROFILE(reg) {
-        for (int i = 1; i < MAX_PROFILE_COUNT; i++) {
-            memcpy(reg->address + i * pgSize(reg), reg->address, pgSize(reg));
-        }
-    }
-	*/
-	// TODO: fix this
-    for (int i = 1; i < MAX_PROFILE_COUNT; i++) {
-        config_get_profile_rw(self->config)->rate.profile_id = i % MAX_CONTROL_RATE_PROFILE_COUNT;
-    }
 }
 
 void ninja_config_validate(struct ninja *self){
@@ -311,19 +270,4 @@ void ninja_config_validate(struct ninja *self){
 	*/
 
 }
-
-// TODO: remove this kind of redundancy after refactoring
-void ninja_config_save_and_beep(struct ninja *self){
-    ninja_config_save(self);
-    ninja_config_load(self);
-    beeper_multi_beeps(&self->beeper, 1);
-}
-
-void ninja_config_change_profile(struct ninja *self, uint8_t profileIndex){
-	(void)profileIndex;
-    //setProfile(profileIndex);
-    ninja_config_save(self);
-    ninja_config_load(self);
-}
-
 
