@@ -585,10 +585,6 @@ static void _reset_profile(struct config_profile *self){
 	}
 }
 
-size_t config_size(void){
-	return sizeof(struct config);
-}
-
 void config_reset(struct config *self){
 	memcpy(self, &_default_config, sizeof(struct config));
 	for(int c = 0; c < MAX_CONTROL_RATE_PROFILE_COUNT; c++){
@@ -612,7 +608,7 @@ static int gcd(int num, int denom)
 	return gcd(denom, num % denom);
 }
 
-static void __attribute__((unused)) _validate_blackbox_config(struct config *self){
+static void _fixup_blackbox_config(struct config *self){
 	int div;
 
 	if (self->blackbox.rate_num == 0 || self->blackbox.rate_denom == 0
@@ -627,22 +623,6 @@ static void __attribute__((unused)) _validate_blackbox_config(struct config *sel
 
 		self->blackbox.rate_num /= div;
 		self->blackbox.rate_denom /= div;
-	}
-
-	// If we've chosen an unsupported device, change the device to serial
-	switch (self->blackbox.device) {
-#ifdef USE_FLASHFS
-		case BLACKBOX_DEVICE_FLASH:
-#endif
-#ifdef USE_SDCARD
-		case BLACKBOX_DEVICE_SDCARD:
-#endif
-		case BLACKBOX_DEVICE_SERIAL:
-			// Device supported, leave the setting alone
-		break;
-
-		default:
-			self->blackbox.device = BLACKBOX_DEVICE_SERIAL;
 	}
 }
 
@@ -662,18 +642,15 @@ struct rate_profile *config_get_rate_profile_rw(struct config *self){
 	return &self->rate.profile[config_get_profile(self)->rate.profile_id];
 }
 
-static uint16_t crc16(char *data_p, size_t length){
+static uint16_t crc16(const void *ptr, size_t length){
+	char *data_p = (char*)ptr;
 	unsigned char i;
 	uint32_t data;
 	uint32_t crc = 0xffff;
 	const unsigned int POLY = 0x8408;
 
-	if (length == 0)
-		return (~crc);
-
-	do
-	{
-		for (i=0, data=(uint32_t)0xff & *data_p++;
+	for(size_t j = 0; j < length; j++){
+		for (i=0, data=(uint32_t)0xff & data_p[j];
 			 i < 8; 
 			 i++, data >>= 1)
 		{
@@ -681,7 +658,7 @@ static uint16_t crc16(char *data_p, size_t length){
 					crc = (crc >> 1) ^ POLY;
 			  else  crc >>= 1;
 		}
-	} while (--length);
+	}
 
 	crc = ~crc;
 	data = crc;
@@ -710,14 +687,23 @@ static bool config_store_valid(const struct config_store *self){
 static int _load_deltas(struct config_store *store, const struct system_calls *system){
 	uint16_t *ptr = (uint16_t*)store;
 
+	struct system_eeprom_info info;
+	sys_eeprom_get_info(system, &info);
+
 	// first load existing config and validate it
 	size_t c = 0;
 	for(c = 0; c < (CONFIG_EEPROM_SIZE / sizeof(struct eeprom_delta)); c++){
 		struct eeprom_delta delta;
 		memset(&delta, 0, sizeof(delta));
 		// read one delta at a time until we reach the end and load each into the store
-		if(sys_eeprom_read(system, &delta, CONFIG_EEPROM_START + sizeof(struct eeprom_delta) * c, sizeof(struct eeprom_delta)) < 0)
-			return -EOF;
+		uint16_t start = CONFIG_EEPROM_START + sizeof(struct eeprom_delta) * c;
+		uint16_t page_pos = start % info.page_size;
+
+		// make sure we continue reading on next page since last bytes do not contain valid record
+		if((page_pos + sizeof(struct eeprom_delta)) > info.page_size) start += info.page_size - page_pos;
+
+		if(sys_eeprom_read(system, &delta, start, sizeof(struct eeprom_delta)) != sizeof(struct eeprom_delta))
+			return -EIO;
 		// all addresses will have first bit explicitly set
 		// on a flash eeprom this will be done by design of the flash, on a normal eeprom this will ensure that we stop when we reach erased area with only zeros
 		if(!(delta.addr & 0x8000)) // is an invalid address?
@@ -750,14 +736,19 @@ int config_save(const struct config *self, const struct system_calls *system){
 	memset(&eeprom_store, 0, sizeof(eeprom_store));
 	memset(&new_store, 0, sizeof(new_store));
 
-	// start with a default config before loading the delta
+	// start with a default config and load current deltas over it
 	config_reset(&eeprom_store.data);
 	int start = _load_deltas(&eeprom_store, system);
 	if(start < 0)
 		return -EIO;
+
 	// create a new store with our config data
 	memcpy(&new_store.data, self, sizeof(new_store.data));
 	config_store_update_checksum(&new_store);
+
+	// get the eeprom layout
+	struct system_eeprom_info info;
+	sys_eeprom_get_info(system, &info);
 
 	// store the new delta
 	int retry_count = 0;
@@ -772,7 +763,12 @@ int config_save(const struct config *self, const struct system_calls *system){
 					.addr = (c << 1) | 0x8000,
 					.data = cur[c]
 				};
-				if(sys_eeprom_write(system, start, &delta, sizeof(delta)) < 0){
+				// if our record will not fit into current page then jump to the next page
+				uint16_t page_pos = start % info.page_size;
+				if((uint16_t)(info.page_size - page_pos) < sizeof(struct eeprom_delta)) start += info.page_size - page_pos;
+				// erase pages as we go
+				if(page_pos == 0) sys_eeprom_erase_page(system, start);
+				if(sys_eeprom_write(system, start, &delta, sizeof(delta)) != sizeof(struct eeprom_delta)){
 					// this is used to catch a write past end of eeprom etc
 					// in this case a crude solution is to just restart from the beginning a few times before giving up
 					retry_count++;
@@ -784,10 +780,16 @@ int config_save(const struct config *self, const struct system_calls *system){
 				start += sizeof(struct eeprom_delta);
 			}
 		}
-	} while(fail && retry_count < 3);
+	} while(fail && retry_count < 2); // we try twice since the only possibility is that we start from the beginning and all deltas will fit
 	if(fail)
 		return -1;
 	return 0;
+}
+
+bool config_fixup(struct config *config){
+	uint32_t checksum = crc16(config, sizeof(struct config));
+	_fixup_blackbox_config(config);
+	return checksum != crc16(config, sizeof(struct config));
 }
 
 /**
@@ -809,7 +811,8 @@ int config_load(struct config *self, const struct system_calls *system){
 	memset(&store, 0, sizeof(store));
 
 	config_reset(&store.data);
-	_load_deltas(&store, system);
+	if(_load_deltas(&store, system) < 0)
+		return -EIO;
 	if(!config_store_valid(&store)){
 		return -EINVAL;
 	}
@@ -817,6 +820,7 @@ int config_load(struct config *self, const struct system_calls *system){
 	return 0;
 }
 
+#if 0
 void handleOneshotFeatureChangeOnRestart(void)
 {
     // Shutdown PWM on all motors prior to soft restart
@@ -830,6 +834,7 @@ void handleOneshotFeatureChangeOnRestart(void)
     }
 	*/
 }
+#endif
 
 /*
 void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex){

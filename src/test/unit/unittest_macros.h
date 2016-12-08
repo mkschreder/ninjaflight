@@ -39,9 +39,11 @@ extern uint32_t mock_eeprom_written;
 extern uint16_t mock_eeprom_pages;
 extern uint16_t mock_eeprom_page_size;
 extern uint8_t mock_eeprom_erase_byte;
+extern char mock_eeprom_data[];
 
 struct system_calls;
 const struct system_calls *mock_syscalls();
 void mock_system_reset();
+void mock_eeprom_erase();
 
 #define UNUSED(x) (void)(x)

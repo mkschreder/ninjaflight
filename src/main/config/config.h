@@ -120,6 +120,7 @@ struct rate_profile *config_get_rate_profile_rw(struct config *self);
 int config_save(const struct config *self, const struct system_calls *system);
 int config_load(struct config *self, const struct system_calls *system);
 void config_reset(struct config *self);
+bool config_fixup(struct config *config);
 /*
 #include "parameter_group.h"
 

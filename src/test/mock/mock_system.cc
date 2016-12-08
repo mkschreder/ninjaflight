@@ -39,7 +39,7 @@ uint8_t mock_eeprom_erase_byte = 0xff;
 
 #define MOCK_EEPROM_MAX_SIZE 4096
 
-static char _flash[MOCK_EEPROM_MAX_SIZE];
+char mock_eeprom_data[MOCK_EEPROM_MAX_SIZE];
 
 void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
 	(void)pwm;
@@ -118,29 +118,53 @@ static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	//printf("EEPROM read from %04x, size %lu\n", addr, size);
-	if((size + addr) >= (mock_eeprom_pages * mock_eeprom_page_size)) return EOF;
-	memcpy(dst, _flash + addr, size);
+	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return -1;
+	if((size + addr) >= (uint32_t)(mock_eeprom_pages * mock_eeprom_page_size))
+		size = (mock_eeprom_pages * mock_eeprom_page_size) - addr;
+	memcpy(dst, mock_eeprom_data + addr, size);
 	fflush(stdout);
+	return size;
+}
+
+static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+	(void)self;
+	// addr should be at page boundary
+	addr = (addr / mock_eeprom_page_size) * mock_eeprom_page_size;
+	memset(mock_eeprom_data + addr, mock_eeprom_erase_byte, mock_eeprom_page_size);
+	usleep(100);
 	return 0;
 }
 
 static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	// simulate erase
-	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return EOF;
-	if((size + addr) > (mock_eeprom_pages * mock_eeprom_page_size))
+	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return -1;
+	if((size + addr) > (uint32_t)(mock_eeprom_pages * mock_eeprom_page_size))
 		size = (mock_eeprom_pages * mock_eeprom_page_size) - addr;
-	if(addr % mock_eeprom_page_size == 0) memset(_flash + addr, mock_eeprom_erase_byte, mock_eeprom_page_size);
 		/*
 	printf("EEPROM write to %04x (%d), size %lu: ", addr, addr, size);
 	for(size_t c = 0; c < size; c++) printf("%02x ", (int)((char*)data)[c] & 0xff);
 	printf("\n");
 	*/
-
-	memcpy(_flash + addr, data, size);
-	mock_eeprom_written+=size;
+	// simulate various eeprom/flash behaviours
+	for(size_t c = 0; c < size; c++){
+		uint8_t value = ((char*)data)[c];
+		if(mock_eeprom_erase_byte == 0x00) // writing ones
+			mock_eeprom_data[addr + c] |= value;
+		if(mock_eeprom_erase_byte == 0xff) // writing zeros
+			mock_eeprom_data[addr + c] &= value;
+		else
+			mock_eeprom_data[addr + c] = value;
+		mock_eeprom_written++;
+	}
 	fflush(stdout);
 	return size;
+}
+
+static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+	(void)self;
+	info->page_size = mock_eeprom_page_size;
+	info->num_pages = mock_eeprom_pages;
 }
 
 static const struct system_calls syscalls {
@@ -166,7 +190,9 @@ static const struct system_calls syscalls {
 	},
 	.eeprom = {
 		.read = _eeprom_read,
-		.write = _eeprom_write
+		.write = _eeprom_write,
+		.erase_page = _eeprom_erase_page,
+		.get_info = _eeprom_get_info
 	}
 };
 
@@ -181,12 +207,16 @@ struct ninja;
 void ninja_config_reset(struct ninja *self);
 }
 
+void mock_eeprom_erase(){
+	memset(mock_eeprom_data, mock_eeprom_erase_byte, sizeof(mock_eeprom_data));
+}
+
 void mock_system_reset(){
 	//ninja_config_reset(NULL);
 	memset(mock_motor_pwm, 0, sizeof(mock_motor_pwm));
 	memset(mock_servo_pwm, 0, sizeof(mock_servo_pwm));
 	memset(mock_rc_pwm, 0, sizeof(mock_rc_pwm));
-	memset(_flash, mock_eeprom_erase_byte, sizeof(_flash));
+	memset(mock_eeprom_data, mock_eeprom_erase_byte, sizeof(mock_eeprom_data));
 	mock_pwm_errors = 0;
 	mock_eeprom_written = 0;
 }

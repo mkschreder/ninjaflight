@@ -145,6 +145,29 @@ TEST_F(ConfigTest, TestConfigCoverage){
 	}
 }
 
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Make sure that initial load after reset does not modify the config.
+ */
+TEST_F(ConfigTest, TestFirstLoad){
+	struct config config;
+	struct config zero;
+	memset(&config, 0, sizeof(struct config));
+	memset(&zero, 0, sizeof(struct config));
+	EXPECT_TRUE(config_load(&config, mock_syscalls()) < 0);
+	EXPECT_EQ(0, memcmp(&config, &zero, sizeof(struct config)));
+}
+
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test that config saving and loading works. Must make sure that only deltas
+ * are being written. At the very least checksum will be written as a delta
+ * since it is not part of the data.
+ */
 TEST_F(ConfigTest, TestSaveLoad){
 	struct config a, b;
 	memset(&a, 0, sizeof(a));
@@ -158,6 +181,43 @@ TEST_F(ConfigTest, TestSaveLoad){
 	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
 }
 
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test that when eeprom content is corrupted, loading of config fails.
+ */
+TEST_F(ConfigTest, TestBadEEPROMData){
+	struct config config;
+	struct config res;
+	config_reset(&res);
+	// modify some parameter
+	config_get_rate_profile_rw(&res)->rcRate8 = 8;
+
+	EXPECT_TRUE(config_save(&res, mock_syscalls()) == 0);
+	// we should have written two deltas (1 for checksum and one for data)
+	EXPECT_EQ(8, mock_eeprom_written);
+	// loading will be successful
+	EXPECT_TRUE(config_load(&config, mock_syscalls()) == 0);
+	memset(&config, 0, sizeof(config));
+	memset(&res, 0, sizeof(config));
+	// corrupt a few bytes
+	mock_eeprom_data[2] = 0x66;
+	// loading should fail
+	EXPECT_TRUE(config_load(&config, mock_syscalls()) < 0);
+	// make sure that the data was not modified
+	EXPECT_EQ(0, memcmp(&config, &res, sizeof(struct config)));
+}
+
+
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test how the delta packing code behaves when there is not enough memory.
+ * It should correctly return error when config can not be saved.
+ */
+
 TEST_F(ConfigTest, TestPageBoundarySaveLoad){
 	struct config a, b;
 	memset(&a, 0, sizeof(a));
@@ -166,7 +226,7 @@ TEST_F(ConfigTest, TestPageBoundarySaveLoad){
 	uint8_t *data = (uint8_t*)&a;
 	// fill with random data
 	for(size_t c = 0; c < sizeof(a); c++){
-		data[c] = rand();
+		data[c] = c & 0xff;
 	}
 
 	// small eeprom
@@ -178,14 +238,38 @@ TEST_F(ConfigTest, TestPageBoundarySaveLoad){
 
 	mock_eeprom_page_size = 512;
 	mock_eeprom_pages = 8;
+	mock_eeprom_written = 0;
 
 	// this should be ok
 	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
-
+/*
+	for(size_t c = 0; c < (mock_eeprom_page_size * mock_eeprom_pages); c++){
+		printf("%02x ", (int)mock_eeprom_data[c] & 0xff);
+		if(c > 0 && c % 64 == 63) printf("\n");
+	}
+	printf("\n");
+	*/
 	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
+/*
+	for(size_t c = 0; c < sizeof(a); c++){
+		int aa = (int)((char*)&a)[c] & 0xff;
+		int bb = (int)((char*)&b)[c] & 0xff;
+		if(aa != bb) printf("\nfail at %02x (%02x != %02x)\n", (unsigned int)c, aa, bb);
+		printf("%02x%02x", aa, bb);
+		if(c > 0 && c % 64 == 63) printf("\n");
+	}
+	printf("\n");
+*/
 	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
 }
 
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test that system works the same way on flash based memory (where erased
+ * value is 0xff) and on normal eeprom where eraced value is 0x00.
+ */
 TEST_F(ConfigTest, TestFlashvsNormalSaveLoad){
 	struct config a, b;
 	memset(&a, 0, sizeof(a));
@@ -202,10 +286,63 @@ TEST_F(ConfigTest, TestFlashvsNormalSaveLoad){
 	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
 	mock_eeprom_erase_byte = 0xff;
 	memset(&b, 0, sizeof(b));
+
 	EXPECT_EQ(0, config_save(&a, mock_syscalls()));
 	EXPECT_EQ(0, config_load(&b, mock_syscalls()));
 
 	EXPECT_EQ(0, memcmp(&a, &b, sizeof(struct config)));
 }
 
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test that loading of configs works as expected when eeprom reads fail
+ */
+TEST_F(ConfigTest, TestEEPROMFail){
+	struct config a;
+	memset(&a, 0, sizeof(a));
 
+	uint8_t *data = (uint8_t*)&a;
+	// fill with random data
+	for(size_t c = 0; c < sizeof(a); c++){
+		data[c] = c & 0xff;
+	}
+
+	// must be ok
+	EXPECT_TRUE(config_save(&a, mock_syscalls()) == 0);
+
+	// clamp the eeprom so we try to read past the end and get an EIO
+	mock_eeprom_page_size = 512;
+	mock_eeprom_pages = 1;
+
+	// this should fail
+	EXPECT_TRUE(config_save(&a, mock_syscalls()) < 0);
+	EXPECT_TRUE(config_load(&a, mock_syscalls()) < 0);
+}
+
+/**
+ * @ingroup CONFIG
+ * @page CONFIG
+ *
+ * - Test various fixups.
+ */
+
+TEST_F(ConfigTest, TestFixups){
+	struct config a;
+	config_reset(&a);
+	// if fixups modify default values then something is seriosly wrong
+	EXPECT_FALSE(config_fixup(&a));
+
+	// we know that blackbox fixup will change rate_num
+	a.blackbox.rate_num = 0;
+	EXPECT_TRUE(config_fixup(&a));
+
+	// check that balckbox fixup computes the correct gcd
+	a.blackbox.rate_num = 6;
+	a.blackbox.rate_denom = 8;
+
+	EXPECT_TRUE(config_fixup(&a));
+	EXPECT_EQ(3, a.blackbox.rate_num);
+	EXPECT_EQ(4, a.blackbox.rate_denom);
+}
