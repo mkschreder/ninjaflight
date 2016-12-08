@@ -717,15 +717,6 @@ $(OBJECT_DIR)/config/vars.o : \
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/config/vars.c -o $@
 
 
-$(OBJECT_DIR)/config/config_eeprom.o : \
-	$(USER_DIR)/config/config_eeprom.c \
-	$(USER_DIR)/config/config_eeprom.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/config/config_eeprom.c -o $@
-
-
 $(OBJECT_DIR)/config/parameter_group.o : \
 	$(USER_DIR)/config/parameter_group.c \
 	$(USER_DIR)/config/parameter_group.h \
@@ -736,7 +727,6 @@ $(OBJECT_DIR)/config/parameter_group.o : \
 
 $(OBJECT_DIR)/config_eeprom_unittest.o : \
 	$(TEST_DIR)/config_eeprom_unittest.cc \
-	$(USER_DIR)/config/config_eeprom.h \
 	$(GTEST_HEADERS)
 
 	@mkdir -p $(dir $@)

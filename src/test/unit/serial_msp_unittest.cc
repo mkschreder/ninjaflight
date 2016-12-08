@@ -30,8 +30,6 @@ extern "C" {
     #include "common/streambuf.h"
     #include "common/utils.h"
 
-    #include "config/config_eeprom.h"
-
     #include "drivers/system.h"
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
