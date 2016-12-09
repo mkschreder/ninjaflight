@@ -16,15 +16,6 @@
  */
 
 /**
- * @file config.c
- * @author Cleanflight 2013-2016
- * @author Martin Schröder 2016
- */
-/**
- * @addtogroup Config
- * @{
- */
-/**
  * @defgroup config Configuration
  * @{
  *
@@ -42,6 +33,12 @@
  * specific data structures. It should be kept very simple and completely
  * implementation-agnostic.
  */
+/**
+ * @file config.c
+ * @author Cleanflight 2013-2016
+ * @author Martin Schröder 2016
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -675,15 +672,6 @@ static bool config_store_valid(const struct config_store *self){
 	return self->crc == crc16((char*)&self->data, sizeof(self->data));
 }
 
-/**
- * @addtogroup config
- * @section config-load Loading of config
- *
- * Config module stores only deltas in the eeprom. For this it uses the
- * sys_eeprom_write_delta system call that computes and stores modified values
- * (including the new checksum).
- **/
-
 static int _load_deltas(struct config_store *store, const struct system_calls *system){
 	uint16_t *ptr = (uint16_t*)store;
 
@@ -845,5 +833,4 @@ void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileInde
 }
 */
 
-/** @} */
 /** @} */

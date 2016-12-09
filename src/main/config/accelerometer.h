@@ -21,6 +21,15 @@
 
 #pragma once
 
+/**
+ * @addtogroup config
+ * @{
+ */
+/**
+ * @defgroup accelerometer
+ * @{
+ */
+
 typedef struct rollAndPitchTrims_s {
     int16_t roll;
     int16_t pitch;
@@ -32,17 +41,19 @@ typedef union rollAndPitchTrims_u {
 } __attribute__((packed)) rollAndPitchTrims_t;
 
 typedef struct accDeadband_s {
-    uint8_t xy;                 // set the acc deadband for xy-Axis
-    uint8_t z;                  // set the acc deadband for z-Axis, this ignores small accelerations
+    uint8_t xy;                 //!< set the acc deadband for xy-Axis
+    uint8_t z;                  //!< set the acc deadband for z-Axis, this ignores small accelerations
 } __attribute__((packed))  accDeadband_t;
 
 struct accelerometer_config {
-    rollAndPitchTrims_t trims; // accelerometer trim
+    rollAndPitchTrims_t trims; //!< accelerometer trim
 
     // sensor-related stuff
-    uint8_t acc_cut_hz;                     // Set the Low Pass Filter factor for ACC. Reducing this value would reduce ACC noise (visible in GUI), but would increase ACC lag time. Zero = no filter
-    float accz_lpf_cutoff;                  // cutoff frequency for the low pass filter used on the acc z-axis for althold in Hz
+    uint8_t acc_cut_hz;                     //!< Set the Low Pass Filter factor for ACC. Reducing this value would reduce ACC noise (visible in GUI), but would increase ACC lag time. Zero = no filter
+    float accz_lpf_cutoff;                  //!< cutoff frequency for the low pass filter used on the acc z-axis for althold in Hz
     accDeadband_t accDeadband;
-    uint8_t acc_unarmedcal;                 // turn automatic acc compensation on/off
+    uint8_t acc_unarmedcal;                 //!< turn automatic acc compensation on/off
 } __attribute__((packed)) ;
 
+/** @} */
+/** @} */

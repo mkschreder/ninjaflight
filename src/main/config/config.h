@@ -17,6 +17,11 @@
 
 #pragma once
 
+/**
+ * @defgroup config Configuration
+ * @{
+ */
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -121,24 +126,5 @@ int config_save(const struct config *self, const struct system_calls *system);
 int config_load(struct config *self, const struct system_calls *system);
 void config_reset(struct config *self);
 bool config_fixup(struct config *config);
-/*
-#include "parameter_group.h"
 
-void handleOneshotFeatureChangeOnRestart(void);
-
-struct ninja;
-
-void initEEPROM(void);
-void ninja_config_reset(struct ninja *self);
-void ninja_config_load(struct ninja *self);
-void ninja_config_save(struct ninja *self);
-void ninja_config_validate(struct ninja *self);
-void ninja_config_save_and_beep(struct ninja *self);
-
-void ninja_config_change_profile(struct ninja *self, uint8_t profileIndex);
-
-void changeControlRateProfile(uint8_t profileIndex);
-
-bool canSoftwareSerialBeUsed(void);
-void configureRateProfileSelection(uint8_t profileIndex, uint8_t rateProfileIndex);
-*/
+/** @} */

@@ -22,6 +22,16 @@
 
 #pragma once
 
+/**
+ * @addtogroup config
+ * @{
+ */
+/**
+ * @defgroup anglerate
+ * @{
+ */
+
+
 #define PID_MAX_I 256
 #define PID_MAX_D 512
 #define PID_MAX_TOTAL_PID 1000
@@ -54,11 +64,13 @@ typedef enum {
 } pid_controller_type_t;
 
 struct pid_config {
-    uint8_t P8[PID_ITEM_COUNT];
-    uint8_t I8[PID_ITEM_COUNT];
-    uint8_t D8[PID_ITEM_COUNT];
+    uint8_t P8[PID_ITEM_COUNT];	//!< P gains
+    uint8_t I8[PID_ITEM_COUNT]; //!< I gains
+    uint8_t D8[PID_ITEM_COUNT]; //!< D gains
     uint8_t pidController;
-    uint16_t yaw_p_limit;                   // set P term limit (fixed value was 300)
-    uint16_t dterm_cut_hz;                  // dterm filtering
-} __attribute__((packed)) ;
+    uint16_t yaw_p_limit;                   //!< set P term limit (fixed value was 300)
+    uint16_t dterm_cut_hz;                  //!< dterm filtering
+} __attribute__((packed));
 
+/** @} */
+/** @} */
