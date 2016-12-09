@@ -91,7 +91,6 @@ struct anglerate {
 
 void anglerate_init(struct anglerate *self,
 	struct instruments *ins,
-	uint16_t max_angle_inclination,
 	const struct config * config);
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);

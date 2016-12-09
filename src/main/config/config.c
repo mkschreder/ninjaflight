@@ -721,7 +721,7 @@ static int _load_deltas(struct config_store *store, const struct system_calls *s
 		// address is actual eeprom address which we need to divide by 2 in order to get word address
 		ptr[delta.addr >> 1] = delta.data;
 	}
-	// return position where to write next record (presumably an empty area)
+	// return next position where to write next record (presumably an empty area)
 	return c * sizeof(struct eeprom_delta);
 }
 

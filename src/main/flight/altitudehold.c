@@ -274,5 +274,4 @@ void althold_calculate_altitude(struct althold *self, uint32_t currentTime){
 int32_t althold_get_est_alt(struct althold *self){
 	return self->EstAlt;
 }
-
 #endif

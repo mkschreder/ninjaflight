@@ -16,12 +16,6 @@
  */
 
 /**
- * @file cli.c
- * @author Cleanflight
- * @author Martin Schröder 2016
- */
-
-/**
  * @addtogroup ninja
  * @{
  */
@@ -37,6 +31,14 @@
  * such as msp but in contrast to msp does not use a binary protocol, instead
  * using a human readable stream of data.
  */
+
+/**
+ * @file cli.c
+ * @author Cleanflight
+ * @author Martin Schröder 2016
+ */
+
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>

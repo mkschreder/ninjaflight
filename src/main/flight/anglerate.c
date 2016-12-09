@@ -142,7 +142,7 @@ static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination
 				// multiplication of user commands corresponds to changing the sticks scaling here
-				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
+				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->config->imu.max_angle_inclination), self->config->imu.max_angle_inclination)
 						- self->body_angles[axis] + profile->acc.trims.raw[axis];
 				// blend in the angle based on level of blending
 				angleRate += (errorAngle * pid->P8[PIDLEVEL] * (uint16_t)self->level_percent[axis] / 100) >> 4;
@@ -241,7 +241,7 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination
 				// multiplication of user input corresponds to changing the sticks scaling here
-				const float errorAngle = constrain(2 * self->user[axis], -((int)self->max_angle_inclination), self->max_angle_inclination)
+				const float errorAngle = constrain(2 * self->user[axis], -((int)self->config->imu.max_angle_inclination), self->config->imu.max_angle_inclination)
 						- self->body_angles[axis] + profile->acc.trims.raw[axis];
 				angleRate += errorAngle * pid->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
 			}
@@ -256,8 +256,7 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 }
 
 void anglerate_init(struct anglerate *self,
-	struct instruments *ins,
-	uint16_t max_angle_inclination, const struct config const *config){
+	struct instruments *ins, const struct config const *config){
 	memset(self, 0, sizeof(struct anglerate));
 	self->ins = ins;
 	self->update = _multiwii_rewrite_update;
@@ -266,7 +265,6 @@ void anglerate_init(struct anglerate *self,
 		self->PIDweight[c] = 100;
 	}
 	self->config = config;
-	self->max_angle_inclination = max_angle_inclination;
 }
 
 void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){

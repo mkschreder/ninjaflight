@@ -123,7 +123,7 @@ static void bmp085_start_up(void);
 static void bmp085_get_up(void);
 static int32_t bmp085_get_temperature(uint32_t ut);
 static uint32_t bmp085_get_pressure(uint32_t up);
-void bmp085_calculate(uint32_t *pressure, int32_t *temperature);
+static void bmp085_calculate(uint32_t *pressure, int32_t *temperature);
 
 #ifdef BARO_XCLR_PIN
 #define BMP085_OFF                  digitalLo(BARO_XCLR_GPIO, BARO_XCLR_PIN);
@@ -341,9 +341,7 @@ static void bmp085_get_up(void)
             >> (8 - bmp085.oversampling_setting);
 }
 
-// TODO: this should be private always (unit tests should not depend on accessing it)
-void bmp085_calculate(uint32_t *pressure, int32_t *temperature)
-{
+static void bmp085_calculate(uint32_t *pressure, int32_t *temperature){
     int32_t temp;
 	uint32_t press;
 
