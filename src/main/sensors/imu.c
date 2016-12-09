@@ -46,6 +46,7 @@
 #include "barometer.h"
 #include "sonar.h"
 
+#include "system_calls.h"
 /**
  * @defgroup Instruments
  * @{
@@ -106,21 +107,10 @@ void imu_init(struct imu *self, const struct config *config){
 	memset(self, 0, sizeof(struct imu));
 
 	self->config = config;
-
-	// TODO: this is rather wonky. Refactor this to be handled by the driver.
-	imu_set_acc_scale(self, 512);
-	imu_set_gyro_scale(self, 1.0f / 16.4f);
+	self->accVelScale = (9.80665f / SYSTEM_ACC_1G) * 100.0f; // acc vel scaled to cm/s
+	self->gyroScale = SYSTEM_GYRO_SCALE * (M_PIf / 180.0f);  // gyro output scaled to rad per second
 
 	imu_reset(self);
-}
-
-void imu_set_acc_scale(struct imu *self, int16_t acc_1G){
-	self->acc_1G = acc_1G;
-	self->accVelScale = (9.80665f / acc_1G) * 100.0f; // acc vel scaled to cm/s
-}
-
-void imu_set_gyro_scale(struct imu *self, float gyro_scale){
-	self->gyroScale = gyro_scale * (M_PIf / 180.0f);  // gyro output scaled to rad per second
 }
 
 void imu_reset_velocity_estimate(struct imu *self){

@@ -40,7 +40,6 @@
 void ins_gyro_init(struct ins_gyro *self, const struct gyro_config *config){
 	memset(self, 0, sizeof(struct ins_gyro));
 	self->config = config;
-	self->gyro_scale = 1.0f / 16.4f;
 	self->calibratingG = CALIBRATING_GYRO_CYCLES;
 
 	if (config->soft_gyro_lpf_hz) {

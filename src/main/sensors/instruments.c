@@ -9,6 +9,7 @@
 #include "imu.h"
 #include "instruments.h"
 
+#include "system_calls.h"
 /**
  * @defgroup Instruments
  * @{
@@ -106,6 +107,7 @@ void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z)
 }
 
 static bool _acc_magnitude_in_cent_g(struct instruments *self, int32_t raw[3], uint16_t min_cent, uint16_t max_cent){
+	(void)self;
     int32_t axis;
     int32_t accMagnitude = 0;
 
@@ -115,7 +117,7 @@ static bool _acc_magnitude_in_cent_g(struct instruments *self, int32_t raw[3], u
 
 	if(accMagnitude == 0) return false;
 
-    accMagnitude = accMagnitude * 100 / (sq((int32_t)self->acc.acc_1G));
+    accMagnitude = accMagnitude * 100 / (sq((int32_t)SYSTEM_ACC_1G));
 
     // Accept accel readings only in range 0.90g - 1.10g
     return (min_cent < accMagnitude) && (accMagnitude < max_cent);
@@ -149,26 +151,6 @@ void ins_update(struct instruments *self, float dt){
 	else
 		imu_enable_fast_dcm_convergence(&self->imu, false);
 	imu_update(&self->imu, dt);
-}
-
-void ins_set_gyro_scale(struct instruments *self, float scale){
-	// TODO: both acc_1G and gyro scale need to be specified in only one place
-	ins_gyro_set_scale(&self->gyro, scale);
-	imu_set_gyro_scale(&self->imu, scale);
-}
-
-void ins_set_acc_scale(struct instruments *self, int16_t acc_1G){
-	// TODO: both acc_1G and gyro scale need to be specified in only one place
-	ins_acc_set_scale(&self->acc, acc_1G);
-	imu_set_acc_scale(&self->imu, acc_1G);
-	self->acc.acc_1G = acc_1G;
-}
-
-float ins_get_gyro_scale(struct instruments *self){
-	return self->gyro.gyro_scale;
-}
-int16_t ins_get_acc_scale(struct instruments *self){
-	return self->acc.acc_1G;
 }
 
 //! returns estimated altitude above sea level in cm

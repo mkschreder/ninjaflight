@@ -585,13 +585,24 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	if(gyro.read) gyro.read(output);
+	int16_t raw[3] = {0, 0, 0};
+	int32_t maxgyro = 0x00007fff;
+	if(gyro.read) {
+		gyro.read(raw);
+		for(int c = 0; c < 3; c++)
+			output[c] = ((int32_t)raw[c] * SYSTEM_GYRO_RANGE) / maxgyro; 
+	}
 	return 0;
 }
 
 static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	if(acc.read) acc.read(output);
+	int16_t raw[3] = {0, 0, SYSTEM_ACC_1G};
+	if(acc.read){
+		acc.read(raw);
+		for(int c = 0; c < 3; c++)
+			output[c] = ((int32_t)raw[c] * (int32_t)SYSTEM_ACC_1G) / acc.acc_1G;
+	}
 	return 0;
 }
 
@@ -677,8 +688,6 @@ int main(void) {
 	ninja_init(&ninja, &syscalls, &config);
 
 	// TODO: sensor scale and alignment should be completely handled by the driver!
-	ins_set_gyro_scale(&ninja.ins, gyro.scale);
-	ins_set_acc_scale(&ninja.ins, acc.acc_1G);
 	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
 	ins_set_acc_alignment(&ninja.ins, accAlign);
 	ins_set_mag_alignment(&ninja.ins, magAlign);

@@ -36,13 +36,6 @@ void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z)
 void ins_process_acc(struct instruments *self, int32_t x, int32_t y, int32_t z);
 void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z);
 
-void ins_set_gyro_scale(struct instruments *self, float scale);
-void ins_set_acc_scale(struct instruments *self, int16_t acc_1G);
-
-// TODO: refactor these
-float ins_get_gyro_scale(struct instruments *self);
-int16_t ins_get_acc_scale(struct instruments *self);
-
 void ins_update(struct instruments *self, float dt);
 
 static inline void ins_reset_imu(struct instruments *self) { imu_reset(&self->imu); }

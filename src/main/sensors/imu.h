@@ -73,7 +73,7 @@ struct imu {
 	int16_t yaw;
 
 	float gyroScale;
-	uint16_t acc_1G;
+	int16_t acc_1G;
 
 	const struct config *config;
 };

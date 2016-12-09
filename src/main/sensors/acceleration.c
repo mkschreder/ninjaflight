@@ -37,6 +37,8 @@
 
 #include "acceleration.h"
 
+#include "system_calls.h"
+
 #define CALIBRATING_ACC_CYCLES              400
 /*
 extern uint16_t InflightcalibratingA;
@@ -53,17 +55,6 @@ void ins_acc_init(struct ins_acc *self, const struct sensor_trims_config *trims,
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
 	memcpy(&self->trims, trims, sizeof(self->trims));
-
-	ins_acc_set_scale(self, 512);
-}
-
-void ins_acc_set_scale(struct ins_acc *self, int16_t acc_1G){
-	self->acc_1G = acc_1G;
-
-	// reset acceleration
-	self->accADC[0] = 0;
-	self->accADC[1] = 0;
-	self->accADC[2] = self->acc_1G;
 }
 
 #if 0
@@ -130,7 +121,7 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 			// TODO: save sensor trims
 			self->trims.accZero.raw[X] = self->a[X] / CALIBRATING_ACC_CYCLES;
 			self->trims.accZero.raw[Y] = self->a[Y] / CALIBRATING_ACC_CYCLES;
-			self->trims.accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - self->acc_1G;
+			self->trims.accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - SYSTEM_ACC_1G;
 			//trims->values.roll = 0;
 			//trims->values.pitch = 0;
 		}
@@ -138,7 +129,7 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 
 		self->accADC[X] = 0;
 		self->accADC[Y] = 0;
-		self->accADC[Z] = self->acc_1G; // NOTE: this is actually wrong because z should be down and gravity force is always up then, but cleanflight had it wrong so for now we have to comply so other modules continue to work!
+		self->accADC[Z] = SYSTEM_ACC_1G;
 	} else {
 		self->accADC[X] = x - self->trims.accZero.raw[X];
 		self->accADC[Y] = y - self->trims.accZero.raw[Y];

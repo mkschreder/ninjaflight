@@ -38,16 +38,12 @@ struct ins_gyro {
 	stdev_t var[3];
 
 	const struct gyro_config *config;
-
-	float gyro_scale;
 };
 
 void ins_gyro_init(struct ins_gyro *self, const struct gyro_config *config);
 void ins_gyro_process_sample(struct ins_gyro *self, int32_t x, int32_t y, int32_t z);
 void ins_gyro_calibrate(struct ins_gyro *self);
 bool ins_gyro_is_calibrated(struct ins_gyro *self);
-
-static inline void ins_gyro_set_scale(struct ins_gyro *self, float scale) { self->gyro_scale = scale; }
 
 static inline int32_t ins_gyro_get_x(struct ins_gyro *self) { return self->gyroADC[X]; }
 static inline int32_t ins_gyro_get_y(struct ins_gyro *self) { return self->gyroADC[Y]; }

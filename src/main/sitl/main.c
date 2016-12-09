@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include <platform.h>
 
@@ -57,6 +58,8 @@
 
 #include "config/config.h"
 #include "config/feature.h"
+
+#include "system_calls.h"
 
 #ifdef USE_HARDWARE_REVISION_DETECTION
 #include "hardware_revision.h"
@@ -155,11 +158,13 @@ static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	float gyr[3];
 	cl->read_gyro(cl, gyr);
 
+	static const float scale = 3.14f * SYSTEM_GYRO_RANGE / 180;
+	int16_t maxrange = 0x7fff;
 	// scale gyro to int16 range. 35.0f is 2000 deg/s max gyro range in radians.
 	// incoming gyro data from sim is in rad/s
-	output[0] = (gyr[0] / 35.0f) * 32768;
-	output[1] = (gyr[1] / 35.0f) * 32768;
-	output[2] = (gyr[2] / 35.0f) * 32768;
+	output[0] = constrainf(gyr[0] / scale, -1.0f, 1.0f) * maxrange;
+	output[1] = constrainf(gyr[1] / scale, -1.0f, 1.0f) * maxrange;
+	output[2] = constrainf(gyr[2] / scale, -1.0f, 1.0f) * maxrange;
 
 	return 0;
 }
@@ -172,9 +177,9 @@ static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	cl->read_accel(cl, accel);
 
 	// accelerometer is scaled to 512 (acc_1G)
-	output[0] = (accel[0] / 9.82f) * 512;
-	output[1] = (accel[1] / 9.82f) * 512;
-	output[2] = (accel[2] / 9.82f) * 512;
+	output[0] = (accel[0] / 9.82f) * SYSTEM_ACC_1G;
+	output[1] = (accel[1] / 9.82f) * SYSTEM_ACC_1G;
+	output[2] = (accel[2] / 9.82f) * SYSTEM_ACC_1G;
 
 	return 0;
 }
@@ -208,25 +213,26 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 #define SITL_EEPROM_PAGE_SIZE 4096
 #define SITL_EEPROM_NUM_PAGES 1
 
-char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES] = {0};
+//char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES] = {0};
+int flash_fd = -1;
 
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	(void)dst;
 	printf("EEPROM read from %04x, size %lu\n", addr, size);
-	if((addr + size) > sizeof(_flash)){
+	/*if((addr + size) > sizeof(_flash)){
 		size = sizeof(_flash) - addr;
-	}
-	memcpy(dst, _flash + addr, size);
-	return size;
+	}*/
+	lseek(flash_fd, addr, SEEK_SET);
+	return read(flash_fd, dst, size);
 }
 
 static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	(void)data;
 	printf("EEPROM write to %04x, size %lu\n", addr, size);
-	memcpy(_flash + addr, data, size);
-	return size;
+	lseek(flash_fd, addr, SEEK_SET);
+	return write(flash_fd, data, size);
 }
 
 static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
@@ -242,8 +248,16 @@ static void _eeprom_get_info(const struct system_calls_eeprom *self, struct syst
 	info->num_pages = SITL_EEPROM_NUM_PAGES;
 }
 
+static int _read_range(const struct system_calls_range *sys, uint16_t deg, uint16_t *range){
+	struct application *self = container_of(container_of(sys, struct system_calls, range), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	return cl->read_range(cl, deg, range);
+}
+
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
-	memset(_flash, 0, sizeof(_flash));
+	flash_fd = open("sitl_eeprom.bin", O_RDWR | O_CREAT, 0644);
+	posix_fallocate(flash_fd, 0, SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES);
+
 	self->sitl = server;
 
 	self->syscalls = (struct system_calls){
@@ -272,38 +286,15 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 			.write = _eeprom_write,
 			.erase_page = _eeprom_erase_page,
 			.get_info = _eeprom_get_info
+		},
+		.range = {
+			.read_range = _read_range
 		}
 	};
 
-	config_load(&self->config, &self->syscalls);
+	config_reset(&self->config);
 
 	ninja_init(&self->ninja, &self->syscalls, &self->config);
-
-	struct config *conf = &self->config;
-	struct pid_config *pid = &config_get_profile_rw(conf)->pid;
-	struct rate_profile *rates = config_get_rate_profile_rw(conf);
-
-	pid->P8[PIDROLL] = 40;
-	pid->I8[PIDROLL] = 0;
-	pid->D8[PIDROLL] = 20;
-	
-	pid->P8[PIDPITCH] = 40;
-	pid->I8[PIDPITCH] = 0;
-	pid->D8[PIDPITCH] = 20;
-
-	pid->P8[PIDYAW] = 50;
-	pid->I8[PIDYAW] = 5;
-	pid->D8[PIDYAW] = 30;
-
-	pid->P8[PIDLEVEL] = 20;
-	pid->I8[PIDLEVEL] = 10;
-	pid->D8[PIDLEVEL] = 100;
-
-	rates->rates[ROLL] = 100;
-    rates->rates[PITCH] = 100;
-    rates->rates[YAW] = 100;
-
-	conf->mixer.mixerMode = MIXER_QUADX;
 
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }
