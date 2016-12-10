@@ -796,7 +796,7 @@ SITL_SRC = \
 		telemetry/telemetry.c \
 		version.c \
 		drivers/serial.c \
-		../../ninjasitl/fc_sitl.c 
+		../../ninjasitl/src/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
 VPATH		:= $(VPATH):$(STDPERIPH_DIR)/src

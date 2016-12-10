@@ -94,7 +94,7 @@ struct application {
 
 static void _application_send_state(struct application *self){
 	struct fc_sitl_client_interface *cl = self->sitl->client;
-	cl->update_euler_angles(cl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
+	cl->write_euler_angles(cl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
 }
 
 static void _application_fc_run(struct application *self){
