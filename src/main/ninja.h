@@ -8,6 +8,7 @@
 #include "system_calls.h"
 #include "flight/anglerate.h"
 #include "ninja_sched.h"
+#include "blackbox/blackbox.h"
 #include "io/rc_adjustments.h"
 #include "flight/failsafe.h"
 #include "io/ledstrip.h"
@@ -41,6 +42,7 @@ struct ninja {
 	struct mixer mixer;
 	struct anglerate ctrl;
 	struct battery bat;
+	struct blackbox blackbox;
 	struct rc rc;
 	struct rc_event_listener rc_evl;
 	struct rx rx;

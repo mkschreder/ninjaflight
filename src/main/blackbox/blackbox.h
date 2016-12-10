@@ -121,7 +121,7 @@ struct blackbox {
 	const struct config const *config;
 };
 
-void blackbox_init(struct blackbox *self, struct ninja *owner, const struct config * const config);
+void blackbox_init(struct blackbox *self, struct ninja *owner, const struct config * config);
 
 void blackboxLogEvent(struct blackbox *self, FlightLogEvent event, flightLogEventData_t *data);
 
@@ -129,4 +129,4 @@ void blackbox_update(struct blackbox *self);
 void blackbox_start(struct blackbox *self);
 void blackbox_stop(struct blackbox *self);
 
-bool blackboxMayEditConfig(struct blackbox *self);
+bool blackbox_is_running(struct blackbox *self);

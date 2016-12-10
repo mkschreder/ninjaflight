@@ -86,23 +86,12 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 	self->system = syscalls;
 	self->config = config;
 
-	config_reset(self->config);
+	config_load(self->config, self->system);
 
 	rc_adj_init(&self->rc_adj, self, self->config);
 	mixer_init(&self->mixer, self->config, &syscalls->pwm);
 	ins_init(&self->ins, self->config);
-	anglerate_init(&self->ctrl, &self->ins, 0, self->config);
-/*
-	float gs = 1.0f/16.4f;
-	int16_t as = 512;
-	self->syscalls->imu.get_gyro_acc_scale(&self->syscalls->imu, &gs, &as);
-	ins_set_gyro_scale(&ninja.ins, gs);
-	ins_set_acc_scale(&ninja.ins, as);
-*/
-	/*ins_set_gyro_alignment(&ninja.ins, gyroAlign);
-	ins_set_acc_alignment(&ninja.ins, accAlign);
-	ins_set_mag_alignment(&ninja.ins, magAlign);
-*/
+	anglerate_init(&self->ctrl, &self->ins, self->config);
 
 	beeper_init(&self->beeper, self->system);
 
@@ -190,9 +179,8 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
     }
 #endif
 
-#ifdef BLACKBOX
-	blackbox_init(&self->blackbox, self);
-#endif
+	if(USE_BLACKBOX)
+		blackbox_init(&self->blackbox, self, self->config);
 
 	sys_led_on(self->system, 1);
 	sys_led_off(self->system, 0);
@@ -411,22 +399,25 @@ static void _run_control_loop(struct ninja *self){
 	} else if(rc_key_state(&self->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED){
 		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
 		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
-		if(ABS(ins_get_pitch_dd(&self->ins)) > 800)
-			hp_roll = hp_pitch = 0;
+		//if(ABS(ins_get_pitch_dd(&self->ins)) > 450 || ABS(ins_get_roll_dd(&self->ins)) > 450)
+		//	hp_roll = hp_pitch = 0;
 		int16_t strength = MIN(hp_roll, hp_pitch);
+		if((strength) < 90) strength = 0;
+		else strength = 100;
 		anglerate_set_level_percent(&self->ctrl, strength, strength);
 	} else {
 		anglerate_set_level_percent(&self->ctrl, 0, 0);
 	}
+	anglerate_set_level_percent(&self->ctrl, 100, 100);
 	//_process_tilt_controls(self);
 
 	int16_t roll = rc_get_command(&self->rc, ROLL);
 	int16_t pitch =  rc_get_command(&self->rc, PITCH);
-	int16_t yaw = rc_get_command(&self->rc, YAW);
+	int16_t yaw = -rc_get_command(&self->rc, YAW);
 
 	// prevent spinup when just armed
 	if(rc_get_command(&self->rc, THROTTLE) < -480) yaw = 0;
-
+/*
 	float combined = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&self->ins)));
     float tmpCosine = cos_approx(combined);
 	float rollCompensation = roll * tmpCosine;
@@ -436,6 +427,18 @@ static void _run_control_loop(struct ninja *self){
 
 	roll = (yawCompensationInv + rollCompensation);
 	yaw = -(yawCompensation + rollCompensationInv);
+*/
+	uint16_t a, b, c, d;
+	const struct system_calls *sys = self->system;
+	sys_range_read(sys, 0, &a);
+	sys_range_read(sys, 90, &b);
+	sys_range_read(sys, 180, &c);
+	sys_range_read(sys, 270, &d);
+	if(b < 180) pitch -= 50;
+	if(a < 180) pitch += 50;
+	if(d < 180) roll -= 50;
+	if(c < 180) roll += 50;
+	//printf("range: %d %d %d %d %d\n", a, b, c, d, pitch);
 
 	anglerate_input_user(&self->ctrl, roll, pitch, yaw);
 	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));

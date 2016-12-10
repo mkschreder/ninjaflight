@@ -278,11 +278,9 @@ static void initActiveBoxIds(struct msp *self)
     }
 #endif
 
-#ifdef BLACKBOX
-    if (feature(self->config, FEATURE_BLACKBOX)){
+    if (USE_BLACKBOX && feature(self->config, FEATURE_BLACKBOX)){
         ena |= 1 << BOXBLACKBOX;
     }
-#endif
 
     if (feature(self->config, FEATURE_FAILSAFE)){
         ena |= 1 << BOXFAILSAFE;
@@ -935,18 +933,17 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
 #endif
 
         case MSP_BLACKBOX_CONFIG:
-
-#ifdef BLACKBOX
-            sbufWriteU8(dst, 1); //Blackbox supported
-            sbufWriteU8(dst, blackboxConfig()->device);
-            sbufWriteU8(dst, blackboxConfig()->rate_num);
-            sbufWriteU8(dst, blackboxConfig()->rate_denom);
-#else
-            sbufWriteU8(dst, 0); // Blackbox not supported
-            sbufWriteU8(dst, 0);
-            sbufWriteU8(dst, 0);
-            sbufWriteU8(dst, 0);
-#endif
+			if(USE_BLACKBOX){
+				sbufWriteU8(dst, 1); //Blackbox supported
+				sbufWriteU8(dst, self->config->blackbox.device);
+				sbufWriteU8(dst, self->config->blackbox.rate_num);
+				sbufWriteU8(dst, self->config->blackbox.rate_denom);
+			} else {
+				sbufWriteU8(dst, 0); // Blackbox not supported
+				sbufWriteU8(dst, 0);
+				sbufWriteU8(dst, 0);
+				sbufWriteU8(dst, 0);
+			}
             break;
 
         case MSP_SDCARD_SUMMARY:
@@ -1237,16 +1234,17 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
 			ninja_config_save(self->ninja);
             break;
 
-#ifdef BLACKBOX
         case MSP_SET_BLACKBOX_CONFIG:
-            // Don't allow config to be updated while Blackbox is logging
-            if (!blackboxMayEditConfig())
-                return -1;
-            self->config->blackbox.device = sbufReadU8(src);
-            self->config->blackbox.rate_num = sbufReadU8(src);
-            self->config->blackbox.rate_denom = sbufReadU8(src);
+			if(USE_BLACKBOX){
+				if (!blackbox_is_running(&self->ninja->blackbox))
+					return -1;
+				self->config->blackbox.device = sbufReadU8(src);
+				self->config->blackbox.rate_num = sbufReadU8(src);
+				self->config->blackbox.rate_denom = sbufReadU8(src);
+			} else {
+				return -1;
+			}
             break;
-#endif
 
 #ifdef TRANSPONDER
         case MSP_SET_TRANSPONDER_CONFIG:

@@ -185,7 +185,8 @@ void calculate_Gtune(uint8_t axis)
                 }
                 int16_t newP = constrain((result_P64[axis] >> 6), (int16_t)gtuneConfig()->gtune_lolimP[axis], (int16_t)gtuneConfig()->gtune_hilimP[axis]);
 
-#ifdef BLACKBOX
+				// TODO: gtune blackbox logging
+				#if 0
                 if (feature(FEATURE_BLACKBOX)) {
                     flightLogEvent_gtuneCycleResult_t eventData;
 
@@ -194,7 +195,7 @@ void calculate_Gtune(uint8_t axis)
                     eventData.gtuneNewP = newP;                                 // for float PID the logged P value is still mutiplyed by 10
                     blackboxLogEvent(FLIGHT_LOG_EVENT_GTUNE_RESULT, (flightLogEventData_t*)&eventData);
                 }
-#endif
+				#endif
 
                 pidProfile()->P8[axis] = newP;                                // new P value
             }

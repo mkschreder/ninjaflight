@@ -24,11 +24,24 @@ typedef int32_t sys_micros_t;
  * minimum.
  */
 
+/**
+ * standard maximum gyro rate in deg/s which the 2^15 (int16) gyro value range
+ * represents. System should use this value to scale the gyro readings to 2^15
+ * range according to this value.
+ */
 #define SYSTEM_GYRO_RANGE 2000
+/**
+ * standard value for accelerometer readings that represents 1G. Drivers should use this value to scale accelerometer readings into this range.
+ */
 #define SYSTEM_ACC_1G 1000
+/**
+ * Helper macro for multiplier to convert gyro reading into deg/s
+ */
 #define SYSTEM_GYRO_SCALE ((float)SYSTEM_GYRO_RANGE / (int16_t)0x7fff)
 
 /**
+ * @brief pwm related system calls
+ *
  * System calls for reading and writing pwm/ppm values.
  */
 struct system_calls_pwm {
@@ -93,35 +106,97 @@ struct system_calls_imu {
 	int (*read_temperature)(const struct system_calls_imu *self, uint16_t *out);
 };
 
+/**
+ * System calls for interacting with leds.
+ */
 struct system_calls_leds {
+	/**
+	 * Turns a led on or off. If led is out of range then this function should ignore the command.
+	 */
 	void (*on)(const struct system_calls_leds *self, uint8_t led, bool on);
+	/**
+	 * Toggles a led. If led id is out of range then this function should ignore the command.
+	 */
 	void (*toggle)(const struct system_calls_leds *self, uint8_t led);
 };
 
+/**
+ * Interface to a single tone beeper.
+ */
 struct system_calls_beeper {
+	/**
+	 * Turns the beeper on or off (on means tone should be heard)
+	 */
 	void (*on)(const struct system_calls_beeper *self, bool on);
 };
 
+/**
+ * Timing interface
+ */
 struct system_calls_time {
+	/**
+	 * Returns current time in microseconds since program start. This value
+	 * should wrap around and sys_micros_t should always be a signed integer to
+	 * allow easy wrap-agnostic comparison of timestamps.
+	 */
 	sys_micros_t (*micros)(const struct system_calls_time *self);
 };
 
+/**
+ * Onboard eeprom information structure
+ */
 struct system_eeprom_info {
 	uint16_t page_size;
 	uint16_t num_pages;
 };
 
+/**
+ * Interface to onboard config storage eeprom. Assumption is made that there is
+ * only one config storage per aircraft instance. If a more advanced config
+ * storage interface is desired, this system interface can be changed. An
+ * eeprom is typically a paged device and for sake of being compatible with
+ * wide variety of different paged devices (including flash) the interface
+ * below is used to access the eeprom.
+ */
 struct system_calls_eeprom {
+	/**
+	 * Reads a block of memory up to a page boundary. Returns number of bytes
+	 * read upon success and negative number upon error.
+	 */
 	int (*read)(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size);
+	/**
+	 * Writes data to the eeprom up to a page boundary. Returns number of bytes
+	 * written or a negative number upon error.
+	 */
 	int (*write)(const struct system_calls_eeprom *self, uint16_t addr, const void *src, size_t size);
+	/**
+	 * Erases a page of the eeprom. Address should be first address of the page.
+	 */
 	int (*erase_page)(const struct system_calls_eeprom *self, uint16_t addr);
+	/**
+	 * Returns information about the onboard eeprom such as page size and number of pages.
+	 */
 	void (*get_info)(const struct system_calls_eeprom *self, struct system_eeprom_info *info);
 };
 
+/**
+ * Interface to a lateral range sensor. If no range sensor is available then
+ * this function should return -1. If all directions are not covered then
+ * implementation can decide what to return for the directions that are not
+ * covered - either an error can be returned or a mix of surrounding points.
+ * For example if only four directions are available then read range may return
+ * value of the front sensor for a range of angles.
+ */
 struct system_calls_range {
+	/**
+	 * Read range specified by an angle direction. 0 is forward, 90 is to the right etc.
+	 */
 	int (*read_range)(const struct system_calls_range *self, uint16_t deg, uint16_t *range);
 };
 
+/**
+ * System calls interface for the flight controller for interacting with the board.
+ */
 struct system_calls {
 	struct system_calls_pwm pwm;
 	struct system_calls_imu imu;
@@ -132,7 +207,6 @@ struct system_calls {
 	struct system_calls_range range;
 };
 
-// these are just for convenience
 #define sys_led_on(sys, id) sys->leds.on(&(sys)->leds, id, true)
 #define sys_led_off(sys, id) sys->leds.on(&(sys)->leds, id, false)
 #define sys_led_toggle(sys, id) sys->leds.toggle(&(sys)->leds, id)
