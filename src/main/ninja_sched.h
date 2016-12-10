@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdbool.h>
-#include "common/list.h"
 
 typedef enum {
     TASK_PRIORITY_IDLE = 0,     // Disables dynamic scheduling, task is executed only if no other task is active this cycle

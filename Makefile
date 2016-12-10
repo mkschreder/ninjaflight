@@ -946,7 +946,10 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-.PHONY: $(VALID_TARGETS) docs ninjasitl lcov
+start-sitl:
+	cd ninjasitl && ./start-quadsim.sh
+
+.PHONY: $(VALID_TARGETS) docs ninjasitl lcov start-sitl
 $(VALID_TARGETS):
 	$(MAKE) TARGET=$@ $(filter-out $(VALID_TARGETS) $(GLOBAL_GOALS), $(MAKECMDGOALS))
 
