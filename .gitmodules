@@ -1,0 +1,3 @@
+[submodule "libutype"]
+	path = libutype
+	url = https://github.com/mkschreder/libutype.git
