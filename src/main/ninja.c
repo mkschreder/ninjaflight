@@ -511,7 +511,6 @@ wait_for_arm:
 		if(rc_key_state(&self->rc, RC_KEY_STICK_DISARM) == RC_KEY_PRESSED){
 			// use arming delay here because it is not used for anything
 			self->arming_delay = sys_millis(self->system) + NINJA_ARM_DURATION;
-			beeper_start(&self->beeper, BEEPER_DISARM_REPEAT);
 			PT_YIELD(&self->state_arming);
 			goto wait_for_arm;
 		}
