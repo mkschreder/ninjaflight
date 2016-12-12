@@ -1,0 +1,204 @@
+Telemetry allows you to know what is happening on your aircraft while you are flying it. Among other things you can receive battery voltages and G\+P\+S positions on your transmitter.
+
+Telemetry can be either always on, or enabled when armed. If a serial port for telemetry is shared with other functionality then then telemetry will only be enabled when armed on that port.
+
+Telemetry is enabled using the 'T\+E\+L\+E\+M\+E\+T\+R\+Y` feature.
+
+``` feature T\+E\+L\+E\+M\+E\+T\+R\+Y ```
+
+Multiple telemetry providers are currently supported, Fr\+Sky, Graupner Ho\+T\+T V4, Smart\+Port (S.\+Port) and Light\+Telemetry (L\+T\+M)
+
+All telemetry systems use serial ports, configure serial ports to use the telemetry system required.
+
+\subsection*{Fr\+Sky telemetry}
+
+Fr\+Sky telemetry is transmit only and just requires a single connection from the T\+X pin of a serial port to the R\+X pin on an Fr\+Sky telemetry receiver.
+
+Fr\+Sky telemetry signals are inverted. To connect a cleanflight capable board to an Fr\+S\+Ky receiver you have some options.
+
+
+\begin{DoxyEnumerate}
+\item A hardware inverter -\/ Built in to some flight controllers.
+\item Use software serial and enable frsky\+\_\+inversion.
+\item Use a flight controller that has software configurable hardware inversion (e.\+g. S\+T\+M32\+F30x).
+\end{DoxyEnumerate}
+
+For 1, just connect your inverter to a usart or software serial port.
+
+For 2 and 3 use the C\+L\+I command as follows\+:
+
+``` set telemetry\+\_\+inversion = O\+N ```
+
+\subsubsection*{Available sensors}
+
+The following sensors are transmitted \+:
+
+Vspd \+: vertical speed, unit is cm/s.
+
+Hdg \+: heading, North is 0°, South is 180°.
+
+Acc\+X,Y,Z \+: accelerometers values.
+
+Tmp1 \+: baro temp if available, gyro otherwise.
+
+R\+P\+M \+: if armed \+: throttle value, battery capacity otherwise. (Blade number needs to be set to 12 in Taranis).
+
+Cels \+: average cell value, vbat divided by cell number.
+
+V\+F\+A\+S \+: actual vbat value (see V\+F\+A\+S precision section bellow).
+
+Curr \+: actual current comsuption, in amp.
+
+Fuel \+: if capacity set \+:remaining battery percentage, mah drawn otherwise.
+
+G\+P\+S \+: G\+P\+S coordinates.
+
+Alt \+: barometer based altitude, init level is zero.
+
+Date \+: time since powered.
+
+G\+Spd \+: current speed, calculated by G\+P\+S.
+
+G\+Alt \+: G\+P\+S altitude, sea level is zero.
+
+Tmp2 \+: number of sats. Every second, a number $>$ 100 is sent to represent G\+P\+S signal quality.
+
+\subsubsection*{Precision setting for V\+F\+A\+S}
+
+Cleanflight can send V\+F\+A\+S (Fr\+Sky Ampere Sensor Voltage) in two ways\+:
+
+``` set frsky\+\_\+vfas\+\_\+precision = 0 ``` This is default setting which supports V\+F\+A\+S resolution of 0.\+2 volts and is supported on all Fr\+Sky hardware.
+
+``` set frsky\+\_\+vfas\+\_\+precision = 1 ``` This is new setting which supports V\+F\+A\+S resolution of 0.\+1 volts and is only supported by Open\+T\+X radios (this method uses custom I\+D 0x39).
+
+\subsection*{Ho\+T\+T telemetry}
+
+Only Electric Air Modules and G\+P\+S Modules are emulated.
+
+Use the latest Graupner firmware for your transmitter and receiver.
+
+Older Ho\+T\+T transmitters required the E\+A\+M and G\+P\+S modules to be enabled in the telemetry menu of the transmitter. (e.\+g. on M\+X-\/20)
+
+Serial ports use two wires but Ho\+T\+T uses a single wire so some electronics are required so that the signals don't get mixed up. The T\+X and R\+X pins of a serial port should be connected using a diode and a single wire to the {\ttfamily T} port on a Ho\+T\+T receiver.
+
+Connect as follows\+:
+
+
+\begin{DoxyItemize}
+\item Ho\+T\+T T\+X/\+R\+X {\ttfamily T} -\/$>$ Serial R\+X (connect directly)
+\item Ho\+T\+T T\+X/\+R\+X {\ttfamily T} -\/$>$ Diode {\ttfamily -\/( $\vert$)-\/} $>$ Serial T\+X (connect via diode)
+\end{DoxyItemize}
+
+The diode should be arranged to allow the data signals to flow the right way
+
+``` -\/( $\vert$)-\/ == Diode, $\vert$ indicates cathode marker. ```
+
+1\+N4148 diodes have been tested and work with the G\+R-\/24.
+
+As noticed by Skrebber the G\+R-\/12 (and probably G\+R-\/16/24, too) are based on a P\+I\+C 24\+F\+J64\+G\+A-\/002, which has 5\+V tolerant digital pins.
+
+Note\+: The Soft\+Serial ports may not be 5\+V tolerant on your board. Verify if you require a 5v/3.\+3v level shifters.
+
+\subsection*{Light\+Telemetry (L\+T\+M)}
+
+L\+T\+M is a lightweight streaming telemetry protocol supported by a number of O\+S\+Ds, ground stations and antenna trackers.
+
+The Cleanflight implementation of L\+T\+M implements the following frames\+:
+
+
+\begin{DoxyItemize}
+\item G-\/\+F\+R\+A\+M\+E\+: G\+P\+S information (lat, long, ground speed, altitude, sat info)
+\item A-\/\+F\+R\+A\+M\+E\+: Attitude (pitch, roll, heading)
+\item S-\/\+F\+R\+A\+M\+E\+: Status (voltage, current+, R\+S\+S\+I, airspeed+, status). Item suffixed '+' not implemented in Cleanflight.
+\item O-\/\+F\+R\+A\+M\+E\+: Origin (home position, lat, long, altitude, fix)
+\end{DoxyItemize}
+
+In addition, in the inav (navigation-\/rewrite) fork\+:
+\begin{DoxyItemize}
+\item N-\/\+F\+R\+A\+M\+E\+: Navigation information (G\+P\+S mode, Nav mode, Nav action, Waypoint number, Nav Error, Nav Flags).
+\end{DoxyItemize}
+
+L\+T\+M is transmit only, and can work at any supported baud rate. It is designed to operate over 2400 baud (9600 in Cleanflight) and does not benefit from higher rates. It is thus usable on soft serial.
+
+More information about the fields, encoding and enumerations may be found at \href{https://github.com/stronnag/mwptools/blob/master/docs/ltm-definition.txt}{\tt https\+://github.\+com/stronnag/mwptools/blob/master/docs/ltm-\/definition.\+txt}
+
+\subsection*{Smart\+Port (S.\+Port)}
+
+Smartport is a telemetry system used by newer Fr\+Sky transmitters and receivers such as the Taranis/\+X\+J\+R and X8\+R, X6\+R and X4\+R(\+S\+B).
+
+More information about the implementation can be found here\+: \href{https://github.com/frank26080115/cleanflight/wiki/Using-Smart-Port}{\tt https\+://github.\+com/frank26080115/cleanflight/wiki/\+Using-\/\+Smart-\/\+Port}
+
+\subsubsection*{Available sensors}
+
+The following sensors are transmitted \+:
+
+Alt \+: barometer based altitude, init level is zero.
+
+Vspd \+: vertical speed, unit is cm/s.
+
+Hdg \+: heading, North is 0°, South is 180°.
+
+Acc\+X,Y,Z \+: accelerometers values.
+
+Tmp1 \+: actual flight mode, sent as 4 digits. Number is sent as (1)1234. Please ignore the leading 1, it is just there to ensure the number as always 5 digits (the 1 + 4 digits of actual data) the numbers are aditives (for example, if first digit after the leading 1 is 6, it means G\+P\+S Home and Headfree are both active) \+:
+
+
+\begin{DoxyEnumerate}
+\item 1 is G\+P\+S Hold, 2 is G\+P\+S Home, 4 is Headfree
+\item 1 is mag enabled, 2 is baro enabled, 4 is sonar enabled
+\item 1 is angle, 2 is horizon, 4 is passthrough
+\item 1 is ok to arm, 2 is arming is prevented, 4 is armed
+\end{DoxyEnumerate}
+
+Tmp2 \+: G\+P\+S lock status, Number is sent as 1234, the numbers are aditives \+:
+
+
+\begin{DoxyEnumerate}
+\item 1 is G\+P\+S Fix, 2 is G\+P\+S Home fix
+\item not used
+\item not used
+\item number of sats
+\end{DoxyEnumerate}
+
+V\+F\+A\+S \+: actual vbat value.
+
+G\+Alt \+: G\+P\+S altitude, sea level is zero.
+
+G\+Spd \+: current speed, calculated by G\+P\+S.
+
+G\+P\+S \+: G\+P\+S coordinates.
+
+\subsubsection*{Integrate Cleanflight telemetry with Fr\+Sky Smartport sensors}
+
+While Cleanflight telemetry brings a lot of valuable data to the radio, there are additional sensors, like Lipo cells sensor F\+L\+V\+S\+S, that can be a great addition for many aircrafts. Smartport sensors are designed to be daisy chained, and C\+F telemetry is no exception to that. To add an external sensor, just connect the \char`\"{}\+S\char`\"{} port of the F\+C and sensor(s) together, and ensure the sensor(s) are getting connected to G\+N\+D and V\+C\+C either from the controler or the receiver
+
+
+
+\subsubsection*{Smart\+Port on F3 targets with hardware U\+A\+R\+T}
+
+Smartport devices can be connected directly to S\+T\+M32\+F3 boards such as the S\+P\+Racing\+F3 and Sparky, with a single straight through cable without the need for any hardware modifications on the F\+C or the receiver. Connect the T\+X P\+I\+N of the U\+A\+R\+T to the Smartport signal pin.
+
+For Smartport on F3 based boards, enable the telemetry inversion setting.
+
+``` set telemetry\+\_\+inversion = O\+N ```
+
+\subsubsection*{Smart\+Port on F1 and F3 targets with Soft\+Serial}
+
+Since F1 targets like Naze32 or Flip32 are not equipped with hardware inverters, Soft\+Serial might be simpler to use.
+
+
+\begin{DoxyEnumerate}
+\item Enable Soft\+Serial {\ttfamily feature S\+O\+F\+T\+S\+E\+R\+I\+A\+L}
+\item In Configurator assign {\itshape Telemetry} $>$ {\itshape Smartport} $>$ {\itshape Auto} to Soft\+Serial port of your choice
+\item Enable Telemetry {\ttfamily feature T\+E\+L\+E\+M\+E\+T\+R\+Y}
+\item Confirm telemetry invesion {\ttfamily set telemetry\+\_\+inversion = O\+N}
+\item You have to bridge T\+X and R\+X lines of Soft\+Serial and connect them together to S.\+Port signal line in receiver
+\end{DoxyEnumerate}
+
+Notes\+:
+
+
+\begin{DoxyItemize}
+\item This has been tested with Flip32 and S\+Pracing\+F3 boards and Fr\+Sky X8\+R and X4\+R receivers
+\item To discover all sensors board has to be armed, and when G\+P\+S is connected, it needs to have a proper 3\+D fix. When not armed, values like $\ast$$\ast$$\ast$\+Vfas$\ast$$\ast$$\ast$ or G\+P\+S coordinates may not sent. 
+\end{DoxyItemize}

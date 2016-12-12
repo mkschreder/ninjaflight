@@ -1,0 +1,228 @@
+
+
+\subsection*{Introduction}
+
+This feature transmits your flight data information on every control loop iteration over a serial port to an external logging device like an Open\+Log to be recorded, to an onboard dataflash chip which is present on some flight controllers, or to an onboard S\+D card socket.
+
+After your flight, you can view the resulting logs using the interactive log viewer\+:
+
+\href{https://github.com/cleanflight/blackbox-log-viewer}{\tt https\+://github.\+com/cleanflight/blackbox-\/log-\/viewer}
+
+You can also use the {\ttfamily blackbox\+\_\+decode} tool to turn the logs into C\+S\+V files for analysis, or render your flight log as a video using the {\ttfamily blackbox\+\_\+render} tool. Those tools can be found in this repository\+:
+
+\href{https://github.com/cleanflight/blackbox-tools}{\tt https\+://github.\+com/cleanflight/blackbox-\/tools}
+
+\subsection*{Logged data}
+
+The blackbox records flight data on every iteration of the flight control loop. It records the current time in microseconds, P, I and D corrections for each axis, your R\+C command stick positions (after applying expo curves), gyroscope data, accelerometer data (after your configured low-\/pass filtering), barometer and sonar readings, 3-\/axis magnetometer readings, raw V\+B\+A\+T and current measurements, R\+S\+S\+I, and the command being sent to each motor speed controller. This is all stored without any approximation or loss of precision, so even quite subtle problems should be detectable from the fight data log.
+
+G\+P\+S data is logged whenever new G\+P\+S data is available. Although the C\+S\+V decoder will decode this data, the video renderer does not yet show any of the G\+P\+S information (this will be added later).
+
+\subsection*{Supported configurations}
+
+The maximum data rate that can be recorded to the flight log is fairly restricted, so anything that increases the load can cause the flight log to drop frames and contain errors.
+
+The Blackbox is typically used on tricopters and quadcopters. Although it will work on hexacopters and octocopters, because these craft have more motors to record, they must transmit more data to the flight log. This can increase the number of dropped frames. Although the browser-\/based log viewer supports hexacopters and octocopters, the command-\/line {\ttfamily blackbox\+\_\+render} tool currently only supports tri-\/ and quadcopters.
+
+Cleanflight's {\ttfamily looptime} setting decides how frequently an update is saved to the flight log. The default looptime on Cleanflight is 3500. If you're using a looptime smaller than about 2400, you may experience some dropped frames due to the high required data rate. In that case you will need to reduce the sampling rate in the Blackbox settings, or increase your logger's baudrate to 250000. See the later section on configuring the Blackbox feature for details.
+
+\subsection*{Setting up logging}
+
+First, you must enable the Blackbox feature. In the \href{https://chrome.google.com/webstore/detail/cleanflight-configurator/enacoimjcgeinfnnnpajinjgmkahmfgb?hl=en}{\tt Cleanflight Configurator} enter the Configuration tab, tick the \char`\"{}\+B\+L\+A\+C\+K\+B\+O\+X\char`\"{} feature at the bottom of the page, and click \char`\"{}\+Save and reboot\char`\"{}
+
+Now you must decide which device to store your flight logs on. You can either transmit the log data over a serial port to an external logging device like the \href{https://www.sparkfun.com/products/9530}{\tt Open\+Log serial data logger} to be recorded to a micro\+S\+D\+H\+C card, or if you have a compatible flight controller you can store the logs on the onboard dataflash storage instead.
+
+\subsubsection*{Open\+Log serial data logger}
+
+The Open\+Log is a small logging device which attaches to your flight controller using a serial port and logs your flights to a Micro\+S\+D card.
+
+The Open\+Log ships from Spark\+Fun with standard \char`\"{}\+Open\+Log 3\char`\"{} firmware installed. Although this original Open\+Log firmware will work with the Blackbox, in order to reduce the number of dropped frames it should be reflashed with the higher performance \href{https://github.com/cleanflight/blackbox-firmware}{\tt Open\+Log Blackbox firmware}. The special Blackbox variant of the Open\+Log firmware also ensures that the Open\+Log is using Cleanflight compatible settings, and defaults to 115200 baud.
+
+You can find the Blackbox version of the Open\+Log firmware \href{https://github.com/cleanflight/blackbox-firmware}{\tt here}, along with instructions for installing it onto your Open\+Log.
+
+\paragraph*{micro\+S\+D\+H\+C}
+
+Your choice of micro\+S\+D\+H\+C card is very important to the performance of the system. The Open\+Log relies on being able to make many small writes to the card with minimal delay, which not every card is good at. A faster S\+D-\/card speed rating is not a guarantee of better performance.
+
+\subparagraph*{micro\+S\+D\+H\+C cards known to have poor performance}
+
+
+\begin{DoxyItemize}
+\item Generic 4\+G\+B Class 4 micro\+S\+D\+H\+C card -\/ the rate of missing frames is about 1\%, and is concentrated around the most interesting parts of the log!
+\item Sandisk Ultra 32\+G\+B (unlike the smaller 16\+G\+B version, this version has poor write latency)
+\end{DoxyItemize}
+
+\subparagraph*{micro\+S\+D\+H\+C cards known to have good performance}
+
+
+\begin{DoxyItemize}
+\item Transcend 16\+G\+B Class 10 U\+H\+S-\/\+I micro\+S\+D\+H\+C (typical error rate $<$ 0.\+1\%)
+\item Sandisk Extreme 16\+G\+B Class 10 U\+H\+S-\/\+I micro\+S\+D\+H\+C (typical error rate $<$ 0.\+1\%)
+\item Sandisk Ultra 16\+G\+B (it performs only half as well as the Extreme in theory, but still very good)
+\end{DoxyItemize}
+
+You should format any card you use with the \href{https://www.sdcard.org/downloads/formatter_4/}{\tt S\+D Association's special formatting tool} , as it will give the Open\+Log the best chance of writing at high speed. You must format it with either F\+A\+T, or with F\+A\+T32 (recommended).
+
+\subsubsection*{Choosing a serial port for the Open\+Log}
+
+First, tell the Blackbox to log using a serial port (rather than to an onboard dataflash chip). Go to the Configurator's C\+L\+I tab, enter {\ttfamily set blackbox\+\_\+device=S\+E\+R\+I\+A\+L} to switch logging to serial, and save.
+
+You need to let Cleanflight know which of https\+://github.com/cleanflight/cleanflight/blob/master/docs/\+Serial.\+md \char`\"{}your serial ports\char`\"{} you connect your Open\+Log to (i.\+e. the Blackbox port), which you can do on the Configurator's Ports tab.
+
+You should use a hardware serial port (such as U\+A\+R\+T1 on the Naze32, the two-\/pin Tx/\+Rx header in the center of the board). Soft\+Serial ports can be used for the Blackbox. However, because they are limited to 19200 baud, your logging rate will need to be severely reduced to compensate. Therefore the use of Soft\+Serial is not recommended.
+
+When using a hardware serial port, Blackbox should be set to at least 115200 baud on that port. When using fast looptimes ($<$2500), a baud rate of 250000 should be used instead in order to reduce dropped frames.
+
+The serial port used for Blackbox cannot be shared with any other function (e.\+g. G\+P\+S, telemetry) except the M\+S\+P protocol. If M\+S\+P is used on the same port as Blackbox, then M\+S\+P will be active when the board is disarmed, and Blackbox will be active when the board is armed. This will mean that you can't use the Configurator or any other function that requires M\+S\+P, such as an O\+S\+D or a Bluetooth wireless configuration app, while the board is armed.
+
+Connect the \char`\"{}\+T\+X\char`\"{} pin of the serial port you've chosen to the Open\+Log's \char`\"{}\+R\+X\+I\char`\"{} pin. Don't connect the serial port's R\+X pin to the Open\+Log, as this will cause the Open\+Log to interfere with any shared functions on the serial port while disarmed.
+
+\paragraph*{Naze32 serial port choices}
+
+On the Naze32, the T\+X/\+R\+X pins on top of the board are connected to U\+A\+R\+T1, and are shared with the U\+S\+B connector. Therefore, M\+S\+P must be enabled on U\+A\+R\+T1 in order to use the Configurator over U\+S\+B. If Blackbox is connected to the pins on top of the Naze32, the Configurator will stop working once the board is armed. This configuration is usually a good choice if you don't already have an O\+S\+D installed which is using those pins while armed, and aren't using the Fr\+Sky telemetry pins.
+
+Pin R\+C3 on the side of the board is U\+A\+R\+T2's Tx pin. If Blackbox is configured on U\+A\+R\+T2, M\+S\+P can still be used on U\+A\+R\+T1 when the board is armed, which means that the Configurator will continue to work simultaneously with Blackbox logging. Note that in {\ttfamily P\+A\+R\+A\+L\+L\+E\+L\+\_\+\+P\+W\+M} mode this leaves the board with 6 input channels as R\+C3 and R\+C4 pins are used by U\+A\+R\+T2 as Tx and Rx. Cleanflight automatically shifts logical channel mapping for you when U\+A\+R\+T2 is enabled in {\ttfamily Ports} tab so you'll have to shift receiver pins that are connected to Naze32 pins 3 to 6 by two.
+
+The Open\+Log tolerates a power supply of between 3.\+3\+V and 12\+V. If you are powering your Naze32 with a standard 5\+V B\+E\+C, then you can use a spare motor header's +5\+V and G\+N\+D pins to power the Open\+Log with.
+
+\paragraph*{Other flight controller hardware}
+
+Boards other than the Naze32 may have more accessible hardware serial devices, in which case refer to their documentation to decide how to wire up the logger. The key criteria are\+:
+
+
+\begin{DoxyItemize}
+\item Should be a hardware serial port rather than Soft\+Serial.
+\item Cannot be shared with any other function (G\+P\+S, telemetry) except M\+S\+P.
+\item If M\+S\+P is used on the same U\+A\+R\+T, M\+S\+P will stop working when the board is armed.
+\end{DoxyItemize}
+
+\paragraph*{Open\+Log configuration}
+
+Power up the Open\+Log with a micro\+S\+D card inside, wait 10 seconds or so, then power it down and plug the micro\+S\+D card into your computer. You should find a \char`\"{}\+C\+O\+N\+F\+I\+G.\+T\+X\+T\char`\"{} file on the card, open it up in a text editor. You should see the baud rate that the Open\+Log has been configured for (usually 115200 or 9600 from the factory). Set the baud rate to match the rate you entered for the Blackbox in the Configurator's Port tab (typically 115200 or 250000).
+
+Save the file and put the card back into your Open\+Log, it will use those settings from now on.
+
+If your Open\+Log didn't write a C\+O\+N\+F\+I\+G.\+T\+X\+T file, create a C\+O\+N\+F\+I\+G.\+T\+X\+T file with these contents and store it in the root of the Micro\+S\+D card\+:
+
+``` 115200 baud ```
+
+If you are using the original Open\+Log firmware, use this configuration instead\+:
+
+``` 115200,26,0,0,1,0,1 baud,escape,esc\#,mode,verb,echo,ignore\+R\+X ```
+
+\paragraph*{Open\+Log protection}
+
+The Open\+Log can be wrapped in black electrical tape or heat-\/shrink in order to insulate it from conductive frames (like carbon fiber), but this makes its status L\+E\+Ds impossible to see. I recommend wrapping it with some clear heatshrink tubing instead.
+
+
+
+\subsubsection*{Onboard dataflash storage}
+
+Some flight controllers have an onboard S\+P\+I N\+O\+R dataflash chip which can be used to store flight logs instead of using an Open\+Log.
+
+The full version of the Naze32 and the C\+C3\+D have an onboard \char`\"{}m25p16\char`\"{} 2 megabyte dataflash storage chip. This is a small chip with 8 fat legs, which can be found at the base of the Naze32's direction arrow. This chip is not present on the \char`\"{}\+Acro\char`\"{} version of the Naze32.
+
+The S\+P\+Racing\+F3 has a larger 8 megabyte dataflash chip onboard which allows for longer recording times.
+
+These chips are also supported\+:
+
+
+\begin{DoxyItemize}
+\item Micron/\+S\+T M25\+P16 -\/ 16 Mbit / 2 M\+Byte
+\item Micron N25\+Q064 -\/ 64 Mbit / 8 M\+Byte
+\item Winbond W25\+Q64 -\/ 64 Mbit / 8 M\+Byte
+\item Micron N25\+Q0128 -\/ 128 Mbit / 16 M\+Byte
+\item Winbond W25\+Q128 -\/ 128 Mbit / 16 M\+Byte
+\end{DoxyItemize}
+
+\paragraph*{Enable recording to dataflash}
+
+On the Configurator's C\+L\+I tab, you must enter {\ttfamily set blackbox\+\_\+device=S\+P\+I\+F\+L\+A\+S\+H} to switch to logging to an onboard dataflash chip, then save.
+
+\subsubsection*{Onboard S\+D card socket}
+
+Some flight controllers have an S\+D or Micro S\+D card socket on their circuit boards. This allows for very high speed logging (1\+K\+Hz or faster, which is a looptime of 1000 or lower) on suitable cards.
+
+The card can be either Standard (S\+D\+S\+C) or High capacity (S\+D\+H\+C), and must be formatted with the F\+A\+T16 or F\+A\+T32 filesystems. This covers a range of card capacities from 1 to 32\+G\+B. Extended capacity cards (S\+D\+X\+C) are not supported.
+
+The first time you power up Cleanflight with a new card inserted, the flight controller will spend a few seconds scanning the disk for free space and collecting this space together into a file called \char`\"{}\+F\+R\+E\+E\+S\+P\+A\+C.\+E\char`\"{}. During flight, Cleanflight will carve chunks from this file to create new log files. You must not edit this file on your computer (i.\+e. open it in a program and save changes) because this may cause it to become fragmented. Don't run any defragmentation tools on the card either.
+
+You can delete the F\+R\+E\+E\+S\+P\+A\+C.\+E file if you want to free up space on the card to fit non-\/\+Blackbox files (Cleanflight will recreate the F\+R\+E\+E\+S\+P\+A\+C.\+E file next time it starts, using whatever free space was left over).
+
+The maximum size of the F\+R\+E\+E\+S\+P\+A\+C.\+E file is currently 4\+G\+B. Once 4\+G\+B worth of logs have been recorded, the F\+R\+E\+E\+S\+P\+A\+C.\+E file will be nearly empty and no more logs will be able to be recorded. At this point you should either delete the F\+R\+E\+E\+S\+P\+A\+C.\+E file (and any logs left on the card to free up space), or just reformat the card. A new F\+R\+E\+E\+S\+P\+A\+C.\+E file will be created by Cleanflight on its next boot.
+
+\paragraph*{Enable recording to S\+D card}
+
+On the Configurator's C\+L\+I tab, you must enter {\ttfamily set blackbox\+\_\+device=S\+D\+C\+A\+R\+D} to switch to logging to an onboard S\+D card, then save.
+
+\subsection*{Configuring the Blackbox}
+
+The Blackbox currently provides two settings ({\ttfamily blackbox\+\_\+rate\+\_\+num} and {\ttfamily blackbox\+\_\+rate\+\_\+denom}) that allow you to control the rate at which data is logged. These two together form a fraction ({\ttfamily blackbox\+\_\+rate\+\_\+num / blackbox\+\_\+rate\+\_\+denom}) which decides what portion of the flight controller's control loop iterations should be logged. The default is 1/1 which logs every iteration.
+
+If you're using a slower Micro\+S\+D card, you may need to reduce your logging rate to reduce the number of corrupted logged frames that {\ttfamily blackbox\+\_\+decode} complains about. A rate of 1/2 is likely to work for most craft.
+
+You can change the logging rate settings by entering the C\+L\+I tab in the \href{https://chrome.google.com/webstore/detail/cleanflight-configurator/enacoimjcgeinfnnnpajinjgmkahmfgb?hl=en}{\tt Cleanflight Configurator} and using the {\ttfamily set} command, like so\+:
+
+``` set blackbox\+\_\+rate\+\_\+num = 1 set blackbox\+\_\+rate\+\_\+denom = 2 ```
+
+The data rate for my quadcopter using a looptime of 2400 and a rate of 1/1 is about 10.\+25k\+B/s. This allows about 18 days of flight logs to fit on my Open\+Log's 16\+G\+B Micro\+S\+D card, which ought to be enough for anybody \+:).
+
+If you are logging using Soft\+Serial, you will almost certainly need to reduce your logging rate to 1/32. Even at that logging rate, looptimes faster than about 1000 cannot be successfully logged.
+
+If you're logging to an onboard dataflash chip instead of an Open\+Log, be aware that the 2\+M\+B of storage space it offers is pretty small. At the default 1/1 logging rate, and a 2400 looptime, this is only enough for about 3 minutes of flight. This could be long enough for you to investigate some flying problem with your craft, but you may want to reduce the logging rate in order to extend your recording time.
+
+To maximize your recording time, you could drop the rate all the way down to 1/32 (the smallest possible rate) which would result in a logging rate of about 10-\/20\+Hz and about 650 bytes/second of data. At that logging rate, a 2\+M\+B dataflash chip can store around 50 minutes of flight data, though the level of detail is severely reduced and you could not diagnose flight problems like vibration or P\+I\+D setting issues.
+
+\subsection*{Usage}
+
+The Blackbox starts recording data as soon as you arm your craft, and stops when you disarm.
+
+If your craft has a buzzer attached, you can use Cleanflight's arming beep to synchronize your Blackbox log with your flight video. Cleanflight's arming beep is a \char`\"{}long, short\char`\"{} pattern. The beginning of the first long beep will be shown as a blue line in the flight data log, which you can sync against your recorded audio track.
+
+You should wait a few seconds after disarming your craft to allow the Blackbox to finish saving its data.
+
+\subsubsection*{Usage -\/ Open\+Log}
+
+Each time the Open\+Log is power-\/cycled, it begins a fresh new log file. If you arm and disarm several times without cycling the power (recording several flights), those logs will be combined together into one file. The command line tools will ask you to pick which one of these flights you want to display/decode.
+
+Don't insert or remove the S\+D card while the Open\+Log is powered up.
+
+\subsubsection*{Usage -\/ Dataflash chip}
+
+After your flights, you can use the \href{https://chrome.google.com/webstore/detail/cleanflight-configurator/enacoimjcgeinfnnnpajinjgmkahmfgb?hl=en}{\tt Cleanflight Configurator} to download the contents of the dataflash to your computer. Go to the \char`\"{}dataflash\char`\"{} tab and click the \char`\"{}save flash to file...\char`\"{} button. Saving the log can take 2 or 3 minutes.
+
+
+
+After downloading the log, be sure to erase the chip to make it ready for reuse by clicking the \char`\"{}erase flash\char`\"{} button.
+
+If you try to start recording a new flight when the dataflash is already full, Blackbox logging will be disabled and nothing will be recorded.
+
+\subsubsection*{Usage -\/ Onboard S\+D card socket}
+
+You must insert your S\+D card before powering on your flight controller. You can remove the S\+D card while the board is powered up, but you must wait 5 seconds after disarming before you do so in order to give Cleanflight a chance to finish saving your log (otherwise the filesystem may become corrupted).
+
+Cleanflight will create a new log file in the \char`\"{}\+L\+O\+G\char`\"{} directory each time the craft is armed. If you are using a Blackbox logging switch and you keep it paused for the entire flight, the resulting empty log file will be deleted after disarming.
+
+To read your logs, you must remove the S\+D card and insert it into a card reader on your computer (Cleanflight doesn't support reading these logs directly through the Configurator).
+
+\subsubsection*{Usage -\/ Logging switch}
+
+If you're recording to an onboard flash chip, you probably want to disable Blackbox recording when not required in order to save storage space. To do this, you can add a Blackbox flight mode to one of your A\+U\+X channels on the Configurator's modes tab. Once you've added a mode, Blackbox will only log flight data when the mode is active.
+
+A log header will always be recorded at arming time, even if logging is paused. You can freely pause and resume logging while in flight.
+
+\subsection*{Viewing recorded logs}
+
+After your flights, you'll have a series of flight log files with a .T\+X\+T extension.
+
+You can view these .T\+X\+T flight log files interactively using your web browser with the Cleanflight Blackbox Explorer\+:
+
+\href{https://github.com/cleanflight/blackbox-log-viewer}{\tt https\+://github.\+com/cleanflight/blackbox-\/log-\/viewer}
+
+This allows you to scroll around a graphed version of your log and examine your log in detail. You can also export a video of your log to share it with others!
+
+You can decode your logs with the {\ttfamily blackbox\+\_\+decode} tool to create C\+S\+V (comma-\/separated values) files for analysis, or render them into a series of P\+N\+G frames with {\ttfamily blackbox\+\_\+render} tool, which you could then convert into a video using another software package.
+
+You'll find those tools along with instructions for using them in this repository\+:
+
+\href{https://github.com/cleanflight/blackbox-tools}{\tt https\+://github.\+com/cleanflight/blackbox-\/tools} 

@@ -1,0 +1,27 @@
+var structHOTT__VARIO__MSG__s =
+[
+    [ "alarm_invers1", "structHOTT__VARIO__MSG__s.html#a48761131b63d99f458c34ebb891f237e", null ],
+    [ "altitude_H", "structHOTT__VARIO__MSG__s.html#a44c31c92a5a3a625b89668b541a33ea7", null ],
+    [ "altitude_L", "structHOTT__VARIO__MSG__s.html#a622d8c02691ef015703202efeab5a6bb", null ],
+    [ "altitude_max_H", "structHOTT__VARIO__MSG__s.html#a5fed8b1719522984dc3459e78ed5fd7f", null ],
+    [ "altitude_max_L", "structHOTT__VARIO__MSG__s.html#a435a0f87bdc4d4aeb0fddc9d3b714d95", null ],
+    [ "altitude_min_H", "structHOTT__VARIO__MSG__s.html#a3d39717e4510e375413ef3fb924a5629", null ],
+    [ "altitude_min_L", "structHOTT__VARIO__MSG__s.html#ac05b2afb6d5bb885fb01b73e3479b2b2", null ],
+    [ "climbrate10s_H", "structHOTT__VARIO__MSG__s.html#af73a6c33e1c3d6acfaefe2d4b1ab52e7", null ],
+    [ "climbrate10s_L", "structHOTT__VARIO__MSG__s.html#aafa25f594419b79917ed4fcb43a47e31", null ],
+    [ "climbrate3s_H", "structHOTT__VARIO__MSG__s.html#ad119282055b6d7d9337f316cd8322773", null ],
+    [ "climbrate3s_L", "structHOTT__VARIO__MSG__s.html#a2a8cd320cfa2b12a6e5bb36a954197ea", null ],
+    [ "climbrate_H", "structHOTT__VARIO__MSG__s.html#a4bc1ed874fbfbb707809d8b7b8926559", null ],
+    [ "climbrate_L", "structHOTT__VARIO__MSG__s.html#aedd6e95e8c07bf187f9ac27c68b378dd", null ],
+    [ "compass_direction", "structHOTT__VARIO__MSG__s.html#a15d8b8b03426077b7649775fbcca51ae", null ],
+    [ "free_char1", "structHOTT__VARIO__MSG__s.html#a96770dd10f5e684335a8397f8e2b5cf9", null ],
+    [ "free_char2", "structHOTT__VARIO__MSG__s.html#adaac00455c19f377aaccad51569d358a", null ],
+    [ "free_char3", "structHOTT__VARIO__MSG__s.html#af1907d6c3a20c908c568543c69d5900f", null ],
+    [ "sensor_id", "structHOTT__VARIO__MSG__s.html#ae27d44e3854d95933c56f6676e0b169d", null ],
+    [ "start_byte", "structHOTT__VARIO__MSG__s.html#a39fddb920171592ba0385051f8afd4b3", null ],
+    [ "stop_byte", "structHOTT__VARIO__MSG__s.html#a5f7e411ed23dba50af36973eded2692e", null ],
+    [ "text_msg", "structHOTT__VARIO__MSG__s.html#a7a83addfb7aaefa875bc77fa87fe6bc8", null ],
+    [ "vario_sensor_id", "structHOTT__VARIO__MSG__s.html#a4e8f587d1f73db0c5c45d5a5bc13ccdf", null ],
+    [ "version", "structHOTT__VARIO__MSG__s.html#a8fdbf291251788829b31513a0db12702", null ],
+    [ "warning_beeps", "structHOTT__VARIO__MSG__s.html#a9c9ff6efea01460a26680cec81c1bd06", null ]
+];

@@ -1,0 +1,6 @@
+<map id="src/main/drivers/vcp/usb_istr.c" name="src/main/drivers/vcp/usb_istr.c">
+<area shape="rect" id="node3" href="$usb__prop_8h.html" title="All processing related to Virtual COM Port Demo (Endpoint 0) " alt="" coords="103,96,189,123"/>
+<area shape="rect" id="node4" href="$usb__pwr_8h.html" title="Connection/disconnection &amp; power management header. " alt="" coords="215,96,296,123"/>
+<area shape="rect" id="node5" href="$usb__istr_8h.html" title="This file includes the peripherals header files in the user application. " alt="" coords="322,96,400,123"/>
+<area shape="rect" id="node6" href="$usb__conf_8h.html" title="Virtual COM Port Demo configuration header. " alt="" coords="318,171,404,197"/>
+</map>

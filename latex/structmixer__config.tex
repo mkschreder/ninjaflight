@@ -1,0 +1,103 @@
+\hypertarget{structmixer__config}{\section{mixer\+\_\+config Struct Reference}
+\label{structmixer__config}\index{mixer\+\_\+config@{mixer\+\_\+config}}
+}
+
+
+general mixer settings  
+
+
+
+
+{\ttfamily \#include $<$mixer.\+h$>$}
+
+
+
+Collaboration diagram for mixer\+\_\+config\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{structmixer__config__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structmixer__config_a3ef00c251c808edf383b1114263202bf}{mixer\+Mode}
+\begin{DoxyCompactList}\small\item\em one of the mixer\+\_\+mode\+\_\+t values \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structmixer__config_ab0bbe459d4fb13edc71ccc4fc92cb7d3}{pid\+\_\+at\+\_\+min\+\_\+throttle}
+\begin{DoxyCompactList}\small\item\em when enabled pids are used at minimum throttle (valid values 0 or 1) \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structmixer__config_af5c1a0577e80ef6f5f2820506a906e24}{yaw\+\_\+motor\+\_\+direction}
+\begin{DoxyCompactList}\small\item\em allows reversing yaw direction (values -\/1 or 1) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structmixer__config_a81d695b85aa12bb0f7b5d806c5fe2bd6}{yaw\+\_\+jump\+\_\+prevention\+\_\+limit}
+\begin{DoxyCompactList}\small\item\em make limit configurable (original fixed value was 100) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structmixer__config_af445bdb2c8e719752f254c017d8c9817}{tri\+\_\+unarmed\+\_\+servo}
+\begin{DoxyCompactList}\small\item\em send tail servo correction pulses even when unarmed \end{DoxyCompactList}\item 
+float \hyperlink{structmixer__config_acadf394b2a40a9e17ea114bc3f6bef59}{servo\+\_\+lowpass\+\_\+freq}
+\begin{DoxyCompactList}\small\item\em lowpass servo filter frequency selection; 1/1000ths of loop freq \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structmixer__config_a52ddd8fd52d3ec5b796b335cb8a42f6e}{servo\+\_\+lowpass\+\_\+enable}
+\begin{DoxyCompactList}\small\item\em enable/disable lowpass filter for servo output \end{DoxyCompactList}\item 
+struct \hyperlink{structmixer__rule__def}{mixer\+\_\+rule\+\_\+def} \hyperlink{structmixer__config_a9b4d6d41ac1d21566899593814328726}{custom\+\_\+rules} \mbox{[}\hyperlink{config_2mixer_8h_ad2d3d1183e486a6464565563724e33a5}{M\+I\+X\+E\+R\+\_\+\+M\+A\+X\+\_\+\+R\+U\+L\+E\+S}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+general mixer settings 
+
+\subsection{Field Documentation}
+\hypertarget{structmixer__config_a9b4d6d41ac1d21566899593814328726}{\index{mixer\+\_\+config@{mixer\+\_\+config}!custom\+\_\+rules@{custom\+\_\+rules}}
+\index{custom\+\_\+rules@{custom\+\_\+rules}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{custom\+\_\+rules}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mixer\+\_\+rule\+\_\+def} mixer\+\_\+config\+::custom\+\_\+rules\mbox{[}{\bf M\+I\+X\+E\+R\+\_\+\+M\+A\+X\+\_\+\+R\+U\+L\+E\+S}\mbox{]}}}\label{structmixer__config_a9b4d6d41ac1d21566899593814328726}
+\hypertarget{structmixer__config_a3ef00c251c808edf383b1114263202bf}{\index{mixer\+\_\+config@{mixer\+\_\+config}!mixer\+Mode@{mixer\+Mode}}
+\index{mixer\+Mode@{mixer\+Mode}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{mixer\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+\_\+config\+::mixer\+Mode}}\label{structmixer__config_a3ef00c251c808edf383b1114263202bf}
+
+
+one of the mixer\+\_\+mode\+\_\+t values 
+
+\hypertarget{structmixer__config_ab0bbe459d4fb13edc71ccc4fc92cb7d3}{\index{mixer\+\_\+config@{mixer\+\_\+config}!pid\+\_\+at\+\_\+min\+\_\+throttle@{pid\+\_\+at\+\_\+min\+\_\+throttle}}
+\index{pid\+\_\+at\+\_\+min\+\_\+throttle@{pid\+\_\+at\+\_\+min\+\_\+throttle}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{pid\+\_\+at\+\_\+min\+\_\+throttle}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+\_\+config\+::pid\+\_\+at\+\_\+min\+\_\+throttle}}\label{structmixer__config_ab0bbe459d4fb13edc71ccc4fc92cb7d3}
+
+
+when enabled pids are used at minimum throttle (valid values 0 or 1) 
+
+\hypertarget{structmixer__config_a52ddd8fd52d3ec5b796b335cb8a42f6e}{\index{mixer\+\_\+config@{mixer\+\_\+config}!servo\+\_\+lowpass\+\_\+enable@{servo\+\_\+lowpass\+\_\+enable}}
+\index{servo\+\_\+lowpass\+\_\+enable@{servo\+\_\+lowpass\+\_\+enable}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{servo\+\_\+lowpass\+\_\+enable}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t mixer\+\_\+config\+::servo\+\_\+lowpass\+\_\+enable}}\label{structmixer__config_a52ddd8fd52d3ec5b796b335cb8a42f6e}
+
+
+enable/disable lowpass filter for servo output 
+
+\hypertarget{structmixer__config_acadf394b2a40a9e17ea114bc3f6bef59}{\index{mixer\+\_\+config@{mixer\+\_\+config}!servo\+\_\+lowpass\+\_\+freq@{servo\+\_\+lowpass\+\_\+freq}}
+\index{servo\+\_\+lowpass\+\_\+freq@{servo\+\_\+lowpass\+\_\+freq}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{servo\+\_\+lowpass\+\_\+freq}]{\setlength{\rightskip}{0pt plus 5cm}float mixer\+\_\+config\+::servo\+\_\+lowpass\+\_\+freq}}\label{structmixer__config_acadf394b2a40a9e17ea114bc3f6bef59}
+
+
+lowpass servo filter frequency selection; 1/1000ths of loop freq 
+
+\hypertarget{structmixer__config_af445bdb2c8e719752f254c017d8c9817}{\index{mixer\+\_\+config@{mixer\+\_\+config}!tri\+\_\+unarmed\+\_\+servo@{tri\+\_\+unarmed\+\_\+servo}}
+\index{tri\+\_\+unarmed\+\_\+servo@{tri\+\_\+unarmed\+\_\+servo}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{tri\+\_\+unarmed\+\_\+servo}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+\_\+config\+::tri\+\_\+unarmed\+\_\+servo}}\label{structmixer__config_af445bdb2c8e719752f254c017d8c9817}
+
+
+send tail servo correction pulses even when unarmed 
+
+\hypertarget{structmixer__config_a81d695b85aa12bb0f7b5d806c5fe2bd6}{\index{mixer\+\_\+config@{mixer\+\_\+config}!yaw\+\_\+jump\+\_\+prevention\+\_\+limit@{yaw\+\_\+jump\+\_\+prevention\+\_\+limit}}
+\index{yaw\+\_\+jump\+\_\+prevention\+\_\+limit@{yaw\+\_\+jump\+\_\+prevention\+\_\+limit}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{yaw\+\_\+jump\+\_\+prevention\+\_\+limit}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mixer\+\_\+config\+::yaw\+\_\+jump\+\_\+prevention\+\_\+limit}}\label{structmixer__config_a81d695b85aa12bb0f7b5d806c5fe2bd6}
+
+
+make limit configurable (original fixed value was 100) 
+
+\hypertarget{structmixer__config_af5c1a0577e80ef6f5f2820506a906e24}{\index{mixer\+\_\+config@{mixer\+\_\+config}!yaw\+\_\+motor\+\_\+direction@{yaw\+\_\+motor\+\_\+direction}}
+\index{yaw\+\_\+motor\+\_\+direction@{yaw\+\_\+motor\+\_\+direction}!mixer\+\_\+config@{mixer\+\_\+config}}
+\subsubsection[{yaw\+\_\+motor\+\_\+direction}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t mixer\+\_\+config\+::yaw\+\_\+motor\+\_\+direction}}\label{structmixer__config_af5c1a0577e80ef6f5f2820506a906e24}
+
+
+allows reversing yaw direction (values -\/1 or 1) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2mixer_8h}{mixer.\+h}\end{DoxyCompactItemize}

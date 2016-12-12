@@ -1,0 +1,57 @@
+\hypertarget{timer__stm32f30x_8c}{\section{src/main/drivers/timer\+\_\+stm32f30x.c File Reference}
+\label{timer__stm32f30x_8c}\index{src/main/drivers/timer\+\_\+stm32f30x.\+c@{src/main/drivers/timer\+\_\+stm32f30x.\+c}}
+}
+{\ttfamily \#include \char`\"{}stm32f30x.\+h\char`\"{}}\\*
+Include dependency graph for timer\+\_\+stm32f30x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{timer__stm32f30x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{timer__stm32f30x_8c_a110aacc88d798c51d324cb360c62c538}{C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T}~((uint16\+\_\+t)0x0018)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+M Output Compare Mode. \end{DoxyCompactList}\item 
+\#define \hyperlink{timer__stm32f30x_8c_a56a11432b4408650479f5c19dbbafbc8}{C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x\+F\+F\+F\+E\+F\+F8\+F)
+\item 
+\#define \hyperlink{timer__stm32f30x_8c_abd4e5a88e8b7c9dbd068bbfd9f0e6ed2}{C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x\+F\+E\+F\+F8\+F\+F\+F)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{timer__stm32f30x_8c_a56a11432b4408650479f5c19dbbafbc8}{\index{timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}!C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K@{C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K}}
+\index{C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K@{C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K}!timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}}
+\subsubsection[{C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+C\+M\+R\+\_\+\+O\+C13\+M\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x\+F\+F\+F\+E\+F\+F8\+F)}}\label{timer__stm32f30x_8c_a56a11432b4408650479f5c19dbbafbc8}
+\hypertarget{timer__stm32f30x_8c_abd4e5a88e8b7c9dbd068bbfd9f0e6ed2}{\index{timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}!C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K@{C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K}}
+\index{C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K@{C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K}!timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}}
+\subsubsection[{C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+C\+M\+R\+\_\+\+O\+C24\+M\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x\+F\+E\+F\+F8\+F\+F\+F)}}\label{timer__stm32f30x_8c_abd4e5a88e8b7c9dbd068bbfd9f0e6ed2}
+\hypertarget{timer__stm32f30x_8c_a110aacc88d798c51d324cb360c62c538}{\index{timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}!C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T@{C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T@{C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T}!timer\+\_\+stm32f30x.\+c@{timer\+\_\+stm32f30x.\+c}}
+\subsubsection[{C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+C\+M\+R\+\_\+\+O\+F\+F\+S\+E\+T~((uint16\+\_\+t)0x0018)}}\label{timer__stm32f30x_8c_a110aacc88d798c51d324cb360c62c538}
+
+
+Selects the T\+I\+M Output Compare Mode. 
+
+\begin{DoxyNote}{Note}
+This function does N\+O\+T disable the selected channel before changing the Output Compare Mode. If needed, user has to enable this channel using T\+I\+M\+\_\+\+C\+Cx\+Cmd() and T\+I\+M\+\_\+\+C\+Cx\+N\+Cmd() functions. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 8, 15, 16 or 17 to select the T\+I\+M peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Channel} & specifies the T\+I\+M Channel This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Channel\+\_\+1\+: T\+I\+M Channel 1 \item T\+I\+M\+\_\+\+Channel\+\_\+2\+: T\+I\+M Channel 2 \item T\+I\+M\+\_\+\+Channel\+\_\+3\+: T\+I\+M Channel 3 \item T\+I\+M\+\_\+\+Channel\+\_\+4\+: T\+I\+M Channel 4 \end{DoxyItemize}
+\\
+\hline
+{\em T\+I\+M\+\_\+\+O\+C\+Mode} & specifies the T\+I\+M Output Compare Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Timing \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Active \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Toggle \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M1 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M2 \item T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+Active \item T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+In\+Active \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Retrigerrable\+\_\+\+O\+P\+M1 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Retrigerrable\+\_\+\+O\+P\+M2 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Combined\+\_\+\+P\+W\+M1 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Combined\+\_\+\+P\+W\+M2 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Asymmetric\+\_\+\+P\+W\+M1 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Asymmetric\+\_\+\+P\+W\+M2 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}

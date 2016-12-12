@@ -1,0 +1,5 @@
+<map id="accelerometer_config" name="accelerometer_config">
+<area shape="rect" id="node2" href="$unionrollAndPitchTrims__u.html" title="rollAndPitchTrims_u" alt="" coords="5,96,144,123"/>
+<area shape="rect" id="node3" href="$structrollAndPitchTrims__s.html" title="rollAndPitchTrims_s" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node4" href="$structaccDeadband__s.html" title="accDeadband_s" alt="" coords="169,96,284,123"/>
+</map>

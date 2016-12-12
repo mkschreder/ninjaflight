@@ -1,0 +1,124 @@
+\hypertarget{serial__uart_8h}{\section{src/main/drivers/serial\+\_\+uart.h File Reference}
+\label{serial__uart_8h}\index{src/main/drivers/serial\+\_\+uart.\+h@{src/main/drivers/serial\+\_\+uart.\+h}}
+}
+{\ttfamily \#include \char`\"{}serial.\+h\char`\"{}}\\*
+Include dependency graph for serial\+\_\+uart.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{serial__uart_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{serial__uart_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{serial__uart_8h_aa053ef004867924f9bc26798ebee0513}{U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a2678114a7a8e5e7c25d01c6ada2eafd7}{U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_ac4d59577b8684bf554cd1e06ecbc5e6f}{U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_ae187a150f1c48f064ca2389fb4b07193}{U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_aee61f1a3272c543a2066cb4dab7e146f}{U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a69369f413c2f442752a3b021de655382}{U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a86205c5902613fc15e99647c10254375}{U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a7af6bd7c4786cd5552d055626ac8c968}{U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a7ecda9acc9376effaa00b82957846569}{U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\item 
+\#define \hyperlink{serial__uart_8h_a2c1cb1779b4e90e37a6519c6b28e6d99}{U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~256
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{serial__uart_8h_a31c15c151ce058264e6c5c6e8642a15b}{uart\+Open} (uint8\+\_\+t id, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode}, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\item 
+void \hyperlink{serial__uart_8h_adf2b8091f8c2398dec9c04720ca7f89d}{usart\+Init\+All\+I\+O\+Signals} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{serial__uart_8h_aa053ef004867924f9bc26798ebee0513}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T1\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_aa053ef004867924f9bc26798ebee0513}
+\hypertarget{serial__uart_8h_a2678114a7a8e5e7c25d01c6ada2eafd7}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T1\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a2678114a7a8e5e7c25d01c6ada2eafd7}
+\hypertarget{serial__uart_8h_ac4d59577b8684bf554cd1e06ecbc5e6f}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T2\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_ac4d59577b8684bf554cd1e06ecbc5e6f}
+\hypertarget{serial__uart_8h_ae187a150f1c48f064ca2389fb4b07193}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T2\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_ae187a150f1c48f064ca2389fb4b07193}
+\hypertarget{serial__uart_8h_aee61f1a3272c543a2066cb4dab7e146f}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T3\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_aee61f1a3272c543a2066cb4dab7e146f}
+\hypertarget{serial__uart_8h_a69369f413c2f442752a3b021de655382}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T3\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a69369f413c2f442752a3b021de655382}
+\hypertarget{serial__uart_8h_a86205c5902613fc15e99647c10254375}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T4\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a86205c5902613fc15e99647c10254375}
+\hypertarget{serial__uart_8h_a7af6bd7c4786cd5552d055626ac8c968}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T4\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a7af6bd7c4786cd5552d055626ac8c968}
+\hypertarget{serial__uart_8h_a7ecda9acc9376effaa00b82957846569}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T5\+\_\+\+R\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a7ecda9acc9376effaa00b82957846569}
+\hypertarget{serial__uart_8h_a2c1cb1779b4e90e37a6519c6b28e6d99}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+A\+R\+T5\+\_\+\+T\+X\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~256}}\label{serial__uart_8h_a2c1cb1779b4e90e37a6519c6b28e6d99}
+
+
+\subsection{Function Documentation}
+\hypertarget{serial__uart_8h_a31c15c151ce058264e6c5c6e8642a15b}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!uart\+Open@{uart\+Open}}
+\index{uart\+Open@{uart\+Open}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{uart\+Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ uart\+Open (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{serial__uart_8h_a31c15c151ce058264e6c5c6e8642a15b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{serial__uart_8h_a31c15c151ce058264e6c5c6e8642a15b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{serial__uart_8h_adf2b8091f8c2398dec9c04720ca7f89d}{\index{serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}!usart\+Init\+All\+I\+O\+Signals@{usart\+Init\+All\+I\+O\+Signals}}
+\index{usart\+Init\+All\+I\+O\+Signals@{usart\+Init\+All\+I\+O\+Signals}!serial\+\_\+uart.\+h@{serial\+\_\+uart.\+h}}
+\subsubsection[{usart\+Init\+All\+I\+O\+Signals}]{\setlength{\rightskip}{0pt plus 5cm}void usart\+Init\+All\+I\+O\+Signals (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{serial__uart_8h_adf2b8091f8c2398dec9c04720ca7f89d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{serial__uart_8h_adf2b8091f8c2398dec9c04720ca7f89d_cgraph}
+\end{center}
+\end{figure}
+
+

@@ -1,0 +1,4 @@
+<map id="ins_acc" name="ins_acc">
+<area shape="rect" id="node2" href="$structsensor__trims__config.html" title="sensor_trims_config" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node3" href="$structaccelerometer__config.html" title="accelerometer_config" alt="" coords="168,5,315,32"/>
+</map>

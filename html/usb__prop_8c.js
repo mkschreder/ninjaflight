@@ -1,0 +1,27 @@
+var usb__prop_8c =
+[
+    [ "NOP_Process", "usb__prop_8c.html#a5576d2ea5bf87fec71925b8e20048e74", null ],
+    [ "Virtual_Com_Port_Data_Setup", "usb__prop_8c.html#aa5c6e6e6ca951494268a27b6f4e703df", null ],
+    [ "Virtual_Com_Port_Get_Interface_Setting", "usb__prop_8c.html#a848e09325564bdfb3919f6c16a65f9d9", null ],
+    [ "Virtual_Com_Port_GetBaudRate", "usb__prop_8c.html#af46c7fcd97473dc66e24d271e4a6fce1", null ],
+    [ "Virtual_Com_Port_GetConfigDescriptor", "usb__prop_8c.html#a1cb24dd5e56ced382da0a66916b16346", null ],
+    [ "Virtual_Com_Port_GetDeviceDescriptor", "usb__prop_8c.html#aae7c2a6be217e15175115e944027c544", null ],
+    [ "Virtual_Com_Port_GetLineCoding", "usb__prop_8c.html#a9937e9617962a85eb68a6ddbe3c6ea53", null ],
+    [ "Virtual_Com_Port_GetStringDescriptor", "usb__prop_8c.html#a1c9bb2f7ecb23f27eda51e03588031b1", null ],
+    [ "Virtual_Com_Port_init", "usb__prop_8c.html#a3892ae1ca068330dfb277ce5d70bca84", null ],
+    [ "Virtual_Com_Port_NoData_Setup", "usb__prop_8c.html#a47603225b531a6727aa546c9f4db91aa", null ],
+    [ "Virtual_Com_Port_Reset", "usb__prop_8c.html#a98878c4a9f45937a72c8308e0a0bf21a", null ],
+    [ "Virtual_Com_Port_SetConfiguration", "usb__prop_8c.html#a44fa53775981913766f1c3f42d805bcf", null ],
+    [ "Virtual_Com_Port_SetDeviceAddress", "usb__prop_8c.html#a50b04f21d08dbb31f79cdc8d0986f53f", null ],
+    [ "Virtual_Com_Port_SetLineCoding", "usb__prop_8c.html#ab3c32a78c5bf73c096e934b8cd88a918", null ],
+    [ "Virtual_Com_Port_Status_In", "usb__prop_8c.html#a10db988115b9078230882ad0f17e55c6", null ],
+    [ "Virtual_Com_Port_Status_Out", "usb__prop_8c.html#a68c427e9760b3f1df66bcd9f9436aedb", null ],
+    [ "Config_Descriptor", "usb__prop_8c.html#a781a71615bbb620714a8074939a70a8e", null ],
+    [ "Device_Descriptor", "usb__prop_8c.html#abbd1eb77cd6e763955668495c7917a4e", null ],
+    [ "Device_Property", "usb__prop_8c.html#a646bdfc60e69ee637f2c39b5bb91dfec", null ],
+    [ "Device_Table", "usb__prop_8c.html#afa47e7c7d5d6fb4c682e16c89c1b7d75", null ],
+    [ "linecoding", "usb__prop_8c.html#a8fcbfa4ea787548f9826e5f4c8692e55", null ],
+    [ "Request", "usb__prop_8c.html#ad7800641479e25edda0aac31e6b2c5f8", null ],
+    [ "String_Descriptor", "usb__prop_8c.html#a6fb16fb8953ca74861cf020ef2928613", null ],
+    [ "User_Standard_Requests", "usb__prop_8c.html#a8d70d0a7e05cf9c172e4304def6b65b8", null ]
+];

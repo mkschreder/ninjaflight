@@ -1,0 +1,8 @@
+<map id="uartOpen" name="uartOpen">
+<area shape="rect" id="node2" href="$serial__uart__impl_8h.html#a6433b7b8e64162edff85cf9c064cd5f4" title="serialUART1" alt="" coords="129,5,226,32"/>
+<area shape="rect" id="node3" href="$serial__uart__impl_8h.html#a801401577b675c6b56cd05773207dbdd" title="serialUART2" alt="" coords="129,56,226,83"/>
+<area shape="rect" id="node4" href="$serial__uart__impl_8h.html#a895372bef02061ab041d3de41acc28bd" title="serialUART3" alt="" coords="129,107,226,133"/>
+<area shape="rect" id="node5" href="$serial__uart__impl_8h.html#a919a8ca3f666bb84fab987a889996d7b" title="serialUART4" alt="" coords="129,157,226,184"/>
+<area shape="rect" id="node6" href="$serial__uart__impl_8h.html#a213b163b057511d63601e6f3fdfad32e" title="serialUART5" alt="" coords="129,208,226,235"/>
+<area shape="rect" id="node7" href="$test_2unit_2platform_8h.html#a5b773763fe9c007fad2d86c2769bc726" title="DMA_Cmd" alt="" coords="134,259,221,285"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="ninja_run_pid_loop" name="ninja_run_pid_loop">
+<area shape="rect" id="node2" href="$group__Instruments__Main.html#ga87572d36a8af9fcad5d632a721ed671d" title="ins_process_gyro" alt="" coords="185,96,309,123"/>
+<area shape="rect" id="node7" href="$group__Instruments__Main.html#ga126803b1bfe06b359e1f812a6953c521" title="ins_update" alt="" coords="204,227,289,253"/>
+<area shape="rect" id="node18" href="$rc_8c.html#a11da4f5017a05cf8e8447d7d9173cecd" title="rc_key_state" alt="" coords="198,277,295,304"/>
+<area shape="rect" id="node19" href="$beeper_8c.html#a60251e6c96ca1ec58d0a486cea372c0f" title="Puts beeper into a new beep state. " alt="" coords="199,328,294,355"/>
+<area shape="rect" id="node3" href="$boardalignment_8c.html#a5285bcaf5a228f05b07db1fa32d40d75" title="board_alignment_rotate\l_vector" alt="" coords="365,5,523,46"/>
+<area shape="rect" id="node4" href="$gyro_8c.html#a9aa1d061d3803d5bd885b68337981a3b" title="ins_gyro_process_sample" alt="" coords="357,71,531,97"/>
+<area shape="rect" id="node6" href="$group__IMU.html#ga57e6b2abb21fe897496e1d88104d40d2" title="imu_input_gyro" alt="" coords="389,121,499,148"/>
+<area shape="rect" id="node5" href="$filter_8c.html#a0a8fc4d542ea87774f572d8227ee41a3" title="applyBiQuadFilter" alt="" coords="605,45,731,72"/>
+<area shape="rect" id="node8" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="385,197,503,224"/>
+<area shape="rect" id="node14" href="$group__IMU.html#gad46d84705e3777ce1b6a682e1c6b3a34" title="imu_enable_fast_dcm\l_convergence" alt="" coords="369,249,519,290"/>
+<area shape="rect" id="node15" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="399,365,489,392"/>
+<area shape="rect" id="node9" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="593,96,743,123"/>
+<area shape="rect" id="node10" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="595,147,741,173"/>
+<area shape="rect" id="node11" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="579,197,757,224"/>
+<area shape="rect" id="node12" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="585,249,751,290"/>
+<area shape="rect" id="node13" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="579,315,757,341"/>
+<area shape="rect" id="node16" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="606,365,730,392"/>
+<area shape="rect" id="node17" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="618,416,718,443"/>
+</map>

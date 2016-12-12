@@ -1,0 +1,63 @@
+\hypertarget{struct____mavlink__set__actuator__control__target__t}{\section{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t Struct Reference}
+\label{struct____mavlink__set__actuator__control__target__t}\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__set__actuator__control__target__t_a13c23f3e184517bf2243d92c8af35a25}{time\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em Timestamp (micros since boot or Unix epoch) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__actuator__control__target__t_a368c78b9f260d721473ba1cb5e54b7e5}{controls} \mbox{[}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em Actuator controls. Normed to -\/1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0)\+: (index 0-\/7)\+: roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-\/through mixer to repurpose them as generic outputs. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__actuator__control__target__t_ae8bc441bf68fc3e1a7abe5189318b878}{group\+\_\+mlx}
+\begin{DoxyCompactList}\small\item\em Actuator group. The \char`\"{}\+\_\+mlx\char`\"{} indicates this is a multi-\/instance message and a M\+A\+V\+Link parser should use this field to difference between instances. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__actuator__control__target__t_a2a69f07a7df0ccb3b284c162ad8df044}{target\+\_\+system}
+\begin{DoxyCompactList}\small\item\em System I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__actuator__control__target__t_ade081eed7081a4730b43a351260713a5}{target\+\_\+component}
+\begin{DoxyCompactList}\small\item\em Component I\+D. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__set__actuator__control__target__t_a368c78b9f260d721473ba1cb5e54b7e5}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}!controls@{controls}}
+\index{controls@{controls}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+\subsubsection[{controls}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t\+::controls\mbox{[}8\mbox{]}}}\label{struct____mavlink__set__actuator__control__target__t_a368c78b9f260d721473ba1cb5e54b7e5}
+
+
+Actuator controls. Normed to -\/1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0)\+: (index 0-\/7)\+: roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-\/through mixer to repurpose them as generic outputs. 
+
+\hypertarget{struct____mavlink__set__actuator__control__target__t_ae8bc441bf68fc3e1a7abe5189318b878}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}!group\+\_\+mlx@{group\+\_\+mlx}}
+\index{group\+\_\+mlx@{group\+\_\+mlx}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+\subsubsection[{group\+\_\+mlx}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t\+::group\+\_\+mlx}}\label{struct____mavlink__set__actuator__control__target__t_ae8bc441bf68fc3e1a7abe5189318b878}
+
+
+Actuator group. The \char`\"{}\+\_\+mlx\char`\"{} indicates this is a multi-\/instance message and a M\+A\+V\+Link parser should use this field to difference between instances. 
+
+\hypertarget{struct____mavlink__set__actuator__control__target__t_ade081eed7081a4730b43a351260713a5}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}!target\+\_\+component@{target\+\_\+component}}
+\index{target\+\_\+component@{target\+\_\+component}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+\subsubsection[{target\+\_\+component}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t\+::target\+\_\+component}}\label{struct____mavlink__set__actuator__control__target__t_ade081eed7081a4730b43a351260713a5}
+
+
+Component I\+D. 
+
+\hypertarget{struct____mavlink__set__actuator__control__target__t_a2a69f07a7df0ccb3b284c162ad8df044}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}!target\+\_\+system@{target\+\_\+system}}
+\index{target\+\_\+system@{target\+\_\+system}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+\subsubsection[{target\+\_\+system}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t\+::target\+\_\+system}}\label{struct____mavlink__set__actuator__control__target__t_a2a69f07a7df0ccb3b284c162ad8df044}
+
+
+System I\+D. 
+
+\hypertarget{struct____mavlink__set__actuator__control__target__t_a13c23f3e184517bf2243d92c8af35a25}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}!time\+\_\+usec@{time\+\_\+usec}}
+\index{time\+\_\+usec@{time\+\_\+usec}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t}}
+\subsubsection[{time\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target\+\_\+t\+::time\+\_\+usec}}\label{struct____mavlink__set__actuator__control__target__t_a13c23f3e184517bf2243d92c8af35a25}
+
+
+Timestamp (micros since boot or Unix epoch) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__set__actuator__control__target_8h}{mavlink\+\_\+msg\+\_\+set\+\_\+actuator\+\_\+control\+\_\+target.\+h}\end{DoxyCompactItemize}

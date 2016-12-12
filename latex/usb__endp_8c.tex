@@ -1,0 +1,100 @@
+\hypertarget{usb__endp_8c}{\section{src/main/drivers/vcp/usb\+\_\+endp.c File Reference}
+\label{usb__endp_8c}\index{src/main/drivers/vcp/usb\+\_\+endp.\+c@{src/main/drivers/vcp/usb\+\_\+endp.\+c}}
+}
+
+
+Endpoint routines.  
+
+
+{\ttfamily \#include \char`\"{}usb\+\_\+lib.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+desc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+mem.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}hw\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+istr.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+pwr.\+h\char`\"{}}\\*
+Include dependency graph for usb\+\_\+endp.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{usb__endp_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usb__endp_8c_af89cc22ced6cb3374791fff1b3572e29}{V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L}~5
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{usb__endp_8c_a6894267c7a3211245a6c20b7256231f0}{E\+P1\+\_\+\+I\+N\+\_\+\+Callback} (void)
+\item 
+void \hyperlink{usb__endp_8c_a82a2b35a4c87d70b9593a90323627bdd}{E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+\+I\+O uint32\+\_\+t \hyperlink{usb__endp_8c_ac7eb9815ce77dbd9b6a3687f0069f711}{packet\+Sent}
+\item 
+\+\_\+\+\_\+\+I\+O uint8\+\_\+t \hyperlink{usb__endp_8c_a0564e0ca053ccaf04632163fc6b88878}{receive\+Buffer} \mbox{[}64\mbox{]}
+\item 
+\+\_\+\+\_\+\+I\+O uint32\+\_\+t \hyperlink{usb__endp_8c_a0539d1b9e9b5028becbe448dab83163d}{receive\+Length}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Endpoint routines. 
+
+\begin{DoxyAuthor}{Author}
+M\+C\+D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V4.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+21-\/\+January-\/2013 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+H\+T 2013 S\+T\+Microelectronics\end{center} }
+
+Licensed under M\+C\+D-\/\+S\+T Liberty S\+W License Agreement V2, (the \char`\"{}\+License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\+: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+I\+S, W\+I\+T\+H\+O\+U\+T W\+A\+R\+R\+A\+N\+T\+I\+E\+S O\+R C\+O\+N\+D\+I\+T\+I\+O\+N\+S O\+F A\+N\+Y K\+I\+N\+D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{usb__endp_8c_af89cc22ced6cb3374791fff1b3572e29}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L@{V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L}}
+\index{V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L@{V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+C\+O\+M\+P\+O\+R\+T\+\_\+\+I\+N\+\_\+\+F\+R\+A\+M\+E\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L~5}}\label{usb__endp_8c_af89cc22ced6cb3374791fff1b3572e29}
+
+
+\subsection{Function Documentation}
+\hypertarget{usb__endp_8c_a6894267c7a3211245a6c20b7256231f0}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!E\+P1\+\_\+\+I\+N\+\_\+\+Callback@{E\+P1\+\_\+\+I\+N\+\_\+\+Callback}}
+\index{E\+P1\+\_\+\+I\+N\+\_\+\+Callback@{E\+P1\+\_\+\+I\+N\+\_\+\+Callback}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{E\+P1\+\_\+\+I\+N\+\_\+\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void E\+P1\+\_\+\+I\+N\+\_\+\+Callback (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{usb__endp_8c_a6894267c7a3211245a6c20b7256231f0}
+\hypertarget{usb__endp_8c_a82a2b35a4c87d70b9593a90323627bdd}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback@{E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback}}
+\index{E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback@{E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void E\+P3\+\_\+\+O\+U\+T\+\_\+\+Callback (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{usb__endp_8c_a82a2b35a4c87d70b9593a90323627bdd}
+
+
+\subsection{Variable Documentation}
+\hypertarget{usb__endp_8c_ac7eb9815ce77dbd9b6a3687f0069f711}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!packet\+Sent@{packet\+Sent}}
+\index{packet\+Sent@{packet\+Sent}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{packet\+Sent}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint32\+\_\+t packet\+Sent}}\label{usb__endp_8c_ac7eb9815ce77dbd9b6a3687f0069f711}
+\hypertarget{usb__endp_8c_a0564e0ca053ccaf04632163fc6b88878}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!receive\+Buffer@{receive\+Buffer}}
+\index{receive\+Buffer@{receive\+Buffer}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{receive\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint8\+\_\+t receive\+Buffer\mbox{[}64\mbox{]}}}\label{usb__endp_8c_a0564e0ca053ccaf04632163fc6b88878}
+\hypertarget{usb__endp_8c_a0539d1b9e9b5028becbe448dab83163d}{\index{usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}!receive\+Length@{receive\+Length}}
+\index{receive\+Length@{receive\+Length}!usb\+\_\+endp.\+c@{usb\+\_\+endp.\+c}}
+\subsubsection[{receive\+Length}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint32\+\_\+t receive\+Length}}\label{usb__endp_8c_a0539d1b9e9b5028becbe448dab83163d}

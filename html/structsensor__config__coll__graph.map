@@ -1,0 +1,5 @@
+<map id="sensor_config" name="sensor_config">
+<area shape="rect" id="node2" href="$structsensor__trims__config.html" title="sensor_trims_config" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node3" href="$structsensor__selection__config.html" title="sensor_selection_config" alt="" coords="168,5,331,32"/>
+<area shape="rect" id="node4" href="$structsensor__alignment__config.html" title="sensor_alignment_config" alt="" coords="355,5,521,32"/>
+</map>

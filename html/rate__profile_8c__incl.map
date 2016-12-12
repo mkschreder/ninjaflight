@@ -1,0 +1,11 @@
+<map id="src/main/flight/rate_profile.c" name="src/main/flight/rate_profile.c">
+<area shape="rect" id="node6" href="$platform_8h.html" title="platform.h" alt="" coords="377,104,456,131"/>
+<area shape="rect" id="node8" href="$build__config_8h.html" title="build_config.h" alt="" coords="482,104,584,131"/>
+<area shape="rect" id="node9" href="$parameter__group_8h.html" title="config/parameter_group.h" alt="" coords="675,187,844,213"/>
+<area shape="rect" id="node10" href="$parameter__group__ids_8h.html" title="config/parameter_group\l_ids.h" alt="" coords="661,97,819,138"/>
+<area shape="rect" id="node11" href="$config_8h.html" title="config/config.h" alt="" coords="844,104,951,131"/>
+<area shape="rect" id="node12" href="$config__reset_8h.html" title="config/config_reset.h" alt="" coords="975,104,1117,131"/>
+<area shape="rect" id="node13" href="$rc__curves_8h.html" title="io/rc_curves.h" alt="" coords="1143,104,1247,131"/>
+<area shape="rect" id="node14" href="$flight_2rate__profile_8h.html" title="flight/rate_profile.h" alt="" coords="1271,104,1400,131"/>
+<area shape="rect" id="node15" href="$config_2rate__profile_8h.html" title="../config/rate_profile.h" alt="" coords="1262,187,1409,213"/>
+</map>

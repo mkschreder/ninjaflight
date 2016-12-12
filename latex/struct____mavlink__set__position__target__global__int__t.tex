@@ -1,0 +1,162 @@
+\hypertarget{struct____mavlink__set__position__target__global__int__t}{\section{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t Struct Reference}
+\label{struct____mavlink__set__position__target__global__int__t}\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_a06fb7be6c7bff5a263a0d795f5c8b8c1}{time\+\_\+boot\+\_\+ms}
+\begin{DoxyCompactList}\small\item\em Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency. \end{DoxyCompactList}\item 
+int32\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_a10e7ce290b2456dd2aac1fa5d0cbf6cf}{lat\+\_\+int}
+\begin{DoxyCompactList}\small\item\em X Position in W\+G\+S84 frame in 1e7 $\ast$ meters. \end{DoxyCompactList}\item 
+int32\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_ada62154c5b6148813f6ebd7da5ce5600}{lon\+\_\+int}
+\begin{DoxyCompactList}\small\item\em Y Position in W\+G\+S84 frame in 1e7 $\ast$ meters. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a2c8327dfe3c7bb4ed2b1ed406538d153}{alt}
+\begin{DoxyCompactList}\small\item\em Altitude in meters in A\+M\+S\+L altitude, not W\+G\+S84 if absolute or relative, above terrain if G\+L\+O\+B\+A\+L\+\_\+\+T\+E\+R\+R\+A\+I\+N\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a658fe1b396302422121a30c84f09fab6}{vx}
+\begin{DoxyCompactList}\small\item\em X velocity in N\+E\+D frame in meter / s. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a0f115f5dcb4c10959be86c2447616157}{vy}
+\begin{DoxyCompactList}\small\item\em Y velocity in N\+E\+D frame in meter / s. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a8c2ae26a6e3798c7cf4420ae73d63799}{vz}
+\begin{DoxyCompactList}\small\item\em Z velocity in N\+E\+D frame in meter / s. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_ac35a1928d17680654f3342905ae2755e}{afx}
+\begin{DoxyCompactList}\small\item\em X acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a3e2deef7e0f011c0dffebd22791b2830}{afy}
+\begin{DoxyCompactList}\small\item\em Y acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_ae423776f7a77472cc436b8bce2e3e987}{afz}
+\begin{DoxyCompactList}\small\item\em Z acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a90f00b091abf9c2c2c72df71d156468e}{yaw}
+\begin{DoxyCompactList}\small\item\em yaw setpoint in rad \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__set__position__target__global__int__t_a672c17866b8d76e8710ca86551117a00}{yaw\+\_\+rate}
+\begin{DoxyCompactList}\small\item\em yaw rate setpoint in rad/s \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_ad53f416128a22a21de85e3e68545f149}{type\+\_\+mask}
+\begin{DoxyCompactList}\small\item\em Bitmask to indicate which dimensions should be ignored by the vehicle\+: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping\+: bit 1\+: x, bit 2\+: y, bit 3\+: z, bit 4\+: vx, bit 5\+: vy, bit 6\+: vz, bit 7\+: ax, bit 8\+: ay, bit 9\+: az, bit 10\+: is force setpoint, bit 11\+: yaw, bit 12\+: yaw rate. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_a975e3630a918eccf492709d4c99a32c0}{target\+\_\+system}
+\begin{DoxyCompactList}\small\item\em System I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_af0b1819138c66edaf4451246f79781d2}{target\+\_\+component}
+\begin{DoxyCompactList}\small\item\em Component I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__set__position__target__global__int__t_a50a2151a8837203dc04d2c22899bc6bb}{coordinate\+\_\+frame}
+\begin{DoxyCompactList}\small\item\em Valid options are\+: M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+I\+N\+T = 5, M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+R\+E\+L\+A\+T\+I\+V\+E\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T = 6, M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+T\+E\+R\+R\+A\+I\+N\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T = 11. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__set__position__target__global__int__t_ac35a1928d17680654f3342905ae2755e}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!afx@{afx}}
+\index{afx@{afx}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{afx}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::afx}}\label{struct____mavlink__set__position__target__global__int__t_ac35a1928d17680654f3342905ae2755e}
+
+
+X acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a3e2deef7e0f011c0dffebd22791b2830}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!afy@{afy}}
+\index{afy@{afy}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{afy}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::afy}}\label{struct____mavlink__set__position__target__global__int__t_a3e2deef7e0f011c0dffebd22791b2830}
+
+
+Y acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_ae423776f7a77472cc436b8bce2e3e987}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!afz@{afz}}
+\index{afz@{afz}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{afz}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::afz}}\label{struct____mavlink__set__position__target__global__int__t_ae423776f7a77472cc436b8bce2e3e987}
+
+
+Z acceleration or force (if bit 10 of type\+\_\+mask is set) in N\+E\+D frame in meter / s$^\wedge$2 or N. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a2c8327dfe3c7bb4ed2b1ed406538d153}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!alt@{alt}}
+\index{alt@{alt}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{alt}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::alt}}\label{struct____mavlink__set__position__target__global__int__t_a2c8327dfe3c7bb4ed2b1ed406538d153}
+
+
+Altitude in meters in A\+M\+S\+L altitude, not W\+G\+S84 if absolute or relative, above terrain if G\+L\+O\+B\+A\+L\+\_\+\+T\+E\+R\+R\+A\+I\+N\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a50a2151a8837203dc04d2c22899bc6bb}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!coordinate\+\_\+frame@{coordinate\+\_\+frame}}
+\index{coordinate\+\_\+frame@{coordinate\+\_\+frame}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{coordinate\+\_\+frame}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::coordinate\+\_\+frame}}\label{struct____mavlink__set__position__target__global__int__t_a50a2151a8837203dc04d2c22899bc6bb}
+
+
+Valid options are\+: M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+I\+N\+T = 5, M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+R\+E\+L\+A\+T\+I\+V\+E\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T = 6, M\+A\+V\+\_\+\+F\+R\+A\+M\+E\+\_\+\+G\+L\+O\+B\+A\+L\+\_\+\+T\+E\+R\+R\+A\+I\+N\+\_\+\+A\+L\+T\+\_\+\+I\+N\+T = 11. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a10e7ce290b2456dd2aac1fa5d0cbf6cf}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!lat\+\_\+int@{lat\+\_\+int}}
+\index{lat\+\_\+int@{lat\+\_\+int}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{lat\+\_\+int}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::lat\+\_\+int}}\label{struct____mavlink__set__position__target__global__int__t_a10e7ce290b2456dd2aac1fa5d0cbf6cf}
+
+
+X Position in W\+G\+S84 frame in 1e7 $\ast$ meters. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_ada62154c5b6148813f6ebd7da5ce5600}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!lon\+\_\+int@{lon\+\_\+int}}
+\index{lon\+\_\+int@{lon\+\_\+int}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{lon\+\_\+int}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::lon\+\_\+int}}\label{struct____mavlink__set__position__target__global__int__t_ada62154c5b6148813f6ebd7da5ce5600}
+
+
+Y Position in W\+G\+S84 frame in 1e7 $\ast$ meters. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_af0b1819138c66edaf4451246f79781d2}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!target\+\_\+component@{target\+\_\+component}}
+\index{target\+\_\+component@{target\+\_\+component}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{target\+\_\+component}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::target\+\_\+component}}\label{struct____mavlink__set__position__target__global__int__t_af0b1819138c66edaf4451246f79781d2}
+
+
+Component I\+D. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a975e3630a918eccf492709d4c99a32c0}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!target\+\_\+system@{target\+\_\+system}}
+\index{target\+\_\+system@{target\+\_\+system}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{target\+\_\+system}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::target\+\_\+system}}\label{struct____mavlink__set__position__target__global__int__t_a975e3630a918eccf492709d4c99a32c0}
+
+
+System I\+D. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a06fb7be6c7bff5a263a0d795f5c8b8c1}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}}
+\index{time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{time\+\_\+boot\+\_\+ms}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::time\+\_\+boot\+\_\+ms}}\label{struct____mavlink__set__position__target__global__int__t_a06fb7be6c7bff5a263a0d795f5c8b8c1}
+
+
+Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_ad53f416128a22a21de85e3e68545f149}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!type\+\_\+mask@{type\+\_\+mask}}
+\index{type\+\_\+mask@{type\+\_\+mask}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{type\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::type\+\_\+mask}}\label{struct____mavlink__set__position__target__global__int__t_ad53f416128a22a21de85e3e68545f149}
+
+
+Bitmask to indicate which dimensions should be ignored by the vehicle\+: a value of 0b0000000000000000 or 0b0000001000000000 indicates that none of the setpoint dimensions should be ignored. If bit 10 is set the floats afx afy afz should be interpreted as force instead of acceleration. Mapping\+: bit 1\+: x, bit 2\+: y, bit 3\+: z, bit 4\+: vx, bit 5\+: vy, bit 6\+: vz, bit 7\+: ax, bit 8\+: ay, bit 9\+: az, bit 10\+: is force setpoint, bit 11\+: yaw, bit 12\+: yaw rate. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a658fe1b396302422121a30c84f09fab6}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!vx@{vx}}
+\index{vx@{vx}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{vx}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::vx}}\label{struct____mavlink__set__position__target__global__int__t_a658fe1b396302422121a30c84f09fab6}
+
+
+X velocity in N\+E\+D frame in meter / s. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a0f115f5dcb4c10959be86c2447616157}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!vy@{vy}}
+\index{vy@{vy}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{vy}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::vy}}\label{struct____mavlink__set__position__target__global__int__t_a0f115f5dcb4c10959be86c2447616157}
+
+
+Y velocity in N\+E\+D frame in meter / s. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a8c2ae26a6e3798c7cf4420ae73d63799}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!vz@{vz}}
+\index{vz@{vz}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{vz}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::vz}}\label{struct____mavlink__set__position__target__global__int__t_a8c2ae26a6e3798c7cf4420ae73d63799}
+
+
+Z velocity in N\+E\+D frame in meter / s. 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a90f00b091abf9c2c2c72df71d156468e}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!yaw@{yaw}}
+\index{yaw@{yaw}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::yaw}}\label{struct____mavlink__set__position__target__global__int__t_a90f00b091abf9c2c2c72df71d156468e}
+
+
+yaw setpoint in rad 
+
+\hypertarget{struct____mavlink__set__position__target__global__int__t_a672c17866b8d76e8710ca86551117a00}{\index{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}!yaw\+\_\+rate@{yaw\+\_\+rate}}
+\index{yaw\+\_\+rate@{yaw\+\_\+rate}!\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t}}
+\subsubsection[{yaw\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int\+\_\+t\+::yaw\+\_\+rate}}\label{struct____mavlink__set__position__target__global__int__t_a672c17866b8d76e8710ca86551117a00}
+
+
+yaw rate setpoint in rad/s 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__set__position__target__global__int_8h}{mavlink\+\_\+msg\+\_\+set\+\_\+position\+\_\+target\+\_\+global\+\_\+int.\+h}\end{DoxyCompactItemize}

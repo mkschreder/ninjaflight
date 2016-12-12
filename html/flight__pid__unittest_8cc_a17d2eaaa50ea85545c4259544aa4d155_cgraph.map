@@ -1,0 +1,6 @@
+<map id="pidControllerInitMultiWiiRewriteCore" name="pidControllerInitMultiWiiRewriteCore">
+<area shape="rect" id="node2" href="$flight__pid__unittest_8cc.html#abcbda8a466efcb0c6b6f18a7e79f1e04" title="resetPidProfile" alt="" coords="240,5,347,32"/>
+<area shape="rect" id="node3" href="$anglerate_8c.html#aaa85a0f2633284bc0c074a4ba45296a3" title="anglerate_reset_angle_i" alt="" coords="214,56,373,83"/>
+<area shape="rect" id="node4" href="$anglerate_8c.html#a63ef21d5bfbac3cb83bcb5d2f702bda5" title="anglerate_reset_rate_i" alt="" coords="218,107,369,133"/>
+<area shape="rect" id="node5" href="$flight__pid__unittest_8cc.html#a5f5446f479f409ee572e00fc70279e1f" title="resetGyroADC" alt="" coords="239,157,347,184"/>
+</map>

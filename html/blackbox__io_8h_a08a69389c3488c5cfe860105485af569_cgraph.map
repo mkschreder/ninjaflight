@@ -1,0 +1,11 @@
+<map id="blackboxWriteSigned16VBArray" name="blackboxWriteSigned16VBArray">
+<area shape="rect" id="node2" href="$blackbox__io_8c.html#afb90ddcb836e5ee6bf8ef70d3a26b1fe" title="blackboxWriteSignedVB" alt="" coords="261,81,424,108"/>
+<area shape="rect" id="node3" href="$blackbox__io_8c.html#a3f67d7368d1b8639b39378554f4acf8c" title="blackboxWriteUnsignedVB" alt="" coords="472,56,651,83"/>
+<area shape="rect" id="node10" href="$encoding_8c.html#a55e89050a990e44e6b0a11f80c7b83cf" title="zigzagEncode" alt="" coords="509,107,613,133"/>
+<area shape="rect" id="node4" href="$blackbox__io_8c.html#ae9a6d0cb8f7a61f120b1b7d6c314b537" title="blackboxWrite" alt="" coords="699,56,805,83"/>
+<area shape="rect" id="node5" href="$flashfs_8c.html#a32f00648d9cb3025d90ca434d1b566fb" title="flashfsWriteByte" alt="" coords="854,5,973,32"/>
+<area shape="rect" id="node7" href="$asyncfatfs_8c.html#a48cc60f56884206251a165dd3a372f09" title="afatfs_fputc" alt="" coords="868,56,959,83"/>
+<area shape="rect" id="node9" href="$drivers_2serial_8c.html#a1d2886fbce32033a1af48d522439756b" title="serialWrite" alt="" coords="871,107,955,133"/>
+<area shape="rect" id="node6" href="$flashfs_8c.html#aa93d40233e62caf7c8753f628afd882a" title="flashfsFlushAsync" alt="" coords="1021,5,1152,32"/>
+<area shape="rect" id="node8" href="$asyncfatfs_8c.html#afcedacafe900edfa97f06ec529c00e7b" title="afatfs_fwrite" alt="" coords="1039,56,1134,83"/>
+</map>

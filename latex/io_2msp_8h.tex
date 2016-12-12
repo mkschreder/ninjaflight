@@ -1,0 +1,95 @@
+\hypertarget{io_2msp_8h}{\section{src/main/io/msp.h File Reference}
+\label{io_2msp_8h}\index{src/main/io/msp.\+h@{src/main/io/msp.\+h}}
+}
+{\ttfamily \#include \char`\"{}common/streambuf.\+h\char`\"{}}\\*
+Include dependency graph for msp.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{io_2msp_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2msp_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmspPacket__s}{msp\+Packet\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structmspPacket__s}{msp\+Packet\+\_\+s} \hyperlink{io_2msp_8h_a9a8971e6d29aa017f0a53b37e5500e6f}{msp\+Packet\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{io_2msp_8h_a08a4927b370bc1edc4621419f9019d50}{msp\+Init} (struct \hyperlink{structninja}{ninja} $\ast$\hyperlink{structninja}{ninja})
+\item 
+int \hyperlink{io_2msp_8h_a9436befdef3a0d8a8d6da3cc618c34a7}{msp\+Process} (\hyperlink{io_2msp_8h_a9a8971e6d29aa017f0a53b37e5500e6f}{msp\+Packet\+\_\+t} $\ast$command, \hyperlink{io_2msp_8h_a9a8971e6d29aa017f0a53b37e5500e6f}{msp\+Packet\+\_\+t} $\ast$reply)
+\item 
+uint8\+\_\+t \hyperlink{io_2msp_8h_a40cd52c11bdcce527b285bfb894a3e33}{pg\+Matcher\+For\+M\+S\+P\+Set} (const \hyperlink{parameter__group_8h_af9d54443642ad5972acdf7f824171b91}{pg\+Registry\+\_\+t} $\ast$candidate, const void $\ast$criteria)
+\item 
+uint8\+\_\+t \hyperlink{io_2msp_8h_ab920576422d1e8e16e56167d92db4194}{pg\+Matcher\+For\+M\+S\+P} (const \hyperlink{parameter__group_8h_af9d54443642ad5972acdf7f824171b91}{pg\+Registry\+\_\+t} $\ast$candidate, const void $\ast$criteria)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{io_2msp_8h_ac086855bfc99acf9cfccb86b2d5350f3}{is\+Reboot\+Scheduled}
+\item 
+bool \hyperlink{io_2msp_8h_ac063a882a55deec61c66a05952f007ec}{msp\+Enter\+Esc4way}
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{io_2msp_8h_a9a8971e6d29aa017f0a53b37e5500e6f}{\index{io/msp.\+h@{io/msp.\+h}!msp\+Packet\+\_\+t@{msp\+Packet\+\_\+t}}
+\index{msp\+Packet\+\_\+t@{msp\+Packet\+\_\+t}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{msp\+Packet\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf msp\+Packet\+\_\+s}  {\bf msp\+Packet\+\_\+t}}}\label{io_2msp_8h_a9a8971e6d29aa017f0a53b37e5500e6f}
+
+
+\subsection{Function Documentation}
+\hypertarget{io_2msp_8h_a08a4927b370bc1edc4621419f9019d50}{\index{io/msp.\+h@{io/msp.\+h}!msp\+Init@{msp\+Init}}
+\index{msp\+Init@{msp\+Init}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{msp\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void msp\+Init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja} $\ast$}]{ninja}
+\end{DoxyParamCaption}
+)}}\label{io_2msp_8h_a08a4927b370bc1edc4621419f9019d50}
+\hypertarget{io_2msp_8h_a9436befdef3a0d8a8d6da3cc618c34a7}{\index{io/msp.\+h@{io/msp.\+h}!msp\+Process@{msp\+Process}}
+\index{msp\+Process@{msp\+Process}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{msp\+Process}]{\setlength{\rightskip}{0pt plus 5cm}int msp\+Process (
+\begin{DoxyParamCaption}
+\item[{{\bf msp\+Packet\+\_\+t} $\ast$}]{command, }
+\item[{{\bf msp\+Packet\+\_\+t} $\ast$}]{reply}
+\end{DoxyParamCaption}
+)}}\label{io_2msp_8h_a9436befdef3a0d8a8d6da3cc618c34a7}
+\hypertarget{io_2msp_8h_ab920576422d1e8e16e56167d92db4194}{\index{io/msp.\+h@{io/msp.\+h}!pg\+Matcher\+For\+M\+S\+P@{pg\+Matcher\+For\+M\+S\+P}}
+\index{pg\+Matcher\+For\+M\+S\+P@{pg\+Matcher\+For\+M\+S\+P}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{pg\+Matcher\+For\+M\+S\+P}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t pg\+Matcher\+For\+M\+S\+P (
+\begin{DoxyParamCaption}
+\item[{const {\bf pg\+Registry\+\_\+t} $\ast$}]{candidate, }
+\item[{const void $\ast$}]{criteria}
+\end{DoxyParamCaption}
+)}}\label{io_2msp_8h_ab920576422d1e8e16e56167d92db4194}
+\hypertarget{io_2msp_8h_a40cd52c11bdcce527b285bfb894a3e33}{\index{io/msp.\+h@{io/msp.\+h}!pg\+Matcher\+For\+M\+S\+P\+Set@{pg\+Matcher\+For\+M\+S\+P\+Set}}
+\index{pg\+Matcher\+For\+M\+S\+P\+Set@{pg\+Matcher\+For\+M\+S\+P\+Set}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{pg\+Matcher\+For\+M\+S\+P\+Set}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t pg\+Matcher\+For\+M\+S\+P\+Set (
+\begin{DoxyParamCaption}
+\item[{const {\bf pg\+Registry\+\_\+t} $\ast$}]{candidate, }
+\item[{const void $\ast$}]{criteria}
+\end{DoxyParamCaption}
+)}}\label{io_2msp_8h_a40cd52c11bdcce527b285bfb894a3e33}
+
+
+\subsection{Variable Documentation}
+\hypertarget{io_2msp_8h_ac086855bfc99acf9cfccb86b2d5350f3}{\index{io/msp.\+h@{io/msp.\+h}!is\+Reboot\+Scheduled@{is\+Reboot\+Scheduled}}
+\index{is\+Reboot\+Scheduled@{is\+Reboot\+Scheduled}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{is\+Reboot\+Scheduled}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Reboot\+Scheduled}}\label{io_2msp_8h_ac086855bfc99acf9cfccb86b2d5350f3}
+\hypertarget{io_2msp_8h_ac063a882a55deec61c66a05952f007ec}{\index{io/msp.\+h@{io/msp.\+h}!msp\+Enter\+Esc4way@{msp\+Enter\+Esc4way}}
+\index{msp\+Enter\+Esc4way@{msp\+Enter\+Esc4way}!io/msp.\+h@{io/msp.\+h}}
+\subsubsection[{msp\+Enter\+Esc4way}]{\setlength{\rightskip}{0pt plus 5cm}bool msp\+Enter\+Esc4way}}\label{io_2msp_8h_ac063a882a55deec61c66a05952f007ec}

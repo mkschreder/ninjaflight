@@ -1,0 +1,28 @@
+var bus__i2c__stm32f30x_8c =
+[
+    [ "I2C1_SCL_CLK_SOURCE", "bus__i2c__stm32f30x_8c.html#a57ac6976f8ef69716a84629745442a1d", null ],
+    [ "I2C1_SCL_GPIO", "bus__i2c__stm32f30x_8c.html#ab785414494467c4711e93ec82111f1a6", null ],
+    [ "I2C1_SCL_GPIO_AF", "bus__i2c__stm32f30x_8c.html#a6524bfcb9864ec804805ac1ee340c42f", null ],
+    [ "I2C1_SCL_PIN", "bus__i2c__stm32f30x_8c.html#add009e081e638094ee54b280661d862e", null ],
+    [ "I2C1_SCL_PIN_SOURCE", "bus__i2c__stm32f30x_8c.html#a6c1b92407a265fefb1065d28e0519908", null ],
+    [ "I2C1_SDA_CLK_SOURCE", "bus__i2c__stm32f30x_8c.html#aa69fc14e7f9b7bb0609f8f194bd1150a", null ],
+    [ "I2C1_SDA_GPIO", "bus__i2c__stm32f30x_8c.html#ab5bc0ad2d1d135cae69070a51b0d60ea", null ],
+    [ "I2C1_SDA_GPIO_AF", "bus__i2c__stm32f30x_8c.html#a484c80cf35a39586bcdcdd2e6cc14674", null ],
+    [ "I2C1_SDA_PIN", "bus__i2c__stm32f30x_8c.html#a68697a8aca56f616b38aa23f82edecd5", null ],
+    [ "I2C1_SDA_PIN_SOURCE", "bus__i2c__stm32f30x_8c.html#a00d52d09a86a92cabcded04e04d3985e", null ],
+    [ "I2C2_SCL_CLK_SOURCE", "bus__i2c__stm32f30x_8c.html#ae7b5d24b11162fc315d35ff9a58dd0a2", null ],
+    [ "I2C2_SCL_GPIO", "bus__i2c__stm32f30x_8c.html#ab98edb8c05aed51c107ee10e0de8c9f6", null ],
+    [ "I2C2_SCL_GPIO_AF", "bus__i2c__stm32f30x_8c.html#a3303a780978cf951ee8b8fe7618b8558", null ],
+    [ "I2C2_SCL_PIN", "bus__i2c__stm32f30x_8c.html#ac74e1c3e80b2f222e54962d71b77adb0", null ],
+    [ "I2C2_SCL_PIN_SOURCE", "bus__i2c__stm32f30x_8c.html#a8f8fec968dc919102c7be701de6594f3", null ],
+    [ "I2C2_SDA_CLK_SOURCE", "bus__i2c__stm32f30x_8c.html#a27c230bee3da69a3ee68c921a79ded0e", null ],
+    [ "I2C2_SDA_GPIO", "bus__i2c__stm32f30x_8c.html#a48c5808fb25f366adfacb2d8857481e7", null ],
+    [ "I2C2_SDA_GPIO_AF", "bus__i2c__stm32f30x_8c.html#a7b00d07d129fbe5a0576719d6a648062", null ],
+    [ "I2C2_SDA_PIN", "bus__i2c__stm32f30x_8c.html#ae16558f265c8f8aa8fce80243a33ed61", null ],
+    [ "I2C2_SDA_PIN_SOURCE", "bus__i2c__stm32f30x_8c.html#a6a94b93717858838c6ab28f82f20aa2c", null ],
+    [ "i2cGetErrorCounter", "bus__i2c__stm32f30x_8c.html#aa86ed476692e15983fd2f4000896e1be", null ],
+    [ "i2cInit", "bus__i2c__stm32f30x_8c.html#afad9b67c5c33cbb14ab7d7d1b28975a4", null ],
+    [ "i2cRead", "bus__i2c__stm32f30x_8c.html#a75fc5214b1f74a63cfb40496d10c9152", null ],
+    [ "i2cSetOverclock", "bus__i2c__stm32f30x_8c.html#ae0b6558bf1b56782e5761a694fb42220", null ],
+    [ "i2cWrite", "bus__i2c__stm32f30x_8c.html#a2cc37629c1772a0dbb4073be28e8443b", null ]
+];

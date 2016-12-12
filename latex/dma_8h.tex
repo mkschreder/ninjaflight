@@ -1,0 +1,84 @@
+\hypertarget{dma_8h}{\section{src/main/drivers/dma.h File Reference}
+\label{dma_8h}\index{src/main/drivers/dma.\+h@{src/main/drivers/dma.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dma_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdmaHandlers__s}{dma\+Handlers\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{dma_8h_a237ab26e0ec82591214efebd8e6b8875}{dma\+Callback\+Handler\+Func\+Ptr} )(\hyperlink{structDMA__Channel__TypeDef}{D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def} $\ast$channel)
+\item 
+typedef struct \hyperlink{structdmaHandlers__s}{dma\+Handlers\+\_\+s} \hyperlink{dma_8h_a38ec873671e9285bf70a58cc8cc2655d}{dma\+Handlers\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbb}{dma\+Handler\+Identifier\+\_\+e} \{ \hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbba68497615eaec4e375833882cbed6333d}{D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R} = 0, 
+\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbba9f165a3cbc26abac03046bc0b45ee9f0}{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}, 
+\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbbab0422c4eee2d7684c943d49b6466681d}{D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R}, 
+\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbbaf5f75e5b1aa7306491b5f9d8d0d6ccd9}{D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{dma_8h_a2efa21dedda1992b5cb10ca9335d17f2}{dma\+Init} (void)
+\item 
+void \hyperlink{dma_8h_a24884a0e923f559922ffbb4eb113f053}{dma\+Set\+Handler} (\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbb}{dma\+Handler\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier}, \hyperlink{dma_8h_a237ab26e0ec82591214efebd8e6b8875}{dma\+Callback\+Handler\+Func\+Ptr} callback)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{dma_8h_a237ab26e0ec82591214efebd8e6b8875}{\index{dma.\+h@{dma.\+h}!dma\+Callback\+Handler\+Func\+Ptr@{dma\+Callback\+Handler\+Func\+Ptr}}
+\index{dma\+Callback\+Handler\+Func\+Ptr@{dma\+Callback\+Handler\+Func\+Ptr}!dma.\+h@{dma.\+h}}
+\subsubsection[{dma\+Callback\+Handler\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ dma\+Callback\+Handler\+Func\+Ptr)({\bf D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def} $\ast$channel)}}\label{dma_8h_a237ab26e0ec82591214efebd8e6b8875}
+\hypertarget{dma_8h_a38ec873671e9285bf70a58cc8cc2655d}{\index{dma.\+h@{dma.\+h}!dma\+Handlers\+\_\+t@{dma\+Handlers\+\_\+t}}
+\index{dma\+Handlers\+\_\+t@{dma\+Handlers\+\_\+t}!dma.\+h@{dma.\+h}}
+\subsubsection[{dma\+Handlers\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf dma\+Handlers\+\_\+s}  {\bf dma\+Handlers\+\_\+t}}}\label{dma_8h_a38ec873671e9285bf70a58cc8cc2655d}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{dma_8h_afd8085af0168c1b679ca081219b47bbb}{\index{dma.\+h@{dma.\+h}!dma\+Handler\+Identifier\+\_\+e@{dma\+Handler\+Identifier\+\_\+e}}
+\index{dma\+Handler\+Identifier\+\_\+e@{dma\+Handler\+Identifier\+\_\+e}!dma.\+h@{dma.\+h}}
+\subsubsection[{dma\+Handler\+Identifier\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dma\+Handler\+Identifier\+\_\+e}}}\label{dma_8h_afd8085af0168c1b679ca081219b47bbb}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R}!dma.\+h@{dma.\+h}}\index{dma.\+h@{dma.\+h}!D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R}}\item[{\em 
+\hypertarget{dma_8h_afd8085af0168c1b679ca081219b47bbba68497615eaec4e375833882cbed6333d}{D\+M\+A1\+\_\+\+C\+H2\+\_\+\+H\+A\+N\+D\+L\+E\+R}\label{dma_8h_afd8085af0168c1b679ca081219b47bbba68497615eaec4e375833882cbed6333d}
+}]\index{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}!dma.\+h@{dma.\+h}}\index{dma.\+h@{dma.\+h}!D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}}\item[{\em 
+\hypertarget{dma_8h_afd8085af0168c1b679ca081219b47bbba9f165a3cbc26abac03046bc0b45ee9f0}{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}\label{dma_8h_afd8085af0168c1b679ca081219b47bbba9f165a3cbc26abac03046bc0b45ee9f0}
+}]\index{D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R}!dma.\+h@{dma.\+h}}\index{dma.\+h@{dma.\+h}!D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R}}\item[{\em 
+\hypertarget{dma_8h_afd8085af0168c1b679ca081219b47bbbab0422c4eee2d7684c943d49b6466681d}{D\+M\+A1\+\_\+\+C\+H6\+\_\+\+H\+A\+N\+D\+L\+E\+R}\label{dma_8h_afd8085af0168c1b679ca081219b47bbbab0422c4eee2d7684c943d49b6466681d}
+}]\index{D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R}!dma.\+h@{dma.\+h}}\index{dma.\+h@{dma.\+h}!D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R@{D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R}}\item[{\em 
+\hypertarget{dma_8h_afd8085af0168c1b679ca081219b47bbbaf5f75e5b1aa7306491b5f9d8d0d6ccd9}{D\+M\+A1\+\_\+\+C\+H7\+\_\+\+H\+A\+N\+D\+L\+E\+R}\label{dma_8h_afd8085af0168c1b679ca081219b47bbbaf5f75e5b1aa7306491b5f9d8d0d6ccd9}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{dma_8h_a2efa21dedda1992b5cb10ca9335d17f2}{\index{dma.\+h@{dma.\+h}!dma\+Init@{dma\+Init}}
+\index{dma\+Init@{dma\+Init}!dma.\+h@{dma.\+h}}
+\subsubsection[{dma\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void dma\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{dma_8h_a2efa21dedda1992b5cb10ca9335d17f2}
+\hypertarget{dma_8h_a24884a0e923f559922ffbb4eb113f053}{\index{dma.\+h@{dma.\+h}!dma\+Set\+Handler@{dma\+Set\+Handler}}
+\index{dma\+Set\+Handler@{dma\+Set\+Handler}!dma.\+h@{dma.\+h}}
+\subsubsection[{dma\+Set\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void dma\+Set\+Handler (
+\begin{DoxyParamCaption}
+\item[{{\bf dma\+Handler\+Identifier\+\_\+e}}]{identifier, }
+\item[{{\bf dma\+Callback\+Handler\+Func\+Ptr}}]{callback}
+\end{DoxyParamCaption}
+)}}\label{dma_8h_a24884a0e923f559922ffbb4eb113f053}

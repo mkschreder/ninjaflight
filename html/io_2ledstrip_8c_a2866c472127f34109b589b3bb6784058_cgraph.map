@@ -1,0 +1,4 @@
+<map id="ledstrip_enable" name="ledstrip_enable">
+<area shape="rect" id="node2" href="$io_2ledstrip_8c.html#af4f9e303212d0db856b3f759e94484ea" title="Currently reloads config from the global store TODO: pass config to init! " alt="" coords="163,5,311,32"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8c.html#af1ad127663b84ee19da2027edc68e14c" title="ws2811LedStripInit" alt="" coords="171,56,304,83"/>
+</map>

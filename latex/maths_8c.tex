@@ -1,0 +1,385 @@
+\hypertarget{maths_8c}{\section{src/main/common/maths.c File Reference}
+\label{maths_8c}\index{src/main/common/maths.\+c@{src/main/common/maths.\+c}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}maths.\+h\char`\"{}}\\*
+Include dependency graph for maths.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{maths_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{maths_8c_a6fd7b45ad38873b42b1dfcdf8e438993}{sin\+Poly\+Coef3}~-\/1.\+666665710e-\/1f
+\item 
+\#define \hyperlink{maths_8c_a53e3f0d9ff3fce9612f89759a8090b87}{sin\+Poly\+Coef5}~8.\+333017292e-\/3f
+\item 
+\#define \hyperlink{maths_8c_a5e5ded20422326dcd72c77fad1350ce0}{sin\+Poly\+Coef7}~-\/1.\+980661520e-\/4f
+\item 
+\#define \hyperlink{maths_8c_a03481d51a39f8fbae7a5a51bd3dd9285}{sin\+Poly\+Coef9}~2.\+600054768e-\/6f
+\item 
+\#define \hyperlink{maths_8c_aa04834f8716faba57d83b7c4ca3740d5}{atan\+Poly\+Coef1}~3.\+14551665884836e-\/07f
+\item 
+\#define \hyperlink{maths_8c_ad56fa492ac550ba47023d106ded684ad}{atan\+Poly\+Coef2}~0.\+99997356613987f
+\item 
+\#define \hyperlink{maths_8c_a3f092af3db5774cdc3ab1556ed22ee62}{atan\+Poly\+Coef3}~0.\+14744007058297684f
+\item 
+\#define \hyperlink{maths_8c_ace0e2729a3962391ea1bbe9fdac49836}{atan\+Poly\+Coef4}~0.\+3099814292351353f
+\item 
+\#define \hyperlink{maths_8c_a6ffc138f49be97a2b0a91c078e5d7b11}{atan\+Poly\+Coef5}~0.\+05030176425872175f
+\item 
+\#define \hyperlink{maths_8c_a0dce2cf205793034b17395c3c3267763}{atan\+Poly\+Coef6}~0.\+1471039133652469f
+\item 
+\#define \hyperlink{maths_8c_a9d7198483e4d95c4c44428828f4ae3c5}{atan\+Poly\+Coef7}~0.\+6444640676891548f
+\item 
+\#define \hyperlink{maths_8c_ae71965b44219dcab79f7aada621d6f2d}{Q\+M\+F\+\_\+\+S\+O\+R\+T}(a, b)~\{ if ((a)$>$(b)) \hyperlink{maths_8c_a1d2daf93b130ffbff65a4f2bb704dbe5}{Q\+M\+F\+\_\+\+S\+W\+A\+P}((a),(b)); \}
+\item 
+\#define \hyperlink{maths_8c_a1d2daf93b130ffbff65a4f2bb704dbe5}{Q\+M\+F\+\_\+\+S\+W\+A\+P}(a, b)~\{ int32\+\_\+t temp=(a);(a)=(b);(b)=temp; \}
+\item 
+\#define \hyperlink{maths_8c_ae15a63f5406fc6be0f3aeb208e1c1b3b}{Q\+M\+F\+\_\+\+C\+O\+P\+Y}(p, v, n)~\{ int32\+\_\+t i; for (i=0; i$<$n; i++) p\mbox{[}i\mbox{]}=v\mbox{[}i\mbox{]}; \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{maths_8c_a6fc3517bdd4f977e0ab6ce2abfe20116}{sin\+\_\+approx} (float x)
+\item 
+float \hyperlink{maths_8c_a82462a5597861c636a301dad9263919d}{cos\+\_\+approx} (float x)
+\item 
+float \hyperlink{maths_8c_ad56db872a0f1e836eee3de49c7c85b80}{atan2\+\_\+approx} (float y, float x)
+\item 
+float \hyperlink{maths_8c_a015e651da782b648cd1cb0974546641a}{acos\+\_\+approx} (float x)
+\item 
+int32\+\_\+t \hyperlink{maths_8c_a41636974f363dcb1d08e8a5be0d4706a}{apply\+Deadband} (int32\+\_\+t value, int32\+\_\+t deadband)
+\item 
+int \hyperlink{maths_8c_adcad298527436e28d347ba411cf2d28d}{constrain} (int amt, int low, int high)
+\item 
+float \hyperlink{maths_8c_a388978033f229476aff37df9e3ef50a2}{constrainf} (float amt, float low, float high)
+\item 
+void \hyperlink{maths_8c_acba908432cccbeaf05cf19ad16dc4840}{dev\+Clear} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+void \hyperlink{maths_8c_ac331cc992292dea1eaad5a3cecc9cbe3}{dev\+Push} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev, float x)
+\item 
+float \hyperlink{maths_8c_aeafc436ee3d8dbf9895990608a636a33}{dev\+Variance} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+float \hyperlink{maths_8c_a8495adce9f391f6bc0bfd723a358e6a2}{dev\+Standard\+Deviation} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+float \hyperlink{maths_8c_a9d9e746df4553b61522720bc5b243985}{degrees\+To\+Radians} (int16\+\_\+t degrees)
+\item 
+int \hyperlink{maths_8c_ab8e8e0aaef25bc3a235d3e9d3a7f289e}{scale\+Range} (int x, int src\+Min, int src\+Max, int dest\+Min, int dest\+Max)
+\item 
+float \hyperlink{maths_8c_a6f54610483fda09f37018562c2f59f09}{scale\+Rangef} (float x, float in\+\_\+min, float in\+\_\+max, float out\+\_\+min, float out\+\_\+max)
+\item 
+void \hyperlink{maths_8c_a9c37023d875e57f0548bafddc79afff4}{normalize\+V} (struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$src, struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$dest)
+\item 
+void \hyperlink{maths_8c_ac969ac66a7dede9deccae7154aa0d3ea}{matrix\+\_\+set\+\_\+identity} (\hyperlink{maths_8h_ab94f66efe0608e356c00bd871f5fd4e8}{matrix\+\_\+3x3\+\_\+t} mat)
+\item 
+void \hyperlink{maths_8c_ae051f367de8da318779e435c0f30ff48}{build\+Rotation\+Matrix} (\hyperlink{unionfp__angles__t}{fp\+\_\+angles\+\_\+t} $\ast$delta, float matrix\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+void \hyperlink{maths_8c_a7fe047f05505982fe22bfe010f17d7cd}{rotate\+V} (struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$v, \hyperlink{unionfp__angles__t}{fp\+\_\+angles\+\_\+t} $\ast$delta)
+\item 
+int32\+\_\+t \hyperlink{maths_8c_abad95284b076d4f4f4721a9c0dbf0ca2}{quick\+Median\+Filter3} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8c_a852d720eb99c329fe706ebff8b30a975}{quick\+Median\+Filter5} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8c_a0f4123231e1535e7413a3d517b826705}{quick\+Median\+Filter7} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8c_a112901c847abddac82a9a0abffe6c099}{quick\+Median\+Filter9} (int32\+\_\+t $\ast$v)
+\item 
+void \hyperlink{maths_8c_afa9830bed7e03bd519d50c85e3e93da4}{array\+Sub\+Int32} (int32\+\_\+t $\ast$dest, int32\+\_\+t $\ast$array1, int32\+\_\+t $\ast$array2, int count)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{maths_8c_aa04834f8716faba57d83b7c4ca3740d5}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef1@{atan\+Poly\+Coef1}}
+\index{atan\+Poly\+Coef1@{atan\+Poly\+Coef1}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef1}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef1~3.\+14551665884836e-\/07f}}\label{maths_8c_aa04834f8716faba57d83b7c4ca3740d5}
+\hypertarget{maths_8c_ad56fa492ac550ba47023d106ded684ad}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef2@{atan\+Poly\+Coef2}}
+\index{atan\+Poly\+Coef2@{atan\+Poly\+Coef2}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef2}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef2~0.\+99997356613987f}}\label{maths_8c_ad56fa492ac550ba47023d106ded684ad}
+\hypertarget{maths_8c_a3f092af3db5774cdc3ab1556ed22ee62}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef3@{atan\+Poly\+Coef3}}
+\index{atan\+Poly\+Coef3@{atan\+Poly\+Coef3}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef3}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef3~0.\+14744007058297684f}}\label{maths_8c_a3f092af3db5774cdc3ab1556ed22ee62}
+\hypertarget{maths_8c_ace0e2729a3962391ea1bbe9fdac49836}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef4@{atan\+Poly\+Coef4}}
+\index{atan\+Poly\+Coef4@{atan\+Poly\+Coef4}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef4}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef4~0.\+3099814292351353f}}\label{maths_8c_ace0e2729a3962391ea1bbe9fdac49836}
+\hypertarget{maths_8c_a6ffc138f49be97a2b0a91c078e5d7b11}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef5@{atan\+Poly\+Coef5}}
+\index{atan\+Poly\+Coef5@{atan\+Poly\+Coef5}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef5}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef5~0.\+05030176425872175f}}\label{maths_8c_a6ffc138f49be97a2b0a91c078e5d7b11}
+\hypertarget{maths_8c_a0dce2cf205793034b17395c3c3267763}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef6@{atan\+Poly\+Coef6}}
+\index{atan\+Poly\+Coef6@{atan\+Poly\+Coef6}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef6}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef6~0.\+1471039133652469f}}\label{maths_8c_a0dce2cf205793034b17395c3c3267763}
+\hypertarget{maths_8c_a9d7198483e4d95c4c44428828f4ae3c5}{\index{maths.\+c@{maths.\+c}!atan\+Poly\+Coef7@{atan\+Poly\+Coef7}}
+\index{atan\+Poly\+Coef7@{atan\+Poly\+Coef7}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan\+Poly\+Coef7}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan\+Poly\+Coef7~0.\+6444640676891548f}}\label{maths_8c_a9d7198483e4d95c4c44428828f4ae3c5}
+\hypertarget{maths_8c_ae15a63f5406fc6be0f3aeb208e1c1b3b}{\index{maths.\+c@{maths.\+c}!Q\+M\+F\+\_\+\+C\+O\+P\+Y@{Q\+M\+F\+\_\+\+C\+O\+P\+Y}}
+\index{Q\+M\+F\+\_\+\+C\+O\+P\+Y@{Q\+M\+F\+\_\+\+C\+O\+P\+Y}!maths.\+c@{maths.\+c}}
+\subsubsection[{Q\+M\+F\+\_\+\+C\+O\+P\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+M\+F\+\_\+\+C\+O\+P\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{v, }
+\item[{}]{n}
+\end{DoxyParamCaption}
+)~\{ int32\+\_\+t i; for (i=0; i$<$n; i++) p\mbox{[}i\mbox{]}=v\mbox{[}i\mbox{]}; \}}}\label{maths_8c_ae15a63f5406fc6be0f3aeb208e1c1b3b}
+\hypertarget{maths_8c_ae71965b44219dcab79f7aada621d6f2d}{\index{maths.\+c@{maths.\+c}!Q\+M\+F\+\_\+\+S\+O\+R\+T@{Q\+M\+F\+\_\+\+S\+O\+R\+T}}
+\index{Q\+M\+F\+\_\+\+S\+O\+R\+T@{Q\+M\+F\+\_\+\+S\+O\+R\+T}!maths.\+c@{maths.\+c}}
+\subsubsection[{Q\+M\+F\+\_\+\+S\+O\+R\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+M\+F\+\_\+\+S\+O\+R\+T(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~\{ if ((a)$>$(b)) {\bf Q\+M\+F\+\_\+\+S\+W\+A\+P}((a),(b)); \}}}\label{maths_8c_ae71965b44219dcab79f7aada621d6f2d}
+\hypertarget{maths_8c_a1d2daf93b130ffbff65a4f2bb704dbe5}{\index{maths.\+c@{maths.\+c}!Q\+M\+F\+\_\+\+S\+W\+A\+P@{Q\+M\+F\+\_\+\+S\+W\+A\+P}}
+\index{Q\+M\+F\+\_\+\+S\+W\+A\+P@{Q\+M\+F\+\_\+\+S\+W\+A\+P}!maths.\+c@{maths.\+c}}
+\subsubsection[{Q\+M\+F\+\_\+\+S\+W\+A\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define Q\+M\+F\+\_\+\+S\+W\+A\+P(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~\{ int32\+\_\+t temp=(a);(a)=(b);(b)=temp; \}}}\label{maths_8c_a1d2daf93b130ffbff65a4f2bb704dbe5}
+\hypertarget{maths_8c_a6fd7b45ad38873b42b1dfcdf8e438993}{\index{maths.\+c@{maths.\+c}!sin\+Poly\+Coef3@{sin\+Poly\+Coef3}}
+\index{sin\+Poly\+Coef3@{sin\+Poly\+Coef3}!maths.\+c@{maths.\+c}}
+\subsubsection[{sin\+Poly\+Coef3}]{\setlength{\rightskip}{0pt plus 5cm}\#define sin\+Poly\+Coef3~-\/1.\+666665710e-\/1f}}\label{maths_8c_a6fd7b45ad38873b42b1dfcdf8e438993}
+\hypertarget{maths_8c_a53e3f0d9ff3fce9612f89759a8090b87}{\index{maths.\+c@{maths.\+c}!sin\+Poly\+Coef5@{sin\+Poly\+Coef5}}
+\index{sin\+Poly\+Coef5@{sin\+Poly\+Coef5}!maths.\+c@{maths.\+c}}
+\subsubsection[{sin\+Poly\+Coef5}]{\setlength{\rightskip}{0pt plus 5cm}\#define sin\+Poly\+Coef5~8.\+333017292e-\/3f}}\label{maths_8c_a53e3f0d9ff3fce9612f89759a8090b87}
+\hypertarget{maths_8c_a5e5ded20422326dcd72c77fad1350ce0}{\index{maths.\+c@{maths.\+c}!sin\+Poly\+Coef7@{sin\+Poly\+Coef7}}
+\index{sin\+Poly\+Coef7@{sin\+Poly\+Coef7}!maths.\+c@{maths.\+c}}
+\subsubsection[{sin\+Poly\+Coef7}]{\setlength{\rightskip}{0pt plus 5cm}\#define sin\+Poly\+Coef7~-\/1.\+980661520e-\/4f}}\label{maths_8c_a5e5ded20422326dcd72c77fad1350ce0}
+\hypertarget{maths_8c_a03481d51a39f8fbae7a5a51bd3dd9285}{\index{maths.\+c@{maths.\+c}!sin\+Poly\+Coef9@{sin\+Poly\+Coef9}}
+\index{sin\+Poly\+Coef9@{sin\+Poly\+Coef9}!maths.\+c@{maths.\+c}}
+\subsubsection[{sin\+Poly\+Coef9}]{\setlength{\rightskip}{0pt plus 5cm}\#define sin\+Poly\+Coef9~2.\+600054768e-\/6f}}\label{maths_8c_a03481d51a39f8fbae7a5a51bd3dd9285}
+
+
+\subsection{Function Documentation}
+\hypertarget{maths_8c_a015e651da782b648cd1cb0974546641a}{\index{maths.\+c@{maths.\+c}!acos\+\_\+approx@{acos\+\_\+approx}}
+\index{acos\+\_\+approx@{acos\+\_\+approx}!maths.\+c@{maths.\+c}}
+\subsubsection[{acos\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}float acos\+\_\+approx (
+\begin{DoxyParamCaption}
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a015e651da782b648cd1cb0974546641a}
+\hypertarget{maths_8c_a41636974f363dcb1d08e8a5be0d4706a}{\index{maths.\+c@{maths.\+c}!apply\+Deadband@{apply\+Deadband}}
+\index{apply\+Deadband@{apply\+Deadband}!maths.\+c@{maths.\+c}}
+\subsubsection[{apply\+Deadband}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t apply\+Deadband (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{value, }
+\item[{int32\+\_\+t}]{deadband}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a41636974f363dcb1d08e8a5be0d4706a}
+\hypertarget{maths_8c_afa9830bed7e03bd519d50c85e3e93da4}{\index{maths.\+c@{maths.\+c}!array\+Sub\+Int32@{array\+Sub\+Int32}}
+\index{array\+Sub\+Int32@{array\+Sub\+Int32}!maths.\+c@{maths.\+c}}
+\subsubsection[{array\+Sub\+Int32}]{\setlength{\rightskip}{0pt plus 5cm}void array\+Sub\+Int32 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{dest, }
+\item[{int32\+\_\+t $\ast$}]{array1, }
+\item[{int32\+\_\+t $\ast$}]{array2, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_afa9830bed7e03bd519d50c85e3e93da4}
+\hypertarget{maths_8c_ad56db872a0f1e836eee3de49c7c85b80}{\index{maths.\+c@{maths.\+c}!atan2\+\_\+approx@{atan2\+\_\+approx}}
+\index{atan2\+\_\+approx@{atan2\+\_\+approx}!maths.\+c@{maths.\+c}}
+\subsubsection[{atan2\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}float atan2\+\_\+approx (
+\begin{DoxyParamCaption}
+\item[{float}]{y, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_ad56db872a0f1e836eee3de49c7c85b80}
+\hypertarget{maths_8c_ae051f367de8da318779e435c0f30ff48}{\index{maths.\+c@{maths.\+c}!build\+Rotation\+Matrix@{build\+Rotation\+Matrix}}
+\index{build\+Rotation\+Matrix@{build\+Rotation\+Matrix}!maths.\+c@{maths.\+c}}
+\subsubsection[{build\+Rotation\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void build\+Rotation\+Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf fp\+\_\+angles\+\_\+t} $\ast$}]{delta, }
+\item[{float}]{matrix\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_ae051f367de8da318779e435c0f30ff48}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{maths_8c_ae051f367de8da318779e435c0f30ff48_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8c_adcad298527436e28d347ba411cf2d28d}{\index{maths.\+c@{maths.\+c}!constrain@{constrain}}
+\index{constrain@{constrain}!maths.\+c@{maths.\+c}}
+\subsubsection[{constrain}]{\setlength{\rightskip}{0pt plus 5cm}int constrain (
+\begin{DoxyParamCaption}
+\item[{int}]{amt, }
+\item[{int}]{low, }
+\item[{int}]{high}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_adcad298527436e28d347ba411cf2d28d}
+\hypertarget{maths_8c_a388978033f229476aff37df9e3ef50a2}{\index{maths.\+c@{maths.\+c}!constrainf@{constrainf}}
+\index{constrainf@{constrainf}!maths.\+c@{maths.\+c}}
+\subsubsection[{constrainf}]{\setlength{\rightskip}{0pt plus 5cm}float constrainf (
+\begin{DoxyParamCaption}
+\item[{float}]{amt, }
+\item[{float}]{low, }
+\item[{float}]{high}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a388978033f229476aff37df9e3ef50a2}
+\hypertarget{maths_8c_a82462a5597861c636a301dad9263919d}{\index{maths.\+c@{maths.\+c}!cos\+\_\+approx@{cos\+\_\+approx}}
+\index{cos\+\_\+approx@{cos\+\_\+approx}!maths.\+c@{maths.\+c}}
+\subsubsection[{cos\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}float cos\+\_\+approx (
+\begin{DoxyParamCaption}
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a82462a5597861c636a301dad9263919d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{maths_8c_a82462a5597861c636a301dad9263919d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8c_a9d9e746df4553b61522720bc5b243985}{\index{maths.\+c@{maths.\+c}!degrees\+To\+Radians@{degrees\+To\+Radians}}
+\index{degrees\+To\+Radians@{degrees\+To\+Radians}!maths.\+c@{maths.\+c}}
+\subsubsection[{degrees\+To\+Radians}]{\setlength{\rightskip}{0pt plus 5cm}float degrees\+To\+Radians (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t}]{degrees}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a9d9e746df4553b61522720bc5b243985}
+\hypertarget{maths_8c_acba908432cccbeaf05cf19ad16dc4840}{\index{maths.\+c@{maths.\+c}!dev\+Clear@{dev\+Clear}}
+\index{dev\+Clear@{dev\+Clear}!maths.\+c@{maths.\+c}}
+\subsubsection[{dev\+Clear}]{\setlength{\rightskip}{0pt plus 5cm}void dev\+Clear (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_acba908432cccbeaf05cf19ad16dc4840}
+\hypertarget{maths_8c_ac331cc992292dea1eaad5a3cecc9cbe3}{\index{maths.\+c@{maths.\+c}!dev\+Push@{dev\+Push}}
+\index{dev\+Push@{dev\+Push}!maths.\+c@{maths.\+c}}
+\subsubsection[{dev\+Push}]{\setlength{\rightskip}{0pt plus 5cm}void dev\+Push (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_ac331cc992292dea1eaad5a3cecc9cbe3}
+\hypertarget{maths_8c_a8495adce9f391f6bc0bfd723a358e6a2}{\index{maths.\+c@{maths.\+c}!dev\+Standard\+Deviation@{dev\+Standard\+Deviation}}
+\index{dev\+Standard\+Deviation@{dev\+Standard\+Deviation}!maths.\+c@{maths.\+c}}
+\subsubsection[{dev\+Standard\+Deviation}]{\setlength{\rightskip}{0pt plus 5cm}float dev\+Standard\+Deviation (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a8495adce9f391f6bc0bfd723a358e6a2}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{maths_8c_a8495adce9f391f6bc0bfd723a358e6a2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8c_aeafc436ee3d8dbf9895990608a636a33}{\index{maths.\+c@{maths.\+c}!dev\+Variance@{dev\+Variance}}
+\index{dev\+Variance@{dev\+Variance}!maths.\+c@{maths.\+c}}
+\subsubsection[{dev\+Variance}]{\setlength{\rightskip}{0pt plus 5cm}float dev\+Variance (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_aeafc436ee3d8dbf9895990608a636a33}
+\hypertarget{maths_8c_ac969ac66a7dede9deccae7154aa0d3ea}{\index{maths.\+c@{maths.\+c}!matrix\+\_\+set\+\_\+identity@{matrix\+\_\+set\+\_\+identity}}
+\index{matrix\+\_\+set\+\_\+identity@{matrix\+\_\+set\+\_\+identity}!maths.\+c@{maths.\+c}}
+\subsubsection[{matrix\+\_\+set\+\_\+identity}]{\setlength{\rightskip}{0pt plus 5cm}void matrix\+\_\+set\+\_\+identity (
+\begin{DoxyParamCaption}
+\item[{{\bf matrix\+\_\+3x3\+\_\+t}}]{mat}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_ac969ac66a7dede9deccae7154aa0d3ea}
+\hypertarget{maths_8c_a9c37023d875e57f0548bafddc79afff4}{\index{maths.\+c@{maths.\+c}!normalize\+V@{normalize\+V}}
+\index{normalize\+V@{normalize\+V}!maths.\+c@{maths.\+c}}
+\subsubsection[{normalize\+V}]{\setlength{\rightskip}{0pt plus 5cm}void normalize\+V (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{src, }
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{dest}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a9c37023d875e57f0548bafddc79afff4}
+\hypertarget{maths_8c_abad95284b076d4f4f4721a9c0dbf0ca2}{\index{maths.\+c@{maths.\+c}!quick\+Median\+Filter3@{quick\+Median\+Filter3}}
+\index{quick\+Median\+Filter3@{quick\+Median\+Filter3}!maths.\+c@{maths.\+c}}
+\subsubsection[{quick\+Median\+Filter3}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter3 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_abad95284b076d4f4f4721a9c0dbf0ca2}
+\hypertarget{maths_8c_a852d720eb99c329fe706ebff8b30a975}{\index{maths.\+c@{maths.\+c}!quick\+Median\+Filter5@{quick\+Median\+Filter5}}
+\index{quick\+Median\+Filter5@{quick\+Median\+Filter5}!maths.\+c@{maths.\+c}}
+\subsubsection[{quick\+Median\+Filter5}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter5 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a852d720eb99c329fe706ebff8b30a975}
+\hypertarget{maths_8c_a0f4123231e1535e7413a3d517b826705}{\index{maths.\+c@{maths.\+c}!quick\+Median\+Filter7@{quick\+Median\+Filter7}}
+\index{quick\+Median\+Filter7@{quick\+Median\+Filter7}!maths.\+c@{maths.\+c}}
+\subsubsection[{quick\+Median\+Filter7}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter7 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a0f4123231e1535e7413a3d517b826705}
+\hypertarget{maths_8c_a112901c847abddac82a9a0abffe6c099}{\index{maths.\+c@{maths.\+c}!quick\+Median\+Filter9@{quick\+Median\+Filter9}}
+\index{quick\+Median\+Filter9@{quick\+Median\+Filter9}!maths.\+c@{maths.\+c}}
+\subsubsection[{quick\+Median\+Filter9}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter9 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a112901c847abddac82a9a0abffe6c099}
+\hypertarget{maths_8c_a7fe047f05505982fe22bfe010f17d7cd}{\index{maths.\+c@{maths.\+c}!rotate\+V@{rotate\+V}}
+\index{rotate\+V@{rotate\+V}!maths.\+c@{maths.\+c}}
+\subsubsection[{rotate\+V}]{\setlength{\rightskip}{0pt plus 5cm}void rotate\+V (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{v, }
+\item[{{\bf fp\+\_\+angles\+\_\+t} $\ast$}]{delta}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a7fe047f05505982fe22bfe010f17d7cd}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{maths_8c_a7fe047f05505982fe22bfe010f17d7cd_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8c_ab8e8e0aaef25bc3a235d3e9d3a7f289e}{\index{maths.\+c@{maths.\+c}!scale\+Range@{scale\+Range}}
+\index{scale\+Range@{scale\+Range}!maths.\+c@{maths.\+c}}
+\subsubsection[{scale\+Range}]{\setlength{\rightskip}{0pt plus 5cm}int scale\+Range (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{src\+Min, }
+\item[{int}]{src\+Max, }
+\item[{int}]{dest\+Min, }
+\item[{int}]{dest\+Max}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_ab8e8e0aaef25bc3a235d3e9d3a7f289e}
+\hypertarget{maths_8c_a6f54610483fda09f37018562c2f59f09}{\index{maths.\+c@{maths.\+c}!scale\+Rangef@{scale\+Rangef}}
+\index{scale\+Rangef@{scale\+Rangef}!maths.\+c@{maths.\+c}}
+\subsubsection[{scale\+Rangef}]{\setlength{\rightskip}{0pt plus 5cm}float scale\+Rangef (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{in\+\_\+min, }
+\item[{float}]{in\+\_\+max, }
+\item[{float}]{out\+\_\+min, }
+\item[{float}]{out\+\_\+max}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a6f54610483fda09f37018562c2f59f09}
+\hypertarget{maths_8c_a6fc3517bdd4f977e0ab6ce2abfe20116}{\index{maths.\+c@{maths.\+c}!sin\+\_\+approx@{sin\+\_\+approx}}
+\index{sin\+\_\+approx@{sin\+\_\+approx}!maths.\+c@{maths.\+c}}
+\subsubsection[{sin\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}float sin\+\_\+approx (
+\begin{DoxyParamCaption}
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8c_a6fc3517bdd4f977e0ab6ce2abfe20116}

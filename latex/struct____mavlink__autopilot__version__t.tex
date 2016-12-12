@@ -1,0 +1,117 @@
+\hypertarget{struct____mavlink__autopilot__version__t}{\section{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t Struct Reference}
+\label{struct____mavlink__autopilot__version__t}\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+autopilot\+\_\+version.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_abdb6dbb248808dbed7e556c33de391f0}{capabilities}
+\begin{DoxyCompactList}\small\item\em bitmask of capabilities (see M\+A\+V\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+C\+A\+P\+A\+B\+I\+L\+I\+T\+Y enum) \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_af748a25ba9a0f3126cf5f5e65d17ebce}{uid}
+\begin{DoxyCompactList}\small\item\em U\+I\+D if provided by hardware. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_a18da1ad779dd4f54f87231ea355e79f4}{flight\+\_\+sw\+\_\+version}
+\begin{DoxyCompactList}\small\item\em Firmware version number. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_af3db01348e485516330cd2096348767b}{middleware\+\_\+sw\+\_\+version}
+\begin{DoxyCompactList}\small\item\em Middleware version number. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_a686bf3eff327a4e617e512bc141d7206}{os\+\_\+sw\+\_\+version}
+\begin{DoxyCompactList}\small\item\em Operating system version number. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_aa94e68859adae94fa27c66e437e33c57}{board\+\_\+version}
+\begin{DoxyCompactList}\small\item\em H\+W / board version (last 8 bytes should be silicon I\+D, if any) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_aefea6df48be4162c0e2f7293a7a476c3}{vendor\+\_\+id}
+\begin{DoxyCompactList}\small\item\em I\+D of the board vendor. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_a7804efd34f81fc1b0946612a418a924b}{product\+\_\+id}
+\begin{DoxyCompactList}\small\item\em I\+D of the product. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_adbbff1b8dad6961b08fe54b3a56fc35f}{flight\+\_\+custom\+\_\+version} \mbox{[}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_a2976ac188326bfcc489713bd00845848}{middleware\+\_\+custom\+\_\+version} \mbox{[}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__autopilot__version__t_a4fcb5af0d12a8ea812dc34e53398638b}{os\+\_\+custom\+\_\+version} \mbox{[}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__autopilot__version__t_aa94e68859adae94fa27c66e437e33c57}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!board\+\_\+version@{board\+\_\+version}}
+\index{board\+\_\+version@{board\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{board\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::board\+\_\+version}}\label{struct____mavlink__autopilot__version__t_aa94e68859adae94fa27c66e437e33c57}
+
+
+H\+W / board version (last 8 bytes should be silicon I\+D, if any) 
+
+\hypertarget{struct____mavlink__autopilot__version__t_abdb6dbb248808dbed7e556c33de391f0}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!capabilities@{capabilities}}
+\index{capabilities@{capabilities}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{capabilities}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::capabilities}}\label{struct____mavlink__autopilot__version__t_abdb6dbb248808dbed7e556c33de391f0}
+
+
+bitmask of capabilities (see M\+A\+V\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+C\+A\+P\+A\+B\+I\+L\+I\+T\+Y enum) 
+
+\hypertarget{struct____mavlink__autopilot__version__t_adbbff1b8dad6961b08fe54b3a56fc35f}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!flight\+\_\+custom\+\_\+version@{flight\+\_\+custom\+\_\+version}}
+\index{flight\+\_\+custom\+\_\+version@{flight\+\_\+custom\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{flight\+\_\+custom\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::flight\+\_\+custom\+\_\+version\mbox{[}8\mbox{]}}}\label{struct____mavlink__autopilot__version__t_adbbff1b8dad6961b08fe54b3a56fc35f}
+
+
+Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_a18da1ad779dd4f54f87231ea355e79f4}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!flight\+\_\+sw\+\_\+version@{flight\+\_\+sw\+\_\+version}}
+\index{flight\+\_\+sw\+\_\+version@{flight\+\_\+sw\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{flight\+\_\+sw\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::flight\+\_\+sw\+\_\+version}}\label{struct____mavlink__autopilot__version__t_a18da1ad779dd4f54f87231ea355e79f4}
+
+
+Firmware version number. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_a2976ac188326bfcc489713bd00845848}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!middleware\+\_\+custom\+\_\+version@{middleware\+\_\+custom\+\_\+version}}
+\index{middleware\+\_\+custom\+\_\+version@{middleware\+\_\+custom\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{middleware\+\_\+custom\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::middleware\+\_\+custom\+\_\+version\mbox{[}8\mbox{]}}}\label{struct____mavlink__autopilot__version__t_a2976ac188326bfcc489713bd00845848}
+
+
+Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_af3db01348e485516330cd2096348767b}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!middleware\+\_\+sw\+\_\+version@{middleware\+\_\+sw\+\_\+version}}
+\index{middleware\+\_\+sw\+\_\+version@{middleware\+\_\+sw\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{middleware\+\_\+sw\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::middleware\+\_\+sw\+\_\+version}}\label{struct____mavlink__autopilot__version__t_af3db01348e485516330cd2096348767b}
+
+
+Middleware version number. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_a4fcb5af0d12a8ea812dc34e53398638b}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!os\+\_\+custom\+\_\+version@{os\+\_\+custom\+\_\+version}}
+\index{os\+\_\+custom\+\_\+version@{os\+\_\+custom\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{os\+\_\+custom\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::os\+\_\+custom\+\_\+version\mbox{[}8\mbox{]}}}\label{struct____mavlink__autopilot__version__t_a4fcb5af0d12a8ea812dc34e53398638b}
+
+
+Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_a686bf3eff327a4e617e512bc141d7206}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!os\+\_\+sw\+\_\+version@{os\+\_\+sw\+\_\+version}}
+\index{os\+\_\+sw\+\_\+version@{os\+\_\+sw\+\_\+version}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{os\+\_\+sw\+\_\+version}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::os\+\_\+sw\+\_\+version}}\label{struct____mavlink__autopilot__version__t_a686bf3eff327a4e617e512bc141d7206}
+
+
+Operating system version number. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_a7804efd34f81fc1b0946612a418a924b}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!product\+\_\+id@{product\+\_\+id}}
+\index{product\+\_\+id@{product\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{product\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::product\+\_\+id}}\label{struct____mavlink__autopilot__version__t_a7804efd34f81fc1b0946612a418a924b}
+
+
+I\+D of the product. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_af748a25ba9a0f3126cf5f5e65d17ebce}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!uid@{uid}}
+\index{uid@{uid}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{uid}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::uid}}\label{struct____mavlink__autopilot__version__t_af748a25ba9a0f3126cf5f5e65d17ebce}
+
+
+U\+I\+D if provided by hardware. 
+
+\hypertarget{struct____mavlink__autopilot__version__t_aefea6df48be4162c0e2f7293a7a476c3}{\index{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}!vendor\+\_\+id@{vendor\+\_\+id}}
+\index{vendor\+\_\+id@{vendor\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t}}
+\subsubsection[{vendor\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+autopilot\+\_\+version\+\_\+t\+::vendor\+\_\+id}}\label{struct____mavlink__autopilot__version__t_aefea6df48be4162c0e2f7293a7a476c3}
+
+
+I\+D of the board vendor. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__autopilot__version_8h}{mavlink\+\_\+msg\+\_\+autopilot\+\_\+version.\+h}\end{DoxyCompactItemize}

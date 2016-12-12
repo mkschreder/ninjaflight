@@ -1,0 +1,135 @@
+\hypertarget{struct____mavlink__sys__status__t}{\section{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t Struct Reference}
+\label{struct____mavlink__sys__status__t}\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+sys\+\_\+status.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a9c506f0a78266af5a1230eb1a0ca78b9}{onboard\+\_\+control\+\_\+sensors\+\_\+present}
+\begin{DoxyCompactList}\small\item\em Bitmask showing which onboard controllers and sensors are present. Value of 0\+: not present. Value of 1\+: present. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__sys__status__t_ac7217643b5de2bd8fe861b0c9ff7277c}{onboard\+\_\+control\+\_\+sensors\+\_\+enabled}
+\begin{DoxyCompactList}\small\item\em Bitmask showing which onboard controllers and sensors are enabled\+: Value of 0\+: not enabled. Value of 1\+: enabled. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a8527d9f9e9517ee5a9dc7aba0235ace9}{onboard\+\_\+control\+\_\+sensors\+\_\+health}
+\begin{DoxyCompactList}\small\item\em Bitmask showing which onboard controllers and sensors are operational or have an error\+: Value of 0\+: not enabled. Value of 1\+: enabled. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a2c25af241ac32995f2194d53dcaaf3e2}{load}
+\begin{DoxyCompactList}\small\item\em Maximum usage in percent of the mainloop time, (0\%\+: 0, 100\%\+: 1000) should be always below 1000. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a47f55c2ec3aeb48c924092e2a46ffc99}{voltage\+\_\+battery}
+\begin{DoxyCompactList}\small\item\em Battery voltage, in millivolts (1 = 1 millivolt) \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a78ab5021909544c255827e8b2bd23034}{current\+\_\+battery}
+\begin{DoxyCompactList}\small\item\em Battery current, in 10$\ast$milliamperes (1 = 10 milliampere), -\/1\+: autopilot does not measure the current. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a08c165a0dcb2a852605e8abaaf9dfd78}{drop\+\_\+rate\+\_\+comm}
+\begin{DoxyCompactList}\small\item\em Communication drops in percent, (0\%\+: 0, 100\%\+: 10'000), (U\+A\+R\+T, I2\+C, S\+P\+I, C\+A\+N), dropped packets on all links (packets that were corrupted on reception on the M\+A\+V) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_af144d0a152da70babf5ec86593e88700}{errors\+\_\+comm}
+\begin{DoxyCompactList}\small\item\em Communication errors (U\+A\+R\+T, I2\+C, S\+P\+I, C\+A\+N), dropped packets on all links (packets that were corrupted on reception on the M\+A\+V) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a11e2c7144a8d17da05c2f070d919bfc5}{errors\+\_\+count1}
+\begin{DoxyCompactList}\small\item\em Autopilot-\/specific errors. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a5a67792e19997897a415af3b4dba3d68}{errors\+\_\+count2}
+\begin{DoxyCompactList}\small\item\em Autopilot-\/specific errors. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_aafca91f6177e4d0ed71410ac5b8f4ac8}{errors\+\_\+count3}
+\begin{DoxyCompactList}\small\item\em Autopilot-\/specific errors. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a05303107ce28241b401f6383e6d6e634}{errors\+\_\+count4}
+\begin{DoxyCompactList}\small\item\em Autopilot-\/specific errors. \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{struct____mavlink__sys__status__t_a89ff7e5cb3d8a698ace5c6653479b71e}{battery\+\_\+remaining}
+\begin{DoxyCompactList}\small\item\em Remaining battery energy\+: (0\%\+: 0, 100\%\+: 100), -\/1\+: autopilot estimate the remaining battery. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__sys__status__t_a89ff7e5cb3d8a698ace5c6653479b71e}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!battery\+\_\+remaining@{battery\+\_\+remaining}}
+\index{battery\+\_\+remaining@{battery\+\_\+remaining}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{battery\+\_\+remaining}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::battery\+\_\+remaining}}\label{struct____mavlink__sys__status__t_a89ff7e5cb3d8a698ace5c6653479b71e}
+
+
+Remaining battery energy\+: (0\%\+: 0, 100\%\+: 100), -\/1\+: autopilot estimate the remaining battery. 
+
+\hypertarget{struct____mavlink__sys__status__t_a78ab5021909544c255827e8b2bd23034}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!current\+\_\+battery@{current\+\_\+battery}}
+\index{current\+\_\+battery@{current\+\_\+battery}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{current\+\_\+battery}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::current\+\_\+battery}}\label{struct____mavlink__sys__status__t_a78ab5021909544c255827e8b2bd23034}
+
+
+Battery current, in 10$\ast$milliamperes (1 = 10 milliampere), -\/1\+: autopilot does not measure the current. 
+
+\hypertarget{struct____mavlink__sys__status__t_a08c165a0dcb2a852605e8abaaf9dfd78}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!drop\+\_\+rate\+\_\+comm@{drop\+\_\+rate\+\_\+comm}}
+\index{drop\+\_\+rate\+\_\+comm@{drop\+\_\+rate\+\_\+comm}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{drop\+\_\+rate\+\_\+comm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::drop\+\_\+rate\+\_\+comm}}\label{struct____mavlink__sys__status__t_a08c165a0dcb2a852605e8abaaf9dfd78}
+
+
+Communication drops in percent, (0\%\+: 0, 100\%\+: 10'000), (U\+A\+R\+T, I2\+C, S\+P\+I, C\+A\+N), dropped packets on all links (packets that were corrupted on reception on the M\+A\+V) 
+
+\hypertarget{struct____mavlink__sys__status__t_af144d0a152da70babf5ec86593e88700}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!errors\+\_\+comm@{errors\+\_\+comm}}
+\index{errors\+\_\+comm@{errors\+\_\+comm}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{errors\+\_\+comm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::errors\+\_\+comm}}\label{struct____mavlink__sys__status__t_af144d0a152da70babf5ec86593e88700}
+
+
+Communication errors (U\+A\+R\+T, I2\+C, S\+P\+I, C\+A\+N), dropped packets on all links (packets that were corrupted on reception on the M\+A\+V) 
+
+\hypertarget{struct____mavlink__sys__status__t_a11e2c7144a8d17da05c2f070d919bfc5}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!errors\+\_\+count1@{errors\+\_\+count1}}
+\index{errors\+\_\+count1@{errors\+\_\+count1}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{errors\+\_\+count1}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::errors\+\_\+count1}}\label{struct____mavlink__sys__status__t_a11e2c7144a8d17da05c2f070d919bfc5}
+
+
+Autopilot-\/specific errors. 
+
+\hypertarget{struct____mavlink__sys__status__t_a5a67792e19997897a415af3b4dba3d68}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!errors\+\_\+count2@{errors\+\_\+count2}}
+\index{errors\+\_\+count2@{errors\+\_\+count2}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{errors\+\_\+count2}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::errors\+\_\+count2}}\label{struct____mavlink__sys__status__t_a5a67792e19997897a415af3b4dba3d68}
+
+
+Autopilot-\/specific errors. 
+
+\hypertarget{struct____mavlink__sys__status__t_aafca91f6177e4d0ed71410ac5b8f4ac8}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!errors\+\_\+count3@{errors\+\_\+count3}}
+\index{errors\+\_\+count3@{errors\+\_\+count3}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{errors\+\_\+count3}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::errors\+\_\+count3}}\label{struct____mavlink__sys__status__t_aafca91f6177e4d0ed71410ac5b8f4ac8}
+
+
+Autopilot-\/specific errors. 
+
+\hypertarget{struct____mavlink__sys__status__t_a05303107ce28241b401f6383e6d6e634}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!errors\+\_\+count4@{errors\+\_\+count4}}
+\index{errors\+\_\+count4@{errors\+\_\+count4}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{errors\+\_\+count4}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::errors\+\_\+count4}}\label{struct____mavlink__sys__status__t_a05303107ce28241b401f6383e6d6e634}
+
+
+Autopilot-\/specific errors. 
+
+\hypertarget{struct____mavlink__sys__status__t_a2c25af241ac32995f2194d53dcaaf3e2}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!load@{load}}
+\index{load@{load}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::load}}\label{struct____mavlink__sys__status__t_a2c25af241ac32995f2194d53dcaaf3e2}
+
+
+Maximum usage in percent of the mainloop time, (0\%\+: 0, 100\%\+: 1000) should be always below 1000. 
+
+\hypertarget{struct____mavlink__sys__status__t_ac7217643b5de2bd8fe861b0c9ff7277c}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!onboard\+\_\+control\+\_\+sensors\+\_\+enabled@{onboard\+\_\+control\+\_\+sensors\+\_\+enabled}}
+\index{onboard\+\_\+control\+\_\+sensors\+\_\+enabled@{onboard\+\_\+control\+\_\+sensors\+\_\+enabled}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{onboard\+\_\+control\+\_\+sensors\+\_\+enabled}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::onboard\+\_\+control\+\_\+sensors\+\_\+enabled}}\label{struct____mavlink__sys__status__t_ac7217643b5de2bd8fe861b0c9ff7277c}
+
+
+Bitmask showing which onboard controllers and sensors are enabled\+: Value of 0\+: not enabled. Value of 1\+: enabled. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. 
+
+\hypertarget{struct____mavlink__sys__status__t_a8527d9f9e9517ee5a9dc7aba0235ace9}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!onboard\+\_\+control\+\_\+sensors\+\_\+health@{onboard\+\_\+control\+\_\+sensors\+\_\+health}}
+\index{onboard\+\_\+control\+\_\+sensors\+\_\+health@{onboard\+\_\+control\+\_\+sensors\+\_\+health}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{onboard\+\_\+control\+\_\+sensors\+\_\+health}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::onboard\+\_\+control\+\_\+sensors\+\_\+health}}\label{struct____mavlink__sys__status__t_a8527d9f9e9517ee5a9dc7aba0235ace9}
+
+
+Bitmask showing which onboard controllers and sensors are operational or have an error\+: Value of 0\+: not enabled. Value of 1\+: enabled. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. 
+
+\hypertarget{struct____mavlink__sys__status__t_a9c506f0a78266af5a1230eb1a0ca78b9}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!onboard\+\_\+control\+\_\+sensors\+\_\+present@{onboard\+\_\+control\+\_\+sensors\+\_\+present}}
+\index{onboard\+\_\+control\+\_\+sensors\+\_\+present@{onboard\+\_\+control\+\_\+sensors\+\_\+present}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{onboard\+\_\+control\+\_\+sensors\+\_\+present}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::onboard\+\_\+control\+\_\+sensors\+\_\+present}}\label{struct____mavlink__sys__status__t_a9c506f0a78266af5a1230eb1a0ca78b9}
+
+
+Bitmask showing which onboard controllers and sensors are present. Value of 0\+: not present. Value of 1\+: present. Indices defined by E\+N\+U\+M M\+A\+V\+\_\+\+S\+Y\+S\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+N\+S\+O\+R. 
+
+\hypertarget{struct____mavlink__sys__status__t_a47f55c2ec3aeb48c924092e2a46ffc99}{\index{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}!voltage\+\_\+battery@{voltage\+\_\+battery}}
+\index{voltage\+\_\+battery@{voltage\+\_\+battery}!\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t}}
+\subsubsection[{voltage\+\_\+battery}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+sys\+\_\+status\+\_\+t\+::voltage\+\_\+battery}}\label{struct____mavlink__sys__status__t_a47f55c2ec3aeb48c924092e2a46ffc99}
+
+
+Battery voltage, in millivolts (1 = 1 millivolt) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__sys__status_8h}{mavlink\+\_\+msg\+\_\+sys\+\_\+status.\+h}\end{DoxyCompactItemize}

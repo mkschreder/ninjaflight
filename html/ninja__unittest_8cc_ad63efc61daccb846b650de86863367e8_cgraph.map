@@ -1,0 +1,6 @@
+<map id="run_loop" name="run_loop">
+<area shape="rect" id="node2" href="$ninja_8c.html#a45fd5415655c4badccec3ff308300dc8" title="ninja_heartbeat" alt="" coords="126,5,237,32"/>
+<area shape="rect" id="node4" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="151,56,211,83"/>
+<area shape="rect" id="node3" href="$group__scheduler.html#ga075da98f688a02804e331f837fb5be48" title="ninja_sched_run" alt="" coords="286,5,402,32"/>
+<area shape="rect" id="node5" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="313,56,375,83"/>
+</map>

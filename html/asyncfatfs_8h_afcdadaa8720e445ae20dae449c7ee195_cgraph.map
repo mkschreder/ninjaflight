@@ -1,0 +1,6 @@
+<map id="afatfs_destroy" name="afatfs_destroy">
+<area shape="rect" id="node2" href="$asyncfatfs_8c.html#a60f4c0414d58f4f5c9a0bb20d61469d9" title="afatfs_fclose" alt="" coords="161,5,258,32"/>
+<area shape="rect" id="node3" href="$asyncfatfs_8c.html#a94f721dfedcba19bbd745c6fca2fdcb3" title="afatfs_poll" alt="" coords="168,56,251,83"/>
+<area shape="rect" id="node5" href="$asyncfatfs_8c.html#a8d8a9af02b4c68cdd5e1581a1573b36c" title="afatfs_flush" alt="" coords="307,107,397,133"/>
+<area shape="rect" id="node4" href="$sdcard_8h.html#a1d35660a5fc60832c328bbafd030883d" title="sdcard_poll" alt="" coords="308,56,396,83"/>
+</map>

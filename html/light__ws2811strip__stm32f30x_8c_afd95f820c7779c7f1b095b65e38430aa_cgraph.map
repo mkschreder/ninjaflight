@@ -1,0 +1,5 @@
+<map id="ws2811LedStripHardwareInit" name="ws2811LedStripHardwareInit">
+<area shape="rect" id="node2" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="243,5,435,32"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8c.html#af4989f2637fcf1808f73e5dad2c8655f" title="setStripColor" alt="" coords="289,56,388,83"/>
+<area shape="rect" id="node4" href="$light__ws2811strip_8c.html#ae12f50d4f61a0b78b9334cfaa12a8324" title="ws2811UpdateStrip" alt="" coords="271,107,407,133"/>
+</map>

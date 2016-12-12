@@ -1,0 +1,155 @@
+\hypertarget{config_2battery_8h}{\section{src/main/config/battery.h File Reference}
+\label{config_2battery_8h}\index{src/main/config/battery.\+h@{src/main/config/battery.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_2battery_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbattery__config}{battery\+\_\+config}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{config_2battery_8h_a915b34f361e8672a2e902a3143c66ca3}{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T}~110
+\item 
+\#define \hyperlink{config_2battery_8h_abb92b98fe4fa4f6be7d3d271e2b29064}{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T}~10
+\item 
+\#define \hyperlink{config_2battery_8h_a60bb38e980b89f56e1d8a9ea815411a3}{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T}~1
+\item 
+\#define \hyperlink{config_2battery_8h_af7749806d62fa5fdd0f156131e7fc452}{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N}~0
+\item 
+\#define \hyperlink{config_2battery_8h_a785180ab8bd4741f777c6cfc0436ff9e}{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X}~255
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310}{current\+\_\+sensor\+\_\+type\+\_\+t} \{ \hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a988c0cf82638775a78bf1e0a406724b5}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a47976e1786ea93b4dd56fc16359c3079}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C}, 
+\hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a4de9417aae485ea40a2272cb3b9df013}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L}, 
+\hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a23b3da69648cb27b2e3b368ffc7870d9}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X} = C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbattery__config}{battery\+\_\+config} \hyperlink{config_2battery_8h_ac8bcadcc2d1f0906b4bf498a0a6cf8fa}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{config_2battery_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_ab786ff05e2f0eb0ed9163d22643c6fe5}{vbatscale}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_a33a317ee2a6e5b97fe9d876a04d828b7}{vbatresdivval}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_a2f2a2780b791638d106da42067fe2f1e}{vbatresdivmultiplier}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_ab1bf5c3d6fc7818f0aa4c58c0a969c8a}{vbatmaxcellvoltage}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_afaa08a086c6f0e2944ec260dcd0e4c29}{vbatmincellvoltage}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_ace15d34c98a53471b69be8f21057b36a}{vbatwarningcellvoltage}
+\item 
+int16\+\_\+t \hyperlink{config_2battery_8h_a522d752547dd33254176edeffeede0b7}{current\+Meter\+Scale}
+\item 
+uint16\+\_\+t \hyperlink{config_2battery_8h_ac5a5f92d6e8456c910823d37cd6bdcc6}{current\+Meter\+Offset}
+\item 
+\hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310}{current\+\_\+sensor\+\_\+type\+\_\+t} \hyperlink{config_2battery_8h_ade2de79968d7b034fc897fe824478b79}{current\+Meter\+Type}
+\item 
+uint8\+\_\+t \hyperlink{config_2battery_8h_a1c0c6e1afe75fa2a3ad51c2cefcbe787}{multiwii\+Current\+Meter\+Output}
+\item 
+uint16\+\_\+t \hyperlink{config_2battery_8h_a6c31f8965f8949918c5eaf0d1bc17be0}{battery\+Capacity}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{config_2battery_8h_a60bb38e980b89f56e1d8a9ea815411a3}{\index{config/battery.\+h@{config/battery.\+h}!V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T}}
+\index{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+M\+U\+L\+T\+I\+P\+L\+I\+E\+R\+\_\+\+D\+E\+F\+A\+U\+L\+T~1}}\label{config_2battery_8h_a60bb38e980b89f56e1d8a9ea815411a3}
+\hypertarget{config_2battery_8h_abb92b98fe4fa4f6be7d3d271e2b29064}{\index{config/battery.\+h@{config/battery.\+h}!V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T}}
+\index{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+\_\+\+R\+E\+S\+D\+I\+V\+V\+A\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T~10}}\label{config_2battery_8h_abb92b98fe4fa4f6be7d3d271e2b29064}
+\hypertarget{config_2battery_8h_a915b34f361e8672a2e902a3143c66ca3}{\index{config/battery.\+h@{config/battery.\+h}!V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T}}
+\index{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+D\+E\+F\+A\+U\+L\+T~110}}\label{config_2battery_8h_a915b34f361e8672a2e902a3143c66ca3}
+\hypertarget{config_2battery_8h_a785180ab8bd4741f777c6cfc0436ff9e}{\index{config/battery.\+h@{config/battery.\+h}!V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X}}
+\index{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X~255}}\label{config_2battery_8h_a785180ab8bd4741f777c6cfc0436ff9e}
+\hypertarget{config_2battery_8h_af7749806d62fa5fdd0f156131e7fc452}{\index{config/battery.\+h@{config/battery.\+h}!V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N}}
+\index{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N@{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N~0}}\label{config_2battery_8h_af7749806d62fa5fdd0f156131e7fc452}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310}{\index{config/battery.\+h@{config/battery.\+h}!current\+\_\+sensor\+\_\+type\+\_\+t@{current\+\_\+sensor\+\_\+type\+\_\+t}}
+\index{current\+\_\+sensor\+\_\+type\+\_\+t@{current\+\_\+sensor\+\_\+type\+\_\+t}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{current\+\_\+sensor\+\_\+type\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf current\+\_\+sensor\+\_\+type\+\_\+t}}}\label{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E}!config/battery.\+h@{config/battery.\+h}}\index{config/battery.\+h@{config/battery.\+h}!C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a988c0cf82638775a78bf1e0a406724b5}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+N\+O\+N\+E}\label{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a988c0cf82638775a78bf1e0a406724b5}
+}]\index{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C}!config/battery.\+h@{config/battery.\+h}}\index{config/battery.\+h@{config/battery.\+h}!C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C}}\item[{\em 
+\hypertarget{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a47976e1786ea93b4dd56fc16359c3079}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+D\+C}\label{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a47976e1786ea93b4dd56fc16359c3079}
+}]\index{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L}!config/battery.\+h@{config/battery.\+h}}\index{config/battery.\+h@{config/battery.\+h}!C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L}}\item[{\em 
+\hypertarget{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a4de9417aae485ea40a2272cb3b9df013}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+V\+I\+R\+T\+U\+A\+L}\label{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a4de9417aae485ea40a2272cb3b9df013}
+}]\index{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X}!config/battery.\+h@{config/battery.\+h}}\index{config/battery.\+h@{config/battery.\+h}!C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X@{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a23b3da69648cb27b2e3b368ffc7870d9}{C\+U\+R\+R\+E\+N\+T\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+X}\label{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310a23b3da69648cb27b2e3b368ffc7870d9}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{config_2battery_8h_ac8bcadcc2d1f0906b4bf498a0a6cf8fa}{\index{config/battery.\+h@{config/battery.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf battery\+\_\+config} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2battery_8h_ac8bcadcc2d1f0906b4bf498a0a6cf8fa}
+
+
+\subsection{Variable Documentation}
+\hypertarget{config_2battery_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\index{config/battery.\+h@{config/battery.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}typedef    {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+}}}\label{config_2battery_8h_aeab68f17dc686a2f7dc72ab2b712e464}
+\hypertarget{config_2battery_8h_a6c31f8965f8949918c5eaf0d1bc17be0}{\index{config/battery.\+h@{config/battery.\+h}!battery\+Capacity@{battery\+Capacity}}
+\index{battery\+Capacity@{battery\+Capacity}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{battery\+Capacity}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t battery\+Capacity}}\label{config_2battery_8h_a6c31f8965f8949918c5eaf0d1bc17be0}
+\hypertarget{config_2battery_8h_ac5a5f92d6e8456c910823d37cd6bdcc6}{\index{config/battery.\+h@{config/battery.\+h}!current\+Meter\+Offset@{current\+Meter\+Offset}}
+\index{current\+Meter\+Offset@{current\+Meter\+Offset}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{current\+Meter\+Offset}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t current\+Meter\+Offset}}\label{config_2battery_8h_ac5a5f92d6e8456c910823d37cd6bdcc6}
+\hypertarget{config_2battery_8h_a522d752547dd33254176edeffeede0b7}{\index{config/battery.\+h@{config/battery.\+h}!current\+Meter\+Scale@{current\+Meter\+Scale}}
+\index{current\+Meter\+Scale@{current\+Meter\+Scale}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{current\+Meter\+Scale}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t current\+Meter\+Scale}}\label{config_2battery_8h_a522d752547dd33254176edeffeede0b7}
+\hypertarget{config_2battery_8h_ade2de79968d7b034fc897fe824478b79}{\index{config/battery.\+h@{config/battery.\+h}!current\+Meter\+Type@{current\+Meter\+Type}}
+\index{current\+Meter\+Type@{current\+Meter\+Type}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{current\+Meter\+Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf current\+\_\+sensor\+\_\+type\+\_\+t} current\+Meter\+Type}}\label{config_2battery_8h_ade2de79968d7b034fc897fe824478b79}
+\hypertarget{config_2battery_8h_a1c0c6e1afe75fa2a3ad51c2cefcbe787}{\index{config/battery.\+h@{config/battery.\+h}!multiwii\+Current\+Meter\+Output@{multiwii\+Current\+Meter\+Output}}
+\index{multiwii\+Current\+Meter\+Output@{multiwii\+Current\+Meter\+Output}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{multiwii\+Current\+Meter\+Output}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t multiwii\+Current\+Meter\+Output}}\label{config_2battery_8h_a1c0c6e1afe75fa2a3ad51c2cefcbe787}
+\hypertarget{config_2battery_8h_ab1bf5c3d6fc7818f0aa4c58c0a969c8a}{\index{config/battery.\+h@{config/battery.\+h}!vbatmaxcellvoltage@{vbatmaxcellvoltage}}
+\index{vbatmaxcellvoltage@{vbatmaxcellvoltage}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatmaxcellvoltage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatmaxcellvoltage}}\label{config_2battery_8h_ab1bf5c3d6fc7818f0aa4c58c0a969c8a}
+\hypertarget{config_2battery_8h_afaa08a086c6f0e2944ec260dcd0e4c29}{\index{config/battery.\+h@{config/battery.\+h}!vbatmincellvoltage@{vbatmincellvoltage}}
+\index{vbatmincellvoltage@{vbatmincellvoltage}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatmincellvoltage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatmincellvoltage}}\label{config_2battery_8h_afaa08a086c6f0e2944ec260dcd0e4c29}
+\hypertarget{config_2battery_8h_a2f2a2780b791638d106da42067fe2f1e}{\index{config/battery.\+h@{config/battery.\+h}!vbatresdivmultiplier@{vbatresdivmultiplier}}
+\index{vbatresdivmultiplier@{vbatresdivmultiplier}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatresdivmultiplier}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatresdivmultiplier}}\label{config_2battery_8h_a2f2a2780b791638d106da42067fe2f1e}
+\hypertarget{config_2battery_8h_a33a317ee2a6e5b97fe9d876a04d828b7}{\index{config/battery.\+h@{config/battery.\+h}!vbatresdivval@{vbatresdivval}}
+\index{vbatresdivval@{vbatresdivval}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatresdivval}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatresdivval}}\label{config_2battery_8h_a33a317ee2a6e5b97fe9d876a04d828b7}
+\hypertarget{config_2battery_8h_ab786ff05e2f0eb0ed9163d22643c6fe5}{\index{config/battery.\+h@{config/battery.\+h}!vbatscale@{vbatscale}}
+\index{vbatscale@{vbatscale}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatscale}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatscale}}\label{config_2battery_8h_ab786ff05e2f0eb0ed9163d22643c6fe5}
+\hypertarget{config_2battery_8h_ace15d34c98a53471b69be8f21057b36a}{\index{config/battery.\+h@{config/battery.\+h}!vbatwarningcellvoltage@{vbatwarningcellvoltage}}
+\index{vbatwarningcellvoltage@{vbatwarningcellvoltage}!config/battery.\+h@{config/battery.\+h}}
+\subsubsection[{vbatwarningcellvoltage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t vbatwarningcellvoltage}}\label{config_2battery_8h_ace15d34c98a53471b69be8f21057b36a}

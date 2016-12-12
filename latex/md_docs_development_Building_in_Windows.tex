@@ -1,0 +1,78 @@
+\subsection*{Setup Cygwin}
+
+download the Setup$\ast$.exe from \href{https://www.cygwin.com/}{\tt https\+://www.\+cygwin.\+com/}
+
+
+
+Execute the download Setup and step through the installation wizard (no need to customize the settings here). Stop at the \char`\"{}\+Select Packages\char`\"{} Screen and select the following Packages for Installation\+:
+
+
+\begin{DoxyItemize}
+\item Devel/git
+\item Devel/git-\/completion (Optional)
+\item Devel/make
+\item Devel/binutils
+\item Editors/vim
+\item Editors/vim-\/common (Optional)
+\item Shells/mintty (should be already selected)
+\end{DoxyItemize}
+
+
+
+
+
+
+
+
+
+
+
+Continue with the Installation and accept all autodetected dependencies.
+
+
+
+\subsection*{Setup G\+N\+U A\+R\+M Toolchain}
+
+
+
+
+
+versions do matter, 4.\+8-\/2014-\/q2 is known to work well. Download this version from \href{https://launchpad.net/gcc-arm-embedded/+download}{\tt https\+://launchpad.\+net/gcc-\/arm-\/embedded/+download} -\/ preferrebly as a Z\+I\+P-\/\+File.
+
+Extract the contents of this archive to any folder of your choice, for instance {\ttfamily C\+:\textbackslash{}dev\textbackslash{}gcc-\/arm-\/none-\/eabi-\/4\+\_\+8-\/2014q2}.
+
+
+
+add the \char`\"{}bin\char`\"{} subdirectory to the P\+A\+T\+H Windows environment variable\+: {\ttfamily P\+A\+T\+H\%;C\+:\textbackslash{}dev\textbackslash{}gcc-\/arm-\/none-\/eabi-\/4\+\_\+8-\/2014q2\textbackslash{}bin}
+
+
+
+
+
+\subsection*{Checkout and compile Cleanflight}
+
+Head over to the Cleanflight Github page and grab the U\+R\+L of the G\+I\+T Repository\+: \char`\"{}https\+://github.\+com/cleanflight/cleanflight.\+git\char`\"{}
+
+Open the Cygwin-\/\+Terminal, navigate to your development folder and use the git commandline to checkout the repository\+:
+
+```bash cd /cygdrive/c/dev git clone \href{https://github.com/cleanflight/cleanflight.git}{\tt https\+://github.\+com/cleanflight/cleanflight.\+git} ``` 
+
+
+
+To compile your Cleanflight binaries, enter the cleanflight directory and build the project using the make command. You can append T\+A\+R\+G\+E\+T=\mbox{[}H\+A\+R\+D\+W\+A\+R\+E\mbox{]} if you want to build anything other than the default N\+A\+Z\+E target\+:
+
+```bash cd cleanflight make T\+A\+R\+G\+E\+T=N\+A\+Z\+E ```
+
+
+
+within few moments you should have your binary ready\+:
+
+```bash (...) arm-\/none-\/eabi-\/size ./obj/main/cleanflight\+\_\+\+N\+A\+Z\+E.elf text data bss dec hex filename 95388 308 10980 106676 1a0b4 ./obj/main/cleanflight\+\_\+\+N\+A\+Z\+E.elf arm-\/none-\/eabi-\/objcopy -\/\+O ihex --set-\/start 0x8000000 obj/main/cleanflight\+\_\+\+N\+A\+Z\+E.\+elf obj/cleanflight\+\_\+\+N\+A\+Z\+E.\+hex ```
+
+You can use the Cleanflight-\/\+Configurator to flash the {\ttfamily obj/cleanflight\+\_\+\+N\+A\+Z\+E.\+hex} file.
+
+\subsection*{Updating and rebuilding}
+
+Navigate to the local cleanflight repository and use the following steps to pull the latest changes and rebuild your version of cleanflight\+:
+
+```bash cd /cygdrive/c/dev/cleanflight git reset --hard git pull make clean T\+A\+R\+G\+E\+T=N\+A\+Z\+E make ``` 

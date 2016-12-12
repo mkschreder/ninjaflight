@@ -1,0 +1,9 @@
+Assuming you already have wget and git available, you should be able to build Cleanflight on a fresh install of Fedora with the following commands (tested on F18, F20 and Ubuntu 14.\+04)\+:
+
+``` wget \href{http://distribute.atmel.no/tools/opensource/Atmel-ARM-GNU-Toolchain/4.8.4/arm-gnu-toolchain-4.8.4.371-linux.any.x86_64.tar.gz}{\tt http\+://distribute.\+atmel.\+no/tools/opensource/\+Atmel-\/\+A\+R\+M-\/\+G\+N\+U-\/\+Toolchain/4.\+8.\+4/arm-\/gnu-\/toolchain-\/4.\+8.\+4.\+371-\/linux.\+any.\+x86\+\_\+64.\+tar.\+gz}
+
+tar xf arm-\/gnu-\/toolchain-\/4.\+8.\+4.\+371-\/linux.\+any.\+x86\+\_\+64.\+tar.\+gz export P\+A\+T\+H=\$\+P\+A\+T\+H\+:\$\+P\+W\+D/arm-\/none-\/eabi/bin
+
+git clone \href{https://github.com/cleanflight/cleanflight.git}{\tt https\+://github.\+com/cleanflight/cleanflight.\+git} cd cleanflight T\+A\+R\+G\+E\+T=N\+A\+Z\+E make ```
+
+This will create cleanflight\+\_\+\+N\+A\+Z\+E.\+hex in the obj folder. 

@@ -1,0 +1,257 @@
+\hypertarget{pwm__mapping_8h}{\section{src/main/drivers/pwm\+\_\+mapping.h File Reference}
+\label{pwm__mapping_8h}\index{src/main/drivers/pwm\+\_\+mapping.\+h@{src/main/drivers/pwm\+\_\+mapping.\+h}}
+}
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}timer.\+h\char`\"{}}\\*
+Include dependency graph for pwm\+\_\+mapping.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{pwm__mapping_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__mapping_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsonarGPIOConfig__s}{sonar\+G\+P\+I\+O\+Config\+\_\+s}
+\item 
+struct \hyperlink{structdrv__pwm__config__s}{drv\+\_\+pwm\+\_\+config\+\_\+s}
+\item 
+struct \hyperlink{structpwmPortConfiguration__s}{pwm\+Port\+Configuration\+\_\+s}
+\item 
+struct \hyperlink{structpwmIOConfiguration__s}{pwm\+I\+O\+Configuration\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{pwm__mapping_8h_a74b025b4f3ce8e8e8fc584adca6f6e67}{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S}~12
+\item 
+\#define \hyperlink{pwm__mapping_8h_ae24bebedfcefb8a7507dd3604827a56c}{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S}~8
+\item 
+\#define \hyperlink{pwm__mapping_8h_a40dfd7fdfce455ce507bf3fed368c2ed}{M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S}~12
+\item 
+\#define \hyperlink{pwm__mapping_8h_a4259c40a55e489ed25c9f3cbb3be05ab}{M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S}~8
+\item 
+\#define \hyperlink{pwm__mapping_8h_aefb05ba5d009689098a71df973315ae4}{P\+U\+L\+S\+E\+\_\+1\+M\+S}~(1000)
+\item 
+\#define \hyperlink{pwm__mapping_8h_a67ea8592b7ced96ca53dec58434397e8}{M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S}~8
+\item 
+\#define \hyperlink{pwm__mapping_8h_ac37980e520642d1aaef240410bcd419b}{P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}~1
+\item 
+\#define \hyperlink{pwm__mapping_8h_ab7bf2a16c71b6b5ac141d5c86049dff2}{O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}~8
+\item 
+\#define \hyperlink{pwm__mapping_8h_a5b61bf1df37ba727550014469c19ace0}{P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}~8
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structsonarGPIOConfig__s}{sonar\+G\+P\+I\+O\+Config\+\_\+s} \hyperlink{pwm__mapping_8h_ad2d92c28063c0ee9d39f40a326a419a4}{sonar\+G\+P\+I\+O\+Config\+\_\+t}
+\item 
+typedef struct \hyperlink{structdrv__pwm__config__s}{drv\+\_\+pwm\+\_\+config\+\_\+s} \hyperlink{pwm__mapping_8h_a85d9f17cbf5b10d07f6c99dc0e130d8d}{drv\+\_\+pwm\+\_\+config\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structpwmPortConfiguration__s}{pwm\+Port\+Configuration\+\_\+s} \hyperlink{pwm__mapping_8h_af59f08a843dfb64432906e7fd23f904a}{pwm\+Port\+Configuration\+\_\+t}
+\item 
+typedef struct \hyperlink{structpwmIOConfiguration__s}{pwm\+I\+O\+Configuration\+\_\+s} \hyperlink{pwm__mapping_8h_aeca6ba6a8e29402773a332e1b6942652}{pwm\+I\+O\+Configuration\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694cc}{pwm\+Port\+Flags\+\_\+e} \{ \\*
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694cca69268ddda01912caa7bd5a9edc044157}{P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694ccafac29f9737f02050f09d4d723a0db4e9}{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R} = (1 $<$$<$ 0), 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694ccacdc1b4d1334beb933debca55524c94be}{P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O} = (1 $<$$<$ 1), 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694ccaa8b9791111ca795f66acba67f6c2c46a}{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694cca3d47c19ea1d90038e2810e73767f1548}{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M} = (1 $<$$<$ 3), 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694cca1cdbd6264e09c26be6018acab06d79b8}{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T} = (1 $<$$<$ 4), 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694ccae54e533d44b5466595935ed5762d5950}{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M} = (1 $<$$<$ 5), 
+\hyperlink{pwm__mapping_8h_a15c752d143187357700cc18041d694cca7203133b2057e769260cadee9d30f7dd}{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M} = (1 $<$$<$ 6)
+ \}
+\item 
+enum \{ \\*
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388acc6ab0fb66c5ba52524e32ea2ad0bd1a}{P\+W\+M1} = 0, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af39c2e46e9e25532f62e9967768bba0c}{P\+W\+M2}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aec8dabc6a499fe64be322a93f441503e}{P\+W\+M3}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a99bf79473a462fcf944a8ffb941bd7ae}{P\+W\+M4}, 
+\\*
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aeee7ac3e026f20fe17d40196c4bb8d42}{P\+W\+M5}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a4e39bc391805e948e0a80479d27323b4}{P\+W\+M6}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388ac5a9fde0f444fe83dbc704919695dc72}{P\+W\+M7}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af62b25858627c162e4e203d6e549ad9b}{P\+W\+M8}, 
+\\*
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a73ba21bb83850f9b975249374e8c2f0a}{P\+W\+M9}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a42f015a75555dde3a411d79f210355f3}{P\+W\+M10}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a7b3ccf790d9af727fe1ae111ae35b136}{P\+W\+M11}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aa91c87750d301ad06afcee59885bdcb9}{P\+W\+M12}, 
+\\*
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a61ca8778a4dd12894ccef470850fb27f}{P\+W\+M13}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a95d2c43afa894475fb1cb10d3ae7b4ad}{P\+W\+M14}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388abba1de91de2ebbfa54f35c2441de3593}{P\+W\+M15}, 
+\hyperlink{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af4f891f7064cd35f609c15aae821d6aa}{P\+W\+M16}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{pwm__mapping_8h_aeca6ba6a8e29402773a332e1b6942652}{pwm\+I\+O\+Configuration\+\_\+t} $\ast$ \hyperlink{pwm__mapping_8h_ad023d1dcebc8026ffad4983b3ca9ef67}{pwm\+Init} (\hyperlink{pwm__mapping_8h_a85d9f17cbf5b10d07f6c99dc0e130d8d}{drv\+\_\+pwm\+\_\+config\+\_\+t} $\ast$init, const struct \hyperlink{structpwm__input__config}{pwm\+\_\+input\+\_\+config} $\ast$\hyperlink{structconfig}{config})
+\item 
+\hyperlink{pwm__mapping_8h_aeca6ba6a8e29402773a332e1b6942652}{pwm\+I\+O\+Configuration\+\_\+t} $\ast$ \hyperlink{pwm__mapping_8h_ad8b13893585e63224a8bc5d696e81b8a}{pwm\+Get\+Output\+Configuration} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{pwm__mapping_8h_addd1d77913f3e0f0b1f801d000cdd72c}{pwm\+Use\+Input\+Filtering}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{pwm__mapping_8h_a67ea8592b7ced96ca53dec58434397e8}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S@{M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S}}
+\index{M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S@{M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+I\+N\+P\+U\+T\+S~8}}\label{pwm__mapping_8h_a67ea8592b7ced96ca53dec58434397e8}
+\hypertarget{pwm__mapping_8h_a40dfd7fdfce455ce507bf3fed368c2ed}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S@{M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S}}
+\index{M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S@{M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+M\+O\+T\+O\+R\+S~12}}\label{pwm__mapping_8h_a40dfd7fdfce455ce507bf3fed368c2ed}
+\hypertarget{pwm__mapping_8h_a74b025b4f3ce8e8e8fc584adca6f6e67}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S@{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S}}
+\index{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S@{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+M\+O\+T\+O\+R\+S~12}}\label{pwm__mapping_8h_a74b025b4f3ce8e8e8fc584adca6f6e67}
+\hypertarget{pwm__mapping_8h_ae24bebedfcefb8a7507dd3604827a56c}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S@{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S}}
+\index{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S@{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+P\+W\+M\+\_\+\+S\+E\+R\+V\+O\+S~8}}\label{pwm__mapping_8h_ae24bebedfcefb8a7507dd3604827a56c}
+\hypertarget{pwm__mapping_8h_a4259c40a55e489ed25c9f3cbb3be05ab}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S@{M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S}}
+\index{M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S@{M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+S\+E\+R\+V\+O\+S~8}}\label{pwm__mapping_8h_a4259c40a55e489ed25c9f3cbb3be05ab}
+\hypertarget{pwm__mapping_8h_ab7bf2a16c71b6b5ac141d5c86049dff2}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}}
+\index{O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+N\+E\+S\+H\+O\+T125\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z~8}}\label{pwm__mapping_8h_ab7bf2a16c71b6b5ac141d5c86049dff2}
+\hypertarget{pwm__mapping_8h_aefb05ba5d009689098a71df973315ae4}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+U\+L\+S\+E\+\_\+1\+M\+S@{P\+U\+L\+S\+E\+\_\+1\+M\+S}}
+\index{P\+U\+L\+S\+E\+\_\+1\+M\+S@{P\+U\+L\+S\+E\+\_\+1\+M\+S}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{P\+U\+L\+S\+E\+\_\+1\+M\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+U\+L\+S\+E\+\_\+1\+M\+S~(1000)}}\label{pwm__mapping_8h_aefb05ba5d009689098a71df973315ae4}
+\hypertarget{pwm__mapping_8h_a5b61bf1df37ba727550014469c19ace0}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}}
+\index{P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+W\+M\+\_\+\+B\+R\+U\+S\+H\+E\+D\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z~8}}\label{pwm__mapping_8h_a5b61bf1df37ba727550014469c19ace0}
+\hypertarget{pwm__mapping_8h_ac37980e520642d1aaef240410bcd419b}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}}
+\index{P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z@{P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+W\+M\+\_\+\+T\+I\+M\+E\+R\+\_\+\+M\+H\+Z~1}}\label{pwm__mapping_8h_ac37980e520642d1aaef240410bcd419b}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{pwm__mapping_8h_a85d9f17cbf5b10d07f6c99dc0e130d8d}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!drv\+\_\+pwm\+\_\+config\+\_\+t@{drv\+\_\+pwm\+\_\+config\+\_\+t}}
+\index{drv\+\_\+pwm\+\_\+config\+\_\+t@{drv\+\_\+pwm\+\_\+config\+\_\+t}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{drv\+\_\+pwm\+\_\+config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf drv\+\_\+pwm\+\_\+config\+\_\+s}  {\bf drv\+\_\+pwm\+\_\+config\+\_\+t}}}\label{pwm__mapping_8h_a85d9f17cbf5b10d07f6c99dc0e130d8d}
+\hypertarget{pwm__mapping_8h_aeca6ba6a8e29402773a332e1b6942652}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+I\+O\+Configuration\+\_\+t@{pwm\+I\+O\+Configuration\+\_\+t}}
+\index{pwm\+I\+O\+Configuration\+\_\+t@{pwm\+I\+O\+Configuration\+\_\+t}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+I\+O\+Configuration\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf pwm\+I\+O\+Configuration\+\_\+s}  {\bf pwm\+I\+O\+Configuration\+\_\+t}}}\label{pwm__mapping_8h_aeca6ba6a8e29402773a332e1b6942652}
+\hypertarget{pwm__mapping_8h_af59f08a843dfb64432906e7fd23f904a}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+Port\+Configuration\+\_\+t@{pwm\+Port\+Configuration\+\_\+t}}
+\index{pwm\+Port\+Configuration\+\_\+t@{pwm\+Port\+Configuration\+\_\+t}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+Port\+Configuration\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf pwm\+Port\+Configuration\+\_\+s}  {\bf pwm\+Port\+Configuration\+\_\+t}}}\label{pwm__mapping_8h_af59f08a843dfb64432906e7fd23f904a}
+\hypertarget{pwm__mapping_8h_ad2d92c28063c0ee9d39f40a326a419a4}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!sonar\+G\+P\+I\+O\+Config\+\_\+t@{sonar\+G\+P\+I\+O\+Config\+\_\+t}}
+\index{sonar\+G\+P\+I\+O\+Config\+\_\+t@{sonar\+G\+P\+I\+O\+Config\+\_\+t}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{sonar\+G\+P\+I\+O\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sonar\+G\+P\+I\+O\+Config\+\_\+s}  {\bf sonar\+G\+P\+I\+O\+Config\+\_\+t}}}\label{pwm__mapping_8h_ad2d92c28063c0ee9d39f40a326a419a4}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\+W\+M1@{P\+W\+M1}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M1@{P\+W\+M1}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388acc6ab0fb66c5ba52524e32ea2ad0bd1a}{P\+W\+M1}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388acc6ab0fb66c5ba52524e32ea2ad0bd1a}
+}]\index{P\+W\+M2@{P\+W\+M2}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M2@{P\+W\+M2}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af39c2e46e9e25532f62e9967768bba0c}{P\+W\+M2}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af39c2e46e9e25532f62e9967768bba0c}
+}]\index{P\+W\+M3@{P\+W\+M3}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M3@{P\+W\+M3}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aec8dabc6a499fe64be322a93f441503e}{P\+W\+M3}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aec8dabc6a499fe64be322a93f441503e}
+}]\index{P\+W\+M4@{P\+W\+M4}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M4@{P\+W\+M4}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a99bf79473a462fcf944a8ffb941bd7ae}{P\+W\+M4}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a99bf79473a462fcf944a8ffb941bd7ae}
+}]\index{P\+W\+M5@{P\+W\+M5}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M5@{P\+W\+M5}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aeee7ac3e026f20fe17d40196c4bb8d42}{P\+W\+M5}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aeee7ac3e026f20fe17d40196c4bb8d42}
+}]\index{P\+W\+M6@{P\+W\+M6}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M6@{P\+W\+M6}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a4e39bc391805e948e0a80479d27323b4}{P\+W\+M6}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a4e39bc391805e948e0a80479d27323b4}
+}]\index{P\+W\+M7@{P\+W\+M7}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M7@{P\+W\+M7}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388ac5a9fde0f444fe83dbc704919695dc72}{P\+W\+M7}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388ac5a9fde0f444fe83dbc704919695dc72}
+}]\index{P\+W\+M8@{P\+W\+M8}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M8@{P\+W\+M8}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af62b25858627c162e4e203d6e549ad9b}{P\+W\+M8}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af62b25858627c162e4e203d6e549ad9b}
+}]\index{P\+W\+M9@{P\+W\+M9}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M9@{P\+W\+M9}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a73ba21bb83850f9b975249374e8c2f0a}{P\+W\+M9}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a73ba21bb83850f9b975249374e8c2f0a}
+}]\index{P\+W\+M10@{P\+W\+M10}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M10@{P\+W\+M10}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a42f015a75555dde3a411d79f210355f3}{P\+W\+M10}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a42f015a75555dde3a411d79f210355f3}
+}]\index{P\+W\+M11@{P\+W\+M11}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M11@{P\+W\+M11}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a7b3ccf790d9af727fe1ae111ae35b136}{P\+W\+M11}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a7b3ccf790d9af727fe1ae111ae35b136}
+}]\index{P\+W\+M12@{P\+W\+M12}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M12@{P\+W\+M12}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aa91c87750d301ad06afcee59885bdcb9}{P\+W\+M12}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388aa91c87750d301ad06afcee59885bdcb9}
+}]\index{P\+W\+M13@{P\+W\+M13}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M13@{P\+W\+M13}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a61ca8778a4dd12894ccef470850fb27f}{P\+W\+M13}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a61ca8778a4dd12894ccef470850fb27f}
+}]\index{P\+W\+M14@{P\+W\+M14}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M14@{P\+W\+M14}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a95d2c43afa894475fb1cb10d3ae7b4ad}{P\+W\+M14}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388a95d2c43afa894475fb1cb10d3ae7b4ad}
+}]\index{P\+W\+M15@{P\+W\+M15}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M15@{P\+W\+M15}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388abba1de91de2ebbfa54f35c2441de3593}{P\+W\+M15}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388abba1de91de2ebbfa54f35c2441de3593}
+}]\index{P\+W\+M16@{P\+W\+M16}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M16@{P\+W\+M16}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af4f891f7064cd35f609c15aae821d6aa}{P\+W\+M16}\label{pwm__mapping_8h_a385c44f6fb256e5716a2302a5b940388af4f891f7064cd35f609c15aae821d6aa}
+}]\end{description}
+\end{Desc}
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694cc}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+Port\+Flags\+\_\+e@{pwm\+Port\+Flags\+\_\+e}}
+\index{pwm\+Port\+Flags\+\_\+e@{pwm\+Port\+Flags\+\_\+e}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+Port\+Flags\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf pwm\+Port\+Flags\+\_\+e}}}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694cc}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E@{P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E@{P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694cca69268ddda01912caa7bd5a9edc044157}{P\+W\+M\+\_\+\+P\+F\+\_\+\+N\+O\+N\+E}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694cca69268ddda01912caa7bd5a9edc044157}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R@{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R@{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694ccafac29f9737f02050f09d4d723a0db4e9}{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694ccafac29f9737f02050f09d4d723a0db4e9}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O@{P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O@{P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694ccacdc1b4d1334beb933debca55524c94be}{P\+W\+M\+\_\+\+P\+F\+\_\+\+S\+E\+R\+V\+O}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694ccacdc1b4d1334beb933debca55524c94be}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D@{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D@{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694ccaa8b9791111ca795f66acba67f6c2c46a}{P\+W\+M\+\_\+\+P\+F\+\_\+\+M\+O\+T\+O\+R\+\_\+\+M\+O\+D\+E\+\_\+\+B\+R\+U\+S\+H\+E\+D}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694ccaa8b9791111ca795f66acba67f6c2c46a}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694cca3d47c19ea1d90038e2810e73767f1548}{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+P\+W\+M}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694cca3d47c19ea1d90038e2810e73767f1548}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T@{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T@{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694cca1cdbd6264e09c26be6018acab06d79b8}{P\+W\+M\+\_\+\+P\+F\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+R\+O\+T\+O\+C\+O\+L\+\_\+\+O\+N\+E\+S\+H\+O\+T}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694cca1cdbd6264e09c26be6018acab06d79b8}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694ccae54e533d44b5466595935ed5762d5950}{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+P\+M}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694ccae54e533d44b5466595935ed5762d5950}
+}]\index{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M@{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M}}\item[{\em 
+\hypertarget{pwm__mapping_8h_a15c752d143187357700cc18041d694cca7203133b2057e769260cadee9d30f7dd}{P\+W\+M\+\_\+\+P\+F\+\_\+\+P\+W\+M}\label{pwm__mapping_8h_a15c752d143187357700cc18041d694cca7203133b2057e769260cadee9d30f7dd}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{pwm__mapping_8h_ad8b13893585e63224a8bc5d696e81b8a}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+Get\+Output\+Configuration@{pwm\+Get\+Output\+Configuration}}
+\index{pwm\+Get\+Output\+Configuration@{pwm\+Get\+Output\+Configuration}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+Get\+Output\+Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pwm\+I\+O\+Configuration\+\_\+t}$\ast$ pwm\+Get\+Output\+Configuration (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{pwm__mapping_8h_ad8b13893585e63224a8bc5d696e81b8a}
+\hypertarget{pwm__mapping_8h_ad023d1dcebc8026ffad4983b3ca9ef67}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+Init@{pwm\+Init}}
+\index{pwm\+Init@{pwm\+Init}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pwm\+I\+O\+Configuration\+\_\+t}$\ast$ pwm\+Init (
+\begin{DoxyParamCaption}
+\item[{{\bf drv\+\_\+pwm\+\_\+config\+\_\+t} $\ast$}]{init, }
+\item[{const struct {\bf pwm\+\_\+input\+\_\+config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{pwm__mapping_8h_ad023d1dcebc8026ffad4983b3ca9ef67}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__mapping_8h_ad023d1dcebc8026ffad4983b3ca9ef67_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{pwm__mapping_8h_addd1d77913f3e0f0b1f801d000cdd72c}{\index{pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}!pwm\+Use\+Input\+Filtering@{pwm\+Use\+Input\+Filtering}}
+\index{pwm\+Use\+Input\+Filtering@{pwm\+Use\+Input\+Filtering}!pwm\+\_\+mapping.\+h@{pwm\+\_\+mapping.\+h}}
+\subsubsection[{pwm\+Use\+Input\+Filtering}]{\setlength{\rightskip}{0pt plus 5cm}bool pwm\+Use\+Input\+Filtering}}\label{pwm__mapping_8h_addd1d77913f3e0f0b1f801d000cdd72c}

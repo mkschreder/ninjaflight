@@ -1,0 +1,9 @@
+<map id="updateTransponder" name="updateTransponder">
+<area shape="rect" id="node2" href="$drivers_2transponder__ir_8c.html#a4b79d285810a3d6f21b9f7eb63b532b7" title="isTransponderIrReady" alt="" coords="187,5,338,32"/>
+<area shape="rect" id="node3" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="232,56,293,83"/>
+<area shape="rect" id="node4" href="$usb__io_8h.html#a06232c8c286a6129f745a4f09ee9dfc8" title="usbCableIsInserted" alt="" coords="195,107,330,133"/>
+<area shape="rect" id="node5" href="$drivers_2transponder__ir_8c.html#af0ab141b65f23bced200f294a8388343" title="transponderIrTransmit" alt="" coords="188,157,337,184"/>
+<area shape="rect" id="node6" href="$drivers_2transponder__ir_8c.html#ae7119bd6a8b1610f3a504ee45a7daf2f" title="transponderIrWaitForTransmit\lComplete" alt="" coords="387,121,581,162"/>
+<area shape="rect" id="node7" href="$drivers_2transponder__ir_8h.html#af8f4f7bb0d0cbaba312263cdde78485b" title="transponderIrDMAEnable" alt="" coords="400,187,568,213"/>
+<area shape="rect" id="node8" href="$test_2unit_2platform_8h.html#a5b773763fe9c007fad2d86c2769bc726" title="DMA_Cmd" alt="" coords="630,187,717,213"/>
+</map>

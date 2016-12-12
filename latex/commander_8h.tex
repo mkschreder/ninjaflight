@@ -1,0 +1,78 @@
+\hypertarget{commander_8h}{\section{src/main/commander.h File Reference}
+\label{commander_8h}\index{src/main/commander.\+h@{src/main/commander.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+Include dependency graph for commander.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{commander_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{commander_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcommander__input}{commander\+\_\+input}
+\begin{DoxyCompactList}\small\item\em 8 channel commander input. Always in range \mbox{[}-\/500;500\mbox{]} \end{DoxyCompactList}\item 
+struct \hyperlink{structcommander}{commander}
+\begin{DoxyCompactList}\small\item\em commander module that translates user input into flight controller commands \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{commander_8h_a0dea274d71bd4238f8b0ac384381f87b}{commander\+\_\+event\+\_\+t} \{ \hyperlink{commander_8h_a0dea274d71bd4238f8b0ac384381f87ba68798f7d59a39eeccef81199e1e2a7ae}{C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{commander_8h_ab3dd06fa6fb6780be32efdbf4e39ecb9}{commander\+\_\+init} (struct \hyperlink{structcommander}{commander} $\ast$self, void($\ast$process\+\_\+event)(struct \hyperlink{structcommander}{commander} $\ast$self, \hyperlink{commander_8h_a0dea274d71bd4238f8b0ac384381f87b}{commander\+\_\+event\+\_\+t} ev, int16\+\_\+t data))
+\begin{DoxyCompactList}\small\item\em initializes the commander module \end{DoxyCompactList}\item 
+void \hyperlink{commander_8h_a024d955bdc1aa16fc2ae23189a695c95}{commander\+\_\+process\+\_\+controls} (struct \hyperlink{structcommander}{commander} $\ast$self, const struct \hyperlink{structcommander__input}{commander\+\_\+input} $\ast$controls)
+\begin{DoxyCompactList}\small\item\em processes input controls and sends out flight control events using the callback supplied to init \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{commander_8h_a0dea274d71bd4238f8b0ac384381f87b}{\index{commander.\+h@{commander.\+h}!commander\+\_\+event\+\_\+t@{commander\+\_\+event\+\_\+t}}
+\index{commander\+\_\+event\+\_\+t@{commander\+\_\+event\+\_\+t}!commander.\+h@{commander.\+h}}
+\subsubsection[{commander\+\_\+event\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf commander\+\_\+event\+\_\+t}}}\label{commander_8h_a0dea274d71bd4238f8b0ac384381f87b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E@{C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E}!commander.\+h@{commander.\+h}}\index{commander.\+h@{commander.\+h}!C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E@{C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{commander_8h_a0dea274d71bd4238f8b0ac384381f87ba68798f7d59a39eeccef81199e1e2a7ae}{C\+O\+M\+M\+A\+N\+D\+E\+R\+\_\+\+E\+V\+E\+N\+T\+\_\+\+N\+O\+N\+E}\label{commander_8h_a0dea274d71bd4238f8b0ac384381f87ba68798f7d59a39eeccef81199e1e2a7ae}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{commander_8h_ab3dd06fa6fb6780be32efdbf4e39ecb9}{\index{commander.\+h@{commander.\+h}!commander\+\_\+init@{commander\+\_\+init}}
+\index{commander\+\_\+init@{commander\+\_\+init}!commander.\+h@{commander.\+h}}
+\subsubsection[{commander\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void commander\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf commander} $\ast$}]{self, }
+\item[{void($\ast$)(struct {\bf commander} $\ast$self, {\bf commander\+\_\+event\+\_\+t} ev, int16\+\_\+t data)}]{process\+\_\+event}
+\end{DoxyParamCaption}
+)}}\label{commander_8h_ab3dd06fa6fb6780be32efdbf4e39ecb9}
+
+
+initializes the commander module 
+
+\hypertarget{commander_8h_a024d955bdc1aa16fc2ae23189a695c95}{\index{commander.\+h@{commander.\+h}!commander\+\_\+process\+\_\+controls@{commander\+\_\+process\+\_\+controls}}
+\index{commander\+\_\+process\+\_\+controls@{commander\+\_\+process\+\_\+controls}!commander.\+h@{commander.\+h}}
+\subsubsection[{commander\+\_\+process\+\_\+controls}]{\setlength{\rightskip}{0pt plus 5cm}void commander\+\_\+process\+\_\+controls (
+\begin{DoxyParamCaption}
+\item[{struct {\bf commander} $\ast$}]{self, }
+\item[{const struct {\bf commander\+\_\+input} $\ast$}]{controls}
+\end{DoxyParamCaption}
+)}}\label{commander_8h_a024d955bdc1aa16fc2ae23189a695c95}
+
+
+processes input controls and sends out flight control events using the callback supplied to init 
+

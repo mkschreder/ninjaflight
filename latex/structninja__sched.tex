@@ -1,0 +1,82 @@
+\hypertarget{structninja__sched}{\section{ninja\+\_\+sched Struct Reference}
+\label{structninja__sched}\index{ninja\+\_\+sched@{ninja\+\_\+sched}}
+}
+
+
+{\ttfamily \#include $<$ninja\+\_\+sched.\+h$>$}
+
+
+
+Collaboration diagram for ninja\+\_\+sched\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structninja__sched__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ninja__sched_8h_a437fb465244194758a669cedf9d4dbba}{cf\+Task\+\_\+t} $\ast$ \hyperlink{structninja__sched_a197b11572c0da997209ae59c64596348}{task\+Queue\+Array} \mbox{[}\hyperlink{ninja__sched_8h_a7a0ac93d52343c754e212d32d89251bda91535596df4c19a73c0aaad08784fc3b}{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}+1\mbox{]}
+\item 
+\hyperlink{ninja__sched_8h_a437fb465244194758a669cedf9d4dbba}{cf\+Task\+\_\+t} $\ast$ \hyperlink{structninja__sched_a61503437539b592233656df84e06cf34}{current\+Task}
+\item 
+uint32\+\_\+t \hyperlink{structninja__sched_a13ede91825cad62d094cdf092b50e4b5}{total\+Waiting\+Tasks}
+\item 
+uint32\+\_\+t \hyperlink{structninja__sched_a235aba2548221dbf76f7037515806aa3}{total\+Waiting\+Tasks\+Samples}
+\item 
+uint32\+\_\+t \hyperlink{structninja__sched_a43d3b0bfb4c15319453588f044695c17}{realtime\+Guard\+Interval}
+\item 
+uint32\+\_\+t \hyperlink{structninja__sched_ae954a7baf1898a5a15ce32c6cf525a50}{current\+Time}
+\item 
+uint16\+\_\+t \hyperlink{structninja__sched_a06111761deb72df115c42fb91c0a912e}{average\+System\+Load\+Percent}
+\item 
+int \hyperlink{structninja__sched_ae969712ba70cccb8f8189b8119e4b8fb}{task\+Queue\+Pos}
+\item 
+int \hyperlink{structninja__sched_a2b524ab94a720ed9d95e70233fc29a8e}{task\+Queue\+Size}
+\item 
+const struct \hyperlink{structsystem__calls__time}{system\+\_\+calls\+\_\+time} $\ast$ \hyperlink{structninja__sched_a87ba766cdff47a3bc7b8452e91103b33}{time}
+\item 
+const struct \hyperlink{structconfig}{config} $\ast$ \hyperlink{structninja__sched_abf477daa3f31be2ba829556bc934ab23}{config}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structninja__sched_a06111761deb72df115c42fb91c0a912e}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!average\+System\+Load\+Percent@{average\+System\+Load\+Percent}}
+\index{average\+System\+Load\+Percent@{average\+System\+Load\+Percent}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{average\+System\+Load\+Percent}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t ninja\+\_\+sched\+::average\+System\+Load\+Percent}}\label{structninja__sched_a06111761deb72df115c42fb91c0a912e}
+\hypertarget{structninja__sched_abf477daa3f31be2ba829556bc934ab23}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!config@{config}}
+\index{config@{config}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf config}$\ast$ ninja\+\_\+sched\+::config}}\label{structninja__sched_abf477daa3f31be2ba829556bc934ab23}
+\hypertarget{structninja__sched_a61503437539b592233656df84e06cf34}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!current\+Task@{current\+Task}}
+\index{current\+Task@{current\+Task}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{current\+Task}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cf\+Task\+\_\+t}$\ast$ ninja\+\_\+sched\+::current\+Task}}\label{structninja__sched_a61503437539b592233656df84e06cf34}
+\hypertarget{structninja__sched_ae954a7baf1898a5a15ce32c6cf525a50}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!current\+Time@{current\+Time}}
+\index{current\+Time@{current\+Time}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{current\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ninja\+\_\+sched\+::current\+Time}}\label{structninja__sched_ae954a7baf1898a5a15ce32c6cf525a50}
+\hypertarget{structninja__sched_a43d3b0bfb4c15319453588f044695c17}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!realtime\+Guard\+Interval@{realtime\+Guard\+Interval}}
+\index{realtime\+Guard\+Interval@{realtime\+Guard\+Interval}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{realtime\+Guard\+Interval}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ninja\+\_\+sched\+::realtime\+Guard\+Interval}}\label{structninja__sched_a43d3b0bfb4c15319453588f044695c17}
+\hypertarget{structninja__sched_a197b11572c0da997209ae59c64596348}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!task\+Queue\+Array@{task\+Queue\+Array}}
+\index{task\+Queue\+Array@{task\+Queue\+Array}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{task\+Queue\+Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cf\+Task\+\_\+t}$\ast$ ninja\+\_\+sched\+::task\+Queue\+Array\mbox{[}{\bf T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}+1\mbox{]}}}\label{structninja__sched_a197b11572c0da997209ae59c64596348}
+\hypertarget{structninja__sched_ae969712ba70cccb8f8189b8119e4b8fb}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!task\+Queue\+Pos@{task\+Queue\+Pos}}
+\index{task\+Queue\+Pos@{task\+Queue\+Pos}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{task\+Queue\+Pos}]{\setlength{\rightskip}{0pt plus 5cm}int ninja\+\_\+sched\+::task\+Queue\+Pos}}\label{structninja__sched_ae969712ba70cccb8f8189b8119e4b8fb}
+\hypertarget{structninja__sched_a2b524ab94a720ed9d95e70233fc29a8e}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!task\+Queue\+Size@{task\+Queue\+Size}}
+\index{task\+Queue\+Size@{task\+Queue\+Size}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{task\+Queue\+Size}]{\setlength{\rightskip}{0pt plus 5cm}int ninja\+\_\+sched\+::task\+Queue\+Size}}\label{structninja__sched_a2b524ab94a720ed9d95e70233fc29a8e}
+\hypertarget{structninja__sched_a87ba766cdff47a3bc7b8452e91103b33}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!time@{time}}
+\index{time@{time}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{time}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf system\+\_\+calls\+\_\+time}$\ast$ ninja\+\_\+sched\+::time}}\label{structninja__sched_a87ba766cdff47a3bc7b8452e91103b33}
+\hypertarget{structninja__sched_a13ede91825cad62d094cdf092b50e4b5}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!total\+Waiting\+Tasks@{total\+Waiting\+Tasks}}
+\index{total\+Waiting\+Tasks@{total\+Waiting\+Tasks}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{total\+Waiting\+Tasks}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ninja\+\_\+sched\+::total\+Waiting\+Tasks}}\label{structninja__sched_a13ede91825cad62d094cdf092b50e4b5}
+\hypertarget{structninja__sched_a235aba2548221dbf76f7037515806aa3}{\index{ninja\+\_\+sched@{ninja\+\_\+sched}!total\+Waiting\+Tasks\+Samples@{total\+Waiting\+Tasks\+Samples}}
+\index{total\+Waiting\+Tasks\+Samples@{total\+Waiting\+Tasks\+Samples}!ninja\+\_\+sched@{ninja\+\_\+sched}}
+\subsubsection[{total\+Waiting\+Tasks\+Samples}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ninja\+\_\+sched\+::total\+Waiting\+Tasks\+Samples}}\label{structninja__sched_a235aba2548221dbf76f7037515806aa3}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{ninja__sched_8h}{ninja\+\_\+sched.\+h}\end{DoxyCompactItemize}

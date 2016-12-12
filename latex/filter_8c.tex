@@ -1,0 +1,99 @@
+\hypertarget{filter_8c}{\section{src/main/common/filter.c File Reference}
+\label{filter_8c}\index{src/main/common/filter.\+c@{src/main/common/filter.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+Include dependency graph for filter.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filter_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{filter_8c_aa986358e779b6ba31b6f7be68346349e}{M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T}~0.\+69314718055994530942f
+\item 
+\#define \hyperlink{filter_8c_a20eab1a4c8e87ffa87b9e2fc52945c39}{M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T}~3.\+14159265358979323846f
+\item 
+\#define \hyperlink{filter_8c_adc6e473d3cd815b37aa92ac5fa08d279}{B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H}~1.\+9f     /$\ast$ bandwidth in octaves $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{filter_8c_a03b2178a8fa46ed820482d157b84210e}{filter\+Apply\+Pt1} (float \hyperlink{config_2mixer_8h_a2475c78015c7393c1c9939ab5a57ad9f}{input}, \hyperlink{filter_8h_aed80255c0793ffb71a98e96e3c81168d}{filter\+State\+Pt1\+\_\+t} $\ast$filter, uint8\+\_\+t f\+\_\+cut, float d\+T)
+\item 
+void \hyperlink{filter_8c_a0d345930980c9f0da44533d92ddb5b86}{Bi\+Quad\+New\+Lpf} (float filter\+Cut\+Freq, \hyperlink{filter_8h_a7256a3fa62e7894f819ddd905006ad2e}{biquad\+\_\+t} $\ast$new\+State, uint32\+\_\+t refresh\+Rate)
+\item 
+float \hyperlink{filter_8c_a0a8fc4d542ea87774f572d8227ee41a3}{apply\+Bi\+Quad\+Filter} (float sample, \hyperlink{filter_8h_a7256a3fa62e7894f819ddd905006ad2e}{biquad\+\_\+t} $\ast$state)
+\item 
+int32\+\_\+t \hyperlink{filter_8c_ad06d7b067d06cb03e7aa93040b974a3d}{filter\+Apply\+Average} (int32\+\_\+t \hyperlink{config_2mixer_8h_a2475c78015c7393c1c9939ab5a57ad9f}{input}, uint8\+\_\+t count, int32\+\_\+t average\+State\mbox{[}$\,$\mbox{]})
+\item 
+float \hyperlink{filter_8c_a0727931e5cee95250e3c931e627cd998}{filter\+Apply\+Averagef} (float \hyperlink{config_2mixer_8h_a2475c78015c7393c1c9939ab5a57ad9f}{input}, uint8\+\_\+t count, float average\+State\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{filter_8c_adc6e473d3cd815b37aa92ac5fa08d279}{\index{filter.\+c@{filter.\+c}!B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H@{B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H}}
+\index{B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H@{B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H}!filter.\+c@{filter.\+c}}
+\subsubsection[{B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+I\+Q\+U\+A\+D\+\_\+\+B\+A\+N\+D\+W\+I\+D\+T\+H~1.\+9f     /$\ast$ bandwidth in octaves $\ast$/}}\label{filter_8c_adc6e473d3cd815b37aa92ac5fa08d279}
+\hypertarget{filter_8c_aa986358e779b6ba31b6f7be68346349e}{\index{filter.\+c@{filter.\+c}!M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T@{M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T}}
+\index{M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T@{M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T}!filter.\+c@{filter.\+c}}
+\subsubsection[{M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+\_\+\+L\+N2\+\_\+\+F\+L\+O\+A\+T~0.\+69314718055994530942f}}\label{filter_8c_aa986358e779b6ba31b6f7be68346349e}
+\hypertarget{filter_8c_a20eab1a4c8e87ffa87b9e2fc52945c39}{\index{filter.\+c@{filter.\+c}!M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T@{M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T}}
+\index{M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T@{M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T}!filter.\+c@{filter.\+c}}
+\subsubsection[{M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+\_\+\+P\+I\+\_\+\+F\+L\+O\+A\+T~3.\+14159265358979323846f}}\label{filter_8c_a20eab1a4c8e87ffa87b9e2fc52945c39}
+
+
+\subsection{Function Documentation}
+\hypertarget{filter_8c_a0a8fc4d542ea87774f572d8227ee41a3}{\index{filter.\+c@{filter.\+c}!apply\+Bi\+Quad\+Filter@{apply\+Bi\+Quad\+Filter}}
+\index{apply\+Bi\+Quad\+Filter@{apply\+Bi\+Quad\+Filter}!filter.\+c@{filter.\+c}}
+\subsubsection[{apply\+Bi\+Quad\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}float apply\+Bi\+Quad\+Filter (
+\begin{DoxyParamCaption}
+\item[{float}]{sample, }
+\item[{{\bf biquad\+\_\+t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{filter_8c_a0a8fc4d542ea87774f572d8227ee41a3}
+\hypertarget{filter_8c_a0d345930980c9f0da44533d92ddb5b86}{\index{filter.\+c@{filter.\+c}!Bi\+Quad\+New\+Lpf@{Bi\+Quad\+New\+Lpf}}
+\index{Bi\+Quad\+New\+Lpf@{Bi\+Quad\+New\+Lpf}!filter.\+c@{filter.\+c}}
+\subsubsection[{Bi\+Quad\+New\+Lpf}]{\setlength{\rightskip}{0pt plus 5cm}void Bi\+Quad\+New\+Lpf (
+\begin{DoxyParamCaption}
+\item[{float}]{filter\+Cut\+Freq, }
+\item[{{\bf biquad\+\_\+t} $\ast$}]{new\+State, }
+\item[{uint32\+\_\+t}]{refresh\+Rate}
+\end{DoxyParamCaption}
+)}}\label{filter_8c_a0d345930980c9f0da44533d92ddb5b86}
+\hypertarget{filter_8c_ad06d7b067d06cb03e7aa93040b974a3d}{\index{filter.\+c@{filter.\+c}!filter\+Apply\+Average@{filter\+Apply\+Average}}
+\index{filter\+Apply\+Average@{filter\+Apply\+Average}!filter.\+c@{filter.\+c}}
+\subsubsection[{filter\+Apply\+Average}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t filter\+Apply\+Average (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{input, }
+\item[{uint8\+\_\+t}]{count, }
+\item[{int32\+\_\+t}]{average\+State\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{filter_8c_ad06d7b067d06cb03e7aa93040b974a3d}
+\hypertarget{filter_8c_a0727931e5cee95250e3c931e627cd998}{\index{filter.\+c@{filter.\+c}!filter\+Apply\+Averagef@{filter\+Apply\+Averagef}}
+\index{filter\+Apply\+Averagef@{filter\+Apply\+Averagef}!filter.\+c@{filter.\+c}}
+\subsubsection[{filter\+Apply\+Averagef}]{\setlength{\rightskip}{0pt plus 5cm}float filter\+Apply\+Averagef (
+\begin{DoxyParamCaption}
+\item[{float}]{input, }
+\item[{uint8\+\_\+t}]{count, }
+\item[{float}]{average\+State\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{filter_8c_a0727931e5cee95250e3c931e627cd998}
+\hypertarget{filter_8c_a03b2178a8fa46ed820482d157b84210e}{\index{filter.\+c@{filter.\+c}!filter\+Apply\+Pt1@{filter\+Apply\+Pt1}}
+\index{filter\+Apply\+Pt1@{filter\+Apply\+Pt1}!filter.\+c@{filter.\+c}}
+\subsubsection[{filter\+Apply\+Pt1}]{\setlength{\rightskip}{0pt plus 5cm}float filter\+Apply\+Pt1 (
+\begin{DoxyParamCaption}
+\item[{float}]{input, }
+\item[{{\bf filter\+State\+Pt1\+\_\+t} $\ast$}]{filter, }
+\item[{uint8\+\_\+t}]{f\+\_\+cut, }
+\item[{float}]{d\+T}
+\end{DoxyParamCaption}
+)}}\label{filter_8c_a03b2178a8fa46ed820482d157b84210e}

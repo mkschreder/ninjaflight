@@ -1,0 +1,102 @@
+\hypertarget{ninja__input_8c}{\section{src/main/ninja\+\_\+input.c File Reference}
+\label{ninja__input_8c}\index{src/main/ninja\+\_\+input.\+c@{src/main/ninja\+\_\+input.\+c}}
+}
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/color.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/parameter\+\_\+group.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/tilt.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/rc\+\_\+adjustments.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/sonar.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/initialisation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/beeper.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/display.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/ledstrip.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial\+\_\+msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/statusindicator.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}blackbox/blackbox.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/rate\+\_\+profile.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/altitudehold.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/gtune.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/navigation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/tilt.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/instruments.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/runtime\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninjaflight.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninja.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninja\+\_\+sched.\+h\char`\"{}}\\*
+Include dependency graph for ninja\+\_\+input.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ninja__input_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ninja__input_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}~12
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rc_8h_a891d794ff367b4671e5db0cbbc3ccf9a}{roll\+Pitch\+Status\+\_\+e} \hyperlink{ninja__input_8c_a52bed6a482e229c438bdb5b861b1d447}{calculate\+Roll\+Pitch\+Center\+Status} (struct \hyperlink{structrx}{rx} $\ast$self, \hyperlink{config_2rx_8h_a9a522ef6db22f2820b1ae0cb562aff4f}{rx\+Config\+\_\+t} $\ast$rx\+Config)
+\item 
+void \hyperlink{ninja__input_8c_aeb9fd19d65be1544205ff05f267cc94e}{ninja\+\_\+handle\+\_\+input} (struct \hyperlink{structninja}{ninja} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{ninja__input_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}{\index{ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}!A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D@{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}}
+\index{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D@{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}!ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}}
+\subsubsection[{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D~12}}\label{ninja__input_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}
+
+
+\subsection{Function Documentation}
+\hypertarget{ninja__input_8c_a52bed6a482e229c438bdb5b861b1d447}{\index{ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}!calculate\+Roll\+Pitch\+Center\+Status@{calculate\+Roll\+Pitch\+Center\+Status}}
+\index{calculate\+Roll\+Pitch\+Center\+Status@{calculate\+Roll\+Pitch\+Center\+Status}!ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}}
+\subsubsection[{calculate\+Roll\+Pitch\+Center\+Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf roll\+Pitch\+Status\+\_\+e} calculate\+Roll\+Pitch\+Center\+Status (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self, }
+\item[{{\bf rx\+Config\+\_\+t} $\ast$}]{rx\+Config}
+\end{DoxyParamCaption}
+)}}\label{ninja__input_8c_a52bed6a482e229c438bdb5b861b1d447}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{ninja__input_8c_a52bed6a482e229c438bdb5b861b1d447_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ninja__input_8c_aeb9fd19d65be1544205ff05f267cc94e}{\index{ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}!ninja\+\_\+handle\+\_\+input@{ninja\+\_\+handle\+\_\+input}}
+\index{ninja\+\_\+handle\+\_\+input@{ninja\+\_\+handle\+\_\+input}!ninja\+\_\+input.\+c@{ninja\+\_\+input.\+c}}
+\subsubsection[{ninja\+\_\+handle\+\_\+input}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+handle\+\_\+input (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{ninja__input_8c_aeb9fd19d65be1544205ff05f267cc94e}

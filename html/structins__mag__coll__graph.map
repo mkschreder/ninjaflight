@@ -1,0 +1,4 @@
+<map id="ins_mag" name="ins_mag">
+<area shape="rect" id="node2" href="$structsensor__trims__config.html" title="sensor_trims_config" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node3" href="$structmag__config.html" title="mag_config" alt="" coords="169,5,257,32"/>
+</map>

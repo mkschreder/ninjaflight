@@ -1,0 +1,5 @@
+<map id="imu_init" name="imu_init">
+<area shape="rect" id="node2" href="$group__IMU.html#ga7f0041a389ba8dda199866784cf3fcda" title="imu_set_acc_scale" alt="" coords="122,5,257,32"/>
+<area shape="rect" id="node3" href="$group__IMU.html#gabe4386ef930d4163c70b513b9e10fb0d" title="imu_set_gyro_scale" alt="" coords="120,56,259,83"/>
+<area shape="rect" id="node4" href="$group__IMU.html#gac2f3d89971ad35932072f3d450ec4a07" title="imu_reset" alt="" coords="150,107,229,133"/>
+</map>

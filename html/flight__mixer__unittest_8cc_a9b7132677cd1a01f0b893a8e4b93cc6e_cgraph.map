@@ -1,0 +1,14 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$group__MIXER.html#ga5345c048cfa7ae2afe45faf5932b1689" title="initializes a mixer struct " alt="" coords="169,12,247,39"/>
+<area shape="rect" id="node6" href="$mock__system_8cc.html#aee16ae4e490af0431a008403c31b7940" title="mock_syscalls" alt="" coords="153,63,263,89"/>
+<area shape="rect" id="node7" href="$group__MIXER.html#ga8d55a03f9491496456b87308cb962d66" title="loads a set of motor mixing rules from cleanflight format into current ruleset " alt="" coords="126,113,290,140"/>
+<area shape="rect" id="node8" href="$group__MIXER.html#ga822f0277eec5a3fa19b4120a1c7a8338" title="loads servo mixing rules from cleanflight format into internal format " alt="" coords="127,164,289,191"/>
+<area shape="rect" id="node9" href="$group__MIXER.html#gaedfa8863c1b4819082c4349bc4f053be" title="inputs a command to one of the input channels of the mixer " alt="" coords="131,215,285,241"/>
+<area shape="rect" id="node10" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="137,265,279,292"/>
+<area shape="rect" id="node11" href="$group__MIXER.html#ga724983e86f9da0e57f4aa4ec495d2d87" title="calculates outputs from all mixer inputs and mixing rules " alt="" coords="353,219,453,245"/>
+<area shape="rect" id="node12" href="$group__MIXER.html#gab6ecb3be636e39dc1582e4bb448c3bf7" title="returns the number of motors that are currently being controlled by mixer profile ..." alt="" coords="129,367,287,393"/>
+<area shape="rect" id="node13" href="$group__MIXER.html#gaec0e6d4ba020b8ae1b3d593afdbd4586" title="returns number of servos that are used by the mixer. " alt="" coords="129,417,287,444"/>
+<area shape="rect" id="node3" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="339,5,466,46"/>
+<area shape="rect" id="node5" href="$group__MIXER.html#gac829353eeef0500327a5461ba8422523" title="loads a mixer preset into the current ruleset " alt="" coords="339,71,467,97"/>
+<area shape="rect" id="node4" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="515,71,589,97"/>
+</map>

@@ -1,0 +1,18 @@
+<map id="blackbox_stop" name="blackbox_stop">
+<area shape="rect" id="node2" href="$blackbox_8c.html#a42d2e5eb418fd73707f405ae1b013e0e" title="blackboxLogEvent" alt="" coords="161,183,290,209"/>
+<area shape="rect" id="node3" href="$blackbox__io_8c.html#ae9a6d0cb8f7a61f120b1b7d6c314b537" title="blackboxWrite" alt="" coords="777,208,882,235"/>
+<area shape="rect" id="node9" href="$blackbox__io_8c.html#a3f67d7368d1b8639b39378554f4acf8c" title="blackboxWriteUnsignedVB" alt="" coords="549,5,728,32"/>
+<area shape="rect" id="node10" href="$blackbox__io_8c.html#acebcec3e161286d97c55916a71d14db0" title="blackboxWriteFloat" alt="" coords="353,157,487,184"/>
+<area shape="rect" id="node13" href="$blackbox__io_8c.html#afb90ddcb836e5ee6bf8ef70d3a26b1fe" title="blackboxWriteSignedVB" alt="" coords="339,56,501,83"/>
+<area shape="rect" id="node15" href="$blackbox__io_8c.html#a94c9b9d2bfc235279b4ed763aa12a0ee" title="blackboxWriteS16" alt="" coords="356,208,484,235"/>
+<area shape="rect" id="node16" href="$blackbox__io_8c.html#a2afc7293685943f5f6c22d5ef748c363" title="blackboxPrint" alt="" coords="779,309,880,336"/>
+<area shape="rect" id="node4" href="$flashfs_8c.html#a32f00648d9cb3025d90ca434d1b566fb" title="flashfsWriteByte" alt="" coords="931,157,1050,184"/>
+<area shape="rect" id="node6" href="$asyncfatfs_8c.html#a48cc60f56884206251a165dd3a372f09" title="afatfs_fputc" alt="" coords="945,208,1036,235"/>
+<area shape="rect" id="node8" href="$drivers_2serial_8c.html#a1d2886fbce32033a1af48d522439756b" title="serialWrite" alt="" coords="949,259,1033,285"/>
+<area shape="rect" id="node5" href="$flashfs_8c.html#aa93d40233e62caf7c8753f628afd882a" title="flashfsFlushAsync" alt="" coords="1099,157,1229,184"/>
+<area shape="rect" id="node7" href="$asyncfatfs_8c.html#afcedacafe900edfa97f06ec529c00e7b" title="afatfs_fwrite" alt="" coords="1117,259,1211,285"/>
+<area shape="rect" id="node11" href="$blackbox__io_8c.html#a2692f557567adece78f03336c941d9c4" title="blackboxWriteU32" alt="" coords="574,157,703,184"/>
+<area shape="rect" id="node12" href="$encoding_8c.html#a7a91911c51ec4c035534b927a9bab1fd" title="castFloatBytesToInt" alt="" coords="569,107,709,133"/>
+<area shape="rect" id="node14" href="$encoding_8c.html#a55e89050a990e44e6b0a11f80c7b83cf" title="zigzagEncode" alt="" coords="587,56,691,83"/>
+<area shape="rect" id="node17" href="$flashfs_8c.html#a084fda8992dee01127597f323cbf9fb8" title="flashfsWrite" alt="" coords="945,360,1037,387"/>
+</map>

@@ -1,0 +1,42 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$ins__unittest_8cc.html#a23dcacf305cdf857012322c794100791" title="reset_trims" alt="" coords="151,81,238,108"/>
+<area shape="rect" id="node4" href="$group__Instruments__Main.html#ga53391073103ee8a597b27ee707baf6d5" title="Initializes all instruments using specified configuration. " alt="" coords="163,233,226,260"/>
+<area shape="rect" id="node20" href="$group__Instruments__Main.html#ga3377f93808683a90ec4de025409e5cbf" title="ins_start_mag_calibration" alt="" coords="109,436,280,463"/>
+<area shape="rect" id="node22" href="$ins__unittest_8cc.html#a363567be0928a52bbd806460545f6626" title="input_mag" alt="" coords="153,563,236,589"/>
+<area shape="rect" id="node32" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="574,473,693,500"/>
+<area shape="rect" id="node41" href="$compass_8c.html#a5ce783a93ae2bd3e5828ad3f02b37a1e" title="ins_mag_save_trims" alt="" coords="123,613,266,640"/>
+<area shape="rect" id="node3" href="$group__config.html#gad1e2009e01a92da1990ead7bd87c5476" title="config_get_profile_rw" alt="" coords="341,5,486,32"/>
+<area shape="rect" id="node5" href="$barometer_8c.html#a96ad453b5c69a0ccb52473b818abb50d" title="baro_init" alt="" coords="378,360,449,387"/>
+<area shape="rect" id="node6" href="$boardalignment_8c.html#adf29c38a71ce52aa5a5027bbba17ecc1" title="board_alignment_init" alt="" coords="343,56,484,83"/>
+<area shape="rect" id="node12" href="$acceleration_8c.html#abc1671232b745bbe7fd0e3143e9ebdf7" title="ins_acc_init" alt="" coords="368,107,459,133"/>
+<area shape="rect" id="node13" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="795,263,919,289"/>
+<area shape="rect" id="node14" href="$gyro_8c.html#ab04db73949c1abfe034a71415b3055e0" title="ins_gyro_init" alt="" coords="366,157,461,184"/>
+<area shape="rect" id="node17" href="$compass_8c.html#adc7096ec042fe4fecb280a3de63540fb" title="ins_mag_init" alt="" coords="366,259,461,285"/>
+<area shape="rect" id="node18" href="$group__IMU.html#ga52996c126e6e5673acf14a7300952af7" title="imu_init" alt="" coords="380,309,447,336"/>
+<area shape="rect" id="node7" href="$maths_8c.html#ac969ac66a7dede9deccae7154aa0d3ea" title="matrix_set_identity" alt="" coords="567,107,699,133"/>
+<area shape="rect" id="node8" href="$maths_8c.html#a9d9e746df4553b61522720bc5b243985" title="degreesToRadians" alt="" coords="568,5,699,32"/>
+<area shape="rect" id="node9" href="$maths_8c.html#ae051f367de8da318779e435c0f30ff48" title="buildRotationMatrix" alt="" coords="566,56,701,83"/>
+<area shape="rect" id="node10" href="$maths_8c.html#a82462a5597861c636a301dad9263919d" title="cos_approx" alt="" coords="813,31,902,57"/>
+<area shape="rect" id="node11" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="995,56,1080,83"/>
+<area shape="rect" id="node15" href="$gyro_8c.html#a32e433f915dc6d2f44ceca1eac6f170b" title="ins_gyro_set_filter_hz" alt="" coords="559,157,708,184"/>
+<area shape="rect" id="node16" href="$filter_8c.html#a0d345930980c9f0da44533d92ddb5b86" title="BiQuadNewLpf" alt="" coords="802,157,913,184"/>
+<area shape="rect" id="node19" href="$group__IMU.html#gac2f3d89971ad35932072f3d450ec4a07" title="imu_reset" alt="" coords="594,305,673,332"/>
+<area shape="rect" id="node21" href="$compass_8c.html#af9f04cf0174c39454bdae50e7939ca0f" title="ins_mag_start_calibration" alt="" coords="328,411,499,437"/>
+<area shape="rect" id="node23" href="$group__Instruments__Main.html#gab819d65960b422c029b6b65c5e093615" title="ins_process_mag" alt="" coords="351,571,475,597"/>
+<area shape="rect" id="node27" href="$group__Instruments__Main.html#ga87572d36a8af9fcad5d632a721ed671d" title="ins_process_gyro" alt="" coords="351,663,475,689"/>
+<area shape="rect" id="node31" href="$group__Instruments__Main.html#ga126803b1bfe06b359e1f812a6953c521" title="ins_update" alt="" coords="371,461,456,488"/>
+<area shape="rect" id="node24" href="$boardalignment_8c.html#a5285bcaf5a228f05b07db1fa32d40d75" title="board_alignment_rotate\l_vector" alt="" coords="555,626,712,667"/>
+<area shape="rect" id="node25" href="$compass_8c.html#ae22f898646129a65940365983c831eb2" title="ins_mag_process_sample" alt="" coords="547,524,720,551"/>
+<area shape="rect" id="node26" href="$group__IMU.html#gafd573f1d86b59931a3588c939f233bcd" title="imu_input_magnetometer" alt="" coords="549,575,717,601"/>
+<area shape="rect" id="node28" href="$gyro_8c.html#a9aa1d061d3803d5bd885b68337981a3b" title="ins_gyro_process_sample" alt="" coords="547,743,720,769"/>
+<area shape="rect" id="node30" href="$group__IMU.html#ga57e6b2abb21fe897496e1d88104d40d2" title="imu_input_gyro" alt="" coords="578,692,689,719"/>
+<area shape="rect" id="node29" href="$filter_8c.html#a0a8fc4d542ea87774f572d8227ee41a3" title="applyBiQuadFilter" alt="" coords="795,743,920,769"/>
+<area shape="rect" id="node38" href="$group__IMU.html#gad46d84705e3777ce1b6a682e1c6b3a34" title="imu_enable_fast_dcm\l_convergence" alt="" coords="559,357,708,398"/>
+<area shape="rect" id="node39" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="589,423,678,449"/>
+<area shape="rect" id="node33" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="782,397,933,424"/>
+<area shape="rect" id="node34" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="784,448,931,475"/>
+<area shape="rect" id="node35" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="769,499,946,525"/>
+<area shape="rect" id="node36" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="774,550,941,591"/>
+<area shape="rect" id="node37" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="768,616,947,643"/>
+<area shape="rect" id="node40" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="807,347,907,373"/>
+</map>

@@ -1,0 +1,122 @@
+\hypertarget{config__streamer_8h}{\section{src/main/drivers/config\+\_\+streamer.h File Reference}
+\label{config__streamer_8h}\index{src/main/drivers/config\+\_\+streamer.\+h@{src/main/drivers/config\+\_\+streamer.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+Include dependency graph for config\+\_\+streamer.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{config__streamer_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structconfig__streamer__s}{config\+\_\+streamer\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structconfig__streamer__s}{config\+\_\+streamer\+\_\+s} \hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{config__streamer_8h_a435101fb2bb5d8e6bb1a0b95f7ad4156}{config\+\_\+streamer\+\_\+init} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c)
+\item 
+void \hyperlink{config__streamer_8h_afe55c1edf977ed935df38e23ca7cd732}{config\+\_\+streamer\+\_\+start} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c, uintptr\+\_\+t base, int size)
+\item 
+int \hyperlink{config__streamer_8h_a27ac1b8ba20f1492ba98b7b13326b16d}{config\+\_\+streamer\+\_\+write} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c, const uint8\+\_\+t $\ast$p, uint32\+\_\+t size)
+\item 
+int \hyperlink{config__streamer_8h_a8f160975a9564ae87a9cb3235ea4ea33}{config\+\_\+streamer\+\_\+flush} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c)
+\item 
+int \hyperlink{config__streamer_8h_a761ea5fea9700045582658a5e4ccc8f1}{config\+\_\+streamer\+\_\+finish} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c)
+\item 
+int \hyperlink{config__streamer_8h_a5c51c500385379966c15b85dc547ce6a}{config\+\_\+streamer\+\_\+status} (\hyperlink{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{config\+\_\+streamer\+\_\+t} $\ast$c)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+t@{config\+\_\+streamer\+\_\+t}}
+\index{config\+\_\+streamer\+\_\+t@{config\+\_\+streamer\+\_\+t}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf config\+\_\+streamer\+\_\+s}  {\bf config\+\_\+streamer\+\_\+t}}}\label{config__streamer_8h_a9d6ab2c9032cc271939e66bd52d6e841}
+
+
+\subsection{Function Documentation}
+\hypertarget{config__streamer_8h_a761ea5fea9700045582658a5e4ccc8f1}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+finish@{config\+\_\+streamer\+\_\+finish}}
+\index{config\+\_\+streamer\+\_\+finish@{config\+\_\+streamer\+\_\+finish}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+finish}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+streamer\+\_\+finish (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_a761ea5fea9700045582658a5e4ccc8f1}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{config__streamer_8h_a761ea5fea9700045582658a5e4ccc8f1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer_8h_a8f160975a9564ae87a9cb3235ea4ea33}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+flush@{config\+\_\+streamer\+\_\+flush}}
+\index{config\+\_\+streamer\+\_\+flush@{config\+\_\+streamer\+\_\+flush}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+flush}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+streamer\+\_\+flush (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_a8f160975a9564ae87a9cb3235ea4ea33}
+\hypertarget{config__streamer_8h_a435101fb2bb5d8e6bb1a0b95f7ad4156}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+init@{config\+\_\+streamer\+\_\+init}}
+\index{config\+\_\+streamer\+\_\+init@{config\+\_\+streamer\+\_\+init}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void config\+\_\+streamer\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_a435101fb2bb5d8e6bb1a0b95f7ad4156}
+\hypertarget{config__streamer_8h_afe55c1edf977ed935df38e23ca7cd732}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+start@{config\+\_\+streamer\+\_\+start}}
+\index{config\+\_\+streamer\+\_\+start@{config\+\_\+streamer\+\_\+start}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+start}]{\setlength{\rightskip}{0pt plus 5cm}void config\+\_\+streamer\+\_\+start (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c, }
+\item[{uintptr\+\_\+t}]{base, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_afe55c1edf977ed935df38e23ca7cd732}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{config__streamer_8h_afe55c1edf977ed935df38e23ca7cd732_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer_8h_a5c51c500385379966c15b85dc547ce6a}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+status@{config\+\_\+streamer\+\_\+status}}
+\index{config\+\_\+streamer\+\_\+status@{config\+\_\+streamer\+\_\+status}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+streamer\+\_\+status (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_a5c51c500385379966c15b85dc547ce6a}
+\hypertarget{config__streamer_8h_a27ac1b8ba20f1492ba98b7b13326b16d}{\index{config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}!config\+\_\+streamer\+\_\+write@{config\+\_\+streamer\+\_\+write}}
+\index{config\+\_\+streamer\+\_\+write@{config\+\_\+streamer\+\_\+write}!config\+\_\+streamer.\+h@{config\+\_\+streamer.\+h}}
+\subsubsection[{config\+\_\+streamer\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+streamer\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{{\bf config\+\_\+streamer\+\_\+t} $\ast$}]{c, }
+\item[{const uint8\+\_\+t $\ast$}]{p, }
+\item[{uint32\+\_\+t}]{size}
+\end{DoxyParamCaption}
+)}}\label{config__streamer_8h_a27ac1b8ba20f1492ba98b7b13326b16d}

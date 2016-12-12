@@ -1,0 +1,224 @@
+There are two types of failsafe\+:
+
+
+\begin{DoxyEnumerate}
+\item Receiver based failsafe
+\item Flight controller based failsafe
+\end{DoxyEnumerate}
+
+Receiver based failsafe is where you, from your transmitter and receiver, configure channels to output desired signals if your receiver detects signal loss and goes to the {\bfseries failsafe mode}. The idea is that you set throttle and other controls so the aircraft descends in a controlled manner. See your receiver's documentation for this method.
+
+Flight controller based failsafe is where the flight controller attempts to detect signal loss and/or the {\bfseries failsafe mode} of your receiver and upon detection goes to {\bfseries failsafe stage 1}. The idea is that the flight controller starts using {\bfseries fallback settings} for all controls, which are set by you, using the C\+L\+I command {\ttfamily rxfail} (see \href{Rx.md#rx-loss-configuration}{\tt rxfail} section in rx documentation) or the cleanflight-\/configurator G\+U\+I.
+
+It is possible to use both types at the same time, which may be desirable. Flight controller failsafe can even help if your receiver signal wires come loose, get damaged or your receiver malfunctions in a way the receiver itself cannot detect.
+
+Alternatively you may configure a transmitter switch to activate failsafe mode. This is useful for fieldtesting the failsafe system and as a $\ast$$\ast$\+\_\+{\ttfamily P\+A\+N\+I\+C}\+\_\+$\ast$$\ast$ switch when you lose orientation.
+
+\subsection*{Flight controller failsafe system}
+
+This system has two stages.
+
+{\bfseries Stage 1} is entered when {\bfseries a flightchannel} has an \+\_\+\+\_\+$\ast$invalid pulse length$\ast$\+\_\+\+\_\+, the receiver reports \+\_\+\+\_\+$\ast$failsafe mode$\ast$\+\_\+\+\_\+ or there is \+\_\+\+\_\+$\ast$no signal$\ast$\+\_\+\+\_\+ from the receiver. Fallback settings are applied to \+\_\+\+\_\+$\ast$all channels$\ast$\+\_\+\+\_\+ and a short amount of time is provided to allow for recovery.
+
+{\bfseries Note\+:} Prior to entering {\bfseries stage 1}, fallback settings are also applied to \+\_\+\+\_\+$\ast$individual A\+U\+X channels$\ast$\+\_\+\+\_\+ that have invalid pulses.
+
+{\bfseries Stage 2} is entered when your craft is {\bfseries armed} and {\bfseries stage 1} persists longer then the configured guard time ({\ttfamily failsafe\+\_\+delay}). All channels will remain at the applied fallback setting unless overruled by the chosen stage 2 procedure ({\ttfamily failsafe\+\_\+procedure}).
+
+{\bfseries Stage 2} is not activated until 5 seconds after the flight controller boots up. This is to prevent unwanted activation, as in the case of T\+X/\+R\+X gear with long bind procedures, before the R\+X sends out valid data.
+
+{\bfseries Stage 2} can also directly be activated when a transmitter switch that is configured to control the failsafe mode is switched O\+N (and {\ttfamily failsafe\+\_\+kill\+\_\+switch} is set to O\+F\+F).
+
+{\bfseries Stage 2} will be aborted when it was due to\+:
+
+
+\begin{DoxyItemize}
+\item a lost R\+C signal and the R\+C signal has recovered.
+\item a transmitter failsafe switch was set to O\+N position and the switch is set to O\+F\+F position (and {\ttfamily failsafe\+\_\+kill\+\_\+switch} is set to O\+F\+F).
+\end{DoxyItemize}
+
+Note that\+:
+\begin{DoxyItemize}
+\item At the end of the stage 2 procedure, the flight controller will be disarmed and re-\/arming will be locked until the signal from the receiver is restored for 30 seconds A\+N\+D the arming switch is in the O\+F\+F position (when an arm switch is in use).
+\item When {\ttfamily failsafe\+\_\+kill\+\_\+switch} is set to O\+N and the rc switch configured for failsafe is set to O\+N, the craft is instantly disarmed. Re-\/arming is possible when the signal from the receiver has restored for at least 3 seconds A\+N\+D the arming switch is in the O\+F\+F position (when one is in use). Similar effect can be achieved by setting 'failsafe\+\_\+throttle' to 1000 and 'failsafe\+\_\+off\+\_\+delay' to 0. This is not the prefered method, since the reaction is slower and re-\/arming will be locked.
+\item Prior to starting a stage 2 intervention it is checked if the throttle position was below {\ttfamily min\+\_\+throttle} level for the last {\ttfamily failsafe\+\_\+throttle\+\_\+low\+\_\+delay} seconds. If it was, the craft is assumed to be on the ground and is only disarmed. It may be re-\/armed without a power cycle.
+\end{DoxyItemize}
+
+Some notes about {\bfseries S\+A\+F\+E\+T\+Y}\+:
+\begin{DoxyItemize}
+\item The failsafe system will be activated regardless of current throttle position. So when the failsafe intervention is aborted (R\+C signal restored/failsafe switch set to O\+F\+F) the current stick position will direct the craft !
+\item The craft may already be on the ground with motors stopped and that motors and props could spin again -\/ the software does not currently detect if the craft is on the ground. Take care when using {\ttfamily M\+O\+T\+O\+R\+\_\+\+S\+T\+O\+P} feature. {\bfseries Props will spin up without warning}, when armed with {\ttfamily M\+O\+T\+O\+R\+\_\+\+S\+T\+O\+P} feature O\+N (props are not spinning) $\ast$$\ast$\+\_\+and\+\_\+$\ast$$\ast$ failsafe is activated !
+\end{DoxyItemize}
+
+\subsection*{Configuration}
+
+When configuring the flight controller failsafe, use the following steps\+:
+
+
+\begin{DoxyEnumerate}
+\item Configure your receiver to do one of the following\+:
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item Upon signal loss, send no signal/pulses over the channels
+\item Send an invalid signal over the channels (for example, send values lower than {\ttfamily rx\+\_\+min\+\_\+usec})
+\end{DoxyItemize}
+
+and
+
+
+\begin{DoxyItemize}
+\item Ensure your receiver does not send out channel data that would cause a disarm by switch or sticks to be registered by the F\+C. This is especially important for those using a switch to arm.
+\end{DoxyItemize}
+
+See your receiver's documentation for direction on how to accomplish one of these.
+
+
+\begin{DoxyItemize}
+\item Configure one of the transmitter switches to activate the failsafe mode.
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item Set {\ttfamily failsafe\+\_\+off\+\_\+delay} to an appropriate value based on how high you fly
+\item Set {\ttfamily failsafe\+\_\+throttle} to a value that allows the aircraft to descend at approximately one meter per second (default is 1000 which should be throttle off).
+\end{DoxyEnumerate}
+
+These are the basic steps for flight controller failsafe configuration; see Failsafe Settings below for additional settings that may be changed.
+
+\subsection*{Failsafe Settings}
+
+Failsafe delays are configured in 0.\+1 second steps.
+
+1 step = 0.\+1sec
+
+1 second = 10 steps
+
+\subsubsection*{{\ttfamily failsafe\+\_\+delay}}
+
+Guard time for failsafe activation after signal lost. This is the amount of time the flight controller waits to see if it begins receiving a valid signal again before activating failsafe.
+
+\subsubsection*{{\ttfamily failsafe\+\_\+off\+\_\+delay}}
+
+Delay after failsafe activates before motors finally turn off. This is the amount of time 'failsafe\+\_\+throttle' is active. If you fly at higher altitudes you may need more time to descend safely.
+
+\subsubsection*{{\ttfamily failsafe\+\_\+throttle}}
+
+Throttle level used for landing. Specify a value that causes the aircraft to descend at about 1\+M/sec. Default is set to 1000 which should correspond to throttle off.
+
+\subsubsection*{{\ttfamily failsafe\+\_\+kill\+\_\+switch}}
+
+Configure the rc switched failsafe action\+: the same action as when the rc link is lost (set to O\+F\+F) or disarms instantly (set to O\+N). Also see above.
+
+\subsubsection*{{\ttfamily failsafe\+\_\+throttle\+\_\+low\+\_\+delay}}
+
+Time throttle level must have been below 'min\+\_\+throttle' to {\itshape only disarm} instead of {\itshape full failsafe procedure}.
+
+Use standard R\+X usec values. See \hyperlink{Rx_8md}{Rx documentation}.
+
+\subsubsection*{{\ttfamily failsafe\+\_\+procedure}}
+
+
+\begin{DoxyItemize}
+\item {\bfseries Drop\+:} Just kill the motors and disarm (crash the craft).
+\item {\bfseries Land\+:} Enable an auto-\/level mode, center the flight sticks and set the throttle to a predefined value ({\ttfamily failsafe\+\_\+throttle}) for a predefined time ({\ttfamily failsafe\+\_\+off\+\_\+delay}). This should allow the craft to come to a safer landing.
+\end{DoxyItemize}
+
+\subsubsection*{{\ttfamily rx\+\_\+min\+\_\+usec}}
+
+The lowest channel value considered valid. e.\+g. P\+W\+M/\+P\+P\+M pulse length
+
+\subsubsection*{{\ttfamily rx\+\_\+max\+\_\+usec}}
+
+The highest channel value considered valid. e.\+g. P\+W\+M/\+P\+P\+M pulse length
+
+The {\ttfamily rx\+\_\+min\+\_\+usec} and {\ttfamily rx\+\_\+max\+\_\+usec} settings helps detect when your R\+X stops sending any data, enters failsafe mode or when the R\+X looses signal.
+
+With a Graupner G\+R-\/24 configured for P\+W\+M output with failsafe on channels 1-\/4 set to O\+F\+F in the receiver settings then this setting, at its default value, will allow failsafe to be activated.
+
+\subsection*{Testing}
+
+{\bfseries Bench test the failsafe system before flying -\/ {\itshape remove props while doing so}.}
+
+
+\begin{DoxyEnumerate}
+\item Arm the craft.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Turn off transmitter or unplug R\+X.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe motors spin at configured throttle setting for configured duration.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe motors turn off after configured duration.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Ensure that when you turn on your T\+X again or reconnect the R\+X that you cannot re-\/arm once the motors have stopped.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Power cycle the F\+C.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Arm the craft.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Turn off transmitter or unplug R\+X.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe motors spin at configured throttle setting for configured duration.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Turn on T\+X or reconnect R\+X.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Ensure that your switch positions don't now cause the craft to disarm (otherwise it would fall out of the sky on regained signal).
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe that normal flight behavior is resumed.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Disarm.
+\end{DoxyEnumerate}
+
+{\bfseries Field test the failsafe system.}
+
+
+\begin{DoxyEnumerate}
+\item Perform bench testing first!
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item On a calm day go to an unpopulated area away from buildings or test indoors in a safe controlled environment -\/ e.\+g. inside a big net.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Arm the craft.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Hover over something soft (long grass, ferns, heather, foam, etc.).
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Descend the craft and observe throttle position and record throttle value from your T\+X channel monitor. Ideally 1500 should be hover. So your value should be less than 1500.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Stop, disarm.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Set failsafe throttle to the recorded value.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Arm, hover over something soft again.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Turn off T\+X (!)
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe craft descends and motors continue to spin for the configured duration.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Observe F\+C disarms after the configured duration.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Remove flight battery.
+\end{DoxyEnumerate}
+
+If craft descends too quickly then increase failsafe throttle setting.
+
+Ensure that the duration is long enough for your craft to land at the altitudes you normally fly at.
+
+Using a configured transmitter switch to activate failsafe mode, instead of switching off your T\+X, is good primary testing method in addition to the above procedure. 

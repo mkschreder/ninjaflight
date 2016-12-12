@@ -1,0 +1,54 @@
+A sonar sensor can be used to measure altitude for use with B\+A\+R\+O and S\+O\+N\+A\+R altitude hold modes.
+
+The sonar sensor is used instead of the pressure sensor (barometer) at low altitudes (less than about 3.\+5 meters above the ground). The sonar sensor is only used when the aircraft inclination angle (attitude) is small (less than 22.\+5 degrees).
+
+\subsection*{Hardware}
+
+Currently the only supported sensor is the H\+C\+S\+R04 sensor.
+
+\subsection*{Connections}
+
+\subsubsection*{Naze/\+Flip32+}
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Mode }&{\bf Trigger }&{\bf Echo }&{\bf Inline 1k resistors  }\\\cline{1-4}
+Parallel P\+W\+M/\+A\+D\+C current sensor &P\+B8 / Motor 5 &P\+B9 / Motor 6 &N\+O (5v tolerant) \\\cline{1-4}
+P\+P\+M/\+Serial R\+X &P\+B0 / R\+C7 &P\+B1 / R\+C8 &Y\+E\+S (3.\+3v input) \\\cline{1-4}
+\end{TabularC}
+\paragraph*{Constraints}
+
+Current meter cannot be used in conjunction with Parallel P\+W\+M and Sonar.
+
+\subsubsection*{Olimexino}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Trigger }&{\bf Echo }&{\bf Inline 1k resistors  }\\\cline{1-3}
+P\+B0 / R\+C7 &P\+B1 / R\+C8 &Y\+E\+S (3.\+3v input) \\\cline{1-3}
+\end{TabularC}
+\paragraph*{Constraints}
+
+Current meter cannot be used in conjunction with Sonar.
+
+\subsubsection*{C\+C3\+D}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Trigger }&{\bf Echo }&{\bf Inline 1k resistors  }\\\cline{1-3}
+P\+B5 / R\+C4 &P\+B0 / R\+C5 &Y\+E\+S (3.\+3v input) \\\cline{1-3}
+\end{TabularC}
+\paragraph*{Constraints}
+
+Sonar cannot be used in conjuction with Soft\+Serial or Parallel P\+W\+M.
+
+\subsubsection*{S\+P\+Racing\+F3}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Trigger }&{\bf Echo }&{\bf Inline 1k resistors  }\\\cline{1-3}
+P\+B0 / R\+C7 &P\+B1 / R\+C8 &Y\+E\+S (3.\+3v input) \\\cline{1-3}
+\end{TabularC}
+\paragraph*{Constraints}
+
+Sonar cannot be used in conjuction with Soft\+Serial2 or Parallel P\+W\+M. 

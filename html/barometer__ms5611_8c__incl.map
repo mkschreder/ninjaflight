@@ -1,0 +1,8 @@
+<map id="src/main/drivers/barometer_ms5611.c" name="src/main/drivers/barometer_ms5611.c">
+<area shape="rect" id="node5" href="$drivers_2barometer_8h.html" title="barometer.h" alt="" coords="225,96,316,123"/>
+<area shape="rect" id="node6" href="$barometer__ms5611_8h.html" title="barometer_ms5611.h" alt="" coords="340,96,484,123"/>
+<area shape="rect" id="node7" href="$gpio_8h.html" title="gpio.h" alt="" coords="509,96,565,123"/>
+<area shape="rect" id="node8" href="$drivers_2system_8h.html" title="system.h" alt="" coords="590,96,665,123"/>
+<area shape="rect" id="node9" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="690,96,768,123"/>
+<area shape="rect" id="node10" href="$build__config_8h.html" title="build_config.h" alt="" coords="793,96,895,123"/>
+</map>

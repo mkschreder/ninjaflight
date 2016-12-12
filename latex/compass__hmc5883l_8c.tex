@@ -1,0 +1,179 @@
+\hypertarget{compass__hmc5883l_8c}{\section{src/main/drivers/compass\+\_\+hmc5883l.c File Reference}
+\label{compass__hmc5883l_8c}\index{src/main/drivers/compass\+\_\+hmc5883l.\+c@{src/main/drivers/compass\+\_\+hmc5883l.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nvic.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}bus\+\_\+i2c.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}light\+\_\+led.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}compass\+\_\+hmc5883l.\+h\char`\"{}}\\*
+Include dependency graph for compass\+\_\+hmc5883l.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_ade4e63fac819c67040e374f08d2d7230}{M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S}~0x1\+E
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a929f0662b838fe99943120e419f6a42c}{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R}~0x03
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a049a38a5745aa4fe9e8a55b810f44270}{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A}~0
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a532bdc95b31fba816b3905078b888b92}{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B}~1
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_ab5bb60ac8ceb907330a5619ef8461ded}{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E}~2
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a0719df99be358992db17b65aaec42904}{H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}~(+1.\+16f)
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a8c274ea8afde5eab1aa3483abf155a5e}{H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}~(+1.\+16f)
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_acdd39249ee5dee1a798d0a9a1267ecd8}{H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}~(+1.\+08f)
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a5b60632c0c813e3d2657d81164310007}{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T}~(243.\+0f / 390.\+0f)
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_aece80677a2247473dda9519b5fdafcce}{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T}~(575.\+0f / 390.\+0f)
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_af4320164826a70c985b1aa74be6bfc32}{H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S}~1
+\item 
+\#define \hyperlink{compass__hmc5883l_8c_a460cdc1420f14becaf3dfa8e541c77ab}{H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S}~2
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{compass__hmc5883l_8c_a2ad94276ab0de810d391dd110313ee66}{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler} (void)
+\item 
+bool \hyperlink{compass__hmc5883l_8c_aafe13b0a986db6811454d817381523b4}{hmc5883l\+Detect} (\hyperlink{drivers_2compass_8h_a75baa82eef2261988c9b0faa399e5bce}{mag\+\_\+t} $\ast$\hyperlink{initialisation_8h_a69fe6c4b5f393a329d0107320686f5d9}{mag}, const \hyperlink{compass__hmc5883l_8h_aeef5ca3fa5b11bc05fcd792ac90c45da}{hmc5883\+Config\+\_\+t} $\ast$hmc5883\+Config\+To\+Use)
+\item 
+void \hyperlink{compass__hmc5883l_8c_aee79dbde2bc3263498add01336f9c9e7}{hmc5883l\+Init} (void)
+\item 
+bool \hyperlink{compass__hmc5883l_8c_a11c500d744ed654361418ba1e193a8e1}{hmc5883l\+Read} (int16\+\_\+t $\ast$mag\+Data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{compass__hmc5883l_8c_a049a38a5745aa4fe9e8a55b810f44270}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A}}
+\index{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+A~0}}\label{compass__hmc5883l_8c_a049a38a5745aa4fe9e8a55b810f44270}
+\hypertarget{compass__hmc5883l_8c_a532bdc95b31fba816b3905078b888b92}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B}}
+\index{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+R\+\_\+\+C\+O\+N\+F\+B~1}}\label{compass__hmc5883l_8c_a532bdc95b31fba816b3905078b888b92}
+\hypertarget{compass__hmc5883l_8c_ab5bb60ac8ceb907330a5619ef8461ded}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E}}
+\index{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E@{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+R\+\_\+\+M\+O\+D\+E~2}}\label{compass__hmc5883l_8c_ab5bb60ac8ceb907330a5619ef8461ded}
+\hypertarget{compass__hmc5883l_8c_a0719df99be358992db17b65aaec42904}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}}
+\index{H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+X\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S~(+1.\+16f)}}\label{compass__hmc5883l_8c_a0719df99be358992db17b65aaec42904}
+\hypertarget{compass__hmc5883l_8c_a8c274ea8afde5eab1aa3483abf155a5e}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}}
+\index{H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+Y\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S~(+1.\+16f)}}\label{compass__hmc5883l_8c_a8c274ea8afde5eab1aa3483abf155a5e}
+\hypertarget{compass__hmc5883l_8c_acdd39249ee5dee1a798d0a9a1267ecd8}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}}
+\index{H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S@{H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C58\+X3\+\_\+\+Z\+\_\+\+S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+G\+A\+U\+S\+S~(+1.\+08f)}}\label{compass__hmc5883l_8c_acdd39249ee5dee1a798d0a9a1267ecd8}
+\hypertarget{compass__hmc5883l_8c_a460cdc1420f14becaf3dfa8e541c77ab}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S@{H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S}}
+\index{H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S@{H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C\+\_\+\+N\+E\+G\+\_\+\+B\+I\+A\+S~2}}\label{compass__hmc5883l_8c_a460cdc1420f14becaf3dfa8e541c77ab}
+\hypertarget{compass__hmc5883l_8c_af4320164826a70c985b1aa74be6bfc32}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S@{H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S}}
+\index{H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S@{H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+M\+C\+\_\+\+P\+O\+S\+\_\+\+B\+I\+A\+S~1}}\label{compass__hmc5883l_8c_af4320164826a70c985b1aa74be6bfc32}
+\hypertarget{compass__hmc5883l_8c_ade4e63fac819c67040e374f08d2d7230}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S@{M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S}}
+\index{M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S@{M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+G\+\_\+\+A\+D\+D\+R\+E\+S\+S~0x1\+E}}\label{compass__hmc5883l_8c_ade4e63fac819c67040e374f08d2d7230}
+\hypertarget{compass__hmc5883l_8c_a929f0662b838fe99943120e419f6a42c}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R@{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R}}
+\index{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R@{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+G\+I\+S\+T\+E\+R~0x03}}\label{compass__hmc5883l_8c_a929f0662b838fe99943120e419f6a42c}
+\hypertarget{compass__hmc5883l_8c_aece80677a2247473dda9519b5fdafcce}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T@{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T}}
+\index{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T@{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+H\+I\+G\+H\+\_\+\+L\+I\+M\+I\+T~(575.\+0f / 390.\+0f)}}\label{compass__hmc5883l_8c_aece80677a2247473dda9519b5fdafcce}
+\hypertarget{compass__hmc5883l_8c_a5b60632c0c813e3d2657d81164310007}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T@{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T}}
+\index{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T@{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+E\+L\+F\+\_\+\+T\+E\+S\+T\+\_\+\+L\+O\+W\+\_\+\+L\+I\+M\+I\+T~(243.\+0f / 390.\+0f)}}\label{compass__hmc5883l_8c_a5b60632c0c813e3d2657d81164310007}
+
+
+\subsection{Function Documentation}
+\hypertarget{compass__hmc5883l_8c_aafe13b0a986db6811454d817381523b4}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!hmc5883l\+Detect@{hmc5883l\+Detect}}
+\index{hmc5883l\+Detect@{hmc5883l\+Detect}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{hmc5883l\+Detect}]{\setlength{\rightskip}{0pt plus 5cm}bool hmc5883l\+Detect (
+\begin{DoxyParamCaption}
+\item[{{\bf mag\+\_\+t} $\ast$}]{mag, }
+\item[{const {\bf hmc5883\+Config\+\_\+t} $\ast$}]{hmc5883\+Config\+To\+Use}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8c_aafe13b0a986db6811454d817381523b4}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8c_aafe13b0a986db6811454d817381523b4_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{compass__hmc5883l_8c_aee79dbde2bc3263498add01336f9c9e7}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!hmc5883l\+Init@{hmc5883l\+Init}}
+\index{hmc5883l\+Init@{hmc5883l\+Init}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{hmc5883l\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void hmc5883l\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8c_aee79dbde2bc3263498add01336f9c9e7}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8c_aee79dbde2bc3263498add01336f9c9e7_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{compass__hmc5883l_8c_a11c500d744ed654361418ba1e193a8e1}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!hmc5883l\+Read@{hmc5883l\+Read}}
+\index{hmc5883l\+Read@{hmc5883l\+Read}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{hmc5883l\+Read}]{\setlength{\rightskip}{0pt plus 5cm}bool hmc5883l\+Read (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$}]{mag\+Data}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8c_a11c500d744ed654361418ba1e193a8e1}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{compass__hmc5883l_8c_a11c500d744ed654361418ba1e193a8e1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{compass__hmc5883l_8c_a2ad94276ab0de810d391dd110313ee66}{\index{compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}!M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler@{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}}
+\index{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler@{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}!compass\+\_\+hmc5883l.\+c@{compass\+\_\+hmc5883l.\+c}}
+\subsubsection[{M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void M\+A\+G\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8c_a2ad94276ab0de810d391dd110313ee66}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{compass__hmc5883l_8c_a2ad94276ab0de810d391dd110313ee66_cgraph}
+\end{center}
+\end{figure}
+
+

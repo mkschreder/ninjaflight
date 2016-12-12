@@ -1,0 +1,40 @@
+{\ttfamily gyro\+A\+D\+C/8192$\ast$2000 = deg/s}
+
+{\ttfamily gyro\+A\+D\+C/4 $\sim$ deg/s}
+
+{\ttfamily rc\+Command} -\/ {\ttfamily $<$-\/500 -\/ 500$>$} nominal, but is scaled with {\ttfamily rc\+Rate/100}, max +-\/1250
+
+{\ttfamily inclination} -\/ in 0.\+1 degree, roll and pitch deviation from horizontal position {\ttfamily max\+\_\+angle\+\_\+inclination} -\/ in 0.\+1 degree, default 50 degrees (500)
+
+{\ttfamily axis\+P\+I\+D} -\/ output to mixer, will be added to throttle({\ttfamily $<$1000-\/2000$>$}), output range is {\ttfamily $<$minthrottle, maxthrottle$>$} (default {\ttfamily $<$1150 -\/ 1850$>$})
+
+\subsubsection*{P\+I\+D controller 0, \char`\"{}\+Multi\+Wii\char`\"{} (default)}
+
+\paragraph*{Leveling term}
+
+``` error = constrain(2$\ast$rc\+Command\mbox{[}axis\mbox{]}, limit +-\/ max\+\_\+angle\+\_\+inclination) -\/ inclination\mbox{[}axis\mbox{]} Pacc = constrain(P8\mbox{[}P\+I\+D\+L\+E\+V\+E\+L\mbox{]}/100 $\ast$ error, limit +-\/ 5 $\ast$ D8\mbox{[}P\+I\+D\+L\+E\+V\+E\+L\mbox{]}) Iacc = intergrate(error, limit +-\/10000) $\ast$ I8\mbox{[}P\+I\+D\+L\+E\+V\+E\+L\mbox{]} / 4096 ``` \paragraph*{Gyro term}
+
+``` Pgyro = rc\+Command\mbox{[}axis\mbox{]}; error = rc\+Command\mbox{[}axis\mbox{]} $\ast$ 10 $\ast$ 8 / pid\+Profile-\/$>$P8\mbox{[}axis\mbox{]} -\/ gyro\+A\+D\+C\mbox{[}axis\mbox{]} / 4; (conversion so that error is in deg/s ?) Igyro = integrate(error, limit +-\/16000) / 10 / 8 $\ast$ I8\mbox{[}axis\mbox{]} / 100 (conversion back to mixer units ?) ```
+
+reset I term if
+\begin{DoxyItemize}
+\item axis rotation rate $>$ +-\/64deg/s
+\item axis is Y\+A\+W and rc\+Command$>$+-\/100
+\end{DoxyItemize}
+
+\subparagraph*{Mode dependent mix(yaw is always from gyro)}
+
+
+\begin{DoxyItemize}
+\item H\+O\+R\+I\+Z\+O\+N -\/ proportionally according to max deflection ``` deflection = M\+A\+X(\hyperlink{maths_8h_a996f7be338ccb40d1a2a5abc1ad61759}{A\+B\+S(rc\+Command\mbox{[}\+P\+I\+T\+C\+H\mbox{]})}, \hyperlink{maths_8h_a996f7be338ccb40d1a2a5abc1ad61759}{A\+B\+S(rc\+Command\mbox{[}\+R\+O\+L\+L\mbox{]})}) / 500 ; limit to 0.\+0 .. 1.\+0 P = Pacc $\ast$ (1-\/deflection) + Pgyro $\ast$ deflection I = Iacc $\ast$ (1-\/deflection) + Igyro $\ast$ deflection ```
+\item gyro ``` P = Pgyro I = Igyro ```
+\item A\+N\+G\+L\+E ``` P = Pacc I = Iacc ``` \paragraph*{Gyro stabilization}
+\end{DoxyItemize}
+
+``` P -\/= gyro\+A\+D\+C\mbox{[}axis\mbox{]} / 4 $\ast$ dyn\+P8 / 10 / 8 D = -\/mean(diff(gyro\+A\+D\+C\mbox{[}axis\mbox{]} / 4), over 3 samples) $\ast$ 3 $\ast$ dyn\+D8 / 32 \mbox{[}equivalent to \+:\mbox{]} D = -\/ (gyro\+A\+D\+C\mbox{[}axis\mbox{]}/4 -\/ ($<$3 loops old$>$gyro\+A\+D\+C\mbox{[}axis\mbox{]}/4)) $\ast$ dyn\+D8 / 32 ```
+
+This can be seen as sum of
+\begin{DoxyItemize}
+\item P\+I controller (handles rc\+Command, H\+O\+R\+I\+Z\+O\+N/\+A\+N\+G\+L\+E); {\ttfamily Igyro} is only output based on gyro\+A\+D\+C
+\item P\+D controller(parameters dyn\+P8/dyn\+D8) with zero setpoint acting on gyro\+A\+D\+C 
+\end{DoxyItemize}

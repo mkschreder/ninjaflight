@@ -1,0 +1,151 @@
+\hypertarget{group__scheduler}{\section{Scheduler}
+\label{group__scheduler}\index{Scheduler@{Scheduler}}
+}
+Collaboration diagram for Scheduler\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{group__scheduler}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__scheduler_gac2ea754fe84fe2767fafa37c3bbc0a1b}{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N}~10
+\item 
+\#define \hyperlink{group__scheduler_gad5f4b8b801ca0114e2f2cff7c5b28038}{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X}~300
+\item 
+\#define \hyperlink{group__scheduler_gaf1515d6de09f018d8f29714b03a80704}{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N}~25
+\item 
+\#define \hyperlink{group__scheduler_ga2d970434746655e627472632325aef4a}{V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}~(6 $\ast$ 3500)
+\item 
+\#define \hyperlink{group__scheduler_gabd955c9494c8c249d7861527da1220bc}{I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}~(6 $\ast$ 3500)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__scheduler_ga4a7f2ef4eb60c70033b51343c9e7075a}{led\+\_\+on} (int id)
+\item 
+void \hyperlink{group__scheduler_ga853f476fe49866f93159854c5f1c8c10}{led\+\_\+off} (int id)
+\item 
+void \hyperlink{group__scheduler_gae85f23ef60d73fdd618ee739fd87562b}{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, \hyperlink{ninja__sched_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, \hyperlink{structcfTaskInfo__t}{cf\+Task\+Info\+\_\+t} $\ast$task\+Info)
+\item 
+void \hyperlink{group__scheduler_ga544a129125d12cf606dd3eb1186db1ee}{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, \hyperlink{ninja__sched_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, uint32\+\_\+t new\+Period\+Micros)
+\item 
+void \hyperlink{group__scheduler_ga628b2855221fd88d2a4a19d697c0e098}{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, \hyperlink{ninja__sched_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, bool enabled)
+\item 
+uint32\+\_\+t \hyperlink{group__scheduler_ga77f20c44eebb8fa7eebbf71dba0e746a}{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, \hyperlink{ninja__sched_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id)
+\item 
+void \hyperlink{group__scheduler_ga7cbd825bfaee512cced8cd01884fdc85}{ninja\+\_\+sched\+\_\+init} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, const struct \hyperlink{structsystem__calls__time}{system\+\_\+calls\+\_\+time} $\ast$time, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{group__scheduler_ga075da98f688a02804e331f837fb5be48}{ninja\+\_\+sched\+\_\+run} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self)
+\item 
+uint16\+\_\+t \hyperlink{group__scheduler_ga1d53c3e7f49978b38e33698ed69cb366}{ninja\+\_\+sched\+\_\+get\+\_\+load} (struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Primary responsibility of this module is to define core tasks and their timing for the ninjaflight application. The scheduler is nothing more than a small cooperative scheduler that helps organize different cooperative processes. For example, you can define that the pid loop should run every 1000 microseconds and that receiver loop should run at 20000. This module helps decouple timing from the tasks themselves and uses current tick counter for determining when tasks need to run. It does not (and should not) do any preemptive task switching. It is a rather primitive scheduler actually. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{group__scheduler_gabd955c9494c8c249d7861527da1220bc}{\index{Scheduler@{Scheduler}!I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L@{I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}}
+\index{I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L@{I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}!Scheduler@{Scheduler}}
+\subsubsection[{I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L~(6 $\ast$ 3500)}}\label{group__scheduler_gabd955c9494c8c249d7861527da1220bc}
+\hypertarget{group__scheduler_gaf1515d6de09f018d8f29714b03a80704}{\index{Scheduler@{Scheduler}!R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N}}
+\index{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N}!Scheduler@{Scheduler}}
+\subsubsection[{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+R\+G\+I\+N~25}}\label{group__scheduler_gaf1515d6de09f018d8f29714b03a80704}
+\hypertarget{group__scheduler_gad5f4b8b801ca0114e2f2cff7c5b28038}{\index{Scheduler@{Scheduler}!R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X}}
+\index{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X}!Scheduler@{Scheduler}}
+\subsubsection[{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+A\+X~300}}\label{group__scheduler_gad5f4b8b801ca0114e2f2cff7c5b28038}
+\hypertarget{group__scheduler_gac2ea754fe84fe2767fafa37c3bbc0a1b}{\index{Scheduler@{Scheduler}!R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N}}
+\index{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N@{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N}!Scheduler@{Scheduler}}
+\subsubsection[{R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+A\+L\+T\+I\+M\+E\+\_\+\+G\+U\+A\+R\+D\+\_\+\+I\+N\+T\+E\+R\+V\+A\+L\+\_\+\+M\+I\+N~10}}\label{group__scheduler_gac2ea754fe84fe2767fafa37c3bbc0a1b}
+\hypertarget{group__scheduler_ga2d970434746655e627472632325aef4a}{\index{Scheduler@{Scheduler}!V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L@{V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}}
+\index{V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L@{V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}!Scheduler@{Scheduler}}
+\subsubsection[{V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+B\+A\+T\+I\+N\+T\+E\+R\+V\+A\+L~(6 $\ast$ 3500)}}\label{group__scheduler_ga2d970434746655e627472632325aef4a}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__scheduler_ga853f476fe49866f93159854c5f1c8c10}{\index{Scheduler@{Scheduler}!led\+\_\+off@{led\+\_\+off}}
+\index{led\+\_\+off@{led\+\_\+off}!Scheduler@{Scheduler}}
+\subsubsection[{led\+\_\+off}]{\setlength{\rightskip}{0pt plus 5cm}void led\+\_\+off (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga853f476fe49866f93159854c5f1c8c10}
+\hypertarget{group__scheduler_ga4a7f2ef4eb60c70033b51343c9e7075a}{\index{Scheduler@{Scheduler}!led\+\_\+on@{led\+\_\+on}}
+\index{led\+\_\+on@{led\+\_\+on}!Scheduler@{Scheduler}}
+\subsubsection[{led\+\_\+on}]{\setlength{\rightskip}{0pt plus 5cm}void led\+\_\+on (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga4a7f2ef4eb60c70033b51343c9e7075a}
+\hypertarget{group__scheduler_ga1d53c3e7f49978b38e33698ed69cb366}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+get\+\_\+load@{ninja\+\_\+sched\+\_\+get\+\_\+load}}
+\index{ninja\+\_\+sched\+\_\+get\+\_\+load@{ninja\+\_\+sched\+\_\+get\+\_\+load}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+get\+\_\+load}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t ninja\+\_\+sched\+\_\+get\+\_\+load (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga1d53c3e7f49978b38e33698ed69cb366}
+\hypertarget{group__scheduler_ga77f20c44eebb8fa7eebbf71dba0e746a}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt@{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt}}
+\index{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt@{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+dt (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self, }
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga77f20c44eebb8fa7eebbf71dba0e746a}
+\hypertarget{group__scheduler_gae85f23ef60d73fdd618ee739fd87562b}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info@{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info}}
+\index{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info@{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+sched\+\_\+get\+\_\+task\+\_\+info (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self, }
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{{\bf cf\+Task\+Info\+\_\+t} $\ast$}]{task\+Info}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_gae85f23ef60d73fdd618ee739fd87562b}
+\hypertarget{group__scheduler_ga7cbd825bfaee512cced8cd01884fdc85}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+init@{ninja\+\_\+sched\+\_\+init}}
+\index{ninja\+\_\+sched\+\_\+init@{ninja\+\_\+sched\+\_\+init}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+sched\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self, }
+\item[{const struct {\bf system\+\_\+calls\+\_\+time} $\ast$}]{time, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga7cbd825bfaee512cced8cd01884fdc85}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{group__scheduler_ga7cbd825bfaee512cced8cd01884fdc85_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__scheduler_ga075da98f688a02804e331f837fb5be48}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+run@{ninja\+\_\+sched\+\_\+run}}
+\index{ninja\+\_\+sched\+\_\+run@{ninja\+\_\+sched\+\_\+run}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+run}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+sched\+\_\+run (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga075da98f688a02804e331f837fb5be48}
+\hypertarget{group__scheduler_ga628b2855221fd88d2a4a19d697c0e098}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled@{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled}}
+\index{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled@{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+enabled (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self, }
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{bool}]{enabled}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga628b2855221fd88d2a4a19d697c0e098}
+\hypertarget{group__scheduler_ga544a129125d12cf606dd3eb1186db1ee}{\index{Scheduler@{Scheduler}!ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period@{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period}}
+\index{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period@{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period}!Scheduler@{Scheduler}}
+\subsubsection[{ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+sched\+\_\+set\+\_\+task\+\_\+period (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja\+\_\+sched} $\ast$}]{self, }
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{uint32\+\_\+t}]{new\+Period\+Micros}
+\end{DoxyParamCaption}
+)}}\label{group__scheduler_ga544a129125d12cf606dd3eb1186db1ee}

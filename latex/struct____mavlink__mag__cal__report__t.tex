@@ -1,0 +1,144 @@
+\hypertarget{struct____mavlink__mag__cal__report__t}{\section{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t Struct Reference}
+\label{struct____mavlink__mag__cal__report__t}\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+mag\+\_\+cal\+\_\+report.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_aa2b3a78763049fcf9fdf83868ffb24e7}{fitness}
+\begin{DoxyCompactList}\small\item\em R\+M\+S milligauss residuals. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_aac34a98494944b7ecab442403181057d}{ofs\+\_\+x}
+\begin{DoxyCompactList}\small\item\em X offset. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_aeaeb3dff124d7b06a6e5d2f9ea3333fe}{ofs\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Y offset. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a3cdf756a1f57760dd0fef0c5268feb78}{ofs\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Z offset. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a3c2deb83adbc14382b651695fa0b295e}{diag\+\_\+x}
+\begin{DoxyCompactList}\small\item\em X diagonal (matrix 11) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a4249b5e2f7bdfb54b042599e06a213ea}{diag\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Y diagonal (matrix 22) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_ad170900d87420d6c2dd2c0caac86e1c2}{diag\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Z diagonal (matrix 33) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a5cff5f77e3fdb317371d64879a3547f3}{offdiag\+\_\+x}
+\begin{DoxyCompactList}\small\item\em X off-\/diagonal (matrix 12 and 21) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a0d9ef13c28fc15a5f3ea354cc1150a36}{offdiag\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Y off-\/diagonal (matrix 13 and 31) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__report__t_a4b4d3694a42168a039dc0fc0db7e0c42}{offdiag\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Z off-\/diagonal (matrix 32 and 23) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__report__t_a25c1e2bdaa405bf0affa4a07241aa984}{compass\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Compass being calibrated. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__report__t_ac09a5430a41669586c9ab02212c87e86}{cal\+\_\+mask}
+\begin{DoxyCompactList}\small\item\em Bitmask of compasses being calibrated. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__report__t_a65f9f846f62ed014cf610e4f2321ee40}{cal\+\_\+status}
+\begin{DoxyCompactList}\small\item\em Status (see M\+A\+G\+\_\+\+C\+A\+L\+\_\+\+S\+T\+A\+T\+U\+S enum) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__report__t_a741eddce316a3bf8651bc3450da1e588}{autosaved}
+\begin{DoxyCompactList}\small\item\em 0=requires a M\+A\+V\+\_\+\+C\+M\+D\+\_\+\+D\+O\+\_\+\+A\+C\+C\+E\+P\+T\+\_\+\+M\+A\+G\+\_\+\+C\+A\+L, 1=saved to parameters \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__mag__cal__report__t_a741eddce316a3bf8651bc3450da1e588}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!autosaved@{autosaved}}
+\index{autosaved@{autosaved}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{autosaved}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::autosaved}}\label{struct____mavlink__mag__cal__report__t_a741eddce316a3bf8651bc3450da1e588}
+
+
+0=requires a M\+A\+V\+\_\+\+C\+M\+D\+\_\+\+D\+O\+\_\+\+A\+C\+C\+E\+P\+T\+\_\+\+M\+A\+G\+\_\+\+C\+A\+L, 1=saved to parameters 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_ac09a5430a41669586c9ab02212c87e86}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!cal\+\_\+mask@{cal\+\_\+mask}}
+\index{cal\+\_\+mask@{cal\+\_\+mask}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{cal\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::cal\+\_\+mask}}\label{struct____mavlink__mag__cal__report__t_ac09a5430a41669586c9ab02212c87e86}
+
+
+Bitmask of compasses being calibrated. 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a65f9f846f62ed014cf610e4f2321ee40}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!cal\+\_\+status@{cal\+\_\+status}}
+\index{cal\+\_\+status@{cal\+\_\+status}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{cal\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::cal\+\_\+status}}\label{struct____mavlink__mag__cal__report__t_a65f9f846f62ed014cf610e4f2321ee40}
+
+
+Status (see M\+A\+G\+\_\+\+C\+A\+L\+\_\+\+S\+T\+A\+T\+U\+S enum) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a25c1e2bdaa405bf0affa4a07241aa984}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!compass\+\_\+id@{compass\+\_\+id}}
+\index{compass\+\_\+id@{compass\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{compass\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::compass\+\_\+id}}\label{struct____mavlink__mag__cal__report__t_a25c1e2bdaa405bf0affa4a07241aa984}
+
+
+Compass being calibrated. 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a3c2deb83adbc14382b651695fa0b295e}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!diag\+\_\+x@{diag\+\_\+x}}
+\index{diag\+\_\+x@{diag\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{diag\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::diag\+\_\+x}}\label{struct____mavlink__mag__cal__report__t_a3c2deb83adbc14382b651695fa0b295e}
+
+
+X diagonal (matrix 11) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a4249b5e2f7bdfb54b042599e06a213ea}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!diag\+\_\+y@{diag\+\_\+y}}
+\index{diag\+\_\+y@{diag\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{diag\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::diag\+\_\+y}}\label{struct____mavlink__mag__cal__report__t_a4249b5e2f7bdfb54b042599e06a213ea}
+
+
+Y diagonal (matrix 22) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_ad170900d87420d6c2dd2c0caac86e1c2}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!diag\+\_\+z@{diag\+\_\+z}}
+\index{diag\+\_\+z@{diag\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{diag\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::diag\+\_\+z}}\label{struct____mavlink__mag__cal__report__t_ad170900d87420d6c2dd2c0caac86e1c2}
+
+
+Z diagonal (matrix 33) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_aa2b3a78763049fcf9fdf83868ffb24e7}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!fitness@{fitness}}
+\index{fitness@{fitness}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{fitness}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::fitness}}\label{struct____mavlink__mag__cal__report__t_aa2b3a78763049fcf9fdf83868ffb24e7}
+
+
+R\+M\+S milligauss residuals. 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a5cff5f77e3fdb317371d64879a3547f3}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!offdiag\+\_\+x@{offdiag\+\_\+x}}
+\index{offdiag\+\_\+x@{offdiag\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{offdiag\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::offdiag\+\_\+x}}\label{struct____mavlink__mag__cal__report__t_a5cff5f77e3fdb317371d64879a3547f3}
+
+
+X off-\/diagonal (matrix 12 and 21) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a0d9ef13c28fc15a5f3ea354cc1150a36}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!offdiag\+\_\+y@{offdiag\+\_\+y}}
+\index{offdiag\+\_\+y@{offdiag\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{offdiag\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::offdiag\+\_\+y}}\label{struct____mavlink__mag__cal__report__t_a0d9ef13c28fc15a5f3ea354cc1150a36}
+
+
+Y off-\/diagonal (matrix 13 and 31) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a4b4d3694a42168a039dc0fc0db7e0c42}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!offdiag\+\_\+z@{offdiag\+\_\+z}}
+\index{offdiag\+\_\+z@{offdiag\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{offdiag\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::offdiag\+\_\+z}}\label{struct____mavlink__mag__cal__report__t_a4b4d3694a42168a039dc0fc0db7e0c42}
+
+
+Z off-\/diagonal (matrix 32 and 23) 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_aac34a98494944b7ecab442403181057d}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!ofs\+\_\+x@{ofs\+\_\+x}}
+\index{ofs\+\_\+x@{ofs\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{ofs\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::ofs\+\_\+x}}\label{struct____mavlink__mag__cal__report__t_aac34a98494944b7ecab442403181057d}
+
+
+X offset. 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_aeaeb3dff124d7b06a6e5d2f9ea3333fe}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!ofs\+\_\+y@{ofs\+\_\+y}}
+\index{ofs\+\_\+y@{ofs\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{ofs\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::ofs\+\_\+y}}\label{struct____mavlink__mag__cal__report__t_aeaeb3dff124d7b06a6e5d2f9ea3333fe}
+
+
+Y offset. 
+
+\hypertarget{struct____mavlink__mag__cal__report__t_a3cdf756a1f57760dd0fef0c5268feb78}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}!ofs\+\_\+z@{ofs\+\_\+z}}
+\index{ofs\+\_\+z@{ofs\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t}}
+\subsubsection[{ofs\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+report\+\_\+t\+::ofs\+\_\+z}}\label{struct____mavlink__mag__cal__report__t_a3cdf756a1f57760dd0fef0c5268feb78}
+
+
+Z offset. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__mag__cal__report_8h}{mavlink\+\_\+msg\+\_\+mag\+\_\+cal\+\_\+report.\+h}\end{DoxyCompactItemize}

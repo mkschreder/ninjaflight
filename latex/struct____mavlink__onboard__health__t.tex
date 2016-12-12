@@ -1,0 +1,144 @@
+\hypertarget{struct____mavlink__onboard__health__t}{\section{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t Struct Reference}
+\label{struct____mavlink__onboard__health__t}\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+onboard\+\_\+health.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_a647c8af29eb0b411c45f6ca364c0f787}{uptime}
+\begin{DoxyCompactList}\small\item\em Uptime of system. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_a354a96a7515d13bb237e9f472a64622b}{ram\+\_\+total}
+\begin{DoxyCompactList}\small\item\em R\+A\+M size in Gi\+B. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_ac02728054ffa08ad7ba38cb33622da53}{swap\+\_\+total}
+\begin{DoxyCompactList}\small\item\em Swap size in Gi\+B. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_aeb4a816f103d80033fed9025f29b79da}{disk\+\_\+total}
+\begin{DoxyCompactList}\small\item\em Disk total in Gi\+B. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_a2ae43a53307dfeb6844ccc1dd72da9ce}{temp}
+\begin{DoxyCompactList}\small\item\em Temperature. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_a63f5df641cd3ed8be2383ef20a722839}{voltage}
+\begin{DoxyCompactList}\small\item\em Supply voltage V. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_a011cccc424ed465b57dddd3bba36a4b5}{network\+\_\+load\+\_\+in}
+\begin{DoxyCompactList}\small\item\em Network load inbound Ki\+B/s. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__onboard__health__t_a472007050b0e6533c2933fad245f6c75}{network\+\_\+load\+\_\+out}
+\begin{DoxyCompactList}\small\item\em Network load outbound in Ki\+B/s. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_a2d8c4b91795a9c519f1fcd0f31991138}{cpu\+\_\+freq}
+\begin{DoxyCompactList}\small\item\em C\+P\+U frequency. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_a3d36195b20398d29d74c79cafd00f16a}{cpu\+\_\+load}
+\begin{DoxyCompactList}\small\item\em C\+P\+U load in percent. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_af183f121fb9c0bf2cdfda9298e291f2d}{ram\+\_\+usage}
+\begin{DoxyCompactList}\small\item\em R\+A\+M usage in percent. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_abc5e2e0aac9dd67244bafec63725e55e}{swap\+\_\+usage}
+\begin{DoxyCompactList}\small\item\em Swap usage in percent. \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_a080927aed4b1fe7205a1c5bc611d7bbd}{disk\+\_\+health}
+\begin{DoxyCompactList}\small\item\em Disk health (-\/1\+: N/\+A, 0\+: E\+R\+R, 1\+: R\+O, 2\+: R\+W) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__onboard__health__t_aaec3043a7ce4f8e456c89d85b3a9d53f}{disk\+\_\+usage}
+\begin{DoxyCompactList}\small\item\em Disk usage in percent. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__onboard__health__t_a2d8c4b91795a9c519f1fcd0f31991138}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!cpu\+\_\+freq@{cpu\+\_\+freq}}
+\index{cpu\+\_\+freq@{cpu\+\_\+freq}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{cpu\+\_\+freq}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::cpu\+\_\+freq}}\label{struct____mavlink__onboard__health__t_a2d8c4b91795a9c519f1fcd0f31991138}
+
+
+C\+P\+U frequency. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a3d36195b20398d29d74c79cafd00f16a}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!cpu\+\_\+load@{cpu\+\_\+load}}
+\index{cpu\+\_\+load@{cpu\+\_\+load}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{cpu\+\_\+load}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::cpu\+\_\+load}}\label{struct____mavlink__onboard__health__t_a3d36195b20398d29d74c79cafd00f16a}
+
+
+C\+P\+U load in percent. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a080927aed4b1fe7205a1c5bc611d7bbd}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!disk\+\_\+health@{disk\+\_\+health}}
+\index{disk\+\_\+health@{disk\+\_\+health}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{disk\+\_\+health}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::disk\+\_\+health}}\label{struct____mavlink__onboard__health__t_a080927aed4b1fe7205a1c5bc611d7bbd}
+
+
+Disk health (-\/1\+: N/\+A, 0\+: E\+R\+R, 1\+: R\+O, 2\+: R\+W) 
+
+\hypertarget{struct____mavlink__onboard__health__t_aeb4a816f103d80033fed9025f29b79da}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!disk\+\_\+total@{disk\+\_\+total}}
+\index{disk\+\_\+total@{disk\+\_\+total}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{disk\+\_\+total}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::disk\+\_\+total}}\label{struct____mavlink__onboard__health__t_aeb4a816f103d80033fed9025f29b79da}
+
+
+Disk total in Gi\+B. 
+
+\hypertarget{struct____mavlink__onboard__health__t_aaec3043a7ce4f8e456c89d85b3a9d53f}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!disk\+\_\+usage@{disk\+\_\+usage}}
+\index{disk\+\_\+usage@{disk\+\_\+usage}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{disk\+\_\+usage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::disk\+\_\+usage}}\label{struct____mavlink__onboard__health__t_aaec3043a7ce4f8e456c89d85b3a9d53f}
+
+
+Disk usage in percent. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a011cccc424ed465b57dddd3bba36a4b5}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!network\+\_\+load\+\_\+in@{network\+\_\+load\+\_\+in}}
+\index{network\+\_\+load\+\_\+in@{network\+\_\+load\+\_\+in}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{network\+\_\+load\+\_\+in}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::network\+\_\+load\+\_\+in}}\label{struct____mavlink__onboard__health__t_a011cccc424ed465b57dddd3bba36a4b5}
+
+
+Network load inbound Ki\+B/s. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a472007050b0e6533c2933fad245f6c75}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!network\+\_\+load\+\_\+out@{network\+\_\+load\+\_\+out}}
+\index{network\+\_\+load\+\_\+out@{network\+\_\+load\+\_\+out}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{network\+\_\+load\+\_\+out}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::network\+\_\+load\+\_\+out}}\label{struct____mavlink__onboard__health__t_a472007050b0e6533c2933fad245f6c75}
+
+
+Network load outbound in Ki\+B/s. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a354a96a7515d13bb237e9f472a64622b}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!ram\+\_\+total@{ram\+\_\+total}}
+\index{ram\+\_\+total@{ram\+\_\+total}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{ram\+\_\+total}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::ram\+\_\+total}}\label{struct____mavlink__onboard__health__t_a354a96a7515d13bb237e9f472a64622b}
+
+
+R\+A\+M size in Gi\+B. 
+
+\hypertarget{struct____mavlink__onboard__health__t_af183f121fb9c0bf2cdfda9298e291f2d}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!ram\+\_\+usage@{ram\+\_\+usage}}
+\index{ram\+\_\+usage@{ram\+\_\+usage}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{ram\+\_\+usage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::ram\+\_\+usage}}\label{struct____mavlink__onboard__health__t_af183f121fb9c0bf2cdfda9298e291f2d}
+
+
+R\+A\+M usage in percent. 
+
+\hypertarget{struct____mavlink__onboard__health__t_ac02728054ffa08ad7ba38cb33622da53}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!swap\+\_\+total@{swap\+\_\+total}}
+\index{swap\+\_\+total@{swap\+\_\+total}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{swap\+\_\+total}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::swap\+\_\+total}}\label{struct____mavlink__onboard__health__t_ac02728054ffa08ad7ba38cb33622da53}
+
+
+Swap size in Gi\+B. 
+
+\hypertarget{struct____mavlink__onboard__health__t_abc5e2e0aac9dd67244bafec63725e55e}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!swap\+\_\+usage@{swap\+\_\+usage}}
+\index{swap\+\_\+usage@{swap\+\_\+usage}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{swap\+\_\+usage}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::swap\+\_\+usage}}\label{struct____mavlink__onboard__health__t_abc5e2e0aac9dd67244bafec63725e55e}
+
+
+Swap usage in percent. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a2ae43a53307dfeb6844ccc1dd72da9ce}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!temp@{temp}}
+\index{temp@{temp}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{temp}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::temp}}\label{struct____mavlink__onboard__health__t_a2ae43a53307dfeb6844ccc1dd72da9ce}
+
+
+Temperature. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a647c8af29eb0b411c45f6ca364c0f787}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!uptime@{uptime}}
+\index{uptime@{uptime}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{uptime}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::uptime}}\label{struct____mavlink__onboard__health__t_a647c8af29eb0b411c45f6ca364c0f787}
+
+
+Uptime of system. 
+
+\hypertarget{struct____mavlink__onboard__health__t_a63f5df641cd3ed8be2383ef20a722839}{\index{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}!voltage@{voltage}}
+\index{voltage@{voltage}!\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t}}
+\subsubsection[{voltage}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+onboard\+\_\+health\+\_\+t\+::voltage}}\label{struct____mavlink__onboard__health__t_a63f5df641cd3ed8be2383ef20a722839}
+
+
+Supply voltage V. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/pixhawk/\hyperlink{mavlink__msg__onboard__health_8h}{mavlink\+\_\+msg\+\_\+onboard\+\_\+health.\+h}\end{DoxyCompactItemize}

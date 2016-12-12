@@ -1,0 +1,4 @@
+<map id="ninja_arm" name="ninja_arm">
+<area shape="rect" id="node2" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="134,5,277,32"/>
+<area shape="rect" id="node3" href="$beeper_8c.html#a60251e6c96ca1ec58d0a486cea372c0f" title="Puts beeper into a new beep state. " alt="" coords="158,56,253,83"/>
+</map>

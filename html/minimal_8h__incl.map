@@ -1,0 +1,8 @@
+<map id="src/main/mavlink/minimal/minimal.h" name="src/main/mavlink/minimal/minimal.h">
+<area shape="rect" id="node2" href="$protocol_8h.html" title="../protocol.h" alt="" coords="91,96,181,123"/>
+<area shape="rect" id="node10" href="$minimal_2mavlink__msg__heartbeat_8h.html" title="./mavlink_msg_heartbeat.h" alt="" coords="205,96,384,123"/>
+<area shape="rect" id="node4" href="$mavlink__types_8h.html" title="mavlink_types.h" alt="" coords="93,245,209,272"/>
+<area shape="rect" id="node6" href="$mavlink__helpers_8h.html" title="mavlink_helpers.h" alt="" coords="174,171,300,197"/>
+<area shape="rect" id="node7" href="$checksum_8h.html" title="checksum.h" alt="" coords="235,245,328,272"/>
+<area shape="rect" id="node8" href="$mavlink__conversions_8h.html" title="mavlink_conversions.h" alt="" coords="352,245,505,272"/>
+</map>

@@ -1,0 +1,82 @@
+\hypertarget{structsystem__calls__pwm}{\section{system\+\_\+calls\+\_\+pwm Struct Reference}
+\label{structsystem__calls__pwm}\index{system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}}
+}
+
+
+pwm related system calls  
+
+
+
+
+{\ttfamily \#include $<$system\+\_\+calls.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{structsystem__calls__pwm_ab4c10466eb3fc1715fd6f6705ba99c2e}{write\+\_\+motor} )(const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t id, uint16\+\_\+t value)
+\item 
+void($\ast$ \hyperlink{structsystem__calls__pwm_aaec55ba7b22b625dc6a6c938aea3dbdb}{write\+\_\+servo} )(const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t id, uint16\+\_\+t value)
+\item 
+uint16\+\_\+t($\ast$ \hyperlink{structsystem__calls__pwm_a3c15679bddb05e751416c7492157641c}{read\+\_\+pwm} )(const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t chan)
+\item 
+uint16\+\_\+t($\ast$ \hyperlink{structsystem__calls__pwm_af0eff23d6d84192aa6b569aca41587b3}{read\+\_\+ppm} )(const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t chan)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+pwm related system calls 
+
+System calls for reading and writing pwm/ppm values. 
+
+\subsection{Field Documentation}
+\hypertarget{structsystem__calls__pwm_af0eff23d6d84192aa6b569aca41587b3}{\index{system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}!read\+\_\+ppm@{read\+\_\+ppm}}
+\index{read\+\_\+ppm@{read\+\_\+ppm}!system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}}
+\subsubsection[{read\+\_\+ppm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t($\ast$ system\+\_\+calls\+\_\+pwm\+::read\+\_\+ppm)(const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t chan)}}\label{structsystem__calls__pwm_af0eff23d6d84192aa6b569aca41587b3}
+
+\begin{DoxyParams}{Parameters}
+{\em chan} & ppm channel to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ppm value of the given channel. If channel is out of range then 0 should be returned. 
+\end{DoxyReturn}
+\hypertarget{structsystem__calls__pwm_a3c15679bddb05e751416c7492157641c}{\index{system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}!read\+\_\+pwm@{read\+\_\+pwm}}
+\index{read\+\_\+pwm@{read\+\_\+pwm}!system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}}
+\subsubsection[{read\+\_\+pwm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t($\ast$ system\+\_\+calls\+\_\+pwm\+::read\+\_\+pwm)(const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t chan)}}\label{structsystem__calls__pwm_a3c15679bddb05e751416c7492157641c}
+
+\begin{DoxyParams}{Parameters}
+{\em chan} & pwm channel to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pwm value of the given channel. If channel is out of range then 0 should be returned. 
+\end{DoxyReturn}
+\hypertarget{structsystem__calls__pwm_ab4c10466eb3fc1715fd6f6705ba99c2e}{\index{system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}!write\+\_\+motor@{write\+\_\+motor}}
+\index{write\+\_\+motor@{write\+\_\+motor}!system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}}
+\subsubsection[{write\+\_\+motor}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ system\+\_\+calls\+\_\+pwm\+::write\+\_\+motor)(const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t id, uint16\+\_\+t value)}}\label{structsystem__calls__pwm_ab4c10466eb3fc1715fd6f6705ba99c2e}
+
+\begin{DoxyParams}{Parameters}
+{\em self} & instance of the system calls interface \\
+\hline
+{\em id} & motor id (typically in range 0 -\/ 7) \\
+\hline
+{\em value} & pwm value (typically in range 1000-\/2000 but can be slightly more or less)\\
+\hline
+\end{DoxyParams}
+Writes a motor value to a motor output with given id. If id is out of range then values should be ignored. Motor outputs are typically separate from servo outputs and run at 490hz instead of 50hz update rate. \hypertarget{structsystem__calls__pwm_aaec55ba7b22b625dc6a6c938aea3dbdb}{\index{system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}!write\+\_\+servo@{write\+\_\+servo}}
+\index{write\+\_\+servo@{write\+\_\+servo}!system\+\_\+calls\+\_\+pwm@{system\+\_\+calls\+\_\+pwm}}
+\subsubsection[{write\+\_\+servo}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ system\+\_\+calls\+\_\+pwm\+::write\+\_\+servo)(const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$self, uint8\+\_\+t id, uint16\+\_\+t value)}}\label{structsystem__calls__pwm_aaec55ba7b22b625dc6a6c938aea3dbdb}
+
+\begin{DoxyParams}{Parameters}
+{\em self} & instance of the system calls interface \\
+\hline
+{\em id} & servo id (typically in range 0 -\/ 7) \\
+\hline
+{\em value} & pwm value (typically in range 1000-\/2000 but can be slightly more or less)\\
+\hline
+\end{DoxyParams}
+Writes a servo value to the given output. If output id is out of range then value should be ignored. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{system__calls_8h}{system\+\_\+calls.\+h}\end{DoxyCompactItemize}

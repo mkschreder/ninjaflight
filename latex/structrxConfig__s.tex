@@ -1,0 +1,135 @@
+\hypertarget{structrxConfig__s}{\section{rx\+Config\+\_\+s Struct Reference}
+\label{structrxConfig__s}\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+}
+
+
+{\ttfamily \#include $<$rx.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a4a6452d61a6fee066a8bb12032c3a8d1}{rcmap} \mbox{[}\hyperlink{config_2rx_8h_a2ef9ea7cd22f2ca36356809255c981ba}{R\+X\+\_\+\+M\+A\+X\+\_\+\+M\+A\+P\+P\+A\+B\+L\+E\+\_\+\+R\+X\+\_\+\+I\+N\+P\+U\+T\+S}\mbox{]}
+\begin{DoxyCompactList}\small\item\em mapping of radio channels to internal R\+P\+Y\+T\+A+ order \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a07206bf99d4d97e08c39f911c5a5c3d1}{serialrx\+\_\+provider}
+\begin{DoxyCompactList}\small\item\em type of U\+A\+R\+T-\/based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L first. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a9c318cd868cdf79b98c96bb61c181c92}{sbus\+\_\+inversion}
+\begin{DoxyCompactList}\small\item\em default sbus (Futaba, Fr\+S\+K\+Y) is inverted. Support for uninverted Open\+L\+R\+S (and modified Fr\+S\+K\+Y) receivers. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_ae7f99ea1200fd047ae4e510f46ecbcba}{spektrum\+\_\+sat\+\_\+bind}
+\begin{DoxyCompactList}\small\item\em number of bind pulses for Spektrum satellite receivers \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a50bbac4beb27d371543e0ecab9bb7e24}{rssi\+\_\+channel}
+\begin{DoxyCompactList}\small\item\em rssi channel number \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a4fdbbefbcf43fac6691a866f2a662c75}{rssi\+\_\+scale}
+\begin{DoxyCompactList}\small\item\em scale of the rssi signal. Range \mbox{[}R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N;R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X\mbox{]} \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_a09023842ed3aba63a004843434fa80b3}{rssi\+\_\+ppm\+\_\+invert}
+\begin{DoxyCompactList}\small\item\em if set then rssi signal is treated such that high value means low rssi \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrxConfig__s_aada23b2a7dd616b0a4e8556e1e500d2e}{rc\+Smoothing}
+\begin{DoxyCompactList}\small\item\em Enable/\+Disable R\+C filtering. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrxConfig__s_a413e18afb030caffe6cead58c8736145}{midrc}
+\begin{DoxyCompactList}\small\item\em Some radios have not a neutral point centered on 1500. can be changed here. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrxConfig__s_a51f9850bb1f8dfcd25244b993474af0a}{mincheck}
+\begin{DoxyCompactList}\small\item\em minimum rc end \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrxConfig__s_a46814cbc934d5b8d5270eeee26b586f2}{maxcheck}
+\begin{DoxyCompactList}\small\item\em maximum rc end \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrxConfig__s_aec5d9c542b6b13e7780bdc6b51166e4a}{rx\+\_\+min\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em minimum value of rx pulse from receiver (below this point we consider signal being corrupt) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrxConfig__s_a37f0f7740a4dbd2a7e5599b54811e36b}{rx\+\_\+max\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structrxConfig__s_a46814cbc934d5b8d5270eeee26b586f2}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!maxcheck@{maxcheck}}
+\index{maxcheck@{maxcheck}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{maxcheck}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+Config\+\_\+s\+::maxcheck}}\label{structrxConfig__s_a46814cbc934d5b8d5270eeee26b586f2}
+
+
+maximum rc end 
+
+\hypertarget{structrxConfig__s_a413e18afb030caffe6cead58c8736145}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!midrc@{midrc}}
+\index{midrc@{midrc}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{midrc}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+Config\+\_\+s\+::midrc}}\label{structrxConfig__s_a413e18afb030caffe6cead58c8736145}
+
+
+Some radios have not a neutral point centered on 1500. can be changed here. 
+
+\hypertarget{structrxConfig__s_a51f9850bb1f8dfcd25244b993474af0a}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!mincheck@{mincheck}}
+\index{mincheck@{mincheck}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{mincheck}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+Config\+\_\+s\+::mincheck}}\label{structrxConfig__s_a51f9850bb1f8dfcd25244b993474af0a}
+
+
+minimum rc end 
+
+\hypertarget{structrxConfig__s_a4a6452d61a6fee066a8bb12032c3a8d1}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rcmap@{rcmap}}
+\index{rcmap@{rcmap}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rcmap}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::rcmap\mbox{[}{\bf R\+X\+\_\+\+M\+A\+X\+\_\+\+M\+A\+P\+P\+A\+B\+L\+E\+\_\+\+R\+X\+\_\+\+I\+N\+P\+U\+T\+S}\mbox{]}}}\label{structrxConfig__s_a4a6452d61a6fee066a8bb12032c3a8d1}
+
+
+mapping of radio channels to internal R\+P\+Y\+T\+A+ order 
+
+\hypertarget{structrxConfig__s_aada23b2a7dd616b0a4e8556e1e500d2e}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rc\+Smoothing@{rc\+Smoothing}}
+\index{rc\+Smoothing@{rc\+Smoothing}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rc\+Smoothing}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::rc\+Smoothing}}\label{structrxConfig__s_aada23b2a7dd616b0a4e8556e1e500d2e}
+
+
+Enable/\+Disable R\+C filtering. 
+
+\hypertarget{structrxConfig__s_a50bbac4beb27d371543e0ecab9bb7e24}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rssi\+\_\+channel@{rssi\+\_\+channel}}
+\index{rssi\+\_\+channel@{rssi\+\_\+channel}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rssi\+\_\+channel}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::rssi\+\_\+channel}}\label{structrxConfig__s_a50bbac4beb27d371543e0ecab9bb7e24}
+
+
+rssi channel number 
+
+\hypertarget{structrxConfig__s_a09023842ed3aba63a004843434fa80b3}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rssi\+\_\+ppm\+\_\+invert@{rssi\+\_\+ppm\+\_\+invert}}
+\index{rssi\+\_\+ppm\+\_\+invert@{rssi\+\_\+ppm\+\_\+invert}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rssi\+\_\+ppm\+\_\+invert}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::rssi\+\_\+ppm\+\_\+invert}}\label{structrxConfig__s_a09023842ed3aba63a004843434fa80b3}
+
+
+if set then rssi signal is treated such that high value means low rssi 
+
+\hypertarget{structrxConfig__s_a4fdbbefbcf43fac6691a866f2a662c75}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rssi\+\_\+scale@{rssi\+\_\+scale}}
+\index{rssi\+\_\+scale@{rssi\+\_\+scale}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rssi\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::rssi\+\_\+scale}}\label{structrxConfig__s_a4fdbbefbcf43fac6691a866f2a662c75}
+
+
+scale of the rssi signal. Range \mbox{[}R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N;R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X\mbox{]} 
+
+\hypertarget{structrxConfig__s_a37f0f7740a4dbd2a7e5599b54811e36b}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rx\+\_\+max\+\_\+usec@{rx\+\_\+max\+\_\+usec}}
+\index{rx\+\_\+max\+\_\+usec@{rx\+\_\+max\+\_\+usec}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rx\+\_\+max\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+Config\+\_\+s\+::rx\+\_\+max\+\_\+usec}}\label{structrxConfig__s_a37f0f7740a4dbd2a7e5599b54811e36b}
+
+
+maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe) 
+
+\hypertarget{structrxConfig__s_aec5d9c542b6b13e7780bdc6b51166e4a}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!rx\+\_\+min\+\_\+usec@{rx\+\_\+min\+\_\+usec}}
+\index{rx\+\_\+min\+\_\+usec@{rx\+\_\+min\+\_\+usec}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{rx\+\_\+min\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+Config\+\_\+s\+::rx\+\_\+min\+\_\+usec}}\label{structrxConfig__s_aec5d9c542b6b13e7780bdc6b51166e4a}
+
+
+minimum value of rx pulse from receiver (below this point we consider signal being corrupt) 
+
+\hypertarget{structrxConfig__s_a9c318cd868cdf79b98c96bb61c181c92}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!sbus\+\_\+inversion@{sbus\+\_\+inversion}}
+\index{sbus\+\_\+inversion@{sbus\+\_\+inversion}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{sbus\+\_\+inversion}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::sbus\+\_\+inversion}}\label{structrxConfig__s_a9c318cd868cdf79b98c96bb61c181c92}
+
+
+default sbus (Futaba, Fr\+S\+K\+Y) is inverted. Support for uninverted Open\+L\+R\+S (and modified Fr\+S\+K\+Y) receivers. 
+
+\hypertarget{structrxConfig__s_a07206bf99d4d97e08c39f911c5a5c3d1}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!serialrx\+\_\+provider@{serialrx\+\_\+provider}}
+\index{serialrx\+\_\+provider@{serialrx\+\_\+provider}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{serialrx\+\_\+provider}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::serialrx\+\_\+provider}}\label{structrxConfig__s_a07206bf99d4d97e08c39f911c5a5c3d1}
+
+
+type of U\+A\+R\+T-\/based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L first. 
+
+\hypertarget{structrxConfig__s_ae7f99ea1200fd047ae4e510f46ecbcba}{\index{rx\+Config\+\_\+s@{rx\+Config\+\_\+s}!spektrum\+\_\+sat\+\_\+bind@{spektrum\+\_\+sat\+\_\+bind}}
+\index{spektrum\+\_\+sat\+\_\+bind@{spektrum\+\_\+sat\+\_\+bind}!rx\+Config\+\_\+s@{rx\+Config\+\_\+s}}
+\subsubsection[{spektrum\+\_\+sat\+\_\+bind}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+Config\+\_\+s\+::spektrum\+\_\+sat\+\_\+bind}}\label{structrxConfig__s_ae7f99ea1200fd047ae4e510f46ecbcba}
+
+
+number of bind pulses for Spektrum satellite receivers 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2rx_8h}{rx.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,6 @@
+<map id="systemInit" name="systemInit">
+<area shape="rect" id="node2" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="411,9,603,36"/>
+<area shape="rect" id="node3" href="$system_8h.html#ad14aec9b7078ed089493b2db67f73601" title="enableGPIOPowerUsageAndNoise\lReductions" alt="" coords="137,29,362,70"/>
+<area shape="rect" id="node5" href="$serial__uart_8h.html#adf2b8091f8c2398dec9c04720ca7f89d" title="usartInitAllIOSignals" alt="" coords="179,95,320,121"/>
+<area shape="rect" id="node4" href="$gpio_8h.html#ae05ca742f43c792d2963e50816c138e1" title="gpioInit" alt="" coords="475,64,539,91"/>
+</map>

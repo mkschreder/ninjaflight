@@ -1,0 +1,48 @@
+A profile is a set of configuration settings.
+
+Currently three profiles are supported. The default profile is profile {\ttfamily 0}.
+
+\subsection*{Changing profiles}
+
+Profiles can be selected using a G\+U\+I or the following stick combinations\+:
+
+\begin{TabularC}{5}
+\hline
+\rowcolor{lightgray}{\bf Profile }&{\bf Throttle }&{\bf Yaw }&{\bf Pitch }&{\bf Roll  }\\\cline{1-5}
+0 &Down &Left &Middle &Left \\\cline{1-5}
+1 &Down &Left &Up &Middle \\\cline{1-5}
+2 &Down &Left &Middle &Right \\\cline{1-5}
+\end{TabularC}
+The C\+L\+I {\ttfamily profile} command can also be used\+:
+
+``` profile $<$index$>$ ```
+
+\section*{Rate Profiles}
+
+Cleanflight supports rate profiles in addition to regular profiles.
+
+Rate profiles contain settings that adjust how your craft behaves based on control input.
+
+Three rate profiles are supported.
+
+Rate profiles can be selected while flying using the inflight adjustments feature.
+
+Each normal profile has a setting called 'default\+\_\+rate\+\_\+profile`. When a profile is activated the corresponding rate profile is also activated.
+
+Profile 0 has a default rate profile of 0. Profile 1 has a default rate profile of 1. Profile 2 has a default rate profile of 2.
+
+The defaults are set this way so that it's simple to configure a profile and a rate profile at the same.
+
+The current rate profile can be shown or set using the C\+L\+I {\ttfamily rateprofile} command\+:
+
+``` rateprofile $<$index$>$ ```
+
+The values contained within a rate profile can be seen by using the C\+L\+I {\ttfamily dump rates} command.
+
+e.\+g ``` \section*{dump rates}
+
+\section*{rateprofile}
+
+rateprofile 0
+
+set rc\+\_\+rate = 90 set rc\+\_\+expo = 65 set thr\+\_\+mid = 50 set thr\+\_\+expo = 0 set roll\+\_\+pitch\+\_\+rate = 0 set yaw\+\_\+rate = 0 set tpa\+\_\+rate = 0 set tpa\+\_\+breakpoint = 1500 ``` 

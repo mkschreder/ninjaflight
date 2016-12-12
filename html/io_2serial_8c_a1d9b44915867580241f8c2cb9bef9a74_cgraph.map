@@ -1,0 +1,4 @@
+<map id="findSharedSerialPort" name="findSharedSerialPort">
+<area shape="rect" id="node2" href="$io_2serial_8c.html#a1ce7fd390aca4f237e8a9adec6710ec1" title="findNextSharedSerialPort" alt="" coords="195,5,365,32"/>
+<area shape="rect" id="node3" href="$io_2serial_8c.html#a0cc482a9afae343a096277476cc41315" title="isSerialPortShared" alt="" coords="413,5,544,32"/>
+</map>

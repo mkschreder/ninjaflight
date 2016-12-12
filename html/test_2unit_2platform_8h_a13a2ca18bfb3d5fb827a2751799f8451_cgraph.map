@@ -1,0 +1,6 @@
+<map id="FLASH_ErasePage" name="FLASH_ErasePage">
+<area shape="rect" id="node2" href="$structMockFlash.html#aa0d5368a71dff0fee7695c8d3819cff6" title="MockFlash::erase" alt="" coords="190,56,317,83"/>
+<area shape="rect" id="node3" href="$structMockFlash.html#afb86f5d44fed37c2f5253c28fd24af83" title="MockFlash::inBounds" alt="" coords="366,5,514,32"/>
+<area shape="rect" id="node4" href="$structMockFlash.html#ab34a33a9ba2eb194b6bac4a1eac35e4d" title="MockFlash::toOffset" alt="" coords="563,31,704,57"/>
+<area shape="rect" id="node5" href="$structMockFlash.html#ac678c7aacf9f87ac7237f8fff923c151" title="MockFlash::data" alt="" coords="381,107,499,133"/>
+</map>

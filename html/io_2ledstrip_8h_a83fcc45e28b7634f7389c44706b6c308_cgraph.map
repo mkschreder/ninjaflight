@@ -1,0 +1,4 @@
+<map id="ledstrip_disable" name="ledstrip_disable">
+<area shape="rect" id="node2" href="$light__ws2811strip_8c.html#af4989f2637fcf1808f73e5dad2c8655f" title="setStripColor" alt="" coords="184,5,283,32"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8c.html#ae12f50d4f61a0b78b9334cfaa12a8324" title="ws2811UpdateStrip" alt="" coords="165,56,301,83"/>
+</map>

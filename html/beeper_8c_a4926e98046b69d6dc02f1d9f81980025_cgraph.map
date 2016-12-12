@@ -1,0 +1,4 @@
+<map id="beeper_multi_beeps" name="beeper_multi_beeps">
+<area shape="rect" id="node2" href="$beeper_8c.html#a989c9cfd38525653c07fb4e1e47b62cf" title="Puts beeper into a new beep state. " alt="" coords="193,5,287,32"/>
+<area shape="rect" id="node3" href="$beeper_8c.html#ab0f04a4c38ec3a3a5905e2bcbfc54265" title="Aborts current beeper function. " alt="" coords="336,5,429,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="mavlink_quaternion_to_euler" name="mavlink_quaternion_to_euler">
+<area shape="rect" id="node2" href="$mavlink__conversions_8h.html#a1acebd1df006ab806149f3bf9cc5544e" title="mavlink_quaternion\l_to_dcm" alt="" coords="198,5,333,46"/>
+<area shape="rect" id="node3" href="$mavlink__conversions_8h.html#a034c8265f27e81fa17cf4cf483b7ad8c" title="mavlink_dcm_to_euler" alt="" coords="189,71,341,97"/>
+</map>

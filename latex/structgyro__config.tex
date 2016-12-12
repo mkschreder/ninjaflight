@@ -1,0 +1,45 @@
+\hypertarget{structgyro__config}{\section{gyro\+\_\+config Struct Reference}
+\label{structgyro__config}\index{gyro\+\_\+config@{gyro\+\_\+config}}
+}
+
+
+{\ttfamily \#include $<$gyro.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structgyro__config_aa4ff0a56b9956a8f1581ffb4d7b7d123}{move\+\_\+threshold}
+\begin{DoxyCompactList}\small\item\em people keep forgetting that moving model while init results in wrong gyro offsets. and then they never reset gyro. so this is now on by default. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structgyro__config_a26241fd02d8e444f99a006fa52098630}{gyro\+\_\+lpf}
+\begin{DoxyCompactList}\small\item\em gyro L\+P\+F setting -\/ values are driver specific, in case of invalid number, a reasonable default $\sim$30-\/40\+H\+Z is chosen. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structgyro__config_af96fd78759f2fca1a0a20b7a71c8da11}{soft\+\_\+gyro\+\_\+lpf\+\_\+hz}
+\begin{DoxyCompactList}\small\item\em Software based gyro filter in hz. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structgyro__config_a26241fd02d8e444f99a006fa52098630}{\index{gyro\+\_\+config@{gyro\+\_\+config}!gyro\+\_\+lpf@{gyro\+\_\+lpf}}
+\index{gyro\+\_\+lpf@{gyro\+\_\+lpf}!gyro\+\_\+config@{gyro\+\_\+config}}
+\subsubsection[{gyro\+\_\+lpf}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gyro\+\_\+config\+::gyro\+\_\+lpf}}\label{structgyro__config_a26241fd02d8e444f99a006fa52098630}
+
+
+gyro L\+P\+F setting -\/ values are driver specific, in case of invalid number, a reasonable default $\sim$30-\/40\+H\+Z is chosen. 
+
+\hypertarget{structgyro__config_aa4ff0a56b9956a8f1581ffb4d7b7d123}{\index{gyro\+\_\+config@{gyro\+\_\+config}!move\+\_\+threshold@{move\+\_\+threshold}}
+\index{move\+\_\+threshold@{move\+\_\+threshold}!gyro\+\_\+config@{gyro\+\_\+config}}
+\subsubsection[{move\+\_\+threshold}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gyro\+\_\+config\+::move\+\_\+threshold}}\label{structgyro__config_aa4ff0a56b9956a8f1581ffb4d7b7d123}
+
+
+people keep forgetting that moving model while init results in wrong gyro offsets. and then they never reset gyro. so this is now on by default. 
+
+\hypertarget{structgyro__config_af96fd78759f2fca1a0a20b7a71c8da11}{\index{gyro\+\_\+config@{gyro\+\_\+config}!soft\+\_\+gyro\+\_\+lpf\+\_\+hz@{soft\+\_\+gyro\+\_\+lpf\+\_\+hz}}
+\index{soft\+\_\+gyro\+\_\+lpf\+\_\+hz@{soft\+\_\+gyro\+\_\+lpf\+\_\+hz}!gyro\+\_\+config@{gyro\+\_\+config}}
+\subsubsection[{soft\+\_\+gyro\+\_\+lpf\+\_\+hz}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t gyro\+\_\+config\+::soft\+\_\+gyro\+\_\+lpf\+\_\+hz}}\label{structgyro__config_af96fd78759f2fca1a0a20b7a71c8da11}
+
+
+Software based gyro filter in hz. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2gyro_8h}{gyro.\+h}\end{DoxyCompactItemize}

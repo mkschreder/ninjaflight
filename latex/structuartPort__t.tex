@@ -1,0 +1,77 @@
+\hypertarget{structuartPort__t}{\section{uart\+Port\+\_\+t Struct Reference}
+\label{structuartPort__t}\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$serial\+\_\+uart\+\_\+impl.\+h$>$}
+
+
+
+Collaboration diagram for uart\+Port\+\_\+t\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{structuartPort__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} \hyperlink{structuartPort__t_ad41850c792e7215dc5e19d6850f256c3}{port}
+\item 
+\hyperlink{structDMA__Channel__TypeDef}{D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def} $\ast$ \hyperlink{structuartPort__t_aab2466933b4f50a9683cf4e38b7339b2}{rx\+D\+M\+A\+Channel}
+\item 
+\hyperlink{structDMA__Channel__TypeDef}{D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def} $\ast$ \hyperlink{structuartPort__t_acb3b9d625c78bfa9b6246854a0f9a7eb}{tx\+D\+M\+A\+Channel}
+\item 
+uint32\+\_\+t \hyperlink{structuartPort__t_a26bda335a9f5a35768510983b7c5175d}{rx\+D\+M\+A\+Irq}
+\item 
+uint32\+\_\+t \hyperlink{structuartPort__t_ad5a941defbe6c204095d7d675c8c3af4}{tx\+D\+M\+A\+Irq}
+\item 
+uint32\+\_\+t \hyperlink{structuartPort__t_a3a1dfdae4a528a8b82b9c4a45469673a}{rx\+D\+M\+A\+Pos}
+\item 
+bool \hyperlink{structuartPort__t_a155ee101534d5543cd5992550a8bd1cf}{tx\+D\+M\+A\+Empty}
+\item 
+uint32\+\_\+t \hyperlink{structuartPort__t_a25c7b6391d118dda79699e76977f69a6}{tx\+D\+M\+A\+Peripheral\+Base\+Addr}
+\item 
+uint32\+\_\+t \hyperlink{structuartPort__t_a21b754ebbfbf509d00ed75df5c59b3e8}{rx\+D\+M\+A\+Peripheral\+Base\+Addr}
+\item 
+\hyperlink{test_2unit_2platform_8h_a2b429c96c2cad510195f0627919132d7}{U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$ \hyperlink{structuartPort__t_aa4e600345d60273ffbc1c1e68be3f561}{U\+S\+A\+R\+Tx}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structuartPort__t_ad41850c792e7215dc5e19d6850f256c3}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!port@{port}}
+\index{port@{port}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t} uart\+Port\+\_\+t\+::port}}\label{structuartPort__t_ad41850c792e7215dc5e19d6850f256c3}
+\hypertarget{structuartPort__t_aab2466933b4f50a9683cf4e38b7339b2}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!rx\+D\+M\+A\+Channel@{rx\+D\+M\+A\+Channel}}
+\index{rx\+D\+M\+A\+Channel@{rx\+D\+M\+A\+Channel}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{rx\+D\+M\+A\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def}$\ast$ uart\+Port\+\_\+t\+::rx\+D\+M\+A\+Channel}}\label{structuartPort__t_aab2466933b4f50a9683cf4e38b7339b2}
+\hypertarget{structuartPort__t_a26bda335a9f5a35768510983b7c5175d}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!rx\+D\+M\+A\+Irq@{rx\+D\+M\+A\+Irq}}
+\index{rx\+D\+M\+A\+Irq@{rx\+D\+M\+A\+Irq}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{rx\+D\+M\+A\+Irq}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t uart\+Port\+\_\+t\+::rx\+D\+M\+A\+Irq}}\label{structuartPort__t_a26bda335a9f5a35768510983b7c5175d}
+\hypertarget{structuartPort__t_a21b754ebbfbf509d00ed75df5c59b3e8}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!rx\+D\+M\+A\+Peripheral\+Base\+Addr@{rx\+D\+M\+A\+Peripheral\+Base\+Addr}}
+\index{rx\+D\+M\+A\+Peripheral\+Base\+Addr@{rx\+D\+M\+A\+Peripheral\+Base\+Addr}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{rx\+D\+M\+A\+Peripheral\+Base\+Addr}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t uart\+Port\+\_\+t\+::rx\+D\+M\+A\+Peripheral\+Base\+Addr}}\label{structuartPort__t_a21b754ebbfbf509d00ed75df5c59b3e8}
+\hypertarget{structuartPort__t_a3a1dfdae4a528a8b82b9c4a45469673a}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!rx\+D\+M\+A\+Pos@{rx\+D\+M\+A\+Pos}}
+\index{rx\+D\+M\+A\+Pos@{rx\+D\+M\+A\+Pos}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{rx\+D\+M\+A\+Pos}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t uart\+Port\+\_\+t\+::rx\+D\+M\+A\+Pos}}\label{structuartPort__t_a3a1dfdae4a528a8b82b9c4a45469673a}
+\hypertarget{structuartPort__t_acb3b9d625c78bfa9b6246854a0f9a7eb}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!tx\+D\+M\+A\+Channel@{tx\+D\+M\+A\+Channel}}
+\index{tx\+D\+M\+A\+Channel@{tx\+D\+M\+A\+Channel}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{tx\+D\+M\+A\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\+M\+A\+\_\+\+Channel\+\_\+\+Type\+Def}$\ast$ uart\+Port\+\_\+t\+::tx\+D\+M\+A\+Channel}}\label{structuartPort__t_acb3b9d625c78bfa9b6246854a0f9a7eb}
+\hypertarget{structuartPort__t_a155ee101534d5543cd5992550a8bd1cf}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!tx\+D\+M\+A\+Empty@{tx\+D\+M\+A\+Empty}}
+\index{tx\+D\+M\+A\+Empty@{tx\+D\+M\+A\+Empty}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{tx\+D\+M\+A\+Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool uart\+Port\+\_\+t\+::tx\+D\+M\+A\+Empty}}\label{structuartPort__t_a155ee101534d5543cd5992550a8bd1cf}
+\hypertarget{structuartPort__t_ad5a941defbe6c204095d7d675c8c3af4}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!tx\+D\+M\+A\+Irq@{tx\+D\+M\+A\+Irq}}
+\index{tx\+D\+M\+A\+Irq@{tx\+D\+M\+A\+Irq}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{tx\+D\+M\+A\+Irq}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t uart\+Port\+\_\+t\+::tx\+D\+M\+A\+Irq}}\label{structuartPort__t_ad5a941defbe6c204095d7d675c8c3af4}
+\hypertarget{structuartPort__t_a25c7b6391d118dda79699e76977f69a6}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!tx\+D\+M\+A\+Peripheral\+Base\+Addr@{tx\+D\+M\+A\+Peripheral\+Base\+Addr}}
+\index{tx\+D\+M\+A\+Peripheral\+Base\+Addr@{tx\+D\+M\+A\+Peripheral\+Base\+Addr}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{tx\+D\+M\+A\+Peripheral\+Base\+Addr}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t uart\+Port\+\_\+t\+::tx\+D\+M\+A\+Peripheral\+Base\+Addr}}\label{structuartPort__t_a25c7b6391d118dda79699e76977f69a6}
+\hypertarget{structuartPort__t_aa4e600345d60273ffbc1c1e68be3f561}{\index{uart\+Port\+\_\+t@{uart\+Port\+\_\+t}!U\+S\+A\+R\+Tx@{U\+S\+A\+R\+Tx}}
+\index{U\+S\+A\+R\+Tx@{U\+S\+A\+R\+Tx}!uart\+Port\+\_\+t@{uart\+Port\+\_\+t}}
+\subsubsection[{U\+S\+A\+R\+Tx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+S\+A\+R\+T\+\_\+\+Type\+Def}$\ast$ uart\+Port\+\_\+t\+::\+U\+S\+A\+R\+Tx}}\label{structuartPort__t_aa4e600345d60273ffbc1c1e68be3f561}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/drivers/\hyperlink{serial__uart__impl_8h}{serial\+\_\+uart\+\_\+impl.\+h}\end{DoxyCompactItemize}

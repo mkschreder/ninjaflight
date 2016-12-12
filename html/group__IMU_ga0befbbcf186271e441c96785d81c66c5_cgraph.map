@@ -1,0 +1,5 @@
+<map id="imu_calc_throttle_angle_correction" name="imu_calc_throttle_angle_correction">
+<area shape="rect" id="node2" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="214,5,338,32"/>
+<area shape="rect" id="node3" href="$maths_8c.html#a015e651da782b648cd1cb0974546641a" title="acos_approx" alt="" coords="228,56,324,83"/>
+<area shape="rect" id="node4" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="233,107,319,133"/>
+</map>

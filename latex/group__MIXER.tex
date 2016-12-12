@@ -1,0 +1,275 @@
+\hypertarget{group__MIXER}{\section{Mixer}
+\label{group__MIXER}\index{Mixer@{Mixer}}
+}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__MIXER_ga8f455127e5b0a5e7f8f3e1b9df164f3c}{mixer\+\_\+flags} \{ \hyperlink{group__MIXER_gga8f455127e5b0a5e7f8f3e1b9df164f3ca336b47f092a05ec681ab024a7b25fe9e}{M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D} = (1 $<$$<$ 3)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__MIXER_ga1ac8758754f82b6ad750ed377c154733}{mixer\+\_\+init} (struct \hyperlink{structmixer}{mixer} $\ast$self, const struct \hyperlink{structconfig}{config} const $\ast$\hyperlink{structconfig}{config}, const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm)
+\item 
+void \hyperlink{group__MIXER_gadc257851e57bc3de20fe776f8fca0a78}{mixer\+\_\+clear\+\_\+rules} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em saves motor mixer into cleanflight motor mixer format \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_gaedfa8863c1b4819082c4349bc4f053be}{mixer\+\_\+input\+\_\+command} (struct \hyperlink{structmixer}{mixer} $\ast$self, \hyperlink{config_2mixer_8h_a0d4a27769492fd12822190587e6b482a}{mixer\+\_\+input\+\_\+t} channel, int16\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em inputs a command to one of the input channels of the mixer \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8}{mixer\+\_\+set\+\_\+throttle\+\_\+range} (struct \hyperlink{structmixer}{mixer} $\ast$self, int16\+\_\+t mid, int16\+\_\+t \hyperlink{config_2rx_8h_a1a1f4624f66ab0b2eb0b98316514c369}{min}, int16\+\_\+t \hyperlink{config_2rx_8h_ac66b569507cc273bbf83ce5dd5f70e84}{max})
+\begin{DoxyCompactList}\small\item\em sets throttle range of the mixer (can be used to set 3d throttle range too) \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_ga724983e86f9da0e57f4aa4ec495d2d87}{mixer\+\_\+update} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em calculates outputs from all mixer inputs and mixing rules \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_ga2250ad03e802112ed15b702ba86faaf4}{mixer\+\_\+enable\+\_\+armed} (struct \hyperlink{structmixer}{mixer} $\ast$self, bool on)
+\begin{DoxyCompactList}\small\item\em arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) \end{DoxyCompactList}\item 
+bool \hyperlink{group__MIXER_gad159e060c41bada3e06ecb889517533e}{mixer\+\_\+motor\+\_\+limit\+\_\+reached} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns true if mixer has determined that motor limit has been reached \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{group__MIXER_gab6ecb3be636e39dc1582e4bb448c3bf7}{mixer\+\_\+get\+\_\+motor\+\_\+count} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns the number of motors that are currently being controlled by mixer profile \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{group__MIXER_gaec0e6d4ba020b8ae1b3d593afdbd4586}{mixer\+\_\+get\+\_\+servo\+\_\+count} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns number of servos that are used by the mixer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The rewritten universal aircraft mixer
+
+\subsection*{Mixer }
+
+\begin{DoxyAuthor}{Author}
+Rewrite\+: Martin Schröder \href{mailto:mkschreder.uk@gmail.com}{\tt mkschreder.\+uk@gmail.\+com} 
+
+Original\+: Cleanflight
+\end{DoxyAuthor}
+The primary job of a mixer is to translate inputs from the flight controller into linear or angular movement of the aircraft body. The mixer does this by taking into account frame and thrust configuration and generating actuator values for required control surfaces.
+
+\subsubsection*{Inputs to the mixer }
+
+Mixer inputs are divided into 4 groups\+:
+\begin{DoxyItemize}
+\item M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G\+R\+O\+U\+P\+\_\+\+F\+C\+: group 0, flight controller stabilization inputs
+\item M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G\+R\+O\+U\+P\+\_\+1\+: group 1, reserved
+\item M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G\+R\+O\+U\+P\+\_\+\+G\+I\+M\+B\+A\+L\+: group 2, gimbal controls (also used by tilt drone)
+\item M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G\+R\+O\+U\+P\+\_\+\+R\+C\+: group 3, rc controls
+\item M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G\+R\+O\+U\+P\+\_\+\+M\+O\+T\+O\+R\+\_\+\+P\+A\+S\+S\+T\+H\+R\+O\+U\+G\+H\+: group 4, motor passthrough
+\end{DoxyItemize}
+
+Each input group contains 8 inputs and can be referenced by the mixer rules.
+
+All inputs must be in range -\/500 to +500.
+
+\subsubsection*{Outputs of the mixer }
+
+Mixer outputs are divided into 2 groups\+:
+\begin{DoxyItemize}
+\item Motors
+\item Servos
+\end{DoxyItemize}
+
+Motor outpus are constrained by minthrottle and maxthrottle and centered at midthrottle value.
+
+Mixer will automatically forward servo outputs from R\+C\+\_\+\+A\+U\+X1 channel and onwards into servo slots that come after the servos that are used by the mixer.
+
+Servo outputs are scaled and limited according to the ninjaflight servo configuration.
+
+\subsubsection*{Mixer rules }
+
+All mixer rules are additive to the given output channel. Each rule defines a scale operation for a particular input to the mixer.
+
+\subsubsection*{Mixer Unit Tests }
+
+This is a summary of automatic tests that are done against the mixer module to guarantee that the module behaves according to the requirements set forth below.
+
+
+\begin{DoxyItemize}
+\item When mixer is started and not armed it will output G4 inputs as passthrough to the motors and will output midrc values on servos. When armed, mixer shall output minimum value that was set by mixer\+\_\+set\+\_\+throttle\+\_\+range.
+\item 3d mode is set in mixer using \hyperlink{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8}{mixer\+\_\+set\+\_\+throttle\+\_\+range()}. T\+O\+D\+O\+: this test needs to be improved.
+\item When mixer is disarmed it should pass M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+G4\+\_\+\+Mx inputs to the motors and should keep servos at midpoint.
+\item Inputs in group G3 that correspond to A\+U\+X channels should always be automatically forwarded to servos that are not controlled by the mixer (starting with the next servo after the last one that is controlled by the mixer rules). T\+O\+D\+O\+: make sure that this output is mixed according to servo configuration rules.
+\item Mixer scales motor output such that differential thrust is maintained as much as possible. If some motors are above maximum output range, mixer moves all motors down such that the difference between motor with least thrust and motor with most thrust is maintained. If both top and bottom limits are exceeded then all motors are scaled to fit in the allowed output range.
+\item Motors that are unused by the mixer are always held at {\itshape mincommand} setting as specified in the mixer configuration. This only applies to motor outputs (not servos).
+\item Mixer has basic tolerance against invalid configuration values. Values are constrained in some places. Do keep configuration valid for best result. 
+\end{DoxyItemize}
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__MIXER_ga8f455127e5b0a5e7f8f3e1b9df164f3c}{\index{Mixer@{Mixer}!mixer\+\_\+flags@{mixer\+\_\+flags}}
+\index{mixer\+\_\+flags@{mixer\+\_\+flags}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf mixer\+\_\+flags}}}\label{group__MIXER_ga8f455127e5b0a5e7f8f3e1b9df164f3c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D@{M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D}!Mixer@{Mixer}}\index{Mixer@{Mixer}!M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D@{M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D}}\item[{\em 
+\hypertarget{group__MIXER_gga8f455127e5b0a5e7f8f3e1b9df164f3ca336b47f092a05ec681ab024a7b25fe9e}{M\+I\+X\+E\+R\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+M\+E\+D}\label{group__MIXER_gga8f455127e5b0a5e7f8f3e1b9df164f3ca336b47f092a05ec681ab024a7b25fe9e}
+}]mixer has to be armed in order to make motor calculations. Motor values are set to either mincommand or minthrottle depending on whether motor stop is enabled \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__MIXER_gadc257851e57bc3de20fe776f8fca0a78}{\index{Mixer@{Mixer}!mixer\+\_\+clear\+\_\+rules@{mixer\+\_\+clear\+\_\+rules}}
+\index{mixer\+\_\+clear\+\_\+rules@{mixer\+\_\+clear\+\_\+rules}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+clear\+\_\+rules}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+clear\+\_\+rules (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gadc257851e57bc3de20fe776f8fca0a78}
+
+
+saves motor mixer into cleanflight motor mixer format 
+
+loads a set of motor mixing rules from cleanflight format into current ruleset save servo mixer into cleanflight servo mixer format (sets some fields to defaults) loads servo mixing rules from cleanflight format into internal format clears all mixing rules \hypertarget{group__MIXER_ga2250ad03e802112ed15b702ba86faaf4}{\index{Mixer@{Mixer}!mixer\+\_\+enable\+\_\+armed@{mixer\+\_\+enable\+\_\+armed}}
+\index{mixer\+\_\+enable\+\_\+armed@{mixer\+\_\+enable\+\_\+armed}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+enable\+\_\+armed}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+enable\+\_\+armed (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self, }
+\item[{bool}]{on}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_ga2250ad03e802112ed15b702ba86faaf4}
+
+
+arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) 
+
+puts mixer into armed state so that outputs are calculated (T\+O\+D\+O\+: this should probably be placed outside of the mixer!) \hypertarget{group__MIXER_gab6ecb3be636e39dc1582e4bb448c3bf7}{\index{Mixer@{Mixer}!mixer\+\_\+get\+\_\+motor\+\_\+count@{mixer\+\_\+get\+\_\+motor\+\_\+count}}
+\index{mixer\+\_\+get\+\_\+motor\+\_\+count@{mixer\+\_\+get\+\_\+motor\+\_\+count}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+get\+\_\+motor\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+\_\+get\+\_\+motor\+\_\+count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gab6ecb3be636e39dc1582e4bb448c3bf7}
+
+
+returns the number of motors that are currently being controlled by mixer profile 
+
+returns total number of motors that are being actively mixed by the mixer as part of current profile \hypertarget{group__MIXER_gaec0e6d4ba020b8ae1b3d593afdbd4586}{\index{Mixer@{Mixer}!mixer\+\_\+get\+\_\+servo\+\_\+count@{mixer\+\_\+get\+\_\+servo\+\_\+count}}
+\index{mixer\+\_\+get\+\_\+servo\+\_\+count@{mixer\+\_\+get\+\_\+servo\+\_\+count}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+get\+\_\+servo\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+\_\+get\+\_\+servo\+\_\+count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gaec0e6d4ba020b8ae1b3d593afdbd4586}
+
+
+returns number of servos that are used by the mixer. 
+
+returns total number of servos that are being actively mxier by the mixer as part of current profile \hypertarget{group__MIXER_ga1ac8758754f82b6ad750ed377c154733}{\index{Mixer@{Mixer}!mixer\+\_\+init@{mixer\+\_\+init}}
+\index{mixer\+\_\+init@{mixer\+\_\+init}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self, }
+\item[{const struct {\bf config} const $\ast$}]{config, }
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_ga1ac8758754f82b6ad750ed377c154733}
+Initializes an empty mixer objects clearing memory first. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__MIXER_ga1ac8758754f82b6ad750ed377c154733_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__MIXER_gaedfa8863c1b4819082c4349bc4f053be}{\index{Mixer@{Mixer}!mixer\+\_\+input\+\_\+command@{mixer\+\_\+input\+\_\+command}}
+\index{mixer\+\_\+input\+\_\+command@{mixer\+\_\+input\+\_\+command}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+input\+\_\+command}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+input\+\_\+command (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self, }
+\item[{{\bf mixer\+\_\+input\+\_\+t}}]{channel, }
+\item[{int16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gaedfa8863c1b4819082c4349bc4f053be}
+
+
+inputs a command to one of the input channels of the mixer 
+
+Inputs a command into the mixer. Valid range is \mbox{[}-\/500 to 500\mbox{]};
+
+
+\begin{DoxyParams}{Parameters}
+{\em channel} & the channel to set \\
+\hline
+{\em value} & the value of the channel. Zero centered and between -\/500 to 500 \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{group__MIXER_gaedfa8863c1b4819082c4349bc4f053be_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__MIXER_gad159e060c41bada3e06ecb889517533e}{\index{Mixer@{Mixer}!mixer\+\_\+motor\+\_\+limit\+\_\+reached@{mixer\+\_\+motor\+\_\+limit\+\_\+reached}}
+\index{mixer\+\_\+motor\+\_\+limit\+\_\+reached@{mixer\+\_\+motor\+\_\+limit\+\_\+reached}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+motor\+\_\+limit\+\_\+reached}]{\setlength{\rightskip}{0pt plus 5cm}bool mixer\+\_\+motor\+\_\+limit\+\_\+reached (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gad159e060c41bada3e06ecb889517533e}
+
+
+returns true if mixer has determined that motor limit has been reached 
+
+tests if any of the motors have reached their limit (usually maxthrottle) \hypertarget{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8}{\index{Mixer@{Mixer}!mixer\+\_\+set\+\_\+throttle\+\_\+range@{mixer\+\_\+set\+\_\+throttle\+\_\+range}}
+\index{mixer\+\_\+set\+\_\+throttle\+\_\+range@{mixer\+\_\+set\+\_\+throttle\+\_\+range}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+set\+\_\+throttle\+\_\+range}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+set\+\_\+throttle\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{mid, }
+\item[{int16\+\_\+t}]{min, }
+\item[{int16\+\_\+t}]{max}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8}
+
+
+sets throttle range of the mixer (can be used to set 3d throttle range too) 
+
+Sets throttle range for scaling motor values. All outputs will be centered at mid throttle and will be clipped to min/max range (this works because all inputs are -\/500 to 500).
+
+
+\begin{DoxyParams}{Parameters}
+{\em mid} & the middle throttle value on which outputs will be centered. \\
+\hline
+{\em min} & minimum possible output value \\
+\hline
+{\em max} & maximum possible output value \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__MIXER_ga724983e86f9da0e57f4aa4ec495d2d87}{\index{Mixer@{Mixer}!mixer\+\_\+update@{mixer\+\_\+update}}
+\index{mixer\+\_\+update@{mixer\+\_\+update}!Mixer@{Mixer}}
+\subsubsection[{mixer\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__MIXER_ga724983e86f9da0e57f4aa4ec495d2d87}
+
+
+calculates outputs from all mixer inputs and mixing rules 
+
+Updates the outputs based on mixing rules from the inputs. Expects inputs to be set using mixer\+\_\+input\+\_\+$\ast$ command.
+
+If mixer is in disarmed state then it will forward group 4 inputs (motor passthrough) to the outputs. This feature can be used to test motors when mixer is not mixing (without changing mixing mode). 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{group__MIXER_ga724983e86f9da0e57f4aa4ec495d2d87_cgraph}
+\end{center}
+\end{figure}
+
+

@@ -1,0 +1,222 @@
+\hypertarget{config_2rc__controls_8h}{\section{src/main/config/rc\+\_\+controls.h File Reference}
+\label{config_2rc__controls_8h}\index{src/main/config/rc\+\_\+controls.\+h@{src/main/config/rc\+\_\+controls.\+h}}
+}
+{\ttfamily \#include \char`\"{}parameter\+\_\+group.\+h\char`\"{}}\\*
+Include dependency graph for rc\+\_\+controls.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{config_2rc__controls_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_2rc__controls_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structchannelRange__s}{channel\+Range\+\_\+s}
+\item 
+struct \hyperlink{structmodeActivationCondition__s}{mode\+Activation\+Condition\+\_\+s}
+\item 
+struct \hyperlink{structmodeActivationProfile__s}{mode\+Activation\+Profile\+\_\+s}
+\item 
+struct \hyperlink{structarmingConfig__s}{arming\+Config\+\_\+s}
+\item 
+struct \hyperlink{structrcControlsConfig__s}{rc\+Controls\+Config\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{config_2rc__controls_8h_a99bfbfa8c2da6ff3d7c806dd4db019b2}{M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}~20
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structchannelRange__s}{channel\+Range\+\_\+s} \hyperlink{config_2rc__controls_8h_a828530b5a74a83442378d11970c97db1}{channel\+Range\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structmodeActivationCondition__s}{mode\+Activation\+Condition\+\_\+s} \hyperlink{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}{mode\+Activation\+Condition\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structmodeActivationProfile__s}{mode\+Activation\+Profile\+\_\+s} \hyperlink{config_2rc__controls_8h_a88cee9441ce97f47c9307757b97cd4aa}{mode\+Activation\+Profile\+\_\+t}
+\item 
+typedef struct \hyperlink{structarmingConfig__s}{arming\+Config\+\_\+s} \hyperlink{config_2rc__controls_8h_a0f0732cdebf0d2683ac4e91c37d958e6}{arming\+Config\+\_\+t}
+\item 
+typedef struct \hyperlink{structrcControlsConfig__s}{rc\+Controls\+Config\+\_\+s} \hyperlink{config_2rc__controls_8h_aae50b00e7ee7b63562659c9c96caeb84}{rc\+Controls\+Config\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045}{box\+Id\+\_\+e} \{ \\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac00aa591ec2a54222cb6b458bdf522e8}{B\+O\+X\+A\+R\+M} = 0, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a4f4168e2af88bd333116ba9cca8a0423}{B\+O\+X\+A\+N\+G\+L\+E}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a03c68e0b0686196439aa9eb5abc5870f}{B\+O\+X\+H\+O\+R\+I\+Z\+O\+N}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac83a6c03fbbfff31bb511e12ba3afc6a}{B\+O\+X\+B\+A\+R\+O}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ae4e1fdd6ea5bd2d72192960fecf7b513}{B\+O\+X\+M\+A\+G}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aca4551a64ad9b9b450aa44219386d064}{B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a1a3c11a207bed6ef50a144a490b757}{B\+O\+X\+H\+E\+A\+D\+A\+D\+J}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0d2711a1a08b480b79162b53d312dff1}{B\+O\+X\+C\+A\+M\+S\+T\+A\+B}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a545773826efd87fbf38b0bc8704c3473}{B\+O\+X\+C\+A\+M\+T\+R\+I\+G}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac3c4c61f6999c4e0f286dc9587313a70}{B\+O\+X\+G\+P\+S\+H\+O\+M\+E}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9441fd07fd694361a0b3daf60bc14b2a}{B\+O\+X\+G\+P\+S\+H\+O\+L\+D}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a526eedd320fc1e3889c964f7c02c251b}{B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a15bd95f677945cd8d99c45193083c5dc}{B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a78360ff5b3a926edf3671154def81827}{B\+O\+X\+L\+E\+D\+M\+A\+X}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045af9dae410bae0cc808cceb7a42f47c3d4}{B\+O\+X\+L\+E\+D\+L\+O\+W}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa9bfa18ff3d9d36571688ae4f4841e28}{B\+O\+X\+L\+L\+I\+G\+H\+T\+S}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a6bc3abcf1fe29a613423aa4c003f61a6}{B\+O\+X\+C\+A\+L\+I\+B}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9eaa1d9201d5208b3bc0b13abb6e2a36}{B\+O\+X\+G\+O\+V}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ad2df8472b0ab89cdf5291303257b39}{B\+O\+X\+O\+S\+D}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa4cd01c96ddb1771a996d8795f68cd20}{B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ef757a6bc7453bde4699c18baef87a5}{B\+O\+X\+G\+T\+U\+N\+E}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a95694ffbca0aee950c67bf117f4a36}{B\+O\+X\+S\+O\+N\+A\+R}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac0531d29e709ec3bb11c18f7420d7d27}{B\+O\+X\+S\+E\+R\+V\+O1}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a31dd5adf36d2900b9da0e289391cdfca}{B\+O\+X\+S\+E\+R\+V\+O2}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a44cf0a7504a433e25df6090f601057f2}{B\+O\+X\+S\+E\+R\+V\+O3}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045acbc507e17e0bdbbc99a4a0e3cb2a8c94}{B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0f567a2952184621e1b8a782e473b0e5}{B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E}, 
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a83eec4ed6e5ddb2ca1a720912d5ea3e2}{B\+O\+X\+A\+I\+R\+M\+O\+D\+E}, 
+\\*
+\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa54a6124090643ede37b7a2de55a4fb5}{C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{config_2rc__controls_8h_a9edeccdc7008b931dd3d3ff1b5ee498c}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E} (\hyperlink{config_2rc__controls_8h_a88cee9441ce97f47c9307757b97cd4aa}{mode\+Activation\+Profile\+\_\+t}, mode\+Activation\+Profile)
+\item 
+\hyperlink{config_2rc__controls_8h_ad5388acded3c5491e10d9b6358dc5428}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E} (\hyperlink{config_2rc__controls_8h_a0f0732cdebf0d2683ac4e91c37d958e6}{arming\+Config\+\_\+t}, arming\+Config)
+\item 
+\hyperlink{config_2rc__controls_8h_a045de33f1b950abf913db513b2b93e72}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E} (\hyperlink{config_2rc__controls_8h_aae50b00e7ee7b63562659c9c96caeb84}{rc\+Controls\+Config\+\_\+t}, rc\+Controls\+Config)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{config_2rc__controls_8h_a99bfbfa8c2da6ff3d7c806dd4db019b2}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}}
+\index{M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+M\+O\+D\+E\+\_\+\+A\+C\+T\+I\+V\+A\+T\+I\+O\+N\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T~20}}\label{config_2rc__controls_8h_a99bfbfa8c2da6ff3d7c806dd4db019b2}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{config_2rc__controls_8h_a0f0732cdebf0d2683ac4e91c37d958e6}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!arming\+Config\+\_\+t@{arming\+Config\+\_\+t}}
+\index{arming\+Config\+\_\+t@{arming\+Config\+\_\+t}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{arming\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf arming\+Config\+\_\+s}  {\bf arming\+Config\+\_\+t}}}\label{config_2rc__controls_8h_a0f0732cdebf0d2683ac4e91c37d958e6}
+\hypertarget{config_2rc__controls_8h_a828530b5a74a83442378d11970c97db1}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!channel\+Range\+\_\+t@{channel\+Range\+\_\+t}}
+\index{channel\+Range\+\_\+t@{channel\+Range\+\_\+t}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{channel\+Range\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf channel\+Range\+\_\+s}  {\bf channel\+Range\+\_\+t}}}\label{config_2rc__controls_8h_a828530b5a74a83442378d11970c97db1}
+\hypertarget{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!mode\+Activation\+Condition\+\_\+t@{mode\+Activation\+Condition\+\_\+t}}
+\index{mode\+Activation\+Condition\+\_\+t@{mode\+Activation\+Condition\+\_\+t}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{mode\+Activation\+Condition\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf mode\+Activation\+Condition\+\_\+s}  {\bf mode\+Activation\+Condition\+\_\+t}}}\label{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}
+\hypertarget{config_2rc__controls_8h_a88cee9441ce97f47c9307757b97cd4aa}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!mode\+Activation\+Profile\+\_\+t@{mode\+Activation\+Profile\+\_\+t}}
+\index{mode\+Activation\+Profile\+\_\+t@{mode\+Activation\+Profile\+\_\+t}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{mode\+Activation\+Profile\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf mode\+Activation\+Profile\+\_\+s}  {\bf mode\+Activation\+Profile\+\_\+t}}}\label{config_2rc__controls_8h_a88cee9441ce97f47c9307757b97cd4aa}
+\hypertarget{config_2rc__controls_8h_aae50b00e7ee7b63562659c9c96caeb84}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!rc\+Controls\+Config\+\_\+t@{rc\+Controls\+Config\+\_\+t}}
+\index{rc\+Controls\+Config\+\_\+t@{rc\+Controls\+Config\+\_\+t}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{rc\+Controls\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf rc\+Controls\+Config\+\_\+s}  {\bf rc\+Controls\+Config\+\_\+t}}}\label{config_2rc__controls_8h_aae50b00e7ee7b63562659c9c96caeb84}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!box\+Id\+\_\+e@{box\+Id\+\_\+e}}
+\index{box\+Id\+\_\+e@{box\+Id\+\_\+e}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{box\+Id\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf box\+Id\+\_\+e}}}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\+O\+X\+A\+R\+M@{B\+O\+X\+A\+R\+M}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+A\+R\+M@{B\+O\+X\+A\+R\+M}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac00aa591ec2a54222cb6b458bdf522e8}{B\+O\+X\+A\+R\+M}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac00aa591ec2a54222cb6b458bdf522e8}
+}]\index{B\+O\+X\+A\+N\+G\+L\+E@{B\+O\+X\+A\+N\+G\+L\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+A\+N\+G\+L\+E@{B\+O\+X\+A\+N\+G\+L\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a4f4168e2af88bd333116ba9cca8a0423}{B\+O\+X\+A\+N\+G\+L\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a4f4168e2af88bd333116ba9cca8a0423}
+}]\index{B\+O\+X\+H\+O\+R\+I\+Z\+O\+N@{B\+O\+X\+H\+O\+R\+I\+Z\+O\+N}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+H\+O\+R\+I\+Z\+O\+N@{B\+O\+X\+H\+O\+R\+I\+Z\+O\+N}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a03c68e0b0686196439aa9eb5abc5870f}{B\+O\+X\+H\+O\+R\+I\+Z\+O\+N}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a03c68e0b0686196439aa9eb5abc5870f}
+}]\index{B\+O\+X\+B\+A\+R\+O@{B\+O\+X\+B\+A\+R\+O}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+B\+A\+R\+O@{B\+O\+X\+B\+A\+R\+O}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac83a6c03fbbfff31bb511e12ba3afc6a}{B\+O\+X\+B\+A\+R\+O}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac83a6c03fbbfff31bb511e12ba3afc6a}
+}]\index{B\+O\+X\+M\+A\+G@{B\+O\+X\+M\+A\+G}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+M\+A\+G@{B\+O\+X\+M\+A\+G}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ae4e1fdd6ea5bd2d72192960fecf7b513}{B\+O\+X\+M\+A\+G}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ae4e1fdd6ea5bd2d72192960fecf7b513}
+}]\index{B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E@{B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E@{B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aca4551a64ad9b9b450aa44219386d064}{B\+O\+X\+H\+E\+A\+D\+F\+R\+E\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aca4551a64ad9b9b450aa44219386d064}
+}]\index{B\+O\+X\+H\+E\+A\+D\+A\+D\+J@{B\+O\+X\+H\+E\+A\+D\+A\+D\+J}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+H\+E\+A\+D\+A\+D\+J@{B\+O\+X\+H\+E\+A\+D\+A\+D\+J}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a1a3c11a207bed6ef50a144a490b757}{B\+O\+X\+H\+E\+A\+D\+A\+D\+J}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a1a3c11a207bed6ef50a144a490b757}
+}]\index{B\+O\+X\+C\+A\+M\+S\+T\+A\+B@{B\+O\+X\+C\+A\+M\+S\+T\+A\+B}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+C\+A\+M\+S\+T\+A\+B@{B\+O\+X\+C\+A\+M\+S\+T\+A\+B}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0d2711a1a08b480b79162b53d312dff1}{B\+O\+X\+C\+A\+M\+S\+T\+A\+B}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0d2711a1a08b480b79162b53d312dff1}
+}]\index{B\+O\+X\+C\+A\+M\+T\+R\+I\+G@{B\+O\+X\+C\+A\+M\+T\+R\+I\+G}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+C\+A\+M\+T\+R\+I\+G@{B\+O\+X\+C\+A\+M\+T\+R\+I\+G}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a545773826efd87fbf38b0bc8704c3473}{B\+O\+X\+C\+A\+M\+T\+R\+I\+G}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a545773826efd87fbf38b0bc8704c3473}
+}]\index{B\+O\+X\+G\+P\+S\+H\+O\+M\+E@{B\+O\+X\+G\+P\+S\+H\+O\+M\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+G\+P\+S\+H\+O\+M\+E@{B\+O\+X\+G\+P\+S\+H\+O\+M\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac3c4c61f6999c4e0f286dc9587313a70}{B\+O\+X\+G\+P\+S\+H\+O\+M\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac3c4c61f6999c4e0f286dc9587313a70}
+}]\index{B\+O\+X\+G\+P\+S\+H\+O\+L\+D@{B\+O\+X\+G\+P\+S\+H\+O\+L\+D}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+G\+P\+S\+H\+O\+L\+D@{B\+O\+X\+G\+P\+S\+H\+O\+L\+D}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9441fd07fd694361a0b3daf60bc14b2a}{B\+O\+X\+G\+P\+S\+H\+O\+L\+D}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9441fd07fd694361a0b3daf60bc14b2a}
+}]\index{B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U@{B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U@{B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a526eedd320fc1e3889c964f7c02c251b}{B\+O\+X\+P\+A\+S\+S\+T\+H\+R\+U}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a526eedd320fc1e3889c964f7c02c251b}
+}]\index{B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N@{B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N@{B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a15bd95f677945cd8d99c45193083c5dc}{B\+O\+X\+B\+E\+E\+P\+E\+R\+O\+N}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a15bd95f677945cd8d99c45193083c5dc}
+}]\index{B\+O\+X\+L\+E\+D\+M\+A\+X@{B\+O\+X\+L\+E\+D\+M\+A\+X}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+L\+E\+D\+M\+A\+X@{B\+O\+X\+L\+E\+D\+M\+A\+X}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a78360ff5b3a926edf3671154def81827}{B\+O\+X\+L\+E\+D\+M\+A\+X}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a78360ff5b3a926edf3671154def81827}
+}]\index{B\+O\+X\+L\+E\+D\+L\+O\+W@{B\+O\+X\+L\+E\+D\+L\+O\+W}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+L\+E\+D\+L\+O\+W@{B\+O\+X\+L\+E\+D\+L\+O\+W}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045af9dae410bae0cc808cceb7a42f47c3d4}{B\+O\+X\+L\+E\+D\+L\+O\+W}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045af9dae410bae0cc808cceb7a42f47c3d4}
+}]\index{B\+O\+X\+L\+L\+I\+G\+H\+T\+S@{B\+O\+X\+L\+L\+I\+G\+H\+T\+S}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+L\+L\+I\+G\+H\+T\+S@{B\+O\+X\+L\+L\+I\+G\+H\+T\+S}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa9bfa18ff3d9d36571688ae4f4841e28}{B\+O\+X\+L\+L\+I\+G\+H\+T\+S}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa9bfa18ff3d9d36571688ae4f4841e28}
+}]\index{B\+O\+X\+C\+A\+L\+I\+B@{B\+O\+X\+C\+A\+L\+I\+B}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+C\+A\+L\+I\+B@{B\+O\+X\+C\+A\+L\+I\+B}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a6bc3abcf1fe29a613423aa4c003f61a6}{B\+O\+X\+C\+A\+L\+I\+B}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a6bc3abcf1fe29a613423aa4c003f61a6}
+}]\index{B\+O\+X\+G\+O\+V@{B\+O\+X\+G\+O\+V}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+G\+O\+V@{B\+O\+X\+G\+O\+V}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9eaa1d9201d5208b3bc0b13abb6e2a36}{B\+O\+X\+G\+O\+V}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a9eaa1d9201d5208b3bc0b13abb6e2a36}
+}]\index{B\+O\+X\+O\+S\+D@{B\+O\+X\+O\+S\+D}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+O\+S\+D@{B\+O\+X\+O\+S\+D}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ad2df8472b0ab89cdf5291303257b39}{B\+O\+X\+O\+S\+D}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ad2df8472b0ab89cdf5291303257b39}
+}]\index{B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y@{B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y@{B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa4cd01c96ddb1771a996d8795f68cd20}{B\+O\+X\+T\+E\+L\+E\+M\+E\+T\+R\+Y}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa4cd01c96ddb1771a996d8795f68cd20}
+}]\index{B\+O\+X\+G\+T\+U\+N\+E@{B\+O\+X\+G\+T\+U\+N\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+G\+T\+U\+N\+E@{B\+O\+X\+G\+T\+U\+N\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ef757a6bc7453bde4699c18baef87a5}{B\+O\+X\+G\+T\+U\+N\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a8ef757a6bc7453bde4699c18baef87a5}
+}]\index{B\+O\+X\+S\+O\+N\+A\+R@{B\+O\+X\+S\+O\+N\+A\+R}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+S\+O\+N\+A\+R@{B\+O\+X\+S\+O\+N\+A\+R}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a95694ffbca0aee950c67bf117f4a36}{B\+O\+X\+S\+O\+N\+A\+R}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a3a95694ffbca0aee950c67bf117f4a36}
+}]\index{B\+O\+X\+S\+E\+R\+V\+O1@{B\+O\+X\+S\+E\+R\+V\+O1}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+S\+E\+R\+V\+O1@{B\+O\+X\+S\+E\+R\+V\+O1}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac0531d29e709ec3bb11c18f7420d7d27}{B\+O\+X\+S\+E\+R\+V\+O1}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045ac0531d29e709ec3bb11c18f7420d7d27}
+}]\index{B\+O\+X\+S\+E\+R\+V\+O2@{B\+O\+X\+S\+E\+R\+V\+O2}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+S\+E\+R\+V\+O2@{B\+O\+X\+S\+E\+R\+V\+O2}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a31dd5adf36d2900b9da0e289391cdfca}{B\+O\+X\+S\+E\+R\+V\+O2}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a31dd5adf36d2900b9da0e289391cdfca}
+}]\index{B\+O\+X\+S\+E\+R\+V\+O3@{B\+O\+X\+S\+E\+R\+V\+O3}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+S\+E\+R\+V\+O3@{B\+O\+X\+S\+E\+R\+V\+O3}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a44cf0a7504a433e25df6090f601057f2}{B\+O\+X\+S\+E\+R\+V\+O3}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a44cf0a7504a433e25df6090f601057f2}
+}]\index{B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X@{B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X@{B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045acbc507e17e0bdbbc99a4a0e3cb2a8c94}{B\+O\+X\+B\+L\+A\+C\+K\+B\+O\+X}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045acbc507e17e0bdbbc99a4a0e3cb2a8c94}
+}]\index{B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E@{B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E@{B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0f567a2952184621e1b8a782e473b0e5}{B\+O\+X\+F\+A\+I\+L\+S\+A\+F\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a0f567a2952184621e1b8a782e473b0e5}
+}]\index{B\+O\+X\+A\+I\+R\+M\+O\+D\+E@{B\+O\+X\+A\+I\+R\+M\+O\+D\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!B\+O\+X\+A\+I\+R\+M\+O\+D\+E@{B\+O\+X\+A\+I\+R\+M\+O\+D\+E}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a83eec4ed6e5ddb2ca1a720912d5ea3e2}{B\+O\+X\+A\+I\+R\+M\+O\+D\+E}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045a83eec4ed6e5ddb2ca1a720912d5ea3e2}
+}]\index{C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T@{C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T@{C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T}}\item[{\em 
+\hypertarget{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa54a6124090643ede37b7a2de55a4fb5}{C\+H\+E\+C\+K\+B\+O\+X\+\_\+\+I\+T\+E\+M\+\_\+\+C\+O\+U\+N\+T}\label{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045aa54a6124090643ede37b7a2de55a4fb5}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{config_2rc__controls_8h_ad5388acded3c5491e10d9b6358dc5428}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf arming\+Config\+\_\+t}}]{, }
+\item[{arming\+Config}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2rc__controls_8h_ad5388acded3c5491e10d9b6358dc5428}
+\hypertarget{config_2rc__controls_8h_a9edeccdc7008b931dd3d3ff1b5ee498c}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf mode\+Activation\+Profile\+\_\+t}}]{, }
+\item[{mode\+Activation\+Profile}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2rc__controls_8h_a9edeccdc7008b931dd3d3ff1b5ee498c}
+\hypertarget{config_2rc__controls_8h_a045de33f1b950abf913db513b2b93e72}{\index{config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}!config/rc\+\_\+controls.\+h@{config/rc\+\_\+controls.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E\+\_\+\+P\+R\+O\+F\+I\+L\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf rc\+Controls\+Config\+\_\+t}}]{, }
+\item[{rc\+Controls\+Config}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2rc__controls_8h_a045de33f1b950abf913db513b2b93e72}

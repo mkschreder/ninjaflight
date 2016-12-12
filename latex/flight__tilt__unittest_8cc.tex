@@ -1,0 +1,75 @@
+\hypertarget{flight__tilt__unittest_8cc}{\section{src/test/unit/flight\+\_\+tilt\+\_\+unittest.cc File Reference}
+\label{flight__tilt__unittest_8cc}\index{src/test/unit/flight\+\_\+tilt\+\_\+unittest.\+cc@{src/test/unit/flight\+\_\+tilt\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/pwm\+\_\+mapping.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/gyro\+\_\+sync.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/tilt.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for flight\+\_\+tilt\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__tilt__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{flight__tilt__unittest_8cc_a26635139bfa9e9058bd19ddeea60a4d6}{T\+E\+S\+T} (Tilt\+Comensator, Compensation\+Test)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{rx_2rx_8h_a42f050b55773f3d2df861b5860040fe8}{rx\+Runtime\+Config\+\_\+t} \hyperlink{flight__tilt__unittest_8cc_ad2cdcbc37cc6ee54cae648c06acdd0eb}{rx\+Runtime\+Config}
+\item 
+struct \hyperlink{structpid__controller__output}{pid\+\_\+controller\+\_\+output} \hyperlink{flight__tilt__unittest_8cc_ac4c73605e702c3afd8f299f455036382}{pid\+\_\+output}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{flight__tilt__unittest_8cc_a26635139bfa9e9058bd19ddeea60a4d6}{\index{flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Tilt\+Comensator}]{, }
+\item[{Compensation\+Test}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__tilt__unittest_8cc_a26635139bfa9e9058bd19ddeea60a4d6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__tilt__unittest_8cc_a26635139bfa9e9058bd19ddeea60a4d6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{flight__tilt__unittest_8cc_ac4c73605e702c3afd8f299f455036382}{\index{flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}!pid\+\_\+output@{pid\+\_\+output}}
+\index{pid\+\_\+output@{pid\+\_\+output}!flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}}
+\subsubsection[{pid\+\_\+output}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pid\+\_\+controller\+\_\+output} pid\+\_\+output}}\label{flight__tilt__unittest_8cc_ac4c73605e702c3afd8f299f455036382}
+\hypertarget{flight__tilt__unittest_8cc_ad2cdcbc37cc6ee54cae648c06acdd0eb}{\index{flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}!rx\+Runtime\+Config@{rx\+Runtime\+Config}}
+\index{rx\+Runtime\+Config@{rx\+Runtime\+Config}!flight\+\_\+tilt\+\_\+unittest.\+cc@{flight\+\_\+tilt\+\_\+unittest.\+cc}}
+\subsubsection[{rx\+Runtime\+Config}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rx\+Runtime\+Config\+\_\+t} rx\+Runtime\+Config}}\label{flight__tilt__unittest_8cc_ad2cdcbc37cc6ee54cae648c06acdd0eb}

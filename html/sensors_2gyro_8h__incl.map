@@ -1,0 +1,8 @@
+<map id="src/main/sensors/gyro.h" name="src/main/sensors/gyro.h">
+<area shape="rect" id="node2" href="$accgyro_8h.html" title="drivers/accgyro.h" alt="" coords="5,80,128,107"/>
+<area shape="rect" id="node4" href="$filter_8h.html" title="../common/filter.h" alt="" coords="153,80,276,107"/>
+<area shape="rect" id="node5" href="$maths_8h.html" title="../common/maths.h" alt="" coords="301,80,435,107"/>
+<area shape="rect" id="node7" href="$config_2gyro_8h.html" title="../config/gyro.h" alt="" coords="460,80,569,107"/>
+<area shape="rect" id="node8" href="$sensors_8h.html" title="../config/sensors.h" alt="" coords="593,80,723,107"/>
+<area shape="rect" id="node3" href="$sensor_8h.html" title="sensor.h" alt="" coords="31,155,103,181"/>
+</map>

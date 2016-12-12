@@ -1,0 +1,6 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$group__MIXER.html#gaedfa8863c1b4819082c4349bc4f053be" title="inputs a command to one of the input channels of the mixer " alt="" coords="126,5,279,32"/>
+<area shape="rect" id="node4" href="$group__MIXER.html#ga724983e86f9da0e57f4aa4ec495d2d87" title="calculates outputs from all mixer inputs and mixing rules " alt="" coords="153,56,253,83"/>
+<area shape="rect" id="node3" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="353,5,428,32"/>
+<area shape="rect" id="node5" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="329,56,453,83"/>
+</map>

@@ -1,0 +1,97 @@
+\hypertarget{config__flash_8h}{\section{src/main/drivers/config\+\_\+flash.h File Reference}
+\label{config__flash_8h}\index{src/main/drivers/config\+\_\+flash.\+h@{src/main/drivers/config\+\_\+flash.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stddef.\+h$>$}\\*
+Include dependency graph for config\+\_\+flash.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{config__flash_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{config__flash_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{config__flash_8h_a951809cdff870e18bbfc37060c1d7c91}{flash\+\_\+write} (uintptr\+\_\+t base, const void $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, size\+\_\+t size)
+\item 
+int \hyperlink{config__flash_8h_a7f8fa60dc3e33a41079568797276466f}{flash\+\_\+read} (uintptr\+\_\+t base, void $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, size\+\_\+t size)
+\item 
+int \hyperlink{config__flash_8h_aad28d0d3b890add72d76a0de1e687c66}{flash\+\_\+erase\+\_\+page} (uintptr\+\_\+t base)
+\item 
+size\+\_\+t \hyperlink{config__flash_8h_a590462bafb90963e90a4d461097bfbfd}{flash\+\_\+get\+\_\+page\+\_\+size} (void)
+\item 
+size\+\_\+t \hyperlink{config__flash_8h_a3a0835c4fcc370784bbbc8b4c98c1def}{flash\+\_\+get\+\_\+num\+\_\+pages} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{config__flash_8h_aad28d0d3b890add72d76a0de1e687c66}{\index{config\+\_\+flash.\+h@{config\+\_\+flash.\+h}!flash\+\_\+erase\+\_\+page@{flash\+\_\+erase\+\_\+page}}
+\index{flash\+\_\+erase\+\_\+page@{flash\+\_\+erase\+\_\+page}!config\+\_\+flash.\+h@{config\+\_\+flash.\+h}}
+\subsubsection[{flash\+\_\+erase\+\_\+page}]{\setlength{\rightskip}{0pt plus 5cm}int flash\+\_\+erase\+\_\+page (
+\begin{DoxyParamCaption}
+\item[{uintptr\+\_\+t}]{base}
+\end{DoxyParamCaption}
+)}}\label{config__flash_8h_aad28d0d3b890add72d76a0de1e687c66}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{config__flash_8h_aad28d0d3b890add72d76a0de1e687c66_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__flash_8h_a3a0835c4fcc370784bbbc8b4c98c1def}{\index{config\+\_\+flash.\+h@{config\+\_\+flash.\+h}!flash\+\_\+get\+\_\+num\+\_\+pages@{flash\+\_\+get\+\_\+num\+\_\+pages}}
+\index{flash\+\_\+get\+\_\+num\+\_\+pages@{flash\+\_\+get\+\_\+num\+\_\+pages}!config\+\_\+flash.\+h@{config\+\_\+flash.\+h}}
+\subsubsection[{flash\+\_\+get\+\_\+num\+\_\+pages}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t flash\+\_\+get\+\_\+num\+\_\+pages (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{config__flash_8h_a3a0835c4fcc370784bbbc8b4c98c1def}
+\hypertarget{config__flash_8h_a590462bafb90963e90a4d461097bfbfd}{\index{config\+\_\+flash.\+h@{config\+\_\+flash.\+h}!flash\+\_\+get\+\_\+page\+\_\+size@{flash\+\_\+get\+\_\+page\+\_\+size}}
+\index{flash\+\_\+get\+\_\+page\+\_\+size@{flash\+\_\+get\+\_\+page\+\_\+size}!config\+\_\+flash.\+h@{config\+\_\+flash.\+h}}
+\subsubsection[{flash\+\_\+get\+\_\+page\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t flash\+\_\+get\+\_\+page\+\_\+size (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{config__flash_8h_a590462bafb90963e90a4d461097bfbfd}
+\hypertarget{config__flash_8h_a7f8fa60dc3e33a41079568797276466f}{\index{config\+\_\+flash.\+h@{config\+\_\+flash.\+h}!flash\+\_\+read@{flash\+\_\+read}}
+\index{flash\+\_\+read@{flash\+\_\+read}!config\+\_\+flash.\+h@{config\+\_\+flash.\+h}}
+\subsubsection[{flash\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}int flash\+\_\+read (
+\begin{DoxyParamCaption}
+\item[{uintptr\+\_\+t}]{base, }
+\item[{void $\ast$}]{data, }
+\item[{size\+\_\+t}]{size}
+\end{DoxyParamCaption}
+)}}\label{config__flash_8h_a7f8fa60dc3e33a41079568797276466f}
+\hypertarget{config__flash_8h_a951809cdff870e18bbfc37060c1d7c91}{\index{config\+\_\+flash.\+h@{config\+\_\+flash.\+h}!flash\+\_\+write@{flash\+\_\+write}}
+\index{flash\+\_\+write@{flash\+\_\+write}!config\+\_\+flash.\+h@{config\+\_\+flash.\+h}}
+\subsubsection[{flash\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}int flash\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{uintptr\+\_\+t}]{base, }
+\item[{const void $\ast$}]{data, }
+\item[{size\+\_\+t}]{size}
+\end{DoxyParamCaption}
+)}}\label{config__flash_8h_a951809cdff870e18bbfc37060c1d7c91}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{config__flash_8h_a951809cdff870e18bbfc37060c1d7c91_cgraph}
+\end{center}
+\end{figure}
+
+

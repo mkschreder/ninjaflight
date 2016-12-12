@@ -1,0 +1,212 @@
+\hypertarget{sensors_2battery_8h}{\section{src/main/sensors/battery.h File Reference}
+\label{sensors_2battery_8h}\index{src/main/sensors/battery.\+h@{src/main/sensors/battery.\+h}}
+}
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../config/battery.\+h\char`\"{}}\\*
+Include dependency graph for battery.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{sensors_2battery_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2battery_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbattery}{battery}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993}{battery\+\_\+state\+\_\+t} \{ \hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a8230d065cae573738906b55c24020628}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K} = 0, 
+\hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a604ef0cc8dfa7349b54beb1e76b0a3d0}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G}, 
+\hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993afe475f5bb1fbb3c6f662e82d02695cd9}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}, 
+\hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993ac0d0f2bcdcfd545f53fae63dcd224f87}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sensors_2battery_8h_a78cc41ddb9d379ae1afef2065e41dc44}{battery\+\_\+init} (struct \hyperlink{structbattery}{battery} $\ast$self, const struct \hyperlink{structbattery__config}{battery\+\_\+config} $\ast$\hyperlink{structconfig}{config})
+\item 
+\hyperlink{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993}{battery\+\_\+state\+\_\+t} \hyperlink{sensors_2battery_8h_a43ef2a13aac65b385b14a7b3394c30d8}{battery\+\_\+get\+\_\+state} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+const char $\ast$ \hyperlink{sensors_2battery_8h_aebb7d995762145ae1fb5ea05f46b19ac}{battery\+\_\+get\+\_\+state\+\_\+str} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+void \hyperlink{sensors_2battery_8h_a3e5619a6c49d4c1a1e49641ab6ec0ea0}{battery\+\_\+update} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+uint8\+\_\+t \hyperlink{sensors_2battery_8h_a688c7bed9516a7c2ac95b85e57016061}{battery\+\_\+get\+\_\+remaining\+\_\+percent} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+uint8\+\_\+t \hyperlink{sensors_2battery_8h_abda60c4e7c5d3308ce6ddc279cfd4e11}{battery\+\_\+get\+\_\+remaining\+\_\+capacity} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+uint16\+\_\+t \hyperlink{sensors_2battery_8h_a3a120e4163dcfc46cda498c8b9e313ed}{battery\+\_\+get\+\_\+voltage} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+uint8\+\_\+t \hyperlink{sensors_2battery_8h_a502c99e9f32b6c1f320784b5790e1aea}{battery\+\_\+get\+\_\+cell\+\_\+count} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+uint16\+\_\+t \hyperlink{sensors_2battery_8h_adcfb5fd88ca16ac2cb83cdddd791bc60}{battery\+\_\+get\+\_\+cell\+\_\+voltage} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{sensors_2battery_8h_a8273cfe279745f9bd3ba69dcbcc7656d}{battery\+\_\+get\+\_\+current} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{sensors_2battery_8h_af01025cfe5a73a80e4df8cca4914ba7e}{battery\+\_\+get\+\_\+spent\+\_\+capacity} (struct \hyperlink{structbattery}{battery} $\ast$self)
+\item 
+void \hyperlink{sensors_2battery_8h_a788a47c29fc6280fec9a99a7c23e0667}{battery\+\_\+update\+\_\+current\+\_\+meter} (struct \hyperlink{structbattery}{battery} $\ast$self, int32\+\_\+t last\+Update\+At)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+state\+\_\+t@{battery\+\_\+state\+\_\+t}}
+\index{battery\+\_\+state\+\_\+t@{battery\+\_\+state\+\_\+t}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+state\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf battery\+\_\+state\+\_\+t}}}\label{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K}!sensors/battery.\+h@{sensors/battery.\+h}}\index{sensors/battery.\+h@{sensors/battery.\+h}!B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K}}\item[{\em 
+\hypertarget{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a8230d065cae573738906b55c24020628}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+O\+K}\label{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a8230d065cae573738906b55c24020628}
+}]\index{B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G}!sensors/battery.\+h@{sensors/battery.\+h}}\index{sensors/battery.\+h@{sensors/battery.\+h}!B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G}}\item[{\em 
+\hypertarget{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a604ef0cc8dfa7349b54beb1e76b0a3d0}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+W\+A\+R\+N\+I\+N\+G}\label{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993a604ef0cc8dfa7349b54beb1e76b0a3d0}
+}]\index{B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}!sensors/battery.\+h@{sensors/battery.\+h}}\index{sensors/battery.\+h@{sensors/battery.\+h}!B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}}\item[{\em 
+\hypertarget{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993afe475f5bb1fbb3c6f662e82d02695cd9}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}\label{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993afe475f5bb1fbb3c6f662e82d02695cd9}
+}]\index{B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T}!sensors/battery.\+h@{sensors/battery.\+h}}\index{sensors/battery.\+h@{sensors/battery.\+h}!B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T@{B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T}}\item[{\em 
+\hypertarget{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993ac0d0f2bcdcfd545f53fae63dcd224f87}{B\+A\+T\+T\+E\+R\+Y\+\_\+\+N\+O\+T\+\_\+\+P\+R\+E\+S\+E\+N\+T}\label{sensors_2battery_8h_a22b38b26763aa629baa29efb37a4e993ac0d0f2bcdcfd545f53fae63dcd224f87}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{sensors_2battery_8h_a502c99e9f32b6c1f320784b5790e1aea}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+cell\+\_\+count@{battery\+\_\+get\+\_\+cell\+\_\+count}}
+\index{battery\+\_\+get\+\_\+cell\+\_\+count@{battery\+\_\+get\+\_\+cell\+\_\+count}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+cell\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t battery\+\_\+get\+\_\+cell\+\_\+count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a502c99e9f32b6c1f320784b5790e1aea}
+\hypertarget{sensors_2battery_8h_adcfb5fd88ca16ac2cb83cdddd791bc60}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+cell\+\_\+voltage@{battery\+\_\+get\+\_\+cell\+\_\+voltage}}
+\index{battery\+\_\+get\+\_\+cell\+\_\+voltage@{battery\+\_\+get\+\_\+cell\+\_\+voltage}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+cell\+\_\+voltage}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t battery\+\_\+get\+\_\+cell\+\_\+voltage (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_adcfb5fd88ca16ac2cb83cdddd791bc60}
+\hypertarget{sensors_2battery_8h_a8273cfe279745f9bd3ba69dcbcc7656d}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+current@{battery\+\_\+get\+\_\+current}}
+\index{battery\+\_\+get\+\_\+current@{battery\+\_\+get\+\_\+current}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+current}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t battery\+\_\+get\+\_\+current (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a8273cfe279745f9bd3ba69dcbcc7656d}
+\hypertarget{sensors_2battery_8h_abda60c4e7c5d3308ce6ddc279cfd4e11}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+remaining\+\_\+capacity@{battery\+\_\+get\+\_\+remaining\+\_\+capacity}}
+\index{battery\+\_\+get\+\_\+remaining\+\_\+capacity@{battery\+\_\+get\+\_\+remaining\+\_\+capacity}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+remaining\+\_\+capacity}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t battery\+\_\+get\+\_\+remaining\+\_\+capacity (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_abda60c4e7c5d3308ce6ddc279cfd4e11}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{sensors_2battery_8h_abda60c4e7c5d3308ce6ddc279cfd4e11_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2battery_8h_a688c7bed9516a7c2ac95b85e57016061}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+remaining\+\_\+percent@{battery\+\_\+get\+\_\+remaining\+\_\+percent}}
+\index{battery\+\_\+get\+\_\+remaining\+\_\+percent@{battery\+\_\+get\+\_\+remaining\+\_\+percent}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+remaining\+\_\+percent}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t battery\+\_\+get\+\_\+remaining\+\_\+percent (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a688c7bed9516a7c2ac95b85e57016061}
+\hypertarget{sensors_2battery_8h_af01025cfe5a73a80e4df8cca4914ba7e}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+spent\+\_\+capacity@{battery\+\_\+get\+\_\+spent\+\_\+capacity}}
+\index{battery\+\_\+get\+\_\+spent\+\_\+capacity@{battery\+\_\+get\+\_\+spent\+\_\+capacity}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+spent\+\_\+capacity}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t battery\+\_\+get\+\_\+spent\+\_\+capacity (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_af01025cfe5a73a80e4df8cca4914ba7e}
+\hypertarget{sensors_2battery_8h_a43ef2a13aac65b385b14a7b3394c30d8}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+state@{battery\+\_\+get\+\_\+state}}
+\index{battery\+\_\+get\+\_\+state@{battery\+\_\+get\+\_\+state}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf battery\+\_\+state\+\_\+t} battery\+\_\+get\+\_\+state (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a43ef2a13aac65b385b14a7b3394c30d8}
+\hypertarget{sensors_2battery_8h_aebb7d995762145ae1fb5ea05f46b19ac}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+state\+\_\+str@{battery\+\_\+get\+\_\+state\+\_\+str}}
+\index{battery\+\_\+get\+\_\+state\+\_\+str@{battery\+\_\+get\+\_\+state\+\_\+str}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+state\+\_\+str}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ battery\+\_\+get\+\_\+state\+\_\+str (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_aebb7d995762145ae1fb5ea05f46b19ac}
+\hypertarget{sensors_2battery_8h_a3a120e4163dcfc46cda498c8b9e313ed}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+get\+\_\+voltage@{battery\+\_\+get\+\_\+voltage}}
+\index{battery\+\_\+get\+\_\+voltage@{battery\+\_\+get\+\_\+voltage}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+get\+\_\+voltage}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t battery\+\_\+get\+\_\+voltage (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a3a120e4163dcfc46cda498c8b9e313ed}
+\hypertarget{sensors_2battery_8h_a78cc41ddb9d379ae1afef2065e41dc44}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+init@{battery\+\_\+init}}
+\index{battery\+\_\+init@{battery\+\_\+init}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void battery\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self, }
+\item[{const struct {\bf battery\+\_\+config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a78cc41ddb9d379ae1afef2065e41dc44}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{sensors_2battery_8h_a78cc41ddb9d379ae1afef2065e41dc44_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2battery_8h_a3e5619a6c49d4c1a1e49641ab6ec0ea0}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+update@{battery\+\_\+update}}
+\index{battery\+\_\+update@{battery\+\_\+update}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void battery\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a3e5619a6c49d4c1a1e49641ab6ec0ea0}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2battery_8h_a3e5619a6c49d4c1a1e49641ab6ec0ea0_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2battery_8h_a788a47c29fc6280fec9a99a7c23e0667}{\index{sensors/battery.\+h@{sensors/battery.\+h}!battery\+\_\+update\+\_\+current\+\_\+meter@{battery\+\_\+update\+\_\+current\+\_\+meter}}
+\index{battery\+\_\+update\+\_\+current\+\_\+meter@{battery\+\_\+update\+\_\+current\+\_\+meter}!sensors/battery.\+h@{sensors/battery.\+h}}
+\subsubsection[{battery\+\_\+update\+\_\+current\+\_\+meter}]{\setlength{\rightskip}{0pt plus 5cm}void battery\+\_\+update\+\_\+current\+\_\+meter (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{last\+Update\+At}
+\end{DoxyParamCaption}
+)}}\label{sensors_2battery_8h_a788a47c29fc6280fec9a99a7c23e0667}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{sensors_2battery_8h_a788a47c29fc6280fec9a99a7c23e0667_cgraph}
+\end{center}
+\end{figure}
+
+

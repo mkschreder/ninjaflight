@@ -1,0 +1,5 @@
+<map id="ak8975Read" name="ak8975Read">
+<area shape="rect" id="node2" href="$bus__i2c_8h.html#a75fc5214b1f74a63cfb40496d10c9152" title="i2cRead" alt="" coords="150,5,221,32"/>
+<area shape="rect" id="node3" href="$bus__i2c_8h.html#a2cc37629c1772a0dbb4073be28e8443b" title="i2cWrite" alt="" coords="150,56,221,83"/>
+<area shape="rect" id="node4" href="$bus__i2c__stm32f10x_8c.html#a7f4928d12ee609b82b13c71954b1053a" title="i2cWriteBuffer" alt="" coords="270,56,375,83"/>
+</map>

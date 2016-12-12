@@ -1,0 +1,8 @@
+<map id="transponderInit" name="transponderInit">
+<area shape="rect" id="node2" href="$drivers_2transponder__ir_8c.html#ab4c5599cd39cab1e32e9ea695d490799" title="transponderIrInit" alt="" coords="189,56,305,83"/>
+<area shape="rect" id="node6" href="$drivers_2transponder__ir_8c.html#a7f4abd2242f6eb944eb480ae401d73f7" title="transponderIrUpdateData" alt="" coords="163,111,331,137"/>
+<area shape="rect" id="node3" href="$dma_8c.html#a24884a0e923f559922ffbb4eb113f053" title="dmaSetHandler" alt="" coords="420,5,532,32"/>
+<area shape="rect" id="node4" href="$drivers_2transponder__ir_8h.html#abadc4beb05b913aef02f2cf5f2b64887" title="transponderIrHardwareInit" alt="" coords="390,56,562,83"/>
+<area shape="rect" id="node5" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="621,56,813,83"/>
+<area shape="rect" id="node7" href="$drivers_2transponder__ir_8c.html#ae7119bd6a8b1610f3a504ee45a7daf2f" title="transponderIrWaitForTransmit\lComplete" alt="" coords="379,107,573,149"/>
+</map>

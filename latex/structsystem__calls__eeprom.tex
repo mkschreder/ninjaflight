@@ -1,0 +1,41 @@
+\hypertarget{structsystem__calls__eeprom}{\section{system\+\_\+calls\+\_\+eeprom Struct Reference}
+\label{structsystem__calls__eeprom}\index{system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}}
+}
+
+
+{\ttfamily \#include $<$system\+\_\+calls.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int($\ast$ \hyperlink{structsystem__calls__eeprom_a50c4197d24c30fa3781ec7ec1636c8c6}{read} )(const struct \hyperlink{structsystem__calls__eeprom}{system\+\_\+calls\+\_\+eeprom} $\ast$self, void $\ast$dst, uint16\+\_\+t \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, size\+\_\+t size)
+\item 
+int($\ast$ \hyperlink{structsystem__calls__eeprom_a927d9e44a9dd2dcf2d9aa5623954ef07}{write} )(const struct \hyperlink{structsystem__calls__eeprom}{system\+\_\+calls\+\_\+eeprom} $\ast$self, uint16\+\_\+t \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, const void $\ast$src, size\+\_\+t size)
+\item 
+int($\ast$ \hyperlink{structsystem__calls__eeprom_acb465a4f40b9f5db82b1afd12a76540f}{erase\+\_\+page} )(const struct \hyperlink{structsystem__calls__eeprom}{system\+\_\+calls\+\_\+eeprom} $\ast$self, uint16\+\_\+t \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr})
+\item 
+void($\ast$ \hyperlink{structsystem__calls__eeprom_a579cab4e2df5260c2f9ef99138e5c195}{get\+\_\+info} )(const struct \hyperlink{structsystem__calls__eeprom}{system\+\_\+calls\+\_\+eeprom} $\ast$self, struct \hyperlink{structsystem__eeprom__info}{system\+\_\+eeprom\+\_\+info} $\ast$info)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interface to onboard config storage eeprom. Assumption is made that there is only one config storage per aircraft instance. If a more advanced config storage interface is desired, this system interface can be changed. An eeprom is typically a paged device and for sake of being compatible with wide variety of different paged devices (including flash) the interface below is used to access the eeprom. 
+
+\subsection{Field Documentation}
+\hypertarget{structsystem__calls__eeprom_acb465a4f40b9f5db82b1afd12a76540f}{\index{system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}!erase\+\_\+page@{erase\+\_\+page}}
+\index{erase\+\_\+page@{erase\+\_\+page}!system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}}
+\subsubsection[{erase\+\_\+page}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ system\+\_\+calls\+\_\+eeprom\+::erase\+\_\+page)(const struct {\bf system\+\_\+calls\+\_\+eeprom} $\ast$self, uint16\+\_\+t {\bf addr})}}\label{structsystem__calls__eeprom_acb465a4f40b9f5db82b1afd12a76540f}
+Erases a page of the eeprom. Address should be first address of the page. \hypertarget{structsystem__calls__eeprom_a579cab4e2df5260c2f9ef99138e5c195}{\index{system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}!get\+\_\+info@{get\+\_\+info}}
+\index{get\+\_\+info@{get\+\_\+info}!system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}}
+\subsubsection[{get\+\_\+info}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ system\+\_\+calls\+\_\+eeprom\+::get\+\_\+info)(const struct {\bf system\+\_\+calls\+\_\+eeprom} $\ast$self, struct {\bf system\+\_\+eeprom\+\_\+info} $\ast$info)}}\label{structsystem__calls__eeprom_a579cab4e2df5260c2f9ef99138e5c195}
+Returns information about the onboard eeprom such as page size and number of pages. \hypertarget{structsystem__calls__eeprom_a50c4197d24c30fa3781ec7ec1636c8c6}{\index{system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}!read@{read}}
+\index{read@{read}!system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ system\+\_\+calls\+\_\+eeprom\+::read)(const struct {\bf system\+\_\+calls\+\_\+eeprom} $\ast$self, void $\ast$dst, uint16\+\_\+t {\bf addr}, size\+\_\+t size)}}\label{structsystem__calls__eeprom_a50c4197d24c30fa3781ec7ec1636c8c6}
+Reads a block of memory up to a page boundary. Returns number of bytes read upon success and negative number upon error. \hypertarget{structsystem__calls__eeprom_a927d9e44a9dd2dcf2d9aa5623954ef07}{\index{system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}!write@{write}}
+\index{write@{write}!system\+\_\+calls\+\_\+eeprom@{system\+\_\+calls\+\_\+eeprom}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ system\+\_\+calls\+\_\+eeprom\+::write)(const struct {\bf system\+\_\+calls\+\_\+eeprom} $\ast$self, uint16\+\_\+t {\bf addr}, const void $\ast$src, size\+\_\+t size)}}\label{structsystem__calls__eeprom_a927d9e44a9dd2dcf2d9aa5623954ef07}
+Writes data to the eeprom up to a page boundary. Returns number of bytes written or a negative number upon error. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{system__calls_8h}{system\+\_\+calls.\+h}\end{DoxyCompactItemize}

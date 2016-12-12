@@ -1,0 +1,9 @@
+<map id="src/main/drivers/barometer_bmp085.c" name="src/main/drivers/barometer_bmp085.c">
+<area shape="rect" id="node5" href="$build__config_8h.html" title="build_config.h" alt="" coords="225,96,327,123"/>
+<area shape="rect" id="node6" href="$drivers_2barometer_8h.html" title="barometer.h" alt="" coords="353,96,443,123"/>
+<area shape="rect" id="node7" href="$gpio_8h.html" title="gpio.h" alt="" coords="468,96,525,123"/>
+<area shape="rect" id="node8" href="$drivers_2system_8h.html" title="system.h" alt="" coords="549,96,625,123"/>
+<area shape="rect" id="node9" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="649,96,727,123"/>
+<area shape="rect" id="node10" href="$nvic_8h.html" title="nvic.h" alt="" coords="752,96,809,123"/>
+<area shape="rect" id="node11" href="$barometer__bmp085_8h.html" title="barometer_bmp085.h" alt="" coords="834,96,978,123"/>
+</map>

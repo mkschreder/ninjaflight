@@ -1,0 +1,4 @@
+<map id="gps_update" name="gps_update">
+<area shape="rect" id="node2" href="$drivers_2serial_8c.html#a1030bfb53adff55fa7de9f0babce6c29" title="serialRxBytesWaiting" alt="" coords="145,5,293,32"/>
+<area shape="rect" id="node3" href="$drivers_2serial_8c.html#a6c74a91bbf5d8fd122fb2321492b4193" title="serialRead" alt="" coords="177,56,261,83"/>
+</map>

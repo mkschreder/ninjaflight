@@ -1,0 +1,238 @@
+\hypertarget{config__eeprom__unittest_8cc}{\section{src/test/unit/config\+\_\+eeprom\+\_\+unittest.cc File Reference}
+\label{config__eeprom__unittest_8cc}\index{src/test/unit/config\+\_\+eeprom\+\_\+unittest.\+cc@{src/test/unit/config\+\_\+eeprom\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stddef.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/color.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/timer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/pwm\+\_\+rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/rate\+\_\+profile.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/rc\+\_\+adjustments.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/ledstrip.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/navigation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/altitudehold.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/frsky.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/hott.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/profile.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/frsky.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for config\+\_\+eeprom\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classConfigTest}{Config\+Test}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a4f4ade100f96b4d7bc8135fdbfeba2e6}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Dummy)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a531284f21dc301e0f7185a2bfbab92fd}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Config\+Coverage)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a125de91d3bea134ff2267790b16ed158}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+First\+Load)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a39c8ab1659e446bbd7c5477229ebc730}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Save\+Load)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_abaaed13a65871be24758034269f9eec1}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Bad\+E\+E\+P\+R\+O\+M\+Data)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a18bc0607d9230bfd469127e81710328f}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Page\+Boundary\+Save\+Load)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_aea21fa1d489f41d50331e458968ff128}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Flashvs\+Normal\+Save\+Load)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_ab8b4c525583dd2ffb27c4bb3bd1845bf}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+E\+E\+P\+R\+O\+M\+Fail)
+\item 
+\hyperlink{config__eeprom__unittest_8cc_a8b81965f2306e899ed837824d91bafa5}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classConfigTest}{Config\+Test}, Test\+Fixups)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{config__eeprom__unittest_8cc_a4f4ade100f96b4d7bc8135fdbfeba2e6}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Dummy}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a4f4ade100f96b4d7bc8135fdbfeba2e6}
+\hypertarget{config__eeprom__unittest_8cc_a531284f21dc301e0f7185a2bfbab92fd}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Config\+Coverage}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a531284f21dc301e0f7185a2bfbab92fd}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_a531284f21dc301e0f7185a2bfbab92fd_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_a125de91d3bea134ff2267790b16ed158}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+First\+Load}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a125de91d3bea134ff2267790b16ed158}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_a125de91d3bea134ff2267790b16ed158_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_a39c8ab1659e446bbd7c5477229ebc730}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Save\+Load}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a39c8ab1659e446bbd7c5477229ebc730}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_a39c8ab1659e446bbd7c5477229ebc730_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_abaaed13a65871be24758034269f9eec1}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Bad\+E\+E\+P\+R\+O\+M\+Data}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_abaaed13a65871be24758034269f9eec1}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_abaaed13a65871be24758034269f9eec1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_a18bc0607d9230bfd469127e81710328f}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Page\+Boundary\+Save\+Load}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a18bc0607d9230bfd469127e81710328f}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_a18bc0607d9230bfd469127e81710328f_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_aea21fa1d489f41d50331e458968ff128}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Flashvs\+Normal\+Save\+Load}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_aea21fa1d489f41d50331e458968ff128}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_aea21fa1d489f41d50331e458968ff128_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_ab8b4c525583dd2ffb27c4bb3bd1845bf}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+E\+E\+P\+R\+O\+M\+Fail}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_ab8b4c525583dd2ffb27c4bb3bd1845bf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_ab8b4c525583dd2ffb27c4bb3bd1845bf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__eeprom__unittest_8cc_a8b81965f2306e899ed837824d91bafa5}{\index{config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!config\+\_\+eeprom\+\_\+unittest.\+cc@{config\+\_\+eeprom\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Config\+Test}}]{, }
+\item[{Test\+Fixups}]{}
+\end{DoxyParamCaption}
+)}}\label{config__eeprom__unittest_8cc_a8b81965f2306e899ed837824d91bafa5}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__eeprom__unittest_8cc_a8b81965f2306e899ed837824d91bafa5_cgraph}
+\end{center}
+\end{figure}
+
+

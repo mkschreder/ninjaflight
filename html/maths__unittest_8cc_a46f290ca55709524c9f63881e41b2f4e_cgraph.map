@@ -1,0 +1,7 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$maths_8c.html#a7fe047f05505982fe22bfe010f17d7cd" title="rotateV" alt="" coords="157,31,221,57"/>
+<area shape="rect" id="node6" href="$maths__unittest_8cc.html#a290c4f1873de646f21d75c999adc9702" title="expectVectorsAreEqual" alt="" coords="110,81,269,108"/>
+<area shape="rect" id="node3" href="$maths_8c.html#ae051f367de8da318779e435c0f30ff48" title="buildRotationMatrix" alt="" coords="318,31,453,57"/>
+<area shape="rect" id="node4" href="$maths_8c.html#a82462a5597861c636a301dad9263919d" title="cos_approx" alt="" coords="502,5,591,32"/>
+<area shape="rect" id="node5" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="640,31,725,57"/>
+</map>

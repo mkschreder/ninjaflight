@@ -1,0 +1,47 @@
+\hypertarget{timer__stm32f10x_8c}{\section{src/main/drivers/timer\+\_\+stm32f10x.c File Reference}
+\label{timer__stm32f10x_8c}\index{src/main/drivers/timer\+\_\+stm32f10x.\+c@{src/main/drivers/timer\+\_\+stm32f10x.\+c}}
+}
+{\ttfamily \#include \char`\"{}stm32f10x.\+h\char`\"{}}\\*
+Include dependency graph for timer\+\_\+stm32f10x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{timer__stm32f10x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{timer__stm32f10x_8c_a76469c9f56da4e7705336a6ac0248196}{C\+C\+M\+R\+\_\+\+Offset}~((uint16\+\_\+t)0x0018)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+M Output Compare Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{timer__stm32f10x_8c_a76469c9f56da4e7705336a6ac0248196}{\index{timer\+\_\+stm32f10x.\+c@{timer\+\_\+stm32f10x.\+c}!C\+C\+M\+R\+\_\+\+Offset@{C\+C\+M\+R\+\_\+\+Offset}}
+\index{C\+C\+M\+R\+\_\+\+Offset@{C\+C\+M\+R\+\_\+\+Offset}!timer\+\_\+stm32f10x.\+c@{timer\+\_\+stm32f10x.\+c}}
+\subsubsection[{C\+C\+M\+R\+\_\+\+Offset}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+C\+M\+R\+\_\+\+Offset~((uint16\+\_\+t)0x0018)}}\label{timer__stm32f10x_8c_a76469c9f56da4e7705336a6ac0248196}
+
+
+Selects the T\+I\+M Output Compare Mode. 
+
+\begin{DoxyNote}{Note}
+This function does N\+O\+T disable the selected channel before changing the Output Compare Mode. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 17 except 6 and 7 to select the T\+I\+M peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Channel} & specifies the T\+I\+M Channel This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Channel\+\_\+1\+: T\+I\+M Channel 1 \item T\+I\+M\+\_\+\+Channel\+\_\+2\+: T\+I\+M Channel 2 \item T\+I\+M\+\_\+\+Channel\+\_\+3\+: T\+I\+M Channel 3 \item T\+I\+M\+\_\+\+Channel\+\_\+4\+: T\+I\+M Channel 4 \end{DoxyItemize}
+\\
+\hline
+{\em T\+I\+M\+\_\+\+O\+C\+Mode} & specifies the T\+I\+M Output Compare Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Timing \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Active \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Toggle \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M1 \item T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M2 \item T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+Active \item T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+In\+Active \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}

@@ -1,0 +1,9 @@
+<map id="src/main/config/config_eeprom.h" name="src/main/config/config_eeprom.h">
+<area shape="rect" id="node2" href="$config_8c.html" title="src/main/config/config.c" alt="" coords="5,104,165,131"/>
+<area shape="rect" id="node3" href="$config__eeprom_8c.html" title="src/main/config/config\l_eeprom.c" alt="" coords="190,97,340,138"/>
+<area shape="rect" id="node4" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="365,104,480,131"/>
+<area shape="rect" id="node5" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="505,104,660,131"/>
+<area shape="rect" id="node6" href="$config__eeprom__unittest_8cc.html" title="src/test/unit/config\l_eeprom_unittest.cc" alt="" coords="685,97,824,138"/>
+<area shape="rect" id="node7" href="$msp__unittest_8cc.html" title="src/test/unit/msp_unittest.cc" alt="" coords="849,104,1036,131"/>
+<area shape="rect" id="node8" href="$serial__msp__unittest_8cc.html" title="src/test/unit/serial\l_msp_unittest.cc" alt="" coords="1061,97,1187,138"/>
+</map>

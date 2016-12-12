@@ -1,0 +1,93 @@
+\hypertarget{xbus_8c}{\section{src/main/rx/xbus.c File Reference}
+\label{xbus_8c}\index{src/main/rx/xbus.\+c@{src/main/rx/xbus.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/xbus.\+h\char`\"{}}\\*
+Include dependency graph for xbus.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{xbus_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{xbus_8c_ab9200659c62f796d95c948d32c39b32b}{X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}~12
+\item 
+\#define \hyperlink{xbus_8c_a721f737a5b734784a70752c084b7fac1}{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}~12
+\item 
+\#define \hyperlink{xbus_8c_a53378b50402369c6c488b4e0f3f693d0}{X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}~27
+\item 
+\#define \hyperlink{xbus_8c_a3d83a66edec66bc33d73c83426491d57}{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}~33
+\item 
+\#define \hyperlink{xbus_8c_a2c77f981712eadc829982d35529810d4}{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H}~30
+\item 
+\#define \hyperlink{xbus_8c_a3a0f19987a4706313ccb06c17f986a33}{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S}~3
+\item 
+\#define \hyperlink{xbus_8c_a1fbf2d953a56f091a14dab46f398394f}{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E}~0x8000
+\item 
+\#define \hyperlink{xbus_8c_accc45abcbf5224dcf3d1a1e4db6e1060}{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y}~0x1021
+\item 
+\#define \hyperlink{xbus_8c_a2772557df896f2701f5907ef94bdd61c}{X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}~115200
+\item 
+\#define \hyperlink{xbus_8c_afe2393946b43c118ed0cac7da6e6d498}{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}~250000
+\item 
+\#define \hyperlink{xbus_8c_a6a84d50bcd33d633277b1e962b895072}{X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E}~8000
+\item 
+\#define \hyperlink{xbus_8c_a3d6135f1e6a4ff0280b1e146a206e76b}{X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E}~(0x\+A1)
+\item 
+\#define \hyperlink{xbus_8c_a7f68f69579fefbc06e7ac4ecb2bdfce9}{X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C}(V)~(800 + ((V $\ast$ 1400) $>$$>$ 12))
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{xbus_8c_a2772557df896f2701f5907ef94bdd61c}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}}
+\index{X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E~115200}}\label{xbus_8c_a2772557df896f2701f5907ef94bdd61c}
+\hypertarget{xbus_8c_ab9200659c62f796d95c948d32c39b32b}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}}
+\index{X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T~12}}\label{xbus_8c_ab9200659c62f796d95c948d32c39b32b}
+\hypertarget{xbus_8c_a7f68f69579fefbc06e7ac4ecb2bdfce9}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C@{X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C}}
+\index{X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C@{X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+C\+O\+N\+V\+E\+R\+T\+\_\+\+T\+O\+\_\+\+U\+S\+E\+C(
+\begin{DoxyParamCaption}
+\item[{}]{V}
+\end{DoxyParamCaption}
+)~(800 + ((V $\ast$ 1400) $>$$>$ 12))}}\label{xbus_8c_a7f68f69579fefbc06e7ac4ecb2bdfce9}
+\hypertarget{xbus_8c_a1fbf2d953a56f091a14dab46f398394f}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E@{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E}}
+\index{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E@{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+A\+N\+D\+\_\+\+V\+A\+L\+U\+E~0x8000}}\label{xbus_8c_a1fbf2d953a56f091a14dab46f398394f}
+\hypertarget{xbus_8c_accc45abcbf5224dcf3d1a1e4db6e1060}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y@{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y}}
+\index{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y@{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+C\+R\+C\+\_\+\+P\+O\+L\+Y~0x1021}}\label{xbus_8c_accc45abcbf5224dcf3d1a1e4db6e1060}
+\hypertarget{xbus_8c_a53378b50402369c6c488b4e0f3f693d0}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}}
+\index{X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E~27}}\label{xbus_8c_a53378b50402369c6c488b4e0f3f693d0}
+\hypertarget{xbus_8c_a6a84d50bcd33d633277b1e962b895072}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E@{X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E}}
+\index{X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E@{X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+F\+R\+A\+M\+E\+\_\+\+T\+I\+M\+E~8000}}\label{xbus_8c_a6a84d50bcd33d633277b1e962b895072}
+\hypertarget{xbus_8c_afe2393946b43c118ed0cac7da6e6d498}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}}
+\index{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E~250000}}\label{xbus_8c_afe2393946b43c118ed0cac7da6e6d498}
+\hypertarget{xbus_8c_a721f737a5b734784a70752c084b7fac1}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}}
+\index{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T~12}}\label{xbus_8c_a721f737a5b734784a70752c084b7fac1}
+\hypertarget{xbus_8c_a3d83a66edec66bc33d73c83426491d57}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}}
+\index{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E~33}}\label{xbus_8c_a3d83a66edec66bc33d73c83426491d57}
+\hypertarget{xbus_8c_a2c77f981712eadc829982d35529810d4}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H}}
+\index{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+L\+E\+N\+G\+T\+H~30}}\label{xbus_8c_a2c77f981712eadc829982d35529810d4}
+\hypertarget{xbus_8c_a3a0f19987a4706313ccb06c17f986a33}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S}}
+\index{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S@{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+R\+J01\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+B\+Y\+T\+E\+S~3}}\label{xbus_8c_a3a0f19987a4706313ccb06c17f986a33}
+\hypertarget{xbus_8c_a3d6135f1e6a4ff0280b1e146a206e76b}{\index{xbus.\+c@{xbus.\+c}!X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E@{X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E}}
+\index{X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E@{X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E}!xbus.\+c@{xbus.\+c}}
+\subsubsection[{X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\+B\+U\+S\+\_\+\+S\+T\+A\+R\+T\+\_\+\+O\+F\+\_\+\+F\+R\+A\+M\+E\+\_\+\+B\+Y\+T\+E~(0x\+A1)}}\label{xbus_8c_a3d6135f1e6a4ff0280b1e146a206e76b}

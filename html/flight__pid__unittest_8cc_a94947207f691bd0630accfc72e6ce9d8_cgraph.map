@@ -1,0 +1,28 @@
+<map id="pidControllerInitMultiWiiRewrite" name="pidControllerInitMultiWiiRewrite">
+<area shape="rect" id="node2" href="$flight__pid__unittest_8cc.html#a415060a855053584ef8653f1b6c5bd19" title="resetPID" alt="" coords="256,335,331,361"/>
+<area shape="rect" id="node23" href="$flight__pid__unittest_8cc.html#a17d2eaaa50ea85545c4259544aa4d155" title="pidControllerInitMultiWii\lRewriteCore" alt="" coords="213,479,373,521"/>
+<area shape="rect" id="node3" href="$group__Instruments__Main.html#ga61b7fb031aa4467016f278499ab3ce6c" title="Initializes all instruments using specified configuration. " alt="" coords="470,208,533,235"/>
+<area shape="rect" id="node20" href="$group__Instruments__Main.html#ga8e657ac124286cdeea89e840aa8cf8ce" title="ins_set_gyro_scale" alt="" coords="633,385,767,412"/>
+<area shape="rect" id="node21" href="$group__Instruments__Main.html#ga1ba92852bf4d128d58ce5ffa91a55b4e" title="ins_set_acc_scale" alt="" coords="635,284,765,311"/>
+<area shape="rect" id="node22" href="$anglerate_8c.html#af338350eb57d53d56c16b227ad831241" title="anglerate_init" alt="" coords="452,385,551,412"/>
+<area shape="rect" id="node4" href="$boardalignment_8c.html#a03a7fba34fe85ce3e6525f84edd25dd1" title="board_alignment_init" alt="" coords="629,56,771,83"/>
+<area shape="rect" id="node10" href="$acceleration_8c.html#a8c4f19277d204b8ac34ccf7ee093e849" title="ins_acc_init" alt="" coords="655,132,745,159"/>
+<area shape="rect" id="node12" href="$gyro_8c.html#a57206480d8002a7c33a70941a408e103" title="ins_gyro_init" alt="" coords="653,183,747,209"/>
+<area shape="rect" id="node15" href="$compass_8c.html#a7feb5f99f0e14a1b5bbfcf7f069fe239" title="ins_mag_init" alt="" coords="653,233,747,260"/>
+<area shape="rect" id="node16" href="$group__IMU.html#ga0ae64ba86bc29cdeef966210f57e797f" title="imu_init" alt="" coords="667,335,733,361"/>
+<area shape="rect" id="node5" href="$maths_8c.html#ac969ac66a7dede9deccae7154aa0d3ea" title="matrix_set_identity" alt="" coords="827,5,959,32"/>
+<area shape="rect" id="node6" href="$maths_8c.html#a9d9e746df4553b61522720bc5b243985" title="degreesToRadians" alt="" coords="828,56,959,83"/>
+<area shape="rect" id="node7" href="$maths_8c.html#ae051f367de8da318779e435c0f30ff48" title="buildRotationMatrix" alt="" coords="826,107,961,133"/>
+<area shape="rect" id="node8" href="$maths_8c.html#a82462a5597861c636a301dad9263919d" title="cos_approx" alt="" coords="1027,81,1117,108"/>
+<area shape="rect" id="node9" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="1176,107,1261,133"/>
+<area shape="rect" id="node11" href="$acceleration_8c.html#a25b9bae65bc146e5e43f998d9c113f71" title="ins_acc_set_scale" alt="" coords="828,157,959,184"/>
+<area shape="rect" id="node13" href="$gyro_8c.html#a32e433f915dc6d2f44ceca1eac6f170b" title="ins_gyro_set_filter_hz" alt="" coords="819,208,968,235"/>
+<area shape="rect" id="node14" href="$filter_8c.html#a0d345930980c9f0da44533d92ddb5b86" title="BiQuadNewLpf" alt="" coords="1017,208,1127,235"/>
+<area shape="rect" id="node17" href="$group__IMU.html#ga7f0041a389ba8dda199866784cf3fcda" title="imu_set_acc_scale" alt="" coords="826,284,961,311"/>
+<area shape="rect" id="node18" href="$group__IMU.html#gabe4386ef930d4163c70b513b9e10fb0d" title="imu_set_gyro_scale" alt="" coords="824,385,963,412"/>
+<area shape="rect" id="node19" href="$group__IMU.html#gac2f3d89971ad35932072f3d450ec4a07" title="imu_reset" alt="" coords="854,335,933,361"/>
+<area shape="rect" id="node24" href="$flight__pid__unittest_8cc.html#abcbda8a466efcb0c6b6f18a7e79f1e04" title="resetPidProfile" alt="" coords="448,436,555,463"/>
+<area shape="rect" id="node25" href="$anglerate_8c.html#aaa85a0f2633284bc0c074a4ba45296a3" title="anglerate_reset_angle_i" alt="" coords="422,487,581,513"/>
+<area shape="rect" id="node26" href="$anglerate_8c.html#a63ef21d5bfbac3cb83bcb5d2f702bda5" title="anglerate_reset_rate_i" alt="" coords="426,537,577,564"/>
+<area shape="rect" id="node27" href="$flight__pid__unittest_8cc.html#a5f5446f479f409ee572e00fc70279e1f" title="resetGyroADC" alt="" coords="447,588,555,615"/>
+</map>

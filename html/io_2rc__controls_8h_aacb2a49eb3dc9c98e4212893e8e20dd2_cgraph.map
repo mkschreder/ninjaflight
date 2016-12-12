@@ -1,0 +1,5 @@
+<map id="rcModeUpdateActivated" name="rcModeUpdateActivated">
+<area shape="rect" id="node2" href="$ninja__input_8c.html#a0271a86414bd355523bdb2095c430538" title="isRangeActive" alt="" coords="216,31,323,57"/>
+<area shape="rect" id="node3" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="389,5,464,32"/>
+<area shape="rect" id="node4" href="$rx_8c.html#a527cff8e1e26ba1124119aaa4cea4815" title="Get channel value. Returns interval [rx_min_usec;rx_max_usec]. " alt="" coords="371,56,482,83"/>
+</map>

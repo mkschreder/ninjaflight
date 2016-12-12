@@ -1,0 +1,51 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$group__config.html#ga4b70e19635bc68e4d7ca8cab5646c833" title="config_reset" alt="" coords="515,5,608,32"/>
+<area shape="rect" id="node4" href="$ninja_8c.html#af30ff0d8cf56b36603587ab2d11e4c18" title="ninja_init" alt="" coords="123,807,197,833"/>
+<area shape="rect" id="node49" href="$ninja_8c.html#a45fd5415655c4badccec3ff308300dc8" title="ninja_heartbeat" alt="" coords="105,1187,215,1213"/>
+<area shape="rect" id="node3" href="$config_2rx_8c.html#ac6732f88711e700ce8dcf532c425a107" title="Configures the rx using the specified channel layout and config. (channel layout example: AETR1234) ..." alt="" coords="681,5,837,32"/>
+<area shape="rect" id="node5" href="$group__config.html#ga033bfd111bc778cad1e84b836e7feb01" title="config_load" alt="" coords="309,89,397,116"/>
+<area shape="rect" id="node6" href="$rc__adjustments_8c.html#a9005ef80d2f29b61185aff2954cb7b54" title="rc_adj_init" alt="" coords="313,173,394,200"/>
+<area shape="rect" id="node7" href="$group__MIXER.html#ga1ac8758754f82b6ad750ed377c154733" title="mixer_init" alt="" coords="314,224,393,251"/>
+<area shape="rect" id="node9" href="$group__Instruments__Main.html#ga53391073103ee8a597b27ee707baf6d5" title="Initializes all instruments using specified configuration. " alt="" coords="322,275,385,301"/>
+<area shape="rect" id="node13" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="499,427,623,453"/>
+<area shape="rect" id="node17" href="$anglerate_8c.html#ab7df1cc29aae78e61765ae0061b4c7fd" title="anglerate_init" alt="" coords="304,376,403,403"/>
+<area shape="rect" id="node18" href="$beeper_8c.html#a56abd9580895abb7f9fb5106b10405db" title="Initializes defaults for beeper function. " alt="" coords="311,427,396,453"/>
+<area shape="rect" id="node19" href="$anglerate_8c.html#aa54b5fdc33c9ab7e3264249007aca0fb" title="anglerate_set_algo" alt="" coords="288,477,419,504"/>
+<area shape="rect" id="node20" href="$battery_8c.html#a78cc41ddb9d379ae1afef2065e41dc44" title="battery_init" alt="" coords="310,528,397,555"/>
+<area shape="rect" id="node22" href="$rx_2rx_8c.html#ac8ef8458c7824c8c5622b471790c403f" title="rx_init" alt="" coords="325,579,382,605"/>
+<area shape="rect" id="node23" href="$rx_2rx_8c.html#a79514592272b8a9b9e81281ac22b53d8" title="changes the receiver type (determines what system calls the rx system will use to get receiver data) ..." alt="" coords="308,629,399,656"/>
+<area shape="rect" id="node32" href="$rc_8c.html#aadd8ca33f3e04a093916b5d47bc43744" title="rc_init" alt="" coords="325,680,382,707"/>
+<area shape="rect" id="node33" href="$gps_8c.html#a8a43d308ef5077dbb7a31f7fd3d6b873" title="gps_init" alt="" coords="320,731,387,757"/>
+<area shape="rect" id="node34" href="$feature_8c.html#aa7714e4f8d8fccb09d2158ea41c21bcf" title="featureClear" alt="" coords="307,781,400,808"/>
+<area shape="rect" id="node35" href="$flight_2navigation_8h.html#ae5af071f68320ac5121e58c6eae42062" title="navigationInit" alt="" coords="304,832,403,859"/>
+<area shape="rect" id="node36" href="$msp_8c.html#a09ba94c3f9bc4330c8c8228f7b325217" title="msp_init" alt="" coords="318,883,389,909"/>
+<area shape="rect" id="node37" href="$serial__msp_8c.html#a7e7cb2574231595a58450c0c5a76e8ae" title="serial_msp_init" alt="" coords="299,933,408,960"/>
+<area shape="rect" id="node38" href="$group__cli.html#gaec92eebacf7afaa7c53413a6935c38b8" title="cli_init" alt="" coords="324,984,383,1011"/>
+<area shape="rect" id="node39" href="$failsafe_8c.html#a529e7569a999694606a1498fb519fb71" title="failsafe_init" alt="" coords="309,1035,397,1061"/>
+<area shape="rect" id="node40" href="$sonar_8h.html#a6e71617a608b17e530a25162de0f2990" title="sonar_init" alt="" coords="314,1085,393,1112"/>
+<area shape="rect" id="node41" href="$io_2ledstrip_8c.html#afa3386778d5a81543d5a72efb69df541" title="ledstrip_init" alt="" coords="309,1136,397,1163"/>
+<area shape="rect" id="node42" href="$telemetry_2telemetry_8h.html#a0c4ea4eb508cdc73bc92fbb9236e235d" title="telemetryInit" alt="" coords="306,1187,401,1213"/>
+<area shape="rect" id="node43" href="$io_2transponder__ir_8h.html#a47f52c0ba32cb004f79228d693ddaf71" title="transponderInit" alt="" coords="299,1237,407,1264"/>
+<area shape="rect" id="node44" href="$io_2transponder__ir_8h.html#ac519efc0f203c253125fbb4b880d7fa9" title="transponderEnable" alt="" coords="288,1288,419,1315"/>
+<area shape="rect" id="node45" href="$io_2transponder__ir_8h.html#aca53503baf51330acd89201c1f68b099" title="transponderStartRepeating" alt="" coords="265,1339,442,1365"/>
+<area shape="rect" id="node46" href="$blackbox_2blackbox_8h.html#ab9b107dcbaeac232ec978d4292b07a3c" title="blackbox_init" alt="" coords="304,1389,403,1416"/>
+<area shape="rect" id="node47" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="323,1440,383,1467"/>
+<area shape="rect" id="node48" href="$group__scheduler.html#ga7cbd825bfaee512cced8cd01884fdc85" title="ninja_sched_init" alt="" coords="296,1491,411,1517"/>
+<area shape="rect" id="node8" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="498,57,625,98"/>
+<area shape="rect" id="node10" href="$barometer_8c.html#a96ad453b5c69a0ccb52473b818abb50d" title="baro_init" alt="" coords="526,123,597,149"/>
+<area shape="rect" id="node11" href="$boardalignment_8c.html#adf29c38a71ce52aa5a5027bbba17ecc1" title="board_alignment_init" alt="" coords="491,173,632,200"/>
+<area shape="rect" id="node12" href="$acceleration_8c.html#abc1671232b745bbe7fd0e3143e9ebdf7" title="ins_acc_init" alt="" coords="516,224,607,251"/>
+<area shape="rect" id="node14" href="$gyro_8c.html#ab04db73949c1abfe034a71415b3055e0" title="ins_gyro_init" alt="" coords="514,275,609,301"/>
+<area shape="rect" id="node15" href="$compass_8c.html#adc7096ec042fe4fecb280a3de63540fb" title="ins_mag_init" alt="" coords="514,325,609,352"/>
+<area shape="rect" id="node16" href="$group__IMU.html#ga52996c126e6e5673acf14a7300952af7" title="imu_init" alt="" coords="528,376,595,403"/>
+<area shape="rect" id="node21" href="$filter_8c.html#a0d345930980c9f0da44533d92ddb5b86" title="BiQuadNewLpf" alt="" coords="506,477,617,504"/>
+<area shape="rect" id="node24" href="$pwm_8c.html#aea57e7a554cdc526f89c1470599689c7" title="rxPwmInit" alt="" coords="521,528,602,555"/>
+<area shape="rect" id="node25" href="$pwm_8c.html#af9f7be3b05dfd2e1dc2d2da66e493d41" title="rxPPMInit" alt="" coords="521,579,601,605"/>
+<area shape="rect" id="node26" href="$rx_2msp_8c.html#a4a78128eaa5fd756be8fe79c61b2ba4a" title="rxMspInit" alt="" coords="523,629,599,656"/>
+<area shape="rect" id="node27" href="$spektrum_8h.html#a1d2e255400aae5b8d5716dbe511af7fb" title="spektrumInit" alt="" coords="514,680,609,707"/>
+<area shape="rect" id="node28" href="$sbus_8h.html#ae518b0f0a36341db3d4d08eb419e1755" title="sbusInit" alt="" coords="527,731,595,757"/>
+<area shape="rect" id="node29" href="$sumd_8h.html#a35aea72ece47a7e93c65c8667e97bff3" title="sumdInit" alt="" coords="525,781,597,808"/>
+<area shape="rect" id="node30" href="$sumh_8h.html#a918c80af3866b80c226f280e51f0d9df" title="sumhInit" alt="" coords="525,832,597,859"/>
+<area shape="rect" id="node31" href="$xbus_8h.html#a09b5a2ec36fcc1cc520e40e037d6b6e1" title="xBusInit" alt="" coords="526,883,597,909"/>
+<area shape="rect" id="node50" href="$group__scheduler.html#ga075da98f688a02804e331f837fb5be48" title="ninja_sched_run" alt="" coords="295,1541,411,1568"/>
+</map>

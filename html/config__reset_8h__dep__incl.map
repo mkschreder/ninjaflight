@@ -1,0 +1,12 @@
+<map id="src/main/config/config_reset.h" name="src/main/config/config_reset.h">
+<area shape="rect" id="node2" href="$blackbox_8c.html" title="src/main/blackbox/blackbox.c" alt="" coords="5,96,200,123"/>
+<area shape="rect" id="node3" href="$config_8c.html" title="src/main/config/config.c" alt="" coords="225,96,385,123"/>
+<area shape="rect" id="node4" href="$vars_8c.html" title="src/main/config/vars.c" alt="" coords="410,96,560,123"/>
+<area shape="rect" id="node5" href="$failsafe_8c.html" title="src/main/flight/failsafe.c" alt="" coords="585,96,745,123"/>
+<area shape="rect" id="node6" href="$navigation_8c.html" title="src/main/flight/navigation.c" alt="" coords="771,96,949,123"/>
+<area shape="rect" id="node7" href="$rc__command_8c.html" title="src/main/rx/rc_command.c" alt="" coords="974,96,1151,123"/>
+<area shape="rect" id="node8" href="$acceleration_8c.html" title="src/main/sensors/acceleration.c" alt="" coords="1175,96,1381,123"/>
+<area shape="rect" id="node9" href="$barometer_8c.html" title="src/main/sensors/barometer.c" alt="" coords="1407,96,1601,123"/>
+<area shape="rect" id="node10" href="$gyro_8c.html" title="src/main/sensors/gyro.c" alt="" coords="1625,96,1788,123"/>
+<area shape="rect" id="node11" href="$imu_8c.html" title="src/main/sensors/imu.c" alt="" coords="1813,96,1971,123"/>
+</map>

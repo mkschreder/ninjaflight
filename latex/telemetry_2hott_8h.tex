@@ -1,0 +1,350 @@
+\hypertarget{telemetry_2hott_8h}{\section{src/main/telemetry/hott.h File Reference}
+\label{telemetry_2hott_8h}\index{src/main/telemetry/hott.\+h@{src/main/telemetry/hott.\+h}}
+}
+{\ttfamily \#include \char`\"{}../config/hott.\+h\char`\"{}}\\*
+Include dependency graph for hott.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{telemetry_2hott_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{telemetry_2hott_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structHOTT__TEXTMODE__MSG}{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G}
+\item 
+struct \hyperlink{structHOTT__GAM__MSG__s}{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+s}
+\item 
+struct \hyperlink{structHOTT__VARIO__MSG__s}{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+s}
+\item 
+struct \hyperlink{structHOTT__EAM__MSG__s}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+s}
+\item 
+struct \hyperlink{structHOTT__GPS__MSG__s}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+s}
+\item 
+struct \hyperlink{structHOTT__AIRESC__MSG__s}{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+s}
+\item 
+struct \hyperlink{structhott}{hott}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a33842a03fe898808b5ba817edc02c5d3}{H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X}~4
+\item 
+\#define \hyperlink{telemetry_2hott_8h_abd477ae47fc566975511e26792f220f0}{H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}~0x7f
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a93f01a42f98e9df5bca801a0b004ac61}{H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}~0x80
+\item 
+\#define \hyperlink{telemetry_2hott_8h_aca5eb122add75ddc0117f0456129896f}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C}~0x\+E\+B
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a198e0c59dbec47aa9ea2b4a581d3a78d}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C}~0x\+E\+D
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a60270d0e800a16744db8123f452e9624}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T}~0x\+E9
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a174f40c5f61702762ffe69e3d7d35f69}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L}~0x0\+F
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a1ac6f84b553b02a12b153ee68f1bf5da}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T}~0x\+E\+E
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a607bba381903be4d4902221204d272c8}{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V}~0x\+E7
+\item 
+\#define \hyperlink{telemetry_2hott_8h_ab0fd586bc09fbc5b369269669a8a43d0}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T}~500
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a76d510ee0aa193d84c4d3b08230b852c}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S}~72
+\item 
+\#define \hyperlink{telemetry_2hott_8h_ab4e44f24862ac193b49ff4b66d87c51d}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S}~120
+\item 
+\#define \hyperlink{telemetry_2hott_8h_aae2cba1264b0a614956e44b81c0ff2ef}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E}~20
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a82f422b0f230ff8cbbbcd632ea112737}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T}~500
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a30a84272738595e61de9e52166a175cf}{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}~0x7f
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a21af4e2c34be1e31f188f65f7cde711d}{H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}~0x80
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a6d3b4f8a5850ac2e16f65011c1c18f9b}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x80
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a7d1922d7d3330f6b674c994a1bfff42b}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x89
+\item 
+\#define \hyperlink{telemetry_2hott_8h_ae9ec52c71dc992f3da387fd9b52df7bf}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x8a
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a832975fb93eff34619db4fc8b98f759f}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x8c
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a221244730e4f96c650f744645a79b43a}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x8d
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a79a337a859ca95062bfbd77dd1a13ec4}{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}~0x8e
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a55b07826b53c4259f69fff1b766588d3}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}~0x\+E0
+\item 
+\#define \hyperlink{telemetry_2hott_8h_ac6529628a1d1a130f0359e5b83326483}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}~0x\+A0
+\item 
+\#define \hyperlink{telemetry_2hott_8h_aae1017711000b3fb28075c0a8d47db26}{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}~168
+\item 
+\#define \hyperlink{telemetry_2hott_8h_a4110522d0023b9139c5a3207ee0a3eee}{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}~21
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structHOTT__GAM__MSG__s}{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+s} \hyperlink{telemetry_2hott_8h_a01e6bcf0aeea914ed60a9887214eb951}{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t}
+\item 
+typedef struct \hyperlink{structHOTT__VARIO__MSG__s}{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+s} \hyperlink{telemetry_2hott_8h_aeb09454993384428650e5b97b11e40e1}{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t}
+\item 
+typedef struct \hyperlink{structHOTT__EAM__MSG__s}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+s} \hyperlink{telemetry_2hott_8h_aa6cb9b407d05356bd97bcbacceac12f9}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t}
+\item 
+typedef struct \hyperlink{structHOTT__GPS__MSG__s}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+s} \hyperlink{telemetry_2hott_8h_ae6def72a29b211874fad6f74fa8bf4e8}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t}
+\item 
+typedef struct \hyperlink{structHOTT__AIRESC__MSG__s}{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+s} \hyperlink{telemetry_2hott_8h_a019ced816822425d6b686b8b40d26f56}{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9}{hott\+Eam\+Alarm1\+Flag\+\_\+e} \{ \\*
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a8d19aba284541127845dac690e87dcb6}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a61c7f1528e8ba15f3bbdedb47c9cd8cf}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H} = (1 $<$$<$ 0), 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9aa7b0e70707a73058ae52745353a7ecd7}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1} = (1 $<$$<$ 1), 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a95b1be62854db4f9b6ec4397faf788b9}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a511dca0bbc19f055f09a8169b988472a}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1} = (1 $<$$<$ 3), 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a31f05510885f1bab243150a637c80a3e}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2} = (1 $<$$<$ 4), 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a823856cd0b0a9462d1f3a61d38ba0462}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E} = (1 $<$$<$ 5), 
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9add5bdc2b88f30dc5ae608b6b04f63b53}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T} = (1 $<$$<$ 6), 
+\\*
+\hyperlink{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a551171df915cd79a8d66f17117091a64}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E} = (1 $<$$<$ 7)
+ \}
+\item 
+enum \hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58e}{hott\+Eam\+Alarm2\+Flag\+\_\+e} \{ \\*
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaaf361b75d912e2a778c244b5b4543d87}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea88b12468da2999e360d654f1eb91f4e8}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S} = (1 $<$$<$ 0), 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eae3fe80684e7a51e2177a58b3708419f0}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S} = (1 $<$$<$ 1), 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea8347922b82355afd2e113c9c67ce8652}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaff3bfb70223cf5a199da3a566e5fa85c}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E} = (1 $<$$<$ 3), 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaac6f89abb1c81bdd88f9131800a4e1d7}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E} = (1 $<$$<$ 4), 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea1cc15f284fb946f9474bc72ac5599f49}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1} = (1 $<$$<$ 5), 
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5c2f8eac690c350f01fed469d8b025e6}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2} = (1 $<$$<$ 6), 
+\\*
+\hyperlink{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5f93a0377c76bcb5cfa29de087499c03}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E} = (1 $<$$<$ 7)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{telemetry_2hott_8h_a4b9a57d8b3b95b412bdc3cbfee8ccacf}{hott\+\_\+init} (struct \hyperlink{structhott}{hott} $\ast$self, struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system}, struct \hyperlink{structbattery}{battery} $\ast$\hyperlink{config_8h_a5466ed569575da51b3da2fef03e2fdfe}{bat})
+\item 
+void \hyperlink{telemetry_2hott_8h_afd327db37609fb406e7c4111dbc48111}{hott\+\_\+process\+\_\+data} (struct \hyperlink{structhott}{hott} $\ast$self)
+\item 
+void \hyperlink{telemetry_2hott_8h_ad158ef210f96ace658974b27bd99f111}{check\+Ho\+T\+T\+Telemetry\+State} (void)
+\item 
+void \hyperlink{telemetry_2hott_8h_aa4e4161cf06cc4475fc4ba345f7937be}{configure\+Ho\+T\+T\+Telemetry\+Port} (void)
+\item 
+void \hyperlink{telemetry_2hott_8h_a0cfa08d87b98026d386955f6369fd456}{free\+Ho\+T\+T\+Telemetry\+Port} (void)
+\item 
+uint32\+\_\+t \hyperlink{telemetry_2hott_8h_acfcd9e841150b752c4f6e52748e6abdf}{get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{telemetry_2hott_8h_a21af4e2c34be1e31f188f65f7cde711d}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D~0x80}}\label{telemetry_2hott_8h_a21af4e2c34be1e31f188f65f7cde711d}
+\hypertarget{telemetry_2hott_8h_ab0fd586bc09fbc5b369269669a8a43d0}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+H\+E\+I\+G\+H\+T~500}}\label{telemetry_2hott_8h_ab0fd586bc09fbc5b369269669a8a43d0}
+\hypertarget{telemetry_2hott_8h_a76d510ee0aa193d84c4d3b08230b852c}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M2\+S~72}}\label{telemetry_2hott_8h_a76d510ee0aa193d84c4d3b08230b852c}
+\hypertarget{telemetry_2hott_8h_ab4e44f24862ac193b49ff4b66d87c51d}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+M3\+S~120}}\label{telemetry_2hott_8h_ab4e44f24862ac193b49ff4b66d87c51d}
+\hypertarget{telemetry_2hott_8h_aae2cba1264b0a614956e44b81c0ff2ef}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+O\+F\+F\+S\+E\+T\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E~20}}\label{telemetry_2hott_8h_aae2cba1264b0a614956e44b81c0ff2ef}
+\hypertarget{telemetry_2hott_8h_a55b07826b53c4259f69fff1b766588d3}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D~0x\+E0}}\label{telemetry_2hott_8h_a55b07826b53c4259f69fff1b766588d3}
+\hypertarget{telemetry_2hott_8h_a82f422b0f230ff8cbbbcd632ea112737}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+O\+F\+F\+S\+E\+T~500}}\label{telemetry_2hott_8h_a82f422b0f230ff8cbbbcd632ea112737}
+\hypertarget{telemetry_2hott_8h_ac6529628a1d1a130f0359e5b83326483}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+I\+D~0x\+A0}}\label{telemetry_2hott_8h_ac6529628a1d1a130f0359e5b83326483}
+\hypertarget{telemetry_2hott_8h_a832975fb93eff34619db4fc8b98f759f}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x8c}}\label{telemetry_2hott_8h_a832975fb93eff34619db4fc8b98f759f}
+\hypertarget{telemetry_2hott_8h_a79a337a859ca95062bfbd77dd1a13ec4}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+E\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x8e}}\label{telemetry_2hott_8h_a79a337a859ca95062bfbd77dd1a13ec4}
+\hypertarget{telemetry_2hott_8h_a221244730e4f96c650f744645a79b43a}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+A\+M\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x8d}}\label{telemetry_2hott_8h_a221244730e4f96c650f744645a79b43a}
+\hypertarget{telemetry_2hott_8h_ae9ec52c71dc992f3da387fd9b52df7bf}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+G\+P\+S\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x8a}}\label{telemetry_2hott_8h_ae9ec52c71dc992f3da387fd9b52df7bf}
+\hypertarget{telemetry_2hott_8h_a6d3b4f8a5850ac2e16f65011c1c18f9b}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+N\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x80}}\label{telemetry_2hott_8h_a6d3b4f8a5850ac2e16f65011c1c18f9b}
+\hypertarget{telemetry_2hott_8h_a7d1922d7d3330f6b674c994a1bfff42b}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+V\+A\+R\+I\+O\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+I\+D~0x89}}\label{telemetry_2hott_8h_a7d1922d7d3330f6b674c994a1bfff42b}
+\hypertarget{telemetry_2hott_8h_a30a84272738595e61de9e52166a175cf}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D~0x7f}}\label{telemetry_2hott_8h_a30a84272738595e61de9e52166a175cf}
+\hypertarget{telemetry_2hott_8h_aae1017711000b3fb28075c0a8d47db26}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N@{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}}
+\index{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N@{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+T\+E\+X\+T\+M\+O\+D\+E\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N~168}}\label{telemetry_2hott_8h_aae1017711000b3fb28075c0a8d47db26}
+\hypertarget{telemetry_2hott_8h_a4110522d0023b9139c5a3207ee0a3eee}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N@{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}}
+\index{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N@{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+\+T\+E\+X\+T\+\_\+\+L\+E\+N~21}}\label{telemetry_2hott_8h_a4110522d0023b9139c5a3207ee0a3eee}
+\hypertarget{telemetry_2hott_8h_a93f01a42f98e9df5bca801a0b004ac61}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+I\+N\+A\+R\+Y\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D~0x80}}\label{telemetry_2hott_8h_a93f01a42f98e9df5bca801a0b004ac61}
+\hypertarget{telemetry_2hott_8h_aca5eb122add75ddc0117f0456129896f}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+D\+E\+C~0x\+E\+B}}\label{telemetry_2hott_8h_aca5eb122add75ddc0117f0456129896f}
+\hypertarget{telemetry_2hott_8h_a198e0c59dbec47aa9ea2b4a581d3a78d}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+I\+N\+C~0x\+E\+D}}\label{telemetry_2hott_8h_a198e0c59dbec47aa9ea2b4a581d3a78d}
+\hypertarget{telemetry_2hott_8h_a1ac6f84b553b02a12b153ee68f1bf5da}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+E\+X\+T~0x\+E\+E}}\label{telemetry_2hott_8h_a1ac6f84b553b02a12b153ee68f1bf5da}
+\hypertarget{telemetry_2hott_8h_a174f40c5f61702762ffe69e3d7d35f69}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+N\+I\+L~0x0\+F}}\label{telemetry_2hott_8h_a174f40c5f61702762ffe69e3d7d35f69}
+\hypertarget{telemetry_2hott_8h_a607bba381903be4d4902221204d272c8}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+R\+E\+V~0x\+E7}}\label{telemetry_2hott_8h_a607bba381903be4d4902221204d272c8}
+\hypertarget{telemetry_2hott_8h_a60270d0e800a16744db8123f452e9624}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T}}
+\index{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T@{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+S\+E\+T~0x\+E9}}\label{telemetry_2hott_8h_a60270d0e800a16744db8123f452e9624}
+\hypertarget{telemetry_2hott_8h_a33842a03fe898808b5ba817edc02c5d3}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X@{H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X}}
+\index{H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X@{H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+R\+X\+T\+X~4}}\label{telemetry_2hott_8h_a33842a03fe898808b5ba817edc02c5d3}
+\hypertarget{telemetry_2hott_8h_abd477ae47fc566975511e26792f220f0}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}}
+\index{H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D@{H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\+O\+T\+T\+V4\+\_\+\+T\+E\+X\+T\+\_\+\+M\+O\+D\+E\+\_\+\+R\+E\+Q\+U\+E\+S\+T\+\_\+\+I\+D~0x7f}}\label{telemetry_2hott_8h_abd477ae47fc566975511e26792f220f0}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{telemetry_2hott_8h_a019ced816822425d6b686b8b40d26f56}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t}}
+\index{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+s}  {\bf H\+O\+T\+T\+\_\+\+A\+I\+R\+E\+S\+C\+\_\+\+M\+S\+G\+\_\+t}}}\label{telemetry_2hott_8h_a019ced816822425d6b686b8b40d26f56}
+\hypertarget{telemetry_2hott_8h_aa6cb9b407d05356bd97bcbacceac12f9}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t}}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+s}  {\bf H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t}}}\label{telemetry_2hott_8h_aa6cb9b407d05356bd97bcbacceac12f9}
+\hypertarget{telemetry_2hott_8h_a01e6bcf0aeea914ed60a9887214eb951}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t}}
+\index{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+s}  {\bf H\+O\+T\+T\+\_\+\+G\+A\+M\+\_\+\+M\+S\+G\+\_\+t}}}\label{telemetry_2hott_8h_a01e6bcf0aeea914ed60a9887214eb951}
+\hypertarget{telemetry_2hott_8h_ae6def72a29b211874fad6f74fa8bf4e8}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t}}
+\index{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+s}  {\bf H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t}}}\label{telemetry_2hott_8h_ae6def72a29b211874fad6f74fa8bf4e8}
+\hypertarget{telemetry_2hott_8h_aeb09454993384428650e5b97b11e40e1}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t}}
+\index{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t@{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+s}  {\bf H\+O\+T\+T\+\_\+\+V\+A\+R\+I\+O\+\_\+\+M\+S\+G\+\_\+t}}}\label{telemetry_2hott_8h_aeb09454993384428650e5b97b11e40e1}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!hott\+Eam\+Alarm1\+Flag\+\_\+e@{hott\+Eam\+Alarm1\+Flag\+\_\+e}}
+\index{hott\+Eam\+Alarm1\+Flag\+\_\+e@{hott\+Eam\+Alarm1\+Flag\+\_\+e}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{hott\+Eam\+Alarm1\+Flag\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf hott\+Eam\+Alarm1\+Flag\+\_\+e}}}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a8d19aba284541127845dac690e87dcb6}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a8d19aba284541127845dac690e87dcb6}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a61c7f1528e8ba15f3bbdedb47c9cd8cf}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+H}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a61c7f1528e8ba15f3bbdedb47c9cd8cf}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9aa7b0e70707a73058ae52745353a7ecd7}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+1}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9aa7b0e70707a73058ae52745353a7ecd7}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a95b1be62854db4f9b6ec4397faf788b9}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+B\+A\+T\+T\+E\+R\+Y\+\_\+2}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a95b1be62854db4f9b6ec4397faf788b9}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a511dca0bbc19f055f09a8169b988472a}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+1}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a511dca0bbc19f055f09a8169b988472a}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a31f05510885f1bab243150a637c80a3e}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+M\+P\+E\+R\+A\+T\+U\+R\+E\+\_\+2}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a31f05510885f1bab243150a637c80a3e}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a823856cd0b0a9462d1f3a61d38ba0462}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a823856cd0b0a9462d1f3a61d38ba0462}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9add5bdc2b88f30dc5ae608b6b04f63b53}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+C\+U\+R\+R\+E\+N\+T}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9add5bdc2b88f30dc5ae608b6b04f63b53}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a551171df915cd79a8d66f17117091a64}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M1\+\_\+\+F\+L\+A\+G\+\_\+\+M\+A\+I\+N\+\_\+\+V\+O\+L\+T\+A\+G\+E}\label{telemetry_2hott_8h_a88c468cce9a8860af673f1dbc0591be9a551171df915cd79a8d66f17117091a64}
+}]\end{description}
+\end{Desc}
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58e}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!hott\+Eam\+Alarm2\+Flag\+\_\+e@{hott\+Eam\+Alarm2\+Flag\+\_\+e}}
+\index{hott\+Eam\+Alarm2\+Flag\+\_\+e@{hott\+Eam\+Alarm2\+Flag\+\_\+e}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{hott\+Eam\+Alarm2\+Flag\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf hott\+Eam\+Alarm2\+Flag\+\_\+e}}}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58e}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaaf361b75d912e2a778c244b5b4543d87}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+N\+O\+N\+E}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaaf361b75d912e2a778c244b5b4543d87}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea88b12468da2999e360d654f1eb91f4e8}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea88b12468da2999e360d654f1eb91f4e8}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eae3fe80684e7a51e2177a58b3708419f0}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eae3fe80684e7a51e2177a58b3708419f0}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea8347922b82355afd2e113c9c67ce8652}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+T\+I\+T\+U\+D\+E\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea8347922b82355afd2e113c9c67ce8652}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaff3bfb70223cf5a199da3a566e5fa85c}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaff3bfb70223cf5a199da3a566e5fa85c}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaac6f89abb1c81bdd88f9131800a4e1d7}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+M3\+S\+\_\+\+D\+U\+P\+L\+I\+C\+A\+T\+E}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58eaac6f89abb1c81bdd88f9131800a4e1d7}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea1cc15f284fb946f9474bc72ac5599f49}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+1}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea1cc15f284fb946f9474bc72ac5599f49}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5c2f8eac690c350f01fed469d8b025e6}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+U\+N\+K\+N\+O\+W\+N\+\_\+2}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5c2f8eac690c350f01fed469d8b025e6}
+}]\index{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E}!telemetry/hott.\+h@{telemetry/hott.\+h}}\index{telemetry/hott.\+h@{telemetry/hott.\+h}!H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E@{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E}}\item[{\em 
+\hypertarget{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5f93a0377c76bcb5cfa29de087499c03}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+A\+L\+A\+R\+M2\+\_\+\+F\+L\+A\+G\+\_\+\+O\+N\+\_\+\+S\+I\+G\+N\+\_\+\+O\+R\+\_\+\+T\+E\+X\+T\+\_\+\+A\+C\+T\+I\+V\+E}\label{telemetry_2hott_8h_aaacb76c14bd64bbc7e12fba26220f58ea5f93a0377c76bcb5cfa29de087499c03}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{telemetry_2hott_8h_ad158ef210f96ace658974b27bd99f111}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!check\+Ho\+T\+T\+Telemetry\+State@{check\+Ho\+T\+T\+Telemetry\+State}}
+\index{check\+Ho\+T\+T\+Telemetry\+State@{check\+Ho\+T\+T\+Telemetry\+State}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{check\+Ho\+T\+T\+Telemetry\+State}]{\setlength{\rightskip}{0pt plus 5cm}void check\+Ho\+T\+T\+Telemetry\+State (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_ad158ef210f96ace658974b27bd99f111}
+\hypertarget{telemetry_2hott_8h_aa4e4161cf06cc4475fc4ba345f7937be}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!configure\+Ho\+T\+T\+Telemetry\+Port@{configure\+Ho\+T\+T\+Telemetry\+Port}}
+\index{configure\+Ho\+T\+T\+Telemetry\+Port@{configure\+Ho\+T\+T\+Telemetry\+Port}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{configure\+Ho\+T\+T\+Telemetry\+Port}]{\setlength{\rightskip}{0pt plus 5cm}void configure\+Ho\+T\+T\+Telemetry\+Port (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_aa4e4161cf06cc4475fc4ba345f7937be}
+\hypertarget{telemetry_2hott_8h_a0cfa08d87b98026d386955f6369fd456}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!free\+Ho\+T\+T\+Telemetry\+Port@{free\+Ho\+T\+T\+Telemetry\+Port}}
+\index{free\+Ho\+T\+T\+Telemetry\+Port@{free\+Ho\+T\+T\+Telemetry\+Port}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{free\+Ho\+T\+T\+Telemetry\+Port}]{\setlength{\rightskip}{0pt plus 5cm}void free\+Ho\+T\+T\+Telemetry\+Port (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_a0cfa08d87b98026d386955f6369fd456}
+\hypertarget{telemetry_2hott_8h_acfcd9e841150b752c4f6e52748e6abdf}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate@{get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate}}
+\index{get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate@{get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t get\+Ho\+T\+T\+Telemetry\+Provider\+Baud\+Rate (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_acfcd9e841150b752c4f6e52748e6abdf}
+\hypertarget{telemetry_2hott_8h_a4b9a57d8b3b95b412bdc3cbfee8ccacf}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!hott\+\_\+init@{hott\+\_\+init}}
+\index{hott\+\_\+init@{hott\+\_\+init}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{hott\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void hott\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf hott} $\ast$}]{self, }
+\item[{struct {\bf system\+\_\+calls} $\ast$}]{system, }
+\item[{struct {\bf battery} $\ast$}]{bat}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_a4b9a57d8b3b95b412bdc3cbfee8ccacf}
+\hypertarget{telemetry_2hott_8h_afd327db37609fb406e7c4111dbc48111}{\index{telemetry/hott.\+h@{telemetry/hott.\+h}!hott\+\_\+process\+\_\+data@{hott\+\_\+process\+\_\+data}}
+\index{hott\+\_\+process\+\_\+data@{hott\+\_\+process\+\_\+data}!telemetry/hott.\+h@{telemetry/hott.\+h}}
+\subsubsection[{hott\+\_\+process\+\_\+data}]{\setlength{\rightskip}{0pt plus 5cm}void hott\+\_\+process\+\_\+data (
+\begin{DoxyParamCaption}
+\item[{struct {\bf hott} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2hott_8h_afd327db37609fb406e7c4111dbc48111}

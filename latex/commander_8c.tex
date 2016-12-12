@@ -1,0 +1,239 @@
+\hypertarget{commander_8c}{\section{src/main/commander.c File Reference}
+\label{commander_8c}\index{src/main/commander.\+c@{src/main/commander.\+c}}
+}
+{\ttfamily \#include \char`\"{}commander.\+h\char`\"{}}\\*
+Include dependency graph for commander.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{commander_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{commander_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}~12
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{commander_8c_a06fc87d81c62e9abb8790b6e5713c55ba1edcd6bec040c6bc1ffb256fe8ededed}{C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C} = (1 $<$$<$ 0)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{commander_8c_adc311f70a938738204250e18de1ee4d2}{is\+Using\+Sticks\+For\+Arming} (void)
+\item 
+bool \hyperlink{commander_8c_a0e026506cd8594b119567abaa027ceb7}{are\+Sticks\+In\+Ap\+Mode\+Position} (uint16\+\_\+t ap\+\_\+mode)
+\item 
+\hyperlink{io_2rc__controls_8h_a9072ae8077e0352a2201fff2caa9d2ba}{throttle\+Status\+\_\+e} \hyperlink{commander_8c_a17a68d31e9b7b6e0c79dcd1a1d19c81c}{calculate\+Throttle\+Status} (\hyperlink{config_2rx_8h_a9a522ef6db22f2820b1ae0cb562aff4f}{rx\+Config\+\_\+t} $\ast$rx\+Config, uint16\+\_\+t deadband3d\+\_\+throttle)
+\item 
+\hyperlink{io_2rc__controls_8h_a891d794ff367b4671e5db0cbbc3ccf9a}{roll\+Pitch\+Status\+\_\+e} \hyperlink{commander_8c_a4c6997c488479aa860dd559d4205e3ae}{calculate\+Roll\+Pitch\+Center\+Status} (\hyperlink{config_2rx_8h_a9a522ef6db22f2820b1ae0cb562aff4f}{rx\+Config\+\_\+t} $\ast$rx\+Config)
+\item 
+void \hyperlink{commander_8c_a72196cac8e9754b00cad951ed5974a68}{process\+Rc\+Stick\+Positions} (\hyperlink{config_2rx_8h_a9a522ef6db22f2820b1ae0cb562aff4f}{rx\+Config\+\_\+t} $\ast$rx\+Config, \hyperlink{io_2rc__controls_8h_a9072ae8077e0352a2201fff2caa9d2ba}{throttle\+Status\+\_\+e} throttle\+Status, bool retarded\+\_\+arm, bool disarm\+\_\+kill\+\_\+switch)
+\item 
+bool \hyperlink{commander_8c_a1ad79b9c82a8297322f7f89025d1a72c}{rc\+Mode\+Is\+Activation\+Condition\+Present} (\hyperlink{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}{mode\+Activation\+Condition\+\_\+t} $\ast$mode\+Activation\+Conditions, \hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045}{box\+Id\+\_\+e} mode\+Id)
+\item 
+bool \hyperlink{commander_8c_aa1369ed4600610e776156c17b581d039}{is\+Range\+Active} (uint8\+\_\+t aux\+Channel\+Index, \hyperlink{config_2rc__controls_8h_a828530b5a74a83442378d11970c97db1}{channel\+Range\+\_\+t} $\ast$range)
+\item 
+bool \hyperlink{commander_8c_a21a62a38a0416325e5a9703c7535089c}{rc\+Mode\+Is\+Active} (\hyperlink{config_2rc__controls_8h_a204cb52657be464220db4dca1fcf9045}{box\+Id\+\_\+e} mode\+Id)
+\item 
+void \hyperlink{commander_8c_ac533aab7edefe7a198ac5138c3b75cb1}{rc\+Mode\+Update\+Activated} (\hyperlink{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}{mode\+Activation\+Condition\+\_\+t} $\ast$mode\+Activation\+Conditions)
+\item 
+int32\+\_\+t \hyperlink{commander_8c_a5be042b06f9a6121e39ed3465611773c}{get\+Rc\+Stick\+Deflection} (int32\+\_\+t axis, uint16\+\_\+t midrc)
+\item 
+void \hyperlink{commander_8c_a9d7c82cd2f130ba946446a3421ab2604}{use\+Rc\+Controls\+Config} (\hyperlink{config_2rc__controls_8h_a23d0b2f96c4164c489bedb5e2d7ece98}{mode\+Activation\+Condition\+\_\+t} $\ast$mode\+Activation\+Conditions)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{commander_8c_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{rc\+Command} \mbox{[}4\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{commander_8c_af77590ad2c015dff5422b5982c636c85}{rc\+Mode\+Activation\+Mask}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{commander_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}{\index{commander.\+c@{commander.\+c}!A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D@{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}}
+\index{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D@{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}!commander.\+c@{commander.\+c}}
+\subsubsection[{A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+I\+R\+M\+O\+D\+E\+\_\+\+D\+E\+A\+D\+B\+A\+N\+D~12}}\label{commander_8c_a2acc9b8e5d6c44f9e4e210ec56cf3d49}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{commander_8c_a06fc87d81c62e9abb8790b6e5713c55b}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{commander_8c_a06fc87d81c62e9abb8790b6e5713c55b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C@{C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C}!commander.\+c@{commander.\+c}}\index{commander.\+c@{commander.\+c}!C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C@{C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C}}\item[{\em 
+\hypertarget{commander_8c_a06fc87d81c62e9abb8790b6e5713c55ba1edcd6bec040c6bc1ffb256fe8ededed}{C\+O\+M\+\_\+\+F\+L\+A\+G\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+R\+C}\label{commander_8c_a06fc87d81c62e9abb8790b6e5713c55ba1edcd6bec040c6bc1ffb256fe8ededed}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{commander_8c_a0e026506cd8594b119567abaa027ceb7}{\index{commander.\+c@{commander.\+c}!are\+Sticks\+In\+Ap\+Mode\+Position@{are\+Sticks\+In\+Ap\+Mode\+Position}}
+\index{are\+Sticks\+In\+Ap\+Mode\+Position@{are\+Sticks\+In\+Ap\+Mode\+Position}!commander.\+c@{commander.\+c}}
+\subsubsection[{are\+Sticks\+In\+Ap\+Mode\+Position}]{\setlength{\rightskip}{0pt plus 5cm}bool are\+Sticks\+In\+Ap\+Mode\+Position (
+\begin{DoxyParamCaption}
+\item[{uint16\+\_\+t}]{ap\+\_\+mode}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a0e026506cd8594b119567abaa027ceb7}
+\hypertarget{commander_8c_a4c6997c488479aa860dd559d4205e3ae}{\index{commander.\+c@{commander.\+c}!calculate\+Roll\+Pitch\+Center\+Status@{calculate\+Roll\+Pitch\+Center\+Status}}
+\index{calculate\+Roll\+Pitch\+Center\+Status@{calculate\+Roll\+Pitch\+Center\+Status}!commander.\+c@{commander.\+c}}
+\subsubsection[{calculate\+Roll\+Pitch\+Center\+Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf roll\+Pitch\+Status\+\_\+e} calculate\+Roll\+Pitch\+Center\+Status (
+\begin{DoxyParamCaption}
+\item[{{\bf rx\+Config\+\_\+t} $\ast$}]{rx\+Config}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a4c6997c488479aa860dd559d4205e3ae}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{commander_8c_a4c6997c488479aa860dd559d4205e3ae_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_a17a68d31e9b7b6e0c79dcd1a1d19c81c}{\index{commander.\+c@{commander.\+c}!calculate\+Throttle\+Status@{calculate\+Throttle\+Status}}
+\index{calculate\+Throttle\+Status@{calculate\+Throttle\+Status}!commander.\+c@{commander.\+c}}
+\subsubsection[{calculate\+Throttle\+Status}]{\setlength{\rightskip}{0pt plus 5cm}{\bf throttle\+Status\+\_\+e} calculate\+Throttle\+Status (
+\begin{DoxyParamCaption}
+\item[{{\bf rx\+Config\+\_\+t} $\ast$}]{rx\+Config, }
+\item[{uint16\+\_\+t}]{deadband3d\+\_\+throttle}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a17a68d31e9b7b6e0c79dcd1a1d19c81c}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{commander_8c_a17a68d31e9b7b6e0c79dcd1a1d19c81c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_a5be042b06f9a6121e39ed3465611773c}{\index{commander.\+c@{commander.\+c}!get\+Rc\+Stick\+Deflection@{get\+Rc\+Stick\+Deflection}}
+\index{get\+Rc\+Stick\+Deflection@{get\+Rc\+Stick\+Deflection}!commander.\+c@{commander.\+c}}
+\subsubsection[{get\+Rc\+Stick\+Deflection}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t get\+Rc\+Stick\+Deflection (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{axis, }
+\item[{uint16\+\_\+t}]{midrc}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a5be042b06f9a6121e39ed3465611773c}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{commander_8c_a5be042b06f9a6121e39ed3465611773c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_aa1369ed4600610e776156c17b581d039}{\index{commander.\+c@{commander.\+c}!is\+Range\+Active@{is\+Range\+Active}}
+\index{is\+Range\+Active@{is\+Range\+Active}!commander.\+c@{commander.\+c}}
+\subsubsection[{is\+Range\+Active}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Range\+Active (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{aux\+Channel\+Index, }
+\item[{{\bf channel\+Range\+\_\+t} $\ast$}]{range}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_aa1369ed4600610e776156c17b581d039}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{commander_8c_aa1369ed4600610e776156c17b581d039_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_adc311f70a938738204250e18de1ee4d2}{\index{commander.\+c@{commander.\+c}!is\+Using\+Sticks\+For\+Arming@{is\+Using\+Sticks\+For\+Arming}}
+\index{is\+Using\+Sticks\+For\+Arming@{is\+Using\+Sticks\+For\+Arming}!commander.\+c@{commander.\+c}}
+\subsubsection[{is\+Using\+Sticks\+For\+Arming}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Using\+Sticks\+For\+Arming (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_adc311f70a938738204250e18de1ee4d2}
+\hypertarget{commander_8c_a72196cac8e9754b00cad951ed5974a68}{\index{commander.\+c@{commander.\+c}!process\+Rc\+Stick\+Positions@{process\+Rc\+Stick\+Positions}}
+\index{process\+Rc\+Stick\+Positions@{process\+Rc\+Stick\+Positions}!commander.\+c@{commander.\+c}}
+\subsubsection[{process\+Rc\+Stick\+Positions}]{\setlength{\rightskip}{0pt plus 5cm}void process\+Rc\+Stick\+Positions (
+\begin{DoxyParamCaption}
+\item[{{\bf rx\+Config\+\_\+t} $\ast$}]{rx\+Config, }
+\item[{{\bf throttle\+Status\+\_\+e}}]{throttle\+Status, }
+\item[{bool}]{retarded\+\_\+arm, }
+\item[{bool}]{disarm\+\_\+kill\+\_\+switch}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a72196cac8e9754b00cad951ed5974a68}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{commander_8c_a72196cac8e9754b00cad951ed5974a68_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_a1ad79b9c82a8297322f7f89025d1a72c}{\index{commander.\+c@{commander.\+c}!rc\+Mode\+Is\+Activation\+Condition\+Present@{rc\+Mode\+Is\+Activation\+Condition\+Present}}
+\index{rc\+Mode\+Is\+Activation\+Condition\+Present@{rc\+Mode\+Is\+Activation\+Condition\+Present}!commander.\+c@{commander.\+c}}
+\subsubsection[{rc\+Mode\+Is\+Activation\+Condition\+Present}]{\setlength{\rightskip}{0pt plus 5cm}bool rc\+Mode\+Is\+Activation\+Condition\+Present (
+\begin{DoxyParamCaption}
+\item[{{\bf mode\+Activation\+Condition\+\_\+t} $\ast$}]{mode\+Activation\+Conditions, }
+\item[{{\bf box\+Id\+\_\+e}}]{mode\+Id}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a1ad79b9c82a8297322f7f89025d1a72c}
+\hypertarget{commander_8c_a21a62a38a0416325e5a9703c7535089c}{\index{commander.\+c@{commander.\+c}!rc\+Mode\+Is\+Active@{rc\+Mode\+Is\+Active}}
+\index{rc\+Mode\+Is\+Active@{rc\+Mode\+Is\+Active}!commander.\+c@{commander.\+c}}
+\subsubsection[{rc\+Mode\+Is\+Active}]{\setlength{\rightskip}{0pt plus 5cm}bool rc\+Mode\+Is\+Active (
+\begin{DoxyParamCaption}
+\item[{{\bf box\+Id\+\_\+e}}]{mode\+Id}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a21a62a38a0416325e5a9703c7535089c}
+\hypertarget{commander_8c_ac533aab7edefe7a198ac5138c3b75cb1}{\index{commander.\+c@{commander.\+c}!rc\+Mode\+Update\+Activated@{rc\+Mode\+Update\+Activated}}
+\index{rc\+Mode\+Update\+Activated@{rc\+Mode\+Update\+Activated}!commander.\+c@{commander.\+c}}
+\subsubsection[{rc\+Mode\+Update\+Activated}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+Mode\+Update\+Activated (
+\begin{DoxyParamCaption}
+\item[{{\bf mode\+Activation\+Condition\+\_\+t} $\ast$}]{mode\+Activation\+Conditions}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_ac533aab7edefe7a198ac5138c3b75cb1}
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{commander_8c_ac533aab7edefe7a198ac5138c3b75cb1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{commander_8c_a9d7c82cd2f130ba946446a3421ab2604}{\index{commander.\+c@{commander.\+c}!use\+Rc\+Controls\+Config@{use\+Rc\+Controls\+Config}}
+\index{use\+Rc\+Controls\+Config@{use\+Rc\+Controls\+Config}!commander.\+c@{commander.\+c}}
+\subsubsection[{use\+Rc\+Controls\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void use\+Rc\+Controls\+Config (
+\begin{DoxyParamCaption}
+\item[{{\bf mode\+Activation\+Condition\+\_\+t} $\ast$}]{mode\+Activation\+Conditions}
+\end{DoxyParamCaption}
+)}}\label{commander_8c_a9d7c82cd2f130ba946446a3421ab2604}
+
+
+\subsection{Variable Documentation}
+\hypertarget{commander_8c_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{\index{commander.\+c@{commander.\+c}!rc\+Command@{rc\+Command}}
+\index{rc\+Command@{rc\+Command}!commander.\+c@{commander.\+c}}
+\subsubsection[{rc\+Command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+Command\mbox{[}4\mbox{]}}}\label{commander_8c_a9a0c78dfc7223feffbdd4f1d4f0f5b62}
+\hypertarget{commander_8c_af77590ad2c015dff5422b5982c636c85}{\index{commander.\+c@{commander.\+c}!rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}}
+\index{rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}!commander.\+c@{commander.\+c}}
+\subsubsection[{rc\+Mode\+Activation\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t rc\+Mode\+Activation\+Mask}}\label{commander_8c_af77590ad2c015dff5422b5982c636c85}

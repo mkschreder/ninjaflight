@@ -1,0 +1,36 @@
+var feature_8h =
+[
+    [ "feature_config", "structfeature__config.html", "structfeature__config" ],
+    [ "features_e", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9", [
+      [ "FEATURE_RX_PPM", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a5ece00cdf17ed419a18dd824ad43689d", null ],
+      [ "FEATURE_VBAT", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a5bea740e0b5e3914219db40cf45115ee", null ],
+      [ "FEATURE_INFLIGHT_ACC_CAL", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9ae48acc42ca113fb8a39021e4afb77ca6", null ],
+      [ "FEATURE_RX_SERIAL", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a619716ecadfb8eb793687c6f3b804d5a", null ],
+      [ "FEATURE_MOTOR_STOP", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a775f6e136e5efdbe850abaad725a4763", null ],
+      [ "FEATURE_SERVO_TILT", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a4cdcb33cb08b2e2ce40fd80f20d97340", null ],
+      [ "FEATURE_SOFTSERIAL", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a7c6df978468623144ebdca9d86efe47b", null ],
+      [ "FEATURE_GPS", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a6a874432a21533216bafc03d2ddaa10b", null ],
+      [ "FEATURE_FAILSAFE", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a139a0696ffca6e53d4c2d32cedc3397f", null ],
+      [ "FEATURE_SONAR", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9abcec382134e47caefc5d58ef4a535a07", null ],
+      [ "FEATURE_TELEMETRY", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a5e9dccf0ed2cd1f8ef93ba6c1a736a3c", null ],
+      [ "FEATURE_CURRENT_METER", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a45639b270e8cce6ad175ff514f6cdb0b", null ],
+      [ "FEATURE_3D", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9ab333f6687f6a7bbb3fc853c2799f9dde", null ],
+      [ "FEATURE_RX_PARALLEL_PWM", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a28d07cc9f36fe43addf2235eb4eb4806", null ],
+      [ "FEATURE_RX_MSP", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a85414b20dfdec489d824b90535d8f01d", null ],
+      [ "FEATURE_RSSI_ADC", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9ab35a8caf71b8b4225f8d42447ff908e0", null ],
+      [ "FEATURE_LED_STRIP", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a210d904bbe0b62dce3add51bf67c1f69", null ],
+      [ "FEATURE_DISPLAY", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a5422dfe78c941ff7f8aa2f125ded0c32", null ],
+      [ "FEATURE_ONESHOT125", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9abfefd029973add1b995477d80b627f43", null ],
+      [ "FEATURE_BLACKBOX", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a4d560996c69e8d06feb173721e43a263", null ],
+      [ "FEATURE_CHANNEL_FORWARDING", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a5eff5966b0934ae02b3c6095c439fdd8", null ],
+      [ "FEATURE_TRANSPONDER", "feature_8h.html#aca446bd806e0535178ec65fdf44fece9a60ff08c2c3cfd012a432e2311cbd6c1a", null ]
+    ] ],
+    [ "__attribute__", "feature_8h.html#a7b40295608516602724e482c0b46e52e", null ],
+    [ "feature", "feature_8h.html#a641ef22a35e58a892d10019dd45f693b", null ],
+    [ "featureClear", "feature_8h.html#aa7714e4f8d8fccb09d2158ea41c21bcf", null ],
+    [ "featureClearAll", "feature_8h.html#aba7ca4cd5f1fadbb9ce0499ecfebd673", null ],
+    [ "featureMask", "feature_8h.html#a9148354b07df205fc445614f742bf82d", null ],
+    [ "featureSet", "feature_8h.html#a9d55a8e2b66804f2e6a67794a23c53c4", null ],
+    [ "__attribute__", "feature_8h.html#aeab68f17dc686a2f7dc72ab2b712e464", null ],
+    [ "enabledFeatures", "feature_8h.html#a2a0e97e6709b72f2c3a0ea199b9bc544", null ]
+];

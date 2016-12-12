@@ -1,0 +1,47 @@
+\hypertarget{encoding_8h}{\section{src/main/common/encoding.h File Reference}
+\label{encoding_8h}\index{src/main/common/encoding.\+h@{src/main/common/encoding.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+Include dependency graph for encoding.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{encoding_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{encoding_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{encoding_8h_a7a91911c51ec4c035534b927a9bab1fd}{cast\+Float\+Bytes\+To\+Int} (float \hyperlink{io_2ledstrip_8c_a80a3b5dce6f851991c2338361e16f313}{f})
+\item 
+uint32\+\_\+t \hyperlink{encoding_8h_a55e89050a990e44e6b0a11f80c7b83cf}{zigzag\+Encode} (int32\+\_\+t value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{encoding_8h_a7a91911c51ec4c035534b927a9bab1fd}{\index{encoding.\+h@{encoding.\+h}!cast\+Float\+Bytes\+To\+Int@{cast\+Float\+Bytes\+To\+Int}}
+\index{cast\+Float\+Bytes\+To\+Int@{cast\+Float\+Bytes\+To\+Int}!encoding.\+h@{encoding.\+h}}
+\subsubsection[{cast\+Float\+Bytes\+To\+Int}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cast\+Float\+Bytes\+To\+Int (
+\begin{DoxyParamCaption}
+\item[{float}]{f}
+\end{DoxyParamCaption}
+)}}\label{encoding_8h_a7a91911c51ec4c035534b927a9bab1fd}
+Cast the in-\/memory representation of the given float directly to an int.
+
+This is useful for printing the hex representation of a float number (which is considerably cheaper than a full decimal float formatter, in both code size and output length). \hypertarget{encoding_8h_a55e89050a990e44e6b0a11f80c7b83cf}{\index{encoding.\+h@{encoding.\+h}!zigzag\+Encode@{zigzag\+Encode}}
+\index{zigzag\+Encode@{zigzag\+Encode}!encoding.\+h@{encoding.\+h}}
+\subsubsection[{zigzag\+Encode}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t zigzag\+Encode (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{encoding_8h_a55e89050a990e44e6b0a11f80c7b83cf}
+Zig\+Zag encoding maps all values of a signed integer into those of an unsigned integer in such a way that numbers of small absolute value correspond to small integers in the result.
+
+(Compared to just casting a signed to an unsigned which creates huge resulting numbers for small negative integers). 

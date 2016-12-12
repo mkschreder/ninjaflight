@@ -1,0 +1,10 @@
+<map id="ninja_config_change_profile" name="ninja_config_change_profile">
+<area shape="rect" id="node2" href="$ninja__config_8c.html#a7dc50e32dc7a877406a5f3ef3e391a2b" title="ninja_config_save" alt="" coords="195,69,322,96"/>
+<area shape="rect" id="node6" href="$ninja__config_8c.html#aabfd19b204ae7745d3ae50ecf534b296" title="ninja_config_load" alt="" coords="197,145,320,172"/>
+<area shape="rect" id="node3" href="$rx_2rx_8c.html#a3053040ca606418044343cbc8c727a74" title="rx_suspend_signal" alt="" coords="371,56,501,83"/>
+<area shape="rect" id="node4" href="$config_8c.html#a6cb2bfd6f8116779ec2925cf3f1de774" title="config_save" alt="" coords="390,5,482,32"/>
+<area shape="rect" id="node5" href="$rx_2rx_8c.html#ab5d5e106e91d4a1e84188ddd200a710e" title="rx_resume_signal" alt="" coords="374,107,498,133"/>
+<area shape="rect" id="node7" href="$rc__adjustments_8c.html#a845700fdaa4dd902d95741b18e97833d" title="rc_adj_reset" alt="" coords="389,157,483,184"/>
+<area shape="rect" id="node8" href="$flight_2navigation_8h.html#a4e557f43f55c7b59cb4bd3749a7a0c88" title="gpsUsePIDs" alt="" coords="387,208,485,235"/>
+<area shape="rect" id="node9" href="$config_8c.html#ac48025e524c6b9ff50d7e2f5abf554da" title="config_get_profile" alt="" coords="374,259,498,285"/>
+</map>

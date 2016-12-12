@@ -1,0 +1,280 @@
+\hypertarget{group__Instruments__Main}{\section{Instruments\+\_\+\+Main}
+\label{group__Instruments__Main}\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+}
+Collaboration diagram for Instruments\+\_\+\+Main\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{group__Instruments__Main}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a84c831c31d7f2a8e2023ca769f6732af}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O} = (1 $<$$<$ 0), 
+\hyperlink{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310ae8a4c4e97a3c558da476d0574d24939d}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C} = (1 $<$$<$ 1), 
+\hyperlink{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a2695c458b15adb459d132fc4240062e4}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G} = (1 $<$$<$ 2)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__Instruments__Main_ga53391073103ee8a597b27ee707baf6d5}{ins\+\_\+init} (struct \hyperlink{structinstruments}{instruments} $\ast$self, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\begin{DoxyCompactList}\small\item\em Initializes all instruments using specified configuration. \end{DoxyCompactList}\item 
+bool \hyperlink{group__Instruments__Main_gad94176bbfa1cc3c1548ee241787eb98a}{ins\+\_\+is\+\_\+calibrated} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instruments__Main_ga20231fe90708aed1062e8ee4b5c9c695}{ins\+\_\+start\+\_\+acc\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instruments__Main_ga177072b7ee3259c7c95181002ff587b6}{ins\+\_\+start\+\_\+gyro\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instruments__Main_ga3377f93808683a90ec4de025409e5cbf}{ins\+\_\+start\+\_\+mag\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instruments__Main_ga87572d36a8af9fcad5d632a721ed671d}{ins\+\_\+process\+\_\+gyro} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{group__Instruments__Main_gac934734b50dd3838f4d8056a20e714b6}{ins\+\_\+process\+\_\+acc} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{group__Instruments__Main_gab819d65960b422c029b6b65c5e093615}{ins\+\_\+process\+\_\+mag} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{group__Instruments__Main_ga126803b1bfe06b359e1f812a6953c521}{ins\+\_\+update} (struct \hyperlink{structinstruments}{instruments} $\ast$self, float dt)
+\item 
+uint32\+\_\+t \hyperlink{group__Instruments__Main_gab84fcc8b709185d0756575ebe795f4d6}{ins\+\_\+get\+\_\+altitude\+\_\+cm} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns estimated altitude above sea level in cm \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{group__Instruments__Main_gaf519442619db57554c4f4a7ea57d007c}{ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns vertical speed in cm/s \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The purpose of this module is to maintain a filtered state of all flight instruments that are available to the pilot. Instrumentation shall report data in S\+I units or multiples of such (for example decidegrees for represetnting fractions of degrees when not using floating point).
+
+Instruments object accepts raw sensor data as input and maintains estimated state that can be directly used by other parts of the flight controller. This module also handles sensor alignment.
+
+Currently supported input sensors include\+:
+\begin{DoxyItemize}
+\item Accelerometer
+\item Gyroscope
+\item Magnetometer
+\end{DoxyItemize}
+
+Estimated quantities include\+:
+\begin{DoxyItemize}
+\item Orientation (quaternion and euler angles)
+\item Altitude
+\item Position
+\item Velocity 
+\end{DoxyItemize}
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__Instruments__Main_ga94798fdadfbf49a7c658ace669a1d310}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group__Instruments__Main_ga94798fdadfbf49a7c658ace669a1d310}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}}\item[{\em 
+\hypertarget{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a84c831c31d7f2a8e2023ca769f6732af}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}\label{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a84c831c31d7f2a8e2023ca769f6732af}
+}]\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}}\item[{\em 
+\hypertarget{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310ae8a4c4e97a3c558da476d0574d24939d}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}\label{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310ae8a4c4e97a3c558da476d0574d24939d}
+}]\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}}\item[{\em 
+\hypertarget{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a2695c458b15adb459d132fc4240062e4}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}\label{group__Instruments__Main_gga94798fdadfbf49a7c658ace669a1d310a2695c458b15adb459d132fc4240062e4}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__Instruments__Main_gab84fcc8b709185d0756575ebe795f4d6}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+get\+\_\+altitude\+\_\+cm@{ins\+\_\+get\+\_\+altitude\+\_\+cm}}
+\index{ins\+\_\+get\+\_\+altitude\+\_\+cm@{ins\+\_\+get\+\_\+altitude\+\_\+cm}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+get\+\_\+altitude\+\_\+cm}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t ins\+\_\+get\+\_\+altitude\+\_\+cm (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_gab84fcc8b709185d0756575ebe795f4d6}
+
+
+returns estimated altitude above sea level in cm 
+
+\hypertarget{group__Instruments__Main_gaf519442619db57554c4f4a7ea57d007c}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms@{ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms}}
+\index{ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms@{ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t ins\+\_\+get\+\_\+vertical\+\_\+speed\+\_\+cms (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_gaf519442619db57554c4f4a7ea57d007c}
+
+
+returns vertical speed in cm/s 
+
+\hypertarget{group__Instruments__Main_ga53391073103ee8a597b27ee707baf6d5}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+init@{ins\+\_\+init}}
+\index{ins\+\_\+init@{ins\+\_\+init}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga53391073103ee8a597b27ee707baf6d5}
+
+
+Initializes all instruments using specified configuration. 
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__Instruments__Main_ga53391073103ee8a597b27ee707baf6d5_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_gad94176bbfa1cc3c1548ee241787eb98a}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+is\+\_\+calibrated@{ins\+\_\+is\+\_\+calibrated}}
+\index{ins\+\_\+is\+\_\+calibrated@{ins\+\_\+is\+\_\+calibrated}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+is\+\_\+calibrated}]{\setlength{\rightskip}{0pt plus 5cm}bool ins\+\_\+is\+\_\+calibrated (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_gad94176bbfa1cc3c1548ee241787eb98a}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{group__Instruments__Main_gad94176bbfa1cc3c1548ee241787eb98a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_gac934734b50dd3838f4d8056a20e714b6}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+process\+\_\+acc@{ins\+\_\+process\+\_\+acc}}
+\index{ins\+\_\+process\+\_\+acc@{ins\+\_\+process\+\_\+acc}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+process\+\_\+acc}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+acc (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_gac934734b50dd3838f4d8056a20e714b6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{group__Instruments__Main_gac934734b50dd3838f4d8056a20e714b6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_ga87572d36a8af9fcad5d632a721ed671d}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+process\+\_\+gyro@{ins\+\_\+process\+\_\+gyro}}
+\index{ins\+\_\+process\+\_\+gyro@{ins\+\_\+process\+\_\+gyro}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+process\+\_\+gyro}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+gyro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga87572d36a8af9fcad5d632a721ed671d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__Instruments__Main_ga87572d36a8af9fcad5d632a721ed671d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_gab819d65960b422c029b6b65c5e093615}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+process\+\_\+mag@{ins\+\_\+process\+\_\+mag}}
+\index{ins\+\_\+process\+\_\+mag@{ins\+\_\+process\+\_\+mag}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+process\+\_\+mag}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+mag (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_gab819d65960b422c029b6b65c5e093615}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{group__Instruments__Main_gab819d65960b422c029b6b65c5e093615_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_ga20231fe90708aed1062e8ee4b5c9c695}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+start\+\_\+acc\+\_\+calibration@{ins\+\_\+start\+\_\+acc\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+acc\+\_\+calibration@{ins\+\_\+start\+\_\+acc\+\_\+calibration}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+start\+\_\+acc\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+acc\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga20231fe90708aed1062e8ee4b5c9c695}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{group__Instruments__Main_ga20231fe90708aed1062e8ee4b5c9c695_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_ga177072b7ee3259c7c95181002ff587b6}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+start\+\_\+gyro\+\_\+calibration@{ins\+\_\+start\+\_\+gyro\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+gyro\+\_\+calibration@{ins\+\_\+start\+\_\+gyro\+\_\+calibration}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+start\+\_\+gyro\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+gyro\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga177072b7ee3259c7c95181002ff587b6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__Instruments__Main_ga177072b7ee3259c7c95181002ff587b6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_ga3377f93808683a90ec4de025409e5cbf}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+start\+\_\+mag\+\_\+calibration@{ins\+\_\+start\+\_\+mag\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+mag\+\_\+calibration@{ins\+\_\+start\+\_\+mag\+\_\+calibration}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+start\+\_\+mag\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+mag\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga3377f93808683a90ec4de025409e5cbf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__Instruments__Main_ga3377f93808683a90ec4de025409e5cbf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__Instruments__Main_ga126803b1bfe06b359e1f812a6953c521}{\index{Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}!ins\+\_\+update@{ins\+\_\+update}}
+\index{ins\+\_\+update@{ins\+\_\+update}!Instruments\+\_\+\+Main@{Instruments\+\_\+\+Main}}
+\subsubsection[{ins\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{float}]{dt}
+\end{DoxyParamCaption}
+)}}\label{group__Instruments__Main_ga126803b1bfe06b359e1f812a6953c521}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__Instruments__Main_ga126803b1bfe06b359e1f812a6953c521_cgraph}
+\end{center}
+\end{figure}
+
+

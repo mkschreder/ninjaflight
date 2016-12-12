@@ -1,0 +1,7 @@
+<map id="ms5611Detect" name="ms5611Detect">
+<area shape="rect" id="node2" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="194,5,254,32"/>
+<area shape="rect" id="node4" href="$bus__i2c_8h.html#a75fc5214b1f74a63cfb40496d10c9152" title="i2cRead" alt="" coords="189,56,259,83"/>
+<area shape="rect" id="node5" href="$barometer__ms5611_8c.html#a6f7620842539db86c7cb55f513d49e88" title="ms5611_crc" alt="" coords="177,107,271,133"/>
+<area shape="rect" id="node6" href="$barometer__ms5611_8c.html#a7d7becbb4f9acc9e52d7af6a937ad7aa" title="ms5611_calculate" alt="" coords="161,157,287,184"/>
+<area shape="rect" id="node3" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="336,5,397,32"/>
+</map>

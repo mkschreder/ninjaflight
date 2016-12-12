@@ -1,0 +1,69 @@
+\hypertarget{structcommander}{\section{commander Struct Reference}
+\label{structcommander}\index{commander@{commander}}
+}
+
+
+commander module that translates user input into flight controller commands  
+
+
+
+
+{\ttfamily \#include $<$commander.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{structcommander_a6e769486c728fd934f8fabf8f819db2d}{rc\+Command} \mbox{[}4\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{structcommander_af88801509d9aa119526243b345705a7e}{last\+Command} \mbox{[}4\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{structcommander_abaa62c2bf4b77172cde393e2704635fc}{delta\+R\+C} \mbox{[}4\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{structcommander_a4699ec2e2ef438235b39c79b6f1e3404}{factor}
+\item 
+int16\+\_\+t \hyperlink{structcommander_a5de951c54feab6654a90f5acbaecd546}{refresh\+\_\+rate}
+\begin{DoxyCompactList}\small\item\em time in microseconds between rc readings (T\+O\+D\+O\+: make this dynamic) \end{DoxyCompactList}\item 
+void($\ast$ \hyperlink{structcommander_a728bf75ac58c4031e3005ea4abe61cc3}{event\+\_\+callback} )(struct \hyperlink{structcommander}{commander} $\ast$self, \hyperlink{commander_8h_a0dea274d71bd4238f8b0ac384381f87b}{commander\+\_\+event\+\_\+t} ev, int16\+\_\+t data)
+\item 
+uint8\+\_\+t \hyperlink{structcommander_a24959e28d9524c801a34ddda56c21502}{flags}
+\begin{DoxyCompactList}\small\item\em internal flags \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+commander module that translates user input into flight controller commands 
+
+\subsection{Field Documentation}
+\hypertarget{structcommander_abaa62c2bf4b77172cde393e2704635fc}{\index{commander@{commander}!delta\+R\+C@{delta\+R\+C}}
+\index{delta\+R\+C@{delta\+R\+C}!commander@{commander}}
+\subsubsection[{delta\+R\+C}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t commander\+::delta\+R\+C\mbox{[}4\mbox{]}}}\label{structcommander_abaa62c2bf4b77172cde393e2704635fc}
+\hypertarget{structcommander_a728bf75ac58c4031e3005ea4abe61cc3}{\index{commander@{commander}!event\+\_\+callback@{event\+\_\+callback}}
+\index{event\+\_\+callback@{event\+\_\+callback}!commander@{commander}}
+\subsubsection[{event\+\_\+callback}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ commander\+::event\+\_\+callback)(struct {\bf commander} $\ast$self, {\bf commander\+\_\+event\+\_\+t} ev, int16\+\_\+t data)}}\label{structcommander_a728bf75ac58c4031e3005ea4abe61cc3}
+\hypertarget{structcommander_a4699ec2e2ef438235b39c79b6f1e3404}{\index{commander@{commander}!factor@{factor}}
+\index{factor@{factor}!commander@{commander}}
+\subsubsection[{factor}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t commander\+::factor}}\label{structcommander_a4699ec2e2ef438235b39c79b6f1e3404}
+\hypertarget{structcommander_a24959e28d9524c801a34ddda56c21502}{\index{commander@{commander}!flags@{flags}}
+\index{flags@{flags}!commander@{commander}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t commander\+::flags}}\label{structcommander_a24959e28d9524c801a34ddda56c21502}
+
+
+internal flags 
+
+\hypertarget{structcommander_af88801509d9aa119526243b345705a7e}{\index{commander@{commander}!last\+Command@{last\+Command}}
+\index{last\+Command@{last\+Command}!commander@{commander}}
+\subsubsection[{last\+Command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t commander\+::last\+Command\mbox{[}4\mbox{]}}}\label{structcommander_af88801509d9aa119526243b345705a7e}
+\hypertarget{structcommander_a6e769486c728fd934f8fabf8f819db2d}{\index{commander@{commander}!rc\+Command@{rc\+Command}}
+\index{rc\+Command@{rc\+Command}!commander@{commander}}
+\subsubsection[{rc\+Command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t commander\+::rc\+Command\mbox{[}4\mbox{]}}}\label{structcommander_a6e769486c728fd934f8fabf8f819db2d}
+\hypertarget{structcommander_a5de951c54feab6654a90f5acbaecd546}{\index{commander@{commander}!refresh\+\_\+rate@{refresh\+\_\+rate}}
+\index{refresh\+\_\+rate@{refresh\+\_\+rate}!commander@{commander}}
+\subsubsection[{refresh\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t commander\+::refresh\+\_\+rate}}\label{structcommander_a5de951c54feab6654a90f5acbaecd546}
+
+
+time in microseconds between rc readings (T\+O\+D\+O\+: make this dynamic) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{commander_8h}{commander.\+h}\end{DoxyCompactItemize}

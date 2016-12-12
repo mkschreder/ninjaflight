@@ -1,0 +1,140 @@
+\hypertarget{alignsensor__unittest_8cc}{\section{src/test/unit/alignsensor\+\_\+unittest.cc File Reference}
+\label{alignsensor__unittest_8cc}\index{src/test/unit/alignsensor\+\_\+unittest.\+cc@{src/test/unit/alignsensor\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include \char`\"{}target.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stdint.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}time.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/sensors.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for alignsensor\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{alignsensor__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{alignsensor__unittest_8cc_af7e8592d0a634bd3642e9fd508ea8022}{D\+E\+G2\+R\+A\+D}~0.\+01745329251
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{alignsensor__unittest_8cc_affff77fb525bc9850f77a48ba15faaf2}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Zero\+Degrees)
+\item 
+\hyperlink{alignsensor__unittest_8cc_a8d6cb888c59a4421efb6333daadcce52}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Ninety\+Degrees)
+\item 
+\hyperlink{alignsensor__unittest_8cc_ae98fb0fd2861e1797dfab295cc4d6a5a}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+One\+Eighty\+Degrees)
+\item 
+\hyperlink{alignsensor__unittest_8cc_aa94f98d8c64e658dfda8c33586f21e9c}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Two\+Seventy\+Degrees)
+\item 
+\hyperlink{alignsensor__unittest_8cc_ac8423a1ef530f89da08584c327a694ba}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Zero\+Degrees\+Flip)
+\item 
+\hyperlink{alignsensor__unittest_8cc_afc34ad3daf062b7d78cd70c6235ab12c}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Ninety\+Degrees\+Flip)
+\item 
+\hyperlink{alignsensor__unittest_8cc_af159bf64509dacad8e6f0309186c5336}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+One\+Eighty\+Degrees\+Flip)
+\item 
+\hyperlink{alignsensor__unittest_8cc_afb591c65bfeed43d2a4b93ba981cd382}{T\+E\+S\+T} (Align\+Sensor\+Test, Clockwise\+Two\+Seventy\+Degrees\+Flip)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structboard__alignment}{board\+\_\+alignment} \hyperlink{alignsensor__unittest_8cc_a07da7124d32b36e4b0b372eebc388bf8}{alignment}
+\item 
+struct \hyperlink{structboard__alignment__config}{board\+\_\+alignment\+\_\+config} \hyperlink{alignsensor__unittest_8cc_aedae7df01d716001fbcb520d01b70603}{alignment\+\_\+config}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{alignsensor__unittest_8cc_af7e8592d0a634bd3642e9fd508ea8022}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!D\+E\+G2\+R\+A\+D@{D\+E\+G2\+R\+A\+D}}
+\index{D\+E\+G2\+R\+A\+D@{D\+E\+G2\+R\+A\+D}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{D\+E\+G2\+R\+A\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+G2\+R\+A\+D~0.\+01745329251}}\label{alignsensor__unittest_8cc_af7e8592d0a634bd3642e9fd508ea8022}
+
+
+\subsection{Function Documentation}
+\hypertarget{alignsensor__unittest_8cc_affff77fb525bc9850f77a48ba15faaf2}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Zero\+Degrees}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_affff77fb525bc9850f77a48ba15faaf2}
+\hypertarget{alignsensor__unittest_8cc_a8d6cb888c59a4421efb6333daadcce52}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Ninety\+Degrees}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_a8d6cb888c59a4421efb6333daadcce52}
+\hypertarget{alignsensor__unittest_8cc_ae98fb0fd2861e1797dfab295cc4d6a5a}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+One\+Eighty\+Degrees}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_ae98fb0fd2861e1797dfab295cc4d6a5a}
+\hypertarget{alignsensor__unittest_8cc_aa94f98d8c64e658dfda8c33586f21e9c}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Two\+Seventy\+Degrees}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_aa94f98d8c64e658dfda8c33586f21e9c}
+\hypertarget{alignsensor__unittest_8cc_ac8423a1ef530f89da08584c327a694ba}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Zero\+Degrees\+Flip}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_ac8423a1ef530f89da08584c327a694ba}
+\hypertarget{alignsensor__unittest_8cc_afc34ad3daf062b7d78cd70c6235ab12c}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Ninety\+Degrees\+Flip}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_afc34ad3daf062b7d78cd70c6235ab12c}
+\hypertarget{alignsensor__unittest_8cc_af159bf64509dacad8e6f0309186c5336}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+One\+Eighty\+Degrees\+Flip}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_af159bf64509dacad8e6f0309186c5336}
+\hypertarget{alignsensor__unittest_8cc_afb591c65bfeed43d2a4b93ba981cd382}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Align\+Sensor\+Test}]{, }
+\item[{Clockwise\+Two\+Seventy\+Degrees\+Flip}]{}
+\end{DoxyParamCaption}
+)}}\label{alignsensor__unittest_8cc_afb591c65bfeed43d2a4b93ba981cd382}
+
+
+\subsection{Variable Documentation}
+\hypertarget{alignsensor__unittest_8cc_a07da7124d32b36e4b0b372eebc388bf8}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!alignment@{alignment}}
+\index{alignment@{alignment}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{alignment}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf board\+\_\+alignment} alignment}}\label{alignsensor__unittest_8cc_a07da7124d32b36e4b0b372eebc388bf8}
+\hypertarget{alignsensor__unittest_8cc_aedae7df01d716001fbcb520d01b70603}{\index{alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}!alignment\+\_\+config@{alignment\+\_\+config}}
+\index{alignment\+\_\+config@{alignment\+\_\+config}!alignsensor\+\_\+unittest.\+cc@{alignsensor\+\_\+unittest.\+cc}}
+\subsubsection[{alignment\+\_\+config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf board\+\_\+alignment\+\_\+config} alignment\+\_\+config}}\label{alignsensor__unittest_8cc_aedae7df01d716001fbcb520d01b70603}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    .rollDegrees = 0, 
+    .pitchDegrees = 0, 
+    .yawDegrees = 0
+\}
+\end{DoxyCode}

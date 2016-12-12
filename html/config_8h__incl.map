@@ -1,0 +1,36 @@
+<map id="src/main/config/config.h" name="src/main/config/config.h">
+<area shape="rect" id="node4" href="$accelerometer_8h.html" title="accelerometer.h" alt="" coords="193,80,308,107"/>
+<area shape="rect" id="node5" href="$config_2altitudehold_8h.html" title="altitudehold.h" alt="" coords="332,80,431,107"/>
+<area shape="rect" id="node6" href="$config_2anglerate_8h.html" title="anglerate.h" alt="" coords="455,80,541,107"/>
+<area shape="rect" id="node7" href="$config_2blackbox_8h.html" title="blackbox.h" alt="" coords="567,80,652,107"/>
+<area shape="rect" id="node8" href="$config_2battery_8h.html" title="battery.h" alt="" coords="677,80,749,107"/>
+<area shape="rect" id="node9" href="$config_2compass_8h.html" title="compass.h" alt="" coords="774,80,860,107"/>
+<area shape="rect" id="node10" href="$config_2failsafe_8h.html" title="failsafe.h" alt="" coords="885,80,959,107"/>
+<area shape="rect" id="node11" href="$config_2gps_8h.html" title="gps.h" alt="" coords="985,80,1039,107"/>
+<area shape="rect" id="node12" href="$config_2imu_8h.html" title="imu.h" alt="" coords="1063,80,1117,107"/>
+<area shape="rect" id="node13" href="$config_2mixer_8h.html" title="mixer.h" alt="" coords="1142,80,1207,107"/>
+<area shape="rect" id="node14" href="$config_2navigation_8h.html" title="navigation.h" alt="" coords="1231,80,1323,107"/>
+<area shape="rect" id="node15" href="$config_2rate__profile_8h.html" title="rate_profile.h" alt="" coords="1347,80,1444,107"/>
+<area shape="rect" id="node16" href="$sensors_8h.html" title="sensors.h" alt="" coords="1469,80,1547,107"/>
+<area shape="rect" id="node17" href="$config_2tilt_8h.html" title="tilt.h" alt="" coords="1571,80,1617,107"/>
+<area shape="rect" id="node18" href="$gimbal_8h.html" title="gimbal.h" alt="" coords="1642,80,1712,107"/>
+<area shape="rect" id="node19" href="$config_2rx_8h.html" title="rx.h" alt="" coords="1737,80,1780,107"/>
+<area shape="rect" id="node20" href="$rc__controls_8h.html" title="rc_controls.h" alt="" coords="1819,155,1916,181"/>
+<area shape="rect" id="node21" href="$config_2rc__adjustments_8h.html" title="rc_adjustments.h" alt="" coords="1856,80,1979,107"/>
+<area shape="rect" id="node22" href="$transponder_8h.html" title="transponder.h" alt="" coords="2003,80,2104,107"/>
+<area shape="rect" id="node23" href="$config_2boardalignment_8h.html" title="boardalignment.h" alt="" coords="2129,80,2249,107"/>
+<area shape="rect" id="node24" href="$config_2ledstrip_8h.html" title="ledstrip.h" alt="" coords="2275,80,2348,107"/>
+<area shape="rect" id="node26" href="$config_2frsky_8h.html" title="frsky.h" alt="" coords="2374,80,2436,107"/>
+<area shape="rect" id="node27" href="$config_2hott_8h.html" title="hott.h" alt="" coords="2461,80,2515,107"/>
+<area shape="rect" id="node28" href="$config_2barometer_8h.html" title="barometer.h" alt="" coords="2540,80,2631,107"/>
+<area shape="rect" id="node29" href="$config_2gyro_8h.html" title="gyro.h" alt="" coords="2655,80,2712,107"/>
+<area shape="rect" id="node30" href="$config_2pwm__rx_8h.html" title="pwm_rx.h" alt="" coords="2738,80,2816,107"/>
+<area shape="rect" id="node31" href="$config_2gtune_8h.html" title="gtune.h" alt="" coords="2841,80,2905,107"/>
+<area shape="rect" id="node33" href="$config_2telemetry_8h.html" title="telemetry.h" alt="" coords="2930,80,3016,107"/>
+<area shape="rect" id="node34" href="$config_2serial_8h.html" title="serial.h" alt="" coords="3041,80,3105,107"/>
+<area shape="rect" id="node36" href="$profile_8h.html" title="profile.h" alt="" coords="3130,80,3197,107"/>
+<area shape="rect" id="node37" href="$config_2system_8h.html" title="system.h" alt="" coords="3222,80,3297,107"/>
+<area shape="rect" id="node38" href="$feature_8h.html" title="feature.h" alt="" coords="3322,80,3395,107"/>
+<area shape="rect" id="node25" href="$color_8h.html" title="../common/color.h" alt="" coords="2249,155,2375,181"/>
+<area shape="rect" id="node32" href="$axis_8h.html" title="../common/axis.h" alt="" coords="2812,155,2935,181"/>
+</map>

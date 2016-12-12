@@ -1,0 +1,4 @@
+<map id="sensor_trims_config" name="sensor_trims_config">
+<area shape="rect" id="node2" href="$unionflightDynamicsTrims__t.html" title="flightDynamicsTrims_t" alt="" coords="23,96,176,123"/>
+<area shape="rect" id="node3" href="$structint16__flightDynamicsTrims__s.html" title="int16_flightDynamicsTrims_s" alt="" coords="5,5,195,32"/>
+</map>

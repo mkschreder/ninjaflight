@@ -1,0 +1,219 @@
+\hypertarget{hw__config_8c}{\section{src/main/drivers/vcp/hw\+\_\+config.c File Reference}
+\label{hw__config_8c}\index{src/main/drivers/vcp/hw\+\_\+config.\+c@{src/main/drivers/vcp/hw\+\_\+config.\+c}}
+}
+
+
+Hardware Configuration \& Setup.  
+
+
+{\ttfamily \#include \char`\"{}stm32\+\_\+it.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+lib.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+prop.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+desc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}hw\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+pwr.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/usb\+\_\+io.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/nvic.\+h\char`\"{}}\\*
+Include dependency graph for hw\+\_\+config.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{hw__config_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{hw__config_8c_aa4a6b2ee08d21d686867426fe6838fa2}{Set\+\_\+\+System} (void)
+\item 
+void \hyperlink{hw__config_8c_ad9be4b2bc4261431d9efa533f9e8ae98}{Set\+\_\+\+U\+S\+B\+Clock} (void)
+\item 
+void \hyperlink{hw__config_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}{Enter\+\_\+\+Low\+Power\+Mode} (void)
+\item 
+void \hyperlink{hw__config_8c_a6c7ca414693c535f48a636ca862ed49d}{Leave\+\_\+\+Low\+Power\+Mode} (void)
+\item 
+void \hyperlink{hw__config_8c_ab8919e0a1a2c1c1e4878575748c3ff76}{U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config} (void)
+\item 
+void \hyperlink{hw__config_8c_aa99b8eac23843be0bca036fae722c788}{U\+S\+B\+\_\+\+Cable\+\_\+\+Config} (\hyperlink{test_2unit_2platform_8h_ac9a7e9a35d2513ec15c3b537aaa4fba1}{Functional\+State} New\+State)
+\item 
+void \hyperlink{hw__config_8c_a9d58f33671e71604d44e0c2c30b5f1b6}{Get\+\_\+\+Serial\+Num} (void)
+\item 
+uint32\+\_\+t \hyperlink{hw__config_8c_a3cab8c8bc0868f45e7ba49a0c1179e1d}{C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A} (uint8\+\_\+t $\ast$ptr\+Buffer, uint8\+\_\+t len)
+\item 
+uint32\+\_\+t \hyperlink{hw__config_8c_a550ed80b862f24210a46f5ff587f80f3}{C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A} (uint8\+\_\+t $\ast$recv\+Buf, uint32\+\_\+t len)
+\item 
+uint8\+\_\+t \hyperlink{hw__config_8c_ae82ddb9f8366bf64b6ca0663cdfa00cc}{usb\+Is\+Configured} (void)
+\item 
+uint8\+\_\+t \hyperlink{hw__config_8c_ade2d8e1182e5755a7a495642bf39c004}{usb\+Is\+Connected} (void)
+\item 
+uint32\+\_\+t \hyperlink{hw__config_8c_a7b6919631145f262b0d697c6ff4875cf}{C\+D\+C\+\_\+\+Baud\+Rate} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+Error\+Status \hyperlink{hw__config_8c_aae33c20fbeab507927504a67dbdb5957}{H\+S\+E\+Start\+Up\+Status}
+\item 
+E\+X\+T\+I\+\_\+\+Init\+Type\+Def \hyperlink{hw__config_8c_a2d4257246174aa5cc08c0d13b8b97aeb}{E\+X\+T\+I\+\_\+\+Init\+Structure}
+\item 
+\+\_\+\+\_\+\+I\+O uint32\+\_\+t \hyperlink{hw__config_8c_ac7eb9815ce77dbd9b6a3687f0069f711}{packet\+Sent}
+\item 
+uint8\+\_\+t \hyperlink{hw__config_8c_acc03b748e91b2f25a3ec5c658619fe71}{receive\+Buffer} \mbox{[}64\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{hw__config_8c_a7ada4d692eb3ae2aa0b72792a49c478e}{send\+Length}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Hardware Configuration \& Setup. 
+
+\begin{DoxyAuthor}{Author}
+M\+C\+D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V4.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+21-\/\+January-\/2013 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+H\+T 2013 S\+T\+Microelectronics\end{center} }
+
+Licensed under M\+C\+D-\/\+S\+T Liberty S\+W License Agreement V2, (the \char`\"{}\+License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\+: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+I\+S, W\+I\+T\+H\+O\+U\+T W\+A\+R\+R\+A\+N\+T\+I\+E\+S O\+R C\+O\+N\+D\+I\+T\+I\+O\+N\+S O\+F A\+N\+Y K\+I\+N\+D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+\subsection{Function Documentation}
+\hypertarget{hw__config_8c_a7b6919631145f262b0d697c6ff4875cf}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!C\+D\+C\+\_\+\+Baud\+Rate@{C\+D\+C\+\_\+\+Baud\+Rate}}
+\index{C\+D\+C\+\_\+\+Baud\+Rate@{C\+D\+C\+\_\+\+Baud\+Rate}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{C\+D\+C\+\_\+\+Baud\+Rate}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t C\+D\+C\+\_\+\+Baud\+Rate (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a7b6919631145f262b0d697c6ff4875cf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{hw__config_8c_a7b6919631145f262b0d697c6ff4875cf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{hw__config_8c_a550ed80b862f24210a46f5ff587f80f3}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A@{C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A}}
+\index{C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A@{C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t C\+D\+C\+\_\+\+Receive\+\_\+\+D\+A\+T\+A (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{recv\+Buf, }
+\item[{uint32\+\_\+t}]{len}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a550ed80b862f24210a46f5ff587f80f3}
+\hypertarget{hw__config_8c_a3cab8c8bc0868f45e7ba49a0c1179e1d}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A@{C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A}}
+\index{C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A@{C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t C\+D\+C\+\_\+\+Send\+\_\+\+D\+A\+T\+A (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{ptr\+Buffer, }
+\item[{uint8\+\_\+t}]{len}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a3cab8c8bc0868f45e7ba49a0c1179e1d}
+\hypertarget{hw__config_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!Enter\+\_\+\+Low\+Power\+Mode@{Enter\+\_\+\+Low\+Power\+Mode}}
+\index{Enter\+\_\+\+Low\+Power\+Mode@{Enter\+\_\+\+Low\+Power\+Mode}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{Enter\+\_\+\+Low\+Power\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}void Enter\+\_\+\+Low\+Power\+Mode (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a7720eb7ac1ea6af8e9e76b2eb6f12d65}
+\hypertarget{hw__config_8c_a9d58f33671e71604d44e0c2c30b5f1b6}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!Get\+\_\+\+Serial\+Num@{Get\+\_\+\+Serial\+Num}}
+\index{Get\+\_\+\+Serial\+Num@{Get\+\_\+\+Serial\+Num}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{Get\+\_\+\+Serial\+Num}]{\setlength{\rightskip}{0pt plus 5cm}void Get\+\_\+\+Serial\+Num (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a9d58f33671e71604d44e0c2c30b5f1b6}
+\hypertarget{hw__config_8c_a6c7ca414693c535f48a636ca862ed49d}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!Leave\+\_\+\+Low\+Power\+Mode@{Leave\+\_\+\+Low\+Power\+Mode}}
+\index{Leave\+\_\+\+Low\+Power\+Mode@{Leave\+\_\+\+Low\+Power\+Mode}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{Leave\+\_\+\+Low\+Power\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}void Leave\+\_\+\+Low\+Power\+Mode (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_a6c7ca414693c535f48a636ca862ed49d}
+\hypertarget{hw__config_8c_aa4a6b2ee08d21d686867426fe6838fa2}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!Set\+\_\+\+System@{Set\+\_\+\+System}}
+\index{Set\+\_\+\+System@{Set\+\_\+\+System}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{Set\+\_\+\+System}]{\setlength{\rightskip}{0pt plus 5cm}void Set\+\_\+\+System (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_aa4a6b2ee08d21d686867426fe6838fa2}
+$<$ At this stage the microcontroller clock setting is already configured, this is done through System\+Init() function which is called from startup file (startup\+\_\+stm32f10x\+\_\+xx.\+s) before to branch to application main. To reconfigure the default setting of System\+Init() function, refer to \hyperlink{system__stm32f10x_8c}{system\+\_\+stm32f10x.\+c} file
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{hw__config_8c_aa4a6b2ee08d21d686867426fe6838fa2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{hw__config_8c_ad9be4b2bc4261431d9efa533f9e8ae98}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!Set\+\_\+\+U\+S\+B\+Clock@{Set\+\_\+\+U\+S\+B\+Clock}}
+\index{Set\+\_\+\+U\+S\+B\+Clock@{Set\+\_\+\+U\+S\+B\+Clock}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{Set\+\_\+\+U\+S\+B\+Clock}]{\setlength{\rightskip}{0pt plus 5cm}void Set\+\_\+\+U\+S\+B\+Clock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_ad9be4b2bc4261431d9efa533f9e8ae98}
+\hypertarget{hw__config_8c_aa99b8eac23843be0bca036fae722c788}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!U\+S\+B\+\_\+\+Cable\+\_\+\+Config@{U\+S\+B\+\_\+\+Cable\+\_\+\+Config}}
+\index{U\+S\+B\+\_\+\+Cable\+\_\+\+Config@{U\+S\+B\+\_\+\+Cable\+\_\+\+Config}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{U\+S\+B\+\_\+\+Cable\+\_\+\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void U\+S\+B\+\_\+\+Cable\+\_\+\+Config (
+\begin{DoxyParamCaption}
+\item[{{\bf Functional\+State}}]{New\+State}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_aa99b8eac23843be0bca036fae722c788}
+\hypertarget{hw__config_8c_ab8919e0a1a2c1c1e4878575748c3ff76}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config@{U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config}}
+\index{U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config@{U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void U\+S\+B\+\_\+\+Interrupts\+\_\+\+Config (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_ab8919e0a1a2c1c1e4878575748c3ff76}
+\hypertarget{hw__config_8c_ae82ddb9f8366bf64b6ca0663cdfa00cc}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!usb\+Is\+Configured@{usb\+Is\+Configured}}
+\index{usb\+Is\+Configured@{usb\+Is\+Configured}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{usb\+Is\+Configured}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t usb\+Is\+Configured (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_ae82ddb9f8366bf64b6ca0663cdfa00cc}
+\hypertarget{hw__config_8c_ade2d8e1182e5755a7a495642bf39c004}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!usb\+Is\+Connected@{usb\+Is\+Connected}}
+\index{usb\+Is\+Connected@{usb\+Is\+Connected}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{usb\+Is\+Connected}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t usb\+Is\+Connected (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{hw__config_8c_ade2d8e1182e5755a7a495642bf39c004}
+
+
+\subsection{Variable Documentation}
+\hypertarget{hw__config_8c_a2d4257246174aa5cc08c0d13b8b97aeb}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!E\+X\+T\+I\+\_\+\+Init\+Structure@{E\+X\+T\+I\+\_\+\+Init\+Structure}}
+\index{E\+X\+T\+I\+\_\+\+Init\+Structure@{E\+X\+T\+I\+\_\+\+Init\+Structure}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{E\+X\+T\+I\+\_\+\+Init\+Structure}]{\setlength{\rightskip}{0pt plus 5cm}E\+X\+T\+I\+\_\+\+Init\+Type\+Def E\+X\+T\+I\+\_\+\+Init\+Structure}}\label{hw__config_8c_a2d4257246174aa5cc08c0d13b8b97aeb}
+\hypertarget{hw__config_8c_aae33c20fbeab507927504a67dbdb5957}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!H\+S\+E\+Start\+Up\+Status@{H\+S\+E\+Start\+Up\+Status}}
+\index{H\+S\+E\+Start\+Up\+Status@{H\+S\+E\+Start\+Up\+Status}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{H\+S\+E\+Start\+Up\+Status}]{\setlength{\rightskip}{0pt plus 5cm}Error\+Status H\+S\+E\+Start\+Up\+Status}}\label{hw__config_8c_aae33c20fbeab507927504a67dbdb5957}
+\hypertarget{hw__config_8c_ac7eb9815ce77dbd9b6a3687f0069f711}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!packet\+Sent@{packet\+Sent}}
+\index{packet\+Sent@{packet\+Sent}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{packet\+Sent}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint32\+\_\+t packet\+Sent}}\label{hw__config_8c_ac7eb9815ce77dbd9b6a3687f0069f711}
+\hypertarget{hw__config_8c_acc03b748e91b2f25a3ec5c658619fe71}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!receive\+Buffer@{receive\+Buffer}}
+\index{receive\+Buffer@{receive\+Buffer}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{receive\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t receive\+Buffer\mbox{[}64\mbox{]}}}\label{hw__config_8c_acc03b748e91b2f25a3ec5c658619fe71}
+\hypertarget{hw__config_8c_a7ada4d692eb3ae2aa0b72792a49c478e}{\index{hw\+\_\+config.\+c@{hw\+\_\+config.\+c}!send\+Length@{send\+Length}}
+\index{send\+Length@{send\+Length}!hw\+\_\+config.\+c@{hw\+\_\+config.\+c}}
+\subsubsection[{send\+Length}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t send\+Length}}\label{hw__config_8c_a7ada4d692eb3ae2aa0b72792a49c478e}

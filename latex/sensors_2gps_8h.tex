@@ -1,0 +1,231 @@
+\hypertarget{sensors_2gps_8h}{\section{src/main/sensors/gps.h File Reference}
+\label{sensors_2gps_8h}\index{src/main/sensors/gps.\+h@{src/main/sensors/gps.\+h}}
+}
+{\ttfamily \#include \char`\"{}../config/gps.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../drivers/serial.\+h\char`\"{}}\\*
+Include dependency graph for gps.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2gps_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2gps_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgpsCoordinateDDDMMmmmm__s}{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+s}
+\item 
+struct \hyperlink{structgpsData__s}{gps\+Data\+\_\+s}
+\item 
+struct \hyperlink{structgps}{gps}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sensors_2gps_8h_a2e810d3371ba1d3a5febbf62d1d2b54e}{L\+A\+T}~0
+\item 
+\#define \hyperlink{sensors_2gps_8h_a3d9c5ecfe79540687eadeb0c794001c2}{L\+O\+N}~1
+\item 
+\#define \hyperlink{sensors_2gps_8h_a649b708e0d8546aed9eab6e28a164586}{G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R}~10000000\+L
+\item 
+\#define \hyperlink{sensors_2gps_8h_aca6af3bcff66dfc6a14377a948113264}{S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X}~\hyperlink{config_2gps_8h_a517917c9a4389dc3fbafd50e9b3f913aa9413863da53ddef0be5223e2691f1753}{S\+B\+A\+S\+\_\+\+G\+A\+G\+A\+N}
+\item 
+\#define \hyperlink{sensors_2gps_8h_a5c7c07b54ca171399b88ca6aa307b9f4}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X}~\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ad3a509bd575ca959992821b8e367ae5f}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}
+\item 
+\#define \hyperlink{sensors_2gps_8h_a1a63dd0b6b70758b2663a18f00f19fa9}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}~(\hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a1a62eb6f65af030c9f62f0e64e658a15}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X} + 1)
+\item 
+\#define \hyperlink{sensors_2gps_8h_ab49fbdbefeca0005095e8f3b45a0f7c8}{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}~21
+\item 
+\#define \hyperlink{sensors_2gps_8h_a882c0ca2cab78ea3142177d9db27bc3e}{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N}~0
+\item 
+\#define \hyperlink{sensors_2gps_8h_a0cf988889fa7da17182be4c6a07f3e19}{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X}~55
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{structgpsCoordinateDDDMMmmmm__s}{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+s} \hyperlink{sensors_2gps_8h_a226cecd040a81b8f5db241aa4ebf1f7e}{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t}
+\item 
+typedef struct \hyperlink{structgpsData__s}{gps\+Data\+\_\+s} \hyperlink{sensors_2gps_8h_a771fa045adfa1095a89b83006e07478f}{gps\+Data\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9}{gps\+Baud\+Rate\+\_\+e} \{ \\*
+\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ab31445af2988d85cb3b05311485607a8}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200} = 0, 
+\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a0dac54e96fc22f877c7e9faa93d4bfef}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600}, 
+\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a75e4a4e6865a8756bdafe73ce66285bd}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400}, 
+\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a6d4ae622194ed09f93a701773a7ae71e}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200}, 
+\\*
+\hyperlink{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ad3a509bd575ca959992821b8e367ae5f}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}
+ \}
+\item 
+enum \hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254}{gps\+Message\+State\+\_\+e} \{ \hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a6b54720f9a16894980b6ead4a58edbb5}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E} = 0, 
+\hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254abdc173dd37e4ac71cc0f9fff8fd4665a}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T}, 
+\hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a87481ebde8aeb4dd61f7d5f1a2ae588c}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S}, 
+\hyperlink{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a1a62eb6f65af030c9f62f0e64e658a15}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X} = G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{sensors_2gps_8h_a8a43d308ef5077dbb7a31f7fd3d6b873}{gps\+\_\+init} (struct \hyperlink{structgps}{gps} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system}, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{sensors_2gps_8h_a3816306adfb65bae922fbfbe484f5701}{gps\+\_\+enable\+\_\+passthrough} (struct \hyperlink{structgps}{gps} $\ast$self, struct \hyperlink{structserialPort__s}{serial\+Port\+\_\+s} $\ast$gps\+Passthrough\+Port)
+\item 
+void \hyperlink{sensors_2gps_8h_a20582e227addf219dff5428b2c47d5d3}{gps\+\_\+update} (struct \hyperlink{structgps}{gps} $\ast$self)
+\item 
+bool \hyperlink{sensors_2gps_8h_ac5e7ec6978142cf6ba6244d455b4b215}{gps\+\_\+process\+\_\+char} (struct \hyperlink{structgps}{gps} $\ast$self, uint8\+\_\+t c)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sensors_2gps_8h_a5c7c07b54ca171399b88ca6aa307b9f4}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X}}
+\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+\+M\+A\+X~{\bf G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}}}\label{sensors_2gps_8h_a5c7c07b54ca171399b88ca6aa307b9f4}
+\hypertarget{sensors_2gps_8h_a0cf988889fa7da17182be4c6a07f3e19}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X}}
+\index{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+A\+X~55}}\label{sensors_2gps_8h_a0cf988889fa7da17182be4c6a07f3e19}
+\hypertarget{sensors_2gps_8h_a882c0ca2cab78ea3142177d9db27bc3e}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N@{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N}}
+\index{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N@{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+D\+B\+H\+Z\+\_\+\+M\+I\+N~0}}\label{sensors_2gps_8h_a882c0ca2cab78ea3142177d9db27bc3e}
+\hypertarget{sensors_2gps_8h_a649b708e0d8546aed9eab6e28a164586}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R@{G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R@{G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+D\+E\+G\+R\+E\+E\+S\+\_\+\+D\+I\+V\+I\+D\+E\+R~10000000\+L}}\label{sensors_2gps_8h_a649b708e0d8546aed9eab6e28a164586}
+\hypertarget{sensors_2gps_8h_a1a63dd0b6b70758b2663a18f00f19fa9}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}}
+\index{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T~({\bf G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X} + 1)}}\label{sensors_2gps_8h_a1a63dd0b6b70758b2663a18f00f19fa9}
+\hypertarget{sensors_2gps_8h_ab49fbdbefeca0005095e8f3b45a0f7c8}{\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T@{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}}
+\index{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T@{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T~21}}\label{sensors_2gps_8h_ab49fbdbefeca0005095e8f3b45a0f7c8}
+\hypertarget{sensors_2gps_8h_a2e810d3371ba1d3a5febbf62d1d2b54e}{\index{sensors/gps.\+h@{sensors/gps.\+h}!L\+A\+T@{L\+A\+T}}
+\index{L\+A\+T@{L\+A\+T}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{L\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+A\+T~0}}\label{sensors_2gps_8h_a2e810d3371ba1d3a5febbf62d1d2b54e}
+\hypertarget{sensors_2gps_8h_a3d9c5ecfe79540687eadeb0c794001c2}{\index{sensors/gps.\+h@{sensors/gps.\+h}!L\+O\+N@{L\+O\+N}}
+\index{L\+O\+N@{L\+O\+N}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{L\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+O\+N~1}}\label{sensors_2gps_8h_a3d9c5ecfe79540687eadeb0c794001c2}
+\hypertarget{sensors_2gps_8h_aca6af3bcff66dfc6a14377a948113264}{\index{sensors/gps.\+h@{sensors/gps.\+h}!S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X@{S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X}}
+\index{S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X@{S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+B\+A\+S\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+X~{\bf S\+B\+A\+S\+\_\+\+G\+A\+G\+A\+N}}}\label{sensors_2gps_8h_aca6af3bcff66dfc6a14377a948113264}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{sensors_2gps_8h_a226cecd040a81b8f5db241aa4ebf1f7e}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t@{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t}}
+\index{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t@{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+s}  {\bf gps\+Coordinate\+D\+D\+D\+M\+Mmmmm\+\_\+t}}}\label{sensors_2gps_8h_a226cecd040a81b8f5db241aa4ebf1f7e}
+\hypertarget{sensors_2gps_8h_a771fa045adfa1095a89b83006e07478f}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+Data\+\_\+t@{gps\+Data\+\_\+t}}
+\index{gps\+Data\+\_\+t@{gps\+Data\+\_\+t}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+Data\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf gps\+Data\+\_\+s}  {\bf gps\+Data\+\_\+t}}}\label{sensors_2gps_8h_a771fa045adfa1095a89b83006e07478f}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+Baud\+Rate\+\_\+e@{gps\+Baud\+Rate\+\_\+e}}
+\index{gps\+Baud\+Rate\+\_\+e@{gps\+Baud\+Rate\+\_\+e}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+Baud\+Rate\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf gps\+Baud\+Rate\+\_\+e}}}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200}}\item[{\em 
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ab31445af2988d85cb3b05311485607a8}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+115200}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ab31445af2988d85cb3b05311485607a8}
+}]\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600}}\item[{\em 
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a0dac54e96fc22f877c7e9faa93d4bfef}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+57600}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a0dac54e96fc22f877c7e9faa93d4bfef}
+}]\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400}}\item[{\em 
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a75e4a4e6865a8756bdafe73ce66285bd}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+38400}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a75e4a4e6865a8756bdafe73ce66285bd}
+}]\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200}}\item[{\em 
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a6d4ae622194ed09f93a701773a7ae71e}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+19200}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9a6d4ae622194ed09f93a701773a7ae71e}
+}]\index{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600@{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}}\item[{\em 
+\hypertarget{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ad3a509bd575ca959992821b8e367ae5f}{G\+P\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E\+\_\+9600}\label{sensors_2gps_8h_ada8e312f4599f8621f836cc059c68ff9ad3a509bd575ca959992821b8e367ae5f}
+}]\end{description}
+\end{Desc}
+\hypertarget{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+Message\+State\+\_\+e@{gps\+Message\+State\+\_\+e}}
+\index{gps\+Message\+State\+\_\+e@{gps\+Message\+State\+\_\+e}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+Message\+State\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf gps\+Message\+State\+\_\+e}}}\label{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E}}\item[{\em 
+\hypertarget{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a6b54720f9a16894980b6ead4a58edbb5}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+D\+L\+E}\label{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a6b54720f9a16894980b6ead4a58edbb5}
+}]\index{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T}}\item[{\em 
+\hypertarget{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254abdc173dd37e4ac71cc0f9fff8fd4665a}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T}\label{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254abdc173dd37e4ac71cc0f9fff8fd4665a}
+}]\index{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S}}\item[{\em 
+\hypertarget{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a87481ebde8aeb4dd61f7d5f1a2ae588c}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+B\+A\+S}\label{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a87481ebde8aeb4dd61f7d5f1a2ae588c}
+}]\index{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X}!sensors/gps.\+h@{sensors/gps.\+h}}\index{sensors/gps.\+h@{sensors/gps.\+h}!G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X@{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a1a62eb6f65af030c9f62f0e64e658a15}{G\+P\+S\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+A\+X}\label{sensors_2gps_8h_aa0c000aa5d6dd13e56689e3947bbe254a1a62eb6f65af030c9f62f0e64e658a15}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{sensors_2gps_8h_a3816306adfb65bae922fbfbe484f5701}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+\_\+enable\+\_\+passthrough@{gps\+\_\+enable\+\_\+passthrough}}
+\index{gps\+\_\+enable\+\_\+passthrough@{gps\+\_\+enable\+\_\+passthrough}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+\_\+enable\+\_\+passthrough}]{\setlength{\rightskip}{0pt plus 5cm}void gps\+\_\+enable\+\_\+passthrough (
+\begin{DoxyParamCaption}
+\item[{struct {\bf gps} $\ast$}]{self, }
+\item[{struct {\bf serial\+Port\+\_\+s} $\ast$}]{gps\+Passthrough\+Port}
+\end{DoxyParamCaption}
+)}}\label{sensors_2gps_8h_a3816306adfb65bae922fbfbe484f5701}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2gps_8h_a3816306adfb65bae922fbfbe484f5701_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2gps_8h_a8a43d308ef5077dbb7a31f7fd3d6b873}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+\_\+init@{gps\+\_\+init}}
+\index{gps\+\_\+init@{gps\+\_\+init}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}int gps\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf gps} $\ast$}]{self, }
+\item[{const struct {\bf system\+\_\+calls} $\ast$}]{system, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{sensors_2gps_8h_a8a43d308ef5077dbb7a31f7fd3d6b873}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2gps_8h_a8a43d308ef5077dbb7a31f7fd3d6b873_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2gps_8h_ac5e7ec6978142cf6ba6244d455b4b215}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+\_\+process\+\_\+char@{gps\+\_\+process\+\_\+char}}
+\index{gps\+\_\+process\+\_\+char@{gps\+\_\+process\+\_\+char}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+\_\+process\+\_\+char}]{\setlength{\rightskip}{0pt plus 5cm}bool gps\+\_\+process\+\_\+char (
+\begin{DoxyParamCaption}
+\item[{struct {\bf gps} $\ast$}]{self, }
+\item[{uint8\+\_\+t}]{c}
+\end{DoxyParamCaption}
+)}}\label{sensors_2gps_8h_ac5e7ec6978142cf6ba6244d455b4b215}
+\hypertarget{sensors_2gps_8h_a20582e227addf219dff5428b2c47d5d3}{\index{sensors/gps.\+h@{sensors/gps.\+h}!gps\+\_\+update@{gps\+\_\+update}}
+\index{gps\+\_\+update@{gps\+\_\+update}!sensors/gps.\+h@{sensors/gps.\+h}}
+\subsubsection[{gps\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void gps\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf gps} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2gps_8h_a20582e227addf219dff5428b2c47d5d3}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{sensors_2gps_8h_a20582e227addf219dff5428b2c47d5d3_cgraph}
+\end{center}
+\end{figure}
+
+

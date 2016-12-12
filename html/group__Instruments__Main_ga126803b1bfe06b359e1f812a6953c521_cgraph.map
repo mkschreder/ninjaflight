@@ -1,0 +1,12 @@
+<map id="ins_update" name="ins_update">
+<area shape="rect" id="node2" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="154,120,273,147"/>
+<area shape="rect" id="node8" href="$group__IMU.html#gad46d84705e3777ce1b6a682e1c6b3a34" title="imu_enable_fast_dcm\l_convergence" alt="" coords="139,183,288,225"/>
+<area shape="rect" id="node9" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="169,275,258,301"/>
+<area shape="rect" id="node3" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="350,5,501,32"/>
+<area shape="rect" id="node4" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="352,56,499,83"/>
+<area shape="rect" id="node5" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="337,107,514,133"/>
+<area shape="rect" id="node6" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="342,158,509,199"/>
+<area shape="rect" id="node7" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="336,224,515,251"/>
+<area shape="rect" id="node10" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="363,275,487,301"/>
+<area shape="rect" id="node11" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="375,325,475,352"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="ninja_config_reset" name="ninja_config_reset">
+<area shape="rect" id="node2" href="$group__config.html#ga4b70e19635bc68e4d7ca8cab5646c833" title="config_reset" alt="" coords="189,5,283,32"/>
+<area shape="rect" id="node4" href="$feature_8c.html#aba7ca4cd5f1fadbb9ce0499ecfebd673" title="featureClearAll" alt="" coords="182,56,290,83"/>
+<area shape="rect" id="node5" href="$feature_8c.html#a9d55a8e2b66804f2e6a67794a23c53c4" title="featureSet" alt="" coords="195,107,277,133"/>
+<area shape="rect" id="node3" href="$config_2rx_8c.html#ac6732f88711e700ce8dcf532c425a107" title="Configures the rx using the specified channel layout and config. (channel layout example: AETR1234) ..." alt="" coords="339,5,495,32"/>
+</map>

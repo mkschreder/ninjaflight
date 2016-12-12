@@ -1,0 +1,5 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$battery_8c.html#a78cc41ddb9d379ae1afef2065e41dc44" title="battery_init" alt="" coords="149,5,235,32"/>
+<area shape="rect" id="node4" href="$battery__unittest_8cc.html#a86fd892a3ca494c1e56413f2a60d485a" title="_battery_adc_to_voltage" alt="" coords="110,56,274,83"/>
+<area shape="rect" id="node3" href="$filter_8c.html#a0d345930980c9f0da44533d92ddb5b86" title="BiQuadNewLpf" alt="" coords="323,5,434,32"/>
+</map>

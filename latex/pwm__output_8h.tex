@@ -1,0 +1,134 @@
+\hypertarget{pwm__output_8h}{\section{src/main/drivers/pwm\+\_\+output.h File Reference}
+\label{pwm__output_8h}\index{src/main/drivers/pwm\+\_\+output.\+h@{src/main/drivers/pwm\+\_\+output.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__output_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{pwm__output_8h_afbb29ed99f7b36cb134005429e83a96e}{pwm\+Write\+Motor} (uint8\+\_\+t index, uint16\+\_\+t value)
+\item 
+void \hyperlink{pwm__output_8h_a4dcc069249cf08b7315fe254f3e9af76}{pwm\+Shutdown\+Pulses\+For\+All\+Motors} (uint8\+\_\+t motor\+Count)
+\item 
+void \hyperlink{pwm__output_8h_a532829034cab121116ead923416e1638}{pwm\+Complete\+Oneshot\+Motor\+Update} (uint8\+\_\+t motor\+Count)
+\item 
+void \hyperlink{pwm__output_8h_a439f7c205f12382fdfe35fb90357f6a3}{pwm\+Stop\+Motors} (bool oneshot)
+\item 
+void \hyperlink{pwm__output_8h_ac342fe18f718e9b74749af27ee9d7a55}{pwm\+Write\+All\+Motors} (uint8\+\_\+t motor\+Count, uint16\+\_\+t mc, bool oneshot)
+\item 
+void \hyperlink{pwm__output_8h_aba0de6bf36f1323edf420ed57b0e7456}{pwm\+Write\+Servo} (uint8\+\_\+t index, uint16\+\_\+t value)
+\item 
+bool \hyperlink{pwm__output_8h_a6f825790b8b06243858498876909844b}{is\+Motor\+Brushed} (uint16\+\_\+t motor\+Pwm\+Rate)
+\item 
+void \hyperlink{pwm__output_8h_a9d1281250ae4a1b6352c12bd0585b9a4}{pwm\+Disable\+Motors} (void)
+\item 
+void \hyperlink{pwm__output_8h_aab941ae4abbf1b479799f0bfe159c9da}{pwm\+Enable\+Motors} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{pwm__output_8h_a6f825790b8b06243858498876909844b}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!is\+Motor\+Brushed@{is\+Motor\+Brushed}}
+\index{is\+Motor\+Brushed@{is\+Motor\+Brushed}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{is\+Motor\+Brushed}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Motor\+Brushed (
+\begin{DoxyParamCaption}
+\item[{uint16\+\_\+t}]{motor\+Pwm\+Rate}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_a6f825790b8b06243858498876909844b}
+\hypertarget{pwm__output_8h_a532829034cab121116ead923416e1638}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Complete\+Oneshot\+Motor\+Update@{pwm\+Complete\+Oneshot\+Motor\+Update}}
+\index{pwm\+Complete\+Oneshot\+Motor\+Update@{pwm\+Complete\+Oneshot\+Motor\+Update}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Complete\+Oneshot\+Motor\+Update}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Complete\+Oneshot\+Motor\+Update (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{motor\+Count}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_a532829034cab121116ead923416e1638}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__output_8h_a532829034cab121116ead923416e1638_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{pwm__output_8h_a9d1281250ae4a1b6352c12bd0585b9a4}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Disable\+Motors@{pwm\+Disable\+Motors}}
+\index{pwm\+Disable\+Motors@{pwm\+Disable\+Motors}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Disable\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Disable\+Motors (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_a9d1281250ae4a1b6352c12bd0585b9a4}
+\hypertarget{pwm__output_8h_aab941ae4abbf1b479799f0bfe159c9da}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Enable\+Motors@{pwm\+Enable\+Motors}}
+\index{pwm\+Enable\+Motors@{pwm\+Enable\+Motors}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Enable\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Enable\+Motors (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_aab941ae4abbf1b479799f0bfe159c9da}
+\hypertarget{pwm__output_8h_a4dcc069249cf08b7315fe254f3e9af76}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Shutdown\+Pulses\+For\+All\+Motors@{pwm\+Shutdown\+Pulses\+For\+All\+Motors}}
+\index{pwm\+Shutdown\+Pulses\+For\+All\+Motors@{pwm\+Shutdown\+Pulses\+For\+All\+Motors}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Shutdown\+Pulses\+For\+All\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Shutdown\+Pulses\+For\+All\+Motors (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{motor\+Count}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_a4dcc069249cf08b7315fe254f3e9af76}
+\hypertarget{pwm__output_8h_a439f7c205f12382fdfe35fb90357f6a3}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Stop\+Motors@{pwm\+Stop\+Motors}}
+\index{pwm\+Stop\+Motors@{pwm\+Stop\+Motors}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Stop\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Stop\+Motors (
+\begin{DoxyParamCaption}
+\item[{bool}]{oneshot}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_a439f7c205f12382fdfe35fb90357f6a3}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__output_8h_a439f7c205f12382fdfe35fb90357f6a3_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{pwm__output_8h_ac342fe18f718e9b74749af27ee9d7a55}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Write\+All\+Motors@{pwm\+Write\+All\+Motors}}
+\index{pwm\+Write\+All\+Motors@{pwm\+Write\+All\+Motors}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Write\+All\+Motors}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Write\+All\+Motors (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{motor\+Count, }
+\item[{uint16\+\_\+t}]{mc, }
+\item[{bool}]{oneshot}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_ac342fe18f718e9b74749af27ee9d7a55}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{pwm__output_8h_ac342fe18f718e9b74749af27ee9d7a55_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{pwm__output_8h_afbb29ed99f7b36cb134005429e83a96e}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Write\+Motor@{pwm\+Write\+Motor}}
+\index{pwm\+Write\+Motor@{pwm\+Write\+Motor}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Write\+Motor}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Write\+Motor (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{index, }
+\item[{uint16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_afbb29ed99f7b36cb134005429e83a96e}
+\hypertarget{pwm__output_8h_aba0de6bf36f1323edf420ed57b0e7456}{\index{pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}!pwm\+Write\+Servo@{pwm\+Write\+Servo}}
+\index{pwm\+Write\+Servo@{pwm\+Write\+Servo}!pwm\+\_\+output.\+h@{pwm\+\_\+output.\+h}}
+\subsubsection[{pwm\+Write\+Servo}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Write\+Servo (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{index, }
+\item[{uint16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{pwm__output_8h_aba0de6bf36f1323edf420ed57b0e7456}

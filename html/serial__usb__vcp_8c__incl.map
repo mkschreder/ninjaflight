@@ -1,0 +1,8 @@
+<map id="src/main/drivers/serial_usb_vcp.c" name="src/main/drivers/serial_usb_vcp.c">
+<area shape="rect" id="node7" href="$build__config_8h.html" title="build_config.h" alt="" coords="429,96,531,123"/>
+<area shape="rect" id="node8" href="$utils_8h.html" title="common/utils.h" alt="" coords="911,96,1021,123"/>
+<area shape="rect" id="node12" href="$hw__config_8h.html" title="Hardware Configuration &amp; Setup. " alt="" coords="1046,96,1137,123"/>
+<area shape="rect" id="node14" href="$drivers_2system_8h.html" title="drivers/system.h" alt="" coords="555,96,673,123"/>
+<area shape="rect" id="node15" href="$drivers_2serial_8h.html" title="serial.h" alt="" coords="1239,171,1303,197"/>
+<area shape="rect" id="node16" href="$serial__usb__vcp_8h.html" title="serial_usb_vcp.h" alt="" coords="1163,96,1283,123"/>
+</map>

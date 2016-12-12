@@ -1,0 +1,153 @@
+\hypertarget{struct____mavlink__hil__sensor__t}{\section{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t Struct Reference}
+\label{struct____mavlink__hil__sensor__t}\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+hil\+\_\+sensor.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__hil__sensor__t_a45de41520af13fd33f21c82c72a98b75}{time\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em Timestamp (microseconds, synced to U\+N\+I\+X time or since system boot) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a20c3e6c7f8dd61b698cb617ec76c4b9d}{xacc}
+\begin{DoxyCompactList}\small\item\em X acceleration (m/s$^\wedge$2) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a3649b04bdbc3d90b3c8da37b6ab02d6c}{yacc}
+\begin{DoxyCompactList}\small\item\em Y acceleration (m/s$^\wedge$2) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_acbecb9b5205c1b4fa0c43c2c45f78b4d}{zacc}
+\begin{DoxyCompactList}\small\item\em Z acceleration (m/s$^\wedge$2) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a3b4035c288cba98923051942dfd85dc0}{xgyro}
+\begin{DoxyCompactList}\small\item\em Angular speed around X axis in body frame (rad / sec) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_abdeea02a356a5802b5580fdd945bcbe6}{ygyro}
+\begin{DoxyCompactList}\small\item\em Angular speed around Y axis in body frame (rad / sec) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_ab7c2f35160da57fecb77a7e6b7d48dc9}{zgyro}
+\begin{DoxyCompactList}\small\item\em Angular speed around Z axis in body frame (rad / sec) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a246f9f9b48771987750d94e15a0465f3}{xmag}
+\begin{DoxyCompactList}\small\item\em X Magnetic field (Gauss) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a0693da306eb0d30f2b5502e51540d05b}{ymag}
+\begin{DoxyCompactList}\small\item\em Y Magnetic field (Gauss) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a6db8180441080e7dcccfda7da09b1e2d}{zmag}
+\begin{DoxyCompactList}\small\item\em Z Magnetic field (Gauss) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a7d05535dddd4be7c92b616ea644cb6cd}{abs\+\_\+pressure}
+\begin{DoxyCompactList}\small\item\em Absolute pressure in millibar. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a614e2fe0a712bc9619669950f09dd21d}{diff\+\_\+pressure}
+\begin{DoxyCompactList}\small\item\em Differential pressure (airspeed) in millibar. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_aa7347c28c478d103f181d57aee8026de}{pressure\+\_\+alt}
+\begin{DoxyCompactList}\small\item\em Altitude calculated from pressure. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__hil__sensor__t_a775825e9a485480f835e1b01c9ef878a}{temperature}
+\begin{DoxyCompactList}\small\item\em Temperature in degrees celsius. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__hil__sensor__t_a47ccb8d87933c760160e5f6f513f0e90}{fields\+\_\+updated}
+\begin{DoxyCompactList}\small\item\em Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12\+: temperature. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__hil__sensor__t_a7d05535dddd4be7c92b616ea644cb6cd}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!abs\+\_\+pressure@{abs\+\_\+pressure}}
+\index{abs\+\_\+pressure@{abs\+\_\+pressure}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{abs\+\_\+pressure}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::abs\+\_\+pressure}}\label{struct____mavlink__hil__sensor__t_a7d05535dddd4be7c92b616ea644cb6cd}
+
+
+Absolute pressure in millibar. 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a614e2fe0a712bc9619669950f09dd21d}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!diff\+\_\+pressure@{diff\+\_\+pressure}}
+\index{diff\+\_\+pressure@{diff\+\_\+pressure}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{diff\+\_\+pressure}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::diff\+\_\+pressure}}\label{struct____mavlink__hil__sensor__t_a614e2fe0a712bc9619669950f09dd21d}
+
+
+Differential pressure (airspeed) in millibar. 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a47ccb8d87933c760160e5f6f513f0e90}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!fields\+\_\+updated@{fields\+\_\+updated}}
+\index{fields\+\_\+updated@{fields\+\_\+updated}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{fields\+\_\+updated}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::fields\+\_\+updated}}\label{struct____mavlink__hil__sensor__t_a47ccb8d87933c760160e5f6f513f0e90}
+
+
+Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12\+: temperature. 
+
+\hypertarget{struct____mavlink__hil__sensor__t_aa7347c28c478d103f181d57aee8026de}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!pressure\+\_\+alt@{pressure\+\_\+alt}}
+\index{pressure\+\_\+alt@{pressure\+\_\+alt}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{pressure\+\_\+alt}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::pressure\+\_\+alt}}\label{struct____mavlink__hil__sensor__t_aa7347c28c478d103f181d57aee8026de}
+
+
+Altitude calculated from pressure. 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a775825e9a485480f835e1b01c9ef878a}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!temperature@{temperature}}
+\index{temperature@{temperature}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::temperature}}\label{struct____mavlink__hil__sensor__t_a775825e9a485480f835e1b01c9ef878a}
+
+
+Temperature in degrees celsius. 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a45de41520af13fd33f21c82c72a98b75}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!time\+\_\+usec@{time\+\_\+usec}}
+\index{time\+\_\+usec@{time\+\_\+usec}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{time\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::time\+\_\+usec}}\label{struct____mavlink__hil__sensor__t_a45de41520af13fd33f21c82c72a98b75}
+
+
+Timestamp (microseconds, synced to U\+N\+I\+X time or since system boot) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a20c3e6c7f8dd61b698cb617ec76c4b9d}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!xacc@{xacc}}
+\index{xacc@{xacc}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{xacc}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::xacc}}\label{struct____mavlink__hil__sensor__t_a20c3e6c7f8dd61b698cb617ec76c4b9d}
+
+
+X acceleration (m/s$^\wedge$2) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a3b4035c288cba98923051942dfd85dc0}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!xgyro@{xgyro}}
+\index{xgyro@{xgyro}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{xgyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::xgyro}}\label{struct____mavlink__hil__sensor__t_a3b4035c288cba98923051942dfd85dc0}
+
+
+Angular speed around X axis in body frame (rad / sec) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a246f9f9b48771987750d94e15a0465f3}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!xmag@{xmag}}
+\index{xmag@{xmag}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{xmag}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::xmag}}\label{struct____mavlink__hil__sensor__t_a246f9f9b48771987750d94e15a0465f3}
+
+
+X Magnetic field (Gauss) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a3649b04bdbc3d90b3c8da37b6ab02d6c}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!yacc@{yacc}}
+\index{yacc@{yacc}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{yacc}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::yacc}}\label{struct____mavlink__hil__sensor__t_a3649b04bdbc3d90b3c8da37b6ab02d6c}
+
+
+Y acceleration (m/s$^\wedge$2) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_abdeea02a356a5802b5580fdd945bcbe6}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!ygyro@{ygyro}}
+\index{ygyro@{ygyro}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{ygyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::ygyro}}\label{struct____mavlink__hil__sensor__t_abdeea02a356a5802b5580fdd945bcbe6}
+
+
+Angular speed around Y axis in body frame (rad / sec) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a0693da306eb0d30f2b5502e51540d05b}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!ymag@{ymag}}
+\index{ymag@{ymag}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{ymag}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::ymag}}\label{struct____mavlink__hil__sensor__t_a0693da306eb0d30f2b5502e51540d05b}
+
+
+Y Magnetic field (Gauss) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_acbecb9b5205c1b4fa0c43c2c45f78b4d}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!zacc@{zacc}}
+\index{zacc@{zacc}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{zacc}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::zacc}}\label{struct____mavlink__hil__sensor__t_acbecb9b5205c1b4fa0c43c2c45f78b4d}
+
+
+Z acceleration (m/s$^\wedge$2) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_ab7c2f35160da57fecb77a7e6b7d48dc9}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!zgyro@{zgyro}}
+\index{zgyro@{zgyro}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{zgyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::zgyro}}\label{struct____mavlink__hil__sensor__t_ab7c2f35160da57fecb77a7e6b7d48dc9}
+
+
+Angular speed around Z axis in body frame (rad / sec) 
+
+\hypertarget{struct____mavlink__hil__sensor__t_a6db8180441080e7dcccfda7da09b1e2d}{\index{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}!zmag@{zmag}}
+\index{zmag@{zmag}!\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t}}
+\subsubsection[{zmag}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+hil\+\_\+sensor\+\_\+t\+::zmag}}\label{struct____mavlink__hil__sensor__t_a6db8180441080e7dcccfda7da09b1e2d}
+
+
+Z Magnetic field (Gauss) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__hil__sensor_8h}{mavlink\+\_\+msg\+\_\+hil\+\_\+sensor.\+h}\end{DoxyCompactItemize}

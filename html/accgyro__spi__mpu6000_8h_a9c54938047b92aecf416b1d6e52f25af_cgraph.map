@@ -1,0 +1,4 @@
+<map id="mpu6000ReadRegister" name="mpu6000ReadRegister">
+<area shape="rect" id="node2" href="$bus__spi_8c.html#aeeb5a646f2bd17e5164fdd1ff4bbe9ff" title="spiTransferByte" alt="" coords="208,5,323,32"/>
+<area shape="rect" id="node3" href="$bus__spi_8c.html#a55be18cfbbb81f22c0eb9e8589af212d" title="spiTransfer" alt="" coords="222,56,309,83"/>
+</map>

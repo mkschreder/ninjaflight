@@ -1,0 +1,5 @@
+<map id="sensorsAutodetect" name="sensorsAutodetect">
+<area shape="rect" id="node2" href="$accgyro__mpu_8c.html#ae69bab38345a48dfaf4293840b528a7d" title="detectMpu" alt="" coords="184,5,267,32"/>
+<area shape="rect" id="node3" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="315,5,375,32"/>
+<area shape="rect" id="node4" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="424,5,485,32"/>
+</map>

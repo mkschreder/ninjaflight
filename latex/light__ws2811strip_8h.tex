@@ -1,0 +1,242 @@
+\hypertarget{light__ws2811strip_8h}{\section{src/main/drivers/light\+\_\+ws2811strip.h File Reference}
+\label{light__ws2811strip_8h}\index{src/main/drivers/light\+\_\+ws2811strip.\+h@{src/main/drivers/light\+\_\+ws2811strip.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{light__ws2811strip_8h_a64d8456ef2dd8b7ceaf3a31ed432a293}{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}~32
+\item 
+\#define \hyperlink{light__ws2811strip_8h_ac20f5b34c542d9894fcc844aeecf6e53}{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D}~24
+\item 
+\#define \hyperlink{light__ws2811strip_8h_a867a7539bbd6dd3b8d9945c8ee0e9022}{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H}~42
+\item 
+\#define \hyperlink{light__ws2811strip_8h_a73b760f2ac34e0b22ce6ca96a54e3b7a}{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~(\hyperlink{light__ws2811strip_8h_ac20f5b34c542d9894fcc844aeecf6e53}{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D} $\ast$ \hyperlink{light__ws2811strip_8h_a64d8456ef2dd8b7ceaf3a31ed432a293}{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H})
+\item 
+\#define \hyperlink{light__ws2811strip_8h_aae4959bf0fc41eece698cac455134cb9}{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~(\hyperlink{light__ws2811strip_8h_a73b760f2ac34e0b22ce6ca96a54e3b7a}{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E} + \hyperlink{light__ws2811strip_8h_a867a7539bbd6dd3b8d9945c8ee0e9022}{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H})
+\item 
+\#define \hyperlink{light__ws2811strip_8h_a87441ae558e266fc14a21b4fe39a95cb}{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1}~17
+\item 
+\#define \hyperlink{light__ws2811strip_8h_a9ef806cf0b0973aae171224e4fe44a41}{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0}~9
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{light__ws2811strip_8h_af1ad127663b84ee19da2027edc68e14c}{ws2811\+Led\+Strip\+Init} (void)
+\item 
+void \hyperlink{light__ws2811strip_8h_afd95f820c7779c7f1b095b65e38430aa}{ws2811\+Led\+Strip\+Hardware\+Init} (void)
+\item 
+void \hyperlink{light__ws2811strip_8h_a492df51338d12f8fbfcc81e2a25a9e89}{ws2811\+Led\+Strip\+D\+M\+A\+Enable} (void)
+\item 
+void \hyperlink{light__ws2811strip_8h_ae12f50d4f61a0b78b9334cfaa12a8324}{ws2811\+Update\+Strip} (void)
+\item 
+void \hyperlink{light__ws2811strip_8h_a591da4e34a180d17ccfa290649f2f414}{set\+Led\+Hsv} (int index, const \hyperlink{color_8h_a77557e8e81ba7de7fe3baa9be6b67b8f}{hsv\+Color\+\_\+t} $\ast$\hyperlink{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{color})
+\item 
+void \hyperlink{light__ws2811strip_8h_a86f3aff9811443b22d880e5962e7dfb2}{get\+Led\+Hsv} (int index, \hyperlink{color_8h_a77557e8e81ba7de7fe3baa9be6b67b8f}{hsv\+Color\+\_\+t} $\ast$\hyperlink{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{color})
+\item 
+void \hyperlink{light__ws2811strip_8h_ac3663e3b49ec5cc5e3df266b05300af6}{scale\+Led\+Value} (int index, const uint8\+\_\+t scale\+Percent)
+\item 
+void \hyperlink{light__ws2811strip_8h_a41bc2bd6af56f3e69f6bdc29f40db47a}{set\+Led\+Value} (int index, const uint8\+\_\+t value)
+\item 
+void \hyperlink{light__ws2811strip_8h_af4989f2637fcf1808f73e5dad2c8655f}{set\+Strip\+Color} (const \hyperlink{color_8h_a77557e8e81ba7de7fe3baa9be6b67b8f}{hsv\+Color\+\_\+t} $\ast$\hyperlink{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{color})
+\item 
+void \hyperlink{light__ws2811strip_8h_a07879eeed908066b0bd0461521e4f9d6}{set\+Strip\+Colors} (const \hyperlink{color_8h_a77557e8e81ba7de7fe3baa9be6b67b8f}{hsv\+Color\+\_\+t} $\ast$\hyperlink{config_2ledstrip_8h_adf18c8aa725c62e456adc445cba25f9f}{colors})
+\item 
+bool \hyperlink{light__ws2811strip_8h_a26808e44314583045c67ac17fa7da0f8}{is\+W\+S2811\+Led\+Strip\+Ready} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{light__ws2811strip_8h_acf5a2b7cfb00118649385c9de434a011}{led\+Strip\+D\+M\+A\+Buffer} \mbox{[}\hyperlink{light__ws2811strip_8h_aae4959bf0fc41eece698cac455134cb9}{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}\mbox{]}
+\item 
+volatile uint8\+\_\+t \hyperlink{light__ws2811strip_8h_afcf430436ab0ca51417f32f61cbd7636}{ws2811\+Led\+Data\+Transfer\+In\+Progress}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{light__ws2811strip_8h_a9ef806cf0b0973aae171224e4fe44a41}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0@{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0}}
+\index{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0@{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+0~9}}\label{light__ws2811strip_8h_a9ef806cf0b0973aae171224e4fe44a41}
+\hypertarget{light__ws2811strip_8h_a87441ae558e266fc14a21b4fe39a95cb}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1@{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1}}
+\index{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1@{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+I\+T\+\_\+\+C\+O\+M\+P\+A\+R\+E\+\_\+1~17}}\label{light__ws2811strip_8h_a87441ae558e266fc14a21b4fe39a95cb}
+\hypertarget{light__ws2811strip_8h_ac20f5b34c542d9894fcc844aeecf6e53}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D@{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D}}
+\index{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D@{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D~24}}\label{light__ws2811strip_8h_ac20f5b34c542d9894fcc844aeecf6e53}
+\hypertarget{light__ws2811strip_8h_a73b760f2ac34e0b22ce6ca96a54e3b7a}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~({\bf W\+S2811\+\_\+\+B\+I\+T\+S\+\_\+\+P\+E\+R\+\_\+\+L\+E\+D} $\ast$ {\bf W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H})}}\label{light__ws2811strip_8h_a73b760f2ac34e0b22ce6ca96a54e3b7a}
+\hypertarget{light__ws2811strip_8h_a867a7539bbd6dd3b8d9945c8ee0e9022}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H@{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H}}
+\index{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H@{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H~42}}\label{light__ws2811strip_8h_a867a7539bbd6dd3b8d9945c8ee0e9022}
+\hypertarget{light__ws2811strip_8h_aae4959bf0fc41eece698cac455134cb9}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~({\bf W\+S2811\+\_\+\+D\+A\+T\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E} + {\bf W\+S2811\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+T\+H})}}\label{light__ws2811strip_8h_aae4959bf0fc41eece698cac455134cb9}
+\hypertarget{light__ws2811strip_8h_a64d8456ef2dd8b7ceaf3a31ed432a293}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H@{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}}
+\index{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H@{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+L\+E\+D\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H~32}}\label{light__ws2811strip_8h_a64d8456ef2dd8b7ceaf3a31ed432a293}
+
+
+\subsection{Function Documentation}
+\hypertarget{light__ws2811strip_8h_a86f3aff9811443b22d880e5962e7dfb2}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!get\+Led\+Hsv@{get\+Led\+Hsv}}
+\index{get\+Led\+Hsv@{get\+Led\+Hsv}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{get\+Led\+Hsv}]{\setlength{\rightskip}{0pt plus 5cm}void get\+Led\+Hsv (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{{\bf hsv\+Color\+\_\+t} $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a86f3aff9811443b22d880e5962e7dfb2}
+\hypertarget{light__ws2811strip_8h_a26808e44314583045c67ac17fa7da0f8}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!is\+W\+S2811\+Led\+Strip\+Ready@{is\+W\+S2811\+Led\+Strip\+Ready}}
+\index{is\+W\+S2811\+Led\+Strip\+Ready@{is\+W\+S2811\+Led\+Strip\+Ready}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{is\+W\+S2811\+Led\+Strip\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+W\+S2811\+Led\+Strip\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a26808e44314583045c67ac17fa7da0f8}
+\hypertarget{light__ws2811strip_8h_ac3663e3b49ec5cc5e3df266b05300af6}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!scale\+Led\+Value@{scale\+Led\+Value}}
+\index{scale\+Led\+Value@{scale\+Led\+Value}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{scale\+Led\+Value}]{\setlength{\rightskip}{0pt plus 5cm}void scale\+Led\+Value (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{const uint8\+\_\+t}]{scale\+Percent}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_ac3663e3b49ec5cc5e3df266b05300af6}
+\hypertarget{light__ws2811strip_8h_a591da4e34a180d17ccfa290649f2f414}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!set\+Led\+Hsv@{set\+Led\+Hsv}}
+\index{set\+Led\+Hsv@{set\+Led\+Hsv}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{set\+Led\+Hsv}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Led\+Hsv (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{const {\bf hsv\+Color\+\_\+t} $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a591da4e34a180d17ccfa290649f2f414}
+\hypertarget{light__ws2811strip_8h_a41bc2bd6af56f3e69f6bdc29f40db47a}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!set\+Led\+Value@{set\+Led\+Value}}
+\index{set\+Led\+Value@{set\+Led\+Value}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{set\+Led\+Value}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Led\+Value (
+\begin{DoxyParamCaption}
+\item[{int}]{index, }
+\item[{const uint8\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a41bc2bd6af56f3e69f6bdc29f40db47a}
+\hypertarget{light__ws2811strip_8h_af4989f2637fcf1808f73e5dad2c8655f}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!set\+Strip\+Color@{set\+Strip\+Color}}
+\index{set\+Strip\+Color@{set\+Strip\+Color}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{set\+Strip\+Color}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Strip\+Color (
+\begin{DoxyParamCaption}
+\item[{const {\bf hsv\+Color\+\_\+t} $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_af4989f2637fcf1808f73e5dad2c8655f}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{light__ws2811strip_8h_af4989f2637fcf1808f73e5dad2c8655f_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip_8h_a07879eeed908066b0bd0461521e4f9d6}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!set\+Strip\+Colors@{set\+Strip\+Colors}}
+\index{set\+Strip\+Colors@{set\+Strip\+Colors}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{set\+Strip\+Colors}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Strip\+Colors (
+\begin{DoxyParamCaption}
+\item[{const {\bf hsv\+Color\+\_\+t} $\ast$}]{colors}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a07879eeed908066b0bd0461521e4f9d6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{light__ws2811strip_8h_a07879eeed908066b0bd0461521e4f9d6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip_8h_a492df51338d12f8fbfcc81e2a25a9e89}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!ws2811\+Led\+Strip\+D\+M\+A\+Enable@{ws2811\+Led\+Strip\+D\+M\+A\+Enable}}
+\index{ws2811\+Led\+Strip\+D\+M\+A\+Enable@{ws2811\+Led\+Strip\+D\+M\+A\+Enable}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{ws2811\+Led\+Strip\+D\+M\+A\+Enable}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+D\+M\+A\+Enable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_a492df51338d12f8fbfcc81e2a25a9e89}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{light__ws2811strip_8h_a492df51338d12f8fbfcc81e2a25a9e89_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip_8h_afd95f820c7779c7f1b095b65e38430aa}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!ws2811\+Led\+Strip\+Hardware\+Init@{ws2811\+Led\+Strip\+Hardware\+Init}}
+\index{ws2811\+Led\+Strip\+Hardware\+Init@{ws2811\+Led\+Strip\+Hardware\+Init}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{ws2811\+Led\+Strip\+Hardware\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+Hardware\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_afd95f820c7779c7f1b095b65e38430aa}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip_8h_afd95f820c7779c7f1b095b65e38430aa_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip_8h_af1ad127663b84ee19da2027edc68e14c}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!ws2811\+Led\+Strip\+Init@{ws2811\+Led\+Strip\+Init}}
+\index{ws2811\+Led\+Strip\+Init@{ws2811\+Led\+Strip\+Init}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{ws2811\+Led\+Strip\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_af1ad127663b84ee19da2027edc68e14c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip_8h_af1ad127663b84ee19da2027edc68e14c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip_8h_ae12f50d4f61a0b78b9334cfaa12a8324}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!ws2811\+Update\+Strip@{ws2811\+Update\+Strip}}
+\index{ws2811\+Update\+Strip@{ws2811\+Update\+Strip}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{ws2811\+Update\+Strip}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Update\+Strip (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip_8h_ae12f50d4f61a0b78b9334cfaa12a8324}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip_8h_ae12f50d4f61a0b78b9334cfaa12a8324_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{light__ws2811strip_8h_acf5a2b7cfb00118649385c9de434a011}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!led\+Strip\+D\+M\+A\+Buffer@{led\+Strip\+D\+M\+A\+Buffer}}
+\index{led\+Strip\+D\+M\+A\+Buffer@{led\+Strip\+D\+M\+A\+Buffer}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{led\+Strip\+D\+M\+A\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t led\+Strip\+D\+M\+A\+Buffer\mbox{[}{\bf W\+S2811\+\_\+\+D\+M\+A\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}\mbox{]}}}\label{light__ws2811strip_8h_acf5a2b7cfb00118649385c9de434a011}
+\hypertarget{light__ws2811strip_8h_afcf430436ab0ca51417f32f61cbd7636}{\index{light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}!ws2811\+Led\+Data\+Transfer\+In\+Progress@{ws2811\+Led\+Data\+Transfer\+In\+Progress}}
+\index{ws2811\+Led\+Data\+Transfer\+In\+Progress@{ws2811\+Led\+Data\+Transfer\+In\+Progress}!light\+\_\+ws2811strip.\+h@{light\+\_\+ws2811strip.\+h}}
+\subsubsection[{ws2811\+Led\+Data\+Transfer\+In\+Progress}]{\setlength{\rightskip}{0pt plus 5cm}volatile uint8\+\_\+t ws2811\+Led\+Data\+Transfer\+In\+Progress}}\label{light__ws2811strip_8h_afcf430436ab0ca51417f32f61cbd7636}

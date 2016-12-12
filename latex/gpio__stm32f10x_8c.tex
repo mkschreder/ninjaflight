@@ -1,0 +1,81 @@
+\hypertarget{gpio__stm32f10x_8c}{\section{src/main/drivers/gpio\+\_\+stm32f10x.c File Reference}
+\label{gpio__stm32f10x_8c}\index{src/main/drivers/gpio\+\_\+stm32f10x.\+c@{src/main/drivers/gpio\+\_\+stm32f10x.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+Include dependency graph for gpio\+\_\+stm32f10x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{gpio__stm32f10x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{gpio__stm32f10x_8c_a338d54179ac0da2af2363e3a930bf374}{L\+S\+B\+\_\+\+M\+A\+S\+K}~((uint16\+\_\+t)0x\+F\+F\+F\+F)
+\item 
+\#define \hyperlink{gpio__stm32f10x_8c_afa4eba58b1839413acb4591da00e7559}{D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x000\+F0000)
+\item 
+\#define \hyperlink{gpio__stm32f10x_8c_a47a1cd3c0505a7be3e161671237d8460}{D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x\+F0\+F\+F\+F\+F\+F\+F)
+\item 
+\#define \hyperlink{gpio__stm32f10x_8c_aab83406f875057e96458940ca9519b7d}{D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x00200000)
+\item 
+\#define \hyperlink{gpio__stm32f10x_8c_aea2fa480dea4d6e061eaa1417a9196dc}{D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K}~((uint32\+\_\+t)0x00100000)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{gpio__stm32f10x_8c_ae05ca742f43c792d2963e50816c138e1}{gpio\+Init} (\hyperlink{structGPIO__TypeDef}{G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$\hyperlink{light__led__stm32f30x_8c_a9d9aec8d08779b9692169a2f5b3281e0}{gpio}, const \hyperlink{structgpio__config__t}{gpio\+\_\+config\+\_\+t} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{gpio__stm32f10x_8c_af967f99130ccf5d3c11751e876d74473}{gpio\+Exti\+Line\+Config} (uint8\+\_\+t portsrc, uint8\+\_\+t pinsrc)
+\item 
+void \hyperlink{gpio__stm32f10x_8c_ac7aac1af57c77fc9c07f3392c03d39ce}{gpio\+Pin\+Remap\+Config} (uint32\+\_\+t remap, bool enable)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{gpio__stm32f10x_8c_aab83406f875057e96458940ca9519b7d}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}}
+\index{D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+B\+G\+A\+F\+R\+\_\+\+L\+O\+C\+A\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x00200000)}}\label{gpio__stm32f10x_8c_aab83406f875057e96458940ca9519b7d}
+\hypertarget{gpio__stm32f10x_8c_aea2fa480dea4d6e061eaa1417a9196dc}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K}}
+\index{D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+B\+G\+A\+F\+R\+\_\+\+N\+U\+M\+B\+I\+T\+S\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x00100000)}}\label{gpio__stm32f10x_8c_aea2fa480dea4d6e061eaa1417a9196dc}
+\hypertarget{gpio__stm32f10x_8c_afa4eba58b1839413acb4591da00e7559}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}}
+\index{D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+B\+G\+A\+F\+R\+\_\+\+P\+O\+S\+I\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x000\+F0000)}}\label{gpio__stm32f10x_8c_afa4eba58b1839413acb4591da00e7559}
+\hypertarget{gpio__stm32f10x_8c_a47a1cd3c0505a7be3e161671237d8460}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K}}
+\index{D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K@{D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+B\+G\+A\+F\+R\+\_\+\+S\+W\+J\+C\+F\+G\+\_\+\+M\+A\+S\+K~((uint32\+\_\+t)0x\+F0\+F\+F\+F\+F\+F\+F)}}\label{gpio__stm32f10x_8c_a47a1cd3c0505a7be3e161671237d8460}
+\hypertarget{gpio__stm32f10x_8c_a338d54179ac0da2af2363e3a930bf374}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!L\+S\+B\+\_\+\+M\+A\+S\+K@{L\+S\+B\+\_\+\+M\+A\+S\+K}}
+\index{L\+S\+B\+\_\+\+M\+A\+S\+K@{L\+S\+B\+\_\+\+M\+A\+S\+K}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+S\+B\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+S\+B\+\_\+\+M\+A\+S\+K~((uint16\+\_\+t)0x\+F\+F\+F\+F)}}\label{gpio__stm32f10x_8c_a338d54179ac0da2af2363e3a930bf374}
+
+
+\subsection{Function Documentation}
+\hypertarget{gpio__stm32f10x_8c_af967f99130ccf5d3c11751e876d74473}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!gpio\+Exti\+Line\+Config@{gpio\+Exti\+Line\+Config}}
+\index{gpio\+Exti\+Line\+Config@{gpio\+Exti\+Line\+Config}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{gpio\+Exti\+Line\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void gpio\+Exti\+Line\+Config (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{portsrc, }
+\item[{uint8\+\_\+t}]{pinsrc}
+\end{DoxyParamCaption}
+)}}\label{gpio__stm32f10x_8c_af967f99130ccf5d3c11751e876d74473}
+\hypertarget{gpio__stm32f10x_8c_ae05ca742f43c792d2963e50816c138e1}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!gpio\+Init@{gpio\+Init}}
+\index{gpio\+Init@{gpio\+Init}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{gpio\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void gpio\+Init (
+\begin{DoxyParamCaption}
+\item[{{\bf G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{gpio, }
+\item[{const {\bf gpio\+\_\+config\+\_\+t} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{gpio__stm32f10x_8c_ae05ca742f43c792d2963e50816c138e1}
+\hypertarget{gpio__stm32f10x_8c_ac7aac1af57c77fc9c07f3392c03d39ce}{\index{gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}!gpio\+Pin\+Remap\+Config@{gpio\+Pin\+Remap\+Config}}
+\index{gpio\+Pin\+Remap\+Config@{gpio\+Pin\+Remap\+Config}!gpio\+\_\+stm32f10x.\+c@{gpio\+\_\+stm32f10x.\+c}}
+\subsubsection[{gpio\+Pin\+Remap\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void gpio\+Pin\+Remap\+Config (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{remap, }
+\item[{bool}]{enable}
+\end{DoxyParamCaption}
+)}}\label{gpio__stm32f10x_8c_ac7aac1af57c77fc9c07f3392c03d39ce}

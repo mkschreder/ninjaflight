@@ -1,0 +1,109 @@
+\hypertarget{structmixer}{\section{mixer Struct Reference}
+\label{structmixer}\index{mixer@{mixer}}
+}
+
+
+{\ttfamily \#include $<$mixer.\+h$>$}
+
+
+
+Collaboration diagram for mixer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structmixer__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{structmixer_ad0374931c43851cc52e2151ae2fe9c66}{input} \mbox{[}\hyperlink{config_2mixer_8h_a0d4a27769492fd12822190587e6b482aa085a8bfd9231937dbff417dd524f350c}{M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{structmixer_af3195e3b81f70f7a95ba822997217521}{flags}
+\item 
+uint8\+\_\+t \hyperlink{structmixer_afc295dd897528506ed9e412ce1f9966e}{motor\+Count}
+\begin{DoxyCompactList}\small\item\em output count in current configuration being used by the mixer \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structmixer_a1e137d87ca55446d811ad03975e36075}{servo\+Count}
+\item 
+uint8\+\_\+t \hyperlink{structmixer_abb2cbecb797db369a394819c2a43f08f}{rule\+Count}
+\item 
+bool \hyperlink{structmixer_a83c6e89ff4cb6f7d3a90f02f1e93e95a}{motor\+Limit\+Reached}
+\item 
+uint8\+\_\+t \hyperlink{structmixer_a5084dbc956f4788f1fb4d6af606548a1}{mode}
+\begin{DoxyCompactList}\small\item\em currently used mixer mode \end{DoxyCompactList}\item 
+struct \hyperlink{structmixer__rule__def}{mixer\+\_\+rule\+\_\+def} \hyperlink{structmixer_ac583adcc783a10244b5fd4e2d85f2fac}{active\+\_\+rules} \mbox{[}\hyperlink{config_2mixer_8h_ad2d3d1183e486a6464565563724e33a5}{M\+I\+X\+E\+R\+\_\+\+M\+A\+X\+\_\+\+R\+U\+L\+E\+S}\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{structmixer_a3c6787d15c669ebad71e3f60bbc64cec}{midthrottle}
+\begin{DoxyCompactList}\small\item\em output offset, min and max for motors \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{structmixer_ab268773664c6d4abe3b4e12c0477d879}{minthrottle}
+\item 
+int16\+\_\+t \hyperlink{structmixer_a6b23844f6e43b9e81e17ab6b794fc8fe}{maxthrottle}
+\item 
+\hyperlink{filter_8h_a7256a3fa62e7894f819ddd905006ad2e}{biquad\+\_\+t} \hyperlink{structmixer_a6e8393f54c0783445ab118308e887615}{servo\+Filter\+State} \mbox{[}\hyperlink{config_2mixer_8h_ada6fb418c359e00906599a7f6ac6c92d}{M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+S\+E\+R\+V\+O\+S}\mbox{]}
+\item 
+const struct \hyperlink{structconfig}{config} $\ast$ \hyperlink{structmixer_aca479784a6e3381db854bd18219be34d}{config}
+\item 
+const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$ \hyperlink{structmixer_a4078c7c29ab6137cb7a37e5e71b4080b}{pwm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structmixer_ac583adcc783a10244b5fd4e2d85f2fac}{\index{mixer@{mixer}!active\+\_\+rules@{active\+\_\+rules}}
+\index{active\+\_\+rules@{active\+\_\+rules}!mixer@{mixer}}
+\subsubsection[{active\+\_\+rules}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mixer\+\_\+rule\+\_\+def} mixer\+::active\+\_\+rules\mbox{[}{\bf M\+I\+X\+E\+R\+\_\+\+M\+A\+X\+\_\+\+R\+U\+L\+E\+S}\mbox{]}}}\label{structmixer_ac583adcc783a10244b5fd4e2d85f2fac}
+\hypertarget{structmixer_aca479784a6e3381db854bd18219be34d}{\index{mixer@{mixer}!config@{config}}
+\index{config@{config}!mixer@{mixer}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf config}$\ast$ mixer\+::config}}\label{structmixer_aca479784a6e3381db854bd18219be34d}
+\hypertarget{structmixer_af3195e3b81f70f7a95ba822997217521}{\index{mixer@{mixer}!flags@{flags}}
+\index{flags@{flags}!mixer@{mixer}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+::flags}}\label{structmixer_af3195e3b81f70f7a95ba822997217521}
+\hypertarget{structmixer_ad0374931c43851cc52e2151ae2fe9c66}{\index{mixer@{mixer}!input@{input}}
+\index{input@{input}!mixer@{mixer}}
+\subsubsection[{input}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mixer\+::input\mbox{[}{\bf M\+I\+X\+E\+R\+\_\+\+I\+N\+P\+U\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{structmixer_ad0374931c43851cc52e2151ae2fe9c66}
+\hypertarget{structmixer_a6b23844f6e43b9e81e17ab6b794fc8fe}{\index{mixer@{mixer}!maxthrottle@{maxthrottle}}
+\index{maxthrottle@{maxthrottle}!mixer@{mixer}}
+\subsubsection[{maxthrottle}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mixer\+::maxthrottle}}\label{structmixer_a6b23844f6e43b9e81e17ab6b794fc8fe}
+\hypertarget{structmixer_a3c6787d15c669ebad71e3f60bbc64cec}{\index{mixer@{mixer}!midthrottle@{midthrottle}}
+\index{midthrottle@{midthrottle}!mixer@{mixer}}
+\subsubsection[{midthrottle}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mixer\+::midthrottle}}\label{structmixer_a3c6787d15c669ebad71e3f60bbc64cec}
+
+
+output offset, min and max for motors 
+
+\hypertarget{structmixer_ab268773664c6d4abe3b4e12c0477d879}{\index{mixer@{mixer}!minthrottle@{minthrottle}}
+\index{minthrottle@{minthrottle}!mixer@{mixer}}
+\subsubsection[{minthrottle}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mixer\+::minthrottle}}\label{structmixer_ab268773664c6d4abe3b4e12c0477d879}
+\hypertarget{structmixer_a5084dbc956f4788f1fb4d6af606548a1}{\index{mixer@{mixer}!mode@{mode}}
+\index{mode@{mode}!mixer@{mixer}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+::mode}}\label{structmixer_a5084dbc956f4788f1fb4d6af606548a1}
+
+
+currently used mixer mode 
+
+\hypertarget{structmixer_afc295dd897528506ed9e412ce1f9966e}{\index{mixer@{mixer}!motor\+Count@{motor\+Count}}
+\index{motor\+Count@{motor\+Count}!mixer@{mixer}}
+\subsubsection[{motor\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+::motor\+Count}}\label{structmixer_afc295dd897528506ed9e412ce1f9966e}
+
+
+output count in current configuration being used by the mixer 
+
+\hypertarget{structmixer_a83c6e89ff4cb6f7d3a90f02f1e93e95a}{\index{mixer@{mixer}!motor\+Limit\+Reached@{motor\+Limit\+Reached}}
+\index{motor\+Limit\+Reached@{motor\+Limit\+Reached}!mixer@{mixer}}
+\subsubsection[{motor\+Limit\+Reached}]{\setlength{\rightskip}{0pt plus 5cm}bool mixer\+::motor\+Limit\+Reached}}\label{structmixer_a83c6e89ff4cb6f7d3a90f02f1e93e95a}
+\hypertarget{structmixer_a4078c7c29ab6137cb7a37e5e71b4080b}{\index{mixer@{mixer}!pwm@{pwm}}
+\index{pwm@{pwm}!mixer@{mixer}}
+\subsubsection[{pwm}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf system\+\_\+calls\+\_\+pwm}$\ast$ mixer\+::pwm}}\label{structmixer_a4078c7c29ab6137cb7a37e5e71b4080b}
+\hypertarget{structmixer_abb2cbecb797db369a394819c2a43f08f}{\index{mixer@{mixer}!rule\+Count@{rule\+Count}}
+\index{rule\+Count@{rule\+Count}!mixer@{mixer}}
+\subsubsection[{rule\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+::rule\+Count}}\label{structmixer_abb2cbecb797db369a394819c2a43f08f}
+\hypertarget{structmixer_a1e137d87ca55446d811ad03975e36075}{\index{mixer@{mixer}!servo\+Count@{servo\+Count}}
+\index{servo\+Count@{servo\+Count}!mixer@{mixer}}
+\subsubsection[{servo\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mixer\+::servo\+Count}}\label{structmixer_a1e137d87ca55446d811ad03975e36075}
+\hypertarget{structmixer_a6e8393f54c0783445ab118308e887615}{\index{mixer@{mixer}!servo\+Filter\+State@{servo\+Filter\+State}}
+\index{servo\+Filter\+State@{servo\+Filter\+State}!mixer@{mixer}}
+\subsubsection[{servo\+Filter\+State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf biquad\+\_\+t} mixer\+::servo\+Filter\+State\mbox{[}{\bf M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+S\+E\+R\+V\+O\+S}\mbox{]}}}\label{structmixer_a6e8393f54c0783445ab118308e887615}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/flight/\hyperlink{flight_2mixer_8h}{mixer.\+h}\end{DoxyCompactItemize}

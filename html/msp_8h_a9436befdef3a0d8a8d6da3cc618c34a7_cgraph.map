@@ -1,0 +1,7 @@
+<map id="mspProcess" name="mspProcess">
+<area shape="rect" id="node2" href="$streambuf_8c.html#a286bdc4452d41363a57bd24862e4aa66" title="sbufBytesRemaining" alt="" coords="150,5,293,32"/>
+<area shape="rect" id="node3" href="$streambuf_8c.html#ad8697d84e9ea6ad03146377ce88718ac" title="sbufWriteU8" alt="" coords="174,56,269,83"/>
+<area shape="rect" id="node4" href="$streambuf_8c.html#a0c5b0c9bb14c291252c7919befb4bee4" title="sbufReadU8" alt="" coords="174,107,269,133"/>
+<area shape="rect" id="node5" href="$streambuf_8c.html#a5584a77af8d4137e79a7a61e4c5cb111" title="sbufPtr" alt="" coords="189,157,253,184"/>
+<area shape="rect" id="node6" href="$streambuf_8c.html#a9cd4f9c562b8f9337fcb05c28c6c363c" title="sbufWriteData" alt="" coords="168,208,275,235"/>
+</map>

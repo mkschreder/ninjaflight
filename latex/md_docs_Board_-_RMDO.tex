@@ -1,0 +1,121 @@
+The R\+M\+R\+C Dodo board is made and sold by Ready Made R\+C. In terms of C\+P\+U pin mapping it is a clone of the S\+P\+Racing\+F3 board (also see the S\+P\+Racing\+F3 documentation). Currently there are three versions with slightly different hardware available\+: Rev. 1, 2, and 3.
+
+The revision 3 board changed the C\+P\+U from one with 128\+K\+B to one with 256\+K\+B however, for compatibility reasons, Cleanflight only supports and uses 128\+K\+B of it. The same binary can be used on all D\+O\+D\+O boards.
+
+\subsection*{Hardware Features}
+
+
+\begin{DoxyItemize}
+\item S\+T\+M32 F3 A\+R\+M Cortex-\/\+M processor with 128\+K\+B or 256\+K\+B flash program memory (Rev. 1 and 2\+: 128\+K\+B flash, Rev 3 256\+K).
+\item 2\+M\+B external flash memory for storage.
+\item M\+P\+U6050 accelerometer/gyro (Rev. 2\+: M\+P\+U6000)
+\item B\+M\+P280 Barometer
+\item No compass sensor.
+\item 3 hardware U\+A\+R\+Ts (+ 2 software) for G\+P\+S, telemetry, O\+S\+D, etc., 5\+V compatible
+\item On-\/board 5\+V/0.\+5\+A B\+E\+C directly powered off 2-\/6\+S main battery pack. No external B\+E\+C/regulator necessary.
+\item On-\/board 3.\+3\+V regulator to power peripherials like Spektrum satellite receiver.
+\item 36x36mm board with 30.\+5mm mounting holes pattern (same as C\+C3\+D or Naze32, but different pin-\/out).
+\end{DoxyItemize}
+
+Note\+: Earlier revisions had issues with the buzzer circuit.
+
+\subsection*{Serial Ports}
+
+\begin{TabularC}{6}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Name }&\PBS\centering {\bf R\+X (Board) }&\PBS\centering {\bf T\+X (Board) }&\PBS\centering {\bf R\+X (M\+C\+U) }&\PBS\centering {\bf T\+X (M\+C\+U) }&{\bf Notes  }\\\cline{1-6}
+\PBS\centering U\+A\+R\+T1 &\PBS\centering U1\+R\+X &\PBS\centering U1\+T\+X &\PBS\centering P\+A10 &\PBS\centering P\+A9 &Shared with U\+S\+B connection \\\cline{1-6}
+\PBS\centering U\+A\+R\+T2 &\PBS\centering U2\+R\+X &\PBS\centering U2\+T\+X/\+S\+W\+C\+L\+K &\PBS\centering P\+A15 &\PBS\centering P\+A14 &Shared with S\+W\+D \\\cline{1-6}
+\PBS\centering U\+A\+R\+T3 &\PBS\centering U3\+R\+X/3 &\PBS\centering U3\+T\+X/4 &\PBS\centering P\+B11 &\PBS\centering P\+B10 &R\+X also connected to Spektrum satellite port \\\cline{1-6}
+\end{TabularC}
+\subsection*{Pinouts}
+
+\subsubsection*{Starboard (Front to back)}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&\PBS\centering {\bf Notes  }\\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+8/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2\+\_\+\+T\+X &\PBS\centering R\+C8 ppm input or soft-\/serial 2 transmit \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+7/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2\+\_\+\+R\+X &\PBS\centering R\+C7 ppm input or soft-\/serial 2 receive \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+6/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1\+\_\+\+T\+X &\PBS\centering R\+C6 ppm input or soft-\/serial 1 transmit \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+5/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1\+\_\+\+R\+X &\PBS\centering R\+C5 ppm input or soft-\/serial 2 receive \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+4/\+U3\+T\+X &\PBS\centering R\+C4 ppm input or U\+A\+R\+T3 transmit \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+3/\+U3\+R\+X &\PBS\centering R\+C3 ppm input or U\+A\+R\+T3 receive \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+2 &\PBS\centering R\+C2 ppm input \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+I\+N\+\_\+1/\+P\+P\+M I\+N &\PBS\centering R\+C1 ppm input or S\+U\+M/\+C\+P\+P\+M \\\cline{1-2}
+\PBS\centering 5\+V &\PBS\centering 5\+V bus \\\cline{1-2}
+\PBS\centering G\+N\+D &\PBS\centering Ground \\\cline{1-2}
+\end{TabularC}
+\subsubsection*{Back (Left to right)}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&\PBS\centering {\bf Notes  }\\\cline{1-2}
+\PBS\centering S\+P\+E\+K\+T\+R\+U\+M\+\_\+\+V\+C\+C/3\+V3 &\PBS\centering 3.\+3\+V output \\\cline{1-2}
+\PBS\centering S\+P\+E\+K\+T\+R\+U\+M\+\_\+\+G\+N\+D/\+G\+N\+D &\PBS\centering Ground \\\cline{1-2}
+\PBS\centering S\+P\+E\+K\+T\+R\+U\+M\+\_\+\+D\+A\+T\+A/\+U3\+R\+X &\PBS\centering U\+A\+R\+T3 receive \\\cline{1-2}
+\PBS\centering U\+S\+B &\PBS\centering Micro U\+S\+B socket \\\cline{1-2}
+\PBS\centering B\+A\+T+ &\PBS\centering Main battery (2\+S -\/ 6\+S) positive lead \\\cline{1-2}
+\PBS\centering G\+N\+D/\+B\+A\+T-\/ &\PBS\centering Main battery negative lead \\\cline{1-2}
+\end{TabularC}
+\subsubsection*{Front (Left to right)}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&\PBS\centering {\bf Notes  }\\\cline{1-2}
+\PBS\centering B\+Z\+\_\+5\+V/\+B\+Z+ &\PBS\centering 5\+V, connect to positive (+) terminal of buzzer \\\cline{1-2}
+\PBS\centering B\+Z\+\_\+\+O\+C/\+B\+Z-\/ &\PBS\centering Open-\/collector output, connect to negative (-\/) terminal of buzzer \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+1 &\PBS\centering E\+S\+C 1 output (rear, starboard, C\+W on quad) \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+2 &\PBS\centering E\+S\+C 2 output (front, starboard, C\+C\+W on quad) \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+3 &\PBS\centering E\+S\+C 3 output (front, port, C\+W on quad) \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+4 &\PBS\centering E\+S\+C 4 output (rear, port, C\+C\+W on quad) \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+5 &\PBS\centering P\+P\+M output 5 \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+6 &\PBS\centering P\+P\+M output 6 \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+7 &\PBS\centering P\+P\+M output 7 \\\cline{1-2}
+\PBS\centering R\+C\+\_\+\+O\+U\+T\+\_\+8 &\PBS\centering P\+P\+M output 8 \\\cline{1-2}
+\PBS\centering L\+E\+D\+\_\+\+O\+U\+T &\PBS\centering W\+S2811 led output \\\cline{1-2}
+\PBS\centering L\+E\+D\+\_\+\+G\+N\+D/\+G\+N\+D &\PBS\centering Ground \\\cline{1-2}
+\end{TabularC}
+\subsubsection*{Starboard (Front to back)}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&\PBS\centering {\bf Column }&\PBS\centering {\bf Notes  }\\\cline{1-3}
+\PBS\centering G\+N\+D &\PBS\centering Outside &\PBS\centering Ground \\\cline{1-3}
+\PBS\centering U1\+T\+X &\PBS\centering Outside &\PBS\centering U\+A\+R\+T1 transmit (1) \\\cline{1-3}
+\PBS\centering U1\+R\+X &\PBS\centering Outside &\PBS\centering U\+A\+R\+T1 receive (1) \\\cline{1-3}
+\PBS\centering 5\+V &\PBS\centering Outside &\PBS\centering 5\+V bus \\\cline{1-3}
+\PBS\centering 3\+V3 &\PBS\centering Outside &\PBS\centering 3.\+3\+V output (2) \\\cline{1-3}
+\PBS\centering G\+N\+D &\PBS\centering Inside &\PBS\centering Ground \\\cline{1-3}
+\PBS\centering S\+D\+A &\PBS\centering Inside &\PBS\centering I2\+C data \\\cline{1-3}
+\PBS\centering S\+C\+L &\PBS\centering Inside &\PBS\centering I2\+C clock \\\cline{1-3}
+\PBS\centering 3\+V3 &\PBS\centering Inside &\PBS\centering 3.\+3\+V output \\\cline{1-3}
+\PBS\centering P\+P\+M\+\_\+\+R\+S\+S\+I &\PBS\centering Inside &\PBS\centering Low-\/pass filtered P\+P\+M-\/style R\+S\+S\+I input (Fr\+Sky or Ez\+U\+H\+F) \\\cline{1-3}
+\PBS\centering U2\+R\+X &\PBS\centering Outside &\PBS\centering U\+A\+R\+T2 receive \\\cline{1-3}
+\PBS\centering U2\+T\+X/\+S\+W\+C\+L\+K &\PBS\centering Outside &\PBS\centering U\+A\+R\+T2 transmit or S\+W\+D clock \\\cline{1-3}
+\PBS\centering S\+W\+D\+I\+O &\PBS\centering Outside &\PBS\centering S\+W\+D input/output \\\cline{1-3}
+\PBS\centering G\+N\+D &\PBS\centering Outside &\PBS\centering Ground \\\cline{1-3}
+\end{TabularC}
+
+\begin{DoxyEnumerate}
+\item Shared with U\+S\+B.
+\item Can be used to power external low-\/power devices like Spektrum satellite receiver.
+\end{DoxyEnumerate}
+
+\subsubsection*{Top pads}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&\PBS\centering {\bf Notes  }\\\cline{1-2}
+\PBS\centering C\+U\+R\+R &\PBS\centering Current sensor A\+D\+C input, unbuffered \\\cline{1-2}
+\PBS\centering R\+S\+S\+I &\PBS\centering R\+S\+S\+I A\+D\+C input, unbuffered. Use P\+P\+M\+\_\+\+R\+S\+S\+I for filtered input. \\\cline{1-2}
+\PBS\centering B\+O\+O\+T &\PBS\centering B\+O\+O\+T jumper for recovering a bricked boot loader \\\cline{1-2}
+\end{TabularC}
+\subsubsection*{Bottom pads}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Label }&{\bf Notes  }\\\cline{1-2}
+\PBS\centering T\+R\+I\+G &Trigger for sonar (on-\/board 1k\+Ohm series resistor for 5\+V compatibility) \\\cline{1-2}
+\PBS\centering E\+C\+H\+O &Echo for sonar (on-\/board 1k\+Ohm series resistor for 5\+V compatibility) \\\cline{1-2}
+\end{TabularC}

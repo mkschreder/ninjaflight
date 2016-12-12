@@ -1,0 +1,36 @@
+If G\+C\+C is upgraded and a warning appears when compiling then the generated asm source must be verified.
+
+e.\+g. ``` \%\% \hyperlink{serial__softserial_8c}{serial\+\_\+softserial.\+c} warning \char`\"{}\+Please verify that A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R works as intended\char`\"{} ```
+
+To perform the verification, proceed as per discusson on issue \#167 which reads\+:
+
+I hope it's enough to check that optimized-\/away variable still has cleanup code at end of scope.
+
+``` static int markme=0; markme++; \hyperlink{atomic_8h_a3d3b26c1ba6839b0b91c774f8dfadd51}{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B(0xff)} \{ \hyperlink{atomic_8h_ae5ed9d0b60737832165651f656b2f217}{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R(markme)}; markme++; \}; markme++; ```
+
+pass {\ttfamily -\/save-\/temps=obj} (or {\ttfamily -\/save-\/temps=cwd}, but lots of files will end up in same directory as makefile) to gcc link step (L\+T\+O is in use), find resulting {\ttfamily $\ast$.ltrans$\ast$.ltrans.\+s} (grep for {\ttfamily markme}, on linux it ends up in {\ttfamily /tmp}) and check that generated assembly sequence is\+:
+
+``` M\+S\+R basepri\+\_\+max, r3 \section*{(possibly markme address load)}
+
+\section*{barier (markme) start}
+
+\section*{(increment markme, load and store to memory)}
+
+ldr r2, \mbox{[}r3\mbox{]} adds r0, r2, \#1 str r0, \mbox{[}r3\mbox{]} \begin{DoxyVerb}    # barier(markme)  end
+    MSR basepri, r3
+\end{DoxyVerb}
+
+
+\section*{(markme value should be cached in register on next increment)}
+
+```
+
+The \# barrier(markme) must surround access code and must be inside M\+S\+R basepri instructions ..
+
+Similar approach is used for A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K in avr libraries, so gcc should not break this behavior.
+
+I\+M\+O attribute(cleanup) and asm volatile is defined in a way that should guarantee this.
+
+attribute(cleanup) is probably safer way to implement atomic sections -\/ another possibility is to explicitly place barriers in code, but that can (and will eventually) lead to missed barrier/basepri restore on same path creating very hard to find bug.
+
+The M\+E\+M\+O\+R\+Y\+\_\+\+B\+A\+R\+R\+I\+E\+R() code can be omitted and use A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K with full memory barriers, but I\+M\+O it is better to explicitly state what memory is protected by barrier and gcc can use this knowledge to greatly improve generated code in future. 

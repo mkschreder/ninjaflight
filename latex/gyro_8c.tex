@@ -1,0 +1,135 @@
+\hypertarget{gyro_8c}{\section{src/main/sensors/gyro.c File Reference}
+\label{gyro_8c}\index{src/main/sensors/gyro.\+c@{src/main/sensors/gyro.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/gyro\+\_\+sync.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gyro.\+h\char`\"{}}\\*
+Include dependency graph for gyro.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gyro_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{gyro_8c_a1afd3a7cd021b9f737313f3c74d35aeb}{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S}~1000
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{gyro_8c_ab04db73949c1abfe034a71415b3055e0}{ins\+\_\+gyro\+\_\+init} (struct \hyperlink{structins__gyro}{ins\+\_\+gyro} $\ast$self, const struct \hyperlink{structgyro__config}{gyro\+\_\+config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{gyro_8c_a9aa1d061d3803d5bd885b68337981a3b}{ins\+\_\+gyro\+\_\+process\+\_\+sample} (struct \hyperlink{structins__gyro}{ins\+\_\+gyro} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{gyro_8c_a32e433f915dc6d2f44ceca1eac6f170b}{ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz} (struct \hyperlink{structins__gyro}{ins\+\_\+gyro} $\ast$self, uint16\+\_\+t hz)
+\item 
+void \hyperlink{gyro_8c_a7b5fd0a77672bc1ce100a3d6a0c98c07}{ins\+\_\+gyro\+\_\+calibrate} (struct \hyperlink{structins__gyro}{ins\+\_\+gyro} $\ast$self)
+\item 
+bool \hyperlink{gyro_8c_ae5a8dcbdbe5a6d66bdd83a3451baa738}{ins\+\_\+gyro\+\_\+is\+\_\+calibrated} (struct \hyperlink{structins__gyro}{ins\+\_\+gyro} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{gyro_8c_a1afd3a7cd021b9f737313f3c74d35aeb}{\index{gyro.\+c@{gyro.\+c}!C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S@{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S}}
+\index{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S@{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+Y\+C\+L\+E\+S~1000}}\label{gyro_8c_a1afd3a7cd021b9f737313f3c74d35aeb}
+
+
+\subsection{Function Documentation}
+\hypertarget{gyro_8c_a7b5fd0a77672bc1ce100a3d6a0c98c07}{\index{gyro.\+c@{gyro.\+c}!ins\+\_\+gyro\+\_\+calibrate@{ins\+\_\+gyro\+\_\+calibrate}}
+\index{ins\+\_\+gyro\+\_\+calibrate@{ins\+\_\+gyro\+\_\+calibrate}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{ins\+\_\+gyro\+\_\+calibrate}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+gyro\+\_\+calibrate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+gyro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{gyro_8c_a7b5fd0a77672bc1ce100a3d6a0c98c07}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{gyro_8c_a7b5fd0a77672bc1ce100a3d6a0c98c07_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{gyro_8c_ab04db73949c1abfe034a71415b3055e0}{\index{gyro.\+c@{gyro.\+c}!ins\+\_\+gyro\+\_\+init@{ins\+\_\+gyro\+\_\+init}}
+\index{ins\+\_\+gyro\+\_\+init@{ins\+\_\+gyro\+\_\+init}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{ins\+\_\+gyro\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+gyro\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+gyro} $\ast$}]{self, }
+\item[{const struct {\bf gyro\+\_\+config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{gyro_8c_ab04db73949c1abfe034a71415b3055e0}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gyro_8c_ab04db73949c1abfe034a71415b3055e0_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{gyro_8c_ae5a8dcbdbe5a6d66bdd83a3451baa738}{\index{gyro.\+c@{gyro.\+c}!ins\+\_\+gyro\+\_\+is\+\_\+calibrated@{ins\+\_\+gyro\+\_\+is\+\_\+calibrated}}
+\index{ins\+\_\+gyro\+\_\+is\+\_\+calibrated@{ins\+\_\+gyro\+\_\+is\+\_\+calibrated}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{ins\+\_\+gyro\+\_\+is\+\_\+calibrated}]{\setlength{\rightskip}{0pt plus 5cm}bool ins\+\_\+gyro\+\_\+is\+\_\+calibrated (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+gyro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{gyro_8c_ae5a8dcbdbe5a6d66bdd83a3451baa738}
+\hypertarget{gyro_8c_a9aa1d061d3803d5bd885b68337981a3b}{\index{gyro.\+c@{gyro.\+c}!ins\+\_\+gyro\+\_\+process\+\_\+sample@{ins\+\_\+gyro\+\_\+process\+\_\+sample}}
+\index{ins\+\_\+gyro\+\_\+process\+\_\+sample@{ins\+\_\+gyro\+\_\+process\+\_\+sample}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{ins\+\_\+gyro\+\_\+process\+\_\+sample}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+gyro\+\_\+process\+\_\+sample (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+gyro} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{gyro_8c_a9aa1d061d3803d5bd885b68337981a3b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{gyro_8c_a9aa1d061d3803d5bd885b68337981a3b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{gyro_8c_a32e433f915dc6d2f44ceca1eac6f170b}{\index{gyro.\+c@{gyro.\+c}!ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz@{ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz}}
+\index{ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz@{ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz}!gyro.\+c@{gyro.\+c}}
+\subsubsection[{ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+gyro\+\_\+set\+\_\+filter\+\_\+hz (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+gyro} $\ast$}]{self, }
+\item[{uint16\+\_\+t}]{hz}
+\end{DoxyParamCaption}
+)}}\label{gyro_8c_a32e433f915dc6d2f44ceca1eac6f170b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{gyro_8c_a32e433f915dc6d2f44ceca1eac6f170b_cgraph}
+\end{center}
+\end{figure}
+
+

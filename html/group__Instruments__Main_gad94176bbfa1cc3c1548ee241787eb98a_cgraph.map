@@ -1,0 +1,7 @@
+<map id="ins_is_calibrated" name="ins_is_calibrated">
+<area shape="rect" id="node2" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="187,5,338,32"/>
+<area shape="rect" id="node3" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="189,56,336,83"/>
+<area shape="rect" id="node4" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="174,107,351,133"/>
+<area shape="rect" id="node5" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="179,158,346,199"/>
+<area shape="rect" id="node6" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="173,224,352,251"/>
+</map>

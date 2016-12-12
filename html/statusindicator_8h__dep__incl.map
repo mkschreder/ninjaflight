@@ -1,0 +1,8 @@
+<map id="src/main/io/statusindicator.h" name="src/main/io/statusindicator.h">
+<area shape="rect" id="node2" href="$beeper_8c.html" title="src/main/io/beeper.c" alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node3" href="$statusindicator_8c.html" title="src/main/io/statusindicator.c" alt="" coords="169,80,356,107"/>
+<area shape="rect" id="node4" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="380,80,495,107"/>
+<area shape="rect" id="node5" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="519,80,675,107"/>
+<area shape="rect" id="node6" href="$ninja__sched_8c.html" title="src/main/ninja_sched.c" alt="" coords="699,80,855,107"/>
+<area shape="rect" id="node7" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="879,80,1021,107"/>
+</map>

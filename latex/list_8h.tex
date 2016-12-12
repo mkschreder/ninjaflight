@@ -1,0 +1,176 @@
+\hypertarget{list_8h}{\section{src/main/common/list.h File Reference}
+\label{list_8h}\index{src/main/common/list.\+h@{src/main/common/list.\+h}}
+}
+{\ttfamily \#include $<$stddef.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\\*
+Include dependency graph for list.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{list_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlist__head}{list\+\_\+head}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{list_8h_a004692feb1f91896c21a6d1644b54f2b}{prefetch}(x)
+\item 
+\#define \hyperlink{list_8h_a4642d4b7df28478bb762fe43c85b5c63}{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}(name)~\{ \&(name), \&(name) \}
+\item 
+\#define \hyperlink{list_8h_a42f0e72af970a790b60a740af8c9ecd0}{L\+I\+S\+T\+\_\+\+H\+E\+A\+D}(name)~struct \hyperlink{structlist__head}{list\+\_\+head} name = \hyperlink{list_8h_a4642d4b7df28478bb762fe43c85b5c63}{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}(name)
+\item 
+\#define \hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\+\_\+entry}(ptr, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)~\hyperlink{utils_8h_af8c317a42292b61c93aae91e59118a46}{container\+\_\+of}(ptr, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)
+\item 
+\#define \hyperlink{list_8h_ae3d072a3707e0f1373a3d8fa5d4d3e1c}{list\+\_\+first\+\_\+entry}(ptr, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)~\hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\+\_\+entry}((ptr)-\/$>$next, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)
+\item 
+\#define \hyperlink{list_8h_af5788255eaa13d8e377acfa8e7cb192b}{list\+\_\+last\+\_\+entry}(ptr, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)~\hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\+\_\+entry}((ptr)-\/$>$prev, \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type}, field)
+\item 
+\#define \hyperlink{list_8h_a91bcfea72247bfa55f663faea35bc07a}{list\+\_\+for\+\_\+each}(p, head)~for (p = (head)-\/$>$next; p != (head); p = p-\/$>$next)
+\item 
+\#define \hyperlink{list_8h_ada2e6d6074d1cf9fda5de41ba40ca300}{list\+\_\+for\+\_\+each\+\_\+safe}(p, n, head)~for (p = (head)-\/$>$next, n = p-\/$>$next; p != (head); p = n, n = p-\/$>$next)
+\item 
+\#define \hyperlink{list_8h_a6b4019bb70de70adc3caddbe3a024c27}{list\+\_\+for\+\_\+each\+\_\+entry}(p, h, field)
+\item 
+\#define \hyperlink{list_8h_a698670b36c7c0ca13822698ee825ddc8}{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe}(p, n, h, field)
+\item 
+\#define \hyperlink{list_8h_a170020e9750587355eaed1c6da793da2}{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse}(p, h, field)
+\item 
+\#define \hyperlink{list_8h_aee1e768fa898a846f9a582fbc8e522df}{list\+\_\+for\+\_\+each\+\_\+prev}(p, h)~for (p = (h)-\/$>$prev; p != (h); p = p-\/$>$prev)
+\item 
+\#define \hyperlink{list_8h_a9d0ebde045cd80d6888e18975a71ba38}{list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe}(p, n, h)~for (p = (h)-\/$>$prev, n = p-\/$>$prev; p != (h); p = n, n = p-\/$>$prev)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{\index{list.\+h@{list.\+h}!list\+\_\+entry@{list\+\_\+entry}}
+\index{list\+\_\+entry@{list\+\_\+entry}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+entry}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+entry(
+\begin{DoxyParamCaption}
+\item[{}]{ptr, }
+\item[{}]{{\bf type}, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)~{\bf container\+\_\+of}(ptr, {\bf type}, field)}}\label{list_8h_ac72e2a4f57215639f788aa59ca056fe1}
+\hypertarget{list_8h_ae3d072a3707e0f1373a3d8fa5d4d3e1c}{\index{list.\+h@{list.\+h}!list\+\_\+first\+\_\+entry@{list\+\_\+first\+\_\+entry}}
+\index{list\+\_\+first\+\_\+entry@{list\+\_\+first\+\_\+entry}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+first\+\_\+entry}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+first\+\_\+entry(
+\begin{DoxyParamCaption}
+\item[{}]{ptr, }
+\item[{}]{{\bf type}, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)~{\bf list\+\_\+entry}((ptr)-\/$>$next, {\bf type}, field)}}\label{list_8h_ae3d072a3707e0f1373a3d8fa5d4d3e1c}
+\hypertarget{list_8h_a91bcfea72247bfa55f663faea35bc07a}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each@{list\+\_\+for\+\_\+each}}
+\index{list\+\_\+for\+\_\+each@{list\+\_\+for\+\_\+each}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{head}
+\end{DoxyParamCaption}
+)~for (p = (head)-\/$>$next; p != (head); p = p-\/$>$next)}}\label{list_8h_a91bcfea72247bfa55f663faea35bc07a}
+\hypertarget{list_8h_a6b4019bb70de70adc3caddbe3a024c27}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+entry@{list\+\_\+for\+\_\+each\+\_\+entry}}
+\index{list\+\_\+for\+\_\+each\+\_\+entry@{list\+\_\+for\+\_\+each\+\_\+entry}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+entry}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+entry(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{h, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)}}\label{list_8h_a6b4019bb70de70adc3caddbe3a024c27}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} (p = \hyperlink{list_8h_ae3d072a3707e0f1373a3d8fa5d4d3e1c}{list\_first\_entry}(h, typeof(*p), field); &p->field != (h); \(\backslash\)
+        p = \hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\_entry}(p->field.next, typeof(*p), field))
+\end{DoxyCode}
+\hypertarget{list_8h_a170020e9750587355eaed1c6da793da2}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse@{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse}}
+\index{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse@{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+entry\+\_\+reverse(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{h, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)}}\label{list_8h_a170020e9750587355eaed1c6da793da2}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} (p = \hyperlink{list_8h_af5788255eaa13d8e377acfa8e7cb192b}{list\_last\_entry}(h, typeof(*p), field); &p->field != (h); \(\backslash\)
+        p = \hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\_entry}(p->field.prev, typeof(*p), field))
+\end{DoxyCode}
+\hypertarget{list_8h_a698670b36c7c0ca13822698ee825ddc8}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe}}
+\index{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+entry\+\_\+safe(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{n, }
+\item[{}]{h, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)}}\label{list_8h_a698670b36c7c0ca13822698ee825ddc8}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} (p = \hyperlink{list_8h_ae3d072a3707e0f1373a3d8fa5d4d3e1c}{list\_first\_entry}(h, typeof(*p), field),        \(\backslash\)
+        n = \hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\_entry}(p->field.next, typeof(*p), field); &p->field != (h);\(\backslash\)
+        p = n, n = \hyperlink{list_8h_ac72e2a4f57215639f788aa59ca056fe1}{list\_entry}(n->field.next, typeof(*n), field))
+\end{DoxyCode}
+\hypertarget{list_8h_aee1e768fa898a846f9a582fbc8e522df}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+prev@{list\+\_\+for\+\_\+each\+\_\+prev}}
+\index{list\+\_\+for\+\_\+each\+\_\+prev@{list\+\_\+for\+\_\+each\+\_\+prev}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+prev}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+prev(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{h}
+\end{DoxyParamCaption}
+)~for (p = (h)-\/$>$prev; p != (h); p = p-\/$>$prev)}}\label{list_8h_aee1e768fa898a846f9a582fbc8e522df}
+\hypertarget{list_8h_a9d0ebde045cd80d6888e18975a71ba38}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe}}
+\index{list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+prev\+\_\+safe(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{n, }
+\item[{}]{h}
+\end{DoxyParamCaption}
+)~for (p = (h)-\/$>$prev, n = p-\/$>$prev; p != (h); p = n, n = p-\/$>$prev)}}\label{list_8h_a9d0ebde045cd80d6888e18975a71ba38}
+\hypertarget{list_8h_ada2e6d6074d1cf9fda5de41ba40ca300}{\index{list.\+h@{list.\+h}!list\+\_\+for\+\_\+each\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+safe}}
+\index{list\+\_\+for\+\_\+each\+\_\+safe@{list\+\_\+for\+\_\+each\+\_\+safe}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+for\+\_\+each\+\_\+safe}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+for\+\_\+each\+\_\+safe(
+\begin{DoxyParamCaption}
+\item[{}]{p, }
+\item[{}]{n, }
+\item[{}]{head}
+\end{DoxyParamCaption}
+)~for (p = (head)-\/$>$next, n = p-\/$>$next; p != (head); p = n, n = p-\/$>$next)}}\label{list_8h_ada2e6d6074d1cf9fda5de41ba40ca300}
+\hypertarget{list_8h_a42f0e72af970a790b60a740af8c9ecd0}{\index{list.\+h@{list.\+h}!L\+I\+S\+T\+\_\+\+H\+E\+A\+D@{L\+I\+S\+T\+\_\+\+H\+E\+A\+D}}
+\index{L\+I\+S\+T\+\_\+\+H\+E\+A\+D@{L\+I\+S\+T\+\_\+\+H\+E\+A\+D}!list.\+h@{list.\+h}}
+\subsubsection[{L\+I\+S\+T\+\_\+\+H\+E\+A\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+I\+S\+T\+\_\+\+H\+E\+A\+D(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~struct {\bf list\+\_\+head} name = {\bf L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}(name)}}\label{list_8h_a42f0e72af970a790b60a740af8c9ecd0}
+\hypertarget{list_8h_a4642d4b7df28478bb762fe43c85b5c63}{\index{list.\+h@{list.\+h}!L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T@{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}}
+\index{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T@{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}!list.\+h@{list.\+h}}
+\subsubsection[{L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+I\+S\+T\+\_\+\+H\+E\+A\+D\+\_\+\+I\+N\+I\+T(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~\{ \&(name), \&(name) \}}}\label{list_8h_a4642d4b7df28478bb762fe43c85b5c63}
+\hypertarget{list_8h_af5788255eaa13d8e377acfa8e7cb192b}{\index{list.\+h@{list.\+h}!list\+\_\+last\+\_\+entry@{list\+\_\+last\+\_\+entry}}
+\index{list\+\_\+last\+\_\+entry@{list\+\_\+last\+\_\+entry}!list.\+h@{list.\+h}}
+\subsubsection[{list\+\_\+last\+\_\+entry}]{\setlength{\rightskip}{0pt plus 5cm}\#define list\+\_\+last\+\_\+entry(
+\begin{DoxyParamCaption}
+\item[{}]{ptr, }
+\item[{}]{{\bf type}, }
+\item[{}]{field}
+\end{DoxyParamCaption}
+)~{\bf list\+\_\+entry}((ptr)-\/$>$prev, {\bf type}, field)}}\label{list_8h_af5788255eaa13d8e377acfa8e7cb192b}
+\hypertarget{list_8h_a004692feb1f91896c21a6d1644b54f2b}{\index{list.\+h@{list.\+h}!prefetch@{prefetch}}
+\index{prefetch@{prefetch}!list.\+h@{list.\+h}}
+\subsubsection[{prefetch}]{\setlength{\rightskip}{0pt plus 5cm}\#define prefetch(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}}\label{list_8h_a004692feb1f91896c21a6d1644b54f2b}

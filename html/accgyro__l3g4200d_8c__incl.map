@@ -1,0 +1,9 @@
+<map id="src/main/drivers/accgyro_l3g4200d.c" name="src/main/drivers/accgyro_l3g4200d.c">
+<area shape="rect" id="node5" href="$drivers_2system_8h.html" title="system.h" alt="" coords="5,96,80,123"/>
+<area shape="rect" id="node6" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="311,96,389,123"/>
+<area shape="rect" id="node7" href="$maths_8h.html" title="common/maths.h" alt="" coords="415,96,537,123"/>
+<area shape="rect" id="node8" href="$axis_8h.html" title="common/axis.h" alt="" coords="562,96,672,123"/>
+<area shape="rect" id="node9" href="$sensor_8h.html" title="sensor.h" alt="" coords="713,171,785,197"/>
+<area shape="rect" id="node10" href="$accgyro_8h.html" title="accgyro.h" alt="" coords="749,96,827,123"/>
+<area shape="rect" id="node11" href="$accgyro__l3g4200d_8h.html" title="accgyro_l3g4200d.h" alt="" coords="852,96,991,123"/>
+</map>

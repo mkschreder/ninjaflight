@@ -1,0 +1,7 @@
+<map id="ws2811LedStripInit" name="ws2811LedStripInit">
+<area shape="rect" id="node2" href="$dma_8c.html#a24884a0e923f559922ffbb4eb113f053" title="dmaSetHandler" alt="" coords="225,5,337,32"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8h.html#afd95f820c7779c7f1b095b65e38430aa" title="ws2811LedStripHardwareInit" alt="" coords="187,56,376,83"/>
+<area shape="rect" id="node6" href="$light__ws2811strip_8c.html#ae12f50d4f61a0b78b9334cfaa12a8324" title="ws2811UpdateStrip" alt="" coords="452,107,588,133"/>
+<area shape="rect" id="node4" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="424,5,616,32"/>
+<area shape="rect" id="node5" href="$light__ws2811strip_8c.html#af4989f2637fcf1808f73e5dad2c8655f" title="setStripColor" alt="" coords="471,56,569,83"/>
+</map>

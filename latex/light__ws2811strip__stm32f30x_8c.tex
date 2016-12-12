@@ -1,0 +1,124 @@
+\hypertarget{light__ws2811strip__stm32f30x_8c}{\section{src/main/drivers/light\+\_\+ws2811strip\+\_\+stm32f30x.c File Reference}
+\label{light__ws2811strip__stm32f30x_8c}\index{src/main/drivers/light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{src/main/drivers/light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nvic.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/color.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/light\+\_\+ws2811strip.\+h\char`\"{}}\\*
+Include dependency graph for light\+\_\+ws2811strip\+\_\+stm32f30x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip__stm32f30x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_a750379203093ef7c30e736f6d1f5dc33}{W\+S2811\+\_\+\+G\+P\+I\+O}~G\+P\+I\+O\+B
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_a194bd6c6adb077863eef8d162e02bcaf}{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+G\+P\+I\+O\+B
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_abc668e780dfcdaa3c5637f646ba917fd}{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}~G\+P\+I\+O\+\_\+\+A\+F\+\_\+1
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_ac87e15234fda09fb0e80130c25f386d4}{W\+S2811\+\_\+\+P\+I\+N}~G\+P\+I\+O\+\_\+\+Pin\+\_\+8
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_aff653beb88a1897d2c35b8fb78a24080}{W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}~G\+P\+I\+O\+\_\+\+Pin\+Source8
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_a2846f18c1cc3ae18a0c3506777fe8fae}{W\+S2811\+\_\+\+T\+I\+M\+E\+R}~T\+I\+M16
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_a991cdc9915c2f9d8582d93ce667aef26}{W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}~R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+T\+I\+M16
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_ad22a91ce6414690306128c3930816b3d}{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}~D\+M\+A1\+\_\+\+Channel3
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_aa551a6ba01ecfa62833701584ab3712c}{W\+S2811\+\_\+\+I\+R\+Q}~D\+M\+A1\+\_\+\+Channel3\+\_\+\+I\+R\+Qn
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_ae35cf24dcd79936dcc1b4728d646f091}{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}~D\+M\+A1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C3
+\item 
+\#define \hyperlink{light__ws2811strip__stm32f30x_8c_a14bbcc0878b5a392e88bd11f9c863721}{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}~\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbba9f165a3cbc26abac03046bc0b45ee9f0}{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{light__ws2811strip__stm32f30x_8c_afd95f820c7779c7f1b095b65e38430aa}{ws2811\+Led\+Strip\+Hardware\+Init} (void)
+\item 
+void \hyperlink{light__ws2811strip__stm32f30x_8c_a492df51338d12f8fbfcc81e2a25a9e89}{ws2811\+Led\+Strip\+D\+M\+A\+Enable} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{light__ws2811strip__stm32f30x_8c_ad22a91ce6414690306128c3930816b3d}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}}
+\index{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L~D\+M\+A1\+\_\+\+Channel3}}\label{light__ws2811strip__stm32f30x_8c_ad22a91ce6414690306128c3930816b3d}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a14bbcc0878b5a392e88bd11f9c863721}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}}
+\index{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R~{\bf D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}}}\label{light__ws2811strip__stm32f30x_8c_a14bbcc0878b5a392e88bd11f9c863721}
+\hypertarget{light__ws2811strip__stm32f30x_8c_ae35cf24dcd79936dcc1b4728d646f091}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}}
+\index{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G@{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G~D\+M\+A1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C3}}\label{light__ws2811strip__stm32f30x_8c_ae35cf24dcd79936dcc1b4728d646f091}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a750379203093ef7c30e736f6d1f5dc33}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+G\+P\+I\+O@{W\+S2811\+\_\+\+G\+P\+I\+O}}
+\index{W\+S2811\+\_\+\+G\+P\+I\+O@{W\+S2811\+\_\+\+G\+P\+I\+O}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+G\+P\+I\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+G\+P\+I\+O~G\+P\+I\+O\+B}}\label{light__ws2811strip__stm32f30x_8c_a750379203093ef7c30e736f6d1f5dc33}
+\hypertarget{light__ws2811strip__stm32f30x_8c_abc668e780dfcdaa3c5637f646ba917fd}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F@{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}}
+\index{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F@{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F~G\+P\+I\+O\+\_\+\+A\+F\+\_\+1}}\label{light__ws2811strip__stm32f30x_8c_abc668e780dfcdaa3c5637f646ba917fd}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a194bd6c6adb077863eef8d162e02bcaf}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}}
+\index{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+G\+P\+I\+O\+B}}\label{light__ws2811strip__stm32f30x_8c_a194bd6c6adb077863eef8d162e02bcaf}
+\hypertarget{light__ws2811strip__stm32f30x_8c_aa551a6ba01ecfa62833701584ab3712c}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+I\+R\+Q@{W\+S2811\+\_\+\+I\+R\+Q}}
+\index{W\+S2811\+\_\+\+I\+R\+Q@{W\+S2811\+\_\+\+I\+R\+Q}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+I\+R\+Q}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+I\+R\+Q~D\+M\+A1\+\_\+\+Channel3\+\_\+\+I\+R\+Qn}}\label{light__ws2811strip__stm32f30x_8c_aa551a6ba01ecfa62833701584ab3712c}
+\hypertarget{light__ws2811strip__stm32f30x_8c_ac87e15234fda09fb0e80130c25f386d4}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+P\+I\+N@{W\+S2811\+\_\+\+P\+I\+N}}
+\index{W\+S2811\+\_\+\+P\+I\+N@{W\+S2811\+\_\+\+P\+I\+N}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+P\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+P\+I\+N~G\+P\+I\+O\+\_\+\+Pin\+\_\+8}}\label{light__ws2811strip__stm32f30x_8c_ac87e15234fda09fb0e80130c25f386d4}
+\hypertarget{light__ws2811strip__stm32f30x_8c_aff653beb88a1897d2c35b8fb78a24080}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E@{W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}}
+\index{W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E@{W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E~G\+P\+I\+O\+\_\+\+Pin\+Source8}}\label{light__ws2811strip__stm32f30x_8c_aff653beb88a1897d2c35b8fb78a24080}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a2846f18c1cc3ae18a0c3506777fe8fae}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+T\+I\+M\+E\+R@{W\+S2811\+\_\+\+T\+I\+M\+E\+R}}
+\index{W\+S2811\+\_\+\+T\+I\+M\+E\+R@{W\+S2811\+\_\+\+T\+I\+M\+E\+R}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+T\+I\+M\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+T\+I\+M\+E\+R~T\+I\+M16}}\label{light__ws2811strip__stm32f30x_8c_a2846f18c1cc3ae18a0c3506777fe8fae}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a991cdc9915c2f9d8582d93ce667aef26}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}}
+\index{W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+S2811\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L~R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+T\+I\+M16}}\label{light__ws2811strip__stm32f30x_8c_a991cdc9915c2f9d8582d93ce667aef26}
+
+
+\subsection{Function Documentation}
+\hypertarget{light__ws2811strip__stm32f30x_8c_a492df51338d12f8fbfcc81e2a25a9e89}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!ws2811\+Led\+Strip\+D\+M\+A\+Enable@{ws2811\+Led\+Strip\+D\+M\+A\+Enable}}
+\index{ws2811\+Led\+Strip\+D\+M\+A\+Enable@{ws2811\+Led\+Strip\+D\+M\+A\+Enable}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{ws2811\+Led\+Strip\+D\+M\+A\+Enable}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+D\+M\+A\+Enable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip__stm32f30x_8c_a492df51338d12f8fbfcc81e2a25a9e89}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{light__ws2811strip__stm32f30x_8c_a492df51338d12f8fbfcc81e2a25a9e89_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__ws2811strip__stm32f30x_8c_afd95f820c7779c7f1b095b65e38430aa}{\index{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}!ws2811\+Led\+Strip\+Hardware\+Init@{ws2811\+Led\+Strip\+Hardware\+Init}}
+\index{ws2811\+Led\+Strip\+Hardware\+Init@{ws2811\+Led\+Strip\+Hardware\+Init}!light\+\_\+ws2811strip\+\_\+stm32f30x.\+c@{light\+\_\+ws2811strip\+\_\+stm32f30x.\+c}}
+\subsubsection[{ws2811\+Led\+Strip\+Hardware\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+Hardware\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{light__ws2811strip__stm32f30x_8c_afd95f820c7779c7f1b095b65e38430aa}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__ws2811strip__stm32f30x_8c_afd95f820c7779c7f1b095b65e38430aa_cgraph}
+\end{center}
+\end{figure}
+
+

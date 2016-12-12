@@ -1,0 +1,155 @@
+\hypertarget{structafatfs__t}{\section{afatfs\+\_\+t Struct Reference}
+\label{structafatfs__t}\index{afatfs\+\_\+t@{afatfs\+\_\+t}}
+}
+
+
+Collaboration diagram for afatfs\+\_\+t\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structafatfs__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{fat__standard_8h_a58ef25557985bc9642bacb9ae86f799b}{fat\+Filesystem\+Type\+\_\+e} \hyperlink{structafatfs__t_a81962c5f439eab4e7dc72f412ba02c93}{filesystem\+Type}
+\item 
+\hyperlink{asyncfatfs_8h_a4e09e2b8e31fc45306aa820a9fca3bcd}{afatfs\+Filesystem\+State\+\_\+e} \hyperlink{structafatfs__t_a322fbae2869c38a76d5f584f27c4dac6}{filesystem\+State}
+\item 
+\hyperlink{asyncfatfs_8c_a1bd9d7b44922be94e2bf42c9a982b7ab}{afatfs\+Initialization\+Phase\+\_\+e} \hyperlink{structafatfs__t_ad5ca858db751ec7a7b030252d01a1893}{init\+Phase}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\hyperlink{structafatfsFreeSpaceSearch__t}{afatfsFreeSpaceSearch\_t} \hyperlink{structafatfs__t_a6787bfa434d2316ffdd550ac6357207a}{freeSpaceSearch}\\
+\>\hyperlink{structafatfsFreeSpaceFAT__t}{afatfsFreeSpaceFAT\_t} \hyperlink{structafatfs__t_ac3b0a4c2e98943ad49102e1397ba54f4}{freeSpaceFAT}\\
+\} \hyperlink{structafatfs__t_a0c464474083c107774adfa914841a661}{initState}\\
+
+\end{tabbing}\item 
+uint8\+\_\+t \hyperlink{structafatfs__t_aae478dc8b7a6eee13442e3da698699cb}{cache} \mbox{[}\hyperlink{asyncfatfs_8c_a3b512c1a9ba63f4aa588ce8c5c36e5e1}{A\+F\+A\+T\+F\+S\+\_\+\+S\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E} $\ast$\hyperlink{asyncfatfs_8c_a0013c2197300b548f869a7cea6376424}{A\+F\+A\+T\+F\+S\+\_\+\+N\+U\+M\+\_\+\+C\+A\+C\+H\+E\+\_\+\+S\+E\+C\+T\+O\+R\+S}\mbox{]}
+\item 
+\hyperlink{structafatfsCacheBlockDescriptor__t}{afatfs\+Cache\+Block\+Descriptor\+\_\+t} \hyperlink{structafatfs__t_a79d527dd25222c814459251af9ebd44a}{cache\+Descriptor} \mbox{[}\hyperlink{asyncfatfs_8c_a0013c2197300b548f869a7cea6376424}{A\+F\+A\+T\+F\+S\+\_\+\+N\+U\+M\+\_\+\+C\+A\+C\+H\+E\+\_\+\+S\+E\+C\+T\+O\+R\+S}\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_ac76866f17a0f58d6775287989e677080}{cache\+Timer}
+\item 
+int \hyperlink{structafatfs__t_a5afafb50df543f56c85b53d2b3aec282}{cache\+Dirty\+Entries}
+\item 
+bool \hyperlink{structafatfs__t_a6ce47c9b615dd0e1ee5716bdec516955}{cache\+Flush\+In\+Progress}
+\item 
+\hyperlink{structafatfsFile__t}{afatfs\+File\+\_\+t} \hyperlink{structafatfs__t_a75322bb76641e102ee19d7e805742a57}{open\+Files} \mbox{[}\hyperlink{asyncfatfs_8c_ab12838e2b7deaa29276fd4282324e7b7}{A\+F\+A\+T\+F\+S\+\_\+\+M\+A\+X\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E\+S}\mbox{]}
+\item 
+\hyperlink{structafatfsFile__t}{afatfs\+File\+\_\+t} \hyperlink{structafatfs__t_a6202c43fd2114081ef640f1de4289fe6}{free\+File}
+\item 
+\hyperlink{asyncfatfs_8h_a1d1a5caba1d47f562f384013c3efa2df}{afatfs\+Error\+\_\+e} \hyperlink{structafatfs__t_a29155f6a40ff7e59b17eaccd00d8ebd6}{last\+Error}
+\item 
+bool \hyperlink{structafatfs__t_a0016168f0d9acb24f1e7933eb5eb7ac3}{filesystem\+Full}
+\item 
+\hyperlink{structafatfsFile__t}{afatfs\+File\+\_\+t} \hyperlink{structafatfs__t_aab8c9692ba408252c5b745f83633cd1f}{current\+Directory}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_ae4b82813964e5cbd736e920eecde4c7f}{partition\+Start\+Sector}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a59ddc420b3af0df15421843eb5a23c9c}{fat\+Start\+Sector}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_aa2199746eb9e7defbe477e98caf0d596}{fat\+Sectors}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a62834f2a8eac0fd41207edec5f010db1}{num\+Clusters}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a570c352564500ef194828cae22e3d54b}{cluster\+Start\+Sector}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a93c9fdb3a6f2d4f833ff0afe0779af8d}{sectors\+Per\+Cluster}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a486695e3e4c3c2335afea7f9c1cc0c9b}{last\+Cluster\+Allocated}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a43053a46424b305c37a7cea089ba807a}{byte\+In\+Cluster\+Mask}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_af2fd51aa04bb8396d298dcbbd5db46cf}{root\+Directory\+Cluster}
+\item 
+uint32\+\_\+t \hyperlink{structafatfs__t_a3a57b49090ab8dcd151e317038239e67}{root\+Directory\+Sectors}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structafatfs__t_a43053a46424b305c37a7cea089ba807a}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!byte\+In\+Cluster\+Mask@{byte\+In\+Cluster\+Mask}}
+\index{byte\+In\+Cluster\+Mask@{byte\+In\+Cluster\+Mask}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{byte\+In\+Cluster\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::byte\+In\+Cluster\+Mask}}\label{structafatfs__t_a43053a46424b305c37a7cea089ba807a}
+\hypertarget{structafatfs__t_aae478dc8b7a6eee13442e3da698699cb}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cache@{cache}}
+\index{cache@{cache}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cache}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t afatfs\+\_\+t\+::cache\mbox{[}{\bf A\+F\+A\+T\+F\+S\+\_\+\+S\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E} $\ast${\bf A\+F\+A\+T\+F\+S\+\_\+\+N\+U\+M\+\_\+\+C\+A\+C\+H\+E\+\_\+\+S\+E\+C\+T\+O\+R\+S}\mbox{]}}}\label{structafatfs__t_aae478dc8b7a6eee13442e3da698699cb}
+\hypertarget{structafatfs__t_a79d527dd25222c814459251af9ebd44a}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cache\+Descriptor@{cache\+Descriptor}}
+\index{cache\+Descriptor@{cache\+Descriptor}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cache\+Descriptor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Cache\+Block\+Descriptor\+\_\+t} afatfs\+\_\+t\+::cache\+Descriptor\mbox{[}{\bf A\+F\+A\+T\+F\+S\+\_\+\+N\+U\+M\+\_\+\+C\+A\+C\+H\+E\+\_\+\+S\+E\+C\+T\+O\+R\+S}\mbox{]}}}\label{structafatfs__t_a79d527dd25222c814459251af9ebd44a}
+\hypertarget{structafatfs__t_a5afafb50df543f56c85b53d2b3aec282}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cache\+Dirty\+Entries@{cache\+Dirty\+Entries}}
+\index{cache\+Dirty\+Entries@{cache\+Dirty\+Entries}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cache\+Dirty\+Entries}]{\setlength{\rightskip}{0pt plus 5cm}int afatfs\+\_\+t\+::cache\+Dirty\+Entries}}\label{structafatfs__t_a5afafb50df543f56c85b53d2b3aec282}
+\hypertarget{structafatfs__t_a6ce47c9b615dd0e1ee5716bdec516955}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cache\+Flush\+In\+Progress@{cache\+Flush\+In\+Progress}}
+\index{cache\+Flush\+In\+Progress@{cache\+Flush\+In\+Progress}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cache\+Flush\+In\+Progress}]{\setlength{\rightskip}{0pt plus 5cm}bool afatfs\+\_\+t\+::cache\+Flush\+In\+Progress}}\label{structafatfs__t_a6ce47c9b615dd0e1ee5716bdec516955}
+\hypertarget{structafatfs__t_ac76866f17a0f58d6775287989e677080}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cache\+Timer@{cache\+Timer}}
+\index{cache\+Timer@{cache\+Timer}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cache\+Timer}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::cache\+Timer}}\label{structafatfs__t_ac76866f17a0f58d6775287989e677080}
+\hypertarget{structafatfs__t_a570c352564500ef194828cae22e3d54b}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!cluster\+Start\+Sector@{cluster\+Start\+Sector}}
+\index{cluster\+Start\+Sector@{cluster\+Start\+Sector}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{cluster\+Start\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::cluster\+Start\+Sector}}\label{structafatfs__t_a570c352564500ef194828cae22e3d54b}
+\hypertarget{structafatfs__t_aab8c9692ba408252c5b745f83633cd1f}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!current\+Directory@{current\+Directory}}
+\index{current\+Directory@{current\+Directory}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{current\+Directory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+File\+\_\+t} afatfs\+\_\+t\+::current\+Directory}}\label{structafatfs__t_aab8c9692ba408252c5b745f83633cd1f}
+\hypertarget{structafatfs__t_aa2199746eb9e7defbe477e98caf0d596}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!fat\+Sectors@{fat\+Sectors}}
+\index{fat\+Sectors@{fat\+Sectors}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{fat\+Sectors}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::fat\+Sectors}}\label{structafatfs__t_aa2199746eb9e7defbe477e98caf0d596}
+\hypertarget{structafatfs__t_a59ddc420b3af0df15421843eb5a23c9c}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!fat\+Start\+Sector@{fat\+Start\+Sector}}
+\index{fat\+Start\+Sector@{fat\+Start\+Sector}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{fat\+Start\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::fat\+Start\+Sector}}\label{structafatfs__t_a59ddc420b3af0df15421843eb5a23c9c}
+\hypertarget{structafatfs__t_a0016168f0d9acb24f1e7933eb5eb7ac3}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!filesystem\+Full@{filesystem\+Full}}
+\index{filesystem\+Full@{filesystem\+Full}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{filesystem\+Full}]{\setlength{\rightskip}{0pt plus 5cm}bool afatfs\+\_\+t\+::filesystem\+Full}}\label{structafatfs__t_a0016168f0d9acb24f1e7933eb5eb7ac3}
+\hypertarget{structafatfs__t_a322fbae2869c38a76d5f584f27c4dac6}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!filesystem\+State@{filesystem\+State}}
+\index{filesystem\+State@{filesystem\+State}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{filesystem\+State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Filesystem\+State\+\_\+e} afatfs\+\_\+t\+::filesystem\+State}}\label{structafatfs__t_a322fbae2869c38a76d5f584f27c4dac6}
+\hypertarget{structafatfs__t_a81962c5f439eab4e7dc72f412ba02c93}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!filesystem\+Type@{filesystem\+Type}}
+\index{filesystem\+Type@{filesystem\+Type}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{filesystem\+Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf fat\+Filesystem\+Type\+\_\+e} afatfs\+\_\+t\+::filesystem\+Type}}\label{structafatfs__t_a81962c5f439eab4e7dc72f412ba02c93}
+\hypertarget{structafatfs__t_a6202c43fd2114081ef640f1de4289fe6}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!free\+File@{free\+File}}
+\index{free\+File@{free\+File}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{free\+File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+File\+\_\+t} afatfs\+\_\+t\+::free\+File}}\label{structafatfs__t_a6202c43fd2114081ef640f1de4289fe6}
+\hypertarget{structafatfs__t_ac3b0a4c2e98943ad49102e1397ba54f4}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!free\+Space\+F\+A\+T@{free\+Space\+F\+A\+T}}
+\index{free\+Space\+F\+A\+T@{free\+Space\+F\+A\+T}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{free\+Space\+F\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Free\+Space\+F\+A\+T\+\_\+t} afatfs\+\_\+t\+::free\+Space\+F\+A\+T}}\label{structafatfs__t_ac3b0a4c2e98943ad49102e1397ba54f4}
+\hypertarget{structafatfs__t_a6787bfa434d2316ffdd550ac6357207a}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!free\+Space\+Search@{free\+Space\+Search}}
+\index{free\+Space\+Search@{free\+Space\+Search}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{free\+Space\+Search}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Free\+Space\+Search\+\_\+t} afatfs\+\_\+t\+::free\+Space\+Search}}\label{structafatfs__t_a6787bfa434d2316ffdd550ac6357207a}
+\hypertarget{structafatfs__t_ad5ca858db751ec7a7b030252d01a1893}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!init\+Phase@{init\+Phase}}
+\index{init\+Phase@{init\+Phase}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{init\+Phase}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Initialization\+Phase\+\_\+e} afatfs\+\_\+t\+::init\+Phase}}\label{structafatfs__t_ad5ca858db751ec7a7b030252d01a1893}
+\hypertarget{structafatfs__t_a0c464474083c107774adfa914841a661}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!init\+State@{init\+State}}
+\index{init\+State@{init\+State}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{init\+State}]{\setlength{\rightskip}{0pt plus 5cm}union \{ ... \}   afatfs\+\_\+t\+::init\+State}}\label{structafatfs__t_a0c464474083c107774adfa914841a661}
+\hypertarget{structafatfs__t_a486695e3e4c3c2335afea7f9c1cc0c9b}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!last\+Cluster\+Allocated@{last\+Cluster\+Allocated}}
+\index{last\+Cluster\+Allocated@{last\+Cluster\+Allocated}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{last\+Cluster\+Allocated}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::last\+Cluster\+Allocated}}\label{structafatfs__t_a486695e3e4c3c2335afea7f9c1cc0c9b}
+\hypertarget{structafatfs__t_a29155f6a40ff7e59b17eaccd00d8ebd6}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!last\+Error@{last\+Error}}
+\index{last\+Error@{last\+Error}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{last\+Error}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+Error\+\_\+e} afatfs\+\_\+t\+::last\+Error}}\label{structafatfs__t_a29155f6a40ff7e59b17eaccd00d8ebd6}
+\hypertarget{structafatfs__t_a62834f2a8eac0fd41207edec5f010db1}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!num\+Clusters@{num\+Clusters}}
+\index{num\+Clusters@{num\+Clusters}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{num\+Clusters}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::num\+Clusters}}\label{structafatfs__t_a62834f2a8eac0fd41207edec5f010db1}
+\hypertarget{structafatfs__t_a75322bb76641e102ee19d7e805742a57}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!open\+Files@{open\+Files}}
+\index{open\+Files@{open\+Files}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{open\+Files}]{\setlength{\rightskip}{0pt plus 5cm}{\bf afatfs\+File\+\_\+t} afatfs\+\_\+t\+::open\+Files\mbox{[}{\bf A\+F\+A\+T\+F\+S\+\_\+\+M\+A\+X\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E\+S}\mbox{]}}}\label{structafatfs__t_a75322bb76641e102ee19d7e805742a57}
+\hypertarget{structafatfs__t_ae4b82813964e5cbd736e920eecde4c7f}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!partition\+Start\+Sector@{partition\+Start\+Sector}}
+\index{partition\+Start\+Sector@{partition\+Start\+Sector}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{partition\+Start\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::partition\+Start\+Sector}}\label{structafatfs__t_ae4b82813964e5cbd736e920eecde4c7f}
+\hypertarget{structafatfs__t_af2fd51aa04bb8396d298dcbbd5db46cf}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!root\+Directory\+Cluster@{root\+Directory\+Cluster}}
+\index{root\+Directory\+Cluster@{root\+Directory\+Cluster}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{root\+Directory\+Cluster}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::root\+Directory\+Cluster}}\label{structafatfs__t_af2fd51aa04bb8396d298dcbbd5db46cf}
+\hypertarget{structafatfs__t_a3a57b49090ab8dcd151e317038239e67}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!root\+Directory\+Sectors@{root\+Directory\+Sectors}}
+\index{root\+Directory\+Sectors@{root\+Directory\+Sectors}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{root\+Directory\+Sectors}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::root\+Directory\+Sectors}}\label{structafatfs__t_a3a57b49090ab8dcd151e317038239e67}
+\hypertarget{structafatfs__t_a93c9fdb3a6f2d4f833ff0afe0779af8d}{\index{afatfs\+\_\+t@{afatfs\+\_\+t}!sectors\+Per\+Cluster@{sectors\+Per\+Cluster}}
+\index{sectors\+Per\+Cluster@{sectors\+Per\+Cluster}!afatfs\+\_\+t@{afatfs\+\_\+t}}
+\subsubsection[{sectors\+Per\+Cluster}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t afatfs\+\_\+t\+::sectors\+Per\+Cluster}}\label{structafatfs__t_a93c9fdb3a6f2d4f833ff0afe0779af8d}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/drivers/asyncfatfs/\hyperlink{asyncfatfs_8c}{asyncfatfs.\+c}\end{DoxyCompactItemize}

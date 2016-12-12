@@ -1,0 +1,99 @@
+\hypertarget{struct____mavlink__limits__status__t}{\section{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t Struct Reference}
+\label{struct____mavlink__limits__status__t}\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+limits\+\_\+status.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a9941c756a21de46db70c07cc19247ed1}{last\+\_\+trigger}
+\begin{DoxyCompactList}\small\item\em time of last breach in milliseconds since boot \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a5c4679921b8998a1cd199857a1c06631}{last\+\_\+action}
+\begin{DoxyCompactList}\small\item\em time of last recovery action in milliseconds since boot \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__limits__status__t_aa274cf1d2ecf847e3ed9bf3e543a7f20}{last\+\_\+recovery}
+\begin{DoxyCompactList}\small\item\em time of last successful recovery in milliseconds since boot \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a3f49dbbe3b4de2c3963a0d75eb7e42c4}{last\+\_\+clear}
+\begin{DoxyCompactList}\small\item\em time of last all-\/clear in milliseconds since boot \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a1dfa5b199ed06265ddd1e824358fbfce}{breach\+\_\+count}
+\begin{DoxyCompactList}\small\item\em number of fence breaches \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__limits__status__t_adbc320754ebc8df4d502d0ad209748bd}{limits\+\_\+state}
+\begin{DoxyCompactList}\small\item\em state of A\+P\+\_\+\+Limits, (see enum Limit\+State, L\+I\+M\+I\+T\+S\+\_\+\+S\+T\+A\+T\+E) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a1976338bf18897be8f5cf97898475079}{mods\+\_\+enabled}
+\begin{DoxyCompactList}\small\item\em A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of enabled modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a5c6d271b40d4106271f506fef6ec66ea}{mods\+\_\+required}
+\begin{DoxyCompactList}\small\item\em A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of required modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__limits__status__t_a8023524497cd6ae231dd32a3b80d0b9b}{mods\+\_\+triggered}
+\begin{DoxyCompactList}\small\item\em A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of triggered modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__limits__status__t_a1dfa5b199ed06265ddd1e824358fbfce}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!breach\+\_\+count@{breach\+\_\+count}}
+\index{breach\+\_\+count@{breach\+\_\+count}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{breach\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::breach\+\_\+count}}\label{struct____mavlink__limits__status__t_a1dfa5b199ed06265ddd1e824358fbfce}
+
+
+number of fence breaches 
+
+\hypertarget{struct____mavlink__limits__status__t_a5c4679921b8998a1cd199857a1c06631}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!last\+\_\+action@{last\+\_\+action}}
+\index{last\+\_\+action@{last\+\_\+action}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{last\+\_\+action}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::last\+\_\+action}}\label{struct____mavlink__limits__status__t_a5c4679921b8998a1cd199857a1c06631}
+
+
+time of last recovery action in milliseconds since boot 
+
+\hypertarget{struct____mavlink__limits__status__t_a3f49dbbe3b4de2c3963a0d75eb7e42c4}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!last\+\_\+clear@{last\+\_\+clear}}
+\index{last\+\_\+clear@{last\+\_\+clear}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{last\+\_\+clear}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::last\+\_\+clear}}\label{struct____mavlink__limits__status__t_a3f49dbbe3b4de2c3963a0d75eb7e42c4}
+
+
+time of last all-\/clear in milliseconds since boot 
+
+\hypertarget{struct____mavlink__limits__status__t_aa274cf1d2ecf847e3ed9bf3e543a7f20}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!last\+\_\+recovery@{last\+\_\+recovery}}
+\index{last\+\_\+recovery@{last\+\_\+recovery}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{last\+\_\+recovery}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::last\+\_\+recovery}}\label{struct____mavlink__limits__status__t_aa274cf1d2ecf847e3ed9bf3e543a7f20}
+
+
+time of last successful recovery in milliseconds since boot 
+
+\hypertarget{struct____mavlink__limits__status__t_a9941c756a21de46db70c07cc19247ed1}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!last\+\_\+trigger@{last\+\_\+trigger}}
+\index{last\+\_\+trigger@{last\+\_\+trigger}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{last\+\_\+trigger}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::last\+\_\+trigger}}\label{struct____mavlink__limits__status__t_a9941c756a21de46db70c07cc19247ed1}
+
+
+time of last breach in milliseconds since boot 
+
+\hypertarget{struct____mavlink__limits__status__t_adbc320754ebc8df4d502d0ad209748bd}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!limits\+\_\+state@{limits\+\_\+state}}
+\index{limits\+\_\+state@{limits\+\_\+state}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{limits\+\_\+state}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::limits\+\_\+state}}\label{struct____mavlink__limits__status__t_adbc320754ebc8df4d502d0ad209748bd}
+
+
+state of A\+P\+\_\+\+Limits, (see enum Limit\+State, L\+I\+M\+I\+T\+S\+\_\+\+S\+T\+A\+T\+E) 
+
+\hypertarget{struct____mavlink__limits__status__t_a1976338bf18897be8f5cf97898475079}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!mods\+\_\+enabled@{mods\+\_\+enabled}}
+\index{mods\+\_\+enabled@{mods\+\_\+enabled}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{mods\+\_\+enabled}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::mods\+\_\+enabled}}\label{struct____mavlink__limits__status__t_a1976338bf18897be8f5cf97898475079}
+
+
+A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of enabled modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) 
+
+\hypertarget{struct____mavlink__limits__status__t_a5c6d271b40d4106271f506fef6ec66ea}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!mods\+\_\+required@{mods\+\_\+required}}
+\index{mods\+\_\+required@{mods\+\_\+required}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{mods\+\_\+required}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::mods\+\_\+required}}\label{struct____mavlink__limits__status__t_a5c6d271b40d4106271f506fef6ec66ea}
+
+
+A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of required modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) 
+
+\hypertarget{struct____mavlink__limits__status__t_a8023524497cd6ae231dd32a3b80d0b9b}{\index{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}!mods\+\_\+triggered@{mods\+\_\+triggered}}
+\index{mods\+\_\+triggered@{mods\+\_\+triggered}!\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t}}
+\subsubsection[{mods\+\_\+triggered}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+limits\+\_\+status\+\_\+t\+::mods\+\_\+triggered}}\label{struct____mavlink__limits__status__t_a8023524497cd6ae231dd32a3b80d0b9b}
+
+
+A\+P\+\_\+\+Limit\+\_\+\+Module bitfield of triggered modules, (see enum moduleid or L\+I\+M\+I\+T\+\_\+\+M\+O\+D\+U\+L\+E) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__limits__status_8h}{mavlink\+\_\+msg\+\_\+limits\+\_\+status.\+h}\end{DoxyCompactItemize}

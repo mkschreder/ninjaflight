@@ -1,0 +1,23 @@
+<map id="src/main/drivers/bus_i2c.h" name="src/main/drivers/bus_i2c.h">
+<area shape="rect" id="node2" href="$cli_8c.html" title="src/main/cli.c" alt="" coords="5,104,104,131"/>
+<area shape="rect" id="node3" href="$accgyro__adxl345_8c.html" title="src/main/drivers/accgyro\l_adxl345.c" alt="" coords="128,97,292,138"/>
+<area shape="rect" id="node4" href="$accgyro__bma280_8c.html" title="src/main/drivers/accgyro\l_bma280.c" alt="" coords="317,97,481,138"/>
+<area shape="rect" id="node5" href="$accgyro__l3g4200d_8c.html" title="src/main/drivers/accgyro\l_l3g4200d.c" alt="" coords="507,97,671,138"/>
+<area shape="rect" id="node6" href="$accgyro__lsm303dlhc_8c.html" title="src/main/drivers/accgyro\l_lsm303dlhc.c" alt="" coords="696,97,860,138"/>
+<area shape="rect" id="node7" href="$accgyro__mma845x_8c.html" title="src/main/drivers/accgyro\l_mma845x.c" alt="" coords="885,97,1049,138"/>
+<area shape="rect" id="node8" href="$accgyro__mpu_8c.html" title="src/main/drivers/accgyro\l_mpu.c" alt="" coords="1075,97,1239,138"/>
+<area shape="rect" id="node9" href="$accgyro__mpu3050_8c.html" title="src/main/drivers/accgyro\l_mpu3050.c" alt="" coords="1264,97,1428,138"/>
+<area shape="rect" id="node10" href="$accgyro__mpu6050_8c.html" title="src/main/drivers/accgyro\l_mpu6050.c" alt="" coords="1453,97,1617,138"/>
+<area shape="rect" id="node11" href="$barometer__bmp085_8c.html" title="src/main/drivers/barometer\l_bmp085.c" alt="" coords="1643,97,1820,138"/>
+<area shape="rect" id="node12" href="$barometer__bmp280_8c.html" title="src/main/drivers/barometer\l_bmp280.c" alt="" coords="1845,97,2021,138"/>
+<area shape="rect" id="node13" href="$barometer__ms5611_8c.html" title="src/main/drivers/barometer\l_ms5611.c" alt="" coords="2046,97,2223,138"/>
+<area shape="rect" id="node14" href="$bus__i2c__stm32f10x_8c.html" title="src/main/drivers/bus\l_i2c_stm32f10x.c" alt="" coords="2247,97,2387,138"/>
+<area shape="rect" id="node15" href="$bus__i2c__stm32f30x_8c.html" title="src/main/drivers/bus\l_i2c_stm32f30x.c" alt="" coords="2411,97,2551,138"/>
+<area shape="rect" id="node16" href="$compass__ak8963_8c.html" title="src/main/drivers/compass\l_ak8963.c" alt="" coords="2575,97,2747,138"/>
+<area shape="rect" id="node17" href="$compass__ak8975_8c.html" title="src/main/drivers/compass\l_ak8975.c" alt="" coords="2771,97,2943,138"/>
+<area shape="rect" id="node18" href="$compass__hmc5883l_8c.html" title="src/main/drivers/compass\l_hmc5883l.c" alt="" coords="2967,97,3139,138"/>
+<area shape="rect" id="node19" href="$display__ug2864hsweg01_8c.html" title="src/main/drivers/display\l_ug2864hsweg01.c" alt="" coords="3164,97,3323,138"/>
+<area shape="rect" id="node20" href="$pwm__mapping_8c.html" title="src/main/drivers/pwm\l_mapping.c" alt="" coords="3348,97,3495,138"/>
+<area shape="rect" id="node21" href="$main_8c.html" title="src/main/main.c" alt="" coords="3519,104,3633,131"/>
+<area shape="rect" id="node22" href="$msp_8c.html" title="src/main/msp.c" alt="" coords="3657,104,3768,131"/>
+</map>

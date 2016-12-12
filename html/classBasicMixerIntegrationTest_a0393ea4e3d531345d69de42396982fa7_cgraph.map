@@ -1,0 +1,11 @@
+<map id="BasicMixerIntegrationTest::SetUp" name="BasicMixerIntegrationTest::SetUp">
+<area shape="rect" id="node2" href="$mock__system_8cc.html#a449f3580fa90e6b7ecd29b259f6ad060" title="mock_system_reset" alt="" coords="230,157,370,184"/>
+<area shape="rect" id="node3" href="$mock__system_8cc.html#a7f1bcc7aaed750f1176cb26d184de9cb" title="ninja_config_reset" alt="" coords="419,157,546,184"/>
+<area shape="rect" id="node4" href="$parameter__group_8c.html#afbac8c80f009c74eeae17ecf2fd2833e" title="pgResetAll" alt="" coords="649,5,735,32"/>
+<area shape="rect" id="node5" href="$profile_8c.html#acfcebe2625bb0a140f131f67e70cb47a" title="setProfile" alt="" coords="653,56,731,83"/>
+<area shape="rect" id="node6" href="$parameter__group_8c.html#aeb89721d6a6634822cce68a09611dc4a" title="pgActivateProfile" alt="" coords="631,107,753,133"/>
+<area shape="rect" id="node7" href="$feature_8c.html#a931b5a978b6544f030487f2784cceafd" title="featureClearAll" alt="" coords="638,157,746,184"/>
+<area shape="rect" id="node8" href="$feature_8c.html#ad3797636dede514e08360e29ae0b4c96" title="featureSet" alt="" coords="651,208,733,235"/>
+<area shape="rect" id="node9" href="$config__eeprom__unittest_8cc.html#a38002731a27d6286d7982e66c77d2ca7" title="parseRcChannels" alt="" coords="629,259,755,285"/>
+<area shape="rect" id="node10" href="$config_8h.html#abc6dd01280a72dea5ebbefdaf07a1adf" title="configureRateProfileSelection" alt="" coords="595,309,789,336"/>
+</map>

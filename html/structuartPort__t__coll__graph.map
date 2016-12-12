@@ -1,0 +1,5 @@
+<map id="uartPort_t" name="uartPort_t">
+<area shape="rect" id="node2" href="$structDMA__Channel__TypeDef.html" title="DMA_Channel_TypeDef" alt="" coords="5,96,168,123"/>
+<area shape="rect" id="node3" href="$structserialPort__s.html" title="serialPort_s" alt="" coords="193,96,284,123"/>
+<area shape="rect" id="node4" href="$structserial__port__ops.html" title="serial_port_ops" alt="" coords="183,5,293,32"/>
+</map>

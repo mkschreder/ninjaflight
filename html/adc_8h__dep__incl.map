@@ -1,0 +1,8 @@
+<map id="src/main/drivers/adc.h" name="src/main/drivers/adc.h">
+<area shape="rect" id="node2" href="$adc_8c.html" title="src/main/drivers/adc.c" alt="" coords="5,88,155,115"/>
+<area shape="rect" id="node3" href="$adc__stm32f10x_8c.html" title="src/main/drivers/adc\l_stm32f10x.c" alt="" coords="179,81,319,122"/>
+<area shape="rect" id="node4" href="$adc__stm32f30x_8c.html" title="src/main/drivers/adc\l_stm32f30x.c" alt="" coords="343,81,483,122"/>
+<area shape="rect" id="node5" href="$main_8c.html" title="src/main/main.c" alt="" coords="508,88,623,115"/>
+<area shape="rect" id="node6" href="$rx_2rx_8c.html" title="src/main/rx/rx.c" alt="" coords="647,88,760,115"/>
+<area shape="rect" id="node7" href="$battery_8c.html" title="src/main/sensors/battery.c" alt="" coords="785,88,961,115"/>
+</map>

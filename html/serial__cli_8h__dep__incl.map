@@ -1,0 +1,26 @@
+<map id="src/main/io/serial_cli.h" name="src/main/io/serial_cli.h">
+<area shape="rect" id="node2" href="$ninja_8h.html" title="src/main/ninja.h" alt="" coords="1445,96,1560,123"/>
+<area shape="rect" id="node8" href="$main_8c.html" title="src/main/main.c" alt="" coords="853,269,968,296"/>
+<area shape="rect" id="node9" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="5,269,120,296"/>
+<area shape="rect" id="node10" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="145,269,300,296"/>
+<area shape="rect" id="node11" href="$ninja__input_8c.html" title="src/main/ninja_input.c" alt="" coords="1964,269,2112,296"/>
+<area shape="rect" id="node12" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="2486,269,2628,296"/>
+<area shape="rect" id="node17" href="$serial__cli_8c.html" title="src/main/io/serial\l_cli.c" alt="" coords="2315,171,2436,213"/>
+<area shape="rect" id="node18" href="$serial__msp_8c.html" title="src/main/io/serial\l_msp.c" alt="" coords="2461,171,2581,213"/>
+<area shape="rect" id="node20" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="2607,179,2741,205"/>
+<area shape="rect" id="node25" href="$io_2serial_8c.html" title="src/main/io/serial.c" alt="" coords="2869,96,3000,123"/>
+<area shape="rect" id="node3" href="$blackbox_8c.html" title="src/main/blackbox/blackbox.c" alt="" coords="1299,179,1493,205"/>
+<area shape="rect" id="node4" href="$altitudehold_8c.html" title="src/main/flight/altitudehold.c" alt="" coords="1518,179,1703,205"/>
+<area shape="rect" id="node5" href="$ninjaflight_8h.html" title="src/main/ninjaflight.h" alt="" coords="1727,179,1869,205"/>
+<area shape="rect" id="node14" href="$navigation_8c.html" title="src/main/flight/navigation.c" alt="" coords="1945,179,2124,205"/>
+<area shape="rect" id="node15" href="$display_8c.html" title="src/main/io/display.c" alt="" coords="2149,179,2291,205"/>
+<area shape="rect" id="node16" href="$rc__adjustments_8c.html" title="src/main/io/rc_adjustments.c" alt="" coords="231,179,421,205"/>
+<area shape="rect" id="node19" href="$ninja__sched_8c.html" title="src/main/ninja_sched.c" alt="" coords="446,179,601,205"/>
+<area shape="rect" id="node21" href="$mock__system_8cc.html" title="src/test/mock/mock\l_system.cc" alt="" coords="627,171,765,213"/>
+<area shape="rect" id="node22" href="$msp__unittest_8cc.html" title="src/test/unit/msp_unittest.cc" alt="" coords="790,179,977,205"/>
+<area shape="rect" id="node23" href="$ninja__unittest_8cc.html" title="src/test/unit/ninja\l_unittest.cc" alt="" coords="1003,171,1125,213"/>
+<area shape="rect" id="node24" href="$rx_8cc.html" title="src/test/unit/rx.cc" alt="" coords="1150,179,1273,205"/>
+<area shape="rect" id="node6" href="$failsafe_8c.html" title="src/main/flight/failsafe.c" alt="" coords="1473,269,1633,296"/>
+<area shape="rect" id="node7" href="$io_2msp_8c.html" title="src/main/io/msp.c" alt="" coords="1658,269,1784,296"/>
+<area shape="rect" id="node13" href="$mavlink_8c.html" title="src/main/telemetry\l/mavlink.c" alt="" coords="1809,262,1939,303"/>
+</map>

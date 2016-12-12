@@ -1,0 +1,354 @@
+\hypertarget{scheduler_8h}{\section{src/main/scheduler.h File Reference}
+\label{scheduler_8h}\index{src/main/scheduler.\+h@{src/main/scheduler.\+h}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}target.\+h\char`\"{}}\\*
+Include dependency graph for scheduler.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{scheduler_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{scheduler_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcfTaskInfo__t}{cf\+Task\+Info\+\_\+t}
+\item 
+struct \hyperlink{structcfTask__t}{cf\+Task\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{scheduler_8h_ae740745906a6bd2b20fdc8b75902f5f7}{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E}~100
+\item 
+\#define \hyperlink{scheduler_8h_a98505dc9eed919be2ce330eb168bd0d2}{is\+System\+Overloaded}()~(\hyperlink{scheduler_8h_a6100a1099429651d8f2e668b74385b39}{average\+System\+Load\+Percent} $>$= \hyperlink{scheduler_8h_ae740745906a6bd2b20fdc8b75902f5f7}{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E})
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6}{cf\+Task\+Priority\+\_\+e} \{ \\*
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a68c8ea55e2a1e6f0c7e6137d51ba0ed9}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E} = 0, 
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a579ef89a125d8a2c726f2e7f09e30514}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W} = 1, 
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a3ab7a1e5924c0a7ee763b35d09a1d355}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M} = 3, 
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a853af49cf23aa50140b8d8341f42b4cf}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H} = 5, 
+\\*
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a0e70d150734270f56c57795dc0400bd8}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E} = 6, 
+\hyperlink{scheduler_8h_a73c8acc04524943e968763e547d80bf6a9c9b76d8117bb123b88fc92c045052d4}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X} = 255
+ \}
+\item 
+enum \hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} \{ \\*
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda002e552dda97d067e6b0b86a9783a054}{T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M} = 0, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda785945a538356d283b45abb46f09a0af}{T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D}, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdab2aff77f680cd858d3ffc6dcc3f89f0e}{T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L}, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdada1817efb6669211a4799afb4bc3b74a}{T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L}, 
+\\*
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda7caf9dac2aafca61f630295021f0f5d9}{T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y}, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdabf8ef2cded57118a717e871bfddfb3cb}{T\+A\+S\+K\+\_\+\+R\+X}, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda93e67b73584cb49184abfad112aea6da}{T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R}, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda91535596df4c19a73c0aaad08784fc3b}{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}, 
+\\*
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdae3ccbc01425ea4fa69050237315a4e88}{T\+A\+S\+K\+\_\+\+N\+O\+N\+E} = T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T, 
+\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdaeea2365a8b6bccc10a9eaca9b7162d93}{T\+A\+S\+K\+\_\+\+S\+E\+L\+F}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{scheduler_8h_a7ed7323ae171252bbde3e760d1710895}{get\+Task\+Info} (\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, \hyperlink{structcfTaskInfo__t}{cf\+Task\+Info\+\_\+t} $\ast$task\+Info)
+\item 
+void \hyperlink{scheduler_8h_abd0b31dde7ae3bd42a76b313b0176e95}{reschedule\+Task} (\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, uint32\+\_\+t new\+Period\+Micros)
+\item 
+void \hyperlink{scheduler_8h_ac18a359451ca10bcdd03bd6a6d9a8136}{set\+Task\+Enabled} (\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id, bool new\+Enabled\+State)
+\item 
+uint32\+\_\+t \hyperlink{scheduler_8h_a1208bc50cca24e843cbc0f6226540e2b}{get\+Task\+Delta\+Time} (\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{cf\+Task\+Id\+\_\+e} task\+Id)
+\item 
+void \hyperlink{scheduler_8h_af08ae3a41511be2118bef1cb79e52adc}{scheduler\+Init} (void)
+\item 
+void \hyperlink{scheduler_8h_a9fa00b0be5d3c4781048861e2506eb63}{scheduler} (void)
+\item 
+void \hyperlink{scheduler_8h_ab59789c3e31f2e85ac0068469f848901}{task\+Main\+Pid\+Loop\+Checker} (void)
+\item 
+void \hyperlink{scheduler_8h_ad234e792463ee47e10254a723e094fa7}{task\+Update\+Accelerometer} (void)
+\item 
+void \hyperlink{scheduler_8h_afe4dc11dee0627e7ebe1145bd8d212c8}{task\+Handle\+Serial} (void)
+\item 
+void \hyperlink{scheduler_8h_aaf92de59bd16e0e3bd895c2b750ecbda}{task\+Update\+Beeper} (void)
+\item 
+void \hyperlink{scheduler_8h_ab1bb2d62d7dd9ec68afa5701cf0f1b6b}{task\+Update\+Battery} (void)
+\item 
+bool \hyperlink{scheduler_8h_ad9db25a8d257a5f2b1abd94b35f4c095}{task\+Update\+Rx\+Check} (uint32\+\_\+t current\+Delta\+Time)
+\item 
+void \hyperlink{scheduler_8h_a1d592b39f1b3a729f185b392afd4142c}{task\+Update\+Rx\+Main} (void)
+\item 
+void \hyperlink{scheduler_8h_ad9df92b7c37bcead11623d8c9a350312}{task\+Process\+G\+P\+S} (void)
+\item 
+void \hyperlink{scheduler_8h_a6c006a08f33be9579b6dba2f1f23f7db}{task\+Update\+Compass} (void)
+\item 
+void \hyperlink{scheduler_8h_ac57a4026147f92caa91cd84d96dd4306}{task\+Update\+Baro} (void)
+\item 
+void \hyperlink{scheduler_8h_acedf01c1565c34ebc17f85c9e42c7200}{task\+Update\+Sonar} (void)
+\item 
+void \hyperlink{scheduler_8h_a796fe12627afec4fff0ed686e25ae8c3}{task\+Calculate\+Altitude} (void)
+\item 
+void \hyperlink{scheduler_8h_a1ccb4ab8524e3a7f57374824b90174d2}{task\+Update\+Display} (void)
+\item 
+void \hyperlink{scheduler_8h_a4b4d38450ac6ceae57013484821510e9}{task\+Telemetry} (void)
+\item 
+void \hyperlink{scheduler_8h_a1f7ecefa3d2098034c8135388b4bdf36}{task\+Led\+Strip} (void)
+\item 
+void \hyperlink{scheduler_8h_a28d11978a90b6f2e812578398236e54b}{task\+System} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structcfTask__t}{cf\+Task\+\_\+t} \hyperlink{scheduler_8h_a6e7b0eca810013342ba5cb5d9e13c2b6}{cf\+Tasks} \mbox{[}\hyperlink{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda91535596df4c19a73c0aaad08784fc3b}{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+uint16\+\_\+t \hyperlink{scheduler_8h_a007c616badb7d83f68c092a945970dde}{cpu\+Load}
+\item 
+uint16\+\_\+t \hyperlink{scheduler_8h_a6100a1099429651d8f2e668b74385b39}{average\+System\+Load\+Percent}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{scheduler_8h_a98505dc9eed919be2ce330eb168bd0d2}{\index{scheduler.\+h@{scheduler.\+h}!is\+System\+Overloaded@{is\+System\+Overloaded}}
+\index{is\+System\+Overloaded@{is\+System\+Overloaded}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{is\+System\+Overloaded}]{\setlength{\rightskip}{0pt plus 5cm}\#define is\+System\+Overloaded(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~({\bf average\+System\+Load\+Percent} $>$= {\bf L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E})}}\label{scheduler_8h_a98505dc9eed919be2ce330eb168bd0d2}
+\hypertarget{scheduler_8h_ae740745906a6bd2b20fdc8b75902f5f7}{\index{scheduler.\+h@{scheduler.\+h}!L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E@{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E}}
+\index{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E@{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+O\+A\+D\+\_\+\+P\+E\+R\+C\+E\+N\+T\+A\+G\+E\+\_\+\+O\+N\+E~100}}\label{scheduler_8h_ae740745906a6bd2b20fdc8b75902f5f7}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}{\index{scheduler.\+h@{scheduler.\+h}!cf\+Task\+Id\+\_\+e@{cf\+Task\+Id\+\_\+e}}
+\index{cf\+Task\+Id\+\_\+e@{cf\+Task\+Id\+\_\+e}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{cf\+Task\+Id\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf cf\+Task\+Id\+\_\+e}}}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bd}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M@{T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M@{T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda002e552dda97d067e6b0b86a9783a054}{T\+A\+S\+K\+\_\+\+S\+Y\+S\+T\+E\+M}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda002e552dda97d067e6b0b86a9783a054}
+}]\index{T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D@{T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D@{T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda785945a538356d283b45abb46f09a0af}{T\+A\+S\+K\+\_\+\+G\+Y\+R\+O\+P\+I\+D}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda785945a538356d283b45abb46f09a0af}
+}]\index{T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L@{T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L@{T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdab2aff77f680cd858d3ffc6dcc3f89f0e}{T\+A\+S\+K\+\_\+\+A\+C\+C\+E\+L}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdab2aff77f680cd858d3ffc6dcc3f89f0e}
+}]\index{T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L@{T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L@{T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdada1817efb6669211a4799afb4bc3b74a}{T\+A\+S\+K\+\_\+\+S\+E\+R\+I\+A\+L}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdada1817efb6669211a4799afb4bc3b74a}
+}]\index{T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y@{T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y@{T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda7caf9dac2aafca61f630295021f0f5d9}{T\+A\+S\+K\+\_\+\+B\+A\+T\+T\+E\+R\+Y}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda7caf9dac2aafca61f630295021f0f5d9}
+}]\index{T\+A\+S\+K\+\_\+\+R\+X@{T\+A\+S\+K\+\_\+\+R\+X}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+R\+X@{T\+A\+S\+K\+\_\+\+R\+X}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdabf8ef2cded57118a717e871bfddfb3cb}{T\+A\+S\+K\+\_\+\+R\+X}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdabf8ef2cded57118a717e871bfddfb3cb}
+}]\index{T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R@{T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R@{T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda93e67b73584cb49184abfad112aea6da}{T\+A\+S\+K\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda93e67b73584cb49184abfad112aea6da}
+}]\index{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T@{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T@{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda91535596df4c19a73c0aaad08784fc3b}{T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bda91535596df4c19a73c0aaad08784fc3b}
+}]\index{T\+A\+S\+K\+\_\+\+N\+O\+N\+E@{T\+A\+S\+K\+\_\+\+N\+O\+N\+E}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+N\+O\+N\+E@{T\+A\+S\+K\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdae3ccbc01425ea4fa69050237315a4e88}{T\+A\+S\+K\+\_\+\+N\+O\+N\+E}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdae3ccbc01425ea4fa69050237315a4e88}
+}]\index{T\+A\+S\+K\+\_\+\+S\+E\+L\+F@{T\+A\+S\+K\+\_\+\+S\+E\+L\+F}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+S\+E\+L\+F@{T\+A\+S\+K\+\_\+\+S\+E\+L\+F}}\item[{\em 
+\hypertarget{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdaeea2365a8b6bccc10a9eaca9b7162d93}{T\+A\+S\+K\+\_\+\+S\+E\+L\+F}\label{scheduler_8h_a7a0ac93d52343c754e212d32d89251bdaeea2365a8b6bccc10a9eaca9b7162d93}
+}]\end{description}
+\end{Desc}
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6}{\index{scheduler.\+h@{scheduler.\+h}!cf\+Task\+Priority\+\_\+e@{cf\+Task\+Priority\+\_\+e}}
+\index{cf\+Task\+Priority\+\_\+e@{cf\+Task\+Priority\+\_\+e}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{cf\+Task\+Priority\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf cf\+Task\+Priority\+\_\+e}}}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a68c8ea55e2a1e6f0c7e6137d51ba0ed9}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+I\+D\+L\+E}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a68c8ea55e2a1e6f0c7e6137d51ba0ed9}
+}]\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a579ef89a125d8a2c726f2e7f09e30514}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+L\+O\+W}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a579ef89a125d8a2c726f2e7f09e30514}
+}]\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a3ab7a1e5924c0a7ee763b35d09a1d355}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+E\+D\+I\+U\+M}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a3ab7a1e5924c0a7ee763b35d09a1d355}
+}]\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a853af49cf23aa50140b8d8341f42b4cf}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+H\+I\+G\+H}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a853af49cf23aa50140b8d8341f42b4cf}
+}]\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a0e70d150734270f56c57795dc0400bd8}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+R\+E\+A\+L\+T\+I\+M\+E}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a0e70d150734270f56c57795dc0400bd8}
+}]\index{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X}!scheduler.\+h@{scheduler.\+h}}\index{scheduler.\+h@{scheduler.\+h}!T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X@{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{scheduler_8h_a73c8acc04524943e968763e547d80bf6a9c9b76d8117bb123b88fc92c045052d4}{T\+A\+S\+K\+\_\+\+P\+R\+I\+O\+R\+I\+T\+Y\+\_\+\+M\+A\+X}\label{scheduler_8h_a73c8acc04524943e968763e547d80bf6a9c9b76d8117bb123b88fc92c045052d4}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{scheduler_8h_a1208bc50cca24e843cbc0f6226540e2b}{\index{scheduler.\+h@{scheduler.\+h}!get\+Task\+Delta\+Time@{get\+Task\+Delta\+Time}}
+\index{get\+Task\+Delta\+Time@{get\+Task\+Delta\+Time}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{get\+Task\+Delta\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t get\+Task\+Delta\+Time (
+\begin{DoxyParamCaption}
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a1208bc50cca24e843cbc0f6226540e2b}
+\hypertarget{scheduler_8h_a7ed7323ae171252bbde3e760d1710895}{\index{scheduler.\+h@{scheduler.\+h}!get\+Task\+Info@{get\+Task\+Info}}
+\index{get\+Task\+Info@{get\+Task\+Info}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{get\+Task\+Info}]{\setlength{\rightskip}{0pt plus 5cm}void get\+Task\+Info (
+\begin{DoxyParamCaption}
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{{\bf cf\+Task\+Info\+\_\+t} $\ast$}]{task\+Info}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a7ed7323ae171252bbde3e760d1710895}
+\hypertarget{scheduler_8h_abd0b31dde7ae3bd42a76b313b0176e95}{\index{scheduler.\+h@{scheduler.\+h}!reschedule\+Task@{reschedule\+Task}}
+\index{reschedule\+Task@{reschedule\+Task}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{reschedule\+Task}]{\setlength{\rightskip}{0pt plus 5cm}void reschedule\+Task (
+\begin{DoxyParamCaption}
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{uint32\+\_\+t}]{new\+Period\+Micros}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_abd0b31dde7ae3bd42a76b313b0176e95}
+\hypertarget{scheduler_8h_a9fa00b0be5d3c4781048861e2506eb63}{\index{scheduler.\+h@{scheduler.\+h}!scheduler@{scheduler}}
+\index{scheduler@{scheduler}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{scheduler}]{\setlength{\rightskip}{0pt plus 5cm}void scheduler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a9fa00b0be5d3c4781048861e2506eb63}
+\hypertarget{scheduler_8h_af08ae3a41511be2118bef1cb79e52adc}{\index{scheduler.\+h@{scheduler.\+h}!scheduler\+Init@{scheduler\+Init}}
+\index{scheduler\+Init@{scheduler\+Init}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{scheduler\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void scheduler\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_af08ae3a41511be2118bef1cb79e52adc}
+\hypertarget{scheduler_8h_ac18a359451ca10bcdd03bd6a6d9a8136}{\index{scheduler.\+h@{scheduler.\+h}!set\+Task\+Enabled@{set\+Task\+Enabled}}
+\index{set\+Task\+Enabled@{set\+Task\+Enabled}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{set\+Task\+Enabled}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Task\+Enabled (
+\begin{DoxyParamCaption}
+\item[{{\bf cf\+Task\+Id\+\_\+e}}]{task\+Id, }
+\item[{bool}]{new\+Enabled\+State}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ac18a359451ca10bcdd03bd6a6d9a8136}
+\hypertarget{scheduler_8h_a796fe12627afec4fff0ed686e25ae8c3}{\index{scheduler.\+h@{scheduler.\+h}!task\+Calculate\+Altitude@{task\+Calculate\+Altitude}}
+\index{task\+Calculate\+Altitude@{task\+Calculate\+Altitude}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Calculate\+Altitude}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Calculate\+Altitude (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a796fe12627afec4fff0ed686e25ae8c3}
+\hypertarget{scheduler_8h_afe4dc11dee0627e7ebe1145bd8d212c8}{\index{scheduler.\+h@{scheduler.\+h}!task\+Handle\+Serial@{task\+Handle\+Serial}}
+\index{task\+Handle\+Serial@{task\+Handle\+Serial}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Handle\+Serial}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Handle\+Serial (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_afe4dc11dee0627e7ebe1145bd8d212c8}
+\hypertarget{scheduler_8h_a1f7ecefa3d2098034c8135388b4bdf36}{\index{scheduler.\+h@{scheduler.\+h}!task\+Led\+Strip@{task\+Led\+Strip}}
+\index{task\+Led\+Strip@{task\+Led\+Strip}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Led\+Strip}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Led\+Strip (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a1f7ecefa3d2098034c8135388b4bdf36}
+\hypertarget{scheduler_8h_ab59789c3e31f2e85ac0068469f848901}{\index{scheduler.\+h@{scheduler.\+h}!task\+Main\+Pid\+Loop\+Checker@{task\+Main\+Pid\+Loop\+Checker}}
+\index{task\+Main\+Pid\+Loop\+Checker@{task\+Main\+Pid\+Loop\+Checker}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Main\+Pid\+Loop\+Checker}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Main\+Pid\+Loop\+Checker (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ab59789c3e31f2e85ac0068469f848901}
+\hypertarget{scheduler_8h_ad9df92b7c37bcead11623d8c9a350312}{\index{scheduler.\+h@{scheduler.\+h}!task\+Process\+G\+P\+S@{task\+Process\+G\+P\+S}}
+\index{task\+Process\+G\+P\+S@{task\+Process\+G\+P\+S}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Process\+G\+P\+S}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Process\+G\+P\+S (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ad9df92b7c37bcead11623d8c9a350312}
+\hypertarget{scheduler_8h_a28d11978a90b6f2e812578398236e54b}{\index{scheduler.\+h@{scheduler.\+h}!task\+System@{task\+System}}
+\index{task\+System@{task\+System}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+System}]{\setlength{\rightskip}{0pt plus 5cm}void task\+System (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a28d11978a90b6f2e812578398236e54b}
+\hypertarget{scheduler_8h_a4b4d38450ac6ceae57013484821510e9}{\index{scheduler.\+h@{scheduler.\+h}!task\+Telemetry@{task\+Telemetry}}
+\index{task\+Telemetry@{task\+Telemetry}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Telemetry}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Telemetry (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a4b4d38450ac6ceae57013484821510e9}
+\hypertarget{scheduler_8h_ad234e792463ee47e10254a723e094fa7}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Accelerometer@{task\+Update\+Accelerometer}}
+\index{task\+Update\+Accelerometer@{task\+Update\+Accelerometer}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Accelerometer}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Accelerometer (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ad234e792463ee47e10254a723e094fa7}
+\hypertarget{scheduler_8h_ac57a4026147f92caa91cd84d96dd4306}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Baro@{task\+Update\+Baro}}
+\index{task\+Update\+Baro@{task\+Update\+Baro}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Baro}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Baro (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ac57a4026147f92caa91cd84d96dd4306}
+\hypertarget{scheduler_8h_ab1bb2d62d7dd9ec68afa5701cf0f1b6b}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Battery@{task\+Update\+Battery}}
+\index{task\+Update\+Battery@{task\+Update\+Battery}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Battery}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Battery (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ab1bb2d62d7dd9ec68afa5701cf0f1b6b}
+\hypertarget{scheduler_8h_aaf92de59bd16e0e3bd895c2b750ecbda}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Beeper@{task\+Update\+Beeper}}
+\index{task\+Update\+Beeper@{task\+Update\+Beeper}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Beeper}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Beeper (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_aaf92de59bd16e0e3bd895c2b750ecbda}
+\hypertarget{scheduler_8h_a6c006a08f33be9579b6dba2f1f23f7db}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Compass@{task\+Update\+Compass}}
+\index{task\+Update\+Compass@{task\+Update\+Compass}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Compass}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Compass (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a6c006a08f33be9579b6dba2f1f23f7db}
+\hypertarget{scheduler_8h_a1ccb4ab8524e3a7f57374824b90174d2}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Display@{task\+Update\+Display}}
+\index{task\+Update\+Display@{task\+Update\+Display}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Display}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Display (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a1ccb4ab8524e3a7f57374824b90174d2}
+\hypertarget{scheduler_8h_ad9db25a8d257a5f2b1abd94b35f4c095}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Rx\+Check@{task\+Update\+Rx\+Check}}
+\index{task\+Update\+Rx\+Check@{task\+Update\+Rx\+Check}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Rx\+Check}]{\setlength{\rightskip}{0pt plus 5cm}bool task\+Update\+Rx\+Check (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{current\+Delta\+Time}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_ad9db25a8d257a5f2b1abd94b35f4c095}
+\hypertarget{scheduler_8h_a1d592b39f1b3a729f185b392afd4142c}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Rx\+Main@{task\+Update\+Rx\+Main}}
+\index{task\+Update\+Rx\+Main@{task\+Update\+Rx\+Main}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Rx\+Main}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Rx\+Main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_a1d592b39f1b3a729f185b392afd4142c}
+\hypertarget{scheduler_8h_acedf01c1565c34ebc17f85c9e42c7200}{\index{scheduler.\+h@{scheduler.\+h}!task\+Update\+Sonar@{task\+Update\+Sonar}}
+\index{task\+Update\+Sonar@{task\+Update\+Sonar}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{task\+Update\+Sonar}]{\setlength{\rightskip}{0pt plus 5cm}void task\+Update\+Sonar (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{scheduler_8h_acedf01c1565c34ebc17f85c9e42c7200}
+
+
+\subsection{Variable Documentation}
+\hypertarget{scheduler_8h_a6100a1099429651d8f2e668b74385b39}{\index{scheduler.\+h@{scheduler.\+h}!average\+System\+Load\+Percent@{average\+System\+Load\+Percent}}
+\index{average\+System\+Load\+Percent@{average\+System\+Load\+Percent}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{average\+System\+Load\+Percent}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t average\+System\+Load\+Percent}}\label{scheduler_8h_a6100a1099429651d8f2e668b74385b39}
+\hypertarget{scheduler_8h_a6e7b0eca810013342ba5cb5d9e13c2b6}{\index{scheduler.\+h@{scheduler.\+h}!cf\+Tasks@{cf\+Tasks}}
+\index{cf\+Tasks@{cf\+Tasks}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{cf\+Tasks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cf\+Task\+\_\+t} cf\+Tasks\mbox{[}{\bf T\+A\+S\+K\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{scheduler_8h_a6e7b0eca810013342ba5cb5d9e13c2b6}
+\hypertarget{scheduler_8h_a007c616badb7d83f68c092a945970dde}{\index{scheduler.\+h@{scheduler.\+h}!cpu\+Load@{cpu\+Load}}
+\index{cpu\+Load@{cpu\+Load}!scheduler.\+h@{scheduler.\+h}}
+\subsubsection[{cpu\+Load}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t cpu\+Load}}\label{scheduler_8h_a007c616badb7d83f68c092a945970dde}

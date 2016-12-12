@@ -1,0 +1,8 @@
+<map id="src/main/flight/mixer.h" name="src/main/flight/mixer.h">
+<area shape="rect" id="node2" href="$system__calls_8h.html" title="system_calls.h" alt="" coords="5,80,115,107"/>
+<area shape="rect" id="node5" href="$config_2mixer_8h.html" title="../config/mixer.h" alt="" coords="139,80,255,107"/>
+<area shape="rect" id="node6" href="$rc__controls_8h.html" title="../config/rc_controls.h" alt="" coords="279,80,427,107"/>
+<area shape="rect" id="node7" href="$config_2rx_8h.html" title="../config/rx.h" alt="" coords="451,80,545,107"/>
+<area shape="rect" id="node8" href="$filter_8h.html" title="../common/filter.h" alt="" coords="570,80,693,107"/>
+<area shape="rect" id="node9" href="$maths_8h.html" title="../common/maths.h" alt="" coords="718,80,852,107"/>
+</map>

@@ -1,0 +1,130 @@
+\hypertarget{usb__istr_8c}{\section{src/main/drivers/vcp/usb\+\_\+istr.c File Reference}
+\label{usb__istr_8c}\index{src/main/drivers/vcp/usb\+\_\+istr.\+c@{src/main/drivers/vcp/usb\+\_\+istr.\+c}}
+}
+
+
+I\+S\+T\+R events interrupt service routines.  
+
+
+{\ttfamily \#include \char`\"{}usb\+\_\+lib.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+prop.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+pwr.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+istr.\+h\char`\"{}}\\*
+Include dependency graph for usb\+\_\+istr.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{usb__istr_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{usb__istr_8c_ab084f8c2574dd1fef2ef68123f5e90ab}{U\+S\+B\+\_\+\+Istr} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+\+I\+O uint16\+\_\+t \hyperlink{usb__istr_8c_ada56371c653397fdfcb0bd55b7484071}{w\+Istr}
+\item 
+\+\_\+\+\_\+\+I\+O uint8\+\_\+t \hyperlink{usb__istr_8c_a6161d02738dc8972c0a221db2cff0ca4}{b\+Int\+Pack\+S\+O\+F} = 0
+\item 
+\+\_\+\+\_\+\+I\+O uint32\+\_\+t \hyperlink{usb__istr_8c_a38a6e02e6f387dae0438fa8c96e65301}{esof\+\_\+counter} = 0
+\item 
+\+\_\+\+\_\+\+I\+O uint32\+\_\+t \hyperlink{usb__istr_8c_a9ed625771c2f7c3c41e74b9b585c20eb}{w\+C\+N\+T\+R} = 0
+\item 
+void($\ast$ \hyperlink{usb__istr_8c_a0992c19a0f2e317fcd93f755d316a0fd}{p\+Ep\+Int\+\_\+\+I\+N} \mbox{[}7\mbox{]})(void)
+\item 
+void($\ast$ \hyperlink{usb__istr_8c_a549396ff4348c565f52117dd27ad52ca}{p\+Ep\+Int\+\_\+\+O\+U\+T} \mbox{[}7\mbox{]})(void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I\+S\+T\+R events interrupt service routines. 
+
+\begin{DoxyAuthor}{Author}
+M\+C\+D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V4.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+21-\/\+January-\/2013 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+H\+T 2013 S\+T\+Microelectronics\end{center} }
+
+Licensed under M\+C\+D-\/\+S\+T Liberty S\+W License Agreement V2, (the \char`\"{}\+License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\+: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+I\+S, W\+I\+T\+H\+O\+U\+T W\+A\+R\+R\+A\+N\+T\+I\+E\+S O\+R C\+O\+N\+D\+I\+T\+I\+O\+N\+S O\+F A\+N\+Y K\+I\+N\+D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+\subsection{Function Documentation}
+\hypertarget{usb__istr_8c_ab084f8c2574dd1fef2ef68123f5e90ab}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!U\+S\+B\+\_\+\+Istr@{U\+S\+B\+\_\+\+Istr}}
+\index{U\+S\+B\+\_\+\+Istr@{U\+S\+B\+\_\+\+Istr}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{U\+S\+B\+\_\+\+Istr}]{\setlength{\rightskip}{0pt plus 5cm}void U\+S\+B\+\_\+\+Istr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{usb__istr_8c_ab084f8c2574dd1fef2ef68123f5e90ab}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{usb__istr_8c_ab084f8c2574dd1fef2ef68123f5e90ab_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{usb__istr_8c_a6161d02738dc8972c0a221db2cff0ca4}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!b\+Int\+Pack\+S\+O\+F@{b\+Int\+Pack\+S\+O\+F}}
+\index{b\+Int\+Pack\+S\+O\+F@{b\+Int\+Pack\+S\+O\+F}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{b\+Int\+Pack\+S\+O\+F}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint8\+\_\+t b\+Int\+Pack\+S\+O\+F = 0}}\label{usb__istr_8c_a6161d02738dc8972c0a221db2cff0ca4}
+\hypertarget{usb__istr_8c_a38a6e02e6f387dae0438fa8c96e65301}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!esof\+\_\+counter@{esof\+\_\+counter}}
+\index{esof\+\_\+counter@{esof\+\_\+counter}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{esof\+\_\+counter}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint32\+\_\+t esof\+\_\+counter = 0}}\label{usb__istr_8c_a38a6e02e6f387dae0438fa8c96e65301}
+\hypertarget{usb__istr_8c_a0992c19a0f2e317fcd93f755d316a0fd}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!p\+Ep\+Int\+\_\+\+I\+N@{p\+Ep\+Int\+\_\+\+I\+N}}
+\index{p\+Ep\+Int\+\_\+\+I\+N@{p\+Ep\+Int\+\_\+\+I\+N}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{p\+Ep\+Int\+\_\+\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ p\+Ep\+Int\+\_\+\+I\+N\mbox{[}7\mbox{]})(void)}}\label{usb__istr_8c_a0992c19a0f2e317fcd93f755d316a0fd}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+\{
+    \hyperlink{usb__endp_8c_a6894267c7a3211245a6c20b7256231f0}{EP1\_IN\_Callback},
+    \hyperlink{usb__istr_8h_a7ba34c7fb83a8686d717cf9cbd37f3d0}{EP2\_IN\_Callback},
+    \hyperlink{usb__istr_8h_a84a6d5fe6a76e785268e76a052e02938}{EP3\_IN\_Callback},
+    \hyperlink{usb__istr_8h_a2dd10da611b3a42985262e134924bf22}{EP4\_IN\_Callback},
+    \hyperlink{usb__istr_8h_aef36d98d43b7d8a28dd8e05de37d8c3d}{EP5\_IN\_Callback},
+    \hyperlink{usb__istr_8h_ad258a438b08896fb8fd1123d57be9bbb}{EP6\_IN\_Callback},
+    \hyperlink{usb__istr_8h_aa5a883a23943769c062b30dd5a875c4a}{EP7\_IN\_Callback},
+\}
+\end{DoxyCode}
+\hypertarget{usb__istr_8c_a549396ff4348c565f52117dd27ad52ca}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!p\+Ep\+Int\+\_\+\+O\+U\+T@{p\+Ep\+Int\+\_\+\+O\+U\+T}}
+\index{p\+Ep\+Int\+\_\+\+O\+U\+T@{p\+Ep\+Int\+\_\+\+O\+U\+T}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{p\+Ep\+Int\+\_\+\+O\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ p\+Ep\+Int\+\_\+\+O\+U\+T\mbox{[}7\mbox{]})(void)}}\label{usb__istr_8c_a549396ff4348c565f52117dd27ad52ca}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=
+\{
+    \hyperlink{usb__istr_8h_ae7eedb2e9ad743ffa600b247dcd88aa1}{EP1\_OUT\_Callback},
+    \hyperlink{usb__istr_8h_aca498e3a86ef2f7180e2b5cc32aa9e92}{EP2\_OUT\_Callback},
+    \hyperlink{usb__endp_8c_a82a2b35a4c87d70b9593a90323627bdd}{EP3\_OUT\_Callback},
+    \hyperlink{usb__istr_8h_a7f5f50d5aee1128411b50bbaa83ed241}{EP4\_OUT\_Callback},
+    \hyperlink{usb__istr_8h_ad52bed9d2abe8256e9bf45bc95bc4785}{EP5\_OUT\_Callback},
+    \hyperlink{usb__istr_8h_ac933ff35b417b10442e984a4db7cd8ac}{EP6\_OUT\_Callback},
+    \hyperlink{usb__istr_8h_a644aaec32cb5d54d126f96b2a1b62cbd}{EP7\_OUT\_Callback},
+\}
+\end{DoxyCode}
+\hypertarget{usb__istr_8c_a9ed625771c2f7c3c41e74b9b585c20eb}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!w\+C\+N\+T\+R@{w\+C\+N\+T\+R}}
+\index{w\+C\+N\+T\+R@{w\+C\+N\+T\+R}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{w\+C\+N\+T\+R}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint32\+\_\+t w\+C\+N\+T\+R = 0}}\label{usb__istr_8c_a9ed625771c2f7c3c41e74b9b585c20eb}
+\hypertarget{usb__istr_8c_ada56371c653397fdfcb0bd55b7484071}{\index{usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}!w\+Istr@{w\+Istr}}
+\index{w\+Istr@{w\+Istr}!usb\+\_\+istr.\+c@{usb\+\_\+istr.\+c}}
+\subsubsection[{w\+Istr}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+\+I\+O uint16\+\_\+t w\+Istr}}\label{usb__istr_8c_ada56371c653397fdfcb0bd55b7484071}

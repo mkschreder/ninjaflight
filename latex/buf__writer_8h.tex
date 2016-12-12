@@ -1,0 +1,79 @@
+\hypertarget{buf__writer_8h}{\section{src/main/common/buf\+\_\+writer.h File Reference}
+\label{buf__writer_8h}\index{src/main/common/buf\+\_\+writer.\+h@{src/main/common/buf\+\_\+writer.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{buf__writer_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbufWriter__s}{buf\+Writer\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{buf__writer_8h_ab59fe6deb6f3766ed2f806262d0b6d76}{buf\+Write\+\_\+t} )(void $\ast$arg, void $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, int count)
+\item 
+typedef struct \hyperlink{structbufWriter__s}{buf\+Writer\+\_\+s} \hyperlink{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}{buf\+Writer\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}{buf\+Writer\+\_\+t} $\ast$ \hyperlink{buf__writer_8h_a74fcc2a741f40163efd4ce93bf6ef146}{buf\+Writer\+Init} (uint8\+\_\+t $\ast$b, int total\+\_\+size, \hyperlink{buf__writer_8h_ab59fe6deb6f3766ed2f806262d0b6d76}{buf\+Write\+\_\+t} writer, void $\ast$p)
+\item 
+void \hyperlink{buf__writer_8h_a0d7a4ae960bfca2e5952975f47fa44c0}{buf\+Writer\+Append} (\hyperlink{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}{buf\+Writer\+\_\+t} $\ast$b, uint8\+\_\+t ch)
+\item 
+void \hyperlink{buf__writer_8h_a83f7b4135f7877239ab58a378639aba7}{buf\+Writer\+Flush} (\hyperlink{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}{buf\+Writer\+\_\+t} $\ast$b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{buf__writer_8h_ab59fe6deb6f3766ed2f806262d0b6d76}{\index{buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}!buf\+Write\+\_\+t@{buf\+Write\+\_\+t}}
+\index{buf\+Write\+\_\+t@{buf\+Write\+\_\+t}!buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}}
+\subsubsection[{buf\+Write\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ buf\+Write\+\_\+t)(void $\ast$arg, void $\ast${\bf data}, int count)}}\label{buf__writer_8h_ab59fe6deb6f3766ed2f806262d0b6d76}
+\hypertarget{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}{\index{buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}!buf\+Writer\+\_\+t@{buf\+Writer\+\_\+t}}
+\index{buf\+Writer\+\_\+t@{buf\+Writer\+\_\+t}!buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}}
+\subsubsection[{buf\+Writer\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf buf\+Writer\+\_\+s}  {\bf buf\+Writer\+\_\+t}}}\label{buf__writer_8h_af353d11f86cf78bbfa82c614d2d9cdcf}
+
+
+\subsection{Function Documentation}
+\hypertarget{buf__writer_8h_a0d7a4ae960bfca2e5952975f47fa44c0}{\index{buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}!buf\+Writer\+Append@{buf\+Writer\+Append}}
+\index{buf\+Writer\+Append@{buf\+Writer\+Append}!buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}}
+\subsubsection[{buf\+Writer\+Append}]{\setlength{\rightskip}{0pt plus 5cm}void buf\+Writer\+Append (
+\begin{DoxyParamCaption}
+\item[{{\bf buf\+Writer\+\_\+t} $\ast$}]{b, }
+\item[{uint8\+\_\+t}]{ch}
+\end{DoxyParamCaption}
+)}}\label{buf__writer_8h_a0d7a4ae960bfca2e5952975f47fa44c0}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{buf__writer_8h_a0d7a4ae960bfca2e5952975f47fa44c0_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{buf__writer_8h_a83f7b4135f7877239ab58a378639aba7}{\index{buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}!buf\+Writer\+Flush@{buf\+Writer\+Flush}}
+\index{buf\+Writer\+Flush@{buf\+Writer\+Flush}!buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}}
+\subsubsection[{buf\+Writer\+Flush}]{\setlength{\rightskip}{0pt plus 5cm}void buf\+Writer\+Flush (
+\begin{DoxyParamCaption}
+\item[{{\bf buf\+Writer\+\_\+t} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}}\label{buf__writer_8h_a83f7b4135f7877239ab58a378639aba7}
+\hypertarget{buf__writer_8h_a74fcc2a741f40163efd4ce93bf6ef146}{\index{buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}!buf\+Writer\+Init@{buf\+Writer\+Init}}
+\index{buf\+Writer\+Init@{buf\+Writer\+Init}!buf\+\_\+writer.\+h@{buf\+\_\+writer.\+h}}
+\subsubsection[{buf\+Writer\+Init}]{\setlength{\rightskip}{0pt plus 5cm}{\bf buf\+Writer\+\_\+t}$\ast$ buf\+Writer\+Init (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{b, }
+\item[{int}]{total\+\_\+size, }
+\item[{{\bf buf\+Write\+\_\+t}}]{writer, }
+\item[{void $\ast$}]{p}
+\end{DoxyParamCaption}
+)}}\label{buf__writer_8h_a74fcc2a741f40163efd4ce93bf6ef146}

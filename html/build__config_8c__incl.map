@@ -1,0 +1,11 @@
+<map id="src/main/build_config.c" name="src/main/build_config.c">
+<area shape="rect" id="node4" href="$main_2platform_8h.html" title="platform.h" alt="" coords="195,80,273,107"/>
+<area shape="rect" id="node7" href="$flight_2mixer_8h.html" title="flight/mixer.h" alt="" coords="541,80,637,107"/>
+<area shape="rect" id="node15" href="$build__config_8h.html" title="build_config.h" alt="" coords="662,80,764,107"/>
+<area shape="rect" id="node8" href="$system__calls_8h.html" title="system_calls.h" alt="" coords="757,155,867,181"/>
+<area shape="rect" id="node10" href="$config_2mixer_8h.html" title="../config/mixer.h" alt="" coords="891,155,1007,181"/>
+<area shape="rect" id="node11" href="$rc__controls_8h.html" title="../config/rc_controls.h" alt="" coords="1031,155,1179,181"/>
+<area shape="rect" id="node12" href="$config_2rx_8h.html" title="../config/rx.h" alt="" coords="331,155,425,181"/>
+<area shape="rect" id="node13" href="$filter_8h.html" title="../common/filter.h" alt="" coords="450,155,573,181"/>
+<area shape="rect" id="node14" href="$maths_8h.html" title="../common/maths.h" alt="" coords="598,155,732,181"/>
+</map>

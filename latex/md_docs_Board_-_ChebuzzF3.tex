@@ -1,0 +1,55 @@
+The Chebuzz\+F3 is a daugter board which connects to the bottom of an S\+T\+M32\+F3\+Discovery board and provides pin headers and ports for various F\+C connections.
+
+All connections were traced using a multimeter and then verified against the Tau\+Labs source code using the revision linked.
+
+\href{https://github.com/TauLabs/TauLabs/blob/816760dec2a20db7fb9ec1a505add240e696c31f/flight/targets/flyingf3/board-info/board_hw_defs.c}{\tt https\+://github.\+com/\+Tau\+Labs/\+Tau\+Labs/blob/816760dec2a20db7fb9ec1a505add240e696c31f/flight/targets/flyingf3/board-\/info/board\+\_\+hw\+\_\+defs.\+c}
+
+\subsection*{Connections}
+
+Board orientation.
+
+These notes assume that when the board is placed with the header pins facing up, the bottom right of the board is next to the 8 sets of I\+N\+P\+U\+T pin headers. Inner means between the two rows of header sockets, outer means between the left/right board edges and the header sockets.
+
+\subsubsection*{S\+P\+I2 / External S\+P\+I}
+
+sclk G\+P\+I\+O\+B 13 miso G\+P\+I\+O\+B 14 mosi G\+P\+I\+O\+B 15
+
+There are 4 pins, labelled C\+S1-\/4 next to a label that reads Ext S\+P\+I. The 3rd pin is connected to the flash chip on the bottom right inner of the board. The other pins on the flash chip are wired up to P\+B3/4/5
+
+\subsubsection*{S\+P\+I3 / S\+P\+I}
+
+sclk G\+P\+I\+O\+B 3 miso G\+P\+I\+O\+B 4 mosi G\+P\+I\+O\+B 5
+
+ssel 1 G\+P\+I\+O\+B 10 / Ext S\+P\+I C\+S1 ssel 2 G\+P\+I\+O\+B 11 / Ext S\+P\+I C\+S2 ssel 3 G\+P\+I\+O\+B 12 / Ext S\+P\+I C\+S3 -\/ wired up to Slave Select of M25\+P16 15\+M\+Bit\+Flash chip ssel 4 G\+P\+I\+O\+B 13 / Ext S\+P\+I C\+S4 -\/ not usable since it is used for S\+P\+I2 sclk
+
+\subsubsection*{R\+C Input}
+
+I\+N\+P\+U\+T P\+A8 / C\+H1 -\/ T\+I\+M1\+\_\+\+C\+H1 P\+B8 / C\+H2 -\/ T\+I\+M16\+\_\+\+C\+H1 P\+B9 / C\+H3 -\/ T\+I\+M17\+\_\+\+C\+H1 P\+C6 / C\+H4 -\/ T\+I\+M8\+\_\+\+C\+H1 P\+C7 / C\+H5 -\/ T\+I\+M8\+\_\+\+C\+H2 P\+C8 / C\+H6 -\/ T\+I\+M8\+\_\+\+C\+H3 P\+F9 / C\+H7 -\/ T\+I\+M15\+\_\+\+C\+H1 P\+F10 / C\+H8 -\/ T\+I\+M15\+\_\+\+C\+H2
+
+\subsubsection*{P\+W\+M Outputs}
+
+O\+U\+T\+P\+U\+T P\+D12 / C\+H1 -\/ T\+I\+M4\+\_\+\+C\+H1 P\+D13 / C\+H2 -\/ T\+I\+M4\+\_\+\+C\+H2 P\+D14 / C\+H3 -\/ T\+I\+M4\+\_\+\+C\+H3 P\+D15 / C\+H4 -\/ T\+I\+M4\+\_\+\+C\+H4 P\+A1 / C\+H5 -\/ T\+I\+M2\+\_\+\+C\+H2 P\+A2 / C\+H6 -\/ T\+I\+M2\+\_\+\+C\+H3 P\+A3 / C\+H7 -\/ T\+I\+M2\+\_\+\+C\+H4 P\+B0 / C\+H8 -\/ T\+I\+M3\+\_\+\+C\+H3 P\+B1 / C\+H9 -\/ T\+I\+M3\+\_\+\+C\+H4 P\+A4 / C\+H10 -\/ T\+I\+M3\+\_\+\+C\+H2
+
+\subsubsection*{Other ports}
+
+There is space for a M\+S5611 pressure sensor at the top left inner of the board.
+
+There is an I2\+C socket on the left outer of the board which connects to a P\+C\+A9306 I2\+C level shifter directly opposite (inner). The P\+C\+A9306 is not populated on some boards and thus the I2\+C socket is unusable.
+
+There is a C\+A\+N socket on the top right outer of the board which connects to a M\+A\+X3015 C\+A\+N Tranceiver. The M\+A\+X3015 is not populated on some boards and thus the C\+A\+N socket is unusable.
+
+There are some solder pads labelled Ext 1-\/4 at the top right inner of the board.
+
+G\+P\+I\+O\+E 6 / P\+E6 / Ext 1 G\+P\+I\+O\+D 3 / P\+D3 / Ext 2 G\+P\+I\+O\+D 4 / P\+D4 / Ext 3 G\+P\+I\+O\+B 3 / P\+B3 / Ext 4
+
+There are some solder pads labelled A\+D\+C0-\/3 \& Diff Press at the top left inner of the board They are connected to the A\+D\+C socket at the top left outer of the board
+
+P\+C3 / Diff Press -\/ A\+D\+C12\+\_\+\+I\+N9 (Differential Pressure) P\+C2 / A\+D\+C2 -\/ A\+D\+C12\+\_\+\+I\+N8 P\+C1 / A\+D\+C1 -\/ A\+D\+C12\+\_\+\+I\+N7 P\+C0 / A\+D\+C0 -\/ A\+D\+C12\+\_\+\+I\+N6
+
+There is space for a M\+P\+X\+V5004/\+M\+P\+V\+Z5004 differential pressure sensor, if populated it's analog pin connects to P\+C3.
+
+There are sockets for 5 U\+A\+R\+Ts labelled U\+S\+A\+R\+T1-\/5.
+
+There is a socket labelled R\+X\+\_\+\+I\+N.
+
+G\+P\+I\+O\+D 2 / P\+D2 / R\+X\+\_\+\+I\+N 

@@ -1,0 +1,135 @@
+\hypertarget{struct____mavlink__camera__feedback__t}{\section{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t Struct Reference}
+\label{struct____mavlink__camera__feedback__t}\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+camera\+\_\+feedback.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_aa477d85a398613f94889545beb0b52ce}{time\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em Image timestamp (microseconds since U\+N\+I\+X epoch), as passed in by C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S message (or autopilot if no C\+C\+B) \end{DoxyCompactList}\item 
+int32\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_ac1d1bdd5f5868592438f106a8c211ea9}{lat}
+\begin{DoxyCompactList}\small\item\em Latitude in (deg $\ast$ 1\+E7) \end{DoxyCompactList}\item 
+int32\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_afd7fea53403882b1ba5f3610852ec1bf}{lng}
+\begin{DoxyCompactList}\small\item\em Longitude in (deg $\ast$ 1\+E7) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a07e3f05f73fe56333fdae42f50351ce2}{alt\+\_\+msl}
+\begin{DoxyCompactList}\small\item\em Altitude Absolute (meters A\+M\+S\+L) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a312d7734acbc100cec56aa74a9222687}{alt\+\_\+rel}
+\begin{DoxyCompactList}\small\item\em Altitude Relative (meters above H\+O\+M\+E location) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a72bb9c942427644c1b8184316057c8ed}{roll}
+\begin{DoxyCompactList}\small\item\em Camera Roll angle (earth frame, degrees, +-\/180) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a026bd6f65ad9a56b5fcc0518f9b58a18}{pitch}
+\begin{DoxyCompactList}\small\item\em Camera Pitch angle (earth frame, degrees, +-\/180) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a49cedce2e036818b2bf6189f02bf652f}{yaw}
+\begin{DoxyCompactList}\small\item\em Camera Yaw (earth frame, degrees, 0-\/360, true) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__feedback__t_a5e8c2ff6273df6d7aa5dce8f0c286d98}{foc\+\_\+len}
+\begin{DoxyCompactList}\small\item\em Focal Length (mm) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_a7046cdcda0647a8196f095df725f8379}{img\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em Image index. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_a0906a3aa87c2534c80bc6f9be921c7d3}{target\+\_\+system}
+\begin{DoxyCompactList}\small\item\em System I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_aca9f2e031d88e805f6b478317e85c0e1}{cam\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em Camera I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__feedback__t_a61d934ad402ebb8427cdd640d74f2e44}{flags}
+\begin{DoxyCompactList}\small\item\em See C\+A\+M\+E\+R\+A\+\_\+\+F\+E\+E\+D\+B\+A\+C\+K\+\_\+\+F\+L\+A\+G\+S enum for definition of the bitmask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__camera__feedback__t_a07e3f05f73fe56333fdae42f50351ce2}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!alt\+\_\+msl@{alt\+\_\+msl}}
+\index{alt\+\_\+msl@{alt\+\_\+msl}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{alt\+\_\+msl}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::alt\+\_\+msl}}\label{struct____mavlink__camera__feedback__t_a07e3f05f73fe56333fdae42f50351ce2}
+
+
+Altitude Absolute (meters A\+M\+S\+L) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a312d7734acbc100cec56aa74a9222687}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!alt\+\_\+rel@{alt\+\_\+rel}}
+\index{alt\+\_\+rel@{alt\+\_\+rel}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{alt\+\_\+rel}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::alt\+\_\+rel}}\label{struct____mavlink__camera__feedback__t_a312d7734acbc100cec56aa74a9222687}
+
+
+Altitude Relative (meters above H\+O\+M\+E location) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_aca9f2e031d88e805f6b478317e85c0e1}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!cam\+\_\+idx@{cam\+\_\+idx}}
+\index{cam\+\_\+idx@{cam\+\_\+idx}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{cam\+\_\+idx}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::cam\+\_\+idx}}\label{struct____mavlink__camera__feedback__t_aca9f2e031d88e805f6b478317e85c0e1}
+
+
+Camera I\+D. 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a61d934ad402ebb8427cdd640d74f2e44}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!flags@{flags}}
+\index{flags@{flags}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::flags}}\label{struct____mavlink__camera__feedback__t_a61d934ad402ebb8427cdd640d74f2e44}
+
+
+See C\+A\+M\+E\+R\+A\+\_\+\+F\+E\+E\+D\+B\+A\+C\+K\+\_\+\+F\+L\+A\+G\+S enum for definition of the bitmask. 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a5e8c2ff6273df6d7aa5dce8f0c286d98}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!foc\+\_\+len@{foc\+\_\+len}}
+\index{foc\+\_\+len@{foc\+\_\+len}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{foc\+\_\+len}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::foc\+\_\+len}}\label{struct____mavlink__camera__feedback__t_a5e8c2ff6273df6d7aa5dce8f0c286d98}
+
+
+Focal Length (mm) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a7046cdcda0647a8196f095df725f8379}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!img\+\_\+idx@{img\+\_\+idx}}
+\index{img\+\_\+idx@{img\+\_\+idx}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{img\+\_\+idx}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::img\+\_\+idx}}\label{struct____mavlink__camera__feedback__t_a7046cdcda0647a8196f095df725f8379}
+
+
+Image index. 
+
+\hypertarget{struct____mavlink__camera__feedback__t_ac1d1bdd5f5868592438f106a8c211ea9}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!lat@{lat}}
+\index{lat@{lat}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::lat}}\label{struct____mavlink__camera__feedback__t_ac1d1bdd5f5868592438f106a8c211ea9}
+
+
+Latitude in (deg $\ast$ 1\+E7) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_afd7fea53403882b1ba5f3610852ec1bf}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!lng@{lng}}
+\index{lng@{lng}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{lng}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::lng}}\label{struct____mavlink__camera__feedback__t_afd7fea53403882b1ba5f3610852ec1bf}
+
+
+Longitude in (deg $\ast$ 1\+E7) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a026bd6f65ad9a56b5fcc0518f9b58a18}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!pitch@{pitch}}
+\index{pitch@{pitch}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::pitch}}\label{struct____mavlink__camera__feedback__t_a026bd6f65ad9a56b5fcc0518f9b58a18}
+
+
+Camera Pitch angle (earth frame, degrees, +-\/180) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a72bb9c942427644c1b8184316057c8ed}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!roll@{roll}}
+\index{roll@{roll}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::roll}}\label{struct____mavlink__camera__feedback__t_a72bb9c942427644c1b8184316057c8ed}
+
+
+Camera Roll angle (earth frame, degrees, +-\/180) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a0906a3aa87c2534c80bc6f9be921c7d3}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!target\+\_\+system@{target\+\_\+system}}
+\index{target\+\_\+system@{target\+\_\+system}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{target\+\_\+system}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::target\+\_\+system}}\label{struct____mavlink__camera__feedback__t_a0906a3aa87c2534c80bc6f9be921c7d3}
+
+
+System I\+D. 
+
+\hypertarget{struct____mavlink__camera__feedback__t_aa477d85a398613f94889545beb0b52ce}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!time\+\_\+usec@{time\+\_\+usec}}
+\index{time\+\_\+usec@{time\+\_\+usec}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{time\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::time\+\_\+usec}}\label{struct____mavlink__camera__feedback__t_aa477d85a398613f94889545beb0b52ce}
+
+
+Image timestamp (microseconds since U\+N\+I\+X epoch), as passed in by C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S message (or autopilot if no C\+C\+B) 
+
+\hypertarget{struct____mavlink__camera__feedback__t_a49cedce2e036818b2bf6189f02bf652f}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}!yaw@{yaw}}
+\index{yaw@{yaw}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+feedback\+\_\+t\+::yaw}}\label{struct____mavlink__camera__feedback__t_a49cedce2e036818b2bf6189f02bf652f}
+
+
+Camera Yaw (earth frame, degrees, 0-\/360, true) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__camera__feedback_8h}{mavlink\+\_\+msg\+\_\+camera\+\_\+feedback.\+h}\end{DoxyCompactItemize}

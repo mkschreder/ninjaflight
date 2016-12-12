@@ -1,0 +1,80 @@
+\hypertarget{flight_2altitudehold_8h}{\section{src/main/flight/altitudehold.h File Reference}
+\label{flight_2altitudehold_8h}\index{src/main/flight/altitudehold.\+h@{src/main/flight/altitudehold.\+h}}
+}
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../config/altitudehold.\+h\char`\"{}}\\*
+Include dependency graph for altitudehold.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight_2altitudehold_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight_2altitudehold_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structalthold}{althold}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{flight_2altitudehold_8h_a8bab092eda041cf0cf315f900c8dd949}{althold\+\_\+init} (struct \hyperlink{structalthold}{althold} $\ast$self, struct \hyperlink{structinstruments}{instruments} $\ast$ins, struct \hyperlink{structrx}{rx} $\ast$\hyperlink{structrx}{rx}, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{flight_2altitudehold_8h_a290feceb26cbae164441dea5cd3099d1}{althold\+\_\+calc\+\_\+altitude} (struct \hyperlink{structalthold}{althold} $\ast$self, uint32\+\_\+t \hyperlink{ninjaflight_8c_ad4c3dbcb408adf7386297aac9025571a}{current\+Time})
+\item 
+void \hyperlink{flight_2altitudehold_8h_acd92047e6072ca7a2bce268d4ecd7a8c}{althold\+\_\+apply} (struct \hyperlink{structalthold}{althold} $\ast$self)
+\item 
+void \hyperlink{flight_2altitudehold_8h_a0d71515ee4399f48bd0f3fca956ef273}{althold\+\_\+update} (struct \hyperlink{structalthold}{althold} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{flight_2altitudehold_8h_afe5bfed59b5abed01e7e28140a9c434f}{althold\+\_\+get\+\_\+est\+\_\+altitude} (struct \hyperlink{structalthold}{althold} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{flight_2altitudehold_8h_acd92047e6072ca7a2bce268d4ecd7a8c}{\index{flight/altitudehold.\+h@{flight/altitudehold.\+h}!althold\+\_\+apply@{althold\+\_\+apply}}
+\index{althold\+\_\+apply@{althold\+\_\+apply}!flight/altitudehold.\+h@{flight/altitudehold.\+h}}
+\subsubsection[{althold\+\_\+apply}]{\setlength{\rightskip}{0pt plus 5cm}void althold\+\_\+apply (
+\begin{DoxyParamCaption}
+\item[{struct {\bf althold} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{flight_2altitudehold_8h_acd92047e6072ca7a2bce268d4ecd7a8c}
+\hypertarget{flight_2altitudehold_8h_a290feceb26cbae164441dea5cd3099d1}{\index{flight/altitudehold.\+h@{flight/altitudehold.\+h}!althold\+\_\+calc\+\_\+altitude@{althold\+\_\+calc\+\_\+altitude}}
+\index{althold\+\_\+calc\+\_\+altitude@{althold\+\_\+calc\+\_\+altitude}!flight/altitudehold.\+h@{flight/altitudehold.\+h}}
+\subsubsection[{althold\+\_\+calc\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}void althold\+\_\+calc\+\_\+altitude (
+\begin{DoxyParamCaption}
+\item[{struct {\bf althold} $\ast$}]{self, }
+\item[{uint32\+\_\+t}]{current\+Time}
+\end{DoxyParamCaption}
+)}}\label{flight_2altitudehold_8h_a290feceb26cbae164441dea5cd3099d1}
+\hypertarget{flight_2altitudehold_8h_afe5bfed59b5abed01e7e28140a9c434f}{\index{flight/altitudehold.\+h@{flight/altitudehold.\+h}!althold\+\_\+get\+\_\+est\+\_\+altitude@{althold\+\_\+get\+\_\+est\+\_\+altitude}}
+\index{althold\+\_\+get\+\_\+est\+\_\+altitude@{althold\+\_\+get\+\_\+est\+\_\+altitude}!flight/altitudehold.\+h@{flight/altitudehold.\+h}}
+\subsubsection[{althold\+\_\+get\+\_\+est\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t althold\+\_\+get\+\_\+est\+\_\+altitude (
+\begin{DoxyParamCaption}
+\item[{struct {\bf althold} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{flight_2altitudehold_8h_afe5bfed59b5abed01e7e28140a9c434f}
+\hypertarget{flight_2altitudehold_8h_a8bab092eda041cf0cf315f900c8dd949}{\index{flight/altitudehold.\+h@{flight/altitudehold.\+h}!althold\+\_\+init@{althold\+\_\+init}}
+\index{althold\+\_\+init@{althold\+\_\+init}!flight/altitudehold.\+h@{flight/altitudehold.\+h}}
+\subsubsection[{althold\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void althold\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf althold} $\ast$}]{self, }
+\item[{struct {\bf instruments} $\ast$}]{ins, }
+\item[{struct {\bf rx} $\ast$}]{rx, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{flight_2altitudehold_8h_a8bab092eda041cf0cf315f900c8dd949}
+\hypertarget{flight_2altitudehold_8h_a0d71515ee4399f48bd0f3fca956ef273}{\index{flight/altitudehold.\+h@{flight/altitudehold.\+h}!althold\+\_\+update@{althold\+\_\+update}}
+\index{althold\+\_\+update@{althold\+\_\+update}!flight/altitudehold.\+h@{flight/altitudehold.\+h}}
+\subsubsection[{althold\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void althold\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf althold} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{flight_2altitudehold_8h_a0d71515ee4399f48bd0f3fca956ef273}

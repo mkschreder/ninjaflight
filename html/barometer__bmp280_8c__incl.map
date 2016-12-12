@@ -1,0 +1,7 @@
+<map id="src/main/drivers/barometer_bmp280.c" name="src/main/drivers/barometer_bmp280.c">
+<area shape="rect" id="node5" href="$build__config_8h.html" title="build_config.h" alt="" coords="223,96,325,123"/>
+<area shape="rect" id="node6" href="$drivers_2barometer_8h.html" title="barometer.h" alt="" coords="351,96,441,123"/>
+<area shape="rect" id="node7" href="$drivers_2system_8h.html" title="system.h" alt="" coords="466,96,541,123"/>
+<area shape="rect" id="node8" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="566,96,644,123"/>
+<area shape="rect" id="node9" href="$barometer__bmp280_8h.html" title="barometer_bmp280.h" alt="" coords="669,96,813,123"/>
+</map>

@@ -1,0 +1,64 @@
+\hypertarget{sound__beeper_8c}{\section{src/main/drivers/sound\+\_\+beeper.c File Reference}
+\label{sound__beeper_8c}\index{src/main/drivers/sound\+\_\+beeper.\+c@{src/main/drivers/sound\+\_\+beeper.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sound\+\_\+beeper.\+h\char`\"{}}\\*
+Include dependency graph for sound\+\_\+beeper.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sound__beeper_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sound__beeper_8c_ab2444fa10c49efca27d26c2c301f8190}{system\+Beep} (bool onoff)
+\item 
+void \hyperlink{sound__beeper_8c_ad338127a0277ae626db593590305e92d}{beeper\+Init} (\hyperlink{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}{beeper\+Config\+\_\+t} $\ast$\hyperlink{structconfig}{config})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \hyperlink{sound__beeper_8c_aff5693d990f59bb793613cab4db2ff3a}{system\+Beep\+Ptr} )(bool onoff) = N\+U\+L\+L
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{sound__beeper_8c_ad338127a0277ae626db593590305e92d}{\index{sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}!beeper\+Init@{beeper\+Init}}
+\index{beeper\+Init@{beeper\+Init}!sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}}
+\subsubsection[{beeper\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void beeper\+Init (
+\begin{DoxyParamCaption}
+\item[{{\bf beeper\+Config\+\_\+t} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{sound__beeper_8c_ad338127a0277ae626db593590305e92d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sound__beeper_8c_ad338127a0277ae626db593590305e92d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sound__beeper_8c_ab2444fa10c49efca27d26c2c301f8190}{\index{sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}!system\+Beep@{system\+Beep}}
+\index{system\+Beep@{system\+Beep}!sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}}
+\subsubsection[{system\+Beep}]{\setlength{\rightskip}{0pt plus 5cm}void system\+Beep (
+\begin{DoxyParamCaption}
+\item[{bool}]{onoff}
+\end{DoxyParamCaption}
+)}}\label{sound__beeper_8c_ab2444fa10c49efca27d26c2c301f8190}
+
+
+\subsection{Variable Documentation}
+\hypertarget{sound__beeper_8c_aff5693d990f59bb793613cab4db2ff3a}{\index{sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}!system\+Beep\+Ptr@{system\+Beep\+Ptr}}
+\index{system\+Beep\+Ptr@{system\+Beep\+Ptr}!sound\+\_\+beeper.\+c@{sound\+\_\+beeper.\+c}}
+\subsubsection[{system\+Beep\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ system\+Beep\+Ptr)(bool onoff) = N\+U\+L\+L}}\label{sound__beeper_8c_aff5693d990f59bb793613cab4db2ff3a}

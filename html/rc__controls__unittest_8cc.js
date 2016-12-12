@@ -1,0 +1,25 @@
+var rc__controls__unittest_8cc =
+[
+    [ "accSetCalibrationCycles", "rc__controls__unittest_8cc.html#ad954cd4caf5a58511a76e3b08d79bf9c", null ],
+    [ "applyAndSaveAccelerometerTrimsDelta", "rc__controls__unittest_8cc.html#af420be87d7eb485007eced3c889801de", null ],
+    [ "baroSetCalibrationCycles", "rc__controls__unittest_8cc.html#a24d31c39e4e1d61962edccd7060c2b09", null ],
+    [ "changeProfile", "rc__controls__unittest_8cc.html#acafe7b193ebc6d18c34412cc7902b681", null ],
+    [ "displayDisablePageCycling", "rc__controls__unittest_8cc.html#ab96f88ca3b5e89c068dfe6c9b62413a0", null ],
+    [ "displayEnablePageCycling", "rc__controls__unittest_8cc.html#afb8388568078891b6e60c39f06e7ad22", null ],
+    [ "failsafeIsActive", "rc__controls__unittest_8cc.html#a694e7a690cc86d4fa61c9c2c94623a6c", null ],
+    [ "feature", "rc__controls__unittest_8cc.html#a7865e9a7dc969d5c89954afa1753d123", null ],
+    [ "generateThrottleCurve", "rc__controls__unittest_8cc.html#abdefaa10941adbbeea114c48960a9075", null ],
+    [ "getCurrentControlRateProfile", "rc__controls__unittest_8cc.html#a4ec89808599cf387886152d93b96568c", null ],
+    [ "GPS_reset_home_position", "rc__controls__unittest_8cc.html#a9b7e9a97e212ab245aa18ef625f149f5", null ],
+    [ "gyroSetCalibrationCycles", "rc__controls__unittest_8cc.html#accdab88006f19a93ff3c84fa64fec20d", null ],
+    [ "handleInflightCalibrationStickPosition", "rc__controls__unittest_8cc.html#a66edd1a8f15e08fb6bed5cdf622ba1da", null ],
+    [ "mwArm", "rc__controls__unittest_8cc.html#ab84de4b9734688601048955b063ecbc3", null ],
+    [ "mwDisarm", "rc__controls__unittest_8cc.html#a9087d2cf978606e6a8d118225a91e553", null ],
+    [ "rxIsReceivingSignal", "rc__controls__unittest_8cc.html#a4359b1fb2902dbbd567eb8290194fd41", null ],
+    [ "saveConfigAndNotify", "rc__controls__unittest_8cc.html#a3722f7369cfe78325be23e76c9d751da", null ],
+    [ "sensors", "rc__controls__unittest_8cc.html#aa9bf63b839ee1ef6092e789115631c1b", null ],
+    [ "useRcControlsConfig", "rc__controls__unittest_8cc.html#a394371a33982032c4ecee8546fba5c6e", null ],
+    [ "armingFlags", "rc__controls__unittest_8cc.html#a4cda3c6f1153be6fcfc9e8006fc311e5", null ],
+    [ "heading", "rc__controls__unittest_8cc.html#a73dbdeb6e96c78597e8eb86d3d67fde6", null ],
+    [ "stateFlags", "rc__controls__unittest_8cc.html#ae0ae7830249bf589c179802db54b9816", null ]
+];

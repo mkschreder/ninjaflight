@@ -1,0 +1,9 @@
+<map id="src/main/drivers/pwm_mapping.h" name="src/main/drivers/pwm_mapping.h">
+<area shape="rect" id="node2" href="$pwm__mapping_8c.html" title="src/main/drivers/pwm\l_mapping.c" alt="" coords="5,97,152,138"/>
+<area shape="rect" id="node3" href="$pwm__output_8c.html" title="src/main/drivers/pwm\l_output.c" alt="" coords="176,97,323,138"/>
+<area shape="rect" id="node4" href="$pwm__rx_8c.html" title="src/main/drivers/pwm_rx.c" alt="" coords="347,104,523,131"/>
+<area shape="rect" id="node5" href="$serial__4way__stk500v2_8c.html" title="src/main/io/serial\l_4way_stk500v2.c" alt="" coords="547,97,676,138"/>
+<area shape="rect" id="node6" href="$main_8c.html" title="src/main/main.c" alt="" coords="701,104,816,131"/>
+<area shape="rect" id="node7" href="$flight__mixer__unittest_8cc.html" title="src/test/unit/flight\l_mixer_unittest.cc" alt="" coords="841,97,969,138"/>
+<area shape="rect" id="node8" href="$flight__tilt__unittest_8cc.html" title="src/test/unit/flight\l_tilt_unittest.cc" alt="" coords="995,97,1117,138"/>
+</map>

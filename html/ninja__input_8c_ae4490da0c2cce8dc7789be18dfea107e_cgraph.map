@@ -1,0 +1,51 @@
+<map id="ninja_process_rx" name="ninja_process_rx">
+<area shape="rect" id="node2" href="$rx_8c.html#af09eb13c8a7ea08b9e3c106abd150029" title="rx_update" alt="" coords="229,5,307,32"/>
+<area shape="rect" id="node3" href="$rc__commands_8c.html#a54621b8abd6a6a9fbaed582cca7ac46e" title="Updates current rc rates from the current rc values. Inputs are in range [1000;2000] and should corre..." alt="" coords="435,224,578,251"/>
+<area shape="rect" id="node4" href="$rx_8c.html#a527cff8e1e26ba1124119aaa4cea4815" title="Get channel value. Returns interval [rx_min_usec;rx_max_usec]. " alt="" coords="679,249,790,276"/>
+<area shape="rect" id="node6" href="$rc__commands_8c.html#abbc845dbcafee03c94d4bea834a26718" title="Get current stick value in range [&#45;500;500], stick is only ROLL, PITCH, YAw. " alt="" coords="204,933,332,960"/>
+<area shape="rect" id="node7" href="$feature_8c.html#abc8587c28b888a5e63aeaec10676ddb7" title="feature" alt="" coords="703,629,766,656"/>
+<area shape="rect" id="node8" href="$ninja__input_8c.html#a21a62a38a0416325e5a9703c7535089c" title="rcModeIsActive" alt="" coords="450,1421,563,1448"/>
+<area shape="rect" id="node9" href="$ninja_8c.html#a182236d42c97699652a06a2982c053dc" title="ninja_disarm" alt="" coords="459,680,554,707"/>
+<area shape="rect" id="node11" href="$beeper_8c.html#a989c9cfd38525653c07fb4e1e47b62cf" title="Puts beeper into a new beep state. " alt="" coords="867,845,962,872"/>
+<area shape="rect" id="node12" href="$beeper_8c.html#ab0f04a4c38ec3a3a5905e2bcbfc54265" title="Aborts current beeper function. " alt="" coords="1011,451,1104,477"/>
+<area shape="rect" id="node13" href="$rx_8c.html#a21ca8fd3c6557041ac1529bcdf5f2bad" title="rx_update_rssi" alt="" coords="215,984,321,1011"/>
+<area shape="rect" id="node14" href="$failsafe_8c.html#a6c3fc6b32b335997bb2bae53997c0b9f" title="failsafe_is_monitoring" alt="" coords="194,1035,342,1061"/>
+<area shape="rect" id="node15" href="$failsafe_8c.html#a72689c9501a0959a89bbc9fea3b1161f" title="failsafe_start_monitoring" alt="" coords="186,1085,350,1112"/>
+<area shape="rect" id="node16" href="$failsafe_8c.html#a1adfe81707dfbc446d7b2f2e64b3acbe" title="failsafe_update" alt="" coords="213,1136,323,1163"/>
+<area shape="rect" id="node17" href="$ninja__input_8c.html#ad995fe8c8b77768bd9e6d96db6b67484" title="calculateThrottleStatus" alt="" coords="429,477,585,504"/>
+<area shape="rect" id="node18" href="$ninja__input_8c.html#a52bed6a482e229c438bdb5b861b1d447" title="calculateRollPitchCenter\lStatus" alt="" coords="423,158,590,199"/>
+<area shape="rect" id="node19" href="$failsafe_8c.html#a73daef00c7b4f462b3a3678c129ddf5b" title="failsafe_is_active" alt="" coords="445,1472,568,1499"/>
+<area shape="rect" id="node20" href="$anglerate_8c.html#aa257d404d7a546f7a8c6400f42fd74a6" title="anglerate_enable_antiwindup" alt="" coords="173,1187,363,1213"/>
+<area shape="rect" id="node21" href="$anglerate_8c.html#aaa85a0f2633284bc0c074a4ba45296a3" title="anglerate_reset_angle_i" alt="" coords="189,1237,347,1264"/>
+<area shape="rect" id="node22" href="$anglerate_8c.html#a63ef21d5bfbac3cb83bcb5d2f702bda5" title="anglerate_reset_rate_i" alt="" coords="193,1288,343,1315"/>
+<area shape="rect" id="node23" href="$group__MIXER.html#gad159e060c41bada3e06ecb889517533e" title="returns true if mixer has determined that motor limit has been reached " alt="" coords="179,1339,357,1365"/>
+<area shape="rect" id="node24" href="$group__MIXER.html#gab6ecb3be636e39dc1582e4bb448c3bf7" title="returns the number of motors that are currently being controlled by mixer profile ..." alt="" coords="189,1389,347,1416"/>
+<area shape="rect" id="node25" href="$anglerate_8c.html#a8db40c997137ac4f3dfd7447f4bf0d66" title="anglerate_enable_plimit" alt="" coords="189,1440,347,1467"/>
+<area shape="rect" id="node26" href="$ninja__input_8c.html#adc311f70a938738204250e18de1ee4d2" title="isUsingSticksForArming" alt="" coords="187,1491,349,1517"/>
+<area shape="rect" id="node27" href="$ninja__input_8c.html#a3539a2f164e4450207b75e9bf5d5a0e8" title="ninja_process_rc_sticks" alt="" coords="187,781,349,808"/>
+<area shape="rect" id="node40" href="$ninja__input_8c.html#aacb2a49eb3dc9c98e4212893e8e20dd2" title="rcModeUpdateActivated" alt="" coords="187,351,349,377"/>
+<area shape="rect" id="node42" href="$cli_8c.html#a07cabae67e1757062ade92c423f8ab78" title="cli_is_active" alt="" coords="221,1541,315,1568"/>
+<area shape="rect" id="node43" href="$rc__adjustments_8c.html#ab87fc1daccb4f132e1f3145f9afc1658" title="rc_adj_update_states" alt="" coords="195,427,341,453"/>
+<area shape="rect" id="node46" href="$flight__altitudehold__unittest_8cc.html#adfa2eeff190a02b6409eadbbdc58884d" title="sensors" alt="" coords="234,1592,302,1619"/>
+<area shape="rect" id="node47" href="$telemetry_2telemetry_8h.html#a6f6c98f430faec06b82a443733190148" title="telemetryCheckState" alt="" coords="195,1643,341,1669"/>
+<area shape="rect" id="node48" href="$serial__msp_8c.html#a28875266a6bb7b4951353f7defebd5b8" title="mspSerialAllocatePorts" alt="" coords="189,1693,347,1720"/>
+<area shape="rect" id="node5" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="697,351,772,377"/>
+<area shape="rect" id="node10" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="663,883,806,909"/>
+<area shape="rect" id="node28" href="$ninja_8c.html#a4ed5790e72a72960fd7bcab1fa907f7f" title="ninja_arm" alt="" coords="467,984,546,1011"/>
+<area shape="rect" id="node29" href="$rx_8c.html#a2bd21e47783f0d5dca6cc120720d8af7" title="RX has signal if at least one channel is healthy. " alt="" coords="455,832,558,859"/>
+<area shape="rect" id="node30" href="$flight_2navigation_8h.html#a9b7e9a97e212ab245aa18ef625f149f5" title="GPS_reset_home_position" alt="" coords="418,883,595,909"/>
+<area shape="rect" id="node31" href="$ninja_8c.html#add984cb351617a7f4a6f3a81b18b7550" title="ninja_has_sensors" alt="" coords="441,933,572,960"/>
+<area shape="rect" id="node32" href="$barometer_8c.html#a7827db033939d21f301f7f979699071e" title="baroSetCalibrationCycles" alt="" coords="421,1035,592,1061"/>
+<area shape="rect" id="node33" href="$config_8h.html#aaffb4faa17431a99d616ed89fefa5626" title="ninja_config_change\l_profile" alt="" coords="437,1086,577,1127"/>
+<area shape="rect" id="node34" href="$beeper_8c.html#a4926e98046b69d6dc02f1d9f81980025" title="Initiates a sequence of multiple 20ms beeps with 200ms pauses. Does not block. " alt="" coords="665,1320,804,1347"/>
+<area shape="rect" id="node35" href="$config_8h.html#a039368f17044aa177d4c0a677ceb512d" title="ninja_config_save_and_beep" alt="" coords="412,1320,601,1347"/>
+<area shape="rect" id="node36" href="$group__Instruments__Main.html#ga20231fe90708aed1062e8ee4b5c9c695" title="ins_start_acc_calibration" alt="" coords="423,1152,590,1179"/>
+<area shape="rect" id="node37" href="$ninja__input_8c.html#a2ab63696de972a4c9215d41dbd78b030" title="applyAndSaveAccelerometer\lTrimsDelta" alt="" coords="411,1254,602,1295"/>
+<area shape="rect" id="node38" href="$display_8h.html#a59b252916d0fad105a95413b091efd07" title="displayDisablePageCycling" alt="" coords="416,731,597,757"/>
+<area shape="rect" id="node39" href="$display_8h.html#a0ce30bcbf994afc63c9c41ef2f87ae76" title="displayEnablePageCycling" alt="" coords="418,781,595,808"/>
+<area shape="rect" id="node41" href="$ninja__input_8c.html#a0271a86414bd355523bdb2095c430538" title="isRangeActive" alt="" coords="453,325,560,352"/>
+<area shape="rect" id="node44" href="$commander_8c.html#aa1369ed4600610e776156c17b581d039" title="isRangeActive" alt="" coords="453,427,560,453"/>
+<area shape="rect" id="node45" href="$rc__adjustments_8c.html#abb9f8ddb711982bb5fd8817f61bff7e8" title="rc_adj_add_range" alt="" coords="445,376,569,403"/>
+<area shape="rect" id="node49" href="$io_2serial_8c.html#abe2c5da7211b44d606e989e034394699" title="findSerialPortConfig" alt="" coords="437,1719,576,1745"/>
+<area shape="rect" id="node50" href="$io_2serial_8c.html#ab96e548ab33644664a56b3a2123be92c" title="findNextSerialPortConfig" alt="" coords="651,1693,818,1720"/>
+</map>

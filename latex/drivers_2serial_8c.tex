@@ -1,0 +1,178 @@
+\hypertarget{drivers_2serial_8c}{\section{src/main/drivers/serial.c File Reference}
+\label{drivers_2serial_8c}\index{src/main/drivers/serial.\+c@{src/main/drivers/serial.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}serial.\+h\char`\"{}}\\*
+Include dependency graph for serial.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{drivers_2serial_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{drivers_2serial_8c_ab3b2b86dfc370792e5bf0ab00d1428bf}{serial\+Print} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance, const char $\ast$str)
+\item 
+uint32\+\_\+t \hyperlink{drivers_2serial_8c_aeb3c26be0a265eada19af54335c080e1}{serial\+Get\+Baud\+Rate} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+void \hyperlink{drivers_2serial_8c_a1d2886fbce32033a1af48d522439756b}{serial\+Write} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance, uint8\+\_\+t ch)
+\item 
+void \hyperlink{drivers_2serial_8c_aa777b1bacb4f44b825ae85b893ac6fb4}{serial\+Write\+Buf} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance, uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, int count)
+\item 
+uint8\+\_\+t \hyperlink{drivers_2serial_8c_a1030bfb53adff55fa7de9f0babce6c29}{serial\+Rx\+Bytes\+Waiting} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+uint8\+\_\+t \hyperlink{drivers_2serial_8c_a0ebfe50dff84b18bb7d79e0c2bbc8515}{serial\+Tx\+Bytes\+Free} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+uint8\+\_\+t \hyperlink{drivers_2serial_8c_a6c74a91bbf5d8fd122fb2321492b4193}{serial\+Read} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+void \hyperlink{drivers_2serial_8c_aeed070cf6b1652af26f20f495bfd4b8b}{serial\+Set\+Baud\+Rate} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance, uint32\+\_\+t baud\+Rate)
+\item 
+bool \hyperlink{drivers_2serial_8c_afda3f6426d3b80a7028810c618127a68}{is\+Serial\+Transmit\+Buffer\+Empty} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+void \hyperlink{drivers_2serial_8c_a599a037d9e38ce6c9334a2ec7c22e732}{serial\+Set\+Mode} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode})
+\item 
+void \hyperlink{drivers_2serial_8c_a434b04f9469873a5d3a8545efcc16048}{serial\+Write\+Buf\+Shim} (void $\ast$instance, uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, int count)
+\item 
+void \hyperlink{drivers_2serial_8c_af5c84b2303f301ca00a5ee8bc36baaaa}{serial\+Begin\+Write} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\item 
+void \hyperlink{drivers_2serial_8c_abb8d8fe37db3393523aa7944a5991bb0}{serial\+End\+Write} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$instance)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{drivers_2serial_8c_afda3f6426d3b80a7028810c618127a68}{\index{drivers/serial.\+c@{drivers/serial.\+c}!is\+Serial\+Transmit\+Buffer\+Empty@{is\+Serial\+Transmit\+Buffer\+Empty}}
+\index{is\+Serial\+Transmit\+Buffer\+Empty@{is\+Serial\+Transmit\+Buffer\+Empty}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{is\+Serial\+Transmit\+Buffer\+Empty}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Serial\+Transmit\+Buffer\+Empty (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_afda3f6426d3b80a7028810c618127a68}
+\hypertarget{drivers_2serial_8c_af5c84b2303f301ca00a5ee8bc36baaaa}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Begin\+Write@{serial\+Begin\+Write}}
+\index{serial\+Begin\+Write@{serial\+Begin\+Write}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Begin\+Write}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Begin\+Write (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_af5c84b2303f301ca00a5ee8bc36baaaa}
+\hypertarget{drivers_2serial_8c_abb8d8fe37db3393523aa7944a5991bb0}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+End\+Write@{serial\+End\+Write}}
+\index{serial\+End\+Write@{serial\+End\+Write}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+End\+Write}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+End\+Write (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_abb8d8fe37db3393523aa7944a5991bb0}
+\hypertarget{drivers_2serial_8c_aeb3c26be0a265eada19af54335c080e1}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Get\+Baud\+Rate@{serial\+Get\+Baud\+Rate}}
+\index{serial\+Get\+Baud\+Rate@{serial\+Get\+Baud\+Rate}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Get\+Baud\+Rate}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t serial\+Get\+Baud\+Rate (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_aeb3c26be0a265eada19af54335c080e1}
+\hypertarget{drivers_2serial_8c_ab3b2b86dfc370792e5bf0ab00d1428bf}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Print@{serial\+Print}}
+\index{serial\+Print@{serial\+Print}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Print}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Print (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance, }
+\item[{const char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_ab3b2b86dfc370792e5bf0ab00d1428bf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{drivers_2serial_8c_ab3b2b86dfc370792e5bf0ab00d1428bf_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{drivers_2serial_8c_a6c74a91bbf5d8fd122fb2321492b4193}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Read@{serial\+Read}}
+\index{serial\+Read@{serial\+Read}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Read}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Read (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a6c74a91bbf5d8fd122fb2321492b4193}
+\hypertarget{drivers_2serial_8c_a1030bfb53adff55fa7de9f0babce6c29}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Rx\+Bytes\+Waiting@{serial\+Rx\+Bytes\+Waiting}}
+\index{serial\+Rx\+Bytes\+Waiting@{serial\+Rx\+Bytes\+Waiting}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Rx\+Bytes\+Waiting}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Rx\+Bytes\+Waiting (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a1030bfb53adff55fa7de9f0babce6c29}
+\hypertarget{drivers_2serial_8c_aeed070cf6b1652af26f20f495bfd4b8b}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Set\+Baud\+Rate@{serial\+Set\+Baud\+Rate}}
+\index{serial\+Set\+Baud\+Rate@{serial\+Set\+Baud\+Rate}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Set\+Baud\+Rate}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Set\+Baud\+Rate (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance, }
+\item[{uint32\+\_\+t}]{baud\+Rate}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_aeed070cf6b1652af26f20f495bfd4b8b}
+\hypertarget{drivers_2serial_8c_a599a037d9e38ce6c9334a2ec7c22e732}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Set\+Mode@{serial\+Set\+Mode}}
+\index{serial\+Set\+Mode@{serial\+Set\+Mode}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Set\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Set\+Mode (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a599a037d9e38ce6c9334a2ec7c22e732}
+\hypertarget{drivers_2serial_8c_a0ebfe50dff84b18bb7d79e0c2bbc8515}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Tx\+Bytes\+Free@{serial\+Tx\+Bytes\+Free}}
+\index{serial\+Tx\+Bytes\+Free@{serial\+Tx\+Bytes\+Free}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Tx\+Bytes\+Free}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Tx\+Bytes\+Free (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a0ebfe50dff84b18bb7d79e0c2bbc8515}
+\hypertarget{drivers_2serial_8c_a1d2886fbce32033a1af48d522439756b}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Write@{serial\+Write}}
+\index{serial\+Write@{serial\+Write}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Write}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Write (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance, }
+\item[{uint8\+\_\+t}]{ch}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a1d2886fbce32033a1af48d522439756b}
+\hypertarget{drivers_2serial_8c_aa777b1bacb4f44b825ae85b893ac6fb4}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Write\+Buf@{serial\+Write\+Buf}}
+\index{serial\+Write\+Buf@{serial\+Write\+Buf}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Write\+Buf}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Write\+Buf (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{instance, }
+\item[{uint8\+\_\+t $\ast$}]{data, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_aa777b1bacb4f44b825ae85b893ac6fb4}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{drivers_2serial_8c_aa777b1bacb4f44b825ae85b893ac6fb4_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{drivers_2serial_8c_a434b04f9469873a5d3a8545efcc16048}{\index{drivers/serial.\+c@{drivers/serial.\+c}!serial\+Write\+Buf\+Shim@{serial\+Write\+Buf\+Shim}}
+\index{serial\+Write\+Buf\+Shim@{serial\+Write\+Buf\+Shim}!drivers/serial.\+c@{drivers/serial.\+c}}
+\subsubsection[{serial\+Write\+Buf\+Shim}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Write\+Buf\+Shim (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{instance, }
+\item[{uint8\+\_\+t $\ast$}]{data, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{drivers_2serial_8c_a434b04f9469873a5d3a8545efcc16048}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{drivers_2serial_8c_a434b04f9469873a5d3a8545efcc16048_cgraph}
+\end{center}
+\end{figure}
+
+

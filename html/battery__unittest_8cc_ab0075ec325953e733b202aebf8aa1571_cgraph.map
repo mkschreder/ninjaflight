@@ -1,0 +1,8 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$battery_8c.html#a78cc41ddb9d379ae1afef2065e41dc44" title="battery_init" alt="" coords="121,5,207,32"/>
+<area shape="rect" id="node4" href="$battery_8c.html#a3e5619a6c49d4c1a1e49641ab6ec0ea0" title="battery_update" alt="" coords="110,56,218,83"/>
+<area shape="rect" id="node3" href="$filter_8c.html#a0d345930980c9f0da44533d92ddb5b86" title="BiQuadNewLpf" alt="" coords="294,5,405,32"/>
+<area shape="rect" id="node5" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="319,56,379,83"/>
+<area shape="rect" id="node7" href="$battery_8c.html#a86fd892a3ca494c1e56413f2a60d485a" title="_battery_adc_to_voltage" alt="" coords="267,107,431,133"/>
+<area shape="rect" id="node6" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="480,56,541,83"/>
+</map>

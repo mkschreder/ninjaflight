@@ -1,0 +1,142 @@
+The Seriously Pro Racing F3 board (S\+P\+Racing\+F3) is the first board designed specifically for Cleanflight.
+
+Purchasing boards directly from Seriously\+Pro / S\+P Racing and official retailers helps fund Cleanflight development, it's the reason the Seriously Pro boards exist! Official retailers are always listed on the Seriously\+Pro.\+com website.
+
+Full details available on the website, here\+:
+
+\href{http://seriouslypro.com/spracingf3}{\tt http\+://seriouslypro.\+com/spracingf3}
+
+\subsection*{Hardware Features}
+
+
+\begin{DoxyItemize}
+\item No compromise I/\+O. Use all the features all the time; e.\+g. Connect your O\+S\+D + Smart\+Port + S\+Bus + G\+P\+S + L\+E\+D Strip + Battery Monitoring + Sonar + 8 motors -\/ all at the same time!
+\item On-\/board high-\/capacity black box flight log recorder -\/ optimize your tuning and see the results of your setup without guesswork. (Acro and Deluxe)
+\item Next-\/generation S\+T\+M32 F3 processor with hardware floating point unit for efficient flight calculations and faster A\+R\+M-\/\+Cortex M4 core.
+\item Stackable design -\/ perfect for integrating with O\+S\+Ds and power distribution boards.
+\item 16 P\+W\+M I/\+O lines for E\+S\+Cs, Servos and legacy receivers. 8 available on standard pin headers. 8 via side mounted connectors.
+\item Supports S\+Bus, Sum\+H, Sum\+D, Spektrum1024/2048, X\+Bus, P\+P\+M, P\+W\+M receivers. No external inverters required (built-\/in).
+\item Dedicated output for programmable L\+E\+Ds -\/ great for orientation, racing and night flying.
+\item Dedicated I2\+C port for connection of O\+L\+E\+D display without needing flight battery.
+\item Battery monitoring ports for voltage and current.
+\item Buzzer port for audible warnings and notifications.
+\item Solder pads in addition to connectors for Sonar, P\+P\+M, R\+S\+S\+I, Current, G\+P\+I\+O, L\+E\+D Strip, 3.\+3v,
+\item Developer friendly debugging port (S\+W\+D) and boot mode selection, unbrickable bootloader.
+\item Symmetrical design for a super tidy wiring.
+\item Wire up using using pin headers, J\+S\+T-\/\+S\+H sockets or solder pads. Use either right-\/angled or straight pin-\/headers.
+\item Barometer mounted on the bottom of the board for easy wind isolation.
+\end{DoxyItemize}
+
+\subsection*{Serial Ports}
+
+\begin{TabularC}{6}
+\hline
+\rowcolor{lightgray}{\bf Value }&{\bf Identifier }&{\bf R\+X }&{\bf T\+X }&{\bf 5v Tolerant }&{\bf Notes  }\\\cline{1-6}
+1 &U\+S\+A\+R\+T1 &P\+A10 &P\+A9 &Y\+E\+S &Internally connected to U\+S\+B port via C\+P2102 I\+C. Also available on a U\+S\+A\+R\+T1 J\+S\+T connector and on through hole pins. \\\cline{1-6}
+2 &U\+S\+A\+R\+T2 &P\+A15 &P\+A14 &Y\+E\+S &Available on U\+S\+A\+R\+T2 J\+S\+T port only. \\\cline{1-6}
+3 &U\+S\+A\+R\+T3 &P\+B11 / I\+O2\+\_\+3 &P\+B10 / I\+O2\+\_\+4 &N\+O &Available on I\+O\+\_\+2, U\+S\+A\+R\+T3 J\+S\+T port and through hole pins. \\\cline{1-6}
+\end{TabularC}
+
+\begin{DoxyItemize}
+\item You cannot use S\+W\+D and U\+S\+A\+R\+T2 at the same time.
+\item You may encounter flashing problems if you have something connected to the U\+S\+A\+R\+T1 R\+X/\+T\+X pins. Power other devices of and/or disconnect them.
+\end{DoxyItemize}
+
+\subsection*{Pinouts}
+
+Full pinout details are available in the manual, here\+:
+
+\href{http://seriouslypro.com/spracingf3#manual}{\tt http\+://seriouslypro.\+com/spracingf3\#manual}
+
+\subsubsection*{I\+O\+\_\+1}
+
+The 8 pin I\+O\+\_\+1 connector has the following pinouts when used in R\+X\+\_\+\+P\+A\+R\+A\+L\+L\+E\+L\+\_\+\+P\+W\+M mode.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &V\+C\+C\+\_\+\+I\+N &Voltage as-\/supplied by B\+E\+C. \\\cline{1-3}
+3 &R\+C\+\_\+\+C\+H1 &\\\cline{1-3}
+4 &R\+C\+\_\+\+C\+H2 &\\\cline{1-3}
+5 &R\+C\+\_\+\+C\+H5 &\\\cline{1-3}
+6 &R\+C\+\_\+\+C\+H6 &\\\cline{1-3}
+7 &L\+E\+D\+\_\+\+S\+T\+R\+I\+P &Enable {\ttfamily feature L\+E\+D\+\_\+\+S\+T\+R\+I\+P} \\\cline{1-3}
+8 &V\+C\+C &3.\+3v output for L\+O\+W C\+U\+R\+R\+E\+N\+T application only \\\cline{1-3}
+\end{TabularC}
+When R\+X\+\_\+\+P\+P\+M/\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L is used the I\+O\+\_\+1 pinout is as follows.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &V\+C\+C\+\_\+\+I\+N &Voltage as-\/supplied by B\+E\+C. \\\cline{1-3}
+3 &R\+X\+\_\+\+P\+P\+M &Enable {\ttfamily feature R\+X\+\_\+\+P\+P\+M} \\\cline{1-3}
+4 &G\+P\+I\+O &\\\cline{1-3}
+5 &Soft\+Serial1\+\_\+\+R\+X &\\\cline{1-3}
+6 &Soft\+Serial1\+\_\+\+T\+X &\\\cline{1-3}
+7 &L\+E\+D\+\_\+\+S\+T\+R\+I\+P &Enable {\ttfamily feature L\+E\+D\+\_\+\+S\+T\+R\+I\+P} \\\cline{1-3}
+8 &V\+C\+C &3.\+3v output for L\+O\+W C\+U\+R\+R\+E\+N\+T application only \\\cline{1-3}
+\end{TabularC}
+\subsubsection*{I\+O\+\_\+2}
+
+The 8 pin I\+O\+\_\+2 connector has the following pinouts when used in R\+X\+\_\+\+P\+A\+R\+A\+L\+L\+E\+L\+\_\+\+P\+W\+M mode.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &V\+C\+C\+\_\+\+I\+N &Voltage as-\/supplied by B\+E\+C. \\\cline{1-3}
+3 &R\+C\+\_\+\+C\+H3 &\\\cline{1-3}
+4 &R\+C\+\_\+\+C\+H4 &\\\cline{1-3}
+5 &R\+C\+\_\+\+C\+H7/\+S\+O\+N\+A\+R\+\_\+\+T\+R\+I\+G &\\\cline{1-3}
+6 &R\+C\+\_\+\+C\+H8/\+S\+O\+N\+A\+R\+\_\+\+E\+C\+H\+O &\\\cline{1-3}
+7 &A\+D\+C\+\_\+1 &Current Sensor \\\cline{1-3}
+8 &A\+D\+C\+\_\+2 &R\+S\+S\+I \\\cline{1-3}
+\end{TabularC}
+When R\+X\+\_\+\+P\+P\+M/\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L is used the I\+O\+\_\+2 pinout is as follows.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &V\+C\+C\+\_\+\+I\+N &Voltage as-\/supplied by B\+E\+C. \\\cline{1-3}
+3 &R\+X\+\_\+\+S\+E\+R\+I\+A\+L &U\+A\+R\+T3 R\+X \\\cline{1-3}
+4 &&U\+A\+R\+T3\+\_\+\+T\+X \\\cline{1-3}
+5 &S\+O\+N\+A\+R\+\_\+\+T\+R\+I\+G/\+Soft\+Serial2\+\_\+\+R\+X &Enable {\ttfamily feature S\+O\+N\+A\+R/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L} \\\cline{1-3}
+6 &S\+O\+N\+A\+R\+\_\+\+E\+C\+H\+O/\+Soft\+Serial2\+\_\+\+T\+X &Enable {\ttfamily feature S\+O\+N\+A\+R/\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L} \\\cline{1-3}
+7 &A\+D\+C\+\_\+1 &Current Sensor \\\cline{1-3}
+8 &A\+D\+C\+\_\+2 &R\+S\+S\+I \\\cline{1-3}
+\end{TabularC}
+\subsubsection*{U\+A\+R\+T1/2/3}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &V\+C\+C\+\_\+\+I\+N &Voltage as-\/supplied by B\+E\+C. \\\cline{1-3}
+3 &T\+X\+D &\\\cline{1-3}
+4 &R\+X\+D &\\\cline{1-3}
+\end{TabularC}
+\subsubsection*{I2\+C}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &5.\+0v &Voltage as-\/supplied by B\+E\+C O\+R U\+S\+B, always on \\\cline{1-3}
+3 &S\+C\+L &\\\cline{1-3}
+4 &S\+D\+A &\\\cline{1-3}
+\end{TabularC}
+\subsubsection*{S\+W\+D}
+
+The port cannot be used at the same time as U\+A\+R\+T2.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &N\+R\+S\+T &\\\cline{1-3}
+3 &S\+W\+D\+I\+O &\\\cline{1-3}
+4 &S\+W\+D\+C\+L\+K &\\\cline{1-3}
+\end{TabularC}

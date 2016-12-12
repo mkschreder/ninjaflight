@@ -1,0 +1,6 @@
+<map id="ledstrip_enable" name="ledstrip_enable">
+<area shape="rect" id="node2" href="$ledstrip_8c.html#af4f9e303212d0db856b3f759e94484ea" title="Currently reloads config from the global store TODO: pass config to init! " alt="" coords="163,31,311,57"/>
+<area shape="rect" id="node5" href="$light__ws2811strip_8c.html#af1ad127663b84ee19da2027edc68e14c" title="ws2811LedStripInit" alt="" coords="171,81,304,108"/>
+<area shape="rect" id="node3" href="$ledstrip__unittest_8cc.html#a4682fc95eeb7881e31512400406de72e" title="determineLedStripDimensions" alt="" coords="361,5,557,32"/>
+<area shape="rect" id="node4" href="$ledstrip__unittest_8cc.html#a7c1622a20b48fbc276b1cb69658609ba" title="determineOrientationLimits" alt="" coords="370,56,547,83"/>
+</map>

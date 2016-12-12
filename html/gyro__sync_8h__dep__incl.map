@@ -1,0 +1,16 @@
+<map id="src/main/drivers/gyro_sync.h" name="src/main/drivers/gyro_sync.h">
+<area shape="rect" id="node2" href="$accgyro__mpu_8c.html" title="src/main/drivers/accgyro\l_mpu.c" alt="" coords="5,97,169,138"/>
+<area shape="rect" id="node3" href="$accgyro__mpu3050_8c.html" title="src/main/drivers/accgyro\l_mpu3050.c" alt="" coords="195,97,359,138"/>
+<area shape="rect" id="node4" href="$accgyro__mpu6050_8c.html" title="src/main/drivers/accgyro\l_mpu6050.c" alt="" coords="384,97,548,138"/>
+<area shape="rect" id="node5" href="$accgyro__mpu6500_8c.html" title="src/main/drivers/accgyro\l_mpu6500.c" alt="" coords="573,97,737,138"/>
+<area shape="rect" id="node6" href="$accgyro__spi__mpu6000_8c.html" title="src/main/drivers/accgyro\l_spi_mpu6000.c" alt="" coords="763,97,927,138"/>
+<area shape="rect" id="node7" href="$gyro__sync_8c.html" title="src/main/drivers/gyro\l_sync.c" alt="" coords="952,97,1096,138"/>
+<area shape="rect" id="node8" href="$anglerate_8c.html" title="src/main/flight/anglerate.c" alt="" coords="1121,104,1292,131"/>
+<area shape="rect" id="node9" href="$main_8c.html" title="src/main/main.c" alt="" coords="1317,104,1432,131"/>
+<area shape="rect" id="node10" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="1457,104,1599,131"/>
+<area shape="rect" id="node11" href="$gyro_8c.html" title="src/main/sensors/gyro.c" alt="" coords="1624,104,1787,131"/>
+<area shape="rect" id="node12" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="1811,104,2016,131"/>
+<area shape="rect" id="node13" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="2040,104,2175,131"/>
+<area shape="rect" id="node14" href="$flight__mixer__unittest_8cc.html" title="src/test/unit/flight\l_mixer_unittest.cc" alt="" coords="2199,97,2328,138"/>
+<area shape="rect" id="node15" href="$flight__tilt__unittest_8cc.html" title="src/test/unit/flight\l_tilt_unittest.cc" alt="" coords="2353,97,2476,138"/>
+</map>

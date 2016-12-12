@@ -1,0 +1,242 @@
+\hypertarget{config_2serial_8h}{\section{src/main/config/serial.h File Reference}
+\label{config_2serial_8h}\index{src/main/config/serial.\+h@{src/main/config/serial.\+h}}
+}
+{\ttfamily \#include \char`\"{}target.\+h\char`\"{}}\\*
+Include dependency graph for serial.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=198pt]{config_2serial_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_2serial_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config}
+\item 
+struct \hyperlink{structserial__config}{serial\+\_\+config}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \{ \\*
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182adf7b2d304accbfc1bdc2234bd57b4462}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E} = -\/1, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182abcf81f8c1b15250878b447475903cbeb}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1} = 0, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a164c654f5560ead33efb1574ed40cdf7}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2}, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aab330431344ba27ef4811e122040def1}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3}, 
+\\*
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a4a114a9d50f9a6fea53ad0c81f2e13d8}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4}, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a029525acfe3f69594161d9611209a2e3}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5}, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ade4ec2a64305379fe6729fb6d6169063}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P} = 20, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aee01892caf78f4ca7db81eb5915d5c76}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1} = 30, 
+\\*
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ac010b5fd3deb6d789fe9aff7fb9f7cf1}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2}, 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a7b9ade8203a7dcef7e07e4a52074208c}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X} = S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2
+ \}
+\begin{DoxyCompactList}\small\item\em serial port identifiers \end{DoxyCompactList}\item 
+enum \hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022}{port\+Sharing\+\_\+e} \{ \hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022aa58617db101604444ca59d350f59c29c}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D} = 0, 
+\hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022aef77b5acc1ad58f5c43763344fff8bd0}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D}, 
+\hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022ab5f888fb76649517b57299383d62c705}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D}
+ \}
+\item 
+enum \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} \{ \\*
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa413dff7e442012e401662f534f48f9de}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaad1355b1c746fb7c7d96baae142b8c96}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P} = (1 $<$$<$ 0), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa7b7a30a472fd40dfad907273e21760e5}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S} = (1 $<$$<$ 1), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf5605fdd54707292dea89a43d92e9fda}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aae1a03bcbe8c676d57adf02fbcfe7cb8f}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T} = (1 $<$$<$ 3), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa6fd55cb06c35cdb651d9d594e70a3074}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M} = (1 $<$$<$ 4), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa378208ad167b4495b1e168ab1b4d496d}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T} = (1 $<$$<$ 5), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf22dc78d4783566950ec5b496432eda6}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L} = (1 $<$$<$ 6), 
+\\*
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa8d2900985a96fb634c785b4b9a1da985}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X} = (1 $<$$<$ 7), 
+\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aacde7ae11328018e8fda431db58c0b450}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K} = (1 $<$$<$ 8)
+ \}
+\item 
+enum \hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2c}{baud\+Rate\+\_\+e} \{ \\*
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca84ef53a66d2f894f1ea409fadb4353ca}{B\+A\+U\+D\+\_\+\+A\+U\+T\+O} = 0, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca65103a961b06b47cbcd54b42f477a665}{B\+A\+U\+D\+\_\+9600}, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca009b22a7d7900ef4338757c2b6757c47}{B\+A\+U\+D\+\_\+19200}, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca0ed140b6e8504cfaa95a349d9dca2f56}{B\+A\+U\+D\+\_\+38400}, 
+\\*
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca40e0db13c9f3cc8d90e0d50beac0b3a2}{B\+A\+U\+D\+\_\+57600}, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2caeaebe809faf7dd2530167577aefa7f03}{B\+A\+U\+D\+\_\+115200}, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2caa620f50883740945acbbc181810fd8a6}{B\+A\+U\+D\+\_\+230400}, 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2ca911f8b1907617964181080280c98f5e3}{B\+A\+U\+D\+\_\+250000}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} \hyperlink{config_2serial_8h_a053b9bbb097b2bee65d46be8e78dc8a3}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{config_2serial_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}
+\item 
+\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier}
+\item 
+uint16\+\_\+t \hyperlink{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}{function\+Mask}
+\item 
+uint8\+\_\+t \hyperlink{config_2serial_8h_ab06e656550860f3afd620236f0fac1c7}{msp\+\_\+baudrate\+Index}
+\item 
+uint8\+\_\+t \hyperlink{config_2serial_8h_aca73ff20024ea32f6cb423f8964419b5}{gps\+\_\+baudrate\+Index}
+\item 
+uint8\+\_\+t \hyperlink{config_2serial_8h_a7ddc73d5ba659c6cd152225b6a292e3f}{blackbox\+\_\+baudrate\+Index}
+\item 
+uint8\+\_\+t \hyperlink{config_2serial_8h_ad13817c2bb9431cc7ea4d6e81e6a296b}{telemetry\+\_\+baudrate\+Index}
+\item 
+uint8\+\_\+t \hyperlink{config_2serial_8h_af9d086820b17f195c45b4e1c1c48a6ab}{reboot\+\_\+character}
+\item 
+struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} \hyperlink{config_2serial_8h_a284ee051ced1031607dfeb7f6174e42c}{port\+Configs} \mbox{[}\hyperlink{test_2unit_2target_8h_af040928dacfd97611f1283a6246bfce2}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2c}{\index{config/serial.\+h@{config/serial.\+h}!baud\+Rate\+\_\+e@{baud\+Rate\+\_\+e}}
+\index{baud\+Rate\+\_\+e@{baud\+Rate\+\_\+e}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{baud\+Rate\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf baud\+Rate\+\_\+e}}}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\+A\+U\+D\+\_\+\+A\+U\+T\+O@{B\+A\+U\+D\+\_\+\+A\+U\+T\+O}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+\+A\+U\+T\+O@{B\+A\+U\+D\+\_\+\+A\+U\+T\+O}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca84ef53a66d2f894f1ea409fadb4353ca}{B\+A\+U\+D\+\_\+\+A\+U\+T\+O}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca84ef53a66d2f894f1ea409fadb4353ca}
+}]\index{B\+A\+U\+D\+\_\+9600@{B\+A\+U\+D\+\_\+9600}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+9600@{B\+A\+U\+D\+\_\+9600}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca65103a961b06b47cbcd54b42f477a665}{B\+A\+U\+D\+\_\+9600}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca65103a961b06b47cbcd54b42f477a665}
+}]\index{B\+A\+U\+D\+\_\+19200@{B\+A\+U\+D\+\_\+19200}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+19200@{B\+A\+U\+D\+\_\+19200}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca009b22a7d7900ef4338757c2b6757c47}{B\+A\+U\+D\+\_\+19200}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca009b22a7d7900ef4338757c2b6757c47}
+}]\index{B\+A\+U\+D\+\_\+38400@{B\+A\+U\+D\+\_\+38400}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+38400@{B\+A\+U\+D\+\_\+38400}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca0ed140b6e8504cfaa95a349d9dca2f56}{B\+A\+U\+D\+\_\+38400}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca0ed140b6e8504cfaa95a349d9dca2f56}
+}]\index{B\+A\+U\+D\+\_\+57600@{B\+A\+U\+D\+\_\+57600}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+57600@{B\+A\+U\+D\+\_\+57600}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca40e0db13c9f3cc8d90e0d50beac0b3a2}{B\+A\+U\+D\+\_\+57600}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca40e0db13c9f3cc8d90e0d50beac0b3a2}
+}]\index{B\+A\+U\+D\+\_\+115200@{B\+A\+U\+D\+\_\+115200}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+115200@{B\+A\+U\+D\+\_\+115200}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2caeaebe809faf7dd2530167577aefa7f03}{B\+A\+U\+D\+\_\+115200}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2caeaebe809faf7dd2530167577aefa7f03}
+}]\index{B\+A\+U\+D\+\_\+230400@{B\+A\+U\+D\+\_\+230400}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+230400@{B\+A\+U\+D\+\_\+230400}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2caa620f50883740945acbbc181810fd8a6}{B\+A\+U\+D\+\_\+230400}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2caa620f50883740945acbbc181810fd8a6}
+}]\index{B\+A\+U\+D\+\_\+250000@{B\+A\+U\+D\+\_\+250000}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!B\+A\+U\+D\+\_\+250000@{B\+A\+U\+D\+\_\+250000}}\item[{\em 
+\hypertarget{config_2serial_8h_a34775f541400347acca97e61d50cda2ca911f8b1907617964181080280c98f5e3}{B\+A\+U\+D\+\_\+250000}\label{config_2serial_8h_a34775f541400347acca97e61d50cda2ca911f8b1907617964181080280c98f5e3}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2serial_8h_abf0b69624c13c172601595b52e672022}{\index{config/serial.\+h@{config/serial.\+h}!port\+Sharing\+\_\+e@{port\+Sharing\+\_\+e}}
+\index{port\+Sharing\+\_\+e@{port\+Sharing\+\_\+e}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{port\+Sharing\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf port\+Sharing\+\_\+e}}}\label{config_2serial_8h_abf0b69624c13c172601595b52e672022}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D}}\item[{\em 
+\hypertarget{config_2serial_8h_abf0b69624c13c172601595b52e672022aa58617db101604444ca59d350f59c29c}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+U\+N\+U\+S\+E\+D}\label{config_2serial_8h_abf0b69624c13c172601595b52e672022aa58617db101604444ca59d350f59c29c}
+}]\index{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D}}\item[{\em 
+\hypertarget{config_2serial_8h_abf0b69624c13c172601595b52e672022aef77b5acc1ad58f5c43763344fff8bd0}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+N\+O\+T\+\_\+\+S\+H\+A\+R\+E\+D}\label{config_2serial_8h_abf0b69624c13c172601595b52e672022aef77b5acc1ad58f5c43763344fff8bd0}
+}]\index{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D@{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D}}\item[{\em 
+\hypertarget{config_2serial_8h_abf0b69624c13c172601595b52e672022ab5f888fb76649517b57299383d62c705}{P\+O\+R\+T\+S\+H\+A\+R\+I\+N\+G\+\_\+\+S\+H\+A\+R\+E\+D}\label{config_2serial_8h_abf0b69624c13c172601595b52e672022ab5f888fb76649517b57299383d62c705}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{\index{config/serial.\+h@{config/serial.\+h}!serial\+Port\+Function\+\_\+e@{serial\+Port\+Function\+\_\+e}}
+\index{serial\+Port\+Function\+\_\+e@{serial\+Port\+Function\+\_\+e}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{serial\+Port\+Function\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf serial\+Port\+Function\+\_\+e}}}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa413dff7e442012e401662f534f48f9de}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+N\+O\+N\+E}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa413dff7e442012e401662f534f48f9de}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaad1355b1c746fb7c7d96baae142b8c96}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+S\+P}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaad1355b1c746fb7c7d96baae142b8c96}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa7b7a30a472fd40dfad907273e21760e5}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa7b7a30a472fd40dfad907273e21760e5}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf5605fdd54707292dea89a43d92e9fda}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf5605fdd54707292dea89a43d92e9fda}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aae1a03bcbe8c676d57adf02fbcfe7cb8f}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aae1a03bcbe8c676d57adf02fbcfe7cb8f}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa6fd55cb06c35cdb651d9d594e70a3074}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa6fd55cb06c35cdb651d9d594e70a3074}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa378208ad167b4495b1e168ab1b4d496d}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa378208ad167b4495b1e168ab1b4d496d}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf22dc78d4783566950ec5b496432eda6}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf22dc78d4783566950ec5b496432eda6}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa8d2900985a96fb634c785b4b9a1da985}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa8d2900985a96fb634c785b4b9a1da985}
+}]\index{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K@{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K}}\item[{\em 
+\hypertarget{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aacde7ae11328018e8fda431db58c0b450}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K}\label{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aacde7ae11328018e8fda431db58c0b450}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{\index{config/serial.\+h@{config/serial.\+h}!serial\+Port\+Identifier\+\_\+e@{serial\+Port\+Identifier\+\_\+e}}
+\index{serial\+Port\+Identifier\+\_\+e@{serial\+Port\+Identifier\+\_\+e}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{serial\+Port\+Identifier\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf serial\+Port\+Identifier\+\_\+e}}}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}
+
+
+serial port identifiers 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182adf7b2d304accbfc1bdc2234bd57b4462}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+N\+O\+N\+E}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182adf7b2d304accbfc1bdc2234bd57b4462}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182abcf81f8c1b15250878b447475903cbeb}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T1}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182abcf81f8c1b15250878b447475903cbeb}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a164c654f5560ead33efb1574ed40cdf7}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T2}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a164c654f5560ead33efb1574ed40cdf7}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aab330431344ba27ef4811e122040def1}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T3}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aab330431344ba27ef4811e122040def1}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a4a114a9d50f9a6fea53ad0c81f2e13d8}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T4}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a4a114a9d50f9a6fea53ad0c81f2e13d8}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a029525acfe3f69594161d9611209a2e3}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+A\+R\+T5}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a029525acfe3f69594161d9611209a2e3}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ade4ec2a64305379fe6729fb6d6169063}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+U\+S\+B\+\_\+\+V\+C\+P}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ade4ec2a64305379fe6729fb6d6169063}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aee01892caf78f4ca7db81eb5915d5c76}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L1}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182aee01892caf78f4ca7db81eb5915d5c76}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ac010b5fd3deb6d789fe9aff7fb9f7cf1}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+F\+T\+S\+E\+R\+I\+A\+L2}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182ac010b5fd3deb6d789fe9aff7fb9f7cf1}
+}]\index{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X}!config/serial.\+h@{config/serial.\+h}}\index{config/serial.\+h@{config/serial.\+h}!S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X@{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X}}\item[{\em 
+\hypertarget{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a7b9ade8203a7dcef7e07e4a52074208c}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+I\+D\+E\+N\+T\+I\+F\+I\+E\+R\+\_\+\+M\+A\+X}\label{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182a7b9ade8203a7dcef7e07e4a52074208c}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{config_2serial_8h_a053b9bbb097b2bee65d46be8e78dc8a3}{\index{config/serial.\+h@{config/serial.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf serial\+\_\+port\+\_\+config} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2serial_8h_a053b9bbb097b2bee65d46be8e78dc8a3}
+
+
+\subsection{Variable Documentation}
+\hypertarget{config_2serial_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\index{config/serial.\+h@{config/serial.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}typedef    {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+}}}\label{config_2serial_8h_aeab68f17dc686a2f7dc72ab2b712e464}
+\hypertarget{config_2serial_8h_a7ddc73d5ba659c6cd152225b6a292e3f}{\index{config/serial.\+h@{config/serial.\+h}!blackbox\+\_\+baudrate\+Index@{blackbox\+\_\+baudrate\+Index}}
+\index{blackbox\+\_\+baudrate\+Index@{blackbox\+\_\+baudrate\+Index}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{blackbox\+\_\+baudrate\+Index}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t blackbox\+\_\+baudrate\+Index}}\label{config_2serial_8h_a7ddc73d5ba659c6cd152225b6a292e3f}
+\hypertarget{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}{\index{config/serial.\+h@{config/serial.\+h}!function\+Mask@{function\+Mask}}
+\index{function\+Mask@{function\+Mask}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{function\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t function\+Mask}}\label{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}
+\hypertarget{config_2serial_8h_aca73ff20024ea32f6cb423f8964419b5}{\index{config/serial.\+h@{config/serial.\+h}!gps\+\_\+baudrate\+Index@{gps\+\_\+baudrate\+Index}}
+\index{gps\+\_\+baudrate\+Index@{gps\+\_\+baudrate\+Index}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{gps\+\_\+baudrate\+Index}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+\_\+baudrate\+Index}}\label{config_2serial_8h_aca73ff20024ea32f6cb423f8964419b5}
+\hypertarget{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{\index{config/serial.\+h@{config/serial.\+h}!identifier@{identifier}}
+\index{identifier@{identifier}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{identifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+Identifier\+\_\+e} identifier}}\label{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}
+\hypertarget{config_2serial_8h_ab06e656550860f3afd620236f0fac1c7}{\index{config/serial.\+h@{config/serial.\+h}!msp\+\_\+baudrate\+Index@{msp\+\_\+baudrate\+Index}}
+\index{msp\+\_\+baudrate\+Index@{msp\+\_\+baudrate\+Index}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{msp\+\_\+baudrate\+Index}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t msp\+\_\+baudrate\+Index}}\label{config_2serial_8h_ab06e656550860f3afd620236f0fac1c7}
+\hypertarget{config_2serial_8h_a284ee051ced1031607dfeb7f6174e42c}{\index{config/serial.\+h@{config/serial.\+h}!port\+Configs@{port\+Configs}}
+\index{port\+Configs@{port\+Configs}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{port\+Configs}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf serial\+\_\+port\+\_\+config} port\+Configs\mbox{[}{\bf S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{config_2serial_8h_a284ee051ced1031607dfeb7f6174e42c}
+\hypertarget{config_2serial_8h_af9d086820b17f195c45b4e1c1c48a6ab}{\index{config/serial.\+h@{config/serial.\+h}!reboot\+\_\+character@{reboot\+\_\+character}}
+\index{reboot\+\_\+character@{reboot\+\_\+character}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{reboot\+\_\+character}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t reboot\+\_\+character}}\label{config_2serial_8h_af9d086820b17f195c45b4e1c1c48a6ab}
+\hypertarget{config_2serial_8h_ad13817c2bb9431cc7ea4d6e81e6a296b}{\index{config/serial.\+h@{config/serial.\+h}!telemetry\+\_\+baudrate\+Index@{telemetry\+\_\+baudrate\+Index}}
+\index{telemetry\+\_\+baudrate\+Index@{telemetry\+\_\+baudrate\+Index}!config/serial.\+h@{config/serial.\+h}}
+\subsubsection[{telemetry\+\_\+baudrate\+Index}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t telemetry\+\_\+baudrate\+Index}}\label{config_2serial_8h_ad13817c2bb9431cc7ea4d6e81e6a296b}

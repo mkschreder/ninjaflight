@@ -1,0 +1,197 @@
+\hypertarget{mock__system_8cc}{\section{src/test/mock/mock\+\_\+system.cc File Reference}
+\label{mock__system_8cc}\index{src/test/mock/mock\+\_\+system.\+cc@{src/test/mock/mock\+\_\+system.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninja.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for mock\+\_\+system.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{mock__system_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries syscalls}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{mock__system_8cc_a3163782f372e2a600fa2321ca2e15301}{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}~4096
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mock__system_8cc_a32cf7375a19c444f334e581a07b95626}{\+\_\+write\+\_\+motor} (const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm, uint8\+\_\+t id, uint16\+\_\+t value)
+\item 
+void \hyperlink{mock__system_8cc_a2d80920564119dc14d79f11223eb8cb3}{\+\_\+write\+\_\+servo} (const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm, uint8\+\_\+t id, uint16\+\_\+t value)
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_aad634645de06afa75d9ac39715dd8901}{\+\_\+read\+\_\+pwm} (const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm, uint8\+\_\+t id)
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a1209e43be3ce4b249bbcaf6b4c3fd77d}{\+\_\+read\+\_\+ppm} (const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm, uint8\+\_\+t id)
+\item 
+const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$ \hyperlink{mock__system_8cc_aee16ae4e490af0431a008403c31b7940}{mock\+\_\+syscalls} ()
+\item 
+void \hyperlink{mock__system_8cc_a7f1bcc7aaed750f1176cb26d184de9cb}{ninja\+\_\+config\+\_\+reset} (struct \hyperlink{structninja}{ninja} $\ast$self)
+\item 
+void \hyperlink{mock__system_8cc_aa2119704c8763e52643584268be30d7e}{mock\+\_\+eeprom\+\_\+erase} ()
+\item 
+void \hyperlink{mock__system_8cc_a449f3580fa90e6b7ecd29b259f6ad060}{mock\+\_\+system\+\_\+reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a6e7f83bad16b1927f6b36571e127fdc8}{mock\+\_\+motor\+\_\+pwm} \mbox{[}8\mbox{]}
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a954f96ecb2072e2d42635f51e490af15}{mock\+\_\+servo\+\_\+pwm} \mbox{[}8\mbox{]}
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a89b274eefb4d3a804cf43f0a10234fee}{mock\+\_\+rc\+\_\+pwm} \mbox{[}\hyperlink{config_2rx_8h_a36c9eafe7932465eb9940ff115cacacb}{R\+X\+\_\+\+M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+R\+C\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}\mbox{]}
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a3c7dffc97615581b974caf95e8de0049}{mock\+\_\+pwm\+\_\+errors} = 0
+\item 
+int16\+\_\+t \hyperlink{mock__system_8cc_ab067884de0f4d596d1404e60e055a998}{mock\+\_\+acc} \mbox{[}3\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{mock__system_8cc_aeed9bc0701cd99661f80926c4d525182}{mock\+\_\+gyro} \mbox{[}3\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{mock__system_8cc_ac31768b612bb3b7236d19d37851f808c}{mock\+\_\+eeprom\+\_\+written} = 0
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_a59a14ce6a77aa5fb79e14010655a3e45}{mock\+\_\+eeprom\+\_\+pages} = 2
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_ab4f0046af7e785720a454eeb8991d491}{mock\+\_\+eeprom\+\_\+page\+\_\+size} = 512
+\item 
+uint8\+\_\+t \hyperlink{mock__system_8cc_a31728d343010d45c44af9d71681fdb04}{mock\+\_\+eeprom\+\_\+erase\+\_\+byte} = 0xff
+\item 
+char \hyperlink{mock__system_8cc_ab8561ea6f7c84320d1ffae77bb0dea4b}{mock\+\_\+eeprom\+\_\+data} \mbox{[}\hyperlink{mock__system_8cc_a3163782f372e2a600fa2321ca2e15301}{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}\mbox{]}
+\item 
+uint16\+\_\+t \hyperlink{mock__system_8cc_acfe49ea2d51b8ff987784170ecbafec1}{cycle\+Time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{mock__system_8cc_a3163782f372e2a600fa2321ca2e15301}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E@{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}}
+\index{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E@{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E~4096}}\label{mock__system_8cc_a3163782f372e2a600fa2321ca2e15301}
+
+
+\subsection{Function Documentation}
+\hypertarget{mock__system_8cc_a1209e43be3ce4b249bbcaf6b4c3fd77d}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!\+\_\+read\+\_\+ppm@{\+\_\+read\+\_\+ppm}}
+\index{\+\_\+read\+\_\+ppm@{\+\_\+read\+\_\+ppm}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{\+\_\+read\+\_\+ppm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+read\+\_\+ppm (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm, }
+\item[{uint8\+\_\+t}]{id}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_a1209e43be3ce4b249bbcaf6b4c3fd77d}
+\hypertarget{mock__system_8cc_aad634645de06afa75d9ac39715dd8901}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!\+\_\+read\+\_\+pwm@{\+\_\+read\+\_\+pwm}}
+\index{\+\_\+read\+\_\+pwm@{\+\_\+read\+\_\+pwm}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{\+\_\+read\+\_\+pwm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+read\+\_\+pwm (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm, }
+\item[{uint8\+\_\+t}]{id}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_aad634645de06afa75d9ac39715dd8901}
+\hypertarget{mock__system_8cc_a32cf7375a19c444f334e581a07b95626}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!\+\_\+write\+\_\+motor@{\+\_\+write\+\_\+motor}}
+\index{\+\_\+write\+\_\+motor@{\+\_\+write\+\_\+motor}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{\+\_\+write\+\_\+motor}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+write\+\_\+motor (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm, }
+\item[{uint8\+\_\+t}]{id, }
+\item[{uint16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_a32cf7375a19c444f334e581a07b95626}
+\hypertarget{mock__system_8cc_a2d80920564119dc14d79f11223eb8cb3}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!\+\_\+write\+\_\+servo@{\+\_\+write\+\_\+servo}}
+\index{\+\_\+write\+\_\+servo@{\+\_\+write\+\_\+servo}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{\+\_\+write\+\_\+servo}]{\setlength{\rightskip}{0pt plus 5cm}void \+\_\+write\+\_\+servo (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm, }
+\item[{uint8\+\_\+t}]{id, }
+\item[{uint16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_a2d80920564119dc14d79f11223eb8cb3}
+\hypertarget{mock__system_8cc_aa2119704c8763e52643584268be30d7e}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+erase@{mock\+\_\+eeprom\+\_\+erase}}
+\index{mock\+\_\+eeprom\+\_\+erase@{mock\+\_\+eeprom\+\_\+erase}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+erase}]{\setlength{\rightskip}{0pt plus 5cm}void mock\+\_\+eeprom\+\_\+erase (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_aa2119704c8763e52643584268be30d7e}
+\hypertarget{mock__system_8cc_aee16ae4e490af0431a008403c31b7940}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+syscalls@{mock\+\_\+syscalls}}
+\index{mock\+\_\+syscalls@{mock\+\_\+syscalls}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+syscalls}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf system\+\_\+calls}$\ast$ mock\+\_\+syscalls (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_aee16ae4e490af0431a008403c31b7940}
+\hypertarget{mock__system_8cc_a449f3580fa90e6b7ecd29b259f6ad060}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+system\+\_\+reset@{mock\+\_\+system\+\_\+reset}}
+\index{mock\+\_\+system\+\_\+reset@{mock\+\_\+system\+\_\+reset}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+system\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}void mock\+\_\+system\+\_\+reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_a449f3580fa90e6b7ecd29b259f6ad060}
+\hypertarget{mock__system_8cc_a7f1bcc7aaed750f1176cb26d184de9cb}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!ninja\+\_\+config\+\_\+reset@{ninja\+\_\+config\+\_\+reset}}
+\index{ninja\+\_\+config\+\_\+reset@{ninja\+\_\+config\+\_\+reset}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{ninja\+\_\+config\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}void ninja\+\_\+config\+\_\+reset (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ninja} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{mock__system_8cc_a7f1bcc7aaed750f1176cb26d184de9cb}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{mock__system_8cc_a7f1bcc7aaed750f1176cb26d184de9cb_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{mock__system_8cc_acfe49ea2d51b8ff987784170ecbafec1}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!cycle\+Time@{cycle\+Time}}
+\index{cycle\+Time@{cycle\+Time}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{cycle\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t cycle\+Time}}\label{mock__system_8cc_acfe49ea2d51b8ff987784170ecbafec1}
+\hypertarget{mock__system_8cc_ab067884de0f4d596d1404e60e055a998}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+acc@{mock\+\_\+acc}}
+\index{mock\+\_\+acc@{mock\+\_\+acc}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+acc}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mock\+\_\+acc\mbox{[}3\mbox{]}}}\label{mock__system_8cc_ab067884de0f4d596d1404e60e055a998}
+\hypertarget{mock__system_8cc_ab8561ea6f7c84320d1ffae77bb0dea4b}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+data@{mock\+\_\+eeprom\+\_\+data}}
+\index{mock\+\_\+eeprom\+\_\+data@{mock\+\_\+eeprom\+\_\+data}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+data}]{\setlength{\rightskip}{0pt plus 5cm}char mock\+\_\+eeprom\+\_\+data\mbox{[}{\bf M\+O\+C\+K\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+M\+A\+X\+\_\+\+S\+I\+Z\+E}\mbox{]}}}\label{mock__system_8cc_ab8561ea6f7c84320d1ffae77bb0dea4b}
+\hypertarget{mock__system_8cc_a31728d343010d45c44af9d71681fdb04}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+erase\+\_\+byte@{mock\+\_\+eeprom\+\_\+erase\+\_\+byte}}
+\index{mock\+\_\+eeprom\+\_\+erase\+\_\+byte@{mock\+\_\+eeprom\+\_\+erase\+\_\+byte}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+erase\+\_\+byte}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t mock\+\_\+eeprom\+\_\+erase\+\_\+byte = 0xff}}\label{mock__system_8cc_a31728d343010d45c44af9d71681fdb04}
+\hypertarget{mock__system_8cc_ab4f0046af7e785720a454eeb8991d491}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+page\+\_\+size@{mock\+\_\+eeprom\+\_\+page\+\_\+size}}
+\index{mock\+\_\+eeprom\+\_\+page\+\_\+size@{mock\+\_\+eeprom\+\_\+page\+\_\+size}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+page\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+eeprom\+\_\+page\+\_\+size = 512}}\label{mock__system_8cc_ab4f0046af7e785720a454eeb8991d491}
+\hypertarget{mock__system_8cc_a59a14ce6a77aa5fb79e14010655a3e45}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+pages@{mock\+\_\+eeprom\+\_\+pages}}
+\index{mock\+\_\+eeprom\+\_\+pages@{mock\+\_\+eeprom\+\_\+pages}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+pages}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+eeprom\+\_\+pages = 2}}\label{mock__system_8cc_a59a14ce6a77aa5fb79e14010655a3e45}
+\hypertarget{mock__system_8cc_ac31768b612bb3b7236d19d37851f808c}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+eeprom\+\_\+written@{mock\+\_\+eeprom\+\_\+written}}
+\index{mock\+\_\+eeprom\+\_\+written@{mock\+\_\+eeprom\+\_\+written}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+eeprom\+\_\+written}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t mock\+\_\+eeprom\+\_\+written = 0}}\label{mock__system_8cc_ac31768b612bb3b7236d19d37851f808c}
+\hypertarget{mock__system_8cc_aeed9bc0701cd99661f80926c4d525182}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+gyro@{mock\+\_\+gyro}}
+\index{mock\+\_\+gyro@{mock\+\_\+gyro}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+gyro}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t mock\+\_\+gyro\mbox{[}3\mbox{]}}}\label{mock__system_8cc_aeed9bc0701cd99661f80926c4d525182}
+\hypertarget{mock__system_8cc_a6e7f83bad16b1927f6b36571e127fdc8}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+motor\+\_\+pwm@{mock\+\_\+motor\+\_\+pwm}}
+\index{mock\+\_\+motor\+\_\+pwm@{mock\+\_\+motor\+\_\+pwm}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+motor\+\_\+pwm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+motor\+\_\+pwm\mbox{[}8\mbox{]}}}\label{mock__system_8cc_a6e7f83bad16b1927f6b36571e127fdc8}
+\hypertarget{mock__system_8cc_a3c7dffc97615581b974caf95e8de0049}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+pwm\+\_\+errors@{mock\+\_\+pwm\+\_\+errors}}
+\index{mock\+\_\+pwm\+\_\+errors@{mock\+\_\+pwm\+\_\+errors}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+pwm\+\_\+errors}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+pwm\+\_\+errors = 0}}\label{mock__system_8cc_a3c7dffc97615581b974caf95e8de0049}
+\hypertarget{mock__system_8cc_a89b274eefb4d3a804cf43f0a10234fee}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+rc\+\_\+pwm@{mock\+\_\+rc\+\_\+pwm}}
+\index{mock\+\_\+rc\+\_\+pwm@{mock\+\_\+rc\+\_\+pwm}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+rc\+\_\+pwm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+rc\+\_\+pwm\mbox{[}{\bf R\+X\+\_\+\+M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+R\+C\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}\mbox{]}}}\label{mock__system_8cc_a89b274eefb4d3a804cf43f0a10234fee}
+\hypertarget{mock__system_8cc_a954f96ecb2072e2d42635f51e490af15}{\index{mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}!mock\+\_\+servo\+\_\+pwm@{mock\+\_\+servo\+\_\+pwm}}
+\index{mock\+\_\+servo\+\_\+pwm@{mock\+\_\+servo\+\_\+pwm}!mock\+\_\+system.\+cc@{mock\+\_\+system.\+cc}}
+\subsubsection[{mock\+\_\+servo\+\_\+pwm}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t mock\+\_\+servo\+\_\+pwm\mbox{[}8\mbox{]}}}\label{mock__system_8cc_a954f96ecb2072e2d42635f51e490af15}

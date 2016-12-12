@@ -1,0 +1,132 @@
+\hypertarget{structgps}{\section{gps Struct Reference}
+\label{structgps}\index{gps@{gps}}
+}
+
+
+{\ttfamily \#include $<$gps.\+h$>$}
+
+
+
+Collaboration diagram for gps\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{structgps__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{structgps_a1eb759a3e0ba730d081137ac256b76a7}{gps\+Packet\+Log} \mbox{[}\hyperlink{sensors_2gps_8h_ab49fbdbefeca0005095e8f3b45a0f7c8}{G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+char $\ast$ \hyperlink{structgps_a1055c6f779022becba696e243dfcdca1}{gps\+Packet\+Log\+Char}
+\item 
+\hyperlink{sensors_2gps_8h_a771fa045adfa1095a89b83006e07478f}{gps\+Data\+\_\+t} \hyperlink{structgps_a20af1aa168a31776b9e035d9fd0c35e7}{gps\+Data}
+\item 
+int32\+\_\+t \hyperlink{structgps_ab71d92d4bd48f6caf45341214387c62c}{G\+P\+S\+\_\+coord} \mbox{[}2\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{structgps_ad259f63a95ceb187eee4f9835599faad}{G\+P\+S\+\_\+num\+Sat}
+\item 
+uint16\+\_\+t \hyperlink{structgps_a4379d92cd78226da2dadddf6441dc060}{G\+P\+S\+\_\+hdop}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a52b1d84c34037315d1a42b6e154f5f0d}{G\+P\+S\+\_\+update}
+\item 
+uint32\+\_\+t \hyperlink{structgps_a1b4e17f4712e1f67f02b4e21d4f0e49d}{G\+P\+S\+\_\+packet\+Count}
+\item 
+uint32\+\_\+t \hyperlink{structgps_a4101a4980e857277766d889ae2905df6}{G\+P\+S\+\_\+sv\+Info\+Received\+Count}
+\item 
+uint16\+\_\+t \hyperlink{structgps_a6e61c7cefd9bf03f800785393686140a}{G\+P\+S\+\_\+altitude}
+\item 
+uint16\+\_\+t \hyperlink{structgps_a0a653a835ede96075609473cb7466d5a}{G\+P\+S\+\_\+speed}
+\item 
+uint16\+\_\+t \hyperlink{structgps_ae3f9e8d2bbd8f37022f85b543c06dbb8}{G\+P\+S\+\_\+ground\+\_\+course}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a0d62935dcedc89bdfa083fcfb30c8166}{G\+P\+S\+\_\+num\+Ch}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a9ea4a389a4deb33e1b49dcac3116480f}{G\+P\+S\+\_\+svinfo\+\_\+chn} \mbox{[}16\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a50222126dec4301a4a6b87dfafd070ac}{G\+P\+S\+\_\+svinfo\+\_\+svid} \mbox{[}16\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a53848f08ff505235e3a9b88ab9363d7a}{G\+P\+S\+\_\+svinfo\+\_\+quality} \mbox{[}16\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{structgps_a59a2afa1dd99043f3b951730ccd3cd27}{G\+P\+S\+\_\+svinfo\+\_\+cno} \mbox{[}16\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{structgps_a21619a61364bab3abe1e5c793c92cb4b}{G\+P\+S\+\_\+garbage\+Byte\+Count}
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{structgps_a7fd3c434677f4d8b8b64f4596a276d64}{gps\+Port}
+\item 
+const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$ \hyperlink{structgps_a0eaf8e4b1c5d62ec0e2b9bfad8016764}{system}
+\item 
+const struct \hyperlink{structconfig}{config} $\ast$ \hyperlink{structgps_a5a3a1380775087b5c95a854e72efd167}{config}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structgps_a5a3a1380775087b5c95a854e72efd167}{\index{gps@{gps}!config@{config}}
+\index{config@{config}!gps@{gps}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf config}$\ast$ gps\+::config}}\label{structgps_a5a3a1380775087b5c95a854e72efd167}
+\hypertarget{structgps_a6e61c7cefd9bf03f800785393686140a}{\index{gps@{gps}!G\+P\+S\+\_\+altitude@{G\+P\+S\+\_\+altitude}}
+\index{G\+P\+S\+\_\+altitude@{G\+P\+S\+\_\+altitude}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t gps\+::\+G\+P\+S\+\_\+altitude}}\label{structgps_a6e61c7cefd9bf03f800785393686140a}
+\hypertarget{structgps_ab71d92d4bd48f6caf45341214387c62c}{\index{gps@{gps}!G\+P\+S\+\_\+coord@{G\+P\+S\+\_\+coord}}
+\index{G\+P\+S\+\_\+coord@{G\+P\+S\+\_\+coord}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+coord}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t gps\+::\+G\+P\+S\+\_\+coord\mbox{[}2\mbox{]}}}\label{structgps_ab71d92d4bd48f6caf45341214387c62c}
+\hypertarget{structgps_a21619a61364bab3abe1e5c793c92cb4b}{\index{gps@{gps}!G\+P\+S\+\_\+garbage\+Byte\+Count@{G\+P\+S\+\_\+garbage\+Byte\+Count}}
+\index{G\+P\+S\+\_\+garbage\+Byte\+Count@{G\+P\+S\+\_\+garbage\+Byte\+Count}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+garbage\+Byte\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t gps\+::\+G\+P\+S\+\_\+garbage\+Byte\+Count}}\label{structgps_a21619a61364bab3abe1e5c793c92cb4b}
+\hypertarget{structgps_ae3f9e8d2bbd8f37022f85b543c06dbb8}{\index{gps@{gps}!G\+P\+S\+\_\+ground\+\_\+course@{G\+P\+S\+\_\+ground\+\_\+course}}
+\index{G\+P\+S\+\_\+ground\+\_\+course@{G\+P\+S\+\_\+ground\+\_\+course}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+ground\+\_\+course}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t gps\+::\+G\+P\+S\+\_\+ground\+\_\+course}}\label{structgps_ae3f9e8d2bbd8f37022f85b543c06dbb8}
+\hypertarget{structgps_a4379d92cd78226da2dadddf6441dc060}{\index{gps@{gps}!G\+P\+S\+\_\+hdop@{G\+P\+S\+\_\+hdop}}
+\index{G\+P\+S\+\_\+hdop@{G\+P\+S\+\_\+hdop}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+hdop}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t gps\+::\+G\+P\+S\+\_\+hdop}}\label{structgps_a4379d92cd78226da2dadddf6441dc060}
+\hypertarget{structgps_a0d62935dcedc89bdfa083fcfb30c8166}{\index{gps@{gps}!G\+P\+S\+\_\+num\+Ch@{G\+P\+S\+\_\+num\+Ch}}
+\index{G\+P\+S\+\_\+num\+Ch@{G\+P\+S\+\_\+num\+Ch}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+num\+Ch}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+num\+Ch}}\label{structgps_a0d62935dcedc89bdfa083fcfb30c8166}
+\hypertarget{structgps_ad259f63a95ceb187eee4f9835599faad}{\index{gps@{gps}!G\+P\+S\+\_\+num\+Sat@{G\+P\+S\+\_\+num\+Sat}}
+\index{G\+P\+S\+\_\+num\+Sat@{G\+P\+S\+\_\+num\+Sat}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+num\+Sat}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+num\+Sat}}\label{structgps_ad259f63a95ceb187eee4f9835599faad}
+\hypertarget{structgps_a1b4e17f4712e1f67f02b4e21d4f0e49d}{\index{gps@{gps}!G\+P\+S\+\_\+packet\+Count@{G\+P\+S\+\_\+packet\+Count}}
+\index{G\+P\+S\+\_\+packet\+Count@{G\+P\+S\+\_\+packet\+Count}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+packet\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t gps\+::\+G\+P\+S\+\_\+packet\+Count}}\label{structgps_a1b4e17f4712e1f67f02b4e21d4f0e49d}
+\hypertarget{structgps_a0a653a835ede96075609473cb7466d5a}{\index{gps@{gps}!G\+P\+S\+\_\+speed@{G\+P\+S\+\_\+speed}}
+\index{G\+P\+S\+\_\+speed@{G\+P\+S\+\_\+speed}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+speed}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t gps\+::\+G\+P\+S\+\_\+speed}}\label{structgps_a0a653a835ede96075609473cb7466d5a}
+\hypertarget{structgps_a9ea4a389a4deb33e1b49dcac3116480f}{\index{gps@{gps}!G\+P\+S\+\_\+svinfo\+\_\+chn@{G\+P\+S\+\_\+svinfo\+\_\+chn}}
+\index{G\+P\+S\+\_\+svinfo\+\_\+chn@{G\+P\+S\+\_\+svinfo\+\_\+chn}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+svinfo\+\_\+chn}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+svinfo\+\_\+chn\mbox{[}16\mbox{]}}}\label{structgps_a9ea4a389a4deb33e1b49dcac3116480f}
+\hypertarget{structgps_a59a2afa1dd99043f3b951730ccd3cd27}{\index{gps@{gps}!G\+P\+S\+\_\+svinfo\+\_\+cno@{G\+P\+S\+\_\+svinfo\+\_\+cno}}
+\index{G\+P\+S\+\_\+svinfo\+\_\+cno@{G\+P\+S\+\_\+svinfo\+\_\+cno}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+svinfo\+\_\+cno}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+svinfo\+\_\+cno\mbox{[}16\mbox{]}}}\label{structgps_a59a2afa1dd99043f3b951730ccd3cd27}
+\hypertarget{structgps_a53848f08ff505235e3a9b88ab9363d7a}{\index{gps@{gps}!G\+P\+S\+\_\+svinfo\+\_\+quality@{G\+P\+S\+\_\+svinfo\+\_\+quality}}
+\index{G\+P\+S\+\_\+svinfo\+\_\+quality@{G\+P\+S\+\_\+svinfo\+\_\+quality}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+svinfo\+\_\+quality}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+svinfo\+\_\+quality\mbox{[}16\mbox{]}}}\label{structgps_a53848f08ff505235e3a9b88ab9363d7a}
+\hypertarget{structgps_a50222126dec4301a4a6b87dfafd070ac}{\index{gps@{gps}!G\+P\+S\+\_\+svinfo\+\_\+svid@{G\+P\+S\+\_\+svinfo\+\_\+svid}}
+\index{G\+P\+S\+\_\+svinfo\+\_\+svid@{G\+P\+S\+\_\+svinfo\+\_\+svid}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+svinfo\+\_\+svid}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+svinfo\+\_\+svid\mbox{[}16\mbox{]}}}\label{structgps_a50222126dec4301a4a6b87dfafd070ac}
+\hypertarget{structgps_a4101a4980e857277766d889ae2905df6}{\index{gps@{gps}!G\+P\+S\+\_\+sv\+Info\+Received\+Count@{G\+P\+S\+\_\+sv\+Info\+Received\+Count}}
+\index{G\+P\+S\+\_\+sv\+Info\+Received\+Count@{G\+P\+S\+\_\+sv\+Info\+Received\+Count}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+sv\+Info\+Received\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t gps\+::\+G\+P\+S\+\_\+sv\+Info\+Received\+Count}}\label{structgps_a4101a4980e857277766d889ae2905df6}
+\hypertarget{structgps_a52b1d84c34037315d1a42b6e154f5f0d}{\index{gps@{gps}!G\+P\+S\+\_\+update@{G\+P\+S\+\_\+update}}
+\index{G\+P\+S\+\_\+update@{G\+P\+S\+\_\+update}!gps@{gps}}
+\subsubsection[{G\+P\+S\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gps\+::\+G\+P\+S\+\_\+update}}\label{structgps_a52b1d84c34037315d1a42b6e154f5f0d}
+\hypertarget{structgps_a20af1aa168a31776b9e035d9fd0c35e7}{\index{gps@{gps}!gps\+Data@{gps\+Data}}
+\index{gps\+Data@{gps\+Data}!gps@{gps}}
+\subsubsection[{gps\+Data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gps\+Data\+\_\+t} gps\+::gps\+Data}}\label{structgps_a20af1aa168a31776b9e035d9fd0c35e7}
+\hypertarget{structgps_a1eb759a3e0ba730d081137ac256b76a7}{\index{gps@{gps}!gps\+Packet\+Log@{gps\+Packet\+Log}}
+\index{gps\+Packet\+Log@{gps\+Packet\+Log}!gps@{gps}}
+\subsubsection[{gps\+Packet\+Log}]{\setlength{\rightskip}{0pt plus 5cm}char gps\+::gps\+Packet\+Log\mbox{[}{\bf G\+P\+S\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+L\+O\+G\+\_\+\+E\+N\+T\+R\+Y\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{structgps_a1eb759a3e0ba730d081137ac256b76a7}
+\hypertarget{structgps_a1055c6f779022becba696e243dfcdca1}{\index{gps@{gps}!gps\+Packet\+Log\+Char@{gps\+Packet\+Log\+Char}}
+\index{gps\+Packet\+Log\+Char@{gps\+Packet\+Log\+Char}!gps@{gps}}
+\subsubsection[{gps\+Packet\+Log\+Char}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ gps\+::gps\+Packet\+Log\+Char}}\label{structgps_a1055c6f779022becba696e243dfcdca1}
+\hypertarget{structgps_a7fd3c434677f4d8b8b64f4596a276d64}{\index{gps@{gps}!gps\+Port@{gps\+Port}}
+\index{gps\+Port@{gps\+Port}!gps@{gps}}
+\subsubsection[{gps\+Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ gps\+::gps\+Port}}\label{structgps_a7fd3c434677f4d8b8b64f4596a276d64}
+\hypertarget{structgps_a0eaf8e4b1c5d62ec0e2b9bfad8016764}{\index{gps@{gps}!system@{system}}
+\index{system@{system}!gps@{gps}}
+\subsubsection[{system}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf system\+\_\+calls}$\ast$ gps\+::system}}\label{structgps_a0eaf8e4b1c5d62ec0e2b9bfad8016764}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/sensors/\hyperlink{sensors_2gps_8h}{gps.\+h}\end{DoxyCompactItemize}

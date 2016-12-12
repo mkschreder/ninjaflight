@@ -1,0 +1,9 @@
+<map id="src/main/scheduler.h" name="src/main/scheduler.h">
+<area shape="rect" id="node2" href="$io_2msp_8c.html" title="src/main/io/msp.c" alt="" coords="5,88,131,115"/>
+<area shape="rect" id="node3" href="$serial__cli_8c.html" title="src/main/io/serial\l_cli.c" alt="" coords="155,81,276,122"/>
+<area shape="rect" id="node4" href="$main_8c.html" title="src/main/main.c" alt="" coords="301,88,416,115"/>
+<area shape="rect" id="node5" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="441,88,583,115"/>
+<area shape="rect" id="node6" href="$scheduler_8c.html" title="src/main/scheduler.c" alt="" coords="607,88,749,115"/>
+<area shape="rect" id="node7" href="$barometer_8c.html" title="src/main/sensors/barometer.c" alt="" coords="775,88,969,115"/>
+<area shape="rect" id="node8" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="993,88,1128,115"/>
+</map>

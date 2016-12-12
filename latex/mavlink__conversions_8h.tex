@@ -1,0 +1,199 @@
+\hypertarget{mavlink__conversions_8h}{\section{src/main/mavlink/mavlink\+\_\+conversions.h File Reference}
+\label{mavlink__conversions_8h}\index{src/main/mavlink/mavlink\+\_\+conversions.\+h@{src/main/mavlink/mavlink\+\_\+conversions.\+h}}
+}
+{\ttfamily \#include $<$math.\+h$>$}\\*
+Include dependency graph for mavlink\+\_\+conversions.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{mavlink__conversions_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{mavlink__conversions_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{mavlink__conversions_8h_a958e4508ed28ee5cc04249144312c15f}{M\+\_\+\+P\+I\+\_\+2}~((float)asin(1))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a1acebd1df006ab806149f3bf9cc5544e}{mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm} (const float \hyperlink{structquaternion}{quaternion}\mbox{[}4\mbox{]}, float dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a034c8265f27e81fa17cf4cf483b7ad8c}{mavlink\+\_\+dcm\+\_\+to\+\_\+euler} (const float dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float $\ast$\hyperlink{sensors_8h_ac1c338715ac9be841d38bed1aa0c9cd6}{roll}, float $\ast$\hyperlink{sensors_8h_a967f06d969d74c7588755b6bc82575c5}{pitch}, float $\ast$\hyperlink{sensors_8h_ad9679e37cfd53ac65eaf76de1951c753}{yaw})
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a96913fc5846ae95f89c99423e4c0e6c1}{mavlink\+\_\+quaternion\+\_\+to\+\_\+euler} (const float \hyperlink{structquaternion}{quaternion}\mbox{[}4\mbox{]}, float $\ast$\hyperlink{sensors_8h_ac1c338715ac9be841d38bed1aa0c9cd6}{roll}, float $\ast$\hyperlink{sensors_8h_a967f06d969d74c7588755b6bc82575c5}{pitch}, float $\ast$\hyperlink{sensors_8h_ad9679e37cfd53ac65eaf76de1951c753}{yaw})
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a286e44d134e0722c8fbc595f9d25d767}{mavlink\+\_\+euler\+\_\+to\+\_\+quaternion} (float \hyperlink{sensors_8h_ac1c338715ac9be841d38bed1aa0c9cd6}{roll}, float \hyperlink{sensors_8h_a967f06d969d74c7588755b6bc82575c5}{pitch}, float \hyperlink{sensors_8h_ad9679e37cfd53ac65eaf76de1951c753}{yaw}, float \hyperlink{structquaternion}{quaternion}\mbox{[}4\mbox{]})
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a4e183fc5dc505bee17dfac58ab18d9f9}{mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion} (const float dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, float \hyperlink{structquaternion}{quaternion}\mbox{[}4\mbox{]})
+\item 
+\hyperlink{protocol_8h_a8201ad9cec6e1480d1f018161aaa5c6f}{M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void \hyperlink{mavlink__conversions_8h_a5a662d9d3db2fb392c9466dab354b287}{mavlink\+\_\+euler\+\_\+to\+\_\+dcm} (float \hyperlink{sensors_8h_ac1c338715ac9be841d38bed1aa0c9cd6}{roll}, float \hyperlink{sensors_8h_a967f06d969d74c7588755b6bc82575c5}{pitch}, float \hyperlink{sensors_8h_ad9679e37cfd53ac65eaf76de1951c753}{yaw}, float dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+These conversion functions follow the N\+A\+S\+A rotation standards definition file available online.
+
+Their intent is to lower the barrier for M\+A\+V\+Link adopters to use gimbal-\/lock free (both rotation matrices, sometimes called D\+C\+M, and quaternions are gimbal-\/lock free) rotation representations. Euler angles (roll, pitch, yaw) will be phased out of the protocol as widely as possible.
+
+\begin{DoxyAuthor}{Author}
+James Goppert 
+
+Thomas Gubler \href{mailto:thomasgubler@gmail.com}{\tt thomasgubler@gmail.\+com} 
+\end{DoxyAuthor}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{mavlink__conversions_8h_a958e4508ed28ee5cc04249144312c15f}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!M\+\_\+\+P\+I\+\_\+2@{M\+\_\+\+P\+I\+\_\+2}}
+\index{M\+\_\+\+P\+I\+\_\+2@{M\+\_\+\+P\+I\+\_\+2}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{M\+\_\+\+P\+I\+\_\+2}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+\_\+\+P\+I\+\_\+2~((float)asin(1))}}\label{mavlink__conversions_8h_a958e4508ed28ee5cc04249144312c15f}
+
+
+\subsection{Function Documentation}
+\hypertarget{mavlink__conversions_8h_a034c8265f27e81fa17cf4cf483b7ad8c}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+dcm\+\_\+to\+\_\+euler@{mavlink\+\_\+dcm\+\_\+to\+\_\+euler}}
+\index{mavlink\+\_\+dcm\+\_\+to\+\_\+euler@{mavlink\+\_\+dcm\+\_\+to\+\_\+euler}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+dcm\+\_\+to\+\_\+euler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+dcm\+\_\+to\+\_\+euler (
+\begin{DoxyParamCaption}
+\item[{const float}]{dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{float $\ast$}]{roll, }
+\item[{float $\ast$}]{pitch, }
+\item[{float $\ast$}]{yaw}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a034c8265f27e81fa17cf4cf483b7ad8c}
+Converts a rotation matrix to euler angles
+
+
+\begin{DoxyParams}{Parameters}
+{\em dcm} & a 3x3 rotation matrix \\
+\hline
+{\em roll} & the roll angle in radians \\
+\hline
+{\em pitch} & the pitch angle in radians \\
+\hline
+{\em yaw} & the yaw angle in radians \\
+\hline
+\end{DoxyParams}
+\hypertarget{mavlink__conversions_8h_a4e183fc5dc505bee17dfac58ab18d9f9}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion@{mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion}}
+\index{mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion@{mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+dcm\+\_\+to\+\_\+quaternion (
+\begin{DoxyParamCaption}
+\item[{const float}]{dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}, }
+\item[{float}]{quaternion\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a4e183fc5dc505bee17dfac58ab18d9f9}
+Converts a rotation matrix to a quaternion Reference\+:
+\begin{DoxyItemize}
+\item Shoemake, Quaternions, \href{http://www.cs.ucr.edu/~vbz/resources/quatut.pdf}{\tt http\+://www.\+cs.\+ucr.\+edu/$\sim$vbz/resources/quatut.\+pdf}
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em dcm} & a 3x3 rotation matrix \\
+\hline
+{\em quaternion} & a \mbox{[}w, x, y, z\mbox{]} ordered quaternion (null-\/rotation being 1 0 0 0) \\
+\hline
+\end{DoxyParams}
+\hypertarget{mavlink__conversions_8h_a5a662d9d3db2fb392c9466dab354b287}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+euler\+\_\+to\+\_\+dcm@{mavlink\+\_\+euler\+\_\+to\+\_\+dcm}}
+\index{mavlink\+\_\+euler\+\_\+to\+\_\+dcm@{mavlink\+\_\+euler\+\_\+to\+\_\+dcm}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+euler\+\_\+to\+\_\+dcm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+euler\+\_\+to\+\_\+dcm (
+\begin{DoxyParamCaption}
+\item[{float}]{roll, }
+\item[{float}]{pitch, }
+\item[{float}]{yaw, }
+\item[{float}]{dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a5a662d9d3db2fb392c9466dab354b287}
+Converts euler angles to a rotation matrix
+
+
+\begin{DoxyParams}{Parameters}
+{\em roll} & the roll angle in radians \\
+\hline
+{\em pitch} & the pitch angle in radians \\
+\hline
+{\em yaw} & the yaw angle in radians \\
+\hline
+{\em dcm} & a 3x3 rotation matrix \\
+\hline
+\end{DoxyParams}
+\hypertarget{mavlink__conversions_8h_a286e44d134e0722c8fbc595f9d25d767}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+euler\+\_\+to\+\_\+quaternion@{mavlink\+\_\+euler\+\_\+to\+\_\+quaternion}}
+\index{mavlink\+\_\+euler\+\_\+to\+\_\+quaternion@{mavlink\+\_\+euler\+\_\+to\+\_\+quaternion}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+euler\+\_\+to\+\_\+quaternion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+euler\+\_\+to\+\_\+quaternion (
+\begin{DoxyParamCaption}
+\item[{float}]{roll, }
+\item[{float}]{pitch, }
+\item[{float}]{yaw, }
+\item[{float}]{quaternion\mbox{[}4\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a286e44d134e0722c8fbc595f9d25d767}
+Converts euler angles to a quaternion
+
+
+\begin{DoxyParams}{Parameters}
+{\em roll} & the roll angle in radians \\
+\hline
+{\em pitch} & the pitch angle in radians \\
+\hline
+{\em yaw} & the yaw angle in radians \\
+\hline
+{\em quaternion} & a \mbox{[}w, x, y, z\mbox{]} ordered quaternion (null-\/rotation being 1 0 0 0) \\
+\hline
+\end{DoxyParams}
+\hypertarget{mavlink__conversions_8h_a1acebd1df006ab806149f3bf9cc5544e}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm@{mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm}}
+\index{mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm@{mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+quaternion\+\_\+to\+\_\+dcm (
+\begin{DoxyParamCaption}
+\item[{const float}]{quaternion\mbox{[}4\mbox{]}, }
+\item[{float}]{dcm\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a1acebd1df006ab806149f3bf9cc5544e}
+Converts a quaternion to a rotation matrix
+
+
+\begin{DoxyParams}{Parameters}
+{\em quaternion} & a \mbox{[}w, x, y, z\mbox{]} ordered quaternion (null-\/rotation being 1 0 0 0) \\
+\hline
+{\em dcm} & a 3x3 rotation matrix \\
+\hline
+\end{DoxyParams}
+\hypertarget{mavlink__conversions_8h_a96913fc5846ae95f89c99423e4c0e6c1}{\index{mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}!mavlink\+\_\+quaternion\+\_\+to\+\_\+euler@{mavlink\+\_\+quaternion\+\_\+to\+\_\+euler}}
+\index{mavlink\+\_\+quaternion\+\_\+to\+\_\+euler@{mavlink\+\_\+quaternion\+\_\+to\+\_\+euler}!mavlink\+\_\+conversions.\+h@{mavlink\+\_\+conversions.\+h}}
+\subsubsection[{mavlink\+\_\+quaternion\+\_\+to\+\_\+euler}]{\setlength{\rightskip}{0pt plus 5cm}{\bf M\+A\+V\+L\+I\+N\+K\+\_\+\+H\+E\+L\+P\+E\+R} void mavlink\+\_\+quaternion\+\_\+to\+\_\+euler (
+\begin{DoxyParamCaption}
+\item[{const float}]{quaternion\mbox{[}4\mbox{]}, }
+\item[{float $\ast$}]{roll, }
+\item[{float $\ast$}]{pitch, }
+\item[{float $\ast$}]{yaw}
+\end{DoxyParamCaption}
+)}}\label{mavlink__conversions_8h_a96913fc5846ae95f89c99423e4c0e6c1}
+Converts a quaternion to euler angles
+
+
+\begin{DoxyParams}{Parameters}
+{\em quaternion} & a \mbox{[}w, x, y, z\mbox{]} ordered quaternion (null-\/rotation being 1 0 0 0) \\
+\hline
+{\em roll} & the roll angle in radians \\
+\hline
+{\em pitch} & the pitch angle in radians \\
+\hline
+{\em yaw} & the yaw angle in radians \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{mavlink__conversions_8h_a96913fc5846ae95f89c99423e4c0e6c1_cgraph}
+\end{center}
+\end{figure}
+
+

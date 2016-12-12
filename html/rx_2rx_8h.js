@@ -1,0 +1,67 @@
+var rx_2rx_8h =
+[
+    [ "rxRuntimeConfig_s", "structrxRuntimeConfig__s.html", "structrxRuntimeConfig__s" ],
+    [ "rx", "structrx.html", "structrx" ],
+    [ "DEFAULT_RX_FEATURE", "rx_2rx_8h.html#ad06bfdec42ea748fd5c06cd5ba325876", null ],
+    [ "MAX_AUX_CHANNEL_COUNT", "rx_2rx_8h.html#a3f1b98913c712a9aeabc0a8c7e01da43", null ],
+    [ "MAX_SUPPORTED_RC_PARALLEL_PWM_CHANNEL_COUNT", "rx_2rx_8h.html#af3c71a52d139650624190934bddc1d0c", null ],
+    [ "MAX_SUPPORTED_RX_PARALLEL_PWM_OR_PPM_CHANNEL_COUNT", "rx_2rx_8h.html#a7d202f61d94bda7bc3fe066274f6efcc", null ],
+    [ "PPM_AND_PWM_SAMPLE_COUNT", "rx_2rx_8h.html#a50095c63e67d3bd41a3f6161704fbf28", null ],
+    [ "RSSI_ADC_SAMPLE_COUNT", "rx_2rx_8h.html#a22def4e3bc30a060ef98a9407c0d0ed8", null ],
+    [ "RX_CHANNEL_TIMEOUT", "rx_2rx_8h.html#a4c8e9c22ad61f9eafc7e7d77ac181c61", null ],
+    [ "RX_FAILSAFE_MODE_COUNT", "rx_2rx_8h.html#ad9604f11aa9384a8650b76a6fddf980a", null ],
+    [ "RX_FAILSAFE_TYPE_COUNT", "rx_2rx_8h.html#ac1c3c53cfe96d836e71648aa318cb650", null ],
+    [ "RX_MAX_PPM_CHANNELS", "rx_2rx_8h.html#a43d0d564fd7ad6b9129bd386fe55595f", null ],
+    [ "SERIALRX_PROVIDER_COUNT", "rx_2rx_8h.html#a36a2e2d039e7bcb06b634af7b0cf8a04", null ],
+    [ "STICK_CHANNEL_COUNT", "rx_2rx_8h.html#ac32cae01b72b96374e4cc87a5f7793da", null ],
+    [ "rcReadRawDataPtr", "rx_2rx_8h.html#a99263a3b6228fa1a12b331d87be6be6b", null ],
+    [ "rxRuntimeConfig_t", "rx_2rx_8h.html#a42f050b55773f3d2df861b5860040fe8", null ],
+    [ "rx_type_t", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65", [
+      [ "RX_PWM", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a780fe809024052e8e1a0483ca4ac6cd9", null ],
+      [ "RX_PPM", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a59497746c60aab575e80fbd72afedfb4", null ],
+      [ "RX_MSP", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a7a77fa1db2e1b1a987c8f9da05e740b9", null ],
+      [ "RX_SERIAL", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a5df74d929e796518fab38d524e5a6469", null ],
+      [ "RX_SERIAL_SPEKTRUM1024", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a5e47814423cddb82f06234094fc9a966", null ],
+      [ "RX_SERIAL_SPEKTRUM2048", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a5d88fb5df5431bfbad29d383c3241da6", null ],
+      [ "RX_SERIAL_SBUS", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a034e58d2c901e0eb42354e9449e752d6", null ],
+      [ "RX_SERIAL_SUMD", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a02dbf44118b4d0c76195bbef973c33e5", null ],
+      [ "RX_SERIAL_SUMH", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a229d819cb632c66022a43bbc533bb121", null ],
+      [ "RX_SERIAL_XBUS_MODE_B", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65ab23f374a80d480721a704a84285f7454", null ],
+      [ "RX_SERIAL_XBUS_MODE_B_RJ01", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65a1be89a6df60e155e2fe43bd3522c367c", null ],
+      [ "RX_SERIAL_IBUS", "rx_2rx_8h.html#a9af89ac92f13acbf1a8bc349ce21ba65aec6772ef8837187e55fa29dc423068ae", null ]
+    ] ],
+    [ "rxFailsafeChannelType_e", "rx_2rx_8h.html#adf556c44af423d914736c96cfa1172f1", [
+      [ "RX_FAILSAFE_TYPE_FLIGHT", "rx_2rx_8h.html#adf556c44af423d914736c96cfa1172f1a7f9ed55cda150f322c58f0c964212bda", null ],
+      [ "RX_FAILSAFE_TYPE_AUX", "rx_2rx_8h.html#adf556c44af423d914736c96cfa1172f1a4c4d2d5856461862ced0318c6a470423", null ]
+    ] ],
+    [ "serialrxFrameState_t", "rx_2rx_8h.html#ac6f1a73d68a6bfb2db339f643d83f63e", [
+      [ "SERIAL_RX_FRAME_PENDING", "rx_2rx_8h.html#ac6f1a73d68a6bfb2db339f643d83f63eae81343519075d640effb7cb0b6fec4d2", null ],
+      [ "SERIAL_RX_FRAME_COMPLETE", "rx_2rx_8h.html#ac6f1a73d68a6bfb2db339f643d83f63ea45ac2bad4503e5bdb0aa13150dec4964", null ],
+      [ "SERIAL_RX_FRAME_FAILSAFE", "rx_2rx_8h.html#ac6f1a73d68a6bfb2db339f643d83f63ea9946a2dae888af84fe5cd55e65792dae", null ]
+    ] ],
+    [ "SerialRXType", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6", [
+      [ "SERIALRX_SPEKTRUM1024", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a3b9ed71f51e99bc89694f48f6f083bb8", null ],
+      [ "SERIALRX_SPEKTRUM2048", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a36aac3de508037f8a34d57c1ea18bec6", null ],
+      [ "SERIALRX_SBUS", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a0bb2a701e9877eb4c47e35320ed33836", null ],
+      [ "SERIALRX_SUMD", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6ac872bb9fe3f6dc1afe5e1fb6f65ea40b", null ],
+      [ "SERIALRX_SUMH", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a4fdd23bdff41be3dc3052a667ce408ba", null ],
+      [ "SERIALRX_XBUS_MODE_B", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a8e85c9c4c8e84ca3e29239eb98deaadf", null ],
+      [ "SERIALRX_XBUS_MODE_B_RJ01", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a56f69c50a8d76e675f11d1812e66f83b", null ],
+      [ "SERIALRX_IBUS", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6a2fb07a8330fce2414db0a9637abd32fb", null ],
+      [ "SERIALRX_PROVIDER_MAX", "rx_2rx_8h.html#a9c6d4e622857b70c646ac95caf5128a6abf9aee03d7398010169992230c6d2498", null ]
+    ] ],
+    [ "rx_flight_channels_valid", "rx_2rx_8h.html#a0c40c772a2cad4dd6ad3d3fa2fed1d9b", null ],
+    [ "rx_get_channel", "rx_2rx_8h.html#a527cff8e1e26ba1124119aaa4cea4815", null ],
+    [ "rx_get_channel_count", "rx_2rx_8h.html#a1545533bac20ccdfc879a2202cc103a6", null ],
+    [ "rx_get_channel_letter", "rx_2rx_8h.html#a124b94e89ab7237101228a4bf2845549", null ],
+    [ "rx_get_refresh_rate", "rx_2rx_8h.html#a75de7aed693f34674874a4682cbaf02c", null ],
+    [ "rx_get_rssi", "rx_2rx_8h.html#a8b923e87036c0d4a68fe547cc78a015e", null ],
+    [ "rx_has_signal", "rx_2rx_8h.html#a2bd21e47783f0d5dca6cc120720d8af7", null ],
+    [ "rx_init", "rx_2rx_8h.html#ac8ef8458c7824c8c5622b471790c403f", null ],
+    [ "rx_is_healthy", "rx_2rx_8h.html#a8fec405260ae907003ad4c912d8ffc07", null ],
+    [ "rx_resume_signal", "rx_2rx_8h.html#ab5d5e106e91d4a1e84188ddd200a710e", null ],
+    [ "rx_set_type", "rx_2rx_8h.html#a79514592272b8a9b9e81281ac22b53d8", null ],
+    [ "rx_suspend_signal", "rx_2rx_8h.html#a3053040ca606418044343cbc8c727a74", null ],
+    [ "rx_update", "rx_2rx_8h.html#af09eb13c8a7ea08b9e3c106abd150029", null ],
+    [ "rx_update_rssi", "rx_2rx_8h.html#a21ca8fd3c6557041ac1529bcdf5f2bad", null ]
+];

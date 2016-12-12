@@ -1,0 +1,27 @@
+var io_2serial_8h =
+[
+    [ "serialPortUsage_s", "structserialPortUsage__s.html", "structserialPortUsage__s" ],
+    [ "serialPortUsage_t", "io_2serial_8h.html#ac073ac3202665e97a457a54cc3fdc1a2", null ],
+    [ "closeSerialPort", "io_2serial_8h.html#a1cf7594afa49b89359feffe00c7aa2de", null ],
+    [ "determinePortSharing", "io_2serial_8h.html#a17574ae466f1d6b856a2d758bc133761", null ],
+    [ "doesConfigurationUsePort", "io_2serial_8h.html#ada926e0e86b346d91238e7059df83d7e", null ],
+    [ "evaluateOtherData", "io_2serial_8h.html#a0f3a0fde412b363a60c6e3d79d61c3f0", null ],
+    [ "findNextSerialPortConfig", "io_2serial_8h.html#aaa599061d713c2505f357830ff813269", null ],
+    [ "findNextSharedSerialPort", "io_2serial_8h.html#a81ee4d07fad686ba465b06675752543c", null ],
+    [ "findSerialPortConfig", "io_2serial_8h.html#a53600a4049a86b6a6e2db79616cf8485", null ],
+    [ "findSharedSerialPort", "io_2serial_8h.html#a3db24d6c2336a8ea65a7085ea8b33040", null ],
+    [ "handleSerial", "io_2serial_8h.html#adfe2fbf5c353b826657ce504ad1713ee", null ],
+    [ "isSerialConfigValid", "io_2serial_8h.html#a7e0c76edca3fcb0fd21f0d245b197a08", null ],
+    [ "isSerialPortOpen", "io_2serial_8h.html#af3c6182afffee5a8924ae8895e7431cd", null ],
+    [ "isSerialPortShared", "io_2serial_8h.html#abd3e1422b427aa398095eea66a8a24e0", null ],
+    [ "lookupBaudRateIndex", "io_2serial_8h.html#aa31bec0567fb3ec8feb2a4d5c04cc69c", null ],
+    [ "openSerialPort", "io_2serial_8h.html#ac7d3b43eb2025bb35e79c04749614d46", null ],
+    [ "serialFindPortConfiguration", "io_2serial_8h.html#a0a4ac7d4ea3a6131ce7ac63537d810db", null ],
+    [ "serialGetAvailablePortCount", "io_2serial_8h.html#ad663ac833f5ec3f93e97f3a358702675", null ],
+    [ "serialInit", "io_2serial_8h.html#a3d2fba5d2ef11009043f101849b2c797", null ],
+    [ "serialIsPortAvailable", "io_2serial_8h.html#aee8184ebe298a680075082337c0bfaa8", null ],
+    [ "serialRemovePort", "io_2serial_8h.html#ae8c5990456650446d2bb00fa9d9e8294", null ],
+    [ "waitForSerialPortToFinishTransmitting", "io_2serial_8h.html#aacf1e06791249cd1f57ffa58c28f36ca", null ],
+    [ "baudRates", "io_2serial_8h.html#a191a9cbf7985a69be4cd9f4be9ff16b0", null ],
+    [ "serialPortIdentifiers", "group__config.html#ga6604b8703c26d1030d6c12d78bcedfed", null ]
+];

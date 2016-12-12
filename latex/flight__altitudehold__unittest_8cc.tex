@@ -1,0 +1,287 @@
+\hypertarget{flight__altitudehold__unittest_8cc}{\section{src/test/unit/flight\+\_\+altitudehold\+\_\+unittest.cc File Reference}
+\label{flight__altitudehold__unittest_8cc}\index{src/test/unit/flight\+\_\+altitudehold\+\_\+unittest.\+cc@{src/test/unit/flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/altitudehold.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/rc\+\_\+controls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/altitudehold.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for flight\+\_\+altitudehold\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__altitudehold__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structinclinationExpectation__s}{inclination\+Expectation\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flight__altitudehold__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{B\+A\+R\+O}
+\item 
+\#define \hyperlink{flight__altitudehold__unittest_8cc_ad9e2157758086d9193fb1ea0d6be2a46}{D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}~true
+\item 
+\#define \hyperlink{flight__altitudehold__unittest_8cc_a332ab413b1b37cd1f190fcbdaebb9174}{U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}~false
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{structinclinationExpectation__s}{inclination\+Expectation\+\_\+s} \hyperlink{flight__altitudehold__unittest_8cc_a41a3b8ada4a8efeddfe8347496822e9d}{inclination\+Expectation\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{flight__altitudehold__unittest_8cc_a982044602e5b454d060251ae40c84e31}{is\+Thrust\+Facing\+Downwards} (union \hyperlink{unionattitude__euler__angles}{attitude\+\_\+euler\+\_\+angles} $\ast$attitude)
+\item 
+uint16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_ad1dd740a5dc4c0cf272a795514ea1796}{calculate\+Tilt\+Angle} (union \hyperlink{unionattitude__euler__angles}{attitude\+\_\+euler\+\_\+angles} $\ast$attitude)
+\item 
+bool \hyperlink{flight__altitudehold__unittest_8cc_a21a62a38a0416325e5a9703c7535089c}{rc\+Mode\+Is\+Active} (\hyperlink{rc__controls_8h_a204cb52657be464220db4dca1fcf9045}{box\+Id\+\_\+e} \hyperlink{rc__controls_8h_a7fbd5ab1c83a00fe081fa49ae037926c}{mode\+Id})
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_abda8eca302a8bd1cfc03567f2bd79e5a}{rc\+\_\+get\+\_\+channel\+\_\+value} (uint8\+\_\+t id)
+\item 
+void \hyperlink{flight__altitudehold__unittest_8cc_a1cf4bb1d68ab299a939188cdf1e168b7}{rc\+\_\+set\+\_\+channel\+\_\+value} (uint8\+\_\+t id, int16\+\_\+t value)
+\item 
+float \hyperlink{group__IMU_ga47fdd7dace913e4a85dd1e8dd7bd07bd}{imu\+\_\+get\+\_\+velocity\+\_\+integration\+\_\+time} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+float \hyperlink{group__IMU_ga2c8c5fa5f2f13edc7f1f8442449b2d41}{imu\+\_\+get\+\_\+est\+\_\+vertical\+\_\+vel\+\_\+cms} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+void \hyperlink{group__IMU_ga5905e3300bfeafee44252ae58f7b98d2}{imu\+\_\+reset\+\_\+velocity\+\_\+estimate} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+float \hyperlink{group__IMU_ga8c43a3d4febb3ab8bf43108ad0f595de}{imu\+\_\+get\+\_\+avg\+\_\+vertical\+\_\+accel\+\_\+cmss} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+int16\+\_\+t \hyperlink{group__IMU_ga6c751e33a47bf80cbe5aa9d973cf00eb}{imu\+\_\+get\+\_\+roll\+\_\+dd} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+int16\+\_\+t \hyperlink{group__IMU_ga51949202a657dcd89cd4e2e26d63bd85}{imu\+\_\+get\+\_\+pitch\+\_\+dd} (struct \hyperlink{structimu}{imu} $\ast$self)
+\item 
+void \hyperlink{flight__altitudehold__unittest_8cc_a7afce103cfe52ddcba420555a088e991}{gyro\+Update} (void)
+\item 
+bool \hyperlink{flight__altitudehold__unittest_8cc_adfa2eeff190a02b6409eadbbdc58884d}{sensors} (uint32\+\_\+t mask)
+\item 
+void \hyperlink{flight__altitudehold__unittest_8cc_ada817ac092add9d34972d387b46596da}{update\+Acceleration\+Readings} (roll\+And\+Pitch\+Trims\+\_\+t $\ast$roll\+And\+Pitch\+Trims)
+\item 
+void \hyperlink{flight__altitudehold__unittest_8cc_ac415c020aa4c460032a515b411762475}{imu\+Reset\+Acceleration\+Sum} (void)
+\item 
+uint32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_af543edc4b91ee97e556de2f0bbc709ad}{micros} (void)
+\item 
+bool \hyperlink{flight__altitudehold__unittest_8cc_a56c60ae167877ca9b3e1a048ae280802}{is\+Baro\+Calibration\+Complete} (void)
+\item 
+void \hyperlink{flight__altitudehold__unittest_8cc_adcf423523880c31a4d9ca1f132089faf}{perform\+Baro\+Calibration\+Cycle} (void)
+\item 
+int32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a4a13aeca05ead4ede35a7fe9b45cdce3}{baro\+Calculate\+Altitude} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structimu}{imu} \hyperlink{flight__altitudehold__unittest_8cc_a2b56b2fb92a2a2437b7364654216ac71}{default\+\_\+imu}
+\item 
+uint32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_af77590ad2c015dff5422b5982c636c85}{rc\+Mode\+Activation\+Mask}
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{rc\+Command} \mbox{[}4\mbox{]}
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_af163e49a4b62a29f2b19860c4611af51}{rc\+Data} \mbox{[}\hyperlink{config_2rx_8h_a36c9eafe7932465eb9940ff115cacacb}{R\+X\+\_\+\+M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+R\+C\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a3d1aed620bbf0f99e37514d9d741acfe}{acc\+Time\+Sum}
+\item 
+int \hyperlink{flight__altitudehold__unittest_8cc_abdb0435fbc5541b75293edf4fa9bec0d}{acc\+Sum\+Count}
+\item 
+float \hyperlink{flight__altitudehold__unittest_8cc_a8000573960453c3deff1c8e2c599c479}{acc\+Vel\+Scale}
+\item 
+int32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a0edc8f28dc443ea7d742c5bf14a27778}{Baro\+Alt}
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a70097a9f538e55d41d69d9883f6dc397}{debug} \mbox{[}\hyperlink{debug_8h_aa25ee465b0e07851506b480889d9bf16}{D\+E\+B\+U\+G16\+\_\+\+V\+A\+L\+U\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_ae0ae7830249bf589c179802db54b9816}{state\+Flags}
+\item 
+uint16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_ad6b2512a5d7645a11fbc1626fa55a0dc}{flight\+Mode\+Flags}
+\item 
+uint8\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}{arming\+Flags}
+\item 
+int32\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a09f7a93688520cbbb66fc8eaeb372636}{sonar\+Alt}
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_a631326fed39bbd091bdedaa4c27dcf72}{sonar\+Cf\+Alt\+Cm}
+\item 
+int16\+\_\+t \hyperlink{flight__altitudehold__unittest_8cc_ab6df56528888cc5b0e721e803e1fb162}{sonar\+Max\+Alt\+With\+Tilt\+Cm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{flight__altitudehold__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!B\+A\+R\+O@{B\+A\+R\+O}}
+\index{B\+A\+R\+O@{B\+A\+R\+O}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{B\+A\+R\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+R\+O}}\label{flight__altitudehold__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}
+\hypertarget{flight__altitudehold__unittest_8cc_ad9e2157758086d9193fb1ea0d6be2a46}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T@{D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}}
+\index{D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T@{D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+O\+W\+N\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T~true}}\label{flight__altitudehold__unittest_8cc_ad9e2157758086d9193fb1ea0d6be2a46}
+\hypertarget{flight__altitudehold__unittest_8cc_a332ab413b1b37cd1f190fcbdaebb9174}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T@{U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}}
+\index{U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T@{U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+P\+W\+A\+R\+D\+S\+\_\+\+T\+H\+R\+U\+S\+T~false}}\label{flight__altitudehold__unittest_8cc_a332ab413b1b37cd1f190fcbdaebb9174}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{flight__altitudehold__unittest_8cc_a41a3b8ada4a8efeddfe8347496822e9d}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!inclination\+Expectation\+\_\+t@{inclination\+Expectation\+\_\+t}}
+\index{inclination\+Expectation\+\_\+t@{inclination\+Expectation\+\_\+t}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{inclination\+Expectation\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf inclination\+Expectation\+\_\+s}  {\bf inclination\+Expectation\+\_\+t}}}\label{flight__altitudehold__unittest_8cc_a41a3b8ada4a8efeddfe8347496822e9d}
+
+
+\subsection{Function Documentation}
+\hypertarget{flight__altitudehold__unittest_8cc_a4a13aeca05ead4ede35a7fe9b45cdce3}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!baro\+Calculate\+Altitude@{baro\+Calculate\+Altitude}}
+\index{baro\+Calculate\+Altitude@{baro\+Calculate\+Altitude}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{baro\+Calculate\+Altitude}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t baro\+Calculate\+Altitude (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a4a13aeca05ead4ede35a7fe9b45cdce3}
+\hypertarget{flight__altitudehold__unittest_8cc_ad1dd740a5dc4c0cf272a795514ea1796}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!calculate\+Tilt\+Angle@{calculate\+Tilt\+Angle}}
+\index{calculate\+Tilt\+Angle@{calculate\+Tilt\+Angle}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{calculate\+Tilt\+Angle}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t calculate\+Tilt\+Angle (
+\begin{DoxyParamCaption}
+\item[{union {\bf attitude\+\_\+euler\+\_\+angles} $\ast$}]{attitude}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_ad1dd740a5dc4c0cf272a795514ea1796}
+\hypertarget{flight__altitudehold__unittest_8cc_a7afce103cfe52ddcba420555a088e991}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!gyro\+Update@{gyro\+Update}}
+\index{gyro\+Update@{gyro\+Update}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{gyro\+Update}]{\setlength{\rightskip}{0pt plus 5cm}void gyro\+Update (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a7afce103cfe52ddcba420555a088e991}
+\hypertarget{flight__altitudehold__unittest_8cc_ac415c020aa4c460032a515b411762475}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!imu\+Reset\+Acceleration\+Sum@{imu\+Reset\+Acceleration\+Sum}}
+\index{imu\+Reset\+Acceleration\+Sum@{imu\+Reset\+Acceleration\+Sum}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{imu\+Reset\+Acceleration\+Sum}]{\setlength{\rightskip}{0pt plus 5cm}void imu\+Reset\+Acceleration\+Sum (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_ac415c020aa4c460032a515b411762475}
+\hypertarget{flight__altitudehold__unittest_8cc_a56c60ae167877ca9b3e1a048ae280802}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!is\+Baro\+Calibration\+Complete@{is\+Baro\+Calibration\+Complete}}
+\index{is\+Baro\+Calibration\+Complete@{is\+Baro\+Calibration\+Complete}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{is\+Baro\+Calibration\+Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Baro\+Calibration\+Complete (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a56c60ae167877ca9b3e1a048ae280802}
+\hypertarget{flight__altitudehold__unittest_8cc_a982044602e5b454d060251ae40c84e31}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!is\+Thrust\+Facing\+Downwards@{is\+Thrust\+Facing\+Downwards}}
+\index{is\+Thrust\+Facing\+Downwards@{is\+Thrust\+Facing\+Downwards}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{is\+Thrust\+Facing\+Downwards}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Thrust\+Facing\+Downwards (
+\begin{DoxyParamCaption}
+\item[{union {\bf attitude\+\_\+euler\+\_\+angles} $\ast$}]{attitude}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a982044602e5b454d060251ae40c84e31}
+\hypertarget{flight__altitudehold__unittest_8cc_af543edc4b91ee97e556de2f0bbc709ad}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!micros@{micros}}
+\index{micros@{micros}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{micros}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t micros (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_af543edc4b91ee97e556de2f0bbc709ad}
+\hypertarget{flight__altitudehold__unittest_8cc_adcf423523880c31a4d9ca1f132089faf}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!perform\+Baro\+Calibration\+Cycle@{perform\+Baro\+Calibration\+Cycle}}
+\index{perform\+Baro\+Calibration\+Cycle@{perform\+Baro\+Calibration\+Cycle}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{perform\+Baro\+Calibration\+Cycle}]{\setlength{\rightskip}{0pt plus 5cm}void perform\+Baro\+Calibration\+Cycle (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_adcf423523880c31a4d9ca1f132089faf}
+\hypertarget{flight__altitudehold__unittest_8cc_abda8eca302a8bd1cfc03567f2bd79e5a}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+\_\+get\+\_\+channel\+\_\+value@{rc\+\_\+get\+\_\+channel\+\_\+value}}
+\index{rc\+\_\+get\+\_\+channel\+\_\+value@{rc\+\_\+get\+\_\+channel\+\_\+value}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+\_\+get\+\_\+channel\+\_\+value}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+\_\+get\+\_\+channel\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_abda8eca302a8bd1cfc03567f2bd79e5a}
+\hypertarget{flight__altitudehold__unittest_8cc_a1cf4bb1d68ab299a939188cdf1e168b7}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+\_\+set\+\_\+channel\+\_\+value@{rc\+\_\+set\+\_\+channel\+\_\+value}}
+\index{rc\+\_\+set\+\_\+channel\+\_\+value@{rc\+\_\+set\+\_\+channel\+\_\+value}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+\_\+set\+\_\+channel\+\_\+value}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+set\+\_\+channel\+\_\+value (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id, }
+\item[{int16\+\_\+t}]{value}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a1cf4bb1d68ab299a939188cdf1e168b7}
+\hypertarget{flight__altitudehold__unittest_8cc_a21a62a38a0416325e5a9703c7535089c}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+Mode\+Is\+Active@{rc\+Mode\+Is\+Active}}
+\index{rc\+Mode\+Is\+Active@{rc\+Mode\+Is\+Active}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+Mode\+Is\+Active}]{\setlength{\rightskip}{0pt plus 5cm}bool rc\+Mode\+Is\+Active (
+\begin{DoxyParamCaption}
+\item[{{\bf box\+Id\+\_\+e}}]{mode\+Id}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_a21a62a38a0416325e5a9703c7535089c}
+\hypertarget{flight__altitudehold__unittest_8cc_adfa2eeff190a02b6409eadbbdc58884d}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!sensors@{sensors}}
+\index{sensors@{sensors}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}bool sensors (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{mask}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_adfa2eeff190a02b6409eadbbdc58884d}
+\hypertarget{flight__altitudehold__unittest_8cc_ada817ac092add9d34972d387b46596da}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!update\+Acceleration\+Readings@{update\+Acceleration\+Readings}}
+\index{update\+Acceleration\+Readings@{update\+Acceleration\+Readings}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{update\+Acceleration\+Readings}]{\setlength{\rightskip}{0pt plus 5cm}void update\+Acceleration\+Readings (
+\begin{DoxyParamCaption}
+\item[{roll\+And\+Pitch\+Trims\+\_\+t $\ast$}]{roll\+And\+Pitch\+Trims}
+\end{DoxyParamCaption}
+)}}\label{flight__altitudehold__unittest_8cc_ada817ac092add9d34972d387b46596da}
+
+
+\subsection{Variable Documentation}
+\hypertarget{flight__altitudehold__unittest_8cc_abdb0435fbc5541b75293edf4fa9bec0d}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!acc\+Sum\+Count@{acc\+Sum\+Count}}
+\index{acc\+Sum\+Count@{acc\+Sum\+Count}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{acc\+Sum\+Count}]{\setlength{\rightskip}{0pt plus 5cm}int acc\+Sum\+Count}}\label{flight__altitudehold__unittest_8cc_abdb0435fbc5541b75293edf4fa9bec0d}
+\hypertarget{flight__altitudehold__unittest_8cc_a3d1aed620bbf0f99e37514d9d741acfe}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!acc\+Time\+Sum@{acc\+Time\+Sum}}
+\index{acc\+Time\+Sum@{acc\+Time\+Sum}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{acc\+Time\+Sum}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t acc\+Time\+Sum}}\label{flight__altitudehold__unittest_8cc_a3d1aed620bbf0f99e37514d9d741acfe}
+\hypertarget{flight__altitudehold__unittest_8cc_a8000573960453c3deff1c8e2c599c479}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!acc\+Vel\+Scale@{acc\+Vel\+Scale}}
+\index{acc\+Vel\+Scale@{acc\+Vel\+Scale}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{acc\+Vel\+Scale}]{\setlength{\rightskip}{0pt plus 5cm}float acc\+Vel\+Scale}}\label{flight__altitudehold__unittest_8cc_a8000573960453c3deff1c8e2c599c479}
+\hypertarget{flight__altitudehold__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!arming\+Flags@{arming\+Flags}}
+\index{arming\+Flags@{arming\+Flags}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{arming\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t arming\+Flags}}\label{flight__altitudehold__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}
+\hypertarget{flight__altitudehold__unittest_8cc_a0edc8f28dc443ea7d742c5bf14a27778}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!Baro\+Alt@{Baro\+Alt}}
+\index{Baro\+Alt@{Baro\+Alt}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{Baro\+Alt}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t Baro\+Alt}}\label{flight__altitudehold__unittest_8cc_a0edc8f28dc443ea7d742c5bf14a27778}
+\hypertarget{flight__altitudehold__unittest_8cc_a70097a9f538e55d41d69d9883f6dc397}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!debug@{debug}}
+\index{debug@{debug}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t debug\mbox{[}{\bf D\+E\+B\+U\+G16\+\_\+\+V\+A\+L\+U\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{flight__altitudehold__unittest_8cc_a70097a9f538e55d41d69d9883f6dc397}
+\hypertarget{flight__altitudehold__unittest_8cc_a2b56b2fb92a2a2437b7364654216ac71}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!default\+\_\+imu@{default\+\_\+imu}}
+\index{default\+\_\+imu@{default\+\_\+imu}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{default\+\_\+imu}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf imu} default\+\_\+imu}}\label{flight__altitudehold__unittest_8cc_a2b56b2fb92a2a2437b7364654216ac71}
+\hypertarget{flight__altitudehold__unittest_8cc_ad6b2512a5d7645a11fbc1626fa55a0dc}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!flight\+Mode\+Flags@{flight\+Mode\+Flags}}
+\index{flight\+Mode\+Flags@{flight\+Mode\+Flags}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{flight\+Mode\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t flight\+Mode\+Flags}}\label{flight__altitudehold__unittest_8cc_ad6b2512a5d7645a11fbc1626fa55a0dc}
+\hypertarget{flight__altitudehold__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+Command@{rc\+Command}}
+\index{rc\+Command@{rc\+Command}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+Command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+Command\mbox{[}4\mbox{]}}}\label{flight__altitudehold__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}
+\hypertarget{flight__altitudehold__unittest_8cc_af163e49a4b62a29f2b19860c4611af51}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+Data@{rc\+Data}}
+\index{rc\+Data@{rc\+Data}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+Data}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+Data\mbox{[}{\bf R\+X\+\_\+\+M\+A\+X\+\_\+\+S\+U\+P\+P\+O\+R\+T\+E\+D\+\_\+\+R\+C\+\_\+\+C\+H\+A\+N\+N\+E\+L\+S}\mbox{]}}}\label{flight__altitudehold__unittest_8cc_af163e49a4b62a29f2b19860c4611af51}
+\hypertarget{flight__altitudehold__unittest_8cc_af77590ad2c015dff5422b5982c636c85}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}}
+\index{rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+Mode\+Activation\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t rc\+Mode\+Activation\+Mask}}\label{flight__altitudehold__unittest_8cc_af77590ad2c015dff5422b5982c636c85}
+\hypertarget{flight__altitudehold__unittest_8cc_a09f7a93688520cbbb66fc8eaeb372636}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!sonar\+Alt@{sonar\+Alt}}
+\index{sonar\+Alt@{sonar\+Alt}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{sonar\+Alt}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t sonar\+Alt}}\label{flight__altitudehold__unittest_8cc_a09f7a93688520cbbb66fc8eaeb372636}
+\hypertarget{flight__altitudehold__unittest_8cc_a631326fed39bbd091bdedaa4c27dcf72}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!sonar\+Cf\+Alt\+Cm@{sonar\+Cf\+Alt\+Cm}}
+\index{sonar\+Cf\+Alt\+Cm@{sonar\+Cf\+Alt\+Cm}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{sonar\+Cf\+Alt\+Cm}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t sonar\+Cf\+Alt\+Cm}}\label{flight__altitudehold__unittest_8cc_a631326fed39bbd091bdedaa4c27dcf72}
+\hypertarget{flight__altitudehold__unittest_8cc_ab6df56528888cc5b0e721e803e1fb162}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!sonar\+Max\+Alt\+With\+Tilt\+Cm@{sonar\+Max\+Alt\+With\+Tilt\+Cm}}
+\index{sonar\+Max\+Alt\+With\+Tilt\+Cm@{sonar\+Max\+Alt\+With\+Tilt\+Cm}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{sonar\+Max\+Alt\+With\+Tilt\+Cm}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t sonar\+Max\+Alt\+With\+Tilt\+Cm}}\label{flight__altitudehold__unittest_8cc_ab6df56528888cc5b0e721e803e1fb162}
+\hypertarget{flight__altitudehold__unittest_8cc_ae0ae7830249bf589c179802db54b9816}{\index{flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}!state\+Flags@{state\+Flags}}
+\index{state\+Flags@{state\+Flags}!flight\+\_\+altitudehold\+\_\+unittest.\+cc@{flight\+\_\+altitudehold\+\_\+unittest.\+cc}}
+\subsubsection[{state\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t state\+Flags}}\label{flight__altitudehold__unittest_8cc_ae0ae7830249bf589c179802db54b9816}

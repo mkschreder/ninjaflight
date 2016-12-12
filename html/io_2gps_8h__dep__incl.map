@@ -1,0 +1,24 @@
+<map id="src/main/io/gps.h" name="src/main/io/gps.h">
+<area shape="rect" id="node2" href="$navigation_8c.html" title="src/main/flight/navigation.c" alt="" coords="5,88,184,115"/>
+<area shape="rect" id="node3" href="$gps_8c.html" title="src/main/io/gps.c" alt="" coords="208,88,331,115"/>
+<area shape="rect" id="node4" href="$ledstrip_8c.html" title="src/main/io/ledstrip.c" alt="" coords="355,88,497,115"/>
+<area shape="rect" id="node5" href="$io_2msp_8c.html" title="src/main/io/msp.c" alt="" coords="522,88,648,115"/>
+<area shape="rect" id="node6" href="$serial__cli_8c.html" title="src/main/io/serial\l_cli.c" alt="" coords="673,81,793,122"/>
+<area shape="rect" id="node7" href="$main_8c.html" title="src/main/main.c" alt="" coords="819,88,933,115"/>
+<area shape="rect" id="node8" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="957,88,1072,115"/>
+<area shape="rect" id="node9" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="1097,88,1252,115"/>
+<area shape="rect" id="node10" href="$ninja__input_8c.html" title="src/main/ninja_input.c" alt="" coords="1277,88,1425,115"/>
+<area shape="rect" id="node11" href="$ninja__sched_8c.html" title="src/main/ninja_sched.c" alt="" coords="1451,88,1607,115"/>
+<area shape="rect" id="node12" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="1631,88,1773,115"/>
+<area shape="rect" id="node13" href="$imu_8c.html" title="src/main/sensors/imu.c" alt="" coords="1798,88,1956,115"/>
+<area shape="rect" id="node14" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="1981,88,2116,115"/>
+<area shape="rect" id="node15" href="$frsky_8c.html" title="src/main/telemetry\l/frsky.c" alt="" coords="2141,81,2271,122"/>
+<area shape="rect" id="node16" href="$hott_8c.html" title="src/main/telemetry\l/hott.c" alt="" coords="2296,81,2425,122"/>
+<area shape="rect" id="node17" href="$ltm_8c.html" title="src/main/telemetry\l/ltm.c" alt="" coords="2451,81,2580,122"/>
+<area shape="rect" id="node18" href="$mavlink_8c.html" title="src/main/telemetry\l/mavlink.c" alt="" coords="2605,81,2735,122"/>
+<area shape="rect" id="node19" href="$smartport_8c.html" title="src/main/telemetry\l/smartport.c" alt="" coords="2760,81,2889,122"/>
+<area shape="rect" id="node20" href="$config__eeprom__unittest_8cc.html" title="src/test/unit/config\l_eeprom_unittest.cc" alt="" coords="2915,81,3055,122"/>
+<area shape="rect" id="node21" href="$ledstrip__unittest_8cc.html" title="src/test/unit/ledstrip\l_unittest.cc" alt="" coords="3079,81,3216,122"/>
+<area shape="rect" id="node22" href="$msp__unittest_8cc.html" title="src/test/unit/msp_unittest.cc" alt="" coords="3241,88,3428,115"/>
+<area shape="rect" id="node23" href="$telemetry__hott__unittest_8cc.html" title="src/test/unit/telemetry\l_hott_unittest.cc" alt="" coords="3453,81,3601,122"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="MixerBasicTest::_init_mixer_defaults" name="MixerBasicTest::_init_mixer_defaults">
+<area shape="rect" id="node2" href="$group__config.html#gad1e2009e01a92da1990ead7bd87c5476" title="config_get_profile_rw" alt="" coords="201,5,346,32"/>
+<area shape="rect" id="node3" href="$group__MIXER.html#ga1ac8758754f82b6ad750ed377c154733" title="mixer_init" alt="" coords="234,56,313,83"/>
+<area shape="rect" id="node6" href="$mock__system_8cc.html#aee16ae4e490af0431a008403c31b7940" title="mock_syscalls" alt="" coords="219,107,328,133"/>
+<area shape="rect" id="node7" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="202,157,345,184"/>
+<area shape="rect" id="node4" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="395,49,522,90"/>
+<area shape="rect" id="node5" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="571,56,645,83"/>
+</map>

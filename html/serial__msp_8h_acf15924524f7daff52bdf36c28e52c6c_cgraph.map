@@ -1,0 +1,11 @@
+<map id="mspSerialInit" name="mspSerialInit">
+<area shape="rect" id="node2" href="$serial__msp_8c.html#a28875266a6bb7b4951353f7defebd5b8" title="mspSerialAllocatePorts" alt="" coords="153,81,311,108"/>
+<area shape="rect" id="node3" href="$io_2serial_8c.html#abe2c5da7211b44d606e989e034394699" title="findSerialPortConfig" alt="" coords="360,5,499,32"/>
+<area shape="rect" id="node4" href="$io_2serial_8c.html#ab96e548ab33644664a56b3a2123be92c" title="findNextSerialPortConfig" alt="" coords="547,19,714,45"/>
+<area shape="rect" id="node5" href="$io_2serial_8c.html#af7450b756752c9a9e96a227901b757e5" title="isSerialPortOpen" alt="" coords="369,107,489,133"/>
+<area shape="rect" id="node6" href="$io_2serial_8c.html#a33064d55a95cc79ba9c264dc44cf5f89" title="openSerialPort" alt="" coords="376,157,483,184"/>
+<area shape="rect" id="node7" href="$serial__usb__vcp_8c.html#aec5328154c55939af50f979f662c7638" title="usbVcpOpen" alt="" coords="582,81,679,108"/>
+<area shape="rect" id="node8" href="$serial__uart_8c.html#a31c15c151ce058264e6c5c6e8642a15b" title="uartOpen" alt="" coords="593,132,668,159"/>
+<area shape="rect" id="node9" href="$serial__softserial_8h.html#ada417d0bfdb7ffaaa3f5d1fbd3532bb3" title="openSoftSerial" alt="" coords="577,183,684,209"/>
+<area shape="rect" id="node10" href="$drivers_2serial_8c.html#a599a037d9e38ce6c9334a2ec7c22e732" title="serialSetMode" alt="" coords="578,233,683,260"/>
+</map>

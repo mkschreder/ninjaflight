@@ -1,0 +1,12 @@
+<map id="src/main/drivers/timer.h" name="src/main/drivers/timer.h">
+<area shape="rect" id="node2" href="$pwm__mapping_8c.html" title="src/main/drivers/pwm\l_mapping.c" alt="" coords="5,171,152,213"/>
+<area shape="rect" id="node3" href="$pwm__mapping_8h.html" title="src/main/drivers/pwm\l_mapping.h" alt="" coords="472,81,619,122"/>
+<area shape="rect" id="node4" href="$pwm__output_8c.html" title="src/main/drivers/pwm\l_output.c" alt="" coords="176,171,323,213"/>
+<area shape="rect" id="node5" href="$pwm__rx_8c.html" title="src/main/drivers/pwm_rx.c" alt="" coords="347,179,523,205"/>
+<area shape="rect" id="node7" href="$main_8c.html" title="src/main/main.c" alt="" coords="1001,179,1116,205"/>
+<area shape="rect" id="node10" href="$timer_8c.html" title="src/main/drivers/timer.c" alt="" coords="694,88,852,115"/>
+<area shape="rect" id="node11" href="$config__eeprom__unittest_8cc.html" title="src/test/unit/config\l_eeprom_unittest.cc" alt="" coords="877,81,1016,122"/>
+<area shape="rect" id="node6" href="$serial__4way__stk500v2_8c.html" title="src/main/io/serial\l_4way_stk500v2.c" alt="" coords="547,171,676,213"/>
+<area shape="rect" id="node8" href="$flight__mixer__unittest_8cc.html" title="src/test/unit/flight\l_mixer_unittest.cc" alt="" coords="701,171,829,213"/>
+<area shape="rect" id="node9" href="$flight__tilt__unittest_8cc.html" title="src/test/unit/flight\l_tilt_unittest.cc" alt="" coords="855,171,977,213"/>
+</map>

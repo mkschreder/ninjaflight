@@ -1,0 +1,9 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$group__MIXER.html#gab6ecb3be636e39dc1582e4bb448c3bf7" title="returns the number of motors that are currently being controlled by mixer profile ..." alt="" coords="130,5,289,32"/>
+<area shape="rect" id="node3" href="$group__MIXER.html#gaec0e6d4ba020b8ae1b3d593afdbd4586" title="returns number of servos that are used by the mixer. " alt="" coords="131,56,288,83"/>
+<area shape="rect" id="node4" href="$group__MIXER.html#ga2ad18f672101cd536ee4de906ee8763e" title="saves motor mixer into cleanflight motor mixer format " alt="" coords="125,107,293,133"/>
+<area shape="rect" id="node5" href="$group__MIXER.html#gad6d1c8f44d6e95db42ee9386799fe093" title="save servo mixer into cleanflight servo mixer format (sets some fields to defaults) ..." alt="" coords="126,157,293,184"/>
+<area shape="rect" id="node6" href="$group__MIXER.html#gadc257851e57bc3de20fe776f8fca0a78" title="clears all mixing rules " alt="" coords="147,208,271,235"/>
+<area shape="rect" id="node7" href="$group__MIXER.html#ga8d55a03f9491496456b87308cb962d66" title="loads a set of motor mixing rules from cleanflight format into current ruleset " alt="" coords="127,259,291,285"/>
+<area shape="rect" id="node8" href="$group__MIXER.html#ga822f0277eec5a3fa19b4120a1c7a8338" title="loads servo mixing rules from cleanflight format into internal format " alt="" coords="128,309,291,336"/>
+</map>

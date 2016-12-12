@@ -1,0 +1,166 @@
+\hypertarget{serial__msp_8h}{\section{src/main/io/serial\+\_\+msp.h File Reference}
+\label{serial__msp_8h}\index{src/main/io/serial\+\_\+msp.\+h@{src/main/io/serial\+\_\+msp.\+h}}
+}
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+Include dependency graph for serial\+\_\+msp.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{serial__msp_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{serial__msp_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structserial__msp__port}{serial\+\_\+msp\+\_\+port}
+\item 
+struct \hyperlink{structserial__msp}{serial\+\_\+msp}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{serial__msp_8h_ab55b5aff4ab16a071151e8854d6dfa8d}{M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}~2
+\item 
+\#define \hyperlink{serial__msp_8h_a0965abdf6d185e1c33d6a36e2e0f80c0}{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E}~64
+\item 
+\#define \hyperlink{serial__msp_8h_acb82a1fb601900a02dc21bf8179f95d6}{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E}~256
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5}{msp\+State\+\_\+e} \{ \\*
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5afd6a0e4343048b10646dd2976cc5ad18}{I\+D\+L\+E}, 
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a6c086c29f3aada21f5d588b507a59621}{H\+E\+A\+D\+E\+R\+\_\+\+M}, 
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5af39a0c8bc1d95d68fec80e6fc145272b}{H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W}, 
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a0e5a2b2c92f35834c13642d503c39726}{H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E}, 
+\\*
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5aff98cf230cab5e31ac3ca59bd6401a2a}{H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D}, 
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a5093d8459e23691d6dcfb1edb4407699}{H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A}, 
+\hyperlink{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a120520dc79f3bbfaa0727aa355d50ed9}{C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{serial__msp_8h_a7e7cb2574231595a58450c0c5a76e8ae}{serial\+\_\+msp\+\_\+init} (struct \hyperlink{structserial__msp}{serial\+\_\+msp} $\ast$self, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config}, struct \hyperlink{structmsp}{msp} $\ast$\hyperlink{structmsp}{msp})
+\item 
+void \hyperlink{serial__msp_8h_ac9e2370bfe158165b2c975630688b0ae}{serial\+\_\+msp\+\_\+process} (struct \hyperlink{structserial__msp}{serial\+\_\+msp} $\ast$self, struct \hyperlink{structninja}{ninja} $\ast$\hyperlink{structninja}{ninja})
+\item 
+void \hyperlink{serial__msp_8h_affc5e9502af471bcb5ad51b5e81c35bd}{serial\+\_\+msp\+\_\+release\+\_\+port} (struct \hyperlink{structserial__msp}{serial\+\_\+msp} $\ast$self, \hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$serial\+Port)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{serial__msp_8h_ab55b5aff4ab16a071151e8854d6dfa8d}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}}
+\index{M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T~2}}\label{serial__msp_8h_ab55b5aff4ab16a071151e8854d6dfa8d}
+M\+S\+P Guidelines, emphasis is used to clarify.
+
+Each Flight\+Controller (F\+C, Server) M\+U\+S\+T change the A\+P\+I version when any M\+S\+P command is added, deleted, or changed.
+
+If you fork the F\+C source code and release your own version, you M\+U\+S\+T change the Flight Controller Identifier.
+
+N\+E\+V\+E\+R release a modified copy of this code that shares the same Flight controller I\+D\+E\+N\+T and A\+P\+I version if the A\+P\+I doesn't match E\+X\+A\+C\+T\+L\+Y.
+
+Consumers of the A\+P\+I (A\+P\+I clients) S\+H\+O\+U\+L\+D first attempt to get a response from the M\+S\+P\+\_\+\+A\+P\+I\+\_\+\+V\+E\+R\+S\+I\+O\+N command. If no response is obtained then client M\+A\+Y try the legacy M\+S\+P\+\_\+\+I\+D\+E\+N\+T command.
+
+A\+P\+I consumers should A\+L\+W\+A\+Y\+S handle communication failures gracefully and attempt to continue without the information if possible. Clients M\+A\+Y log/display a suitable message.
+
+A\+P\+I clients should N\+O\+T attempt any communication if they can't handle the returned A\+P\+I M\+A\+J\+O\+R V\+E\+R\+S\+I\+O\+N.
+
+A\+P\+I clients S\+H\+O\+U\+L\+D attempt communication if the A\+P\+I M\+I\+N\+O\+R V\+E\+R\+S\+I\+O\+N has increased from the time the A\+P\+I client was written and handle command failures gracefully. Clients M\+A\+Y disable functionality that depends on the commands while still leaving other functionality intact. Clients S\+H\+O\+U\+L\+D operate in R\+E\+A\+D-\/\+O\+N\+L\+Y mode and S\+H\+O\+U\+L\+D present a warning to the user to state that the newer A\+P\+I version may cause problems before using A\+P\+I commands that change F\+C state.
+
+It is for this reason that each M\+S\+P command should be specific as possible, such that changes to commands break as little client functionality as possible.
+
+A\+P\+I client authors M\+A\+Y use a compatibility matrix/table when determining if they can support a given command from a given flight controller at a given api version level.
+
+Developers M\+U\+S\+T N\+O\+T create new M\+S\+P commands that do more than one thing.
+
+Failure to follow these guidelines will likely invoke the wrath of developers trying to write tools that use the A\+P\+I and the users of those tools. \hypertarget{serial__msp_8h_a0965abdf6d185e1c33d6a36e2e0f80c0}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E@{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E}}
+\index{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E@{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+I\+N\+B\+U\+F\+\_\+\+S\+I\+Z\+E~64}}\label{serial__msp_8h_a0965abdf6d185e1c33d6a36e2e0f80c0}
+\hypertarget{serial__msp_8h_acb82a1fb601900a02dc21bf8179f95d6}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E@{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E}}
+\index{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E@{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+S\+P\+\_\+\+P\+O\+R\+T\+\_\+\+O\+U\+T\+B\+U\+F\+\_\+\+S\+I\+Z\+E~256}}\label{serial__msp_8h_acb82a1fb601900a02dc21bf8179f95d6}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!msp\+State\+\_\+e@{msp\+State\+\_\+e}}
+\index{msp\+State\+\_\+e@{msp\+State\+\_\+e}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{msp\+State\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf msp\+State\+\_\+e}}}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{I\+D\+L\+E@{I\+D\+L\+E}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!I\+D\+L\+E@{I\+D\+L\+E}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5afd6a0e4343048b10646dd2976cc5ad18}{I\+D\+L\+E}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5afd6a0e4343048b10646dd2976cc5ad18}
+}]\index{H\+E\+A\+D\+E\+R\+\_\+\+M@{H\+E\+A\+D\+E\+R\+\_\+\+M}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!H\+E\+A\+D\+E\+R\+\_\+\+M@{H\+E\+A\+D\+E\+R\+\_\+\+M}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a6c086c29f3aada21f5d588b507a59621}{H\+E\+A\+D\+E\+R\+\_\+\+M}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a6c086c29f3aada21f5d588b507a59621}
+}]\index{H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W@{H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W@{H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5af39a0c8bc1d95d68fec80e6fc145272b}{H\+E\+A\+D\+E\+R\+\_\+\+A\+R\+R\+O\+W}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5af39a0c8bc1d95d68fec80e6fc145272b}
+}]\index{H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E@{H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E@{H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a0e5a2b2c92f35834c13642d503c39726}{H\+E\+A\+D\+E\+R\+\_\+\+S\+I\+Z\+E}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a0e5a2b2c92f35834c13642d503c39726}
+}]\index{H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D@{H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D@{H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5aff98cf230cab5e31ac3ca59bd6401a2a}{H\+E\+A\+D\+E\+R\+\_\+\+C\+M\+D}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5aff98cf230cab5e31ac3ca59bd6401a2a}
+}]\index{H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A@{H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A@{H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a5093d8459e23691d6dcfb1edb4407699}{H\+E\+A\+D\+E\+R\+\_\+\+D\+A\+T\+A}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a5093d8459e23691d6dcfb1edb4407699}
+}]\index{C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D@{C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D@{C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D}}\item[{\em 
+\hypertarget{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a120520dc79f3bbfaa0727aa355d50ed9}{C\+O\+M\+M\+A\+N\+D\+\_\+\+R\+E\+C\+E\+I\+V\+E\+D}\label{serial__msp_8h_aa61e8d673dede45bd0e23ab09c14aba5a120520dc79f3bbfaa0727aa355d50ed9}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{serial__msp_8h_a7e7cb2574231595a58450c0c5a76e8ae}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!serial\+\_\+msp\+\_\+init@{serial\+\_\+msp\+\_\+init}}
+\index{serial\+\_\+msp\+\_\+init@{serial\+\_\+msp\+\_\+init}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{serial\+\_\+msp\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+\_\+msp\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf serial\+\_\+msp} $\ast$}]{self, }
+\item[{const struct {\bf config} $\ast$}]{config, }
+\item[{struct {\bf msp} $\ast$}]{msp}
+\end{DoxyParamCaption}
+)}}\label{serial__msp_8h_a7e7cb2574231595a58450c0c5a76e8ae}
+\hypertarget{serial__msp_8h_ac9e2370bfe158165b2c975630688b0ae}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!serial\+\_\+msp\+\_\+process@{serial\+\_\+msp\+\_\+process}}
+\index{serial\+\_\+msp\+\_\+process@{serial\+\_\+msp\+\_\+process}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{serial\+\_\+msp\+\_\+process}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+\_\+msp\+\_\+process (
+\begin{DoxyParamCaption}
+\item[{struct {\bf serial\+\_\+msp} $\ast$}]{self, }
+\item[{struct {\bf ninja} $\ast$}]{ninja}
+\end{DoxyParamCaption}
+)}}\label{serial__msp_8h_ac9e2370bfe158165b2c975630688b0ae}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{serial__msp_8h_ac9e2370bfe158165b2c975630688b0ae_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{serial__msp_8h_affc5e9502af471bcb5ad51b5e81c35bd}{\index{serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}!serial\+\_\+msp\+\_\+release\+\_\+port@{serial\+\_\+msp\+\_\+release\+\_\+port}}
+\index{serial\+\_\+msp\+\_\+release\+\_\+port@{serial\+\_\+msp\+\_\+release\+\_\+port}!serial\+\_\+msp.\+h@{serial\+\_\+msp.\+h}}
+\subsubsection[{serial\+\_\+msp\+\_\+release\+\_\+port}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+\_\+msp\+\_\+release\+\_\+port (
+\begin{DoxyParamCaption}
+\item[{struct {\bf serial\+\_\+msp} $\ast$}]{self, }
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{serial\+Port}
+\end{DoxyParamCaption}
+)}}\label{serial__msp_8h_affc5e9502af471bcb5ad51b5e81c35bd}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{serial__msp_8h_affc5e9502af471bcb5ad51b5e81c35bd_cgraph}
+\end{center}
+\end{figure}
+
+

@@ -1,0 +1,12 @@
+<map id="hmc5883lDetect" name="hmc5883lDetect">
+<area shape="rect" id="node2" href="$bus__i2c_8h.html#a75fc5214b1f74a63cfb40496d10c9152" title="i2cRead" alt="" coords="573,5,643,32"/>
+<area shape="rect" id="node3" href="$compass__hmc5883l_8c.html#aee79dbde2bc3263498add01336f9c9e7" title="hmc5883lInit" alt="" coords="171,132,267,159"/>
+<area shape="rect" id="node10" href="$compass__hmc5883l_8c.html#a11c500d744ed654361418ba1e193a8e1" title="hmc5883lRead" alt="" coords="356,31,465,57"/>
+<area shape="rect" id="node4" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="315,81,507,108"/>
+<area shape="rect" id="node5" href="$gpio_8h.html#ae05ca742f43c792d2963e50816c138e1" title="gpioInit" alt="" coords="379,132,443,159"/>
+<area shape="rect" id="node6" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="381,183,441,209"/>
+<area shape="rect" id="node8" href="$bus__i2c_8h.html#a2cc37629c1772a0dbb4073be28e8443b" title="i2cWrite" alt="" coords="375,233,446,260"/>
+<area shape="rect" id="node11" href="$light__led_8h.html#a8b1dd741937a8c0d266cf2ab7986f525" title="led_toggle" alt="" coords="370,284,451,311"/>
+<area shape="rect" id="node7" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="577,183,639,209"/>
+<area shape="rect" id="node9" href="$bus__i2c__stm32f10x_8c.html#a7f4928d12ee609b82b13c71954b1053a" title="i2cWriteBuffer" alt="" coords="555,233,661,260"/>
+</map>

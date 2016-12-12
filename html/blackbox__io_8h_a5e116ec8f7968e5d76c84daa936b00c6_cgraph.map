@@ -1,0 +1,5 @@
+<map id="blackboxDeviceReserveBufferSpace" name="blackboxDeviceReserveBufferSpace">
+<area shape="rect" id="node2" href="$flashfs_8c.html#a28861728348e4afce0d32a950fd86dbd" title="flashfsGetWriteBufferSize" alt="" coords="478,5,653,32"/>
+<area shape="rect" id="node3" href="$flashfs_8c.html#ac5a079c85dc47e19990745407b4fe83e" title="flashfsGetWriteBufferFree\lSpace" alt="" coords="254,27,429,69"/>
+<area shape="rect" id="node4" href="$flashfs_8c.html#aa93d40233e62caf7c8753f628afd882a" title="flashfsFlushAsync" alt="" coords="276,93,407,120"/>
+</map>

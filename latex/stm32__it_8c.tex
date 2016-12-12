@@ -1,0 +1,140 @@
+\hypertarget{stm32__it_8c}{\section{src/main/drivers/vcp/stm32\+\_\+it.c File Reference}
+\label{stm32__it_8c}\index{src/main/drivers/vcp/stm32\+\_\+it.\+c@{src/main/drivers/vcp/stm32\+\_\+it.\+c}}
+}
+
+
+Main Interrupt Service Routines. This file provides template for all exceptions handler and peripherals interrupt service routine.  
+
+
+{\ttfamily \#include \char`\"{}hw\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stm32\+\_\+it.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}usb\+\_\+lib.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}vcp/usb\+\_\+istr.\+h\char`\"{}}\\*
+Include dependency graph for stm32\+\_\+it.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stm32__it_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{stm32__it_8c_a6ad7a5e3ee69cb6db6a6b9111ba898bc}{N\+M\+I\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_a3150f74512510287a942624aa9b44cc5}{Mem\+Manage\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_a850cefb17a977292ae5eb4cafa9976c3}{Bus\+Fault\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_a1d98923de2ed6b7309b66f9ba2971647}{Usage\+Fault\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_a3e5ddb3df0d62f2dc357e64a3f04a6ce}{S\+V\+C\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_adbdfb05858cc36fc520974df37ec3cb0}{Debug\+Mon\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_a6303e1f258cbdc1f970ce579cc015623}{Pend\+S\+V\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_af57bde854fa2b396f29664995a502b19}{U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler} (void)
+\item 
+void \hyperlink{stm32__it_8c_ab2b0674cedda310639e2bd51e701d590}{U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main Interrupt Service Routines. This file provides template for all exceptions handler and peripherals interrupt service routine. 
+
+\begin{DoxyAuthor}{Author}
+M\+C\+D Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V4.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+21-\/\+January-\/2013 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+H\+T 2013 S\+T\+Microelectronics\end{center} }
+
+Licensed under M\+C\+D-\/\+S\+T Liberty S\+W License Agreement V2, (the \char`\"{}\+License\char`\"{}); You may not use this file except in compliance with the License. You may obtain a copy of the License at\+: \begin{DoxyVerb}   http://www.st.com/software_license_agreement_liberty_v2
+\end{DoxyVerb}
+
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \char`\"{}\+A\+S I\+S\char`\"{} B\+A\+S\+I\+S, W\+I\+T\+H\+O\+U\+T W\+A\+R\+R\+A\+N\+T\+I\+E\+S O\+R C\+O\+N\+D\+I\+T\+I\+O\+N\+S O\+F A\+N\+Y K\+I\+N\+D, either express or implied. See the License for the specific language governing permissions and limitations under the License. 
+
+\subsection{Function Documentation}
+\hypertarget{stm32__it_8c_a850cefb17a977292ae5eb4cafa9976c3}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!Bus\+Fault\+\_\+\+Handler@{Bus\+Fault\+\_\+\+Handler}}
+\index{Bus\+Fault\+\_\+\+Handler@{Bus\+Fault\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{Bus\+Fault\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Bus\+Fault\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a850cefb17a977292ae5eb4cafa9976c3}
+\hypertarget{stm32__it_8c_adbdfb05858cc36fc520974df37ec3cb0}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!Debug\+Mon\+\_\+\+Handler@{Debug\+Mon\+\_\+\+Handler}}
+\index{Debug\+Mon\+\_\+\+Handler@{Debug\+Mon\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{Debug\+Mon\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Debug\+Mon\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_adbdfb05858cc36fc520974df37ec3cb0}
+\hypertarget{stm32__it_8c_a3150f74512510287a942624aa9b44cc5}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!Mem\+Manage\+\_\+\+Handler@{Mem\+Manage\+\_\+\+Handler}}
+\index{Mem\+Manage\+\_\+\+Handler@{Mem\+Manage\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{Mem\+Manage\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Mem\+Manage\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a3150f74512510287a942624aa9b44cc5}
+\hypertarget{stm32__it_8c_a6ad7a5e3ee69cb6db6a6b9111ba898bc}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!N\+M\+I\+\_\+\+Handler@{N\+M\+I\+\_\+\+Handler}}
+\index{N\+M\+I\+\_\+\+Handler@{N\+M\+I\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{N\+M\+I\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void N\+M\+I\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a6ad7a5e3ee69cb6db6a6b9111ba898bc}
+\hypertarget{stm32__it_8c_a6303e1f258cbdc1f970ce579cc015623}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!Pend\+S\+V\+\_\+\+Handler@{Pend\+S\+V\+\_\+\+Handler}}
+\index{Pend\+S\+V\+\_\+\+Handler@{Pend\+S\+V\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{Pend\+S\+V\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Pend\+S\+V\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a6303e1f258cbdc1f970ce579cc015623}
+\hypertarget{stm32__it_8c_a3e5ddb3df0d62f2dc357e64a3f04a6ce}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!S\+V\+C\+\_\+\+Handler@{S\+V\+C\+\_\+\+Handler}}
+\index{S\+V\+C\+\_\+\+Handler@{S\+V\+C\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{S\+V\+C\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void S\+V\+C\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a3e5ddb3df0d62f2dc357e64a3f04a6ce}
+\hypertarget{stm32__it_8c_a1d98923de2ed6b7309b66f9ba2971647}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!Usage\+Fault\+\_\+\+Handler@{Usage\+Fault\+\_\+\+Handler}}
+\index{Usage\+Fault\+\_\+\+Handler@{Usage\+Fault\+\_\+\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{Usage\+Fault\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Usage\+Fault\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_a1d98923de2ed6b7309b66f9ba2971647}
+\hypertarget{stm32__it_8c_af57bde854fa2b396f29664995a502b19}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler@{U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler}}
+\index{U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler@{U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void U\+S\+B\+\_\+\+L\+P\+\_\+\+C\+A\+N1\+\_\+\+R\+X0\+\_\+\+I\+R\+Q\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_af57bde854fa2b396f29664995a502b19}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{stm32__it_8c_af57bde854fa2b396f29664995a502b19_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{stm32__it_8c_ab2b0674cedda310639e2bd51e701d590}{\index{stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}!U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler@{U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler}}
+\index{U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler@{U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler}!stm32\+\_\+it.\+c@{stm32\+\_\+it.\+c}}
+\subsubsection[{U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void U\+S\+B\+Wake\+Up\+\_\+\+I\+R\+Q\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{stm32__it_8c_ab2b0674cedda310639e2bd51e701d590}

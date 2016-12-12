@@ -1,0 +1,5 @@
+<map id="beeperInit" name="beeperInit">
+<area shape="rect" id="node2" href="$sound__beeper_8h.html#a2639b86f2b86a0021defd1d6373340bb" title="initBeeperHardware" alt="" coords="133,31,269,57"/>
+<area shape="rect" id="node3" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="317,5,509,32"/>
+<area shape="rect" id="node4" href="$gpio_8h.html#ae05ca742f43c792d2963e50816c138e1" title="gpioInit" alt="" coords="381,56,445,83"/>
+</map>

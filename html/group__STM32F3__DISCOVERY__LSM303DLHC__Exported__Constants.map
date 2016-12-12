@@ -1,0 +1,28 @@
+<map id="STM32F3_DISCOVERY_LSM303DLHC_Exported_Constants" name="STM32F3_DISCOVERY_LSM303DLHC_Exported_Constants">
+<area shape="rect" id="node1" href="$group__Mag__Full__Scale.html" title="Mag_Full_Scale" alt="" coords="317,5,432,32"/>
+<area shape="rect" id="node2" href="$group__Acc__Axes__Selection.html" title="Acc_Axes_Selection" alt="" coords="303,56,446,83"/>
+<area shape="rect" id="node3" href="$group__Acc__LSM303DLHC__Interrupt1__Configuration__definition.html" title="Acc_LSM303DLHC_Interrupt1\l_Configuration_definition" alt="" coords="275,107,474,149"/>
+<area shape="rect" id="node4" href="$group__Acc__OutPut__DataRate__Selection.html" title="Acc_OutPut_DataRate\l_Selection" alt="" coords="297,173,453,214"/>
+<area shape="rect" id="node5" href="$group__Acc__LSM303DLHC__Interrupt2__Configuration__definition.html" title="Acc_LSM303DLHC_Interrupt2\l_Configuration_definition" alt="" coords="275,238,474,279"/>
+<area shape="rect" id="node6" href="$group__Acc__INT__Axes.html" title="Acc_INT_Axes" alt="" coords="319,304,430,331"/>
+<area shape="rect" id="node7" href="$group__Acc__INT__Click.html" title="Acc_INT_Click" alt="" coords="319,355,430,381"/>
+<area shape="rect" id="node8" href="$group__Acc__High__Pass__CUT.html" title="OFF_Frequency" alt="" coords="317,405,433,432"/>
+<area shape="rect" id="node9" href="$group__Acc__High__Pass__Filter__Mode.html" title="Acc_High_Pass_Filter_Mode" alt="" coords="279,456,470,483"/>
+<area shape="rect" id="node10" href="$group__Magnetometer__Sensitivity.html" title="Magnetometer_Sensitivity" alt="" coords="288,507,461,533"/>
+<area shape="rect" id="node11" href="$group__Mag__Data__Rate.html" title="Mag_Data_Rate" alt="" coords="316,557,433,584"/>
+<area shape="rect" id="node12" href="$group__Mag__Temperature__Sensor.html" title="Mag_Temperature_Sensor" alt="" coords="287,608,462,635"/>
+<area shape="rect" id="node13" href="$group__Mag__Working__Mode.html" title="Mag_Working_Mode" alt="" coords="304,659,445,685"/>
+<area shape="rect" id="node14" href="$group__Acc__INT1__Interrupt__ActiveEdge.html" title="Acc_INT1_Interrupt\l_ActiveEdge" alt="" coords="307,710,443,751"/>
+<area shape="rect" id="node15" href="$group__Acc__High__Pass__Filter__Click__status.html" title="Acc_High_Pass_Filter\l_Click_status" alt="" coords="299,775,451,817"/>
+<area shape="rect" id="node16" href="$group__Acc__Block__Data__Update.html" title="Acc_Block_Data_Update" alt="" coords="290,841,459,868"/>
+<area shape="rect" id="node17" href="$group__Acc__Power__Mode__selection.html" title="Acc_Power_Mode_selection" alt="" coords="281,892,468,919"/>
+<area shape="rect" id="node18" href="$group__Acc__High__Pass__Filter__AOI2__status.html" title="Acc_High_Pass_Filter\l_AOI2_status" alt="" coords="299,943,451,985"/>
+<area shape="rect" id="node19" href="$group__Acc__High__Pass__Filter__AOI1__status.html" title="Acc_High_Pass_Filter\l_AOI1_status" alt="" coords="299,1009,451,1050"/>
+<area shape="rect" id="node21" href="$group__Acc__High__Pass__Filter__status.html" title="Acc_High_Pass_Filter\l_status" alt="" coords="299,1074,451,1115"/>
+<area shape="rect" id="node22" href="$group__Acc__Boot__Mode__selection.html" title="Acc_Boot_Mode_selection" alt="" coords="286,1140,463,1167"/>
+<area shape="rect" id="node23" href="$group__Acc__INT__Combination__Status.html" title="Acc_INT_Combination\l_Status" alt="" coords="297,1191,452,1233"/>
+<area shape="rect" id="node24" href="$group__Acc__High__Resolution.html" title="Acc_High_Resolution" alt="" coords="301,1257,449,1284"/>
+<area shape="rect" id="node25" href="$group__Acc__INT1__Interrupt__status.html" title="Acc_INT1_Interrupt\l_status" alt="" coords="307,1309,443,1350"/>
+<area shape="rect" id="node26" href="$group__Acc__Full__Scale__Selection.html" title="Acc_Full_Scale_Selection" alt="" coords="287,1375,462,1401"/>
+<area shape="rect" id="node27" href="$group__Acc__Endian__Data__selection.html" title="Acc_Endian_Data_selection" alt="" coords="281,1425,468,1452"/>
+</map>

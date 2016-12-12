@@ -1,0 +1,10 @@
+<map id="mock_system_reset" name="mock_system_reset">
+<area shape="rect" id="node2" href="$mock__system_8cc.html#a7f1bcc7aaed750f1176cb26d184de9cb" title="ninja_config_reset" alt="" coords="195,157,322,184"/>
+<area shape="rect" id="node3" href="$parameter__group_8c.html#afbac8c80f009c74eeae17ecf2fd2833e" title="pgResetAll" alt="" coords="425,5,511,32"/>
+<area shape="rect" id="node4" href="$profile_8c.html#acfcebe2625bb0a140f131f67e70cb47a" title="setProfile" alt="" coords="429,56,507,83"/>
+<area shape="rect" id="node5" href="$parameter__group_8c.html#aeb89721d6a6634822cce68a09611dc4a" title="pgActivateProfile" alt="" coords="407,107,529,133"/>
+<area shape="rect" id="node6" href="$feature_8c.html#a931b5a978b6544f030487f2784cceafd" title="featureClearAll" alt="" coords="414,157,522,184"/>
+<area shape="rect" id="node7" href="$feature_8c.html#ad3797636dede514e08360e29ae0b4c96" title="featureSet" alt="" coords="427,208,509,235"/>
+<area shape="rect" id="node8" href="$config__eeprom__unittest_8cc.html#a38002731a27d6286d7982e66c77d2ca7" title="parseRcChannels" alt="" coords="405,259,531,285"/>
+<area shape="rect" id="node9" href="$config_8h.html#abc6dd01280a72dea5ebbefdaf07a1adf" title="configureRateProfileSelection" alt="" coords="371,309,565,336"/>
+</map>

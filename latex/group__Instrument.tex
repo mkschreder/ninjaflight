@@ -1,0 +1,183 @@
+\hypertarget{group__Instrument}{\section{Panel}
+\label{group__Instrument}\index{Panel@{Panel}}
+}
+Collaboration diagram for Panel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{group__Instrument}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a84c831c31d7f2a8e2023ca769f6732af}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O} = (1 $<$$<$ 0), 
+\hyperlink{group__Instrument_gga39fca1837c5ce7715cbf571669660c13ae8a4c4e97a3c558da476d0574d24939d}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C} = (1 $<$$<$ 1), 
+\hyperlink{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a2695c458b15adb459d132fc4240062e4}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G} = (1 $<$$<$ 2)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__Instrument_ga61b7fb031aa4467016f278499ab3ce6c}{ins\+\_\+init} (struct \hyperlink{structinstruments}{instruments} $\ast$self, struct \hyperlink{structboard__alignment__config}{board\+\_\+alignment\+\_\+config} $\ast$ba\+\_\+conf, struct \hyperlink{structimu__config}{imu\+\_\+config} $\ast$\hyperlink{structimu__config}{imu\+\_\+config}, struct \hyperlink{structthrottle__correction__config}{throttle\+\_\+correction\+\_\+config} $\ast$thr\+\_\+config, struct \hyperlink{structgyro__config}{gyro\+\_\+config} $\ast$\hyperlink{structgyro__config}{gyro\+\_\+config}, struct \hyperlink{structmag__config}{mag\+\_\+config} $\ast$\hyperlink{structmag__config}{mag\+\_\+config}, struct \hyperlink{structsensor__trims__config}{sensor\+\_\+trims\+\_\+config} $\ast$sensor\+\_\+trims, struct \hyperlink{structaccelerometer__config}{accelerometer\+\_\+config} $\ast$acc\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Initializes all instruments using specified configuration. \end{DoxyCompactList}\item 
+bool \hyperlink{group__Instrument_gad94176bbfa1cc3c1548ee241787eb98a}{ins\+\_\+is\+\_\+calibrated} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instrument_ga20231fe90708aed1062e8ee4b5c9c695}{ins\+\_\+start\+\_\+acc\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instrument_ga177072b7ee3259c7c95181002ff587b6}{ins\+\_\+start\+\_\+gyro\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instrument_ga3377f93808683a90ec4de025409e5cbf}{ins\+\_\+start\+\_\+mag\+\_\+calibration} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+void \hyperlink{group__Instrument_ga87572d36a8af9fcad5d632a721ed671d}{ins\+\_\+process\+\_\+gyro} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t z)
+\item 
+void \hyperlink{group__Instrument_gac934734b50dd3838f4d8056a20e714b6}{ins\+\_\+process\+\_\+acc} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t z)
+\item 
+void \hyperlink{group__Instrument_gab819d65960b422c029b6b65c5e093615}{ins\+\_\+process\+\_\+mag} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t z)
+\item 
+void \hyperlink{group__Instrument_ga126803b1bfe06b359e1f812a6953c521}{ins\+\_\+update} (struct \hyperlink{structinstruments}{instruments} $\ast$self, float \hyperlink{flight__pid__unittest_8cc_a778e38aa889751afffa2dea6b803e67a}{dt})
+\item 
+void \hyperlink{group__Instrument_ga8e657ac124286cdeea89e840aa8cf8ce}{ins\+\_\+set\+\_\+gyro\+\_\+scale} (struct \hyperlink{structinstruments}{instruments} $\ast$self, float \hyperlink{flight_2mixer_8h_ac0fa494f6c5a0127e958b5e43314bf0a}{scale})
+\item 
+void \hyperlink{group__Instrument_ga1ba92852bf4d128d58ce5ffa91a55b4e}{ins\+\_\+set\+\_\+acc\+\_\+scale} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int16\+\_\+t acc\+\_\+1\+G)
+\item 
+float \hyperlink{group__Instrument_ga484a36442f8829e80e3c9a4e17fba98e}{ins\+\_\+get\+\_\+gyro\+\_\+scale} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+int16\+\_\+t \hyperlink{group__Instrument_ga2e39f0bab09c23f3cb28bef884a301cb}{ins\+\_\+get\+\_\+acc\+\_\+scale} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The purpose of this module is to maintain a filtered state of all flight instruments that are available to the pilot. Instrumentation shall report data in S\+I units or multiples of such (for example decidegrees for represetnting fractions of degrees when not using floating point). 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__Instrument_ga39fca1837c5ce7715cbf571669660c13}{\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}}\label{group__Instrument_ga39fca1837c5ce7715cbf571669660c13}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}!Panel@{Panel}}\index{Panel@{Panel}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}}\item[{\em 
+\hypertarget{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a84c831c31d7f2a8e2023ca769f6732af}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+G\+Y\+R\+O}\label{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a84c831c31d7f2a8e2023ca769f6732af}
+}]\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}!Panel@{Panel}}\index{Panel@{Panel}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}}\item[{\em 
+\hypertarget{group__Instrument_gga39fca1837c5ce7715cbf571669660c13ae8a4c4e97a3c558da476d0574d24939d}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+A\+C\+C}\label{group__Instrument_gga39fca1837c5ce7715cbf571669660c13ae8a4c4e97a3c558da476d0574d24939d}
+}]\index{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}!Panel@{Panel}}\index{Panel@{Panel}!I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G@{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}}\item[{\em 
+\hypertarget{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a2695c458b15adb459d132fc4240062e4}{I\+N\+S\+\_\+\+U\+S\+E\+\_\+\+S\+E\+N\+S\+O\+R\+\_\+\+M\+A\+G}\label{group__Instrument_gga39fca1837c5ce7715cbf571669660c13a2695c458b15adb459d132fc4240062e4}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__Instrument_ga2e39f0bab09c23f3cb28bef884a301cb}{\index{Panel@{Panel}!ins\+\_\+get\+\_\+acc\+\_\+scale@{ins\+\_\+get\+\_\+acc\+\_\+scale}}
+\index{ins\+\_\+get\+\_\+acc\+\_\+scale@{ins\+\_\+get\+\_\+acc\+\_\+scale}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+get\+\_\+acc\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t ins\+\_\+get\+\_\+acc\+\_\+scale (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga2e39f0bab09c23f3cb28bef884a301cb}
+\hypertarget{group__Instrument_ga484a36442f8829e80e3c9a4e17fba98e}{\index{Panel@{Panel}!ins\+\_\+get\+\_\+gyro\+\_\+scale@{ins\+\_\+get\+\_\+gyro\+\_\+scale}}
+\index{ins\+\_\+get\+\_\+gyro\+\_\+scale@{ins\+\_\+get\+\_\+gyro\+\_\+scale}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+get\+\_\+gyro\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}float ins\+\_\+get\+\_\+gyro\+\_\+scale (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga484a36442f8829e80e3c9a4e17fba98e}
+\hypertarget{group__Instrument_ga61b7fb031aa4467016f278499ab3ce6c}{\index{Panel@{Panel}!ins\+\_\+init@{ins\+\_\+init}}
+\index{ins\+\_\+init@{ins\+\_\+init}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{struct {\bf board\+\_\+alignment\+\_\+config} $\ast$}]{ba\+\_\+conf, }
+\item[{struct {\bf imu\+\_\+config} $\ast$}]{imu\+\_\+config, }
+\item[{struct {\bf throttle\+\_\+correction\+\_\+config} $\ast$}]{thr\+\_\+config, }
+\item[{struct {\bf gyro\+\_\+config} $\ast$}]{gyro\+\_\+config, }
+\item[{struct {\bf mag\+\_\+config} $\ast$}]{mag\+\_\+config, }
+\item[{struct {\bf sensor\+\_\+trims\+\_\+config} $\ast$}]{sensor\+\_\+trims, }
+\item[{struct {\bf accelerometer\+\_\+config} $\ast$}]{acc\+\_\+config}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga61b7fb031aa4467016f278499ab3ce6c}
+
+
+Initializes all instruments using specified configuration. 
+
+\hypertarget{group__Instrument_gad94176bbfa1cc3c1548ee241787eb98a}{\index{Panel@{Panel}!ins\+\_\+is\+\_\+calibrated@{ins\+\_\+is\+\_\+calibrated}}
+\index{ins\+\_\+is\+\_\+calibrated@{ins\+\_\+is\+\_\+calibrated}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+is\+\_\+calibrated}]{\setlength{\rightskip}{0pt plus 5cm}bool ins\+\_\+is\+\_\+calibrated (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_gad94176bbfa1cc3c1548ee241787eb98a}
+\hypertarget{group__Instrument_gac934734b50dd3838f4d8056a20e714b6}{\index{Panel@{Panel}!ins\+\_\+process\+\_\+acc@{ins\+\_\+process\+\_\+acc}}
+\index{ins\+\_\+process\+\_\+acc@{ins\+\_\+process\+\_\+acc}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+process\+\_\+acc}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+acc (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_gac934734b50dd3838f4d8056a20e714b6}
+\hypertarget{group__Instrument_ga87572d36a8af9fcad5d632a721ed671d}{\index{Panel@{Panel}!ins\+\_\+process\+\_\+gyro@{ins\+\_\+process\+\_\+gyro}}
+\index{ins\+\_\+process\+\_\+gyro@{ins\+\_\+process\+\_\+gyro}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+process\+\_\+gyro}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+gyro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga87572d36a8af9fcad5d632a721ed671d}
+\hypertarget{group__Instrument_gab819d65960b422c029b6b65c5e093615}{\index{Panel@{Panel}!ins\+\_\+process\+\_\+mag@{ins\+\_\+process\+\_\+mag}}
+\index{ins\+\_\+process\+\_\+mag@{ins\+\_\+process\+\_\+mag}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+process\+\_\+mag}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+process\+\_\+mag (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_gab819d65960b422c029b6b65c5e093615}
+\hypertarget{group__Instrument_ga1ba92852bf4d128d58ce5ffa91a55b4e}{\index{Panel@{Panel}!ins\+\_\+set\+\_\+acc\+\_\+scale@{ins\+\_\+set\+\_\+acc\+\_\+scale}}
+\index{ins\+\_\+set\+\_\+acc\+\_\+scale@{ins\+\_\+set\+\_\+acc\+\_\+scale}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+set\+\_\+acc\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+set\+\_\+acc\+\_\+scale (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{acc\+\_\+1\+G}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga1ba92852bf4d128d58ce5ffa91a55b4e}
+\hypertarget{group__Instrument_ga8e657ac124286cdeea89e840aa8cf8ce}{\index{Panel@{Panel}!ins\+\_\+set\+\_\+gyro\+\_\+scale@{ins\+\_\+set\+\_\+gyro\+\_\+scale}}
+\index{ins\+\_\+set\+\_\+gyro\+\_\+scale@{ins\+\_\+set\+\_\+gyro\+\_\+scale}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+set\+\_\+gyro\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+set\+\_\+gyro\+\_\+scale (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{float}]{scale}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga8e657ac124286cdeea89e840aa8cf8ce}
+\hypertarget{group__Instrument_ga20231fe90708aed1062e8ee4b5c9c695}{\index{Panel@{Panel}!ins\+\_\+start\+\_\+acc\+\_\+calibration@{ins\+\_\+start\+\_\+acc\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+acc\+\_\+calibration@{ins\+\_\+start\+\_\+acc\+\_\+calibration}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+start\+\_\+acc\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+acc\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga20231fe90708aed1062e8ee4b5c9c695}
+\hypertarget{group__Instrument_ga177072b7ee3259c7c95181002ff587b6}{\index{Panel@{Panel}!ins\+\_\+start\+\_\+gyro\+\_\+calibration@{ins\+\_\+start\+\_\+gyro\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+gyro\+\_\+calibration@{ins\+\_\+start\+\_\+gyro\+\_\+calibration}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+start\+\_\+gyro\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+gyro\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga177072b7ee3259c7c95181002ff587b6}
+\hypertarget{group__Instrument_ga3377f93808683a90ec4de025409e5cbf}{\index{Panel@{Panel}!ins\+\_\+start\+\_\+mag\+\_\+calibration@{ins\+\_\+start\+\_\+mag\+\_\+calibration}}
+\index{ins\+\_\+start\+\_\+mag\+\_\+calibration@{ins\+\_\+start\+\_\+mag\+\_\+calibration}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+start\+\_\+mag\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+start\+\_\+mag\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga3377f93808683a90ec4de025409e5cbf}
+\hypertarget{group__Instrument_ga126803b1bfe06b359e1f812a6953c521}{\index{Panel@{Panel}!ins\+\_\+update@{ins\+\_\+update}}
+\index{ins\+\_\+update@{ins\+\_\+update}!Panel@{Panel}}
+\subsubsection[{ins\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{float}]{dt}
+\end{DoxyParamCaption}
+)}}\label{group__Instrument_ga126803b1bfe06b359e1f812a6953c521}

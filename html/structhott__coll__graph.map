@@ -1,0 +1,7 @@
+<map id="hott" name="hott">
+<area shape="rect" id="node2" href="$structHOTT__GPS__MSG__s.html" title="HOTT_GPS_MSG_s" alt="" coords="5,96,149,123"/>
+<area shape="rect" id="node3" href="$structserial__port__config.html" title="serial_port_config" alt="" coords="174,96,297,123"/>
+<area shape="rect" id="node4" href="$structHOTT__EAM__MSG__s.html" title="HOTT_EAM_MSG_s" alt="" coords="322,96,467,123"/>
+<area shape="rect" id="node5" href="$structserialPort__s.html" title="serialPort_s" alt="" coords="492,96,583,123"/>
+<area shape="rect" id="node6" href="$structserial__port__ops.html" title="serial_port_ops" alt="" coords="482,5,592,32"/>
+</map>

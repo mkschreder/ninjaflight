@@ -1,0 +1,140 @@
+\hypertarget{flash__m25p16_8h}{\section{src/main/drivers/flash\+\_\+m25p16.h File Reference}
+\label{flash__m25p16_8h}\index{src/main/drivers/flash\+\_\+m25p16.\+h@{src/main/drivers/flash\+\_\+m25p16.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}flash.\+h\char`\"{}}\\*
+Include dependency graph for flash\+\_\+m25p16.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{flash__m25p16_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{flash__m25p16_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flash__m25p16_8h_a068df2420188baaad7a0d5dd9547df7c}{M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E}~256
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{flash__m25p16_8h_a7a7741977044f80436e54b4458daf7c0}{m25p16\+\_\+init} (void)
+\item 
+void \hyperlink{flash__m25p16_8h_a1c6484055ea0f85b4a61780f41dd28c3}{m25p16\+\_\+erase\+Sector} (uint32\+\_\+t address)
+\item 
+void \hyperlink{flash__m25p16_8h_ac67a461a40055ce200627f251b180a36}{m25p16\+\_\+erase\+Completely} (void)
+\item 
+void \hyperlink{flash__m25p16_8h_a1d743b2e275c74a22346ac3ae880b326}{m25p16\+\_\+page\+Program} (uint32\+\_\+t address, const uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, int length)
+\item 
+void \hyperlink{flash__m25p16_8h_a8a719d08dafe3f27ca9971d627b7a0c4}{m25p16\+\_\+page\+Program\+Begin} (uint32\+\_\+t address)
+\item 
+void \hyperlink{flash__m25p16_8h_a03e4c456d3eda5239b065e05bc1da555}{m25p16\+\_\+page\+Program\+Continue} (const uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, int length)
+\item 
+void \hyperlink{flash__m25p16_8h_a861cef3278f4f69796b8cd56f6cd2c97}{m25p16\+\_\+page\+Program\+Finish} (void)
+\item 
+int \hyperlink{flash__m25p16_8h_adecddc1b25f16cbd567f8910285e024c}{m25p16\+\_\+read\+Bytes} (uint32\+\_\+t address, uint8\+\_\+t $\ast$buffer, int length)
+\item 
+bool \hyperlink{flash__m25p16_8h_a3a973d2f485f25bf4d7d515b0ead07a5}{m25p16\+\_\+is\+Ready} (void)
+\item 
+bool \hyperlink{flash__m25p16_8h_af97fbab608abbaa20050dd26dee308ee}{m25p16\+\_\+wait\+For\+Ready} (uint32\+\_\+t timeout\+Millis)
+\item 
+const \hyperlink{flash_8h_a8021cd5c7f3a135915339b112cd05d8e}{flash\+Geometry\+\_\+t} $\ast$ \hyperlink{flash__m25p16_8h_a7bfef7eb51b0ef8ce9e6be098ed66706}{m25p16\+\_\+get\+Geometry} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{flash__m25p16_8h_a068df2420188baaad7a0d5dd9547df7c}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E@{M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E}}
+\index{M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E@{M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M25\+P16\+\_\+\+P\+A\+G\+E\+S\+I\+Z\+E~256}}\label{flash__m25p16_8h_a068df2420188baaad7a0d5dd9547df7c}
+
+
+\subsection{Function Documentation}
+\hypertarget{flash__m25p16_8h_ac67a461a40055ce200627f251b180a36}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+erase\+Completely@{m25p16\+\_\+erase\+Completely}}
+\index{m25p16\+\_\+erase\+Completely@{m25p16\+\_\+erase\+Completely}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+erase\+Completely}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+erase\+Completely (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_ac67a461a40055ce200627f251b180a36}
+\hypertarget{flash__m25p16_8h_a1c6484055ea0f85b4a61780f41dd28c3}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+erase\+Sector@{m25p16\+\_\+erase\+Sector}}
+\index{m25p16\+\_\+erase\+Sector@{m25p16\+\_\+erase\+Sector}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+erase\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+erase\+Sector (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a1c6484055ea0f85b4a61780f41dd28c3}
+\hypertarget{flash__m25p16_8h_a7bfef7eb51b0ef8ce9e6be098ed66706}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+get\+Geometry@{m25p16\+\_\+get\+Geometry}}
+\index{m25p16\+\_\+get\+Geometry@{m25p16\+\_\+get\+Geometry}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+get\+Geometry}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf flash\+Geometry\+\_\+t}$\ast$ m25p16\+\_\+get\+Geometry (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a7bfef7eb51b0ef8ce9e6be098ed66706}
+\hypertarget{flash__m25p16_8h_a7a7741977044f80436e54b4458daf7c0}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+init@{m25p16\+\_\+init}}
+\index{m25p16\+\_\+init@{m25p16\+\_\+init}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}bool m25p16\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a7a7741977044f80436e54b4458daf7c0}
+\hypertarget{flash__m25p16_8h_a3a973d2f485f25bf4d7d515b0ead07a5}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+is\+Ready@{m25p16\+\_\+is\+Ready}}
+\index{m25p16\+\_\+is\+Ready@{m25p16\+\_\+is\+Ready}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+is\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool m25p16\+\_\+is\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a3a973d2f485f25bf4d7d515b0ead07a5}
+\hypertarget{flash__m25p16_8h_a1d743b2e275c74a22346ac3ae880b326}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+page\+Program@{m25p16\+\_\+page\+Program}}
+\index{m25p16\+\_\+page\+Program@{m25p16\+\_\+page\+Program}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+page\+Program}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+page\+Program (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address, }
+\item[{const uint8\+\_\+t $\ast$}]{data, }
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a1d743b2e275c74a22346ac3ae880b326}
+\hypertarget{flash__m25p16_8h_a8a719d08dafe3f27ca9971d627b7a0c4}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+page\+Program\+Begin@{m25p16\+\_\+page\+Program\+Begin}}
+\index{m25p16\+\_\+page\+Program\+Begin@{m25p16\+\_\+page\+Program\+Begin}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+page\+Program\+Begin}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+page\+Program\+Begin (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a8a719d08dafe3f27ca9971d627b7a0c4}
+\hypertarget{flash__m25p16_8h_a03e4c456d3eda5239b065e05bc1da555}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+page\+Program\+Continue@{m25p16\+\_\+page\+Program\+Continue}}
+\index{m25p16\+\_\+page\+Program\+Continue@{m25p16\+\_\+page\+Program\+Continue}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+page\+Program\+Continue}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+page\+Program\+Continue (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t $\ast$}]{data, }
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a03e4c456d3eda5239b065e05bc1da555}
+\hypertarget{flash__m25p16_8h_a861cef3278f4f69796b8cd56f6cd2c97}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+page\+Program\+Finish@{m25p16\+\_\+page\+Program\+Finish}}
+\index{m25p16\+\_\+page\+Program\+Finish@{m25p16\+\_\+page\+Program\+Finish}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+page\+Program\+Finish}]{\setlength{\rightskip}{0pt plus 5cm}void m25p16\+\_\+page\+Program\+Finish (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_a861cef3278f4f69796b8cd56f6cd2c97}
+\hypertarget{flash__m25p16_8h_adecddc1b25f16cbd567f8910285e024c}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+read\+Bytes@{m25p16\+\_\+read\+Bytes}}
+\index{m25p16\+\_\+read\+Bytes@{m25p16\+\_\+read\+Bytes}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+read\+Bytes}]{\setlength{\rightskip}{0pt plus 5cm}int m25p16\+\_\+read\+Bytes (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address, }
+\item[{uint8\+\_\+t $\ast$}]{buffer, }
+\item[{int}]{length}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_adecddc1b25f16cbd567f8910285e024c}
+\hypertarget{flash__m25p16_8h_af97fbab608abbaa20050dd26dee308ee}{\index{flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}!m25p16\+\_\+wait\+For\+Ready@{m25p16\+\_\+wait\+For\+Ready}}
+\index{m25p16\+\_\+wait\+For\+Ready@{m25p16\+\_\+wait\+For\+Ready}!flash\+\_\+m25p16.\+h@{flash\+\_\+m25p16.\+h}}
+\subsubsection[{m25p16\+\_\+wait\+For\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool m25p16\+\_\+wait\+For\+Ready (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{timeout\+Millis}
+\end{DoxyParamCaption}
+)}}\label{flash__m25p16_8h_af97fbab608abbaa20050dd26dee308ee}

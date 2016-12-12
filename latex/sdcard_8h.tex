@@ -1,0 +1,213 @@
+\hypertarget{sdcard_8h}{\section{src/main/drivers/sdcard.h File Reference}
+\label{sdcard_8h}\index{src/main/drivers/sdcard.\+h@{src/main/drivers/sdcard.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+Include dependency graph for sdcard.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{sdcard_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sdcard_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsdcardMetadata__t}{sdcard\+Metadata\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structsdcardMetadata__t}{sdcard\+Metadata\+\_\+t} \hyperlink{sdcard_8h_ab0dcd88982872895ad860bc0c45253cd}{sdcard\+Metadata\+\_\+t}
+\item 
+typedef void($\ast$ \hyperlink{sdcard_8h_a7ecea4b4b721a9b3a8d43bd38cfdc4ba}{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c} )(\hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4ac}{sdcard\+Block\+Operation\+\_\+e} operation, uint32\+\_\+t block\+Index, uint8\+\_\+t $\ast$buffer, uint32\+\_\+t callback\+Data)
+\item 
+typedef void($\ast$ \hyperlink{sdcard_8h_a054a76cfe4ae9c2cef29873368409d0a}{sdcard\+\_\+profiler\+Callback\+\_\+c} )(\hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4ac}{sdcard\+Block\+Operation\+\_\+e} operation, uint32\+\_\+t block\+Index, uint32\+\_\+t duration)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4ac}{sdcard\+Block\+Operation\+\_\+e} \{ \hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acabaf5e4e93fa866294e6284e086435191}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D}, 
+\hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acacb7fa9e05de56d896b3ee719b4b8fd97}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E}, 
+\hyperlink{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acadf82fc50fea3a047908c95b78caea9aa}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E}
+ \}
+\item 
+enum \hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897d}{sdcard\+Operation\+Status\+\_\+e} \{ \hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897dacd5756dd395520b139cd6f94acba32e7}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S}, 
+\hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897daf4b3e1fda7286a896a29deb67a81fc86}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}, 
+\hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897dae270d87ba7211479ca8c54cf0bf838bc}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S}, 
+\hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897da555c9e209201861f6b7a6015b0aec757}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sdcard_8h_ac19dc34ee0b3e6410183149887723dbf}{sdcard\+\_\+init} (bool use\+D\+M\+A)
+\item 
+bool \hyperlink{sdcard_8h_a5bd5a1497633678433dd79770f56c361}{sdcard\+\_\+read\+Block} (uint32\+\_\+t block\+Index, uint8\+\_\+t $\ast$buffer, \hyperlink{sdcard_8h_a7ecea4b4b721a9b3a8d43bd38cfdc4ba}{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c} callback, uint32\+\_\+t callback\+Data)
+\item 
+\hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897d}{sdcard\+Operation\+Status\+\_\+e} \hyperlink{sdcard_8h_abd9af69d791a1db1d0da72ad408126b2}{sdcard\+\_\+begin\+Write\+Blocks} (uint32\+\_\+t block\+Index, uint32\+\_\+t block\+Count)
+\item 
+\hyperlink{sdcard_8h_a176c55258499cbadcf7135ff9726897d}{sdcard\+Operation\+Status\+\_\+e} \hyperlink{sdcard_8h_ac5625b973d30d2d667a082612e7a9860}{sdcard\+\_\+write\+Block} (uint32\+\_\+t block\+Index, uint8\+\_\+t $\ast$buffer, \hyperlink{sdcard_8h_a7ecea4b4b721a9b3a8d43bd38cfdc4ba}{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c} callback, uint32\+\_\+t callback\+Data)
+\item 
+void \hyperlink{sdcard_8h_aca14998449ec3eb02ccb3b92b95c8964}{sdcard\+Insertion\+Detect\+Deinit} (void)
+\item 
+void \hyperlink{sdcard_8h_a567b767e16ecc1c2112ecb26b0cda4d0}{sdcard\+Insertion\+Detect\+Init} (void)
+\item 
+bool \hyperlink{sdcard_8h_a4d248c66de99c4b0ac05424ad41c4428}{sdcard\+\_\+is\+Inserted} (void)
+\item 
+bool \hyperlink{sdcard_8h_a1ffd56c45b3eca20ef453bdb1f32270d}{sdcard\+\_\+is\+Initialized} (void)
+\item 
+bool \hyperlink{sdcard_8h_afee93c05b052b3ccaa575e33e8d1b425}{sdcard\+\_\+is\+Functional} (void)
+\item 
+bool \hyperlink{sdcard_8h_a1d35660a5fc60832c328bbafd030883d}{sdcard\+\_\+poll} (void)
+\item 
+const \hyperlink{structsdcardMetadata__t}{sdcard\+Metadata\+\_\+t} $\ast$ \hyperlink{sdcard_8h_a497648a6fefa242fbdad8b97463eaa5f}{sdcard\+\_\+get\+Metadata} (void)
+\item 
+void \hyperlink{sdcard_8h_ae040ffb8c8d3ba1366427aedf306d400}{sdcard\+\_\+set\+Profiler\+Callback} (\hyperlink{sdcard_8h_a054a76cfe4ae9c2cef29873368409d0a}{sdcard\+\_\+profiler\+Callback\+\_\+c} callback)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{sdcard_8h_a7ecea4b4b721a9b3a8d43bd38cfdc4ba}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+operation\+Complete\+Callback\+\_\+c@{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c}}
+\index{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c@{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+operation\+Complete\+Callback\+\_\+c}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ sdcard\+\_\+operation\+Complete\+Callback\+\_\+c)({\bf sdcard\+Block\+Operation\+\_\+e} operation, uint32\+\_\+t block\+Index, uint8\+\_\+t $\ast$buffer, uint32\+\_\+t callback\+Data)}}\label{sdcard_8h_a7ecea4b4b721a9b3a8d43bd38cfdc4ba}
+\hypertarget{sdcard_8h_a054a76cfe4ae9c2cef29873368409d0a}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+profiler\+Callback\+\_\+c@{sdcard\+\_\+profiler\+Callback\+\_\+c}}
+\index{sdcard\+\_\+profiler\+Callback\+\_\+c@{sdcard\+\_\+profiler\+Callback\+\_\+c}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+profiler\+Callback\+\_\+c}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ sdcard\+\_\+profiler\+Callback\+\_\+c)({\bf sdcard\+Block\+Operation\+\_\+e} operation, uint32\+\_\+t block\+Index, uint32\+\_\+t duration)}}\label{sdcard_8h_a054a76cfe4ae9c2cef29873368409d0a}
+\hypertarget{sdcard_8h_ab0dcd88982872895ad860bc0c45253cd}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+Metadata\+\_\+t@{sdcard\+Metadata\+\_\+t}}
+\index{sdcard\+Metadata\+\_\+t@{sdcard\+Metadata\+\_\+t}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+Metadata\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sdcard\+Metadata\+\_\+t}  {\bf sdcard\+Metadata\+\_\+t}}}\label{sdcard_8h_ab0dcd88982872895ad860bc0c45253cd}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4ac}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+Block\+Operation\+\_\+e@{sdcard\+Block\+Operation\+\_\+e}}
+\index{sdcard\+Block\+Operation\+\_\+e@{sdcard\+Block\+Operation\+\_\+e}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+Block\+Operation\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sdcard\+Block\+Operation\+\_\+e}}}\label{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4ac}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D}}\item[{\em 
+\hypertarget{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acabaf5e4e93fa866294e6284e086435191}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D}\label{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acabaf5e4e93fa866294e6284e086435191}
+}]\index{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E}}\item[{\em 
+\hypertarget{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acacb7fa9e05de56d896b3ee719b4b8fd97}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+W\+R\+I\+T\+E}\label{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acacb7fa9e05de56d896b3ee719b4b8fd97}
+}]\index{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E@{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E}}\item[{\em 
+\hypertarget{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acadf82fc50fea3a047908c95b78caea9aa}{S\+D\+C\+A\+R\+D\+\_\+\+B\+L\+O\+C\+K\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+E\+R\+A\+S\+E}\label{sdcard_8h_a1a8373ee00cf7c257a7e7404a700d4acadf82fc50fea3a047908c95b78caea9aa}
+}]\end{description}
+\end{Desc}
+\hypertarget{sdcard_8h_a176c55258499cbadcf7135ff9726897d}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+Operation\+Status\+\_\+e@{sdcard\+Operation\+Status\+\_\+e}}
+\index{sdcard\+Operation\+Status\+\_\+e@{sdcard\+Operation\+Status\+\_\+e}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+Operation\+Status\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sdcard\+Operation\+Status\+\_\+e}}}\label{sdcard_8h_a176c55258499cbadcf7135ff9726897d}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S}}\item[{\em 
+\hypertarget{sdcard_8h_a176c55258499cbadcf7135ff9726897dacd5756dd395520b139cd6f94acba32e7}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+S\+S}\label{sdcard_8h_a176c55258499cbadcf7135ff9726897dacd5756dd395520b139cd6f94acba32e7}
+}]\index{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}}\item[{\em 
+\hypertarget{sdcard_8h_a176c55258499cbadcf7135ff9726897daf4b3e1fda7286a896a29deb67a81fc86}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}\label{sdcard_8h_a176c55258499cbadcf7135ff9726897daf4b3e1fda7286a896a29deb67a81fc86}
+}]\index{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S}}\item[{\em 
+\hypertarget{sdcard_8h_a176c55258499cbadcf7135ff9726897dae270d87ba7211479ca8c54cf0bf838bc}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+S\+U\+C\+C\+E\+S\+S}\label{sdcard_8h_a176c55258499cbadcf7135ff9726897dae270d87ba7211479ca8c54cf0bf838bc}
+}]\index{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E}!sdcard.\+h@{sdcard.\+h}}\index{sdcard.\+h@{sdcard.\+h}!S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E@{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E}}\item[{\em 
+\hypertarget{sdcard_8h_a176c55258499cbadcf7135ff9726897da555c9e209201861f6b7a6015b0aec757}{S\+D\+C\+A\+R\+D\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+F\+A\+I\+L\+U\+R\+E}\label{sdcard_8h_a176c55258499cbadcf7135ff9726897da555c9e209201861f6b7a6015b0aec757}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{sdcard_8h_abd9af69d791a1db1d0da72ad408126b2}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+begin\+Write\+Blocks@{sdcard\+\_\+begin\+Write\+Blocks}}
+\index{sdcard\+\_\+begin\+Write\+Blocks@{sdcard\+\_\+begin\+Write\+Blocks}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+begin\+Write\+Blocks}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sdcard\+Operation\+Status\+\_\+e} sdcard\+\_\+begin\+Write\+Blocks (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{block\+Index, }
+\item[{uint32\+\_\+t}]{block\+Count}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_abd9af69d791a1db1d0da72ad408126b2}
+\hypertarget{sdcard_8h_a497648a6fefa242fbdad8b97463eaa5f}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+get\+Metadata@{sdcard\+\_\+get\+Metadata}}
+\index{sdcard\+\_\+get\+Metadata@{sdcard\+\_\+get\+Metadata}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+get\+Metadata}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf sdcard\+Metadata\+\_\+t}$\ast$ sdcard\+\_\+get\+Metadata (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a497648a6fefa242fbdad8b97463eaa5f}
+\hypertarget{sdcard_8h_ac19dc34ee0b3e6410183149887723dbf}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+init@{sdcard\+\_\+init}}
+\index{sdcard\+\_\+init@{sdcard\+\_\+init}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void sdcard\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{bool}]{use\+D\+M\+A}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_ac19dc34ee0b3e6410183149887723dbf}
+\hypertarget{sdcard_8h_afee93c05b052b3ccaa575e33e8d1b425}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+is\+Functional@{sdcard\+\_\+is\+Functional}}
+\index{sdcard\+\_\+is\+Functional@{sdcard\+\_\+is\+Functional}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+is\+Functional}]{\setlength{\rightskip}{0pt plus 5cm}bool sdcard\+\_\+is\+Functional (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_afee93c05b052b3ccaa575e33e8d1b425}
+\hypertarget{sdcard_8h_a1ffd56c45b3eca20ef453bdb1f32270d}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+is\+Initialized@{sdcard\+\_\+is\+Initialized}}
+\index{sdcard\+\_\+is\+Initialized@{sdcard\+\_\+is\+Initialized}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+is\+Initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool sdcard\+\_\+is\+Initialized (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a1ffd56c45b3eca20ef453bdb1f32270d}
+\hypertarget{sdcard_8h_a4d248c66de99c4b0ac05424ad41c4428}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+is\+Inserted@{sdcard\+\_\+is\+Inserted}}
+\index{sdcard\+\_\+is\+Inserted@{sdcard\+\_\+is\+Inserted}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+is\+Inserted}]{\setlength{\rightskip}{0pt plus 5cm}bool sdcard\+\_\+is\+Inserted (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a4d248c66de99c4b0ac05424ad41c4428}
+\hypertarget{sdcard_8h_a1d35660a5fc60832c328bbafd030883d}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+poll@{sdcard\+\_\+poll}}
+\index{sdcard\+\_\+poll@{sdcard\+\_\+poll}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+poll}]{\setlength{\rightskip}{0pt plus 5cm}bool sdcard\+\_\+poll (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a1d35660a5fc60832c328bbafd030883d}
+\hypertarget{sdcard_8h_a5bd5a1497633678433dd79770f56c361}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+read\+Block@{sdcard\+\_\+read\+Block}}
+\index{sdcard\+\_\+read\+Block@{sdcard\+\_\+read\+Block}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+read\+Block}]{\setlength{\rightskip}{0pt plus 5cm}bool sdcard\+\_\+read\+Block (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{block\+Index, }
+\item[{uint8\+\_\+t $\ast$}]{buffer, }
+\item[{{\bf sdcard\+\_\+operation\+Complete\+Callback\+\_\+c}}]{callback, }
+\item[{uint32\+\_\+t}]{callback\+Data}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a5bd5a1497633678433dd79770f56c361}
+\hypertarget{sdcard_8h_ae040ffb8c8d3ba1366427aedf306d400}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+set\+Profiler\+Callback@{sdcard\+\_\+set\+Profiler\+Callback}}
+\index{sdcard\+\_\+set\+Profiler\+Callback@{sdcard\+\_\+set\+Profiler\+Callback}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+set\+Profiler\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}void sdcard\+\_\+set\+Profiler\+Callback (
+\begin{DoxyParamCaption}
+\item[{{\bf sdcard\+\_\+profiler\+Callback\+\_\+c}}]{callback}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_ae040ffb8c8d3ba1366427aedf306d400}
+\hypertarget{sdcard_8h_ac5625b973d30d2d667a082612e7a9860}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+\_\+write\+Block@{sdcard\+\_\+write\+Block}}
+\index{sdcard\+\_\+write\+Block@{sdcard\+\_\+write\+Block}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+\_\+write\+Block}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sdcard\+Operation\+Status\+\_\+e} sdcard\+\_\+write\+Block (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{block\+Index, }
+\item[{uint8\+\_\+t $\ast$}]{buffer, }
+\item[{{\bf sdcard\+\_\+operation\+Complete\+Callback\+\_\+c}}]{callback, }
+\item[{uint32\+\_\+t}]{callback\+Data}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_ac5625b973d30d2d667a082612e7a9860}
+\hypertarget{sdcard_8h_aca14998449ec3eb02ccb3b92b95c8964}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+Insertion\+Detect\+Deinit@{sdcard\+Insertion\+Detect\+Deinit}}
+\index{sdcard\+Insertion\+Detect\+Deinit@{sdcard\+Insertion\+Detect\+Deinit}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+Insertion\+Detect\+Deinit}]{\setlength{\rightskip}{0pt plus 5cm}void sdcard\+Insertion\+Detect\+Deinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_aca14998449ec3eb02ccb3b92b95c8964}
+\hypertarget{sdcard_8h_a567b767e16ecc1c2112ecb26b0cda4d0}{\index{sdcard.\+h@{sdcard.\+h}!sdcard\+Insertion\+Detect\+Init@{sdcard\+Insertion\+Detect\+Init}}
+\index{sdcard\+Insertion\+Detect\+Init@{sdcard\+Insertion\+Detect\+Init}!sdcard.\+h@{sdcard.\+h}}
+\subsubsection[{sdcard\+Insertion\+Detect\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void sdcard\+Insertion\+Detect\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sdcard_8h_a567b767e16ecc1c2112ecb26b0cda4d0}

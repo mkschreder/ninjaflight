@@ -1,0 +1,82 @@
+\hypertarget{acceleration_8c}{\section{src/main/sensors/acceleration.c File Reference}
+\label{acceleration_8c}\index{src/main/sensors/acceleration.\+c@{src/main/sensors/acceleration.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+Include dependency graph for acceleration.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{acceleration_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{acceleration_8c_a50cef59bc21b805ea8abbe4c0094748c}{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S}~400
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{acceleration_8c_abc1671232b745bbe7fd0e3143e9ebdf7}{ins\+\_\+acc\+\_\+init} (struct \hyperlink{structins__acc}{ins\+\_\+acc} $\ast$self, const struct \hyperlink{structsensor__trims__config}{sensor\+\_\+trims\+\_\+config} $\ast$\hyperlink{sensors_8h_a1233c7469c532f51fef85c96731db067}{trims}, const struct \hyperlink{structaccelerometer__config}{accelerometer\+\_\+config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{acceleration_8c_a4fa3d4f72493b391959fb4bc90bd0715}{ins\+\_\+acc\+\_\+process\+\_\+sample} (struct \hyperlink{structins__acc}{ins\+\_\+acc} $\ast$self, int32\+\_\+t x, int32\+\_\+t y, int32\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{acceleration_8c_a780f5365075cd0d3c809b4d461170116}{ins\+\_\+acc\+\_\+calibrate} (struct \hyperlink{structins__acc}{ins\+\_\+acc} $\ast$self)
+\item 
+bool \hyperlink{acceleration_8c_aac0f117f5df7b0d515d44a4fdb51fde1}{ins\+\_\+acc\+\_\+is\+\_\+calibrated} (struct \hyperlink{structins__acc}{ins\+\_\+acc} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{acceleration_8c_a50cef59bc21b805ea8abbe4c0094748c}{\index{acceleration.\+c@{acceleration.\+c}!C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S@{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S}}
+\index{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S@{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S}!acceleration.\+c@{acceleration.\+c}}
+\subsubsection[{C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+A\+L\+I\+B\+R\+A\+T\+I\+N\+G\+\_\+\+A\+C\+C\+\_\+\+C\+Y\+C\+L\+E\+S~400}}\label{acceleration_8c_a50cef59bc21b805ea8abbe4c0094748c}
+
+
+\subsection{Function Documentation}
+\hypertarget{acceleration_8c_a780f5365075cd0d3c809b4d461170116}{\index{acceleration.\+c@{acceleration.\+c}!ins\+\_\+acc\+\_\+calibrate@{ins\+\_\+acc\+\_\+calibrate}}
+\index{ins\+\_\+acc\+\_\+calibrate@{ins\+\_\+acc\+\_\+calibrate}!acceleration.\+c@{acceleration.\+c}}
+\subsubsection[{ins\+\_\+acc\+\_\+calibrate}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+acc\+\_\+calibrate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+acc} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{acceleration_8c_a780f5365075cd0d3c809b4d461170116}
+\hypertarget{acceleration_8c_abc1671232b745bbe7fd0e3143e9ebdf7}{\index{acceleration.\+c@{acceleration.\+c}!ins\+\_\+acc\+\_\+init@{ins\+\_\+acc\+\_\+init}}
+\index{ins\+\_\+acc\+\_\+init@{ins\+\_\+acc\+\_\+init}!acceleration.\+c@{acceleration.\+c}}
+\subsubsection[{ins\+\_\+acc\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+acc\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+acc} $\ast$}]{self, }
+\item[{const struct {\bf sensor\+\_\+trims\+\_\+config} $\ast$}]{trims, }
+\item[{const struct {\bf accelerometer\+\_\+config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{acceleration_8c_abc1671232b745bbe7fd0e3143e9ebdf7}
+\hypertarget{acceleration_8c_aac0f117f5df7b0d515d44a4fdb51fde1}{\index{acceleration.\+c@{acceleration.\+c}!ins\+\_\+acc\+\_\+is\+\_\+calibrated@{ins\+\_\+acc\+\_\+is\+\_\+calibrated}}
+\index{ins\+\_\+acc\+\_\+is\+\_\+calibrated@{ins\+\_\+acc\+\_\+is\+\_\+calibrated}!acceleration.\+c@{acceleration.\+c}}
+\subsubsection[{ins\+\_\+acc\+\_\+is\+\_\+calibrated}]{\setlength{\rightskip}{0pt plus 5cm}bool ins\+\_\+acc\+\_\+is\+\_\+calibrated (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+acc} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{acceleration_8c_aac0f117f5df7b0d515d44a4fdb51fde1}
+\hypertarget{acceleration_8c_a4fa3d4f72493b391959fb4bc90bd0715}{\index{acceleration.\+c@{acceleration.\+c}!ins\+\_\+acc\+\_\+process\+\_\+sample@{ins\+\_\+acc\+\_\+process\+\_\+sample}}
+\index{ins\+\_\+acc\+\_\+process\+\_\+sample@{ins\+\_\+acc\+\_\+process\+\_\+sample}!acceleration.\+c@{acceleration.\+c}}
+\subsubsection[{ins\+\_\+acc\+\_\+process\+\_\+sample}]{\setlength{\rightskip}{0pt plus 5cm}void ins\+\_\+acc\+\_\+process\+\_\+sample (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ins\+\_\+acc} $\ast$}]{self, }
+\item[{int32\+\_\+t}]{x, }
+\item[{int32\+\_\+t}]{y, }
+\item[{int32\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{acceleration_8c_a4fa3d4f72493b391959fb4bc90bd0715}

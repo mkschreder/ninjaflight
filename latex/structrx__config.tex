@@ -1,0 +1,135 @@
+\hypertarget{structrx__config}{\section{rx\+\_\+config Struct Reference}
+\label{structrx__config}\index{rx\+\_\+config@{rx\+\_\+config}}
+}
+
+
+{\ttfamily \#include $<$rx.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structrx__config_a466e723fab37f8cd2903d5ff8ee6e751}{rcmap} \mbox{[}\hyperlink{config_2rx_8h_a2ef9ea7cd22f2ca36356809255c981ba}{R\+X\+\_\+\+M\+A\+X\+\_\+\+M\+A\+P\+P\+A\+B\+L\+E\+\_\+\+R\+X\+\_\+\+I\+N\+P\+U\+T\+S}\mbox{]}
+\begin{DoxyCompactList}\small\item\em mapping of radio channels to internal R\+P\+Y\+T\+A+ order \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_a7b07d2f4be0c5a71dc3c9245a7b8a619}{serialrx\+\_\+provider}
+\begin{DoxyCompactList}\small\item\em type of U\+A\+R\+T-\/based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L first. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_af35bf9196e92a85c8fe7f37b98a03ae5}{sbus\+\_\+inversion}
+\begin{DoxyCompactList}\small\item\em default sbus (Futaba, Fr\+S\+K\+Y) is inverted. Support for uninverted Open\+L\+R\+S (and modified Fr\+S\+K\+Y) receivers. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_a08514dca1ab82db4e499f2e558744388}{spektrum\+\_\+sat\+\_\+bind}
+\begin{DoxyCompactList}\small\item\em number of bind pulses for Spektrum satellite receivers \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_a69cfd398b4b4da28a68e7d22725d164c}{rssi\+\_\+channel}
+\begin{DoxyCompactList}\small\item\em rssi channel number \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_a0dc3cd39fba01b57143e0a65f421126c}{rssi\+\_\+scale}
+\begin{DoxyCompactList}\small\item\em scale of the rssi signal. Range \mbox{[}R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N;R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X\mbox{]} \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_ad67738c81cf1ae5770fe4a6bd731e207}{rssi\+\_\+ppm\+\_\+invert}
+\begin{DoxyCompactList}\small\item\em if set then rssi signal is treated such that high value means low rssi \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrx__config_a78c1783d3447facd6ef8a949ae506c0a}{rc\+Smoothing}
+\begin{DoxyCompactList}\small\item\em Enable/\+Disable R\+C filtering. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrx__config_a68cff5e9b0d5293c363a2b596f45d8c7}{midrc}
+\begin{DoxyCompactList}\small\item\em Some radios have not a neutral point centered on 1500. can be changed here. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrx__config_aec056aabcb236e2a86679cd296047fb1}{mincheck}
+\begin{DoxyCompactList}\small\item\em minimum rc end \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrx__config_a55f92cef1541599a3a0ded8524ecba74}{maxcheck}
+\begin{DoxyCompactList}\small\item\em maximum rc end \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrx__config_a086895901d9b2a9e2d5682cc82c05bac}{rx\+\_\+min\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em minimum value of rx pulse from receiver (below this point we consider signal being corrupt) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structrx__config_a96854d89202e04fd984d0f561dbea7e4}{rx\+\_\+max\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structrx__config_a55f92cef1541599a3a0ded8524ecba74}{\index{rx\+\_\+config@{rx\+\_\+config}!maxcheck@{maxcheck}}
+\index{maxcheck@{maxcheck}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{maxcheck}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+config\+::maxcheck}}\label{structrx__config_a55f92cef1541599a3a0ded8524ecba74}
+
+
+maximum rc end 
+
+\hypertarget{structrx__config_a68cff5e9b0d5293c363a2b596f45d8c7}{\index{rx\+\_\+config@{rx\+\_\+config}!midrc@{midrc}}
+\index{midrc@{midrc}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{midrc}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+config\+::midrc}}\label{structrx__config_a68cff5e9b0d5293c363a2b596f45d8c7}
+
+
+Some radios have not a neutral point centered on 1500. can be changed here. 
+
+\hypertarget{structrx__config_aec056aabcb236e2a86679cd296047fb1}{\index{rx\+\_\+config@{rx\+\_\+config}!mincheck@{mincheck}}
+\index{mincheck@{mincheck}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{mincheck}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+config\+::mincheck}}\label{structrx__config_aec056aabcb236e2a86679cd296047fb1}
+
+
+minimum rc end 
+
+\hypertarget{structrx__config_a466e723fab37f8cd2903d5ff8ee6e751}{\index{rx\+\_\+config@{rx\+\_\+config}!rcmap@{rcmap}}
+\index{rcmap@{rcmap}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rcmap}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::rcmap\mbox{[}{\bf R\+X\+\_\+\+M\+A\+X\+\_\+\+M\+A\+P\+P\+A\+B\+L\+E\+\_\+\+R\+X\+\_\+\+I\+N\+P\+U\+T\+S}\mbox{]}}}\label{structrx__config_a466e723fab37f8cd2903d5ff8ee6e751}
+
+
+mapping of radio channels to internal R\+P\+Y\+T\+A+ order 
+
+\hypertarget{structrx__config_a78c1783d3447facd6ef8a949ae506c0a}{\index{rx\+\_\+config@{rx\+\_\+config}!rc\+Smoothing@{rc\+Smoothing}}
+\index{rc\+Smoothing@{rc\+Smoothing}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rc\+Smoothing}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::rc\+Smoothing}}\label{structrx__config_a78c1783d3447facd6ef8a949ae506c0a}
+
+
+Enable/\+Disable R\+C filtering. 
+
+\hypertarget{structrx__config_a69cfd398b4b4da28a68e7d22725d164c}{\index{rx\+\_\+config@{rx\+\_\+config}!rssi\+\_\+channel@{rssi\+\_\+channel}}
+\index{rssi\+\_\+channel@{rssi\+\_\+channel}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rssi\+\_\+channel}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::rssi\+\_\+channel}}\label{structrx__config_a69cfd398b4b4da28a68e7d22725d164c}
+
+
+rssi channel number 
+
+\hypertarget{structrx__config_ad67738c81cf1ae5770fe4a6bd731e207}{\index{rx\+\_\+config@{rx\+\_\+config}!rssi\+\_\+ppm\+\_\+invert@{rssi\+\_\+ppm\+\_\+invert}}
+\index{rssi\+\_\+ppm\+\_\+invert@{rssi\+\_\+ppm\+\_\+invert}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rssi\+\_\+ppm\+\_\+invert}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::rssi\+\_\+ppm\+\_\+invert}}\label{structrx__config_ad67738c81cf1ae5770fe4a6bd731e207}
+
+
+if set then rssi signal is treated such that high value means low rssi 
+
+\hypertarget{structrx__config_a0dc3cd39fba01b57143e0a65f421126c}{\index{rx\+\_\+config@{rx\+\_\+config}!rssi\+\_\+scale@{rssi\+\_\+scale}}
+\index{rssi\+\_\+scale@{rssi\+\_\+scale}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rssi\+\_\+scale}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::rssi\+\_\+scale}}\label{structrx__config_a0dc3cd39fba01b57143e0a65f421126c}
+
+
+scale of the rssi signal. Range \mbox{[}R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+I\+N;R\+S\+S\+I\+\_\+\+S\+C\+A\+L\+E\+\_\+\+M\+A\+X\mbox{]} 
+
+\hypertarget{structrx__config_a96854d89202e04fd984d0f561dbea7e4}{\index{rx\+\_\+config@{rx\+\_\+config}!rx\+\_\+max\+\_\+usec@{rx\+\_\+max\+\_\+usec}}
+\index{rx\+\_\+max\+\_\+usec@{rx\+\_\+max\+\_\+usec}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rx\+\_\+max\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+config\+::rx\+\_\+max\+\_\+usec}}\label{structrx__config_a96854d89202e04fd984d0f561dbea7e4}
+
+
+maximum value of rx pulse from receiver (above this point the signal is invalid and will trigger failsafe) 
+
+\hypertarget{structrx__config_a086895901d9b2a9e2d5682cc82c05bac}{\index{rx\+\_\+config@{rx\+\_\+config}!rx\+\_\+min\+\_\+usec@{rx\+\_\+min\+\_\+usec}}
+\index{rx\+\_\+min\+\_\+usec@{rx\+\_\+min\+\_\+usec}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{rx\+\_\+min\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+config\+::rx\+\_\+min\+\_\+usec}}\label{structrx__config_a086895901d9b2a9e2d5682cc82c05bac}
+
+
+minimum value of rx pulse from receiver (below this point we consider signal being corrupt) 
+
+\hypertarget{structrx__config_af35bf9196e92a85c8fe7f37b98a03ae5}{\index{rx\+\_\+config@{rx\+\_\+config}!sbus\+\_\+inversion@{sbus\+\_\+inversion}}
+\index{sbus\+\_\+inversion@{sbus\+\_\+inversion}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{sbus\+\_\+inversion}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::sbus\+\_\+inversion}}\label{structrx__config_af35bf9196e92a85c8fe7f37b98a03ae5}
+
+
+default sbus (Futaba, Fr\+S\+K\+Y) is inverted. Support for uninverted Open\+L\+R\+S (and modified Fr\+S\+K\+Y) receivers. 
+
+\hypertarget{structrx__config_a7b07d2f4be0c5a71dc3c9245a7b8a619}{\index{rx\+\_\+config@{rx\+\_\+config}!serialrx\+\_\+provider@{serialrx\+\_\+provider}}
+\index{serialrx\+\_\+provider@{serialrx\+\_\+provider}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{serialrx\+\_\+provider}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::serialrx\+\_\+provider}}\label{structrx__config_a7b07d2f4be0c5a71dc3c9245a7b8a619}
+
+
+type of U\+A\+R\+T-\/based receiver (0 = spek 10, 1 = spek 11, 2 = sbus). Must be enabled by F\+E\+A\+T\+U\+R\+E\+\_\+\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L first. 
+
+\hypertarget{structrx__config_a08514dca1ab82db4e499f2e558744388}{\index{rx\+\_\+config@{rx\+\_\+config}!spektrum\+\_\+sat\+\_\+bind@{spektrum\+\_\+sat\+\_\+bind}}
+\index{spektrum\+\_\+sat\+\_\+bind@{spektrum\+\_\+sat\+\_\+bind}!rx\+\_\+config@{rx\+\_\+config}}
+\subsubsection[{spektrum\+\_\+sat\+\_\+bind}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+config\+::spektrum\+\_\+sat\+\_\+bind}}\label{structrx__config_a08514dca1ab82db4e499f2e558744388}
+
+
+number of bind pulses for Spektrum satellite receivers 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2rx_8h}{rx.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,244 @@
+\hypertarget{group__syscalls}{\section{Syscalls}
+\label{group__syscalls}\index{Syscalls@{Syscalls}}
+}
+Collaboration diagram for Syscalls\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{group__syscalls}
+\end{center}
+\end{figure}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{system__calls_8h}{system\+\_\+calls.\+h}
+\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm}
+\begin{DoxyCompactList}\small\item\em pwm related system calls \end{DoxyCompactList}\item 
+struct \hyperlink{structsystem__calls__imu}{system\+\_\+calls\+\_\+imu}
+\item 
+struct \hyperlink{structsystem__calls__leds}{system\+\_\+calls\+\_\+leds}
+\item 
+struct \hyperlink{structsystem__calls__beeper}{system\+\_\+calls\+\_\+beeper}
+\item 
+struct \hyperlink{structsystem__calls__time}{system\+\_\+calls\+\_\+time}
+\item 
+struct \hyperlink{structsystem__eeprom__info}{system\+\_\+eeprom\+\_\+info}
+\item 
+struct \hyperlink{structsystem__calls__eeprom}{system\+\_\+calls\+\_\+eeprom}
+\item 
+struct \hyperlink{structsystem__calls__range}{system\+\_\+calls\+\_\+range}
+\item 
+struct \hyperlink{structsystem__calls}{system\+\_\+calls}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__syscalls_ga31eeb68f9228f41e1236be8046edbd68}{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E}~2000
+\item 
+\#define \hyperlink{group__syscalls_ga740389ee12d3d7d228842e21dcf9c5b0}{S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G}~1000
+\item 
+\#define \hyperlink{group__syscalls_ga8339dd5d6d4fd7f8029a2331bd7d511b}{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E}~((float)\hyperlink{group__syscalls_ga31eeb68f9228f41e1236be8046edbd68}{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E} / (int16\+\_\+t)0x7fff)
+\item 
+\#define \hyperlink{group__syscalls_ga5bc1c411a83f8b72eb53ed6dac7692bc}{sys\+\_\+led\+\_\+on}(sys, id)~sys-\/$>$leds.\+on(\&(sys)-\/$>$\hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds}, id, true)
+\item 
+\#define \hyperlink{group__syscalls_ga1c81ca81429f1ef4521ec0126f3d163d}{sys\+\_\+led\+\_\+off}(sys, id)~sys-\/$>$leds.\+on(\&(sys)-\/$>$\hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds}, id, false)
+\item 
+\#define \hyperlink{group__syscalls_gaaa801a62b798cd4e5cec60f507ea31fb}{sys\+\_\+led\+\_\+toggle}(sys, id)~sys-\/$>$leds.\+toggle(\&(sys)-\/$>$\hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds}, id)
+\item 
+\#define \hyperlink{group__syscalls_ga4a79c65d8a3f04ea401ed053a79945ca}{sys\+\_\+beeper\+\_\+on}(sys)~sys-\/$>$beeper.\+on(\&(sys)-\/$>$\hyperlink{structbeeper}{beeper}, true)
+\item 
+\#define \hyperlink{group__syscalls_ga9c2f4a3215833c6fd41329527f153029}{sys\+\_\+beeper\+\_\+off}(sys)~sys-\/$>$beeper.\+on(\&(sys)-\/$>$\hyperlink{structbeeper}{beeper}, false)
+\item 
+\#define \hyperlink{group__syscalls_ga0474fce5bba35dd2abb3f6f7e96906f6}{sys\+\_\+millis}(sys)~(sys-\/$>$\hyperlink{flight__altitudehold__unittest_8cc_af543edc4b91ee97e556de2f0bbc709ad}{time.\+micros}(\&(sys)-\/$>$time) / 1000)
+\item 
+\#define \hyperlink{group__syscalls_ga37cb11698e12be4f5018e020fa506e5a}{sys\+\_\+micros}(sys)~(sys-\/$>$\hyperlink{flight__altitudehold__unittest_8cc_af543edc4b91ee97e556de2f0bbc709ad}{time.\+micros}(\&(sys)-\/$>$time))
+\item 
+\#define \hyperlink{group__syscalls_gaf2312049b5ee0defc282995f9e3fd0f2}{sys\+\_\+gyro\+\_\+read}(sys, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})~(sys-\/$>$imu.\+read\+\_\+gyro(\&(sys)-\/$>$\hyperlink{structimu}{imu}, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}))
+\item 
+\#define \hyperlink{group__syscalls_ga80d7e1474e8a4c1340a74853c006c7c2}{sys\+\_\+acc\+\_\+read}(sys, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})~(sys-\/$>$imu.\+read\+\_\+acc(\&(sys)-\/$>$\hyperlink{structimu}{imu}, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}))
+\item 
+\#define \hyperlink{group__syscalls_ga94588cff67864d374a09cc17f5b4f123}{sys\+\_\+get\+\_\+pressure}(sys, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})~(sys-\/$>$imu.\+read\+\_\+pressure(\&(sys)-\/$>$\hyperlink{structimu}{imu}, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}))
+\item 
+\#define \hyperlink{group__syscalls_ga36a4deb5328337807a0b518d42f25808}{sys\+\_\+get\+\_\+temperature}(sys, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})~(sys-\/$>$imu.\+read\+\_\+temperature(\&(sys)-\/$>$\hyperlink{structimu}{imu}, \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}))
+\item 
+\#define \hyperlink{group__syscalls_ga946b93b1fd030a3c34bd62dbbb9ad540}{sys\+\_\+motor\+\_\+write}(sys, id, val)~(sys-\/$>$pwm.\+write\+\_\+motor(\&(sys)-\/$>$pwm, id, val))
+\item 
+\#define \hyperlink{group__syscalls_ga4caebec5f44bb3ae28a42e3fad101f37}{sys\+\_\+servo\+\_\+write}(sys, id, val)~(sys-\/$>$pwm.\+write\+\_\+servo(\&(sys)-\/$>$pwm, id, val))
+\item 
+\#define \hyperlink{group__syscalls_ga0bfcb802f7cca93c677ba32d180b2aa2}{sys\+\_\+eeprom\+\_\+write}(sys, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, src, size)~(sys-\/$>$eeprom.\+write(\&(sys)-\/$>$eeprom, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, src, size))
+\item 
+\#define \hyperlink{group__syscalls_ga6bc4d0120cc4965daa12aa09b6d7ff1e}{sys\+\_\+eeprom\+\_\+read}(sys, dst, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, size)~(sys-\/$>$eeprom.\+read(\&(sys)-\/$>$eeprom, dst, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}, size))
+\item 
+\#define \hyperlink{group__syscalls_gabb1f6f6556538ee72c9432874eafcfbb}{sys\+\_\+eeprom\+\_\+get\+\_\+info}(sys, info)~(sys-\/$>$eeprom.\+get\+\_\+info(\&(sys)-\/$>$eeprom, info))
+\item 
+\#define \hyperlink{group__syscalls_gae1373dec4d5fd3dc59417c53064e75be}{sys\+\_\+eeprom\+\_\+erase\+\_\+page}(sys, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr})~(sys-\/$>$eeprom.\+erase\+\_\+page(\&(sys)-\/$>$eeprom, \hyperlink{config_8c_a41a6aad09727eb120338c35535a652a6}{addr}))
+\item 
+\#define \hyperlink{group__syscalls_gacf3641764cf72ef5619025a1e753dfe0}{sys\+\_\+range\+\_\+read}(sys, deg, dst)~(sys-\/$>$range.\+read\+\_\+range(\&(sys)-\/$>$\hyperlink{config_2rx_8h_a53eac340462a61108eed07ba3e52e233}{range}, deg, dst))
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{group__syscalls_ga80d7e1474e8a4c1340a74853c006c7c2}{\index{Syscalls@{Syscalls}!sys\+\_\+acc\+\_\+read@{sys\+\_\+acc\+\_\+read}}
+\index{sys\+\_\+acc\+\_\+read@{sys\+\_\+acc\+\_\+read}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+acc\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+acc\+\_\+read(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf data}}
+\end{DoxyParamCaption}
+)~(sys-\/$>$imu.\+read\+\_\+acc(\&(sys)-\/$>${\bf imu}, {\bf data}))}}\label{group__syscalls_ga80d7e1474e8a4c1340a74853c006c7c2}
+\hypertarget{group__syscalls_ga9c2f4a3215833c6fd41329527f153029}{\index{Syscalls@{Syscalls}!sys\+\_\+beeper\+\_\+off@{sys\+\_\+beeper\+\_\+off}}
+\index{sys\+\_\+beeper\+\_\+off@{sys\+\_\+beeper\+\_\+off}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+beeper\+\_\+off}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+beeper\+\_\+off(
+\begin{DoxyParamCaption}
+\item[{}]{sys}
+\end{DoxyParamCaption}
+)~sys-\/$>$beeper.\+on(\&(sys)-\/$>${\bf beeper}, false)}}\label{group__syscalls_ga9c2f4a3215833c6fd41329527f153029}
+\hypertarget{group__syscalls_ga4a79c65d8a3f04ea401ed053a79945ca}{\index{Syscalls@{Syscalls}!sys\+\_\+beeper\+\_\+on@{sys\+\_\+beeper\+\_\+on}}
+\index{sys\+\_\+beeper\+\_\+on@{sys\+\_\+beeper\+\_\+on}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+beeper\+\_\+on}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+beeper\+\_\+on(
+\begin{DoxyParamCaption}
+\item[{}]{sys}
+\end{DoxyParamCaption}
+)~sys-\/$>$beeper.\+on(\&(sys)-\/$>${\bf beeper}, true)}}\label{group__syscalls_ga4a79c65d8a3f04ea401ed053a79945ca}
+\hypertarget{group__syscalls_gae1373dec4d5fd3dc59417c53064e75be}{\index{Syscalls@{Syscalls}!sys\+\_\+eeprom\+\_\+erase\+\_\+page@{sys\+\_\+eeprom\+\_\+erase\+\_\+page}}
+\index{sys\+\_\+eeprom\+\_\+erase\+\_\+page@{sys\+\_\+eeprom\+\_\+erase\+\_\+page}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+eeprom\+\_\+erase\+\_\+page}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+eeprom\+\_\+erase\+\_\+page(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf addr}}
+\end{DoxyParamCaption}
+)~(sys-\/$>$eeprom.\+erase\+\_\+page(\&(sys)-\/$>$eeprom, {\bf addr}))}}\label{group__syscalls_gae1373dec4d5fd3dc59417c53064e75be}
+\hypertarget{group__syscalls_gabb1f6f6556538ee72c9432874eafcfbb}{\index{Syscalls@{Syscalls}!sys\+\_\+eeprom\+\_\+get\+\_\+info@{sys\+\_\+eeprom\+\_\+get\+\_\+info}}
+\index{sys\+\_\+eeprom\+\_\+get\+\_\+info@{sys\+\_\+eeprom\+\_\+get\+\_\+info}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+eeprom\+\_\+get\+\_\+info}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+eeprom\+\_\+get\+\_\+info(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{info}
+\end{DoxyParamCaption}
+)~(sys-\/$>$eeprom.\+get\+\_\+info(\&(sys)-\/$>$eeprom, info))}}\label{group__syscalls_gabb1f6f6556538ee72c9432874eafcfbb}
+\hypertarget{group__syscalls_ga6bc4d0120cc4965daa12aa09b6d7ff1e}{\index{Syscalls@{Syscalls}!sys\+\_\+eeprom\+\_\+read@{sys\+\_\+eeprom\+\_\+read}}
+\index{sys\+\_\+eeprom\+\_\+read@{sys\+\_\+eeprom\+\_\+read}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+eeprom\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+eeprom\+\_\+read(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{dst, }
+\item[{}]{{\bf addr}, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)~(sys-\/$>$eeprom.\+read(\&(sys)-\/$>$eeprom, dst, {\bf addr}, size))}}\label{group__syscalls_ga6bc4d0120cc4965daa12aa09b6d7ff1e}
+\hypertarget{group__syscalls_ga0bfcb802f7cca93c677ba32d180b2aa2}{\index{Syscalls@{Syscalls}!sys\+\_\+eeprom\+\_\+write@{sys\+\_\+eeprom\+\_\+write}}
+\index{sys\+\_\+eeprom\+\_\+write@{sys\+\_\+eeprom\+\_\+write}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+eeprom\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+eeprom\+\_\+write(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf addr}, }
+\item[{}]{src, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)~(sys-\/$>$eeprom.\+write(\&(sys)-\/$>$eeprom, {\bf addr}, src, size))}}\label{group__syscalls_ga0bfcb802f7cca93c677ba32d180b2aa2}
+\hypertarget{group__syscalls_ga94588cff67864d374a09cc17f5b4f123}{\index{Syscalls@{Syscalls}!sys\+\_\+get\+\_\+pressure@{sys\+\_\+get\+\_\+pressure}}
+\index{sys\+\_\+get\+\_\+pressure@{sys\+\_\+get\+\_\+pressure}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+get\+\_\+pressure}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+get\+\_\+pressure(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf data}}
+\end{DoxyParamCaption}
+)~(sys-\/$>$imu.\+read\+\_\+pressure(\&(sys)-\/$>${\bf imu}, {\bf data}))}}\label{group__syscalls_ga94588cff67864d374a09cc17f5b4f123}
+\hypertarget{group__syscalls_ga36a4deb5328337807a0b518d42f25808}{\index{Syscalls@{Syscalls}!sys\+\_\+get\+\_\+temperature@{sys\+\_\+get\+\_\+temperature}}
+\index{sys\+\_\+get\+\_\+temperature@{sys\+\_\+get\+\_\+temperature}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+get\+\_\+temperature}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+get\+\_\+temperature(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf data}}
+\end{DoxyParamCaption}
+)~(sys-\/$>$imu.\+read\+\_\+temperature(\&(sys)-\/$>${\bf imu}, {\bf data}))}}\label{group__syscalls_ga36a4deb5328337807a0b518d42f25808}
+\hypertarget{group__syscalls_gaf2312049b5ee0defc282995f9e3fd0f2}{\index{Syscalls@{Syscalls}!sys\+\_\+gyro\+\_\+read@{sys\+\_\+gyro\+\_\+read}}
+\index{sys\+\_\+gyro\+\_\+read@{sys\+\_\+gyro\+\_\+read}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+gyro\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+gyro\+\_\+read(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{{\bf data}}
+\end{DoxyParamCaption}
+)~(sys-\/$>$imu.\+read\+\_\+gyro(\&(sys)-\/$>${\bf imu}, {\bf data}))}}\label{group__syscalls_gaf2312049b5ee0defc282995f9e3fd0f2}
+\hypertarget{group__syscalls_ga1c81ca81429f1ef4521ec0126f3d163d}{\index{Syscalls@{Syscalls}!sys\+\_\+led\+\_\+off@{sys\+\_\+led\+\_\+off}}
+\index{sys\+\_\+led\+\_\+off@{sys\+\_\+led\+\_\+off}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+led\+\_\+off}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+led\+\_\+off(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{id}
+\end{DoxyParamCaption}
+)~sys-\/$>$leds.\+on(\&(sys)-\/$>${\bf leds}, id, false)}}\label{group__syscalls_ga1c81ca81429f1ef4521ec0126f3d163d}
+\hypertarget{group__syscalls_ga5bc1c411a83f8b72eb53ed6dac7692bc}{\index{Syscalls@{Syscalls}!sys\+\_\+led\+\_\+on@{sys\+\_\+led\+\_\+on}}
+\index{sys\+\_\+led\+\_\+on@{sys\+\_\+led\+\_\+on}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+led\+\_\+on}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+led\+\_\+on(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{id}
+\end{DoxyParamCaption}
+)~sys-\/$>$leds.\+on(\&(sys)-\/$>${\bf leds}, id, true)}}\label{group__syscalls_ga5bc1c411a83f8b72eb53ed6dac7692bc}
+\hypertarget{group__syscalls_gaaa801a62b798cd4e5cec60f507ea31fb}{\index{Syscalls@{Syscalls}!sys\+\_\+led\+\_\+toggle@{sys\+\_\+led\+\_\+toggle}}
+\index{sys\+\_\+led\+\_\+toggle@{sys\+\_\+led\+\_\+toggle}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+led\+\_\+toggle}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+led\+\_\+toggle(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{id}
+\end{DoxyParamCaption}
+)~sys-\/$>$leds.\+toggle(\&(sys)-\/$>${\bf leds}, id)}}\label{group__syscalls_gaaa801a62b798cd4e5cec60f507ea31fb}
+\hypertarget{group__syscalls_ga37cb11698e12be4f5018e020fa506e5a}{\index{Syscalls@{Syscalls}!sys\+\_\+micros@{sys\+\_\+micros}}
+\index{sys\+\_\+micros@{sys\+\_\+micros}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+micros}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+micros(
+\begin{DoxyParamCaption}
+\item[{}]{sys}
+\end{DoxyParamCaption}
+)~(sys-\/$>${\bf time.\+micros}(\&(sys)-\/$>$time))}}\label{group__syscalls_ga37cb11698e12be4f5018e020fa506e5a}
+\hypertarget{group__syscalls_ga0474fce5bba35dd2abb3f6f7e96906f6}{\index{Syscalls@{Syscalls}!sys\+\_\+millis@{sys\+\_\+millis}}
+\index{sys\+\_\+millis@{sys\+\_\+millis}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+millis}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+millis(
+\begin{DoxyParamCaption}
+\item[{}]{sys}
+\end{DoxyParamCaption}
+)~(sys-\/$>${\bf time.\+micros}(\&(sys)-\/$>$time) / 1000)}}\label{group__syscalls_ga0474fce5bba35dd2abb3f6f7e96906f6}
+\hypertarget{group__syscalls_ga946b93b1fd030a3c34bd62dbbb9ad540}{\index{Syscalls@{Syscalls}!sys\+\_\+motor\+\_\+write@{sys\+\_\+motor\+\_\+write}}
+\index{sys\+\_\+motor\+\_\+write@{sys\+\_\+motor\+\_\+write}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+motor\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+motor\+\_\+write(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{id, }
+\item[{}]{val}
+\end{DoxyParamCaption}
+)~(sys-\/$>$pwm.\+write\+\_\+motor(\&(sys)-\/$>$pwm, id, val))}}\label{group__syscalls_ga946b93b1fd030a3c34bd62dbbb9ad540}
+\hypertarget{group__syscalls_gacf3641764cf72ef5619025a1e753dfe0}{\index{Syscalls@{Syscalls}!sys\+\_\+range\+\_\+read@{sys\+\_\+range\+\_\+read}}
+\index{sys\+\_\+range\+\_\+read@{sys\+\_\+range\+\_\+read}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+range\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+range\+\_\+read(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{deg, }
+\item[{}]{dst}
+\end{DoxyParamCaption}
+)~(sys-\/$>$range.\+read\+\_\+range(\&(sys)-\/$>${\bf range}, deg, dst))}}\label{group__syscalls_gacf3641764cf72ef5619025a1e753dfe0}
+\hypertarget{group__syscalls_ga4caebec5f44bb3ae28a42e3fad101f37}{\index{Syscalls@{Syscalls}!sys\+\_\+servo\+\_\+write@{sys\+\_\+servo\+\_\+write}}
+\index{sys\+\_\+servo\+\_\+write@{sys\+\_\+servo\+\_\+write}!Syscalls@{Syscalls}}
+\subsubsection[{sys\+\_\+servo\+\_\+write}]{\setlength{\rightskip}{0pt plus 5cm}\#define sys\+\_\+servo\+\_\+write(
+\begin{DoxyParamCaption}
+\item[{}]{sys, }
+\item[{}]{id, }
+\item[{}]{val}
+\end{DoxyParamCaption}
+)~(sys-\/$>$pwm.\+write\+\_\+servo(\&(sys)-\/$>$pwm, id, val))}}\label{group__syscalls_ga4caebec5f44bb3ae28a42e3fad101f37}
+\hypertarget{group__syscalls_ga740389ee12d3d7d228842e21dcf9c5b0}{\index{Syscalls@{Syscalls}!S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G@{S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G}}
+\index{S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G@{S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G}!Syscalls@{Syscalls}}
+\subsubsection[{S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+Y\+S\+T\+E\+M\+\_\+\+A\+C\+C\+\_\+1\+G~1000}}\label{group__syscalls_ga740389ee12d3d7d228842e21dcf9c5b0}
+standard value for accelerometer readings that represents 1\+G. Drivers should use this value to scale accelerometer readings into this range. \hypertarget{group__syscalls_ga31eeb68f9228f41e1236be8046edbd68}{\index{Syscalls@{Syscalls}!S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E@{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E}}
+\index{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E@{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E}!Syscalls@{Syscalls}}
+\subsubsection[{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E~2000}}\label{group__syscalls_ga31eeb68f9228f41e1236be8046edbd68}
+standard maximum gyro rate in deg/s which the 2$^\wedge$15 (int16) gyro value range represents. System should use this value to scale the gyro readings to 2$^\wedge$15 range according to this value. \hypertarget{group__syscalls_ga8339dd5d6d4fd7f8029a2331bd7d511b}{\index{Syscalls@{Syscalls}!S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E@{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E}}
+\index{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E@{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E}!Syscalls@{Syscalls}}
+\subsubsection[{S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+S\+C\+A\+L\+E~((float){\bf S\+Y\+S\+T\+E\+M\+\_\+\+G\+Y\+R\+O\+\_\+\+R\+A\+N\+G\+E} / (int16\+\_\+t)0x7fff)}}\label{group__syscalls_ga8339dd5d6d4fd7f8029a2331bd7d511b}
+Helper macro for multiplier to convert gyro reading into deg/s 

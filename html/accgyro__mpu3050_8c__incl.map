@@ -1,0 +1,11 @@
+<map id="src/main/drivers/accgyro_mpu3050.c" name="src/main/drivers/accgyro_mpu3050.c">
+<area shape="rect" id="node5" href="$maths_8h.html" title="common/maths.h" alt="" coords="311,96,433,123"/>
+<area shape="rect" id="node6" href="$drivers_2system_8h.html" title="system.h" alt="" coords="5,96,80,123"/>
+<area shape="rect" id="node7" href="$exti_8h.html" title="exti.h" alt="" coords="458,96,512,123"/>
+<area shape="rect" id="node8" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="537,96,615,123"/>
+<area shape="rect" id="node9" href="$sensor_8h.html" title="sensor.h" alt="" coords="656,171,728,197"/>
+<area shape="rect" id="node10" href="$accgyro_8h.html" title="accgyro.h" alt="" coords="691,96,769,123"/>
+<area shape="rect" id="node11" href="$accgyro__mpu_8h.html" title="accgyro_mpu.h" alt="" coords="794,96,904,123"/>
+<area shape="rect" id="node12" href="$accgyro__mpu3050_8h.html" title="accgyro_mpu3050.h" alt="" coords="929,96,1068,123"/>
+<area shape="rect" id="node13" href="$gyro__sync_8h.html" title="gyro_sync.h" alt="" coords="1092,96,1185,123"/>
+</map>

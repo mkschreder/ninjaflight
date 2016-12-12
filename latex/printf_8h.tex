@@ -1,0 +1,102 @@
+\hypertarget{printf_8h}{\section{src/main/common/printf.h File Reference}
+\label{printf_8h}\index{src/main/common/printf.\+h@{src/main/common/printf.\+h}}
+}
+{\ttfamily \#include $<$stdarg.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+Include dependency graph for printf.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{printf_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{printf_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{printf_8h_a3cb9f0894fab1c8fbb0753c9c7c2a8d9}{printf}~\hyperlink{printf_8h_a53cdd78832cf0bad6f98728b73ba091a}{tfp\+\_\+printf}
+\item 
+\#define \hyperlink{printf_8h_a5998f60c4f4af322b36debdbd11d7917}{sprintf}~\hyperlink{printf_8h_a09f47ca87b6fab2e5dac5d91bff47eb1}{tfp\+\_\+sprintf}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{printf_8h_a79b6d69a9f1f0b990c3297d3b9289086}{init\+\_\+printf} (void $\ast$putp, void($\ast$putf)(void $\ast$, char))
+\item 
+int \hyperlink{printf_8h_a53cdd78832cf0bad6f98728b73ba091a}{tfp\+\_\+printf} (const char $\ast$fmt,...)
+\item 
+int \hyperlink{printf_8h_a09f47ca87b6fab2e5dac5d91bff47eb1}{tfp\+\_\+sprintf} (char $\ast$s, const char $\ast$fmt,...)
+\item 
+int \hyperlink{printf_8h_a456f75580368201b0a4f6cd84cdbabcd}{tfp\+\_\+format} (void $\ast$putp, void($\ast$putf)(void $\ast$, char), const char $\ast$fmt, va\+\_\+list va)
+\item 
+void \hyperlink{printf_8h_a2bae28268997bbdccafe9c03bc286eb9}{set\+Printf\+Serial\+Port} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$serial\+Port)
+\item 
+void \hyperlink{printf_8h_a52a752c339a8914d8c5bdfcbf705291f}{printf\+Support\+Init} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{printf_8h_a3cb9f0894fab1c8fbb0753c9c7c2a8d9}{\index{printf.\+h@{printf.\+h}!printf@{printf}}
+\index{printf@{printf}!printf.\+h@{printf.\+h}}
+\subsubsection[{printf}]{\setlength{\rightskip}{0pt plus 5cm}\#define printf~{\bf tfp\+\_\+printf}}}\label{printf_8h_a3cb9f0894fab1c8fbb0753c9c7c2a8d9}
+\hypertarget{printf_8h_a5998f60c4f4af322b36debdbd11d7917}{\index{printf.\+h@{printf.\+h}!sprintf@{sprintf}}
+\index{sprintf@{sprintf}!printf.\+h@{printf.\+h}}
+\subsubsection[{sprintf}]{\setlength{\rightskip}{0pt plus 5cm}\#define sprintf~{\bf tfp\+\_\+sprintf}}}\label{printf_8h_a5998f60c4f4af322b36debdbd11d7917}
+
+
+\subsection{Function Documentation}
+\hypertarget{printf_8h_a79b6d69a9f1f0b990c3297d3b9289086}{\index{printf.\+h@{printf.\+h}!init\+\_\+printf@{init\+\_\+printf}}
+\index{init\+\_\+printf@{init\+\_\+printf}!printf.\+h@{printf.\+h}}
+\subsubsection[{init\+\_\+printf}]{\setlength{\rightskip}{0pt plus 5cm}void init\+\_\+printf (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{putp, }
+\item[{void($\ast$)(void $\ast$, char)}]{putf}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a79b6d69a9f1f0b990c3297d3b9289086}
+\hypertarget{printf_8h_a52a752c339a8914d8c5bdfcbf705291f}{\index{printf.\+h@{printf.\+h}!printf\+Support\+Init@{printf\+Support\+Init}}
+\index{printf\+Support\+Init@{printf\+Support\+Init}!printf.\+h@{printf.\+h}}
+\subsubsection[{printf\+Support\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void printf\+Support\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a52a752c339a8914d8c5bdfcbf705291f}
+\hypertarget{printf_8h_a2bae28268997bbdccafe9c03bc286eb9}{\index{printf.\+h@{printf.\+h}!set\+Printf\+Serial\+Port@{set\+Printf\+Serial\+Port}}
+\index{set\+Printf\+Serial\+Port@{set\+Printf\+Serial\+Port}!printf.\+h@{printf.\+h}}
+\subsubsection[{set\+Printf\+Serial\+Port}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Printf\+Serial\+Port (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{serial\+Port}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a2bae28268997bbdccafe9c03bc286eb9}
+\hypertarget{printf_8h_a456f75580368201b0a4f6cd84cdbabcd}{\index{printf.\+h@{printf.\+h}!tfp\+\_\+format@{tfp\+\_\+format}}
+\index{tfp\+\_\+format@{tfp\+\_\+format}!printf.\+h@{printf.\+h}}
+\subsubsection[{tfp\+\_\+format}]{\setlength{\rightskip}{0pt plus 5cm}int tfp\+\_\+format (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{putp, }
+\item[{void($\ast$)(void $\ast$, char)}]{putf, }
+\item[{const char $\ast$}]{fmt, }
+\item[{va\+\_\+list}]{va}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a456f75580368201b0a4f6cd84cdbabcd}
+\hypertarget{printf_8h_a53cdd78832cf0bad6f98728b73ba091a}{\index{printf.\+h@{printf.\+h}!tfp\+\_\+printf@{tfp\+\_\+printf}}
+\index{tfp\+\_\+printf@{tfp\+\_\+printf}!printf.\+h@{printf.\+h}}
+\subsubsection[{tfp\+\_\+printf}]{\setlength{\rightskip}{0pt plus 5cm}int tfp\+\_\+printf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a53cdd78832cf0bad6f98728b73ba091a}
+\hypertarget{printf_8h_a09f47ca87b6fab2e5dac5d91bff47eb1}{\index{printf.\+h@{printf.\+h}!tfp\+\_\+sprintf@{tfp\+\_\+sprintf}}
+\index{tfp\+\_\+sprintf@{tfp\+\_\+sprintf}!printf.\+h@{printf.\+h}}
+\subsubsection[{tfp\+\_\+sprintf}]{\setlength{\rightskip}{0pt plus 5cm}int tfp\+\_\+sprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s, }
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{printf_8h_a09f47ca87b6fab2e5dac5d91bff47eb1}

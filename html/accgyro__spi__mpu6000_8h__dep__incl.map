@@ -1,0 +1,5 @@
+<map id="src/main/drivers/accgyro_spi_mpu6000.h" name="src/main/drivers/accgyro_spi_mpu6000.h">
+<area shape="rect" id="node2" href="$accgyro__mpu_8c.html" title="src/main/drivers/accgyro\l_mpu.c" alt="" coords="5,97,169,138"/>
+<area shape="rect" id="node3" href="$accgyro__spi__mpu6000_8c.html" title="src/main/drivers/accgyro\l_spi_mpu6000.c" alt="" coords="195,97,359,138"/>
+<area shape="rect" id="node4" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="384,104,589,131"/>
+</map>

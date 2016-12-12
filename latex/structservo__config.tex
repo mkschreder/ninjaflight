@@ -1,0 +1,98 @@
+\hypertarget{structservo__config}{\section{servo\+\_\+config Struct Reference}
+\label{structservo__config}\index{servo\+\_\+config@{servo\+\_\+config}}
+}
+
+
+Configuration for each servo which is editable by the user.  
+
+
+
+
+{\ttfamily \#include $<$mixer.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{structservo__config_a8b1c26f5402d045623107565facdc34b}{min}
+\begin{DoxyCompactList}\small\item\em Minimum pwm value that is sent to the servo. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{structservo__config_a838c63fb621bfa9bec579d52d1a81177}{max}
+\begin{DoxyCompactList}\small\item\em Maximum pwm value that is sent to the servo. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{structservo__config_a8ba992e9b21b0e0c308fcc554709f690}{middle}
+\begin{DoxyCompactList}\small\item\em P\+W\+M value that is sent to center the servo (usually 1500) \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structservo__config_a418cf99c621aae96fbb8cde4ad27e596}{rate}
+\begin{DoxyCompactList}\small\item\em range \mbox{[}-\/125;+125\mbox{]} ; can be used to adjust a rate 0-\/125\% and a direction \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structservo__config_a1db90f6f1f2152b1925f721b5bd8106a}{angle\+At\+Min}
+\begin{DoxyCompactList}\small\item\em range \mbox{[}0;180\mbox{]} the measured angle in degrees from the middle when the servo is at the 'min' value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structservo__config_a87ecdbbc2d846ce9f88ea16f70ae0487}{angle\+At\+Max}
+\begin{DoxyCompactList}\small\item\em range \mbox{[}0;180\mbox{]} the measured angle in degrees from the middle when the servo is at the 'max' value. \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structservo__config_a6996b5fd6729b2ce566f355c4e62bd4e}{forward\+From\+Channel}
+\begin{DoxyCompactList}\small\item\em R\+X channel index, 0 based. See C\+H\+A\+N\+N\+E\+L\+\_\+\+F\+O\+R\+W\+A\+R\+D\+I\+N\+G\+\_\+\+D\+I\+S\+A\+B\+L\+E\+D. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{structservo__config_ae8aa38f21749724eaf11abad725454a8}{reversed\+Sources}
+\begin{DoxyCompactList}\small\item\em the direction of servo movement for each input source of the servo mixer, bit set=inverted \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Configuration for each servo which is editable by the user. 
+
+\subsection{Field Documentation}
+\hypertarget{structservo__config_a87ecdbbc2d846ce9f88ea16f70ae0487}{\index{servo\+\_\+config@{servo\+\_\+config}!angle\+At\+Max@{angle\+At\+Max}}
+\index{angle\+At\+Max@{angle\+At\+Max}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{angle\+At\+Max}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+config\+::angle\+At\+Max}}\label{structservo__config_a87ecdbbc2d846ce9f88ea16f70ae0487}
+
+
+range \mbox{[}0;180\mbox{]} the measured angle in degrees from the middle when the servo is at the 'max' value. 
+
+\hypertarget{structservo__config_a1db90f6f1f2152b1925f721b5bd8106a}{\index{servo\+\_\+config@{servo\+\_\+config}!angle\+At\+Min@{angle\+At\+Min}}
+\index{angle\+At\+Min@{angle\+At\+Min}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{angle\+At\+Min}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+config\+::angle\+At\+Min}}\label{structservo__config_a1db90f6f1f2152b1925f721b5bd8106a}
+
+
+range \mbox{[}0;180\mbox{]} the measured angle in degrees from the middle when the servo is at the 'min' value. 
+
+\hypertarget{structservo__config_a6996b5fd6729b2ce566f355c4e62bd4e}{\index{servo\+\_\+config@{servo\+\_\+config}!forward\+From\+Channel@{forward\+From\+Channel}}
+\index{forward\+From\+Channel@{forward\+From\+Channel}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{forward\+From\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t servo\+\_\+config\+::forward\+From\+Channel}}\label{structservo__config_a6996b5fd6729b2ce566f355c4e62bd4e}
+
+
+R\+X channel index, 0 based. See C\+H\+A\+N\+N\+E\+L\+\_\+\+F\+O\+R\+W\+A\+R\+D\+I\+N\+G\+\_\+\+D\+I\+S\+A\+B\+L\+E\+D. 
+
+\hypertarget{structservo__config_a838c63fb621bfa9bec579d52d1a81177}{\index{servo\+\_\+config@{servo\+\_\+config}!max@{max}}
+\index{max@{max}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t servo\+\_\+config\+::max}}\label{structservo__config_a838c63fb621bfa9bec579d52d1a81177}
+
+
+Maximum pwm value that is sent to the servo. 
+
+\hypertarget{structservo__config_a8ba992e9b21b0e0c308fcc554709f690}{\index{servo\+\_\+config@{servo\+\_\+config}!middle@{middle}}
+\index{middle@{middle}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{middle}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t servo\+\_\+config\+::middle}}\label{structservo__config_a8ba992e9b21b0e0c308fcc554709f690}
+
+
+P\+W\+M value that is sent to center the servo (usually 1500) 
+
+\hypertarget{structservo__config_a8b1c26f5402d045623107565facdc34b}{\index{servo\+\_\+config@{servo\+\_\+config}!min@{min}}
+\index{min@{min}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t servo\+\_\+config\+::min}}\label{structservo__config_a8b1c26f5402d045623107565facdc34b}
+
+
+Minimum pwm value that is sent to the servo. 
+
+\hypertarget{structservo__config_a418cf99c621aae96fbb8cde4ad27e596}{\index{servo\+\_\+config@{servo\+\_\+config}!rate@{rate}}
+\index{rate@{rate}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{rate}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t servo\+\_\+config\+::rate}}\label{structservo__config_a418cf99c621aae96fbb8cde4ad27e596}
+
+
+range \mbox{[}-\/125;+125\mbox{]} ; can be used to adjust a rate 0-\/125\% and a direction 
+
+\hypertarget{structservo__config_ae8aa38f21749724eaf11abad725454a8}{\index{servo\+\_\+config@{servo\+\_\+config}!reversed\+Sources@{reversed\+Sources}}
+\index{reversed\+Sources@{reversed\+Sources}!servo\+\_\+config@{servo\+\_\+config}}
+\subsubsection[{reversed\+Sources}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t servo\+\_\+config\+::reversed\+Sources}}\label{structservo__config_ae8aa38f21749724eaf11abad725454a8}
+
+
+the direction of servo movement for each input source of the servo mixer, bit set=inverted 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2mixer_8h}{mixer.\+h}\end{DoxyCompactItemize}

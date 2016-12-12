@@ -1,0 +1,276 @@
+A receiver is used to receive radio control signals from your transmitter and convert them into signals that the flight controller can understand.
+
+There are 3 basic types of receivers\+:
+
+
+\begin{DoxyEnumerate}
+\item Parallel P\+W\+M Receivers
+\item P\+P\+M Receivers
+\item Serial Receivers
+\end{DoxyEnumerate}
+
+As of 2016 the recommendation for new purchases is a Serial or P\+P\+M based receiver. Avoid Parallel P\+W\+M recievers (1 wire per channel). This is due to the amount of I\+O pins parallel P\+W\+M based receivers use. Some new F\+C's do not support parallel P\+W\+M.
+
+\subsection*{Parallel P\+W\+M Receivers}
+
+8 channel support, 1 channel per input pin. On some platforms using parallel input will disable the use of serial ports and Soft\+Serial making it hard to use telemetry or G\+P\+S features.
+
+\subsection*{P\+P\+M Receivers}
+
+P\+P\+M is sometimes known as P\+P\+M S\+U\+M or C\+P\+P\+M.
+
+12 channels via a single input pin, not as accurate or jitter free as methods that use serial communications, but readily available.
+
+These receivers are reported working\+:
+
+
+\begin{DoxyItemize}
+\item \href{http://www.frsky-rc.com/product/pro.php?pro_id=24}{\tt Fr\+Sky D4\+R-\/\+I\+I}
+\item \href{http://www.graupner.de/en/products/33512/product.aspx}{\tt Graupner G\+R24}
+\item \href{http://orangerx.com/2014/05/20/r615x-spektrumjr-dsm2dsmx-compatible-6ch-2-4ghz-receiver-wcppm-2/}{\tt R615\+X Spektrum/\+J\+R D\+S\+M2/\+D\+S\+M\+X Compatible 6\+Ch 2.\+4\+G\+Hz Receiver w/\+C\+P\+P\+M}
+\item \href{http://www.frsky-rc.com/product/pro.php?pro_id=21}{\tt Fr\+Sky D8\+R-\/\+X\+P 8ch telemetry receiver, or C\+P\+P\+M and R\+S\+S\+I enabled receiver}
+\item \href{http://www.frsky-rc.com/download/view.php?sort=&down=158&file=X4R-X4RSB}{\tt Fr\+Sky X4\+R and Fr\+Sky X4\+R\+S\+B} when flashed with C\+P\+P\+M firmware and bound with jumper between signal pins 2 and 3
+\item All Fr\+Sky S.\+Bus enabled devices when connected with \href{http://www.frsky-rc.com/product/pro.php?pro_id=112}{\tt S.\+Bus C\+P\+P\+M converter cable}. Without jumper this converter cable uses 21ms frame size (Channels 1-\/8). When jumper is in place, it uses 28ms frame and channels 1-\/12 are available
+\item Fly\+Sky/\+Turnigy F\+S-\/i\+A6\+B receiver for F\+S-\/i6 and F\+S-\/i10 transmitters
+\end{DoxyItemize}
+
+\subsection*{Serial Receivers}
+
+\subsubsection*{Spektrum}
+
+8 channels via serial currently supported.
+
+These receivers are reported working\+:
+
+Lemon Rx D\+S\+M\+X Compatible P\+P\+M 8-\/\+Channel Receiver + Lemon D\+S\+M\+X Compatible Satellite with Failsafe \href{http://www.lemon-rx.com/shop/index.php?route=product/product&product_id=118}{\tt http\+://www.\+lemon-\/rx.\+com/shop/index.\+php?route=product/product\&product\+\_\+id=118}
+
+\subsubsection*{S.\+B\+U\+S}
+
+16 channels via serial currently supported. See below how to set up your transmitter.
+
+
+\begin{DoxyItemize}
+\item You probably need an inverter between the receiver output and the flight controller. However, some flight controllers have this built in (the main port on C\+C3\+D, for example), and doesn't need one.
+\item Some Open\+L\+R\+S receivers produce a non-\/inverted S\+B\+U\+S signal. It is possible to switch S\+B\+U\+S inversion off using C\+L\+I command {\ttfamily set sbus\+\_\+inversion = O\+F\+F} when using an F3 based flight controller.
+\item Softserial ports cannot be used with S\+B\+U\+S because it runs at too high of a bitrate (1\+Mbps). Refer to the chapter specific to your board to determine which port(s) may be used.
+\item You will need to configure the channel mapping in the G\+U\+I (Receiver tab) or C\+L\+I ({\ttfamily map} command). Note that channels above 8 are mapped \char`\"{}straight\char`\"{}, with no remapping.
+\end{DoxyItemize}
+
+These receivers are reported working\+:
+
+Fr\+Sky X4\+R\+S\+B 3/16ch Telemetry Receiver \href{http://www.frsky-rc.com/product/pro.php?pro_id=135}{\tt http\+://www.\+frsky-\/rc.\+com/product/pro.\+php?pro\+\_\+id=135}
+
+Fr\+Sky X8\+R 8/16ch Telemetry Receiver \href{http://www.frsky-rc.com/product/pro.php?pro_id=105}{\tt http\+://www.\+frsky-\/rc.\+com/product/pro.\+php?pro\+\_\+id=105}
+
+Futaba R2008\+S\+B 2.\+4\+G\+Hz S-\/\+F\+H\+S\+S \href{http://www.futaba-rc.com/systems/futk8100-8j/}{\tt http\+://www.\+futaba-\/rc.\+com/systems/futk8100-\/8j/}
+
+\paragraph*{Open\+T\+X S.\+B\+U\+S configuration}
+
+If using Open\+T\+X set the transmitter module to D16 mode and A\+L\+S\+O select C\+H1-\/16 on the transmitter before binding to allow reception of all 16 channels.
+
+Open\+T\+X 2.\+09, which is shipped on some Taranis X9\+D Plus transmitters, has a bug -\/ \href{https://github.com/opentx/opentx/issues/1701}{\tt issue\+:1701}. The bug prevents use of all 16 channels. Upgrade to the latest Open\+T\+X version to allow correct reception of all 16 channels, without the fix you are limited to 8 channels regardless of the C\+H1-\/16/\+D16 settings.
+
+\subsubsection*{X\+B\+U\+S}
+
+The firmware currently supports the M\+O\+D\+E B version of the X\+Bus protocol. Make sure to set your T\+X to use \char`\"{}\+M\+O\+D\+E B\char`\"{} for X\+B\+U\+S in the T\+X menus! See here for info on J\+R's X\+B\+U\+S protocol\+: \href{http://www.jrpropo.com/english/propo/XBus/}{\tt http\+://www.\+jrpropo.\+com/english/propo/\+X\+Bus/}
+
+These receivers are reported working\+:
+
+X\+G14 14ch D\+M\+S\+S System w/\+R\+G731\+B\+X X\+Bus Receiver \href{http://www.jramericas.com/233794/JRP00631/}{\tt http\+://www.\+jramericas.\+com/233794/\+J\+R\+P00631/}
+
+There exist a remote receiver made for small B\+N\+F-\/models like the Align T-\/\+Rex 150 helicopter. The code also supports using the Align D\+M\+S\+S R\+J01 receiver directly with the cleanflight software. To use this receiver you must power it with 3\+V from the hardware, and then connect the serial line as other serial R\+X receivers. In order for this receiver to work, you need to specify the X\+B\+U\+S\+\_\+\+M\+O\+D\+E\+\_\+\+B\+\_\+\+R\+J01 for serialrx\+\_\+provider. Note that you need to set your radio mode for X\+B\+U\+S \char`\"{}\+M\+O\+D\+E B\char`\"{} also for this receiver to work. Receiver name\+: Align D\+M\+S\+S R\+J01 (H\+E\+R15001)
+
+\subsubsection*{S\+U\+M\+D}
+
+16 channels via serial currently supported.
+
+These receivers are reported working\+:
+
+G\+R-\/24 receiver Ho\+T\+T \href{http://www.graupner.de/en/products/33512/product.aspx}{\tt http\+://www.\+graupner.\+de/en/products/33512/product.\+aspx}
+
+Graupner receiver G\+R-\/12\+S\+H+ Ho\+T\+T \href{http://www.graupner.de/en/products/870ade17-ace8-427f-943b-657040579906/33565/product.aspx}{\tt http\+://www.\+graupner.\+de/en/products/870ade17-\/ace8-\/427f-\/943b-\/657040579906/33565/product.\+aspx}
+
+\subsubsection*{S\+U\+M\+H}
+
+8 channels via serial currently supported.
+
+S\+U\+M\+H is a legacy Graupner protocol. Graupner have issued a firmware updates for many recivers that lets them use S\+U\+M\+D instead.
+
+\subsubsection*{I\+B\+U\+S}
+
+10 channels via serial currently supported.
+
+I\+B\+U\+S is the Fly\+Sky digital serial protocol and is available with the F\+S-\/\+I\+A6\+B and F\+S-\/\+I\+A10 receivers. The Turnigy T\+G\+Y-\/\+I\+A6\+B and T\+G\+Y-\/\+I\+A10 are the same devices with a different label, therefore they also work.
+
+If you are using a 6ch tx such as the F\+S-\/\+I6 or T\+G\+Y-\/\+I6 then you must flash a 10ch firmware on the tx to make use of these extra channels.
+
+These receivers are reported working\+:
+
+Fly\+Sky/\+Turnigy F\+S-\/i\+A6\+B 6-\/\+Channel Receiver \href{http://www.flysky-cn.com/products_detail/&productId=51.html}{\tt http\+://www.\+flysky-\/cn.\+com/products\+\_\+detail/\&product\+Id=51.\+html}
+
+\subsection*{Multi\+Wii serial protocol (M\+S\+P)}
+
+Allows you to use M\+S\+P commands as the R\+C input. Only 8 channel support to maintain compatibility with M\+S\+P.
+
+\subsection*{Configuration}
+
+There are 3 features that control receiver mode\+:
+
+``` R\+X\+\_\+\+P\+P\+M R\+X\+\_\+\+S\+E\+R\+I\+A\+L R\+X\+\_\+\+P\+A\+R\+A\+L\+L\+E\+L\+\_\+\+P\+W\+M R\+X\+\_\+\+M\+S\+P ```
+
+Only one receiver feature can be enabled at a time.
+
+\subsubsection*{R\+X signal-\/loss detection}
+
+The software has signal loss detection which is always enabled. Signal loss detection is used for safety and failsafe reasons.
+
+The {\ttfamily rx\+\_\+min\+\_\+usec} and {\ttfamily rx\+\_\+max\+\_\+usec} settings helps detect when your R\+X stops sending any data, enters failsafe mode or when the R\+X looses signal.
+
+By default, when the signal loss is detected the F\+C will set pitch/roll/yaw to the value configured for {\ttfamily mid\+\_\+rc}. The throttle will be set to the value configured for {\ttfamily rx\+\_\+min\+\_\+usec} or {\ttfamily mid\+\_\+rc} if using 3\+D feature.
+
+Signal loss can be detected when\+:
+
+
+\begin{DoxyEnumerate}
+\item no rx data is received (due to radio reception, recevier configuration or cabling issues).
+\item using Serial R\+X and receiver indicates failsafe condition.
+\item using any of the first 4 stick channels do not have a value in the range specified by {\ttfamily rx\+\_\+min\+\_\+usec} and {\ttfamily rx\+\_\+max\+\_\+usec}.
+\end{DoxyEnumerate}
+
+\subsubsection*{R\+X loss configuration}
+
+The {\ttfamily rxfail} cli command is used to configure per-\/channel rx-\/loss behaviour. You can use the {\ttfamily rxfail} command to change this behaviour. A flight channel can either be A\+U\+T\+O\+M\+A\+T\+I\+C or H\+O\+L\+D, an A\+U\+X channel can either be S\+E\+T or H\+O\+L\+D.
+
+
+\begin{DoxyItemize}
+\item A\+U\+T\+O\+M\+A\+T\+I\+C -\/ Flight channels are set to safe values (low throttle, mid position for yaw/pitch/roll).
+\item H\+O\+L\+D -\/ Channel holds the last value.
+\item S\+E\+T -\/ Channel is set to a specific configured value.
+\end{DoxyItemize}
+
+The default mode is A\+U\+T\+O\+M\+A\+T\+I\+C for flight channels and H\+O\+L\+D for A\+U\+X channels.
+
+The rxfail command can be used in conjunction with mode ranges to trigger various actions.
+
+The {\ttfamily rxfail} command takes 2 or 3 arguments.
+\begin{DoxyItemize}
+\item Index of channel (See below)
+\item Mode ('a' = A\+U\+T\+O\+M\+A\+T\+I\+C, 'h' = H\+O\+L\+D, 's' = S\+E\+T)
+\item A value to use when in S\+E\+T mode.
+\end{DoxyItemize}
+
+Channels are always specified in the same order, regardless of your channel mapping.
+
+
+\begin{DoxyItemize}
+\item Roll is 0
+\item Pitch is 1
+\item Yaw is 2
+\item Throttle is 3.
+\item Aux channels are 4 onwards.
+\end{DoxyItemize}
+
+Examples\+:
+
+To make Throttle channel have an automatic value when R\+X loss is detected\+:
+
+{\ttfamily rxfail 3 a}
+
+To make A\+U\+X4 have a value of 2000 when R\+X loss is detected\+:
+
+{\ttfamily rxfail 7 s 2000}
+
+To make A\+U\+X8 hold it's value when R\+X loss is detected\+:
+
+{\ttfamily rxfail 11 h}
+
+W\+A\+R\+N\+I\+N\+G\+: Always make sure you test the behavior is as expected after configuring rxfail settings!
+
+\paragraph*{{\ttfamily rx\+\_\+min\+\_\+usec}}
+
+The lowest channel value considered valid. e.\+g. P\+W\+M/\+P\+P\+M pulse length
+
+\paragraph*{{\ttfamily rx\+\_\+max\+\_\+usec}}
+
+The highest channel value considered valid. e.\+g. P\+W\+M/\+P\+P\+M pulse length
+
+\subsubsection*{Serial R\+X}
+
+See the Serial chapter for some some R\+X configuration examples.
+
+To setup spectrum on the Naze32 or clones in the G\+U\+I\+:
+\begin{DoxyEnumerate}
+\item Start on the \char`\"{}\+Ports\char`\"{} tab make sure that U\+A\+R\+T2 has serial R\+X. If not set the checkbox, save and reboot.
+\item Move to the \char`\"{}\+Configuration\char`\"{} page and in the upper lefthand corner choose Serial R\+X as the receiver type.
+\item Below that choose the type of serial receiver that you are using. Save and reboot.
+\end{DoxyEnumerate}
+
+Using C\+L\+I\+: For Serial R\+X enable {\ttfamily R\+X\+\_\+\+S\+E\+R\+I\+A\+L} and set the {\ttfamily serialrx\+\_\+provider} C\+L\+I setting as follows.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Serial R\+X Provider }&{\bf Value  }\\\cline{1-2}
+S\+P\+E\+K\+T\+R\+U\+M1024 &0 \\\cline{1-2}
+S\+P\+E\+K\+T\+R\+U\+M2048 &1 \\\cline{1-2}
+S\+B\+U\+S &2 \\\cline{1-2}
+S\+U\+M\+D &3 \\\cline{1-2}
+S\+U\+M\+H &4 \\\cline{1-2}
+X\+B\+U\+S\+\_\+\+M\+O\+D\+E\+\_\+\+B &5 \\\cline{1-2}
+X\+B\+U\+S\+\_\+\+M\+O\+D\+E\+\_\+\+B\+\_\+\+R\+J01 &6 \\\cline{1-2}
+I\+B\+U\+S &7 \\\cline{1-2}
+\end{TabularC}
+\subsubsection*{P\+P\+M/\+P\+W\+M input filtering.}
+
+Hardware input filtering can be enabled if you are experiencing interference on the signal sent via your P\+W\+M/\+P\+P\+M R\+X.
+
+Use the {\ttfamily input\+\_\+filtering\+\_\+mode} C\+L\+I setting to select a mode.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Value }&{\bf Meaning  }\\\cline{1-2}
+0 &Disabled \\\cline{1-2}
+1 &Enabled \\\cline{1-2}
+\end{TabularC}
+\subsection*{Receiver configuration.}
+
+\subsubsection*{Fr\+Sky D4\+R-\/\+I\+I}
+
+Set the R\+X for 'No Pulses'. Turn O\+F\+F T\+X and R\+X, Turn O\+N R\+X. Press and release F/\+S button on R\+X. Turn off R\+X.
+
+\subsubsection*{Graupner G\+R-\/24 P\+W\+M}
+
+Set failsafe on the throttle channel in the receiver settings (via transmitter menu) to a value below {\ttfamily rx\+\_\+min\+\_\+usec} using channel mode F\+A\+I\+L\+S\+A\+F\+E. This is the prefered way, since this is {\itshape much faster} detected by the F\+C then a channel that sends no pulses (O\+F\+F).
+
+{\bfseries N\+O\+T\+E\+:} One or more control channels may be set to O\+F\+F to signal a failsafe condition to the F\+C, all other channels {\itshape must} be set to either H\+O\+L\+D or O\+F\+F. Do {\bfseries N\+O\+T U\+S\+E} the mode indicated with F\+A\+I\+L\+S\+A\+F\+E instead, as this combination is N\+O\+T handled correctly by the F\+C.
+
+\subsection*{Receiver Channel Range Configuration.}
+
+The channels defined in Clean\+Flight are as follows\+:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Channel number }&{\bf Channel name  }\\\cline{1-2}
+0 &Roll \\\cline{1-2}
+1 &Pitch \\\cline{1-2}
+2 &Yaw \\\cline{1-2}
+3 &Throttle \\\cline{1-2}
+\end{TabularC}
+If you have a transmitter/receiver, that output a non-\/standard pulse range (i.\+e. 1070-\/1930 as some Spektrum receivers) you could use rx channel range configuration to map actual range of your transmitter to 1000-\/2000 as expected by Cleanflight.
+
+The low and high value of a channel range are often referred to as 'End-\/points'. e.\+g. 'End-\/point adjustments / E\+P\+A'.
+
+All attempts should be made to configure your transmitter/receiver to use the range 1000-\/2000 {\itshape before} using this feature as you will have less preceise control if it is used.
+
+To do this you should figure out what range your transmitter outputs and use these values for rx range configuration. You can do this in a few simple steps\+:
+
+If you have used rc range configuration previously you should reset it to prevent it from altering rc input. Do so by entering the following command in C\+L\+I\+: ``` rxrange reset save ```
+
+Now reboot your F\+C, connect the configurator, go to the {\ttfamily Receiver} tab move sticks on your transmitter and note min and max values of first 4 channels. Take caution as you can accidentally arm your craft. Best way is to move one channel at a time.
+
+Go to C\+L\+I and set the min and max values with the following command\+: ``` rxrange $<$channel\+\_\+number$>$ $<$min$>$ $<$max$>$ ```
+
+For example, if you have the range 1070-\/1930 for the first channel you should use {\ttfamily rxrange 0 1070 1930} in the C\+L\+I. Be sure to enter the {\ttfamily save} command to save the settings.
+
+After configuring channel ranges use the sub-\/trim on your transmitter to set the middle point of pitch, roll, yaw and throttle.
+
+You can also use rxrange to reverse the direction of an input channel, e.\+g. {\ttfamily rxrange 0 2000 1000}. 

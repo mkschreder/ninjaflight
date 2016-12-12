@@ -1,0 +1,45 @@
+var io_2rc__controls_8h =
+[
+    [ "CHANNEL_RANGE_MAX", "io_2rc__controls_8h.html#aba04fc59cfa73533748107dde9ef9673", null ],
+    [ "CHANNEL_RANGE_MIN", "io_2rc__controls_8h.html#a2a56f5f746d923c816ea6b4ea4dd2fc1", null ],
+    [ "CHANNEL_VALUE_TO_STEP", "io_2rc__controls_8h.html#a6bed5ef781651d3f7ba12e7d17c2524c", null ],
+    [ "CONTROL_RATE_CONFIG_ROLL_PITCH_RATE_MAX", "io_2rc__controls_8h.html#a370136c01b056dbd8ed60606eaf0aeac", null ],
+    [ "CONTROL_RATE_CONFIG_TPA_MAX", "io_2rc__controls_8h.html#afdb2356263185e8df3e7f0d62f99107e", null ],
+    [ "CONTROL_RATE_CONFIG_YAW_RATE_MAX", "io_2rc__controls_8h.html#aa658304bbf9089fce7410a41c9c29d4c", null ],
+    [ "IS_RANGE_USABLE", "io_2rc__controls_8h.html#aa19d10c58a876837d2d3779ea581abba", null ],
+    [ "MAX_MODE_RANGE_STEP", "io_2rc__controls_8h.html#a7d8a604155aa0c072a084aef62c83ff5", null ],
+    [ "MIN_MODE_RANGE_STEP", "io_2rc__controls_8h.html#ac2d5b22ab4177577f6a16492f193a76d", null ],
+    [ "MODE_STEP_TO_CHANNEL_VALUE", "io_2rc__controls_8h.html#acbebadd232a59defa26467f4fec8c0b0", null ],
+    [ "PIT_CE", "io_2rc__controls_8h.html#a335c158fcdd6526c298826d6f9c967e0", null ],
+    [ "PIT_HI", "io_2rc__controls_8h.html#a0bd28a29443cb00283393fc6e7146db0", null ],
+    [ "PIT_LO", "io_2rc__controls_8h.html#ab59a52fbca99d33e2a06ce4fa7e4cbda", null ],
+    [ "ROL_CE", "io_2rc__controls_8h.html#a358e27fe6d8cba93083f31c1d7622291", null ],
+    [ "ROL_HI", "io_2rc__controls_8h.html#adf5275497c2a811190509f9191d3b5b9", null ],
+    [ "ROL_LO", "io_2rc__controls_8h.html#a3a3ccc92281745ee744056358685998d", null ],
+    [ "THR_CE", "io_2rc__controls_8h.html#a6df5cc2aaa2340d4252577dea2449c86", null ],
+    [ "THR_HI", "io_2rc__controls_8h.html#a73f8397512ab28eff29650646f1ffa9f", null ],
+    [ "THR_LO", "io_2rc__controls_8h.html#a87dec6b11f53fcf6a5c52995561cac7b", null ],
+    [ "YAW_CE", "io_2rc__controls_8h.html#ab6221e2d13bcc00a298431639a81e974", null ],
+    [ "YAW_HI", "io_2rc__controls_8h.html#ad13c5860eb3eb2ab81444c009e680d6f", null ],
+    [ "YAW_LO", "io_2rc__controls_8h.html#af0189dc99dbc09325e1fe3b594cb1111", null ],
+    [ "rollPitchStatus_e", "io_2rc__controls_8h.html#a891d794ff367b4671e5db0cbbc3ccf9a", [
+      [ "NOT_CENTERED", "io_2rc__controls_8h.html#a891d794ff367b4671e5db0cbbc3ccf9aaeeb9e5394edf6d344a24c05ef994f6fe", null ],
+      [ "CENTERED", "io_2rc__controls_8h.html#a891d794ff367b4671e5db0cbbc3ccf9aa53f811bc46dd28493ccb7260b2cc8f38", null ]
+    ] ],
+    [ "throttleStatus_e", "io_2rc__controls_8h.html#a9072ae8077e0352a2201fff2caa9d2ba", [
+      [ "THROTTLE_LOW", "io_2rc__controls_8h.html#a9072ae8077e0352a2201fff2caa9d2baa162d4671dfe0b313bdd332ffe473cd70", null ],
+      [ "THROTTLE_HIGH", "io_2rc__controls_8h.html#a9072ae8077e0352a2201fff2caa9d2baac7ab3460df3a00d7509ec2030b650fa1", null ]
+    ] ],
+    [ "areSticksInApModePosition", "io_2rc__controls_8h.html#a0e026506cd8594b119567abaa027ceb7", null ],
+    [ "areUsingSticksToArm", "io_2rc__controls_8h.html#afe45076c8c0c1e9e45dcf6f590e00b1a", null ],
+    [ "calculateRollPitchCenterStatus", "io_2rc__controls_8h.html#a52bed6a482e229c438bdb5b861b1d447", null ],
+    [ "calculateThrottleStatus", "io_2rc__controls_8h.html#ad995fe8c8b77768bd9e6d96db6b67484", null ],
+    [ "getRcStickDeflection", "io_2rc__controls_8h.html#a59c4fa94035006cb4278e8a50582818c", null ],
+    [ "isRangeActive", "io_2rc__controls_8h.html#a0271a86414bd355523bdb2095c430538", null ],
+    [ "isUsingSticksForArming", "io_2rc__controls_8h.html#adc311f70a938738204250e18de1ee4d2", null ],
+    [ "rcModeIsActivationConditionPresent", "io_2rc__controls_8h.html#a1ad79b9c82a8297322f7f89025d1a72c", null ],
+    [ "rcModeIsActive", "io_2rc__controls_8h.html#a21a62a38a0416325e5a9703c7535089c", null ],
+    [ "rcModeUpdateActivated", "io_2rc__controls_8h.html#aacb2a49eb3dc9c98e4212893e8e20dd2", null ],
+    [ "useRcControlsConfig", "io_2rc__controls_8h.html#a9d7c82cd2f130ba946446a3421ab2604", null ],
+    [ "rcCommand", "io_2rc__controls_8h.html#a9a0c78dfc7223feffbdd4f1d4f0f5b62", null ]
+];

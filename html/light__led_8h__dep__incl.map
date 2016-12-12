@@ -1,0 +1,12 @@
+<map id="src/main/drivers/light_led.h" name="src/main/drivers/light_led.h">
+<area shape="rect" id="node2" href="$compass__hmc5883l_8c.html" title="src/main/drivers/compass\l_hmc5883l.c" alt="" coords="5,97,176,138"/>
+<area shape="rect" id="node3" href="$light__led__stm32f10x_8c.html" title="src/main/drivers/light\l_led_stm32f10x.c" alt="" coords="201,97,343,138"/>
+<area shape="rect" id="node4" href="$light__led__stm32f30x_8c.html" title="src/main/drivers/light\l_led_stm32f30x.c" alt="" coords="367,97,509,138"/>
+<area shape="rect" id="node5" href="$system_8c.html" title="src/main/drivers/system.c" alt="" coords="535,104,708,131"/>
+<area shape="rect" id="node6" href="$navigation_8c.html" title="src/main/flight/navigation.c" alt="" coords="732,104,911,131"/>
+<area shape="rect" id="node7" href="$statusindicator_8c.html" title="src/main/io/statusindicator.c" alt="" coords="935,104,1121,131"/>
+<area shape="rect" id="node8" href="$main_8c.html" title="src/main/main.c" alt="" coords="1145,104,1260,131"/>
+<area shape="rect" id="node9" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="1285,104,1427,131"/>
+<area shape="rect" id="node10" href="$gps_8c.html" title="src/main/sensors/gps.c" alt="" coords="1451,104,1609,131"/>
+<area shape="rect" id="node11" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="1635,104,1769,131"/>
+</map>

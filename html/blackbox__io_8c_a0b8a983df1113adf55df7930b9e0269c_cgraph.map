@@ -1,0 +1,6 @@
+<map id="blackboxDeviceEndLog" name="blackboxDeviceEndLog">
+<area shape="rect" id="node2" href="$asyncfatfs_8c.html#a60f4c0414d58f4f5c9a0bb20d61469d9" title="afatfs_fclose" alt="" coords="215,5,313,32"/>
+<area shape="rect" id="node3" href="$asyncfatfs_8c.html#a00ca6e5e1239354da4644e701e53282f" title="afatfs_funlink" alt="" coords="214,56,314,83"/>
+<area shape="rect" id="node4" href="$asyncfatfs_8c.html#a7ef846b74a72c3de5a6c4c4a82859e0e" title="afatfs_ftruncate" alt="" coords="363,56,477,83"/>
+<area shape="rect" id="node5" href="$asyncfatfs_8c.html#a15689d94e5c0267c44229c608342f2df" title="afatfs_fseek" alt="" coords="526,56,621,83"/>
+</map>

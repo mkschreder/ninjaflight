@@ -1,0 +1,23 @@
+<map id="src/main/rx/rx.c" name="src/main/rx/rx.c">
+<area shape="rect" id="node7" href="$system__calls_8h.html" title="system_calls.h" alt="" coords="589,229,699,256"/>
+<area shape="rect" id="node8" href="$build__config_8h.html" title="build_config.h" alt="" coords="1109,80,1211,107"/>
+<area shape="rect" id="node9" href="$debug_8h.html" title="debug.h" alt="" coords="1235,80,1303,107"/>
+<area shape="rect" id="node10" href="$maths_8h.html" title="../common/maths.h" alt="" coords="775,304,909,331"/>
+<area shape="rect" id="node11" href="$utils_8h.html" title="../common/utils.h" alt="" coords="1328,80,1451,107"/>
+<area shape="rect" id="node13" href="$drivers_2pwm__rx_8h.html" title="../drivers/pwm_rx.h" alt="" coords="293,80,427,107"/>
+<area shape="rect" id="node16" href="$adc_8h.html" title="../drivers/adc.h" alt="" coords="1475,80,1584,107"/>
+<area shape="rect" id="node17" href="$system_8h.html" title="../drivers/system.h" alt="" coords="124,155,253,181"/>
+<area shape="rect" id="node18" href="$pwm_8h.html" title="pwm.h" alt="" coords="452,80,513,107"/>
+<area shape="rect" id="node19" href="$rx_2rx_8h.html" title="rx.h" alt="" coords="461,155,504,181"/>
+<area shape="rect" id="node23" href="$sbus_8h.html" title="sbus.h" alt="" coords="1608,80,1669,107"/>
+<area shape="rect" id="node24" href="$spektrum_8h.html" title="spektrum.h" alt="" coords="1694,80,1780,107"/>
+<area shape="rect" id="node25" href="$sumd_8h.html" title="sumd.h" alt="" coords="1805,80,1869,107"/>
+<area shape="rect" id="node26" href="$sumh_8h.html" title="sumh.h" alt="" coords="1894,80,1959,107"/>
+<area shape="rect" id="node27" href="$rx_2msp_8h.html" title="msp.h" alt="" coords="1984,80,2041,107"/>
+<area shape="rect" id="node28" href="$xbus_8h.html" title="xbus.h" alt="" coords="588,80,649,107"/>
+<area shape="rect" id="node29" href="$ibus_8h.html" title="ibus.h" alt="" coords="2067,80,2124,107"/>
+<area shape="rect" id="node14" href="$config_2pwm__rx_8h.html" title="../config/pwm_rx.h" alt="" coords="295,155,424,181"/>
+<area shape="rect" id="node15" href="$parameter__group_8h.html" title="parameter_group.h" alt="" coords="215,304,344,331"/>
+<area shape="rect" id="node20" href="$rc__controls_8h.html" title="../config/rc_controls.h" alt="" coords="206,229,353,256"/>
+<area shape="rect" id="node22" href="$config_2rx_8h.html" title="../config/rx.h" alt="" coords="470,229,564,256"/>
+</map>

@@ -1,0 +1,99 @@
+\hypertarget{sonar_8h}{\section{src/main/sensors/sonar.h File Reference}
+\label{sonar_8h}\index{src/main/sensors/sonar.\+h@{src/main/sensors/sonar.\+h}}
+}
+{\ttfamily \#include \char`\"{}drivers/sonar\+\_\+hcsr04.\+h\char`\"{}}\\*
+Include dependency graph for sonar.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{sonar_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sonar_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsonar__ops}{sonar\+\_\+ops}
+\item 
+struct \hyperlink{structsonar}{sonar}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sonar_8h_aa8d81e7b4fa88a076dd841666f4c64c4}{S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E}~(-\/1)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sonar_8h_a6e71617a608b17e530a25162de0f2990}{sonar\+\_\+init} (struct \hyperlink{structsonar}{sonar} $\ast$self)
+\item 
+void \hyperlink{sonar_8h_a5f2214dfb104dfac40113fde5aa4c9fa}{sonar\+\_\+update} (struct \hyperlink{structsonar}{sonar} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{sonar_8h_a16c8e65378a9ae3465ab9fdbf0bd9dcd}{sonar\+\_\+read} (struct \hyperlink{structsonar}{sonar} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{sonar_8h_ae90640e63b5f4805be07b953e1c07c39}{sonar\+\_\+calc\+\_\+altitude} (struct \hyperlink{structsonar}{sonar} $\ast$self, float cos\+Tilt\+Angle)
+\item 
+int32\+\_\+t \hyperlink{sonar_8h_a4f7a2f7c2f6201902fdb5948bd1989e9}{sonar\+\_\+get\+\_\+altitude} (struct \hyperlink{structsonar}{sonar} $\ast$self)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsonar}{sonar} \hyperlink{sonar_8h_aaee09c7563a0c58e3ff198b7f1dd759a}{default\+\_\+sonar}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sonar_8h_aa8d81e7b4fa88a076dd841666f4c64c4}{\index{sonar.\+h@{sonar.\+h}!S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E@{S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E}}
+\index{S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E@{S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+O\+N\+A\+R\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+R\+A\+N\+G\+E~(-\/1)}}\label{sonar_8h_aa8d81e7b4fa88a076dd841666f4c64c4}
+
+
+\subsection{Function Documentation}
+\hypertarget{sonar_8h_ae90640e63b5f4805be07b953e1c07c39}{\index{sonar.\+h@{sonar.\+h}!sonar\+\_\+calc\+\_\+altitude@{sonar\+\_\+calc\+\_\+altitude}}
+\index{sonar\+\_\+calc\+\_\+altitude@{sonar\+\_\+calc\+\_\+altitude}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{sonar\+\_\+calc\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t sonar\+\_\+calc\+\_\+altitude (
+\begin{DoxyParamCaption}
+\item[{struct {\bf sonar} $\ast$}]{self, }
+\item[{float}]{cos\+Tilt\+Angle}
+\end{DoxyParamCaption}
+)}}\label{sonar_8h_ae90640e63b5f4805be07b953e1c07c39}
+\hypertarget{sonar_8h_a4f7a2f7c2f6201902fdb5948bd1989e9}{\index{sonar.\+h@{sonar.\+h}!sonar\+\_\+get\+\_\+altitude@{sonar\+\_\+get\+\_\+altitude}}
+\index{sonar\+\_\+get\+\_\+altitude@{sonar\+\_\+get\+\_\+altitude}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{sonar\+\_\+get\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t sonar\+\_\+get\+\_\+altitude (
+\begin{DoxyParamCaption}
+\item[{struct {\bf sonar} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sonar_8h_a4f7a2f7c2f6201902fdb5948bd1989e9}
+\hypertarget{sonar_8h_a6e71617a608b17e530a25162de0f2990}{\index{sonar.\+h@{sonar.\+h}!sonar\+\_\+init@{sonar\+\_\+init}}
+\index{sonar\+\_\+init@{sonar\+\_\+init}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{sonar\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void sonar\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf sonar} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sonar_8h_a6e71617a608b17e530a25162de0f2990}
+\hypertarget{sonar_8h_a16c8e65378a9ae3465ab9fdbf0bd9dcd}{\index{sonar.\+h@{sonar.\+h}!sonar\+\_\+read@{sonar\+\_\+read}}
+\index{sonar\+\_\+read@{sonar\+\_\+read}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{sonar\+\_\+read}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t sonar\+\_\+read (
+\begin{DoxyParamCaption}
+\item[{struct {\bf sonar} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sonar_8h_a16c8e65378a9ae3465ab9fdbf0bd9dcd}
+\hypertarget{sonar_8h_a5f2214dfb104dfac40113fde5aa4c9fa}{\index{sonar.\+h@{sonar.\+h}!sonar\+\_\+update@{sonar\+\_\+update}}
+\index{sonar\+\_\+update@{sonar\+\_\+update}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{sonar\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void sonar\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf sonar} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sonar_8h_a5f2214dfb104dfac40113fde5aa4c9fa}
+
+
+\subsection{Variable Documentation}
+\hypertarget{sonar_8h_aaee09c7563a0c58e3ff198b7f1dd759a}{\index{sonar.\+h@{sonar.\+h}!default\+\_\+sonar@{default\+\_\+sonar}}
+\index{default\+\_\+sonar@{default\+\_\+sonar}!sonar.\+h@{sonar.\+h}}
+\subsubsection[{default\+\_\+sonar}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf sonar} default\+\_\+sonar}}\label{sonar_8h_aaee09c7563a0c58e3ff198b7f1dd759a}

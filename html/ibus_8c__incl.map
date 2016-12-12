@@ -1,0 +1,11 @@
+<map id="src/main/rx/ibus.c" name="src/main/rx/ibus.c">
+<area shape="rect" id="node6" href="$build__config_8h.html" title="build_config.h" alt="" coords="1111,80,1213,107"/>
+<area shape="rect" id="node7" href="$io_2serial_8h.html" title="io/serial.h" alt="" coords="109,80,187,107"/>
+<area shape="rect" id="node11" href="$rx_2rx_8h.html" title="rx/rx.h" alt="" coords="593,80,651,107"/>
+<area shape="rect" id="node16" href="$ibus_8h.html" title="rx/ibus.h" alt="" coords="1239,80,1311,107"/>
+<area shape="rect" id="node8" href="$drivers_2serial_8h.html" title="drivers/serial.h" alt="" coords="161,155,268,181"/>
+<area shape="rect" id="node10" href="$config_2serial_8h.html" title="../config/serial.h" alt="" coords="23,155,137,181"/>
+<area shape="rect" id="node12" href="$rc__controls_8h.html" title="../config/rc_controls.h" alt="" coords="390,155,537,181"/>
+<area shape="rect" id="node13" href="$system__calls_8h.html" title="system_calls.h" alt="" coords="614,155,724,181"/>
+<area shape="rect" id="node15" href="$config_2rx_8h.html" title="../config/rx.h" alt="" coords="749,155,843,181"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="board_alignment_init" name="board_alignment_init">
+<area shape="rect" id="node2" href="$maths_8c.html#ac969ac66a7dede9deccae7154aa0d3ea" title="matrix_set_identity" alt="" coords="197,5,329,32"/>
+<area shape="rect" id="node3" href="$maths_8c.html#a9d9e746df4553b61522720bc5b243985" title="degreesToRadians" alt="" coords="197,56,328,83"/>
+<area shape="rect" id="node4" href="$maths_8c.html#ae051f367de8da318779e435c0f30ff48" title="buildRotationMatrix" alt="" coords="195,107,330,133"/>
+<area shape="rect" id="node5" href="$maths_8c.html#a82462a5597861c636a301dad9263919d" title="cos_approx" alt="" coords="379,81,469,108"/>
+<area shape="rect" id="node6" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="517,107,603,133"/>
+</map>

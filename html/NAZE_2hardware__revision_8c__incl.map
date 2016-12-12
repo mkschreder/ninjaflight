@@ -1,0 +1,11 @@
+<map id="src/main/target/NAZE/hardware_revision.c" name="src/main/target/NAZE/hardware_revision.c">
+<area shape="rect" id="node6" href="$build__config_8h.html" title="build_config.h" alt="" coords="313,96,415,123"/>
+<area shape="rect" id="node7" href="$drivers_2system_8h.html" title="drivers/system.h" alt="" coords="439,96,557,123"/>
+<area shape="rect" id="node8" href="$bus__spi_8h.html" title="drivers/bus_spi.h" alt="" coords="582,96,703,123"/>
+<area shape="rect" id="node9" href="$sensor_8h.html" title="drivers/sensor.h" alt="" coords="795,171,909,197"/>
+<area shape="rect" id="node10" href="$exti_8h.html" title="drivers/exti.h" alt="" coords="779,96,876,123"/>
+<area shape="rect" id="node11" href="$accgyro_8h.html" title="drivers/accgyro.h" alt="" coords="901,96,1024,123"/>
+<area shape="rect" id="node12" href="$accgyro__mpu_8h.html" title="drivers/accgyro_mpu.h" alt="" coords="1048,96,1201,123"/>
+<area shape="rect" id="node13" href="$accgyro__mpu6500_8h.html" title="drivers/accgyro_mpu6500.h" alt="" coords="1227,96,1409,123"/>
+<area shape="rect" id="node14" href="$NAZE_2hardware__revision_8h.html" title="hardware_revision.h" alt="" coords="1435,96,1573,123"/>
+</map>

@@ -1,0 +1,236 @@
+The Seriously Pro Racing F3 Mini (S\+P\+Racing\+F3\+Mini) is the second flight controller board designed specifically for Cleanflight. It is the only F\+C that supports all the latest Cleanflight features and the O\+N\+L\+Y mini board with a full feature set that can also be mounted in mini frames as well as in standard 36x36mm mounting holes. With the new transponder feature it is the only truly race ready board available.
+
+It's full feature set, size and weight makes it perfect for incorporating in sub-\/250g drones to comply with U\+S\+A drone regulations.
+
+Purchasing boards directly from Seriously\+Pro / S\+P Racing and official retailers helps fund Cleanflight development, it's the reason the Seriously Pro boards exist! Official retailers are always listed on the Seriously\+Pro.\+com website.
+
+Full details available on the website, here\+:
+
+\href{http://seriouslypro.com/spracingf3mini}{\tt http\+://seriouslypro.\+com/spracingf3mini}
+
+\subsection*{Hardware Features}
+
+
+\begin{DoxyItemize}
+\item Next-\/generation S\+T\+M32 F3 processor with hardware floating point unit for efficient flight calculations and faster A\+R\+M-\/\+Cortex M4 core.
+\item Micro\+S\+D-\/\+Card socket for black box flight log recorder -\/ optimize your tuning and see the results of your setup without guesswork.
+\item Race transponder built in -\/ just turn up at a race and have your lap times recorded.
+\item Onboard regulator (B\+E\+C) for powering the F\+C, receiver and small servos.
+\item Features the latest Accelerometer, Gyro and Mag/\+Compass and Baro/\+Altitude sensor technology.
+\item 2 Buttons for binding Spektrum Satellite receivers, activating U\+S\+B bootloader mode or resetting the configuration. More future uses coming!
+\item Wire up using using pin headers for all major connections for excellent crash-\/durability. Use either right-\/angled or straight pin-\/headers.
+\item No compromise I/\+O. Use all the features all the time; e.\+g. Connect your U\+S\+B + O\+S\+D + Smart\+Port + S\+Bus + G\+P\+S + L\+E\+D Strip + Battery Monitoring + Sonar + 8 motors -\/ all at the same time!
+\item 8 P\+W\+M output lines for E\+S\+Cs and Servos. Arranged for easy wiring on standard pin headers.
+\item Supports direct connection of S\+Bus, Sum\+H, Sum\+D, Spektrum1024/2048, X\+Bus receivers. No external inverters required (built-\/in).
+\item Supports direct connection of 3.\+3v Spektrum Satellite receivers via 3 pin through-\/hole J\+S\+T-\/\+Z\+H connector.
+\item Supports direct connection of 1-\/5 channel Parallel P\+W\+M receivers $\ast$1.
+\item Dedicated P\+P\+M receiver input.
+\item 3 Serial Ports -\/ N\+O\+T shared with the U\+S\+B socket.
+\item Telemetry port (via pin header or U\+S\+A\+R\+T2 J\+S\+T-\/\+S\+H socket).
+\item Micro U\+S\+B socket.
+\item Dedicated output for programmable L\+E\+Ds -\/ great for orientation, racing and night flying. (Currently mutually exclusive with the Transponder).
+\item Dedicated I2\+C port for connection of O\+L\+E\+D display without needing flight battery.
+\item Battery monitoring for voltage and current.
+\item R\+S\+S\+I monitoring (analog or P\+W\+M).
+\item Buzzer port for audible warnings and notifications.
+\item Developer friendly debugging port (S\+W\+D) and boot mode selection, unbrickable bootloader.
+\item Symmetrical design for a super tidy wiring.
+\item J\+S\+T-\/\+S\+H sockets only for I2\+C/\+U\+A\+R\+T2 and S\+W\+D.
+\item Barometer mounted on the bottom of the board for easy wind isolation.
+\item Flashing via U\+S\+B or serial port.
+\item Stackable design -\/ perfect for integrating with O\+S\+Ds and power distribution boards.
+\item Modular design -\/ the core of the board measures 36x22mm but has the ability to be mounted using standard 30.\+5mm mounting holes.
+\item L\+E\+Ds for 3v, 5v and Status for easy diagnostics.
+\item Copper-\/etched Cleanflight and \#\+R\+B logos.
+\end{DoxyItemize}
+
+$\ast$1 -\/ P\+W\+M receiver must use 3.\+3v outputs. Works only in multirotor mode. Uses motor outputs 5-\/8 and P\+P\+M pin as R\+C 1-\/5 inputs.
+
+\subsection*{Pinouts}
+
+Full pinout details are available in the manual, here\+:
+
+\href{http://seriouslypro.com/spracingf3mini#manual}{\tt http\+://seriouslypro.\+com/spracingf3mini\#manual}
+
+\paragraph*{Main Section}
+
+The main section is the square part of the board with the 30.\+5mm mounting holes.
+
+\subsubsection*{Left Side I\+O (Front to Back)}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &R\+X3 &Square Pad \\\cline{1-3}
+2 &T\+X3 &Round Pad \\\cline{1-3}
+3 &P\+W\+M8 / Soft\+Serial 1 R\+X / R\+C4 &Square Pad \\\cline{1-3}
+4 &P\+W\+M7 / Soft\+Serial 1 T\+X / R\+C3 &Square Pad \\\cline{1-3}
+\end{TabularC}
+To the left of both P\+W\+M7 and P\+W\+M8 there are 2 more pins -\/ left to right\+: G\+N\+D, V\+I\+N, P\+W\+M7/8. To the right of R\+X3 there are two more though holes. Use R\+X3 and the 2 holes to attach a J\+S\+T-\/\+Z\+H connector for a Spektrum Satellite 3v receiver.
+
+\subsubsection*{Right Side I\+O (Front to Back)}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &R\+S\+S\+I &Round Pad / P\+W\+M \\\cline{1-3}
+2 &C\+U\+R\+R\+E\+N\+T &Round Pad \\\cline{1-3}
+3 &P\+W\+M6 / R\+C2 &Square Pad \\\cline{1-3}
+4 &P\+W\+M5 / R\+C1 &Square Pad \\\cline{1-3}
+5 &T1 &Round Pad \\\cline{1-3}
+6 &R1 &Round Pad \\\cline{1-3}
+7 &5v &Round Pad \\\cline{1-3}
+8 &G\+N\+D &Round Pad \\\cline{1-3}
+9 &5v &Round Pad \\\cline{1-3}
+10 &P\+P\+M &Square Pad \\\cline{1-3}
+\end{TabularC}
+To the right of both P\+W\+M5 and P\+W\+M6 there are 2 more pins -\/ left to right\+: P\+W\+M5/6, V\+I\+N, G\+N\+D.
+
+Pins 8/9/10 allow a standard 3 pin cable to be attached for P\+P\+M receivers. Pins 8/7/6 allow a standard 3 pin cable to be attached for S\+Bus/\+Serial\+R\+X receivers (5v).
+
+\subsubsection*{Top I\+O (Left to Right)}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &B\+A\+T\+T\+E\+R\+Y -\/ &Round Pad \\\cline{1-3}
+2 &B\+A\+T\+T\+E\+R\+Y + &Square Pad \\\cline{1-3}
+\end{TabularC}
+25\+V Absolute Maximum. No reverse polarity protection!
+
+\subsubsection*{Bottom Left I\+O (Left to Right)}
+
+For Telemetry / L\+E\+D / I\+R.
+
+A -\/ Bottom Row (Towards board edge) B -\/ Top Row (Towards board center)
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Row }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &A &T\+E\+L\+E\+M\+E\+T\+R\+Y / T2 &Square Pad \\\cline{1-4}
+2 &A &G\+N\+D &Round Pad \\\cline{1-4}
+3 &B &V\+I\+N &Square Pad (Suface) \\\cline{1-4}
+4 &B &L\+E\+D\+\_\+\+S\+T\+R\+I\+P/\+I\+R &Round Pad \\\cline{1-4}
+\end{TabularC}
+\subsubsection*{Bottom Right I\+O (Left to Right)}
+
+For Buzzer.
+
+A -\/ Bottom Row (Towards board edge) B -\/ Top Row (Towards board center)
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Row }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &A &B\+U\+Z\+Z\+E\+R -\/ &Round Pad \\\cline{1-4}
+2 &A &G\+N\+D &Square Pad \\\cline{1-4}
+3 &B &5v &Round Pad (For Buzzer) \\\cline{1-4}
+4 &B &3.\+3v &Square Pad (Surface) \\\cline{1-4}
+\end{TabularC}
+\subsubsection*{Bottom Center I\+O (Left to Right)}
+
+For E\+S\+C / Servos.
+
+A -\/ Bottom Row (Towards board edge) B -\/ Middle Row C -\/ Top Row (Towards board center)
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Row }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &A &G\+N\+D &Round Pad \\\cline{1-4}
+2 &A &G\+N\+D &Round Pad \\\cline{1-4}
+3 &A &G\+N\+D &Round Pad \\\cline{1-4}
+4 &A &G\+N\+D &Round Pad \\\cline{1-4}
+1 &B &V\+I\+N &Round Pad \\\cline{1-4}
+2 &B &V\+I\+N &Round Pad \\\cline{1-4}
+3 &B &V\+I\+N &Round Pad \\\cline{1-4}
+4 &B &V\+I\+N &Round Pad \\\cline{1-4}
+1 &C &P\+W\+M1 &Square Pad (Suface) \\\cline{1-4}
+2 &C &P\+W\+M2 &Round Pad \\\cline{1-4}
+3 &C &P\+W\+M3 &Round Pad \\\cline{1-4}
+4 &C &P\+W\+M4 &Round Pad \\\cline{1-4}
+\end{TabularC}
+\subsubsection*{Bottom I\+O (Underside, left to right)}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pad }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+T\+R\+I\+G &S\+O\+N\+A\+R T\+R\+I\+G\+G\+E\+R &Also Switch B, 3.\+3v signal only \\\cline{1-3}
+E\+C\+H\+O &S\+O\+N\+A\+R E\+C\+H\+O &Also Switch A, 3.\+3v signal only \\\cline{1-3}
+\end{TabularC}
+\subsubsection*{U\+A\+R\+T2}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &5v &Voltage as-\/supplied by B\+E\+C O\+R U\+S\+B, always on \\\cline{1-3}
+3 &T\+X\+D &\\\cline{1-3}
+4 &R\+X\+D &\\\cline{1-3}
+\end{TabularC}
+\subsubsection*{I2\+C}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &5v &Voltage as-\/supplied by B\+E\+C O\+R U\+S\+B, always on \\\cline{1-3}
+3 &S\+C\+L &\\\cline{1-3}
+4 &S\+D\+A &\\\cline{1-3}
+\end{TabularC}
+\subsubsection*{S\+W\+D}
+
+The port cannot be used at the same time as U\+A\+R\+T2.
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Function }&{\bf Notes  }\\\cline{1-3}
+1 &Ground &\\\cline{1-3}
+2 &N\+R\+S\+T &\\\cline{1-3}
+3 &S\+W\+D\+I\+O &\\\cline{1-3}
+4 &S\+W\+D\+C\+L\+K &\\\cline{1-3}
+\end{TabularC}
+
+
+\subsubsection*{Transponder Section.}
+
+The transponder section of the board is where up to two I\+R leds (supplied) can be connected for the race timing transponder system. It can left attached, stacked above or below the main board or detached and connected via a cable, as appropriate.
+
+The transponder section has a small enable jumper which must be bridged with solder before using the I\+R transponder feature.
+
+\paragraph*{Bottom Left and Bottom Right Transponder I\+O (Left to Right)}
+
+For L\+E\+D / I\+R. The 4 pins arranged in a square by the mounting holes of the transponder board have the same pinouts on the left and right hand sides of the board. They are the same so that a 4 pin cable can be attached either side when relocating the transponder section.
+
+A -\/ Bottom Row (Towards board edge) B -\/ Top Row (Towards board center)
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Row }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &A &N/\+C &Square Pad \\\cline{1-4}
+2 &A &G\+N\+D &Round Pad \\\cline{1-4}
+3 &B &5v &Round Pad \\\cline{1-4}
+4 &B &L\+E\+D\+\_\+\+S\+T\+R\+I\+P/\+I\+R &Round Pad \\\cline{1-4}
+\end{TabularC}
+\subsubsection*{Bottom Left and Bottom Right I\+R}
+
+There are two, two pin holes on the left and right of the transponder section either side of some surface mount components. They are for connecting up to two I\+R leds. A -\/ Bottom Row (Towards board edge) B -\/ Top Row (Towards board center)
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Row }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &A &I\+R+ &Round Pad \\\cline{1-4}
+2 &B &I\+R-\/ &Square Pad \\\cline{1-4}
+\end{TabularC}
+Note\+: The silk screen on early boards have I\+R+ and I\+R-\/ transposed. Connect as above regardless of silkscreen.
+
+\subsubsection*{Switch Section.}
+
+On the bottom of the switch section there are 4 pads. The switch section can be relocated and reconnected to the main section via a 4 way cable.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Pad On Switch Section }&{\bf Pad on main section  }\\\cline{1-2}
+A &E\+C\+H\+O \\\cline{1-2}
+B &T\+R\+I\+G \\\cline{1-2}
+G\+N\+D &Any G\+N\+D \\\cline{1-2}
+3v3 &Any 3.\+3v \\\cline{1-2}
+\end{TabularC}

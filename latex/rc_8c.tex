@@ -1,0 +1,188 @@
+\hypertarget{rc_8c}{\section{src/main/rx/rc.c File Reference}
+\label{rc_8c}\index{src/main/rx/rc.\+c@{src/main/rx/rc.\+c}}
+}
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+Include dependency graph for rc.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rc_8c_a3a3ccc92281745ee744056358685998d}{R\+O\+L\+\_\+\+L\+O}~(1 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a2eeb9fef8a6a516fa6437a44a6efbd52}{R\+O\+L\+L}))
+\item 
+\#define \hyperlink{rc_8c_a358e27fe6d8cba93083f31c1d7622291}{R\+O\+L\+\_\+\+C\+E}~(3 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a2eeb9fef8a6a516fa6437a44a6efbd52}{R\+O\+L\+L}))
+\item 
+\#define \hyperlink{rc_8c_adf5275497c2a811190509f9191d3b5b9}{R\+O\+L\+\_\+\+H\+I}~(2 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a2eeb9fef8a6a516fa6437a44a6efbd52}{R\+O\+L\+L}))
+\item 
+\#define \hyperlink{rc_8c_ab59a52fbca99d33e2a06ce4fa7e4cbda}{P\+I\+T\+\_\+\+L\+O}~(1 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504aa4ed247aa19723caf868d2b2dd5cf4ff}{P\+I\+T\+C\+H}))
+\item 
+\#define \hyperlink{rc_8c_a335c158fcdd6526c298826d6f9c967e0}{P\+I\+T\+\_\+\+C\+E}~(3 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504aa4ed247aa19723caf868d2b2dd5cf4ff}{P\+I\+T\+C\+H}))
+\item 
+\#define \hyperlink{rc_8c_a0bd28a29443cb00283393fc6e7146db0}{P\+I\+T\+\_\+\+H\+I}~(2 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504aa4ed247aa19723caf868d2b2dd5cf4ff}{P\+I\+T\+C\+H}))
+\item 
+\#define \hyperlink{rc_8c_af0189dc99dbc09325e1fe3b594cb1111}{Y\+A\+W\+\_\+\+L\+O}~(1 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a60ae774ecd1cf97a0e91f76970d64491}{Y\+A\+W}))
+\item 
+\#define \hyperlink{rc_8c_ab6221e2d13bcc00a298431639a81e974}{Y\+A\+W\+\_\+\+C\+E}~(3 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a60ae774ecd1cf97a0e91f76970d64491}{Y\+A\+W}))
+\item 
+\#define \hyperlink{rc_8c_ad13c5860eb3eb2ab81444c009e680d6f}{Y\+A\+W\+\_\+\+H\+I}~(2 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a60ae774ecd1cf97a0e91f76970d64491}{Y\+A\+W}))
+\item 
+\#define \hyperlink{rc_8c_a87dec6b11f53fcf6a5c52995561cac7b}{T\+H\+R\+\_\+\+L\+O}~(1 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a73fe0376eae56e950136313f635836e2}{T\+H\+R\+O\+T\+T\+L\+E}))
+\item 
+\#define \hyperlink{rc_8c_a6df5cc2aaa2340d4252577dea2449c86}{T\+H\+R\+\_\+\+C\+E}~(3 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a73fe0376eae56e950136313f635836e2}{T\+H\+R\+O\+T\+T\+L\+E}))
+\item 
+\#define \hyperlink{rc_8c_a73f8397512ab28eff29650646f1ffa9f}{T\+H\+R\+\_\+\+H\+I}~(2 $<$$<$ (2 $\ast$ \hyperlink{config_2rx_8h_a274d297230c2c3646ac1fbab3572c504a73fe0376eae56e950136313f635836e2}{T\+H\+R\+O\+T\+T\+L\+E}))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rc_8c_ac8fb46a064d5d5f40f4315600e9b54ec}{rc\+\_\+update} (struct \hyperlink{structrc}{rc} $\ast$self)
+\item 
+void \hyperlink{rc_8c_aadd8ca33f3e04a093916b5d47bc43744}{rc\+\_\+init} (struct \hyperlink{structrc}{rc} $\ast$self, struct \hyperlink{structrx}{rx} $\ast$\hyperlink{structrx}{rx}, struct \hyperlink{structrc__event__listener}{rc\+\_\+event\+\_\+listener} $\ast$evl, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+int16\+\_\+t \hyperlink{rc_8c_a3564713186b1e074967a0d10610d327d}{rc\+\_\+get\+\_\+command} (struct \hyperlink{structrc}{rc} $\ast$self, uint8\+\_\+t axis)
+\item 
+\hyperlink{rc_8h_a725b08f81942c36aa9c4b7041a3d6871}{rc\+\_\+key\+\_\+state\+\_\+t} \hyperlink{rc_8c_a11da4f5017a05cf8e8447d7d9173cecd}{rc\+\_\+key\+\_\+state} (struct \hyperlink{structrc}{rc} $\ast$self, \hyperlink{rc_8h_ae3f7a6474966dabf22159d8d834fa84b}{rc\+\_\+key\+\_\+t} key)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rc_8c_a335c158fcdd6526c298826d6f9c967e0}{\index{rc.\+c@{rc.\+c}!P\+I\+T\+\_\+\+C\+E@{P\+I\+T\+\_\+\+C\+E}}
+\index{P\+I\+T\+\_\+\+C\+E@{P\+I\+T\+\_\+\+C\+E}!rc.\+c@{rc.\+c}}
+\subsubsection[{P\+I\+T\+\_\+\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+I\+T\+\_\+\+C\+E~(3 $<$$<$ (2 $\ast$ {\bf P\+I\+T\+C\+H}))}}\label{rc_8c_a335c158fcdd6526c298826d6f9c967e0}
+\hypertarget{rc_8c_a0bd28a29443cb00283393fc6e7146db0}{\index{rc.\+c@{rc.\+c}!P\+I\+T\+\_\+\+H\+I@{P\+I\+T\+\_\+\+H\+I}}
+\index{P\+I\+T\+\_\+\+H\+I@{P\+I\+T\+\_\+\+H\+I}!rc.\+c@{rc.\+c}}
+\subsubsection[{P\+I\+T\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+I\+T\+\_\+\+H\+I~(2 $<$$<$ (2 $\ast$ {\bf P\+I\+T\+C\+H}))}}\label{rc_8c_a0bd28a29443cb00283393fc6e7146db0}
+\hypertarget{rc_8c_ab59a52fbca99d33e2a06ce4fa7e4cbda}{\index{rc.\+c@{rc.\+c}!P\+I\+T\+\_\+\+L\+O@{P\+I\+T\+\_\+\+L\+O}}
+\index{P\+I\+T\+\_\+\+L\+O@{P\+I\+T\+\_\+\+L\+O}!rc.\+c@{rc.\+c}}
+\subsubsection[{P\+I\+T\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+I\+T\+\_\+\+L\+O~(1 $<$$<$ (2 $\ast$ {\bf P\+I\+T\+C\+H}))}}\label{rc_8c_ab59a52fbca99d33e2a06ce4fa7e4cbda}
+\hypertarget{rc_8c_a358e27fe6d8cba93083f31c1d7622291}{\index{rc.\+c@{rc.\+c}!R\+O\+L\+\_\+\+C\+E@{R\+O\+L\+\_\+\+C\+E}}
+\index{R\+O\+L\+\_\+\+C\+E@{R\+O\+L\+\_\+\+C\+E}!rc.\+c@{rc.\+c}}
+\subsubsection[{R\+O\+L\+\_\+\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+O\+L\+\_\+\+C\+E~(3 $<$$<$ (2 $\ast$ {\bf R\+O\+L\+L}))}}\label{rc_8c_a358e27fe6d8cba93083f31c1d7622291}
+\hypertarget{rc_8c_adf5275497c2a811190509f9191d3b5b9}{\index{rc.\+c@{rc.\+c}!R\+O\+L\+\_\+\+H\+I@{R\+O\+L\+\_\+\+H\+I}}
+\index{R\+O\+L\+\_\+\+H\+I@{R\+O\+L\+\_\+\+H\+I}!rc.\+c@{rc.\+c}}
+\subsubsection[{R\+O\+L\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+O\+L\+\_\+\+H\+I~(2 $<$$<$ (2 $\ast$ {\bf R\+O\+L\+L}))}}\label{rc_8c_adf5275497c2a811190509f9191d3b5b9}
+\hypertarget{rc_8c_a3a3ccc92281745ee744056358685998d}{\index{rc.\+c@{rc.\+c}!R\+O\+L\+\_\+\+L\+O@{R\+O\+L\+\_\+\+L\+O}}
+\index{R\+O\+L\+\_\+\+L\+O@{R\+O\+L\+\_\+\+L\+O}!rc.\+c@{rc.\+c}}
+\subsubsection[{R\+O\+L\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+O\+L\+\_\+\+L\+O~(1 $<$$<$ (2 $\ast$ {\bf R\+O\+L\+L}))}}\label{rc_8c_a3a3ccc92281745ee744056358685998d}
+\hypertarget{rc_8c_a6df5cc2aaa2340d4252577dea2449c86}{\index{rc.\+c@{rc.\+c}!T\+H\+R\+\_\+\+C\+E@{T\+H\+R\+\_\+\+C\+E}}
+\index{T\+H\+R\+\_\+\+C\+E@{T\+H\+R\+\_\+\+C\+E}!rc.\+c@{rc.\+c}}
+\subsubsection[{T\+H\+R\+\_\+\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+H\+R\+\_\+\+C\+E~(3 $<$$<$ (2 $\ast$ {\bf T\+H\+R\+O\+T\+T\+L\+E}))}}\label{rc_8c_a6df5cc2aaa2340d4252577dea2449c86}
+\hypertarget{rc_8c_a73f8397512ab28eff29650646f1ffa9f}{\index{rc.\+c@{rc.\+c}!T\+H\+R\+\_\+\+H\+I@{T\+H\+R\+\_\+\+H\+I}}
+\index{T\+H\+R\+\_\+\+H\+I@{T\+H\+R\+\_\+\+H\+I}!rc.\+c@{rc.\+c}}
+\subsubsection[{T\+H\+R\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+H\+R\+\_\+\+H\+I~(2 $<$$<$ (2 $\ast$ {\bf T\+H\+R\+O\+T\+T\+L\+E}))}}\label{rc_8c_a73f8397512ab28eff29650646f1ffa9f}
+\hypertarget{rc_8c_a87dec6b11f53fcf6a5c52995561cac7b}{\index{rc.\+c@{rc.\+c}!T\+H\+R\+\_\+\+L\+O@{T\+H\+R\+\_\+\+L\+O}}
+\index{T\+H\+R\+\_\+\+L\+O@{T\+H\+R\+\_\+\+L\+O}!rc.\+c@{rc.\+c}}
+\subsubsection[{T\+H\+R\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+H\+R\+\_\+\+L\+O~(1 $<$$<$ (2 $\ast$ {\bf T\+H\+R\+O\+T\+T\+L\+E}))}}\label{rc_8c_a87dec6b11f53fcf6a5c52995561cac7b}
+\hypertarget{rc_8c_ab6221e2d13bcc00a298431639a81e974}{\index{rc.\+c@{rc.\+c}!Y\+A\+W\+\_\+\+C\+E@{Y\+A\+W\+\_\+\+C\+E}}
+\index{Y\+A\+W\+\_\+\+C\+E@{Y\+A\+W\+\_\+\+C\+E}!rc.\+c@{rc.\+c}}
+\subsubsection[{Y\+A\+W\+\_\+\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define Y\+A\+W\+\_\+\+C\+E~(3 $<$$<$ (2 $\ast$ {\bf Y\+A\+W}))}}\label{rc_8c_ab6221e2d13bcc00a298431639a81e974}
+\hypertarget{rc_8c_ad13c5860eb3eb2ab81444c009e680d6f}{\index{rc.\+c@{rc.\+c}!Y\+A\+W\+\_\+\+H\+I@{Y\+A\+W\+\_\+\+H\+I}}
+\index{Y\+A\+W\+\_\+\+H\+I@{Y\+A\+W\+\_\+\+H\+I}!rc.\+c@{rc.\+c}}
+\subsubsection[{Y\+A\+W\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define Y\+A\+W\+\_\+\+H\+I~(2 $<$$<$ (2 $\ast$ {\bf Y\+A\+W}))}}\label{rc_8c_ad13c5860eb3eb2ab81444c009e680d6f}
+\hypertarget{rc_8c_af0189dc99dbc09325e1fe3b594cb1111}{\index{rc.\+c@{rc.\+c}!Y\+A\+W\+\_\+\+L\+O@{Y\+A\+W\+\_\+\+L\+O}}
+\index{Y\+A\+W\+\_\+\+L\+O@{Y\+A\+W\+\_\+\+L\+O}!rc.\+c@{rc.\+c}}
+\subsubsection[{Y\+A\+W\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define Y\+A\+W\+\_\+\+L\+O~(1 $<$$<$ (2 $\ast$ {\bf Y\+A\+W}))}}\label{rc_8c_af0189dc99dbc09325e1fe3b594cb1111}
+
+
+\subsection{Function Documentation}
+\hypertarget{rc_8c_a3564713186b1e074967a0d10610d327d}{\index{rc.\+c@{rc.\+c}!rc\+\_\+get\+\_\+command@{rc\+\_\+get\+\_\+command}}
+\index{rc\+\_\+get\+\_\+command@{rc\+\_\+get\+\_\+command}!rc.\+c@{rc.\+c}}
+\subsubsection[{rc\+\_\+get\+\_\+command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+\_\+get\+\_\+command (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc} $\ast$}]{self, }
+\item[{uint8\+\_\+t}]{axis}
+\end{DoxyParamCaption}
+)}}\label{rc_8c_a3564713186b1e074967a0d10610d327d}
+This function is used to get stick commands after exponential curves have been applied to the rx input.
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & one of R\+O\+L\+L, P\+I\+T\+C\+H, Y\+A\+W, T\+H\+R\+O\+T\+T\+L\+E \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a value between -\/500 and 500. 
+\end{DoxyReturn}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{rc_8c_a3564713186b1e074967a0d10610d327d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rc_8c_aadd8ca33f3e04a093916b5d47bc43744}{\index{rc.\+c@{rc.\+c}!rc\+\_\+init@{rc\+\_\+init}}
+\index{rc\+\_\+init@{rc\+\_\+init}!rc.\+c@{rc.\+c}}
+\subsubsection[{rc\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc} $\ast$}]{self, }
+\item[{struct {\bf rx} $\ast$}]{rx, }
+\item[{struct {\bf rc\+\_\+event\+\_\+listener} $\ast$}]{evl, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{rc_8c_aadd8ca33f3e04a093916b5d47bc43744}
+Initializes a new rc struct. 
+\begin{DoxyParams}{Parameters}
+{\em rx} & instance of the underlying rx to read values from. \\
+\hline
+{\em evl} & event listener or N\+U\+L\+L \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc_8c_aadd8ca33f3e04a093916b5d47bc43744_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rc_8c_a11da4f5017a05cf8e8447d7d9173cecd}{\index{rc.\+c@{rc.\+c}!rc\+\_\+key\+\_\+state@{rc\+\_\+key\+\_\+state}}
+\index{rc\+\_\+key\+\_\+state@{rc\+\_\+key\+\_\+state}!rc.\+c@{rc.\+c}}
+\subsubsection[{rc\+\_\+key\+\_\+state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rc\+\_\+key\+\_\+state\+\_\+t} rc\+\_\+key\+\_\+state (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc} $\ast$}]{rc, }
+\item[{{\bf rc\+\_\+key\+\_\+t}}]{key}
+\end{DoxyParamCaption}
+)}}\label{rc_8c_a11da4f5017a05cf8e8447d7d9173cecd}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key for which to return state \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current state of the key (P\+R\+E\+S\+S\+E\+D, R\+E\+L\+E\+A\+S\+E\+D, D\+I\+S\+A\+B\+L\+E\+D) 
+\end{DoxyReturn}
+\hypertarget{rc_8c_ac8fb46a064d5d5f40f4315600e9b54ec}{\index{rc.\+c@{rc.\+c}!rc\+\_\+update@{rc\+\_\+update}}
+\index{rc\+\_\+update@{rc\+\_\+update}!rc.\+c@{rc.\+c}}
+\subsubsection[{rc\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rc_8c_ac8fb46a064d5d5f40f4315600e9b54ec}
+Runs an iteration of the rc calculations. This function does not call update on the underlying receiver object -\/ user is expected to update the receiver object outside of rc object (and possibly at a different rate). The responsibility of this function is mainly taking care of repeat logic and firing new events for keys that are pressed for a while. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc_8c_ac8fb46a064d5d5f40f4315600e9b54ec_cgraph}
+\end{center}
+\end{figure}
+
+

@@ -1,0 +1,155 @@
+\hypertarget{sensors_2barometer_8h}{\section{src/main/sensors/barometer.h File Reference}
+\label{sensors_2barometer_8h}\index{src/main/sensors/barometer.\+h@{src/main/sensors/barometer.\+h}}
+}
+{\ttfamily \#include \char`\"{}../config/barometer.\+h\char`\"{}}\\*
+Include dependency graph for barometer.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{sensors_2barometer_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensors_2barometer_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbaro}{baro}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sensors_2barometer_8h_ae42d15c713b1fae96719529eaec6f26f}{B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X}~48
+\item 
+\#define \hyperlink{sensors_2barometer_8h_a84f969a66daab08c19a3710213bf9749}{B\+A\+R\+O\+\_\+\+M\+A\+X}~\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da0e5009497ccbaede0e14c2d72dea1891}{B\+A\+R\+O\+\_\+\+B\+M\+P280}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3d}{baro\+Sensor\+\_\+e} \{ \\*
+\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7ef72c41126f3d17807fc883ccc13287}{B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T} = 0, 
+\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da9b3a7444f594998d29ddcebd9c1b67ef}{B\+A\+R\+O\+\_\+\+N\+O\+N\+E} = 1, 
+\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da4db61a9d31fddd2dfbc5f7a7ca37286a}{B\+A\+R\+O\+\_\+\+B\+M\+P085} = 2, 
+\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7942b6cc12c7155989afefd3f339c02d}{B\+A\+R\+O\+\_\+\+M\+S5611} = 3, 
+\\*
+\hyperlink{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da0e5009497ccbaede0e14c2d72dea1891}{B\+A\+R\+O\+\_\+\+B\+M\+P280} = 4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sensors_2barometer_8h_a96ad453b5c69a0ccb52473b818abb50d}{baro\+\_\+init} (struct \hyperlink{structbaro}{baro} $\ast$self, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+bool \hyperlink{sensors_2barometer_8h_ae23758755fa4adc9aded65b6ec60ec9b}{baro\+\_\+is\+\_\+calibrated} (struct \hyperlink{structbaro}{baro} $\ast$self)
+\item 
+void \hyperlink{sensors_2barometer_8h_ac084c2e853000ce814a6ccdd7bb534c0}{baro\+\_\+start\+\_\+calibration} (struct \hyperlink{structbaro}{baro} $\ast$self)
+\item 
+uint32\+\_\+t \hyperlink{sensors_2barometer_8h_a19e98a6c7bfaf58ef7865e18124503ee}{baro\+\_\+update} (struct \hyperlink{structbaro}{baro} $\ast$self)
+\item 
+bool \hyperlink{sensors_2barometer_8h_aecd2566d932c9e0daa593d40d810adb3}{baro\+\_\+is\+\_\+ready} (struct \hyperlink{structbaro}{baro} $\ast$self)
+\item 
+int32\+\_\+t \hyperlink{sensors_2barometer_8h_ad0d60265451fab97f7f836ebe7cb0e1f}{baro\+\_\+calc\+\_\+altitude} (struct \hyperlink{structbaro}{baro} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sensors_2barometer_8h_a84f969a66daab08c19a3710213bf9749}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+M\+A\+X@{B\+A\+R\+O\+\_\+\+M\+A\+X}}
+\index{B\+A\+R\+O\+\_\+\+M\+A\+X@{B\+A\+R\+O\+\_\+\+M\+A\+X}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{B\+A\+R\+O\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+R\+O\+\_\+\+M\+A\+X~{\bf B\+A\+R\+O\+\_\+\+B\+M\+P280}}}\label{sensors_2barometer_8h_a84f969a66daab08c19a3710213bf9749}
+\hypertarget{sensors_2barometer_8h_ae42d15c713b1fae96719529eaec6f26f}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X@{B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X}}
+\index{B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X@{B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+R\+O\+\_\+\+S\+A\+M\+P\+L\+E\+\_\+\+C\+O\+U\+N\+T\+\_\+\+M\+A\+X~48}}\label{sensors_2barometer_8h_ae42d15c713b1fae96719529eaec6f26f}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3d}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+Sensor\+\_\+e@{baro\+Sensor\+\_\+e}}
+\index{baro\+Sensor\+\_\+e@{baro\+Sensor\+\_\+e}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+Sensor\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf baro\+Sensor\+\_\+e}}}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3d}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T@{B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}!sensors/barometer.\+h@{sensors/barometer.\+h}}\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T@{B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}}\item[{\em 
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7ef72c41126f3d17807fc883ccc13287}{B\+A\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7ef72c41126f3d17807fc883ccc13287}
+}]\index{B\+A\+R\+O\+\_\+\+N\+O\+N\+E@{B\+A\+R\+O\+\_\+\+N\+O\+N\+E}!sensors/barometer.\+h@{sensors/barometer.\+h}}\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+N\+O\+N\+E@{B\+A\+R\+O\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da9b3a7444f594998d29ddcebd9c1b67ef}{B\+A\+R\+O\+\_\+\+N\+O\+N\+E}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da9b3a7444f594998d29ddcebd9c1b67ef}
+}]\index{B\+A\+R\+O\+\_\+\+B\+M\+P085@{B\+A\+R\+O\+\_\+\+B\+M\+P085}!sensors/barometer.\+h@{sensors/barometer.\+h}}\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+B\+M\+P085@{B\+A\+R\+O\+\_\+\+B\+M\+P085}}\item[{\em 
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da4db61a9d31fddd2dfbc5f7a7ca37286a}{B\+A\+R\+O\+\_\+\+B\+M\+P085}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da4db61a9d31fddd2dfbc5f7a7ca37286a}
+}]\index{B\+A\+R\+O\+\_\+\+M\+S5611@{B\+A\+R\+O\+\_\+\+M\+S5611}!sensors/barometer.\+h@{sensors/barometer.\+h}}\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+M\+S5611@{B\+A\+R\+O\+\_\+\+M\+S5611}}\item[{\em 
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7942b6cc12c7155989afefd3f339c02d}{B\+A\+R\+O\+\_\+\+M\+S5611}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da7942b6cc12c7155989afefd3f339c02d}
+}]\index{B\+A\+R\+O\+\_\+\+B\+M\+P280@{B\+A\+R\+O\+\_\+\+B\+M\+P280}!sensors/barometer.\+h@{sensors/barometer.\+h}}\index{sensors/barometer.\+h@{sensors/barometer.\+h}!B\+A\+R\+O\+\_\+\+B\+M\+P280@{B\+A\+R\+O\+\_\+\+B\+M\+P280}}\item[{\em 
+\hypertarget{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da0e5009497ccbaede0e14c2d72dea1891}{B\+A\+R\+O\+\_\+\+B\+M\+P280}\label{sensors_2barometer_8h_a2f1759701af74d774202d9cfa0221f3da0e5009497ccbaede0e14c2d72dea1891}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{sensors_2barometer_8h_ad0d60265451fab97f7f836ebe7cb0e1f}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+calc\+\_\+altitude@{baro\+\_\+calc\+\_\+altitude}}
+\index{baro\+\_\+calc\+\_\+altitude@{baro\+\_\+calc\+\_\+altitude}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+calc\+\_\+altitude}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t baro\+\_\+calc\+\_\+altitude (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_ad0d60265451fab97f7f836ebe7cb0e1f}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{sensors_2barometer_8h_ad0d60265451fab97f7f836ebe7cb0e1f_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sensors_2barometer_8h_a96ad453b5c69a0ccb52473b818abb50d}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+init@{baro\+\_\+init}}
+\index{baro\+\_\+init@{baro\+\_\+init}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void baro\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_a96ad453b5c69a0ccb52473b818abb50d}
+\hypertarget{sensors_2barometer_8h_ae23758755fa4adc9aded65b6ec60ec9b}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+is\+\_\+calibrated@{baro\+\_\+is\+\_\+calibrated}}
+\index{baro\+\_\+is\+\_\+calibrated@{baro\+\_\+is\+\_\+calibrated}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+is\+\_\+calibrated}]{\setlength{\rightskip}{0pt plus 5cm}bool baro\+\_\+is\+\_\+calibrated (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_ae23758755fa4adc9aded65b6ec60ec9b}
+\hypertarget{sensors_2barometer_8h_aecd2566d932c9e0daa593d40d810adb3}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+is\+\_\+ready@{baro\+\_\+is\+\_\+ready}}
+\index{baro\+\_\+is\+\_\+ready@{baro\+\_\+is\+\_\+ready}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+is\+\_\+ready}]{\setlength{\rightskip}{0pt plus 5cm}bool baro\+\_\+is\+\_\+ready (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_aecd2566d932c9e0daa593d40d810adb3}
+\hypertarget{sensors_2barometer_8h_ac084c2e853000ce814a6ccdd7bb534c0}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+start\+\_\+calibration@{baro\+\_\+start\+\_\+calibration}}
+\index{baro\+\_\+start\+\_\+calibration@{baro\+\_\+start\+\_\+calibration}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+start\+\_\+calibration}]{\setlength{\rightskip}{0pt plus 5cm}void baro\+\_\+start\+\_\+calibration (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_ac084c2e853000ce814a6ccdd7bb534c0}
+\hypertarget{sensors_2barometer_8h_a19e98a6c7bfaf58ef7865e18124503ee}{\index{sensors/barometer.\+h@{sensors/barometer.\+h}!baro\+\_\+update@{baro\+\_\+update}}
+\index{baro\+\_\+update@{baro\+\_\+update}!sensors/barometer.\+h@{sensors/barometer.\+h}}
+\subsubsection[{baro\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t baro\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf baro} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{sensors_2barometer_8h_a19e98a6c7bfaf58ef7865e18124503ee}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{sensors_2barometer_8h_a19e98a6c7bfaf58ef7865e18124503ee_cgraph}
+\end{center}
+\end{figure}
+
+

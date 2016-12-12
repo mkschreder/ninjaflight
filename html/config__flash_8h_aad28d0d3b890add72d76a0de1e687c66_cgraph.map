@@ -1,0 +1,5 @@
+<map id="flash_erase_page" name="flash_erase_page">
+<area shape="rect" id="node2" href="$mock__flash_8cc.html#a4084d0184bab463a1579271bf474aaef" title="FLASH_Unlock" alt="" coords="190,5,303,32"/>
+<area shape="rect" id="node3" href="$mock__flash_8cc.html#acc0d5bb9eadcbdc191cab2d88467c22c" title="FLASH_ErasePage" alt="" coords="179,56,315,83"/>
+<area shape="rect" id="node4" href="$mock__flash_8cc.html#a46899557353c4312ddbe3f25e65df1d8" title="FLASH_Lock" alt="" coords="197,107,297,133"/>
+</map>

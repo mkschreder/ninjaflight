@@ -1,0 +1,70 @@
+\hypertarget{telemetry_2telemetry_8h}{\section{src/main/telemetry/telemetry.h File Reference}
+\label{telemetry_2telemetry_8h}\index{src/main/telemetry/telemetry.\+h@{src/main/telemetry/telemetry.\+h}}
+}
+{\ttfamily \#include \char`\"{}../config/telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+Include dependency graph for telemetry.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{telemetry_2telemetry_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{telemetry_2telemetry_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{telemetry_2telemetry_8h_a0c4ea4eb508cdc73bc92fbb9236e235d}{telemetry\+Init} (void)
+\item 
+void \hyperlink{telemetry_2telemetry_8h_a6f6c98f430faec06b82a443733190148}{telemetry\+Check\+State} (void)
+\item 
+void \hyperlink{telemetry_2telemetry_8h_a8a688523a0f44a62a38bbfd47349f07a}{telemetry\+Process} (uint16\+\_\+t deadband3d\+\_\+throttle)
+\item 
+bool \hyperlink{telemetry_2telemetry_8h_a8dd0a868c00b6ff209a14bc93ba0e030}{telemetry\+Determine\+Enabled\+State} (\hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022}{port\+Sharing\+\_\+e} port\+Sharing)
+\item 
+void \hyperlink{telemetry_2telemetry_8h_a2e9fd09670cc303530c49531999503e6}{telemetry\+Use\+Config} (struct \hyperlink{structtelemetry__config}{telemetry\+\_\+config} $\ast$telemetry\+Config)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{telemetry_2telemetry_8h_a6f6c98f430faec06b82a443733190148}{\index{telemetry/telemetry.\+h@{telemetry/telemetry.\+h}!telemetry\+Check\+State@{telemetry\+Check\+State}}
+\index{telemetry\+Check\+State@{telemetry\+Check\+State}!telemetry/telemetry.\+h@{telemetry/telemetry.\+h}}
+\subsubsection[{telemetry\+Check\+State}]{\setlength{\rightskip}{0pt plus 5cm}void telemetry\+Check\+State (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2telemetry_8h_a6f6c98f430faec06b82a443733190148}
+\hypertarget{telemetry_2telemetry_8h_a8dd0a868c00b6ff209a14bc93ba0e030}{\index{telemetry/telemetry.\+h@{telemetry/telemetry.\+h}!telemetry\+Determine\+Enabled\+State@{telemetry\+Determine\+Enabled\+State}}
+\index{telemetry\+Determine\+Enabled\+State@{telemetry\+Determine\+Enabled\+State}!telemetry/telemetry.\+h@{telemetry/telemetry.\+h}}
+\subsubsection[{telemetry\+Determine\+Enabled\+State}]{\setlength{\rightskip}{0pt plus 5cm}bool telemetry\+Determine\+Enabled\+State (
+\begin{DoxyParamCaption}
+\item[{{\bf port\+Sharing\+\_\+e}}]{port\+Sharing}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2telemetry_8h_a8dd0a868c00b6ff209a14bc93ba0e030}
+\hypertarget{telemetry_2telemetry_8h_a0c4ea4eb508cdc73bc92fbb9236e235d}{\index{telemetry/telemetry.\+h@{telemetry/telemetry.\+h}!telemetry\+Init@{telemetry\+Init}}
+\index{telemetry\+Init@{telemetry\+Init}!telemetry/telemetry.\+h@{telemetry/telemetry.\+h}}
+\subsubsection[{telemetry\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void telemetry\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2telemetry_8h_a0c4ea4eb508cdc73bc92fbb9236e235d}
+\hypertarget{telemetry_2telemetry_8h_a8a688523a0f44a62a38bbfd47349f07a}{\index{telemetry/telemetry.\+h@{telemetry/telemetry.\+h}!telemetry\+Process@{telemetry\+Process}}
+\index{telemetry\+Process@{telemetry\+Process}!telemetry/telemetry.\+h@{telemetry/telemetry.\+h}}
+\subsubsection[{telemetry\+Process}]{\setlength{\rightskip}{0pt plus 5cm}void telemetry\+Process (
+\begin{DoxyParamCaption}
+\item[{uint16\+\_\+t}]{deadband3d\+\_\+throttle}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2telemetry_8h_a8a688523a0f44a62a38bbfd47349f07a}
+\hypertarget{telemetry_2telemetry_8h_a2e9fd09670cc303530c49531999503e6}{\index{telemetry/telemetry.\+h@{telemetry/telemetry.\+h}!telemetry\+Use\+Config@{telemetry\+Use\+Config}}
+\index{telemetry\+Use\+Config@{telemetry\+Use\+Config}!telemetry/telemetry.\+h@{telemetry/telemetry.\+h}}
+\subsubsection[{telemetry\+Use\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void telemetry\+Use\+Config (
+\begin{DoxyParamCaption}
+\item[{struct {\bf telemetry\+\_\+config} $\ast$}]{telemetry\+Config}
+\end{DoxyParamCaption}
+)}}\label{telemetry_2telemetry_8h_a2e9fd09670cc303530c49531999503e6}

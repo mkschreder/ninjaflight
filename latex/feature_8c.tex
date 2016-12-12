@@ -1,0 +1,69 @@
+\hypertarget{feature_8c}{\section{src/main/config/feature.c File Reference}
+\label{feature_8c}\index{src/main/config/feature.\+c@{src/main/config/feature.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+Include dependency graph for feature.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{feature_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{feature_8c_a641ef22a35e58a892d10019dd45f693b}{feature} (const struct \hyperlink{structconfig}{config} $\ast$self, uint32\+\_\+t mask)
+\item 
+void \hyperlink{feature_8c_a9d55a8e2b66804f2e6a67794a23c53c4}{feature\+Set} (struct \hyperlink{structconfig}{config} $\ast$self, uint32\+\_\+t mask)
+\item 
+void \hyperlink{feature_8c_aa7714e4f8d8fccb09d2158ea41c21bcf}{feature\+Clear} (struct \hyperlink{structconfig}{config} $\ast$self, uint32\+\_\+t mask)
+\item 
+void \hyperlink{feature_8c_aba7ca4cd5f1fadbb9ce0499ecfebd673}{feature\+Clear\+All} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+uint32\+\_\+t \hyperlink{feature_8c_a9148354b07df205fc445614f742bf82d}{feature\+Mask} (const struct \hyperlink{structconfig}{config} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{feature_8c_a641ef22a35e58a892d10019dd45f693b}{\index{feature.\+c@{feature.\+c}!feature@{feature}}
+\index{feature@{feature}!feature.\+c@{feature.\+c}}
+\subsubsection[{feature}]{\setlength{\rightskip}{0pt plus 5cm}bool feature (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$}]{self, }
+\item[{uint32\+\_\+t}]{mask}
+\end{DoxyParamCaption}
+)}}\label{feature_8c_a641ef22a35e58a892d10019dd45f693b}
+\hypertarget{feature_8c_aa7714e4f8d8fccb09d2158ea41c21bcf}{\index{feature.\+c@{feature.\+c}!feature\+Clear@{feature\+Clear}}
+\index{feature\+Clear@{feature\+Clear}!feature.\+c@{feature.\+c}}
+\subsubsection[{feature\+Clear}]{\setlength{\rightskip}{0pt plus 5cm}void feature\+Clear (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self, }
+\item[{uint32\+\_\+t}]{mask}
+\end{DoxyParamCaption}
+)}}\label{feature_8c_aa7714e4f8d8fccb09d2158ea41c21bcf}
+\hypertarget{feature_8c_aba7ca4cd5f1fadbb9ce0499ecfebd673}{\index{feature.\+c@{feature.\+c}!feature\+Clear\+All@{feature\+Clear\+All}}
+\index{feature\+Clear\+All@{feature\+Clear\+All}!feature.\+c@{feature.\+c}}
+\subsubsection[{feature\+Clear\+All}]{\setlength{\rightskip}{0pt plus 5cm}void feature\+Clear\+All (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{feature_8c_aba7ca4cd5f1fadbb9ce0499ecfebd673}
+\hypertarget{feature_8c_a9148354b07df205fc445614f742bf82d}{\index{feature.\+c@{feature.\+c}!feature\+Mask@{feature\+Mask}}
+\index{feature\+Mask@{feature\+Mask}!feature.\+c@{feature.\+c}}
+\subsubsection[{feature\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t feature\+Mask (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{feature_8c_a9148354b07df205fc445614f742bf82d}
+\hypertarget{feature_8c_a9d55a8e2b66804f2e6a67794a23c53c4}{\index{feature.\+c@{feature.\+c}!feature\+Set@{feature\+Set}}
+\index{feature\+Set@{feature\+Set}!feature.\+c@{feature.\+c}}
+\subsubsection[{feature\+Set}]{\setlength{\rightskip}{0pt plus 5cm}void feature\+Set (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self, }
+\item[{uint32\+\_\+t}]{mask}
+\end{DoxyParamCaption}
+)}}\label{feature_8c_a9d55a8e2b66804f2e6a67794a23c53c4}

@@ -1,0 +1,6 @@
+<map id="flightLogEventData_u" name="flightLogEventData_u">
+<area shape="rect" id="node2" href="$structflightLogEvent__loggingResume__s.html" title="flightLogEvent_loggingResume_s" alt="" coords="13,5,229,32"/>
+<area shape="rect" id="node3" href="$structflightLogEvent__inflightAdjustment__s.html" title="flightLogEvent_inflightAdjustment_s" alt="" coords="6,56,237,83"/>
+<area shape="rect" id="node4" href="$structflightLogEvent__syncBeep__s.html" title="flightLogEvent_syncBeep_s" alt="" coords="29,107,213,133"/>
+<area shape="rect" id="node5" href="$structflightLogEvent__gtuneCycleResult__s.html" title="flightLogEvent_gtuneCycle\lResult_s" alt="" coords="32,158,211,199"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Configuration" name="Configuration">
+<area shape="rect" id="node1" href="$group__altitudehold.html" title="Altitudehold" alt="" coords="160,5,251,32"/>
+<area shape="rect" id="node2" href="$group__accelerometer.html" title="Accelerometer" alt="" coords="152,56,259,83"/>
+<area shape="rect" id="node3" href="$group__anglerate.html" title="Anglerate" alt="" coords="167,107,244,133"/>
+</map>

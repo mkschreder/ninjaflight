@@ -1,0 +1,10 @@
+<map id="src/main/drivers/system.c" name="src/main/drivers/system.c">
+<area shape="rect" id="node7" href="$build__config_8h.html" title="build_config.h" alt="" coords="477,80,579,107"/>
+<area shape="rect" id="node8" href="$gpio_8h.html" title="gpio.h" alt="" coords="878,155,935,181"/>
+<area shape="rect" id="node9" href="$light__led_8h.html" title="light_led.h" alt="" coords="655,80,736,107"/>
+<area shape="rect" id="node10" href="$sound__beeper_8h.html" title="sound_beeper.h" alt="" coords="761,80,876,107"/>
+<area shape="rect" id="node11" href="$nvic_8h.html" title="nvic.h" alt="" coords="901,80,957,107"/>
+<area shape="rect" id="node12" href="$drivers_2serial_8h.html" title="serial.h" alt="" coords="1089,155,1153,181"/>
+<area shape="rect" id="node13" href="$serial__uart_8h.html" title="serial_uart.h" alt="" coords="1033,80,1127,107"/>
+<area shape="rect" id="node14" href="$drivers_2system_8h.html" title="system.h" alt="" coords="94,80,169,107"/>
+</map>

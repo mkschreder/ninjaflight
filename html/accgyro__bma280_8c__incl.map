@@ -1,0 +1,6 @@
+<map id="src/main/drivers/accgyro_bma280.c" name="src/main/drivers/accgyro_bma280.c">
+<area shape="rect" id="node5" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="298,96,376,123"/>
+<area shape="rect" id="node6" href="$accgyro_8h.html" title="accgyro.h" alt="" coords="401,96,479,123"/>
+<area shape="rect" id="node8" href="$accgyro__bma280_8h.html" title="accgyro_bma280.h" alt="" coords="503,96,635,123"/>
+<area shape="rect" id="node7" href="$sensor_8h.html" title="sensor.h" alt="" coords="404,171,476,197"/>
+</map>

@@ -1,0 +1,338 @@
+\hypertarget{io_2serial_8c}{\section{src/main/io/serial.c File Reference}
+\label{io_2serial_8c}\index{src/main/io/serial.\+c@{src/main/io/serial.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+softserial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+uart.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+usb\+\_\+vcp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cli.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}serial\+\_\+msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+Include dependency graph for serial.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2serial_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structfindSerialPortConfigState__s}{find\+Serial\+Port\+Config\+State\+\_\+s}
+\item 
+struct \hyperlink{structfindSharedSerialPortState__s}{find\+Shared\+Serial\+Port\+State\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{io_2serial_8c_a9f47d1e87b9c408a0474dbf19d015d0f}{B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T}~(sizeof(\hyperlink{io_2serial_8h_a191a9cbf7985a69be4cd9f4be9ff16b0}{baud\+Rates}) / sizeof(\hyperlink{io_2serial_8h_a191a9cbf7985a69be4cd9f4be9ff16b0}{baud\+Rates}\mbox{[}0\mbox{]}))
+\item 
+\#define \hyperlink{io_2serial_8c_a4f0cfb60883eb3727ff366d96fa43ac0}{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K}~(\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aaf5605fdd54707292dea89a43d92e9fda}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y} $\vert$ \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aae1a03bcbe8c676d57adf02fbcfe7cb8f}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T} $\vert$ \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa378208ad167b4495b1e168ab1b4d496d}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T} $\vert$ \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa6fd55cb06c35cdb651d9d594e70a3074}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M} $\vert$ \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aacde7ae11328018e8fda431db58c0b450}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K})
+\item 
+\#define \hyperlink{io_2serial_8c_a76c5acd711cdde71cfbb3149c90d656b}{A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P}~(\hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53aa8d2900985a96fb634c785b4b9a1da985}{F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X} $\vert$ \hyperlink{io_2serial_8c_a4f0cfb60883eb3727ff366d96fa43ac0}{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K})
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{structfindSerialPortConfigState__s}{find\+Serial\+Port\+Config\+State\+\_\+s} \hyperlink{io_2serial_8c_a9afa64f58f476cd3fe769eb981c61f4b}{find\+Serial\+Port\+Config\+State\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structfindSharedSerialPortState__s}{find\+Shared\+Serial\+Port\+State\+\_\+s} \hyperlink{io_2serial_8c_a9d4b345bbbb4eb863c822ec8fe290515}{find\+Shared\+Serial\+Port\+State\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{config_2serial_8h_a34775f541400347acca97e61d50cda2c}{baud\+Rate\+\_\+e} \hyperlink{io_2serial_8c_aa31bec0567fb3ec8feb2a4d5c04cc69c}{lookup\+Baud\+Rate\+Index} (uint32\+\_\+t baud\+Rate)
+\item 
+const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$ \hyperlink{io_2serial_8c_a53600a4049a86b6a6e2db79616cf8485}{find\+Serial\+Port\+Config} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} function)
+\item 
+const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$ \hyperlink{io_2serial_8c_aaa599061d713c2505f357830ff813269}{find\+Next\+Serial\+Port\+Config} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} function)
+\item 
+\hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022}{port\+Sharing\+\_\+e} \hyperlink{io_2serial_8c_a17574ae466f1d6b856a2d758bc133761}{determine\+Port\+Sharing} (const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$port\+Config, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} function)
+\item 
+bool \hyperlink{io_2serial_8c_abd3e1422b427aa398095eea66a8a24e0}{is\+Serial\+Port\+Shared} (const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$port\+Config, uint16\+\_\+t \hyperlink{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}{function\+Mask}, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} shared\+With\+Function)
+\item 
+bool \hyperlink{io_2serial_8c_af3c6182afffee5a8924ae8895e7431cd}{is\+Serial\+Port\+Open} (const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$port\+Config)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{io_2serial_8c_a3db24d6c2336a8ea65a7085ea8b33040}{find\+Shared\+Serial\+Port} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, uint16\+\_\+t \hyperlink{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}{function\+Mask}, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} shared\+With\+Function)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{io_2serial_8c_a81ee4d07fad686ba465b06675752543c}{find\+Next\+Shared\+Serial\+Port} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, uint16\+\_\+t \hyperlink{config_2serial_8h_aa345c9e8901f9587f36916b913f68bce}{function\+Mask}, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} shared\+With\+Function)
+\item 
+bool \hyperlink{io_2serial_8c_a2a233469ed4ca7295ae6bc799e53267c}{is\+Serial\+Config\+Valid} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$serial\+Config\+To\+Check)
+\item 
+const struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$ \hyperlink{io_2serial_8c_a0a4ac7d4ea3a6131ce7ac63537d810db}{serial\+Find\+Port\+Configuration} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, \hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier})
+\item 
+bool \hyperlink{io_2serial_8c_ad3dc62da43d3124ed233d7185b21029e}{does\+Configuration\+Use\+Port} (const struct \hyperlink{structserial__config}{serial\+\_\+config} $\ast$self, \hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier})
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{io_2serial_8c_a33064d55a95cc79ba9c264dc44cf5f89}{open\+Serial\+Port} (\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier}, \hyperlink{config_2serial_8h_a8ba154b06bfcc6ed804f92dd0b50a53a}{serial\+Port\+Function\+\_\+e} function, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode}, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\item 
+void \hyperlink{io_2serial_8c_a1cf7594afa49b89359feffe00c7aa2de}{close\+Serial\+Port} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$serial\+Port)
+\item 
+void \hyperlink{io_2serial_8c_a3d2fba5d2ef11009043f101849b2c797}{serial\+Init} (bool softserial\+Enabled)
+\item 
+void \hyperlink{io_2serial_8c_ae8c5990456650446d2bb00fa9d9e8294}{serial\+Remove\+Port} (\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier})
+\item 
+uint8\+\_\+t \hyperlink{io_2serial_8c_ad663ac833f5ec3f93e97f3a358702675}{serial\+Get\+Available\+Port\+Count} (void)
+\item 
+bool \hyperlink{io_2serial_8c_aee8184ebe298a680075082337c0bfaa8}{serial\+Is\+Port\+Available} (\hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{config_2serial_8h_a80d4e0d6dc905f23680141f7531f49ef}{identifier})
+\item 
+void \hyperlink{io_2serial_8c_aacf1e06791249cd1f57ffa58c28f36ca}{wait\+For\+Serial\+Port\+To\+Finish\+Transmitting} (\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$serial\+Port)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{io_2serial_8c_a438cd9c91dc32b7d3d8c291b0043ae64}{serial\+Port\+Count}
+\item 
+const uint32\+\_\+t \hyperlink{io_2serial_8c_a191a9cbf7985a69be4cd9f4be9ff16b0}{baud\+Rates} \mbox{[}$\,$\mbox{]} = \{0, 9600, 19200, 38400, 57600, 115200, 230400, 250000\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{io_2serial_8c_a76c5acd711cdde71cfbb3149c90d656b}{\index{io/serial.\+c@{io/serial.\+c}!A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P@{A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P}}
+\index{A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P@{A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+L\+L\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+S\+H\+A\+R\+A\+B\+L\+E\+\_\+\+W\+I\+T\+H\+\_\+\+M\+S\+P~({\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X} $\vert$ {\bf A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K})}}\label{io_2serial_8c_a76c5acd711cdde71cfbb3149c90d656b}
+\hypertarget{io_2serial_8c_a4f0cfb60883eb3727ff366d96fa43ac0}{\index{io/serial.\+c@{io/serial.\+c}!A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K@{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K}}
+\index{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K@{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+L\+L\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+M\+A\+S\+K~({\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+F\+R\+S\+K\+Y} $\vert$ {\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+H\+O\+T\+T} $\vert$ {\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+S\+M\+A\+R\+T\+P\+O\+R\+T} $\vert$ {\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+L\+T\+M} $\vert$ {\bf F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+M\+A\+V\+L\+I\+N\+K})}}\label{io_2serial_8c_a4f0cfb60883eb3727ff366d96fa43ac0}
+\hypertarget{io_2serial_8c_a9f47d1e87b9c408a0474dbf19d015d0f}{\index{io/serial.\+c@{io/serial.\+c}!B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T@{B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T}}
+\index{B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T@{B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+U\+D\+\_\+\+R\+A\+T\+E\+\_\+\+C\+O\+U\+N\+T~(sizeof({\bf baud\+Rates}) / sizeof({\bf baud\+Rates}\mbox{[}0\mbox{]}))}}\label{io_2serial_8c_a9f47d1e87b9c408a0474dbf19d015d0f}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{io_2serial_8c_a9afa64f58f476cd3fe769eb981c61f4b}{\index{io/serial.\+c@{io/serial.\+c}!find\+Serial\+Port\+Config\+State\+\_\+t@{find\+Serial\+Port\+Config\+State\+\_\+t}}
+\index{find\+Serial\+Port\+Config\+State\+\_\+t@{find\+Serial\+Port\+Config\+State\+\_\+t}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Serial\+Port\+Config\+State\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf find\+Serial\+Port\+Config\+State\+\_\+s}  {\bf find\+Serial\+Port\+Config\+State\+\_\+t}}}\label{io_2serial_8c_a9afa64f58f476cd3fe769eb981c61f4b}
+\hypertarget{io_2serial_8c_a9d4b345bbbb4eb863c822ec8fe290515}{\index{io/serial.\+c@{io/serial.\+c}!find\+Shared\+Serial\+Port\+State\+\_\+t@{find\+Shared\+Serial\+Port\+State\+\_\+t}}
+\index{find\+Shared\+Serial\+Port\+State\+\_\+t@{find\+Shared\+Serial\+Port\+State\+\_\+t}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Shared\+Serial\+Port\+State\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf find\+Shared\+Serial\+Port\+State\+\_\+s}  {\bf find\+Shared\+Serial\+Port\+State\+\_\+t}}}\label{io_2serial_8c_a9d4b345bbbb4eb863c822ec8fe290515}
+
+
+\subsection{Function Documentation}
+\hypertarget{io_2serial_8c_a1cf7594afa49b89359feffe00c7aa2de}{\index{io/serial.\+c@{io/serial.\+c}!close\+Serial\+Port@{close\+Serial\+Port}}
+\index{close\+Serial\+Port@{close\+Serial\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{close\+Serial\+Port}]{\setlength{\rightskip}{0pt plus 5cm}void close\+Serial\+Port (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{serial\+Port}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a1cf7594afa49b89359feffe00c7aa2de}
+\hypertarget{io_2serial_8c_a17574ae466f1d6b856a2d758bc133761}{\index{io/serial.\+c@{io/serial.\+c}!determine\+Port\+Sharing@{determine\+Port\+Sharing}}
+\index{determine\+Port\+Sharing@{determine\+Port\+Sharing}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{determine\+Port\+Sharing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf port\+Sharing\+\_\+e} determine\+Port\+Sharing (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+port\+\_\+config} $\ast$}]{port\+Config, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a17574ae466f1d6b856a2d758bc133761}
+\hypertarget{io_2serial_8c_ad3dc62da43d3124ed233d7185b21029e}{\index{io/serial.\+c@{io/serial.\+c}!does\+Configuration\+Use\+Port@{does\+Configuration\+Use\+Port}}
+\index{does\+Configuration\+Use\+Port@{does\+Configuration\+Use\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{does\+Configuration\+Use\+Port}]{\setlength{\rightskip}{0pt plus 5cm}bool does\+Configuration\+Use\+Port (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{{\bf serial\+Port\+Identifier\+\_\+e}}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_ad3dc62da43d3124ed233d7185b21029e}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2serial_8c_ad3dc62da43d3124ed233d7185b21029e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{io_2serial_8c_aaa599061d713c2505f357830ff813269}{\index{io/serial.\+c@{io/serial.\+c}!find\+Next\+Serial\+Port\+Config@{find\+Next\+Serial\+Port\+Config}}
+\index{find\+Next\+Serial\+Port\+Config@{find\+Next\+Serial\+Port\+Config}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Next\+Serial\+Port\+Config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf serial\+\_\+port\+\_\+config}$\ast$ find\+Next\+Serial\+Port\+Config (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_aaa599061d713c2505f357830ff813269}
+\hypertarget{io_2serial_8c_a81ee4d07fad686ba465b06675752543c}{\index{io/serial.\+c@{io/serial.\+c}!find\+Next\+Shared\+Serial\+Port@{find\+Next\+Shared\+Serial\+Port}}
+\index{find\+Next\+Shared\+Serial\+Port@{find\+Next\+Shared\+Serial\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Next\+Shared\+Serial\+Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ find\+Next\+Shared\+Serial\+Port (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{uint16\+\_\+t}]{function\+Mask, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{shared\+With\+Function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a81ee4d07fad686ba465b06675752543c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{io_2serial_8c_a81ee4d07fad686ba465b06675752543c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{io_2serial_8c_a53600a4049a86b6a6e2db79616cf8485}{\index{io/serial.\+c@{io/serial.\+c}!find\+Serial\+Port\+Config@{find\+Serial\+Port\+Config}}
+\index{find\+Serial\+Port\+Config@{find\+Serial\+Port\+Config}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Serial\+Port\+Config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf serial\+\_\+port\+\_\+config}$\ast$ find\+Serial\+Port\+Config (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a53600a4049a86b6a6e2db79616cf8485}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{io_2serial_8c_a53600a4049a86b6a6e2db79616cf8485_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{io_2serial_8c_a3db24d6c2336a8ea65a7085ea8b33040}{\index{io/serial.\+c@{io/serial.\+c}!find\+Shared\+Serial\+Port@{find\+Shared\+Serial\+Port}}
+\index{find\+Shared\+Serial\+Port@{find\+Shared\+Serial\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{find\+Shared\+Serial\+Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ find\+Shared\+Serial\+Port (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{uint16\+\_\+t}]{function\+Mask, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{shared\+With\+Function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a3db24d6c2336a8ea65a7085ea8b33040}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2serial_8c_a3db24d6c2336a8ea65a7085ea8b33040_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{io_2serial_8c_a2a233469ed4ca7295ae6bc799e53267c}{\index{io/serial.\+c@{io/serial.\+c}!is\+Serial\+Config\+Valid@{is\+Serial\+Config\+Valid}}
+\index{is\+Serial\+Config\+Valid@{is\+Serial\+Config\+Valid}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{is\+Serial\+Config\+Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Serial\+Config\+Valid (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{serial\+Config\+To\+Check}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a2a233469ed4ca7295ae6bc799e53267c}
+\hypertarget{io_2serial_8c_af3c6182afffee5a8924ae8895e7431cd}{\index{io/serial.\+c@{io/serial.\+c}!is\+Serial\+Port\+Open@{is\+Serial\+Port\+Open}}
+\index{is\+Serial\+Port\+Open@{is\+Serial\+Port\+Open}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{is\+Serial\+Port\+Open}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Serial\+Port\+Open (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+port\+\_\+config} $\ast$}]{port\+Config}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_af3c6182afffee5a8924ae8895e7431cd}
+\hypertarget{io_2serial_8c_abd3e1422b427aa398095eea66a8a24e0}{\index{io/serial.\+c@{io/serial.\+c}!is\+Serial\+Port\+Shared@{is\+Serial\+Port\+Shared}}
+\index{is\+Serial\+Port\+Shared@{is\+Serial\+Port\+Shared}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{is\+Serial\+Port\+Shared}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Serial\+Port\+Shared (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+port\+\_\+config} $\ast$}]{port\+Config, }
+\item[{uint16\+\_\+t}]{function\+Mask, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{shared\+With\+Function}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_abd3e1422b427aa398095eea66a8a24e0}
+\hypertarget{io_2serial_8c_aa31bec0567fb3ec8feb2a4d5c04cc69c}{\index{io/serial.\+c@{io/serial.\+c}!lookup\+Baud\+Rate\+Index@{lookup\+Baud\+Rate\+Index}}
+\index{lookup\+Baud\+Rate\+Index@{lookup\+Baud\+Rate\+Index}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{lookup\+Baud\+Rate\+Index}]{\setlength{\rightskip}{0pt plus 5cm}{\bf baud\+Rate\+\_\+e} lookup\+Baud\+Rate\+Index (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{baud\+Rate}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_aa31bec0567fb3ec8feb2a4d5c04cc69c}
+\hypertarget{io_2serial_8c_a33064d55a95cc79ba9c264dc44cf5f89}{\index{io/serial.\+c@{io/serial.\+c}!open\+Serial\+Port@{open\+Serial\+Port}}
+\index{open\+Serial\+Port@{open\+Serial\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{open\+Serial\+Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ open\+Serial\+Port (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+Identifier\+\_\+e}}]{identifier, }
+\item[{{\bf serial\+Port\+Function\+\_\+e}}]{function, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a33064d55a95cc79ba9c264dc44cf5f89}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2serial_8c_a33064d55a95cc79ba9c264dc44cf5f89_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{io_2serial_8c_a0a4ac7d4ea3a6131ce7ac63537d810db}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Find\+Port\+Configuration@{serial\+Find\+Port\+Configuration}}
+\index{serial\+Find\+Port\+Configuration@{serial\+Find\+Port\+Configuration}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Find\+Port\+Configuration}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf serial\+\_\+port\+\_\+config}$\ast$ serial\+Find\+Port\+Configuration (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf serial\+\_\+config} $\ast$}]{self, }
+\item[{{\bf serial\+Port\+Identifier\+\_\+e}}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a0a4ac7d4ea3a6131ce7ac63537d810db}
+\hypertarget{io_2serial_8c_ad663ac833f5ec3f93e97f3a358702675}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Get\+Available\+Port\+Count@{serial\+Get\+Available\+Port\+Count}}
+\index{serial\+Get\+Available\+Port\+Count@{serial\+Get\+Available\+Port\+Count}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Get\+Available\+Port\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Get\+Available\+Port\+Count (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_ad663ac833f5ec3f93e97f3a358702675}
+\hypertarget{io_2serial_8c_a3d2fba5d2ef11009043f101849b2c797}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Init@{serial\+Init}}
+\index{serial\+Init@{serial\+Init}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Init (
+\begin{DoxyParamCaption}
+\item[{bool}]{softserial\+Enabled}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_a3d2fba5d2ef11009043f101849b2c797}
+\hypertarget{io_2serial_8c_aee8184ebe298a680075082337c0bfaa8}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Is\+Port\+Available@{serial\+Is\+Port\+Available}}
+\index{serial\+Is\+Port\+Available@{serial\+Is\+Port\+Available}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Is\+Port\+Available}]{\setlength{\rightskip}{0pt plus 5cm}bool serial\+Is\+Port\+Available (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+Identifier\+\_\+e}}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_aee8184ebe298a680075082337c0bfaa8}
+\hypertarget{io_2serial_8c_ae8c5990456650446d2bb00fa9d9e8294}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Remove\+Port@{serial\+Remove\+Port}}
+\index{serial\+Remove\+Port@{serial\+Remove\+Port}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Remove\+Port}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Remove\+Port (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+Identifier\+\_\+e}}]{identifier}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_ae8c5990456650446d2bb00fa9d9e8294}
+\hypertarget{io_2serial_8c_aacf1e06791249cd1f57ffa58c28f36ca}{\index{io/serial.\+c@{io/serial.\+c}!wait\+For\+Serial\+Port\+To\+Finish\+Transmitting@{wait\+For\+Serial\+Port\+To\+Finish\+Transmitting}}
+\index{wait\+For\+Serial\+Port\+To\+Finish\+Transmitting@{wait\+For\+Serial\+Port\+To\+Finish\+Transmitting}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{wait\+For\+Serial\+Port\+To\+Finish\+Transmitting}]{\setlength{\rightskip}{0pt plus 5cm}void wait\+For\+Serial\+Port\+To\+Finish\+Transmitting (
+\begin{DoxyParamCaption}
+\item[{{\bf serial\+Port\+\_\+t} $\ast$}]{serial\+Port}
+\end{DoxyParamCaption}
+)}}\label{io_2serial_8c_aacf1e06791249cd1f57ffa58c28f36ca}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{io_2serial_8c_aacf1e06791249cd1f57ffa58c28f36ca_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{io_2serial_8c_a191a9cbf7985a69be4cd9f4be9ff16b0}{\index{io/serial.\+c@{io/serial.\+c}!baud\+Rates@{baud\+Rates}}
+\index{baud\+Rates@{baud\+Rates}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{baud\+Rates}]{\setlength{\rightskip}{0pt plus 5cm}const uint32\+\_\+t baud\+Rates\mbox{[}$\,$\mbox{]} = \{0, 9600, 19200, 38400, 57600, 115200, 230400, 250000\}}}\label{io_2serial_8c_a191a9cbf7985a69be4cd9f4be9ff16b0}
+\hypertarget{io_2serial_8c_a438cd9c91dc32b7d3d8c291b0043ae64}{\index{io/serial.\+c@{io/serial.\+c}!serial\+Port\+Count@{serial\+Port\+Count}}
+\index{serial\+Port\+Count@{serial\+Port\+Count}!io/serial.\+c@{io/serial.\+c}}
+\subsubsection[{serial\+Port\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Port\+Count}}\label{io_2serial_8c_a438cd9c91dc32b7d3d8c291b0043ae64}

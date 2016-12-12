@@ -1,0 +1,232 @@
+\hypertarget{battery__unittest_8cc}{\section{src/test/unit/battery\+\_\+unittest.cc File Reference}
+\label{battery__unittest_8cc}\index{src/test/unit/battery\+\_\+unittest.\+cc@{src/test/unit/battery\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/beeper.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/filter.\+h\char`\"{}}\\*
+Include dependency graph for battery\+\_\+unittest.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{battery__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbatteryAdcToVoltageExpectation__s}{battery\+Adc\+To\+Voltage\+Expectation\+\_\+s}
+\item 
+struct \hyperlink{structbatteryAdcToBatteryStateExpectation__s}{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+s}
+\item 
+struct \hyperlink{structbatteryAdcToCellCountExpectation__s}{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{battery__unittest_8cc_af8972f120e380a0c282a02335f08eb33}{E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R}~110
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{structbatteryAdcToVoltageExpectation__s}{battery\+Adc\+To\+Voltage\+Expectation\+\_\+s} \hyperlink{battery__unittest_8cc_abfcd59ab086d3a677841fe58276740ae}{battery\+Adc\+To\+Voltage\+Expectation\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structbatteryAdcToBatteryStateExpectation__s}{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+s} \hyperlink{battery__unittest_8cc_a4b7e2f60157a6362532cfc5f22e2a604}{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structbatteryAdcToCellCountExpectation__s}{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+s} \hyperlink{battery__unittest_8cc_a8cf8e35c90f9f4c7a5201df4507bd6cb}{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \hyperlink{battery__unittest_8cc_a165388d46cfe92362823c91e0304ad15}{battery\+Adc\+To\+Voltage} (uint16\+\_\+t src)
+\item 
+uint16\+\_\+t \hyperlink{battery__unittest_8cc_a86fd892a3ca494c1e56413f2a60d485a}{\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage} (struct \hyperlink{structbattery}{battery} $\ast$self, uint16\+\_\+t src)
+\item 
+\hyperlink{battery__unittest_8cc_a389d344553c6214534fda3f367caf22c}{T\+E\+S\+T} (Battery\+Test, Battery\+A\+D\+C\+To\+Voltage)
+\item 
+\hyperlink{battery__unittest_8cc_ab0075ec325953e733b202aebf8aa1571}{T\+E\+S\+T} (Battery\+Test, Battery\+State)
+\item 
+\hyperlink{battery__unittest_8cc_affb8b78db898ac1675e2dee899126908}{T\+E\+S\+T} (Battery\+Test, Cell\+Count)
+\item 
+\hyperlink{battery__unittest_8cc_ad6991ded3e3b16b98f9b01bcb5b6bb60}{T\+E\+S\+T} (Battery\+Test, Roll\+Over\+Pattern1)
+\item 
+\hyperlink{battery__unittest_8cc_a146f44b40c1a7e372e8eeaf825e10ffd}{T\+E\+S\+T} (Battery\+Test, Roll\+Over\+Pattern2)
+\item 
+float \hyperlink{battery__unittest_8cc_a0a8fc4d542ea87774f572d8227ee41a3}{apply\+Bi\+Quad\+Filter} (float sample, \hyperlink{filter_8h_a7256a3fa62e7894f819ddd905006ad2e}{biquad\+\_\+t} $\ast$state)
+\item 
+void \hyperlink{battery__unittest_8cc_a0d345930980c9f0da44533d92ddb5b86}{Bi\+Quad\+New\+Lpf} (float filter\+Cut\+Freq, \hyperlink{filter_8h_a7256a3fa62e7894f819ddd905006ad2e}{biquad\+\_\+t} $\ast$new\+State, uint32\+\_\+t refresh\+Rate)
+\item 
+bool \hyperlink{battery__unittest_8cc_abc8587c28b888a5e63aeaec10676ddb7}{feature} (uint32\+\_\+t mask)
+\item 
+uint16\+\_\+t \hyperlink{battery__unittest_8cc_a2d0d5a65f5512e8066b0c38e9c76897b}{adc\+Get\+Channel} (uint8\+\_\+t channel)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \hyperlink{battery__unittest_8cc_a96efa89217427a5a4de2ebf9981fb5be}{current\+A\+D\+C\+Reading}
+\item 
+uint8\+\_\+t \hyperlink{battery__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}{arming\+Flags} = 0
+\item 
+int16\+\_\+t \hyperlink{battery__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{rc\+Command} \mbox{[}4\mbox{]} = \{0,0,0,0\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{battery__unittest_8cc_af8972f120e380a0c282a02335f08eb33}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R@{E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R@{E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+L\+E\+V\+E\+N\+\_\+\+T\+O\+\_\+\+O\+N\+E\+\_\+\+V\+O\+L\+T\+A\+G\+E\+\_\+\+D\+I\+V\+I\+D\+E\+R~110}}\label{battery__unittest_8cc_af8972f120e380a0c282a02335f08eb33}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{battery__unittest_8cc_a4b7e2f60157a6362532cfc5f22e2a604}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t@{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t}}
+\index{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t@{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+s}  {\bf battery\+Adc\+To\+Battery\+State\+Expectation\+\_\+t}}}\label{battery__unittest_8cc_a4b7e2f60157a6362532cfc5f22e2a604}
+\hypertarget{battery__unittest_8cc_a8cf8e35c90f9f4c7a5201df4507bd6cb}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t@{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t}}
+\index{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t@{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+s}  {\bf battery\+Adc\+To\+Cell\+Count\+Expectation\+\_\+t}}}\label{battery__unittest_8cc_a8cf8e35c90f9f4c7a5201df4507bd6cb}
+\hypertarget{battery__unittest_8cc_abfcd59ab086d3a677841fe58276740ae}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!battery\+Adc\+To\+Voltage\+Expectation\+\_\+t@{battery\+Adc\+To\+Voltage\+Expectation\+\_\+t}}
+\index{battery\+Adc\+To\+Voltage\+Expectation\+\_\+t@{battery\+Adc\+To\+Voltage\+Expectation\+\_\+t}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{battery\+Adc\+To\+Voltage\+Expectation\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf battery\+Adc\+To\+Voltage\+Expectation\+\_\+s}  {\bf battery\+Adc\+To\+Voltage\+Expectation\+\_\+t}}}\label{battery__unittest_8cc_abfcd59ab086d3a677841fe58276740ae}
+
+
+\subsection{Function Documentation}
+\hypertarget{battery__unittest_8cc_a86fd892a3ca494c1e56413f2a60d485a}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage@{\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage}}
+\index{\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage@{\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{\+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+battery\+\_\+adc\+\_\+to\+\_\+voltage (
+\begin{DoxyParamCaption}
+\item[{struct {\bf battery} $\ast$}]{self, }
+\item[{uint16\+\_\+t}]{src}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a86fd892a3ca494c1e56413f2a60d485a}
+\hypertarget{battery__unittest_8cc_a2d0d5a65f5512e8066b0c38e9c76897b}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!adc\+Get\+Channel@{adc\+Get\+Channel}}
+\index{adc\+Get\+Channel@{adc\+Get\+Channel}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{adc\+Get\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t adc\+Get\+Channel (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a2d0d5a65f5512e8066b0c38e9c76897b}
+\hypertarget{battery__unittest_8cc_a0a8fc4d542ea87774f572d8227ee41a3}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!apply\+Bi\+Quad\+Filter@{apply\+Bi\+Quad\+Filter}}
+\index{apply\+Bi\+Quad\+Filter@{apply\+Bi\+Quad\+Filter}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{apply\+Bi\+Quad\+Filter}]{\setlength{\rightskip}{0pt plus 5cm}float apply\+Bi\+Quad\+Filter (
+\begin{DoxyParamCaption}
+\item[{float}]{sample, }
+\item[{{\bf biquad\+\_\+t} $\ast$}]{state}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a0a8fc4d542ea87774f572d8227ee41a3}
+\hypertarget{battery__unittest_8cc_a165388d46cfe92362823c91e0304ad15}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!battery\+Adc\+To\+Voltage@{battery\+Adc\+To\+Voltage}}
+\index{battery\+Adc\+To\+Voltage@{battery\+Adc\+To\+Voltage}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{battery\+Adc\+To\+Voltage}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t battery\+Adc\+To\+Voltage (
+\begin{DoxyParamCaption}
+\item[{uint16\+\_\+t}]{src}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a165388d46cfe92362823c91e0304ad15}
+\hypertarget{battery__unittest_8cc_a0d345930980c9f0da44533d92ddb5b86}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!Bi\+Quad\+New\+Lpf@{Bi\+Quad\+New\+Lpf}}
+\index{Bi\+Quad\+New\+Lpf@{Bi\+Quad\+New\+Lpf}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{Bi\+Quad\+New\+Lpf}]{\setlength{\rightskip}{0pt plus 5cm}void Bi\+Quad\+New\+Lpf (
+\begin{DoxyParamCaption}
+\item[{float}]{filter\+Cut\+Freq, }
+\item[{{\bf biquad\+\_\+t} $\ast$}]{new\+State, }
+\item[{uint32\+\_\+t}]{refresh\+Rate}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a0d345930980c9f0da44533d92ddb5b86}
+\hypertarget{battery__unittest_8cc_abc8587c28b888a5e63aeaec10676ddb7}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!feature@{feature}}
+\index{feature@{feature}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{feature}]{\setlength{\rightskip}{0pt plus 5cm}bool feature (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{mask}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_abc8587c28b888a5e63aeaec10676ddb7}
+\hypertarget{battery__unittest_8cc_a389d344553c6214534fda3f367caf22c}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Battery\+Test}]{, }
+\item[{Battery\+A\+D\+C\+To\+Voltage}]{}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a389d344553c6214534fda3f367caf22c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{battery__unittest_8cc_a389d344553c6214534fda3f367caf22c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{battery__unittest_8cc_ab0075ec325953e733b202aebf8aa1571}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Battery\+Test}]{, }
+\item[{Battery\+State}]{}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_ab0075ec325953e733b202aebf8aa1571}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{battery__unittest_8cc_ab0075ec325953e733b202aebf8aa1571_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{battery__unittest_8cc_affb8b78db898ac1675e2dee899126908}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Battery\+Test}]{, }
+\item[{Cell\+Count}]{}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_affb8b78db898ac1675e2dee899126908}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{battery__unittest_8cc_affb8b78db898ac1675e2dee899126908_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{battery__unittest_8cc_ad6991ded3e3b16b98f9b01bcb5b6bb60}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Battery\+Test}]{, }
+\item[{Roll\+Over\+Pattern1}]{}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_ad6991ded3e3b16b98f9b01bcb5b6bb60}
+These next two tests do not test any production code (!) but serves as an example of how to use a signed variable for timing purposes.
+
+The 'signed diff timing' pattern is followed in a few places in the production codebase. \hypertarget{battery__unittest_8cc_a146f44b40c1a7e372e8eeaf825e10ffd}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Battery\+Test}]{, }
+\item[{Roll\+Over\+Pattern2}]{}
+\end{DoxyParamCaption}
+)}}\label{battery__unittest_8cc_a146f44b40c1a7e372e8eeaf825e10ffd}
+
+
+\subsection{Variable Documentation}
+\hypertarget{battery__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!arming\+Flags@{arming\+Flags}}
+\index{arming\+Flags@{arming\+Flags}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{arming\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t arming\+Flags = 0}}\label{battery__unittest_8cc_a4cda3c6f1153be6fcfc9e8006fc311e5}
+\hypertarget{battery__unittest_8cc_a96efa89217427a5a4de2ebf9981fb5be}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!current\+A\+D\+C\+Reading@{current\+A\+D\+C\+Reading}}
+\index{current\+A\+D\+C\+Reading@{current\+A\+D\+C\+Reading}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{current\+A\+D\+C\+Reading}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t current\+A\+D\+C\+Reading}}\label{battery__unittest_8cc_a96efa89217427a5a4de2ebf9981fb5be}
+\hypertarget{battery__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}{\index{battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}!rc\+Command@{rc\+Command}}
+\index{rc\+Command@{rc\+Command}!battery\+\_\+unittest.\+cc@{battery\+\_\+unittest.\+cc}}
+\subsubsection[{rc\+Command}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rc\+Command\mbox{[}4\mbox{]} = \{0,0,0,0\}}}\label{battery__unittest_8cc_a9a0c78dfc7223feffbdd4f1d4f0f5b62}

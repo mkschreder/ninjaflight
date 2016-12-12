@@ -1,0 +1,5 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$ledstrip_8c.html#af4f9e303212d0db856b3f759e94484ea" title="Currently reloads config from the global store TODO: pass config to init! " alt="" coords="110,31,258,57"/>
+<area shape="rect" id="node3" href="$ledstrip__unittest_8cc.html#a4682fc95eeb7881e31512400406de72e" title="determineLedStripDimensions" alt="" coords="307,5,503,32"/>
+<area shape="rect" id="node4" href="$ledstrip__unittest_8cc.html#a7c1622a20b48fbc276b1cb69658609ba" title="determineOrientationLimits" alt="" coords="317,56,494,83"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="cli_start" name="cli_start">
+<area shape="rect" id="node2" href="$printf_8c.html#a2bae28268997bbdccafe9c03bc286eb9" title="setPrintfSerialPort" alt="" coords="127,5,255,32"/>
+<area shape="rect" id="node3" href="$buf__writer_8c.html#a1e6475df23b19ae0b2bec62f9dad0850" title="bufWriterInit" alt="" coords="144,56,237,83"/>
+<area shape="rect" id="node4" href="$drivers_2serial_8c.html#a434b04f9469873a5d3a8545efcc16048" title="serialWriteBufShim" alt="" coords="123,107,258,133"/>
+<area shape="rect" id="node5" href="$drivers_2serial_8c.html#aa777b1bacb4f44b825ae85b893ac6fb4" title="serialWriteBuf" alt="" coords="307,107,411,133"/>
+<area shape="rect" id="node6" href="$drivers_2serial_8c.html#a0ebfe50dff84b18bb7d79e0c2bbc8515" title="serialTxBytesFree" alt="" coords="459,81,587,108"/>
+<area shape="rect" id="node7" href="$drivers_2serial_8c.html#a1d2886fbce32033a1af48d522439756b" title="serialWrite" alt="" coords="481,132,565,159"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="pwmIOConfiguration_s" name="pwmIOConfiguration_s">
+<area shape="rect" id="node2" href="$structpwmPortConfiguration__s.html" title="pwmPortConfiguration_s" alt="" coords="44,187,208,213"/>
+<area shape="rect" id="node3" href="$structtimerHardware__s.html" title="timerHardware_s" alt="" coords="66,96,187,123"/>
+<area shape="rect" id="node4" href="$structGPIO__TypeDef.html" title="GPIO_TypeDef" alt="" coords="5,5,116,32"/>
+<area shape="rect" id="node5" href="$structTIM__TypeDef.html" title="TIM_TypeDef" alt="" coords="142,5,244,32"/>
+</map>

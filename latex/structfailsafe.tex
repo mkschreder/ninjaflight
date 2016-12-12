@@ -1,0 +1,98 @@
+\hypertarget{structfailsafe}{\section{failsafe Struct Reference}
+\label{structfailsafe}\index{failsafe@{failsafe}}
+}
+
+
+{\ttfamily \#include $<$failsafe.\+h$>$}
+
+
+
+Collaboration diagram for failsafe\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structfailsafe__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{structfailsafe_ab61bccb24bb84bd336703f788ba95402}{events}
+\item 
+bool \hyperlink{structfailsafe_a0d29bdd14fec13b3811740242f1db6ae}{monitoring}
+\item 
+bool \hyperlink{structfailsafe_a4f7fe0d7138c8042eedaf4dc1e62cbc9}{active}
+\item 
+uint32\+\_\+t \hyperlink{structfailsafe_aefb8e7f9cee5f3f88590e69105ddd592}{rx\+Data\+Failure\+Period}
+\item 
+uint32\+\_\+t \hyperlink{structfailsafe_a2697d9428c0ffc03a2eab4c664253e89}{valid\+Rx\+Data\+Received\+At}
+\item 
+uint32\+\_\+t \hyperlink{structfailsafe_ad4a10974833eccd3d7ffc88f5df60217}{valid\+Rx\+Data\+Failed\+At}
+\item 
+\hyperlink{system__calls_8h_a62a9a2e72861132c17d4d4b29bb8b80a}{sys\+\_\+millis\+\_\+t} \hyperlink{structfailsafe_ac476e200aabbbd5ea074c861a766214c}{throttle\+Low\+Period}
+\item 
+\hyperlink{system__calls_8h_a62a9a2e72861132c17d4d4b29bb8b80a}{sys\+\_\+millis\+\_\+t} \hyperlink{structfailsafe_a6592a05658dbb0ac38976a89c0387e36}{landing\+Should\+Be\+Finished\+At}
+\item 
+\hyperlink{system__calls_8h_a62a9a2e72861132c17d4d4b29bb8b80a}{sys\+\_\+millis\+\_\+t} \hyperlink{structfailsafe_a6a48c4335cd09a4409bba7773aeb724e}{receiving\+Rx\+Data\+Period}
+\item 
+\hyperlink{system__calls_8h_a62a9a2e72861132c17d4d4b29bb8b80a}{sys\+\_\+millis\+\_\+t} \hyperlink{structfailsafe_ab17287e520198750a3b109bc5151b408}{receiving\+Rx\+Data\+Period\+Preset}
+\item 
+\hyperlink{flight_2failsafe_8h_ac818cdd9595e16dec1248366ceee914d}{failsafe\+Phase\+\_\+e} \hyperlink{structfailsafe_ab0418135d1db3ed90d35412c94c7c7e7}{phase}
+\item 
+\hyperlink{flight_2failsafe_8h_a87da93a7d0bf77ce89ebc237b35f9663}{failsafe\+Rx\+Link\+State\+\_\+e} \hyperlink{structfailsafe_a3e6c21f8fb7c3eccad8e5c6063fc6b2d}{rx\+Link\+State}
+\item 
+struct \hyperlink{structninja}{ninja} $\ast$ \hyperlink{structfailsafe_a77b0679a1533f438af97a87d68ebd66b}{ninja}
+\item 
+const struct \hyperlink{structconfig}{config} $\ast$ \hyperlink{structfailsafe_a25f186b5f6631cc0fc8811a9f03125b5}{config}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structfailsafe_a4f7fe0d7138c8042eedaf4dc1e62cbc9}{\index{failsafe@{failsafe}!active@{active}}
+\index{active@{active}!failsafe@{failsafe}}
+\subsubsection[{active}]{\setlength{\rightskip}{0pt plus 5cm}bool failsafe\+::active}}\label{structfailsafe_a4f7fe0d7138c8042eedaf4dc1e62cbc9}
+\hypertarget{structfailsafe_a25f186b5f6631cc0fc8811a9f03125b5}{\index{failsafe@{failsafe}!config@{config}}
+\index{config@{config}!failsafe@{failsafe}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf config}$\ast$ failsafe\+::config}}\label{structfailsafe_a25f186b5f6631cc0fc8811a9f03125b5}
+\hypertarget{structfailsafe_ab61bccb24bb84bd336703f788ba95402}{\index{failsafe@{failsafe}!events@{events}}
+\index{events@{events}!failsafe@{failsafe}}
+\subsubsection[{events}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t failsafe\+::events}}\label{structfailsafe_ab61bccb24bb84bd336703f788ba95402}
+\hypertarget{structfailsafe_a6592a05658dbb0ac38976a89c0387e36}{\index{failsafe@{failsafe}!landing\+Should\+Be\+Finished\+At@{landing\+Should\+Be\+Finished\+At}}
+\index{landing\+Should\+Be\+Finished\+At@{landing\+Should\+Be\+Finished\+At}!failsafe@{failsafe}}
+\subsubsection[{landing\+Should\+Be\+Finished\+At}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sys\+\_\+millis\+\_\+t} failsafe\+::landing\+Should\+Be\+Finished\+At}}\label{structfailsafe_a6592a05658dbb0ac38976a89c0387e36}
+\hypertarget{structfailsafe_a0d29bdd14fec13b3811740242f1db6ae}{\index{failsafe@{failsafe}!monitoring@{monitoring}}
+\index{monitoring@{monitoring}!failsafe@{failsafe}}
+\subsubsection[{monitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool failsafe\+::monitoring}}\label{structfailsafe_a0d29bdd14fec13b3811740242f1db6ae}
+\hypertarget{structfailsafe_a77b0679a1533f438af97a87d68ebd66b}{\index{failsafe@{failsafe}!ninja@{ninja}}
+\index{ninja@{ninja}!failsafe@{failsafe}}
+\subsubsection[{ninja}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf ninja}$\ast$ failsafe\+::ninja}}\label{structfailsafe_a77b0679a1533f438af97a87d68ebd66b}
+\hypertarget{structfailsafe_ab0418135d1db3ed90d35412c94c7c7e7}{\index{failsafe@{failsafe}!phase@{phase}}
+\index{phase@{phase}!failsafe@{failsafe}}
+\subsubsection[{phase}]{\setlength{\rightskip}{0pt plus 5cm}{\bf failsafe\+Phase\+\_\+e} failsafe\+::phase}}\label{structfailsafe_ab0418135d1db3ed90d35412c94c7c7e7}
+\hypertarget{structfailsafe_a6a48c4335cd09a4409bba7773aeb724e}{\index{failsafe@{failsafe}!receiving\+Rx\+Data\+Period@{receiving\+Rx\+Data\+Period}}
+\index{receiving\+Rx\+Data\+Period@{receiving\+Rx\+Data\+Period}!failsafe@{failsafe}}
+\subsubsection[{receiving\+Rx\+Data\+Period}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sys\+\_\+millis\+\_\+t} failsafe\+::receiving\+Rx\+Data\+Period}}\label{structfailsafe_a6a48c4335cd09a4409bba7773aeb724e}
+\hypertarget{structfailsafe_ab17287e520198750a3b109bc5151b408}{\index{failsafe@{failsafe}!receiving\+Rx\+Data\+Period\+Preset@{receiving\+Rx\+Data\+Period\+Preset}}
+\index{receiving\+Rx\+Data\+Period\+Preset@{receiving\+Rx\+Data\+Period\+Preset}!failsafe@{failsafe}}
+\subsubsection[{receiving\+Rx\+Data\+Period\+Preset}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sys\+\_\+millis\+\_\+t} failsafe\+::receiving\+Rx\+Data\+Period\+Preset}}\label{structfailsafe_ab17287e520198750a3b109bc5151b408}
+\hypertarget{structfailsafe_aefb8e7f9cee5f3f88590e69105ddd592}{\index{failsafe@{failsafe}!rx\+Data\+Failure\+Period@{rx\+Data\+Failure\+Period}}
+\index{rx\+Data\+Failure\+Period@{rx\+Data\+Failure\+Period}!failsafe@{failsafe}}
+\subsubsection[{rx\+Data\+Failure\+Period}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t failsafe\+::rx\+Data\+Failure\+Period}}\label{structfailsafe_aefb8e7f9cee5f3f88590e69105ddd592}
+\hypertarget{structfailsafe_a3e6c21f8fb7c3eccad8e5c6063fc6b2d}{\index{failsafe@{failsafe}!rx\+Link\+State@{rx\+Link\+State}}
+\index{rx\+Link\+State@{rx\+Link\+State}!failsafe@{failsafe}}
+\subsubsection[{rx\+Link\+State}]{\setlength{\rightskip}{0pt plus 5cm}{\bf failsafe\+Rx\+Link\+State\+\_\+e} failsafe\+::rx\+Link\+State}}\label{structfailsafe_a3e6c21f8fb7c3eccad8e5c6063fc6b2d}
+\hypertarget{structfailsafe_ac476e200aabbbd5ea074c861a766214c}{\index{failsafe@{failsafe}!throttle\+Low\+Period@{throttle\+Low\+Period}}
+\index{throttle\+Low\+Period@{throttle\+Low\+Period}!failsafe@{failsafe}}
+\subsubsection[{throttle\+Low\+Period}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sys\+\_\+millis\+\_\+t} failsafe\+::throttle\+Low\+Period}}\label{structfailsafe_ac476e200aabbbd5ea074c861a766214c}
+\hypertarget{structfailsafe_ad4a10974833eccd3d7ffc88f5df60217}{\index{failsafe@{failsafe}!valid\+Rx\+Data\+Failed\+At@{valid\+Rx\+Data\+Failed\+At}}
+\index{valid\+Rx\+Data\+Failed\+At@{valid\+Rx\+Data\+Failed\+At}!failsafe@{failsafe}}
+\subsubsection[{valid\+Rx\+Data\+Failed\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t failsafe\+::valid\+Rx\+Data\+Failed\+At}}\label{structfailsafe_ad4a10974833eccd3d7ffc88f5df60217}
+\hypertarget{structfailsafe_a2697d9428c0ffc03a2eab4c664253e89}{\index{failsafe@{failsafe}!valid\+Rx\+Data\+Received\+At@{valid\+Rx\+Data\+Received\+At}}
+\index{valid\+Rx\+Data\+Received\+At@{valid\+Rx\+Data\+Received\+At}!failsafe@{failsafe}}
+\subsubsection[{valid\+Rx\+Data\+Received\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t failsafe\+::valid\+Rx\+Data\+Received\+At}}\label{structfailsafe_a2697d9428c0ffc03a2eab4c664253e89}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/flight/\hyperlink{flight_2failsafe_8h}{failsafe.\+h}\end{DoxyCompactItemize}

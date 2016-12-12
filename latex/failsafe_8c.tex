@@ -1,0 +1,151 @@
+\hypertarget{failsafe_8c}{\section{src/main/flight/failsafe.c File Reference}
+\label{failsafe_8c}\index{src/main/flight/failsafe.\+c@{src/main/flight/failsafe.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/beeper.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../ninjaflight.\+h\char`\"{}}\\*
+Include dependency graph for failsafe.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{failsafe_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{failsafe_8c_ad38c147b634ae7c8e65998f1ddc81fe0}{failsafe\+\_\+reset} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_a529e7569a999694606a1498fb519fb71}{failsafe\+\_\+init} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self, struct \hyperlink{structninja}{ninja} $\ast$\hyperlink{structninja}{ninja}, const struct \hyperlink{structconfig}{config} const $\ast$\hyperlink{structconfig}{config})
+\item 
+\hyperlink{flight_2failsafe_8h_ac818cdd9595e16dec1248366ceee914d}{failsafe\+Phase\+\_\+e} \hyperlink{failsafe_8c_a4ed5062e4acb1d1b7f5e9fc3d5d5f6aa}{failsafe\+\_\+get\+\_\+state} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+bool \hyperlink{failsafe_8c_a6c3fc6b32b335997bb2bae53997c0b9f}{failsafe\+\_\+is\+\_\+monitoring} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+bool \hyperlink{failsafe_8c_a73daef00c7b4f462b3a3678c129ddf5b}{failsafe\+\_\+is\+\_\+active} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_a72689c9501a0959a89bbc9fea3b1161f}{failsafe\+\_\+start\+\_\+monitoring} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+bool \hyperlink{failsafe_8c_a3171662ec605cc8852f637ffd21c081a}{failsafe\+\_\+is\+\_\+receiving\+\_\+rx} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_ab95078b92af03a4bdaed9681246cccde}{failsafe\+\_\+on\+\_\+rx\+\_\+suspend} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self, uint32\+\_\+t us\+Suspend\+Period)
+\item 
+void \hyperlink{failsafe_8c_aeda3e4fd8da695ef0a4ef33cc223e165}{failsafe\+\_\+on\+\_\+rx\+\_\+resume} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_a1190dae1e0e61d781ae6e97b7c494729}{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_a9c4b5157c17c3cbf23aa9369c9153943}{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\item 
+void \hyperlink{failsafe_8c_a1adfe81707dfbc446d7b2f2e64b3acbe}{failsafe\+\_\+update} (struct \hyperlink{structfailsafe}{failsafe} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{failsafe_8c_a4ed5062e4acb1d1b7f5e9fc3d5d5f6aa}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+get\+\_\+state@{failsafe\+\_\+get\+\_\+state}}
+\index{failsafe\+\_\+get\+\_\+state@{failsafe\+\_\+get\+\_\+state}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+get\+\_\+state}]{\setlength{\rightskip}{0pt plus 5cm}{\bf failsafe\+Phase\+\_\+e} failsafe\+\_\+get\+\_\+state (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a4ed5062e4acb1d1b7f5e9fc3d5d5f6aa}
+\hypertarget{failsafe_8c_a529e7569a999694606a1498fb519fb71}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+init@{failsafe\+\_\+init}}
+\index{failsafe\+\_\+init@{failsafe\+\_\+init}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self, }
+\item[{struct {\bf ninja} $\ast$}]{ninja, }
+\item[{const struct {\bf config} const $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a529e7569a999694606a1498fb519fb71}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{failsafe_8c_a529e7569a999694606a1498fb519fb71_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{failsafe_8c_a73daef00c7b4f462b3a3678c129ddf5b}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+is\+\_\+active@{failsafe\+\_\+is\+\_\+active}}
+\index{failsafe\+\_\+is\+\_\+active@{failsafe\+\_\+is\+\_\+active}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+is\+\_\+active}]{\setlength{\rightskip}{0pt plus 5cm}bool failsafe\+\_\+is\+\_\+active (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a73daef00c7b4f462b3a3678c129ddf5b}
+\hypertarget{failsafe_8c_a6c3fc6b32b335997bb2bae53997c0b9f}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+is\+\_\+monitoring@{failsafe\+\_\+is\+\_\+monitoring}}
+\index{failsafe\+\_\+is\+\_\+monitoring@{failsafe\+\_\+is\+\_\+monitoring}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+is\+\_\+monitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool failsafe\+\_\+is\+\_\+monitoring (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a6c3fc6b32b335997bb2bae53997c0b9f}
+\hypertarget{failsafe_8c_a3171662ec605cc8852f637ffd21c081a}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+is\+\_\+receiving\+\_\+rx@{failsafe\+\_\+is\+\_\+receiving\+\_\+rx}}
+\index{failsafe\+\_\+is\+\_\+receiving\+\_\+rx@{failsafe\+\_\+is\+\_\+receiving\+\_\+rx}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+is\+\_\+receiving\+\_\+rx}]{\setlength{\rightskip}{0pt plus 5cm}bool failsafe\+\_\+is\+\_\+receiving\+\_\+rx (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a3171662ec605cc8852f637ffd21c081a}
+\hypertarget{failsafe_8c_aeda3e4fd8da695ef0a4ef33cc223e165}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+on\+\_\+rx\+\_\+resume@{failsafe\+\_\+on\+\_\+rx\+\_\+resume}}
+\index{failsafe\+\_\+on\+\_\+rx\+\_\+resume@{failsafe\+\_\+on\+\_\+rx\+\_\+resume}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+on\+\_\+rx\+\_\+resume}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+on\+\_\+rx\+\_\+resume (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_aeda3e4fd8da695ef0a4ef33cc223e165}
+\hypertarget{failsafe_8c_ab95078b92af03a4bdaed9681246cccde}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+on\+\_\+rx\+\_\+suspend@{failsafe\+\_\+on\+\_\+rx\+\_\+suspend}}
+\index{failsafe\+\_\+on\+\_\+rx\+\_\+suspend@{failsafe\+\_\+on\+\_\+rx\+\_\+suspend}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+on\+\_\+rx\+\_\+suspend}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+on\+\_\+rx\+\_\+suspend (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self, }
+\item[{uint32\+\_\+t}]{us\+Suspend\+Period}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_ab95078b92af03a4bdaed9681246cccde}
+\hypertarget{failsafe_8c_a9c4b5157c17c3cbf23aa9369c9153943}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed@{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed}}
+\index{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed@{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+failed (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a9c4b5157c17c3cbf23aa9369c9153943}
+\hypertarget{failsafe_8c_a1190dae1e0e61d781ae6e97b7c494729}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received@{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received}}
+\index{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received@{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+on\+\_\+valid\+\_\+data\+\_\+received (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a1190dae1e0e61d781ae6e97b7c494729}
+\hypertarget{failsafe_8c_ad38c147b634ae7c8e65998f1ddc81fe0}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+reset@{failsafe\+\_\+reset}}
+\index{failsafe\+\_\+reset@{failsafe\+\_\+reset}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+reset (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_ad38c147b634ae7c8e65998f1ddc81fe0}
+\hypertarget{failsafe_8c_a72689c9501a0959a89bbc9fea3b1161f}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+start\+\_\+monitoring@{failsafe\+\_\+start\+\_\+monitoring}}
+\index{failsafe\+\_\+start\+\_\+monitoring@{failsafe\+\_\+start\+\_\+monitoring}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+start\+\_\+monitoring}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+start\+\_\+monitoring (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a72689c9501a0959a89bbc9fea3b1161f}
+\hypertarget{failsafe_8c_a1adfe81707dfbc446d7b2f2e64b3acbe}{\index{failsafe.\+c@{failsafe.\+c}!failsafe\+\_\+update@{failsafe\+\_\+update}}
+\index{failsafe\+\_\+update@{failsafe\+\_\+update}!failsafe.\+c@{failsafe.\+c}}
+\subsubsection[{failsafe\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void failsafe\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf failsafe} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{failsafe_8c_a1adfe81707dfbc446d7b2f2e64b3acbe}

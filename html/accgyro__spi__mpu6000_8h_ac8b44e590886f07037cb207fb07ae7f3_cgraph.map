@@ -1,0 +1,9 @@
+<map id="mpu6000SpiDetect" name="mpu6000SpiDetect">
+<area shape="rect" id="node2" href="$bus__spi_8c.html#a20faff963e0c4f9e10bbdf9b228e7566" title="spiSetDivisor" alt="" coords="214,5,314,32"/>
+<area shape="rect" id="node3" href="$accgyro__spi__mpu6000_8c.html#a59bd87862ed6bda3dab7e65d0de3aa14" title="mpu6000WriteRegister" alt="" coords="187,107,341,133"/>
+<area shape="rect" id="node5" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="234,56,294,83"/>
+<area shape="rect" id="node7" href="$accgyro__spi__mpu6000_8c.html#a9c54938047b92aecf416b1d6e52f25af" title="mpu6000ReadRegister" alt="" coords="187,157,341,184"/>
+<area shape="rect" id="node4" href="$bus__spi_8c.html#aeeb5a646f2bd17e5164fdd1ff4bbe9ff" title="spiTransferByte" alt="" coords="389,107,504,133"/>
+<area shape="rect" id="node6" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="416,56,477,83"/>
+<area shape="rect" id="node8" href="$bus__spi_8c.html#a55be18cfbbb81f22c0eb9e8589af212d" title="spiTransfer" alt="" coords="403,157,490,184"/>
+</map>

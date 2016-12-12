@@ -1,0 +1,26 @@
+var system__calls_8h =
+[
+    [ "sys_acc_read", "group__syscalls.html#ga80d7e1474e8a4c1340a74853c006c7c2", null ],
+    [ "sys_beeper_off", "group__syscalls.html#ga9c2f4a3215833c6fd41329527f153029", null ],
+    [ "sys_beeper_on", "group__syscalls.html#ga4a79c65d8a3f04ea401ed053a79945ca", null ],
+    [ "sys_eeprom_erase_page", "group__syscalls.html#gae1373dec4d5fd3dc59417c53064e75be", null ],
+    [ "sys_eeprom_get_info", "group__syscalls.html#gabb1f6f6556538ee72c9432874eafcfbb", null ],
+    [ "sys_eeprom_read", "group__syscalls.html#ga6bc4d0120cc4965daa12aa09b6d7ff1e", null ],
+    [ "sys_eeprom_write", "group__syscalls.html#ga0bfcb802f7cca93c677ba32d180b2aa2", null ],
+    [ "sys_get_pressure", "group__syscalls.html#ga94588cff67864d374a09cc17f5b4f123", null ],
+    [ "sys_get_temperature", "group__syscalls.html#ga36a4deb5328337807a0b518d42f25808", null ],
+    [ "sys_gyro_read", "group__syscalls.html#gaf2312049b5ee0defc282995f9e3fd0f2", null ],
+    [ "sys_led_off", "group__syscalls.html#ga1c81ca81429f1ef4521ec0126f3d163d", null ],
+    [ "sys_led_on", "group__syscalls.html#ga5bc1c411a83f8b72eb53ed6dac7692bc", null ],
+    [ "sys_led_toggle", "group__syscalls.html#gaaa801a62b798cd4e5cec60f507ea31fb", null ],
+    [ "sys_micros", "group__syscalls.html#ga37cb11698e12be4f5018e020fa506e5a", null ],
+    [ "sys_millis", "group__syscalls.html#ga0474fce5bba35dd2abb3f6f7e96906f6", null ],
+    [ "sys_motor_write", "group__syscalls.html#ga946b93b1fd030a3c34bd62dbbb9ad540", null ],
+    [ "sys_range_read", "group__syscalls.html#gacf3641764cf72ef5619025a1e753dfe0", null ],
+    [ "sys_servo_write", "group__syscalls.html#ga4caebec5f44bb3ae28a42e3fad101f37", null ],
+    [ "SYSTEM_ACC_1G", "group__syscalls.html#ga740389ee12d3d7d228842e21dcf9c5b0", null ],
+    [ "SYSTEM_GYRO_RANGE", "group__syscalls.html#ga31eeb68f9228f41e1236be8046edbd68", null ],
+    [ "SYSTEM_GYRO_SCALE", "group__syscalls.html#ga8339dd5d6d4fd7f8029a2331bd7d511b", null ],
+    [ "sys_micros_t", "system__calls_8h.html#a1374d627d8a03b6d9ebb6707c67cf2ff", null ],
+    [ "sys_millis_t", "system__calls_8h.html#a62a9a2e72861132c17d4d4b29bb8b80a", null ]
+];

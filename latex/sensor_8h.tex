@@ -1,0 +1,41 @@
+\hypertarget{sensor_8h}{\section{src/main/drivers/sensor.h File Reference}
+\label{sensor_8h}\index{src/main/drivers/sensor.\+h@{src/main/drivers/sensor.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sensor_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \hyperlink{sensor_8h_ac0d29dff109db338a85908aad6cea6df}{sensor\+Init\+Func\+Ptr} )(void)
+\item 
+typedef bool($\ast$ \hyperlink{sensor_8h_af1826dc6e1452a4b956e54abacce853e}{sensor\+Read\+Func\+Ptr} )(int16\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})
+\item 
+typedef void($\ast$ \hyperlink{sensor_8h_ab365c4bf39db272deff4d52b7a14b65f}{sensor\+Acc\+Init\+Func\+Ptr} )(struct \hyperlink{structacc__s}{acc\+\_\+s} $\ast$\hyperlink{initialisation_8c_a5008519710746affca50c04439353fe3}{acc})
+\item 
+typedef void($\ast$ \hyperlink{sensor_8h_ad900522f143f3d8ceaf333a5c03237d5}{sensor\+Gyro\+Init\+Func\+Ptr} )(uint8\+\_\+t lpf)
+\item 
+typedef bool($\ast$ \hyperlink{sensor_8h_a33ad448234dac59249b1a9a8361c79e7}{sensor\+Is\+Data\+Ready\+Func\+Ptr} )(void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{sensor_8h_ab365c4bf39db272deff4d52b7a14b65f}{\index{sensor.\+h@{sensor.\+h}!sensor\+Acc\+Init\+Func\+Ptr@{sensor\+Acc\+Init\+Func\+Ptr}}
+\index{sensor\+Acc\+Init\+Func\+Ptr@{sensor\+Acc\+Init\+Func\+Ptr}!sensor.\+h@{sensor.\+h}}
+\subsubsection[{sensor\+Acc\+Init\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ sensor\+Acc\+Init\+Func\+Ptr)(struct {\bf acc\+\_\+s} $\ast${\bf acc})}}\label{sensor_8h_ab365c4bf39db272deff4d52b7a14b65f}
+\hypertarget{sensor_8h_ad900522f143f3d8ceaf333a5c03237d5}{\index{sensor.\+h@{sensor.\+h}!sensor\+Gyro\+Init\+Func\+Ptr@{sensor\+Gyro\+Init\+Func\+Ptr}}
+\index{sensor\+Gyro\+Init\+Func\+Ptr@{sensor\+Gyro\+Init\+Func\+Ptr}!sensor.\+h@{sensor.\+h}}
+\subsubsection[{sensor\+Gyro\+Init\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ sensor\+Gyro\+Init\+Func\+Ptr)(uint8\+\_\+t lpf)}}\label{sensor_8h_ad900522f143f3d8ceaf333a5c03237d5}
+\hypertarget{sensor_8h_ac0d29dff109db338a85908aad6cea6df}{\index{sensor.\+h@{sensor.\+h}!sensor\+Init\+Func\+Ptr@{sensor\+Init\+Func\+Ptr}}
+\index{sensor\+Init\+Func\+Ptr@{sensor\+Init\+Func\+Ptr}!sensor.\+h@{sensor.\+h}}
+\subsubsection[{sensor\+Init\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ sensor\+Init\+Func\+Ptr)(void)}}\label{sensor_8h_ac0d29dff109db338a85908aad6cea6df}
+\hypertarget{sensor_8h_a33ad448234dac59249b1a9a8361c79e7}{\index{sensor.\+h@{sensor.\+h}!sensor\+Is\+Data\+Ready\+Func\+Ptr@{sensor\+Is\+Data\+Ready\+Func\+Ptr}}
+\index{sensor\+Is\+Data\+Ready\+Func\+Ptr@{sensor\+Is\+Data\+Ready\+Func\+Ptr}!sensor.\+h@{sensor.\+h}}
+\subsubsection[{sensor\+Is\+Data\+Ready\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ sensor\+Is\+Data\+Ready\+Func\+Ptr)(void)}}\label{sensor_8h_a33ad448234dac59249b1a9a8361c79e7}
+\hypertarget{sensor_8h_af1826dc6e1452a4b956e54abacce853e}{\index{sensor.\+h@{sensor.\+h}!sensor\+Read\+Func\+Ptr@{sensor\+Read\+Func\+Ptr}}
+\index{sensor\+Read\+Func\+Ptr@{sensor\+Read\+Func\+Ptr}!sensor.\+h@{sensor.\+h}}
+\subsubsection[{sensor\+Read\+Func\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ sensor\+Read\+Func\+Ptr)(int16\+\_\+t $\ast${\bf data})}}\label{sensor_8h_af1826dc6e1452a4b956e54abacce853e}

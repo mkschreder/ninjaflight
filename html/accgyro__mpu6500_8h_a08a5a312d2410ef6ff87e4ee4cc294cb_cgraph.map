@@ -1,0 +1,22 @@
+<map id="mpu6500GyroDetect" name="mpu6500GyroDetect">
+<area shape="rect" id="node2" href="$accgyro__mpu6500_8c.html#ab2b2dae35f1914f4fe3dcc9a00c070a0" title="mpu6500GyroInit" alt="" coords="199,237,321,264"/>
+<area shape="rect" id="node20" href="$accgyro__mpu_8c.html#a1e15ecc0e8d8a9356edf94915f5940dc" title="mpuGyroRead" alt="" coords="207,288,313,315"/>
+<area shape="rect" id="node21" href="$accgyro__mpu_8c.html#a6e414f79cc31b7cebb8e7176e8559ffc" title="mpuIsDataReady" alt="" coords="198,339,322,365"/>
+<area shape="rect" id="node3" href="$accgyro__mpu_8c.html#a24fb9dd478b6162a8ecb378d47d0ff6e" title="mpuIntExtiInit" alt="" coords="421,177,523,204"/>
+<area shape="rect" id="node13" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="1422,309,1482,336"/>
+<area shape="rect" id="node19" href="$gyro__sync_8c.html#a7cd9ae05fcf959b55626591c21cc730f" title="gyroMPU6xxxCalculateDivider" alt="" coords="371,288,573,315"/>
+<area shape="rect" id="node4" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="888,31,1080,57"/>
+<area shape="rect" id="node5" href="$gpio_8h.html#ae05ca742f43c792d2963e50816c138e1" title="gpioInit" alt="" coords="699,177,763,204"/>
+<area shape="rect" id="node6" href="$accgyro__mpu_8c.html#a1a4bbcf217c4ce0ddc412b0310cfc652" title="configureMPUDataReadyInterrupt\lHandling" alt="" coords="621,111,840,153"/>
+<area shape="rect" id="node7" href="$gpio_8h.html#af967f99130ccf5d3c11751e876d74473" title="gpioExtiLineConfig" alt="" coords="919,132,1049,159"/>
+<area shape="rect" id="node8" href="$system_8c.html#ac49a76e36030c0613d58801666ec5b3b" title="registerExtiCallbackHandler" alt="" coords="892,183,1076,209"/>
+<area shape="rect" id="node18" href="$accgyro__mpu_8c.html#a58bc418ffdb0aa0e85ce4b9ec2bbdf5b" title="MPU_DATA_READY_EXTI\l_Handler" alt="" coords="1128,23,1315,65"/>
+<area shape="rect" id="node9" href="$system_8c.html#aaaf9af1ec192ad8edc3573be55e1a92c" title="failureMode" alt="" coords="1177,183,1266,209"/>
+<area shape="rect" id="node10" href="$light__led_8h.html#a4a7f2ef4eb60c70033b51343c9e7075a" title="led_on" alt="" coords="1422,259,1482,285"/>
+<area shape="rect" id="node11" href="$light__led_8h.html#a853f476fe49866f93159854c5f1c8c10" title="led_off" alt="" coords="1421,107,1483,133"/>
+<area shape="rect" id="node12" href="$light__led_8h.html#a8b1dd741937a8c0d266cf2ab7986f525" title="led_toggle" alt="" coords="1411,157,1493,184"/>
+<area shape="rect" id="node15" href="$drivers_2system_8h.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="1402,208,1502,235"/>
+<area shape="rect" id="node16" href="$drivers_2system_8h.html#a0be99ee90fcb1948837fba48e0e42081" title="systemResetToBootloader" alt="" coords="1363,56,1541,83"/>
+<area shape="rect" id="node14" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="1609,5,1671,32"/>
+<area shape="rect" id="node17" href="$system__stm32f10x_8c.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="1590,56,1690,83"/>
+</map>

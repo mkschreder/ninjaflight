@@ -1,0 +1,106 @@
+\hypertarget{initialisation_8h}{\section{src/main/sensors/initialisation.h File Reference}
+\label{initialisation_8h}\index{src/main/sensors/initialisation.\+h@{src/main/sensors/initialisation.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{initialisation_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{initialisation_8h_a07afdd0944130552b7b169b546a11851}{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}~(\hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca526ba4a9511e2e46592070e47db5f96b}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G} + 1)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4c}{sensor\+Index\+\_\+e} \{ \hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4caec1ff087463b7e6434f01a2cbb5f9de3}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O} = 0, 
+\hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca48f61ac66b1bfd2a820796fc31b1f62f}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C}, 
+\hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca064e4027d296dc5d1864207ab7edfdfc}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O}, 
+\hyperlink{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca526ba4a9511e2e46592070e47db5f96b}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{initialisation_8h_a310b6a7c8a1550e3bcbe84d8dd554abf}{sensors\+Autodetect} (const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{drivers_2compass_8h_a75baa82eef2261988c9b0faa399e5bce}{mag\+\_\+t} \hyperlink{initialisation_8h_a69fe6c4b5f393a329d0107320686f5d9}{mag}
+\item 
+uint8\+\_\+t \hyperlink{initialisation_8h_abf25a3676cc15e6370fb5f71c4a57630}{detected\+Sensors} \mbox{[}\hyperlink{initialisation_8h_a07afdd0944130552b7b169b546a11851}{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}\mbox{]}
+\item 
+\hyperlink{sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}{sensor\+\_\+align\+\_\+e} \hyperlink{initialisation_8h_ae967268543f4ef05a28a9964c9b13042}{gyro\+Align}
+\item 
+\hyperlink{sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}{sensor\+\_\+align\+\_\+e} \hyperlink{initialisation_8h_a390adb7e99428379b2c08f592bcae357}{acc\+Align}
+\item 
+\hyperlink{sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}{sensor\+\_\+align\+\_\+e} \hyperlink{initialisation_8h_a842b7800812e2691d642f78016f4fd03}{mag\+Align}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{initialisation_8h_a07afdd0944130552b7b169b546a11851}{\index{initialisation.\+h@{initialisation.\+h}!M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T@{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}}
+\index{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T@{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T~({\bf S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G} + 1)}}\label{initialisation_8h_a07afdd0944130552b7b169b546a11851}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4c}{\index{initialisation.\+h@{initialisation.\+h}!sensor\+Index\+\_\+e@{sensor\+Index\+\_\+e}}
+\index{sensor\+Index\+\_\+e@{sensor\+Index\+\_\+e}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{sensor\+Index\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sensor\+Index\+\_\+e}}}\label{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O}!initialisation.\+h@{initialisation.\+h}}\index{initialisation.\+h@{initialisation.\+h}!S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O}}\item[{\em 
+\hypertarget{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4caec1ff087463b7e6434f01a2cbb5f9de3}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+G\+Y\+R\+O}\label{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4caec1ff087463b7e6434f01a2cbb5f9de3}
+}]\index{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C}!initialisation.\+h@{initialisation.\+h}}\index{initialisation.\+h@{initialisation.\+h}!S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C}}\item[{\em 
+\hypertarget{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca48f61ac66b1bfd2a820796fc31b1f62f}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+A\+C\+C}\label{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca48f61ac66b1bfd2a820796fc31b1f62f}
+}]\index{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O}!initialisation.\+h@{initialisation.\+h}}\index{initialisation.\+h@{initialisation.\+h}!S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O}}\item[{\em 
+\hypertarget{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca064e4027d296dc5d1864207ab7edfdfc}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+B\+A\+R\+O}\label{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca064e4027d296dc5d1864207ab7edfdfc}
+}]\index{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G}!initialisation.\+h@{initialisation.\+h}}\index{initialisation.\+h@{initialisation.\+h}!S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G@{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G}}\item[{\em 
+\hypertarget{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca526ba4a9511e2e46592070e47db5f96b}{S\+E\+N\+S\+O\+R\+\_\+\+I\+N\+D\+E\+X\+\_\+\+M\+A\+G}\label{initialisation_8h_a2be6fc1aafa01eada5aa11aac87eeb4ca526ba4a9511e2e46592070e47db5f96b}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{initialisation_8h_a310b6a7c8a1550e3bcbe84d8dd554abf}{\index{initialisation.\+h@{initialisation.\+h}!sensors\+Autodetect@{sensors\+Autodetect}}
+\index{sensors\+Autodetect@{sensors\+Autodetect}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{sensors\+Autodetect}]{\setlength{\rightskip}{0pt plus 5cm}bool sensors\+Autodetect (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{initialisation_8h_a310b6a7c8a1550e3bcbe84d8dd554abf}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{initialisation_8h_a310b6a7c8a1550e3bcbe84d8dd554abf_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{initialisation_8h_a390adb7e99428379b2c08f592bcae357}{\index{initialisation.\+h@{initialisation.\+h}!acc\+Align@{acc\+Align}}
+\index{acc\+Align@{acc\+Align}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{acc\+Align}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\+\_\+align\+\_\+e} acc\+Align}}\label{initialisation_8h_a390adb7e99428379b2c08f592bcae357}
+\hypertarget{initialisation_8h_abf25a3676cc15e6370fb5f71c4a57630}{\index{initialisation.\+h@{initialisation.\+h}!detected\+Sensors@{detected\+Sensors}}
+\index{detected\+Sensors@{detected\+Sensors}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{detected\+Sensors}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t detected\+Sensors\mbox{[}{\bf M\+A\+X\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+T\+O\+\_\+\+D\+E\+T\+E\+C\+T}\mbox{]}}}\label{initialisation_8h_abf25a3676cc15e6370fb5f71c4a57630}
+\hypertarget{initialisation_8h_ae967268543f4ef05a28a9964c9b13042}{\index{initialisation.\+h@{initialisation.\+h}!gyro\+Align@{gyro\+Align}}
+\index{gyro\+Align@{gyro\+Align}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{gyro\+Align}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\+\_\+align\+\_\+e} gyro\+Align}}\label{initialisation_8h_ae967268543f4ef05a28a9964c9b13042}
+\hypertarget{initialisation_8h_a69fe6c4b5f393a329d0107320686f5d9}{\index{initialisation.\+h@{initialisation.\+h}!mag@{mag}}
+\index{mag@{mag}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{mag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mag\+\_\+t} mag}}\label{initialisation_8h_a69fe6c4b5f393a329d0107320686f5d9}
+\hypertarget{initialisation_8h_a842b7800812e2691d642f78016f4fd03}{\index{initialisation.\+h@{initialisation.\+h}!mag\+Align@{mag\+Align}}
+\index{mag\+Align@{mag\+Align}!initialisation.\+h@{initialisation.\+h}}
+\subsubsection[{mag\+Align}]{\setlength{\rightskip}{0pt plus 5cm}{\bf sensor\+\_\+align\+\_\+e} mag\+Align}}\label{initialisation_8h_a842b7800812e2691d642f78016f4fd03}

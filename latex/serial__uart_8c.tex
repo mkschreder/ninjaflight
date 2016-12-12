@@ -1,0 +1,86 @@
+\hypertarget{serial__uart_8c}{\section{src/main/drivers/serial\+\_\+uart.c File Reference}
+\label{serial__uart_8c}\index{src/main/drivers/serial\+\_\+uart.\+c@{src/main/drivers/serial\+\_\+uart.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}inverter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}serial\+\_\+uart.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}serial\+\_\+uart\+\_\+impl.\+h\char`\"{}}\\*
+Include dependency graph for serial\+\_\+uart.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{serial__uart_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{serial__uart_8c_a716ed1f7ba836e23fa002bbf9461065d}{uart\+Start\+Tx\+D\+M\+A} (\hyperlink{structuartPort__t}{uart\+Port\+\_\+t} $\ast$s)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{serial__uart_8c_a31c15c151ce058264e6c5c6e8642a15b}{uart\+Open} (uint8\+\_\+t id, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode}, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct \hyperlink{structserial__port__ops}{serial\+\_\+port\+\_\+ops} \hyperlink{serial__uart_8c_acd36b35d80025c032366c290bc8c905a}{uart\+\_\+serial\+\_\+ops}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{serial__uart_8c_a31c15c151ce058264e6c5c6e8642a15b}{\index{serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}!uart\+Open@{uart\+Open}}
+\index{uart\+Open@{uart\+Open}!serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}}
+\subsubsection[{uart\+Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ uart\+Open (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{serial__uart_8c_a31c15c151ce058264e6c5c6e8642a15b}
+\hypertarget{serial__uart_8c_a716ed1f7ba836e23fa002bbf9461065d}{\index{serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}!uart\+Start\+Tx\+D\+M\+A@{uart\+Start\+Tx\+D\+M\+A}}
+\index{uart\+Start\+Tx\+D\+M\+A@{uart\+Start\+Tx\+D\+M\+A}!serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}}
+\subsubsection[{uart\+Start\+Tx\+D\+M\+A}]{\setlength{\rightskip}{0pt plus 5cm}void uart\+Start\+Tx\+D\+M\+A (
+\begin{DoxyParamCaption}
+\item[{{\bf uart\+Port\+\_\+t} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{serial__uart_8c_a716ed1f7ba836e23fa002bbf9461065d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{serial__uart_8c_a716ed1f7ba836e23fa002bbf9461065d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{serial__uart_8c_acd36b35d80025c032366c290bc8c905a}{\index{serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}!uart\+\_\+serial\+\_\+ops@{uart\+\_\+serial\+\_\+ops}}
+\index{uart\+\_\+serial\+\_\+ops@{uart\+\_\+serial\+\_\+ops}!serial\+\_\+uart.\+c@{serial\+\_\+uart.\+c}}
+\subsubsection[{uart\+\_\+serial\+\_\+ops}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf serial\+\_\+port\+\_\+ops} uart\+\_\+serial\+\_\+ops}}\label{serial__uart_8c_acd36b35d80025c032366c290bc8c905a}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    uartWrite,
+    uartTotalRxBytesWaiting,
+    uartTotalTxBytesFree,
+    uartRead,
+    uartSetBaudRate,
+    isUartTransmitBufferEmpty,
+    uartSetMode,
+    .writeBuf = NULL,
+    .beginWrite = NULL,
+    .endWrite = NULL,
+\}
+\end{DoxyCode}

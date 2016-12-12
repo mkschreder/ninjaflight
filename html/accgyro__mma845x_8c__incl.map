@@ -1,0 +1,8 @@
+<map id="src/main/drivers/accgyro_mma845x.c" name="src/main/drivers/accgyro_mma845x.c">
+<area shape="rect" id="node5" href="$drivers_2system_8h.html" title="system.h" alt="" coords="219,96,295,123"/>
+<area shape="rect" id="node6" href="$gpio_8h.html" title="gpio.h" alt="" coords="319,96,376,123"/>
+<area shape="rect" id="node7" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="401,96,479,123"/>
+<area shape="rect" id="node8" href="$sensor_8h.html" title="sensor.h" alt="" coords="520,171,592,197"/>
+<area shape="rect" id="node9" href="$accgyro_8h.html" title="accgyro.h" alt="" coords="555,96,633,123"/>
+<area shape="rect" id="node10" href="$accgyro__mma845x_8h.html" title="accgyro_mma845x.h" alt="" coords="658,96,800,123"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="serialRxFrameStatus" name="serialRxFrameStatus">
+<area shape="rect" id="node2" href="$spektrum_8h.html#abd66649bf12edf4fa4cb06df809854e9" title="spektrumFrameStatus" alt="" coords="201,5,351,32"/>
+<area shape="rect" id="node3" href="$sbus_8h.html#a851b26c692c1e633c4fd13e0dcf1c76b" title="sbusFrameStatus" alt="" coords="213,56,339,83"/>
+<area shape="rect" id="node4" href="$sumd_8h.html#a143726edbd578b7ce9f1dabac48da131" title="sumdFrameStatus" alt="" coords="211,107,341,133"/>
+<area shape="rect" id="node5" href="$sumh_8h.html#a5d3e8c6099bb2949b2a5ba748bc8a2cd" title="sumhFrameStatus" alt="" coords="211,157,341,184"/>
+<area shape="rect" id="node6" href="$xbus_8h.html#ae8cc65e82278364acd7563340c5b3943" title="xBusFrameStatus" alt="" coords="213,208,339,235"/>
+<area shape="rect" id="node7" href="$ibus_8h.html#a10e3f4ca1f02d2c04686727ee938c4ff" title="ibusFrameStatus" alt="" coords="215,259,337,285"/>
+</map>

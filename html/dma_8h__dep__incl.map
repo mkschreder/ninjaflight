@@ -1,0 +1,7 @@
+<map id="src/main/drivers/dma.h" name="src/main/drivers/dma.h">
+<area shape="rect" id="node2" href="$dma_8c.html" title="src/main/drivers/dma.c" alt="" coords="5,88,159,115"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8c.html" title="src/main/drivers/light\l_ws2811strip.c" alt="" coords="185,81,327,122"/>
+<area shape="rect" id="node4" href="$drivers_2transponder__ir_8c.html" title="src/main/drivers/transponder_ir.c" alt="" coords="351,88,563,115"/>
+<area shape="rect" id="node5" href="$main_8c.html" title="src/main/main.c" alt="" coords="588,88,703,115"/>
+<area shape="rect" id="node6" href="$ws2811__unittest_8cc.html" title="src/test/unit/ws2811\l_unittest.cc" alt="" coords="727,81,867,122"/>
+</map>

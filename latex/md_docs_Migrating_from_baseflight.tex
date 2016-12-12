@@ -1,0 +1,111 @@
+\subsection*{Procedure}
+
+{\bfseries First ensure your main flight battery is disconnected or your props are off!}
+
+Before flashing with cleanflight, dump your configs for each profile via the C\+L\+I and save to a text file.
+
+``` profile 0 dump profile 1 dump profile 2 dump ```
+
+Then after flashing cleanflight paste the output from each dump command into the cli, switching profiles as you go.
+
+You'll note that some commands are not recognised by cleanflight when you do this. For the commands that are not recognised look up the new configuration options and choose appropriate values for the settings. See below for a list of differences.
+
+Once you've done this for the first profile, save the config. Then verify your config is O\+K, e.\+g. features serial ports, etc. When you've verified the first profile is O\+K repeat for the other profiles.
+
+It's also advisable to take screenshots of your A\+U\+X settings from baseflight configurator and then after re-\/applying the settings verify your aux config is correct -\/ aux settings are not backwards compatible.
+
+\subsection*{C\+L\+I command differences from baseflight}
+
+In general all C\+L\+I commands use underscore characters to separate words for consistency. In baseflight the format of C\+L\+I commands is somewhat haphazard.
+
+\subsubsection*{gps\+\_\+baudrate}
+
+reason\+: new serial port configuration.
+
+See {\ttfamily serial} command.
+
+\subsubsection*{gps\+\_\+type}
+
+reason\+: renamed to {\ttfamily gps\+\_\+provider} for consistency
+
+\subsubsection*{serialrx\+\_\+type}
+
+reason\+: renamed to {\ttfamily serialrx\+\_\+provider} for consistency
+
+\subsubsection*{rssi\+\_\+aux\+\_\+channel}
+
+reason\+: renamed to {\ttfamily rssi\+\_\+channel} for improved functionality
+
+Cleanflight supports using any R\+X channel for rssi. Baseflight only supports A\+U\+X1 to 4.
+
+In Cleanflight a value of 0 disables the feature, a higher value indicates the channel number to read R\+S\+S\+I information from.
+
+Example\+: to use R\+S\+S\+I on A\+U\+X1 in Cleanflight use {\ttfamily set rssi\+\_\+channel = 5}, since 5 is the first A\+U\+X channel (this is equivalent to {\ttfamily set rssi\+\_\+aux\+\_\+channel = 1} in Baseflight).
+
+\subsubsection*{failsafe\+\_\+detect\+\_\+threshold}
+
+reason\+: improved functionality
+
+See {\ttfamily rx\+\_\+min\+\_\+usec} and {\ttfamily rx\+\_\+max\+\_\+usec} in Failsafe documentation.
+
+\subsubsection*{emfavoidance}
+
+reason\+: renamed to {\ttfamily emf\+\_\+avoidance} for consistency
+
+\subsubsection*{yawrate}
+
+reason\+: renamed to {\ttfamily yaw\+\_\+rate} for consistency
+
+\subsubsection*{yawdeadband}
+
+reason\+: renamed to {\ttfamily yaw\+\_\+deadband} for consistency
+
+\subsubsection*{midrc}
+
+reason\+: renamed to {\ttfamily mid\+\_\+rc} for consistency
+
+\subsubsection*{mincheck}
+
+reason\+: renamed to {\ttfamily min\+\_\+check} for consistency
+
+\subsubsection*{maxcheck}
+
+reason\+: renamed to {\ttfamily max\+\_\+check} for consistency
+
+\subsubsection*{minthrottle}
+
+reason\+: renamed to {\ttfamily min\+\_\+throttle} for consistency
+
+\subsubsection*{maxthrottle}
+
+reason\+: renamed to {\ttfamily max\+\_\+throttle} for consistency
+
+\subsubsection*{mincommand}
+
+reason\+: renamed to {\ttfamily min\+\_\+command} for consistency
+
+\subsubsection*{deadband3d\+\_\+low}
+
+reason\+: renamed to {\ttfamily 3d\+\_\+deadband\+\_\+low} for consistency
+
+\subsubsection*{deadband3d\+\_\+high}
+
+reason\+: renamed to {\ttfamily 3d\+\_\+deadband\+\_\+high} for consistency
+
+\subsubsection*{deadband3d\+\_\+throttle}
+
+reason\+: renamed to {\ttfamily 3d\+\_\+deadband\+\_\+throttle} for consistency
+
+\subsubsection*{neutral3d}
+
+reason\+: renamed to {\ttfamily 3d\+\_\+neutral} for consistency
+
+\subsubsection*{alt\+\_\+hold\+\_\+throttle\+\_\+neutral}
+
+reason\+: renamed to {\ttfamily alt\+\_\+hold\+\_\+deadband} for consistency
+
+\subsubsection*{gimbal\+\_\+flags}
+
+reason\+: seperation of features.
+
+see {\ttfamily gimbal\+\_\+mode} and {\ttfamily C\+H\+A\+N\+N\+E\+L\+\_\+\+F\+O\+R\+W\+A\+R\+D\+I\+N\+G} feature 

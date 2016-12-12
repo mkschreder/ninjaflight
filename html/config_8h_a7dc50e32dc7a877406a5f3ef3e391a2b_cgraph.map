@@ -1,0 +1,7 @@
+<map id="ninja_config_save" name="ninja_config_save">
+<area shape="rect" id="node2" href="$rx_8c.html#a3053040ca606418044343cbc8c727a74" title="rx_suspend_signal" alt="" coords="197,5,328,32"/>
+<area shape="rect" id="node3" href="$config__eeprom_8c.html#a4123db04d7017b859648d5f8207b1e17" title="writeConfigToEEPROM" alt="" coords="182,56,343,83"/>
+<area shape="rect" id="node6" href="$rx_8c.html#ab5d5e106e91d4a1e84188ddd200a710e" title="rx_resume_signal" alt="" coords="201,107,325,133"/>
+<area shape="rect" id="node4" href="$config__eeprom_8c.html#a37615656b9ca65825c8b3460ea12df7a" title="isEEPROMContentValid" alt="" coords="392,56,557,83"/>
+<area shape="rect" id="node5" href="$config__eeprom_8c.html#a05cb66e5e70482d1fda1c99db4f7ffe5" title="scanEEPROM" alt="" coords="606,56,714,83"/>
+</map>

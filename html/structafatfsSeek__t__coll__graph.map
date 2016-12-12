@@ -1,0 +1,12 @@
+<map id="afatfsSeek_t" name="afatfsSeek_t">
+<area shape="rect" id="node3" href="$structafatfsFileOperation__t.html" title="afatfsFileOperation_t" alt="" coords="363,163,506,189"/>
+<area shape="rect" id="node2" href="$structafatfsFile__t.html" title="afatfsFile_t" alt="" coords="690,140,777,167"/>
+<area shape="rect" id="node5" href="$structafatfsTruncateFile__t.html" title="afatfsTruncateFile_t" alt="" coords="923,273,1061,300"/>
+<area shape="rect" id="node7" href="$structafatfsExtendSubdirectory__t.html" title="afatfsExtendSubdirectory_t" alt="" coords="902,71,1082,97"/>
+<area shape="rect" id="node10" href="$structafatfsCreateFile__t.html" title="afatfsCreateFile_t" alt="" coords="929,173,1055,200"/>
+<area shape="rect" id="node4" href="$structafatfsCloseFile__t.html" title="afatfsCloseFile_t" alt="" coords="37,163,158,189"/>
+<area shape="rect" id="node6" href="$structafatfsDeleteFile__t.html" title="afatfsDeleteFile_t" alt="" coords="1205,309,1331,336"/>
+<area shape="rect" id="node8" href="$structafatfsAppendFreeCluster__t.html" title="afatfsAppendFreeCluster_t" alt="" coords="8,5,187,32"/>
+<area shape="rect" id="node9" href="$structafatfsAppendSupercluster__t.html" title="afatfsAppendSupercluster_t" alt="" coords="6,213,189,240"/>
+<area shape="rect" id="node11" href="$structafatfsDirEntryPointer__t.html" title="afatfsDirEntryPointer_t" alt="" coords="357,99,512,125"/>
+</map>

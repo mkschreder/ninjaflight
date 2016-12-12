@@ -1,0 +1,5 @@
+<map id="src/main/drivers/vcp/platform_config.h" name="src/main/drivers/vcp/platform_config.h">
+<area shape="rect" id="node2" href="$stm32__it_8h.html" title="This file contains the headers of the interrupt handlers. " alt="" coords="86,97,225,138"/>
+<area shape="rect" id="node3" href="$hw__config_8c.html" title="Hardware Configuration &amp; Setup. " alt="" coords="5,187,144,229"/>
+<area shape="rect" id="node4" href="$stm32__it_8c.html" title="Main Interrupt Service Routines. This file provides template for all exceptions handler and periphera..." alt="" coords="169,187,308,229"/>
+</map>

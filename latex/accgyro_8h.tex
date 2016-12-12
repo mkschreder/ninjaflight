@@ -1,0 +1,162 @@
+\hypertarget{accgyro_8h}{\section{src/main/drivers/accgyro.h File Reference}
+\label{accgyro_8h}\index{src/main/drivers/accgyro.\+h@{src/main/drivers/accgyro.\+h}}
+}
+{\ttfamily \#include \char`\"{}sensor.\+h\char`\"{}}\\*
+Include dependency graph for accgyro.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{accgyro_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{accgyro_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgyro__s}{gyro\+\_\+s}
+\item 
+struct \hyperlink{structacc__s}{acc\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{accgyro_8h_afcb77681c1a2ef1a9daf0186d3cf77b1}{A\+C\+C\+\_\+\+M\+A\+X}~\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a7239bebe51fcfa9e92b21788c28ce046}{A\+C\+C\+\_\+\+F\+A\+K\+E}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structgyro__s}{gyro\+\_\+s} \hyperlink{accgyro_8h_aec7c1f2359338297fbb3a7b1124816d9}{gyro\+\_\+t}
+\item 
+typedef struct \hyperlink{structacc__s}{acc\+\_\+s} \hyperlink{accgyro_8h_a2fc25e126fa4597e5d73308e19d092b9}{acc\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecc}{gyro\+Sensor\+\_\+e} \{ \\*
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca34762a63ac7051e4529421153135ca87}{G\+Y\+R\+O\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf6f59218d35055753948689340e6ad67}{G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca6c99e11bed3b32c12f35cc02e4e7e9d4}{G\+Y\+R\+O\+\_\+\+M\+P\+U6050}, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca95fe5e79e0c99d8c4bcac256d3d34d06}{G\+Y\+R\+O\+\_\+\+L3\+G4200\+D}, 
+\\*
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0feccac3cb0d0ae42b07ec3484f61c6780f0d5}{G\+Y\+R\+O\+\_\+\+M\+P\+U3050}, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca9d99b96febb4b42e25c95192bd147dde}{G\+Y\+R\+O\+\_\+\+L3\+G\+D20}, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf36751aba4bd4b7d492d0747613df53d}{G\+Y\+R\+O\+\_\+\+M\+P\+U6000}, 
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca52fbe3f17f1435bd4e85614ff96548eb}{G\+Y\+R\+O\+\_\+\+M\+P\+U6500}, 
+\\*
+\hyperlink{accgyro_8h_a8c65f097019380d12106f8ca92b0feccad1c15a88c47fecc77d15c332ec14f64d}{G\+Y\+R\+O\+\_\+\+F\+A\+K\+E}
+ \}
+\item 
+enum \hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052}{acceleration\+Sensor\+\_\+e} \{ \\*
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0edb4322ba941d27acdc7877f8563065}{A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T} = 0, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a57e6196399d2871e8121057c61fb924d}{A\+C\+C\+\_\+\+N\+O\+N\+E} = 1, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a6987d77b6092da332891166700a4351e}{A\+C\+C\+\_\+\+A\+D\+X\+L345} = 2, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052afe14405c581a7e41649a566a7ded57cb}{A\+C\+C\+\_\+\+M\+P\+U6050} = 3, 
+\\*
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aebf44584a7bc91ccc604fc67b325773e}{A\+C\+C\+\_\+\+M\+M\+A8452} = 4, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aa84dc50426e8ac818cf02710b227d752}{A\+C\+C\+\_\+\+B\+M\+A280} = 5, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0937f2518d5a6c51ea35159530f6932a}{A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C} = 6, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab1d591629d04a26ad086f1b655eb823d}{A\+C\+C\+\_\+\+M\+P\+U6000} = 7, 
+\\*
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab43b92615b3ac50a1237179f32913ab0}{A\+C\+C\+\_\+\+M\+P\+U6500} = 8, 
+\hyperlink{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a7239bebe51fcfa9e92b21788c28ce046}{A\+C\+C\+\_\+\+F\+A\+K\+E} = 9
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{accgyro_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}
+\item 
+\hyperlink{accgyro_8h_aec7c1f2359338297fbb3a7b1124816d9}{gyro\+\_\+t} \hyperlink{accgyro_8h_a2b9758e6eb53a9c7feb493701a653b9b}{gyro}
+\item 
+\hyperlink{accgyro_8h_a2fc25e126fa4597e5d73308e19d092b9}{acc\+\_\+t} \hyperlink{accgyro_8h_a5008519710746affca50c04439353fe3}{acc}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{accgyro_8h_afcb77681c1a2ef1a9daf0186d3cf77b1}{\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+M\+A\+X@{A\+C\+C\+\_\+\+M\+A\+X}}
+\index{A\+C\+C\+\_\+\+M\+A\+X@{A\+C\+C\+\_\+\+M\+A\+X}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{A\+C\+C\+\_\+\+M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+C\+C\+\_\+\+M\+A\+X~{\bf A\+C\+C\+\_\+\+F\+A\+K\+E}}}\label{accgyro_8h_afcb77681c1a2ef1a9daf0186d3cf77b1}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{accgyro_8h_a2fc25e126fa4597e5d73308e19d092b9}{\index{accgyro.\+h@{accgyro.\+h}!acc\+\_\+t@{acc\+\_\+t}}
+\index{acc\+\_\+t@{acc\+\_\+t}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{acc\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf acc\+\_\+s}  {\bf acc\+\_\+t}}}\label{accgyro_8h_a2fc25e126fa4597e5d73308e19d092b9}
+\hypertarget{accgyro_8h_aec7c1f2359338297fbb3a7b1124816d9}{\index{accgyro.\+h@{accgyro.\+h}!gyro\+\_\+t@{gyro\+\_\+t}}
+\index{gyro\+\_\+t@{gyro\+\_\+t}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{gyro\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf gyro\+\_\+s}  {\bf gyro\+\_\+t}}}\label{accgyro_8h_aec7c1f2359338297fbb3a7b1124816d9}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052}{\index{accgyro.\+h@{accgyro.\+h}!acceleration\+Sensor\+\_\+e@{acceleration\+Sensor\+\_\+e}}
+\index{acceleration\+Sensor\+\_\+e@{acceleration\+Sensor\+\_\+e}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{acceleration\+Sensor\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf acceleration\+Sensor\+\_\+e}}}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T@{A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T@{A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0edb4322ba941d27acdc7877f8563065}{A\+C\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0edb4322ba941d27acdc7877f8563065}
+}]\index{A\+C\+C\+\_\+\+N\+O\+N\+E@{A\+C\+C\+\_\+\+N\+O\+N\+E}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+N\+O\+N\+E@{A\+C\+C\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a57e6196399d2871e8121057c61fb924d}{A\+C\+C\+\_\+\+N\+O\+N\+E}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a57e6196399d2871e8121057c61fb924d}
+}]\index{A\+C\+C\+\_\+\+A\+D\+X\+L345@{A\+C\+C\+\_\+\+A\+D\+X\+L345}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+A\+D\+X\+L345@{A\+C\+C\+\_\+\+A\+D\+X\+L345}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a6987d77b6092da332891166700a4351e}{A\+C\+C\+\_\+\+A\+D\+X\+L345}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a6987d77b6092da332891166700a4351e}
+}]\index{A\+C\+C\+\_\+\+M\+P\+U6050@{A\+C\+C\+\_\+\+M\+P\+U6050}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+M\+P\+U6050@{A\+C\+C\+\_\+\+M\+P\+U6050}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052afe14405c581a7e41649a566a7ded57cb}{A\+C\+C\+\_\+\+M\+P\+U6050}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052afe14405c581a7e41649a566a7ded57cb}
+}]\index{A\+C\+C\+\_\+\+M\+M\+A8452@{A\+C\+C\+\_\+\+M\+M\+A8452}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+M\+M\+A8452@{A\+C\+C\+\_\+\+M\+M\+A8452}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aebf44584a7bc91ccc604fc67b325773e}{A\+C\+C\+\_\+\+M\+M\+A8452}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aebf44584a7bc91ccc604fc67b325773e}
+}]\index{A\+C\+C\+\_\+\+B\+M\+A280@{A\+C\+C\+\_\+\+B\+M\+A280}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+B\+M\+A280@{A\+C\+C\+\_\+\+B\+M\+A280}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aa84dc50426e8ac818cf02710b227d752}{A\+C\+C\+\_\+\+B\+M\+A280}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052aa84dc50426e8ac818cf02710b227d752}
+}]\index{A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C@{A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C@{A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0937f2518d5a6c51ea35159530f6932a}{A\+C\+C\+\_\+\+L\+S\+M303\+D\+L\+H\+C}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a0937f2518d5a6c51ea35159530f6932a}
+}]\index{A\+C\+C\+\_\+\+M\+P\+U6000@{A\+C\+C\+\_\+\+M\+P\+U6000}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+M\+P\+U6000@{A\+C\+C\+\_\+\+M\+P\+U6000}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab1d591629d04a26ad086f1b655eb823d}{A\+C\+C\+\_\+\+M\+P\+U6000}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab1d591629d04a26ad086f1b655eb823d}
+}]\index{A\+C\+C\+\_\+\+M\+P\+U6500@{A\+C\+C\+\_\+\+M\+P\+U6500}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+M\+P\+U6500@{A\+C\+C\+\_\+\+M\+P\+U6500}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab43b92615b3ac50a1237179f32913ab0}{A\+C\+C\+\_\+\+M\+P\+U6500}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052ab43b92615b3ac50a1237179f32913ab0}
+}]\index{A\+C\+C\+\_\+\+F\+A\+K\+E@{A\+C\+C\+\_\+\+F\+A\+K\+E}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!A\+C\+C\+\_\+\+F\+A\+K\+E@{A\+C\+C\+\_\+\+F\+A\+K\+E}}\item[{\em 
+\hypertarget{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a7239bebe51fcfa9e92b21788c28ce046}{A\+C\+C\+\_\+\+F\+A\+K\+E}\label{accgyro_8h_a1233a890bc6f2cc94af0873845de1052a7239bebe51fcfa9e92b21788c28ce046}
+}]\end{description}
+\end{Desc}
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecc}{\index{accgyro.\+h@{accgyro.\+h}!gyro\+Sensor\+\_\+e@{gyro\+Sensor\+\_\+e}}
+\index{gyro\+Sensor\+\_\+e@{gyro\+Sensor\+\_\+e}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{gyro\+Sensor\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf gyro\+Sensor\+\_\+e}}}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecc}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{G\+Y\+R\+O\+\_\+\+N\+O\+N\+E@{G\+Y\+R\+O\+\_\+\+N\+O\+N\+E}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+N\+O\+N\+E@{G\+Y\+R\+O\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca34762a63ac7051e4529421153135ca87}{G\+Y\+R\+O\+\_\+\+N\+O\+N\+E}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca34762a63ac7051e4529421153135ca87}
+}]\index{G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T@{G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T@{G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf6f59218d35055753948689340e6ad67}{G\+Y\+R\+O\+\_\+\+D\+E\+F\+A\+U\+L\+T}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf6f59218d35055753948689340e6ad67}
+}]\index{G\+Y\+R\+O\+\_\+\+M\+P\+U6050@{G\+Y\+R\+O\+\_\+\+M\+P\+U6050}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+M\+P\+U6050@{G\+Y\+R\+O\+\_\+\+M\+P\+U6050}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca6c99e11bed3b32c12f35cc02e4e7e9d4}{G\+Y\+R\+O\+\_\+\+M\+P\+U6050}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca6c99e11bed3b32c12f35cc02e4e7e9d4}
+}]\index{G\+Y\+R\+O\+\_\+\+L3\+G4200\+D@{G\+Y\+R\+O\+\_\+\+L3\+G4200\+D}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+L3\+G4200\+D@{G\+Y\+R\+O\+\_\+\+L3\+G4200\+D}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca95fe5e79e0c99d8c4bcac256d3d34d06}{G\+Y\+R\+O\+\_\+\+L3\+G4200\+D}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca95fe5e79e0c99d8c4bcac256d3d34d06}
+}]\index{G\+Y\+R\+O\+\_\+\+M\+P\+U3050@{G\+Y\+R\+O\+\_\+\+M\+P\+U3050}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+M\+P\+U3050@{G\+Y\+R\+O\+\_\+\+M\+P\+U3050}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0feccac3cb0d0ae42b07ec3484f61c6780f0d5}{G\+Y\+R\+O\+\_\+\+M\+P\+U3050}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0feccac3cb0d0ae42b07ec3484f61c6780f0d5}
+}]\index{G\+Y\+R\+O\+\_\+\+L3\+G\+D20@{G\+Y\+R\+O\+\_\+\+L3\+G\+D20}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+L3\+G\+D20@{G\+Y\+R\+O\+\_\+\+L3\+G\+D20}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca9d99b96febb4b42e25c95192bd147dde}{G\+Y\+R\+O\+\_\+\+L3\+G\+D20}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca9d99b96febb4b42e25c95192bd147dde}
+}]\index{G\+Y\+R\+O\+\_\+\+M\+P\+U6000@{G\+Y\+R\+O\+\_\+\+M\+P\+U6000}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+M\+P\+U6000@{G\+Y\+R\+O\+\_\+\+M\+P\+U6000}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf36751aba4bd4b7d492d0747613df53d}{G\+Y\+R\+O\+\_\+\+M\+P\+U6000}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0feccaf36751aba4bd4b7d492d0747613df53d}
+}]\index{G\+Y\+R\+O\+\_\+\+M\+P\+U6500@{G\+Y\+R\+O\+\_\+\+M\+P\+U6500}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+M\+P\+U6500@{G\+Y\+R\+O\+\_\+\+M\+P\+U6500}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca52fbe3f17f1435bd4e85614ff96548eb}{G\+Y\+R\+O\+\_\+\+M\+P\+U6500}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0fecca52fbe3f17f1435bd4e85614ff96548eb}
+}]\index{G\+Y\+R\+O\+\_\+\+F\+A\+K\+E@{G\+Y\+R\+O\+\_\+\+F\+A\+K\+E}!accgyro.\+h@{accgyro.\+h}}\index{accgyro.\+h@{accgyro.\+h}!G\+Y\+R\+O\+\_\+\+F\+A\+K\+E@{G\+Y\+R\+O\+\_\+\+F\+A\+K\+E}}\item[{\em 
+\hypertarget{accgyro_8h_a8c65f097019380d12106f8ca92b0feccad1c15a88c47fecc77d15c332ec14f64d}{G\+Y\+R\+O\+\_\+\+F\+A\+K\+E}\label{accgyro_8h_a8c65f097019380d12106f8ca92b0feccad1c15a88c47fecc77d15c332ec14f64d}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{accgyro_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\index{accgyro.\+h@{accgyro.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}typedef    {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+}}}\label{accgyro_8h_aeab68f17dc686a2f7dc72ab2b712e464}
+\hypertarget{accgyro_8h_a5008519710746affca50c04439353fe3}{\index{accgyro.\+h@{accgyro.\+h}!acc@{acc}}
+\index{acc@{acc}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{acc}]{\setlength{\rightskip}{0pt plus 5cm}{\bf acc\+\_\+t} acc}}\label{accgyro_8h_a5008519710746affca50c04439353fe3}
+\hypertarget{accgyro_8h_a2b9758e6eb53a9c7feb493701a653b9b}{\index{accgyro.\+h@{accgyro.\+h}!gyro@{gyro}}
+\index{gyro@{gyro}!accgyro.\+h@{accgyro.\+h}}
+\subsubsection[{gyro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gyro\+\_\+t} gyro}}\label{accgyro_8h_a2b9758e6eb53a9c7feb493701a653b9b}

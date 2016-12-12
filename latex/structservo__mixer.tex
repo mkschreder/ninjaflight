@@ -1,0 +1,89 @@
+\hypertarget{structservo__mixer}{\section{servo\+\_\+mixer Struct Reference}
+\label{structservo__mixer}\index{servo\+\_\+mixer@{servo\+\_\+mixer}}
+}
+
+
+Cleanflight servo mixer definition.  
+
+
+
+
+{\ttfamily \#include $<$mixer.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structservo__mixer_a67dc3ae6d3ebe59806a87c413cfb9f2b}{target\+Channel}
+\begin{DoxyCompactList}\small\item\em servo that receives the output of the rule \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structservo__mixer_a40f47a678b24b3a2e045f7a3cbd5d7a0}{input\+Source}
+\begin{DoxyCompactList}\small\item\em input channel for this rule \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structservo__mixer_adb092f1954c0c41ea3da120b9888e824}{rate}
+\begin{DoxyCompactList}\small\item\em range \mbox{[}-\/125;+125\mbox{]} ; can be used to adjust a rate 0-\/125\% and a direction \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structservo__mixer_a8f7ee6886f8316ddecbfe76a7a64e586}{speed}
+\begin{DoxyCompactList}\small\item\em reduces the speed of the rule, 0=unlimited speed \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structservo__mixer_a20a1254955434895a2f7b7145b3f8c3d}{min}
+\begin{DoxyCompactList}\small\item\em lower bound of rule range \mbox{[}0;100\mbox{]}\% of servo max-\/min \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{structservo__mixer_ac8f02f090be0f5f944e2b8fb21659926}{max}
+\begin{DoxyCompactList}\small\item\em lower bound of rule range \mbox{[}0;100\mbox{]}\% of servo max-\/min \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structservo__mixer_a4e1ff1934af3795df7d769672c6a0c2d}{box}
+\begin{DoxyCompactList}\small\item\em active rule if box is enabled, range \mbox{[}0;3\mbox{]}, 0=no box, 1=B\+O\+X\+S\+E\+R\+V\+O1, 2=B\+O\+X\+S\+E\+R\+V\+O2, 3=B\+O\+X\+S\+E\+R\+V\+O3 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Cleanflight servo mixer definition. 
+
+\subsection{Field Documentation}
+\hypertarget{structservo__mixer_a4e1ff1934af3795df7d769672c6a0c2d}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!box@{box}}
+\index{box@{box}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{box}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+mixer\+::box}}\label{structservo__mixer_a4e1ff1934af3795df7d769672c6a0c2d}
+
+
+active rule if box is enabled, range \mbox{[}0;3\mbox{]}, 0=no box, 1=B\+O\+X\+S\+E\+R\+V\+O1, 2=B\+O\+X\+S\+E\+R\+V\+O2, 3=B\+O\+X\+S\+E\+R\+V\+O3 
+
+\hypertarget{structservo__mixer_a40f47a678b24b3a2e045f7a3cbd5d7a0}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!input\+Source@{input\+Source}}
+\index{input\+Source@{input\+Source}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{input\+Source}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+mixer\+::input\+Source}}\label{structservo__mixer_a40f47a678b24b3a2e045f7a3cbd5d7a0}
+
+
+input channel for this rule 
+
+\hypertarget{structservo__mixer_ac8f02f090be0f5f944e2b8fb21659926}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!max@{max}}
+\index{max@{max}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{max}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t servo\+\_\+mixer\+::max}}\label{structservo__mixer_ac8f02f090be0f5f944e2b8fb21659926}
+
+
+lower bound of rule range \mbox{[}0;100\mbox{]}\% of servo max-\/min 
+
+\hypertarget{structservo__mixer_a20a1254955434895a2f7b7145b3f8c3d}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!min@{min}}
+\index{min@{min}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{min}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t servo\+\_\+mixer\+::min}}\label{structservo__mixer_a20a1254955434895a2f7b7145b3f8c3d}
+
+
+lower bound of rule range \mbox{[}0;100\mbox{]}\% of servo max-\/min 
+
+\hypertarget{structservo__mixer_adb092f1954c0c41ea3da120b9888e824}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!rate@{rate}}
+\index{rate@{rate}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{rate}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t servo\+\_\+mixer\+::rate}}\label{structservo__mixer_adb092f1954c0c41ea3da120b9888e824}
+
+
+range \mbox{[}-\/125;+125\mbox{]} ; can be used to adjust a rate 0-\/125\% and a direction 
+
+\hypertarget{structservo__mixer_a8f7ee6886f8316ddecbfe76a7a64e586}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!speed@{speed}}
+\index{speed@{speed}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+mixer\+::speed}}\label{structservo__mixer_a8f7ee6886f8316ddecbfe76a7a64e586}
+
+
+reduces the speed of the rule, 0=unlimited speed 
+
+\hypertarget{structservo__mixer_a67dc3ae6d3ebe59806a87c413cfb9f2b}{\index{servo\+\_\+mixer@{servo\+\_\+mixer}!target\+Channel@{target\+Channel}}
+\index{target\+Channel@{target\+Channel}!servo\+\_\+mixer@{servo\+\_\+mixer}}
+\subsubsection[{target\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t servo\+\_\+mixer\+::target\+Channel}}\label{structservo__mixer_a67dc3ae6d3ebe59806a87c413cfb9f2b}
+
+
+servo that receives the output of the rule 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2mixer_8h}{mixer.\+h}\end{DoxyCompactItemize}

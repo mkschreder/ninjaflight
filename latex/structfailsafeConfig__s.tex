@@ -1,0 +1,80 @@
+\hypertarget{structfailsafeConfig__s}{\section{failsafe\+Config\+\_\+s Struct Reference}
+\label{structfailsafeConfig__s}\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+}
+
+
+Failsafe system configuration.  
+
+
+
+
+{\ttfamily \#include $<$failsafe.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{structfailsafeConfig__s_a6a70af0c8e4c935027ed50a204329fa2}{failsafe\+\_\+delay}
+\begin{DoxyCompactList}\small\item\em Guard time for failsafe activation after signal lost. 1 step = 0.\+1sec -\/ 1sec in example (10) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structfailsafeConfig__s_a7dea3f5b2c7e063f86a7eb854a636f11}{failsafe\+\_\+off\+\_\+delay}
+\begin{DoxyCompactList}\small\item\em Time for Landing before motors stop in 0.\+1sec. 1 step = 0.\+1sec -\/ 20sec in example (200) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structfailsafeConfig__s_a4b281394340a52b19f9b655c2108ef82}{failsafe\+\_\+throttle}
+\begin{DoxyCompactList}\small\item\em Throttle level used for landing -\/ specify value between 1000..2000 (pwm pulse width for slightly below hover). center throttle = 1500. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structfailsafeConfig__s_a0e65451c6e1389fca9f8d2797da78866}{failsafe\+\_\+kill\+\_\+switch}
+\begin{DoxyCompactList}\small\item\em failsafe switch action is 0\+: identical to rc link loss, 1\+: disarms instantly \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{structfailsafeConfig__s_ab66ba821dd2e8b4fbc1e148c9fe4459d}{failsafe\+\_\+throttle\+\_\+low\+\_\+delay}
+\begin{DoxyCompactList}\small\item\em Time throttle stick must have been below 'min\+\_\+check' to \char`\"{}\+Just\+Disarm\char`\"{} instead of \char`\"{}full failsafe procedure\char`\"{}. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structfailsafeConfig__s_a306c835be29095a96a2bd376860da270}{failsafe\+\_\+procedure}
+\begin{DoxyCompactList}\small\item\em selected full failsafe procedure is 0\+: auto-\/landing, 1\+: Drop it \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Failsafe system configuration. 
+
+\subsection{Field Documentation}
+\hypertarget{structfailsafeConfig__s_a6a70af0c8e4c935027ed50a204329fa2}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+delay@{failsafe\+\_\+delay}}
+\index{failsafe\+\_\+delay@{failsafe\+\_\+delay}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+delay}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+delay}}\label{structfailsafeConfig__s_a6a70af0c8e4c935027ed50a204329fa2}
+
+
+Guard time for failsafe activation after signal lost. 1 step = 0.\+1sec -\/ 1sec in example (10) 
+
+\hypertarget{structfailsafeConfig__s_a0e65451c6e1389fca9f8d2797da78866}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+kill\+\_\+switch@{failsafe\+\_\+kill\+\_\+switch}}
+\index{failsafe\+\_\+kill\+\_\+switch@{failsafe\+\_\+kill\+\_\+switch}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+kill\+\_\+switch}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+kill\+\_\+switch}}\label{structfailsafeConfig__s_a0e65451c6e1389fca9f8d2797da78866}
+
+
+failsafe switch action is 0\+: identical to rc link loss, 1\+: disarms instantly 
+
+\hypertarget{structfailsafeConfig__s_a7dea3f5b2c7e063f86a7eb854a636f11}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+off\+\_\+delay@{failsafe\+\_\+off\+\_\+delay}}
+\index{failsafe\+\_\+off\+\_\+delay@{failsafe\+\_\+off\+\_\+delay}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+off\+\_\+delay}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+off\+\_\+delay}}\label{structfailsafeConfig__s_a7dea3f5b2c7e063f86a7eb854a636f11}
+
+
+Time for Landing before motors stop in 0.\+1sec. 1 step = 0.\+1sec -\/ 20sec in example (200) 
+
+\hypertarget{structfailsafeConfig__s_a306c835be29095a96a2bd376860da270}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+procedure@{failsafe\+\_\+procedure}}
+\index{failsafe\+\_\+procedure@{failsafe\+\_\+procedure}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+procedure}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+procedure}}\label{structfailsafeConfig__s_a306c835be29095a96a2bd376860da270}
+
+
+selected full failsafe procedure is 0\+: auto-\/landing, 1\+: Drop it 
+
+\hypertarget{structfailsafeConfig__s_a4b281394340a52b19f9b655c2108ef82}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+throttle@{failsafe\+\_\+throttle}}
+\index{failsafe\+\_\+throttle@{failsafe\+\_\+throttle}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+throttle}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+throttle}}\label{structfailsafeConfig__s_a4b281394340a52b19f9b655c2108ef82}
+
+
+Throttle level used for landing -\/ specify value between 1000..2000 (pwm pulse width for slightly below hover). center throttle = 1500. 
+
+\hypertarget{structfailsafeConfig__s_ab66ba821dd2e8b4fbc1e148c9fe4459d}{\index{failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}!failsafe\+\_\+throttle\+\_\+low\+\_\+delay@{failsafe\+\_\+throttle\+\_\+low\+\_\+delay}}
+\index{failsafe\+\_\+throttle\+\_\+low\+\_\+delay@{failsafe\+\_\+throttle\+\_\+low\+\_\+delay}!failsafe\+Config\+\_\+s@{failsafe\+Config\+\_\+s}}
+\subsubsection[{failsafe\+\_\+throttle\+\_\+low\+\_\+delay}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t failsafe\+Config\+\_\+s\+::failsafe\+\_\+throttle\+\_\+low\+\_\+delay}}\label{structfailsafeConfig__s_ab66ba821dd2e8b4fbc1e148c9fe4459d}
+
+
+Time throttle stick must have been below 'min\+\_\+check' to \char`\"{}\+Just\+Disarm\char`\"{} instead of \char`\"{}full failsafe procedure\char`\"{}. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/config/\hyperlink{config_2failsafe_8h}{failsafe.\+h}\end{DoxyCompactItemize}

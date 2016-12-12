@@ -1,0 +1,421 @@
+\hypertarget{maths_8h}{\section{src/main/common/maths.h File Reference}
+\label{maths_8h}\index{src/main/common/maths.\+h@{src/main/common/maths.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+Include dependency graph for maths.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{maths_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structstdev__s}{stdev\+\_\+s}
+\item 
+struct \hyperlink{structfp__vector}{fp\+\_\+vector}
+\item 
+union \hyperlink{uniont__fp__vector}{t\+\_\+fp\+\_\+vector}
+\item 
+struct \hyperlink{structfp__angles}{fp\+\_\+angles}
+\item 
+union \hyperlink{unionfp__angles__t}{fp\+\_\+angles\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{maths_8h_ae7616788b30810a219d9cdee95904ba4}{sq}(x)~((x)$\ast$(x))
+\item 
+\#define \hyperlink{maths_8h_a8a9a5a1895aa864d106cbdcef2067526}{F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y}
+\item 
+\#define \hyperlink{maths_8h_acbb42dc053fedc161079f0a4d20a64e8}{M\+\_\+\+P\+If}~3.\+14159265358979323846f
+\item 
+\#define \hyperlink{maths_8h_ab812f1e2f95156906fcaca00bc6f490e}{R\+A\+D}~(\hyperlink{maths_8h_acbb42dc053fedc161079f0a4d20a64e8}{M\+\_\+\+P\+If} / 180.\+0f)
+\item 
+\#define \hyperlink{maths_8h_a3acffbd305ee72dcd4593c0d8af64a4f}{M\+I\+N}(a, b)~((a) $<$ (b) ? (a) \+: (b))
+\item 
+\#define \hyperlink{maths_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}{M\+A\+X}(a, b)~((a) $>$ (b) ? (a) \+: (b))
+\item 
+\#define \hyperlink{maths_8h_a996f7be338ccb40d1a2a5abc1ad61759}{A\+B\+S}(x)~((x) $>$ 0 ? (x) \+: -\/(x))
+\item 
+\#define \hyperlink{maths_8h_ae7aa4ac8c0f70e321bbfa049e41c5def}{sin\+\_\+approx}(x)~sinf(x)
+\item 
+\#define \hyperlink{maths_8h_a39bc628088222fe74d40ca5e65b47a43}{cos\+\_\+approx}(x)~cosf(x)
+\item 
+\#define \hyperlink{maths_8h_ae42cdea054b48fca27d560a5837cdc67}{atan2\+\_\+approx}(y, x)~atan2f(y,x)
+\item 
+\#define \hyperlink{maths_8h_a168ebfe920412e0b310b4a786ceedacd}{acos\+\_\+approx}(x)~acosf(x)
+\item 
+\#define \hyperlink{maths_8h_a6c2b592f142deafaeb461f50632b04f4}{tan\+\_\+approx}(x)~tanf(x)
+\item 
+\#define \hyperlink{maths_8h_aa59fd9f832bffc841510db96423df66f}{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S}(angle)~(angle $\ast$ 10)
+\item 
+\#define \hyperlink{maths_8h_ab86541d87592b167344aac0ec3f88816}{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S}(angle)~(angle / 10)
+\item 
+\#define \hyperlink{maths_8h_acf6c44d8eaf36e0367a04c21803533f9}{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}(angle)~((angle / 10.\+0f) $\ast$ 0.\+0174532925f)
+\item 
+\#define \hyperlink{maths_8h_aa43f318e7b59527738074a927809563b}{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}(angle)~((angle) $\ast$ 0.\+0174532925f)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structstdev__s}{stdev\+\_\+s} \hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t}
+\item 
+typedef struct \hyperlink{structfp__vector}{fp\+\_\+vector} \hyperlink{maths_8h_ad0649c60931904ba867e909c5cd2b41f}{t\+\_\+fp\+\_\+vector\+\_\+def}
+\item 
+typedef struct \hyperlink{structfp__angles}{fp\+\_\+angles} \hyperlink{maths_8h_ae8dce9df3c21175ef9fdfc8b5882f8a3}{fp\+\_\+angles\+\_\+def}
+\item 
+typedef float \hyperlink{maths_8h_ab94f66efe0608e356c00bd871f5fd4e8}{matrix\+\_\+3x3\+\_\+t} \mbox{[}3\mbox{]}\mbox{[}3\mbox{]}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \hyperlink{maths_8h_a41636974f363dcb1d08e8a5be0d4706a}{apply\+Deadband} (int32\+\_\+t value, int32\+\_\+t deadband)
+\item 
+int \hyperlink{maths_8h_adcad298527436e28d347ba411cf2d28d}{constrain} (int amt, int low, int high)
+\item 
+float \hyperlink{maths_8h_a388978033f229476aff37df9e3ef50a2}{constrainf} (float amt, float low, float high)
+\item 
+void \hyperlink{maths_8h_acba908432cccbeaf05cf19ad16dc4840}{dev\+Clear} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+void \hyperlink{maths_8h_ac331cc992292dea1eaad5a3cecc9cbe3}{dev\+Push} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev, float x)
+\item 
+float \hyperlink{maths_8h_aeafc436ee3d8dbf9895990608a636a33}{dev\+Variance} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+float \hyperlink{maths_8h_a8495adce9f391f6bc0bfd723a358e6a2}{dev\+Standard\+Deviation} (\hyperlink{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{stdev\+\_\+t} $\ast$dev)
+\item 
+float \hyperlink{maths_8h_a9d9e746df4553b61522720bc5b243985}{degrees\+To\+Radians} (int16\+\_\+t degrees)
+\item 
+int \hyperlink{maths_8h_ab8e8e0aaef25bc3a235d3e9d3a7f289e}{scale\+Range} (int x, int src\+Min, int src\+Max, int dest\+Min, int dest\+Max)
+\item 
+float \hyperlink{maths_8h_a6f54610483fda09f37018562c2f59f09}{scale\+Rangef} (float x, float in\+\_\+min, float in\+\_\+max, float out\+\_\+min, float out\+\_\+max)
+\item 
+void \hyperlink{maths_8h_a9c37023d875e57f0548bafddc79afff4}{normalize\+V} (struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$src, struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$dest)
+\item 
+void \hyperlink{maths_8h_a7fe047f05505982fe22bfe010f17d7cd}{rotate\+V} (struct \hyperlink{structfp__vector}{fp\+\_\+vector} $\ast$v, \hyperlink{unionfp__angles__t}{fp\+\_\+angles\+\_\+t} $\ast$delta)
+\item 
+void \hyperlink{maths_8h_ae051f367de8da318779e435c0f30ff48}{build\+Rotation\+Matrix} (\hyperlink{unionfp__angles__t}{fp\+\_\+angles\+\_\+t} $\ast$delta, float matrix\mbox{[}3\mbox{]}\mbox{[}3\mbox{]})
+\item 
+int32\+\_\+t \hyperlink{maths_8h_abad95284b076d4f4f4721a9c0dbf0ca2}{quick\+Median\+Filter3} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8h_a852d720eb99c329fe706ebff8b30a975}{quick\+Median\+Filter5} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8h_a0f4123231e1535e7413a3d517b826705}{quick\+Median\+Filter7} (int32\+\_\+t $\ast$v)
+\item 
+int32\+\_\+t \hyperlink{maths_8h_a112901c847abddac82a9a0abffe6c099}{quick\+Median\+Filter9} (int32\+\_\+t $\ast$v)
+\item 
+void \hyperlink{maths_8h_afa9830bed7e03bd519d50c85e3e93da4}{array\+Sub\+Int32} (int32\+\_\+t $\ast$dest, int32\+\_\+t $\ast$array1, int32\+\_\+t $\ast$array2, int count)
+\item 
+void \hyperlink{maths_8h_ac969ac66a7dede9deccae7154aa0d3ea}{matrix\+\_\+set\+\_\+identity} (\hyperlink{maths_8h_ab94f66efe0608e356c00bd871f5fd4e8}{matrix\+\_\+3x3\+\_\+t} mat)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{maths_8h_a996f7be338ccb40d1a2a5abc1ad61759}{\index{maths.\+h@{maths.\+h}!A\+B\+S@{A\+B\+S}}
+\index{A\+B\+S@{A\+B\+S}!maths.\+h@{maths.\+h}}
+\subsubsection[{A\+B\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+B\+S(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((x) $>$ 0 ? (x) \+: -\/(x))}}\label{maths_8h_a996f7be338ccb40d1a2a5abc1ad61759}
+\hypertarget{maths_8h_a168ebfe920412e0b310b4a786ceedacd}{\index{maths.\+h@{maths.\+h}!acos\+\_\+approx@{acos\+\_\+approx}}
+\index{acos\+\_\+approx@{acos\+\_\+approx}!maths.\+h@{maths.\+h}}
+\subsubsection[{acos\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}\#define acos\+\_\+approx(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~acosf(x)}}\label{maths_8h_a168ebfe920412e0b310b4a786ceedacd}
+\hypertarget{maths_8h_ae42cdea054b48fca27d560a5837cdc67}{\index{maths.\+h@{maths.\+h}!atan2\+\_\+approx@{atan2\+\_\+approx}}
+\index{atan2\+\_\+approx@{atan2\+\_\+approx}!maths.\+h@{maths.\+h}}
+\subsubsection[{atan2\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}\#define atan2\+\_\+approx(
+\begin{DoxyParamCaption}
+\item[{}]{y, }
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~atan2f(y,x)}}\label{maths_8h_ae42cdea054b48fca27d560a5837cdc67}
+\hypertarget{maths_8h_a39bc628088222fe74d40ca5e65b47a43}{\index{maths.\+h@{maths.\+h}!cos\+\_\+approx@{cos\+\_\+approx}}
+\index{cos\+\_\+approx@{cos\+\_\+approx}!maths.\+h@{maths.\+h}}
+\subsubsection[{cos\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}\#define cos\+\_\+approx(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~cosf(x)}}\label{maths_8h_a39bc628088222fe74d40ca5e65b47a43}
+\hypertarget{maths_8h_ab86541d87592b167344aac0ec3f88816}{\index{maths.\+h@{maths.\+h}!D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S@{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S}}
+\index{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S@{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S}!maths.\+h@{maths.\+h}}
+\subsubsection[{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+G\+R\+E\+E\+S(
+\begin{DoxyParamCaption}
+\item[{}]{angle}
+\end{DoxyParamCaption}
+)~(angle / 10)}}\label{maths_8h_ab86541d87592b167344aac0ec3f88816}
+\hypertarget{maths_8h_acf6c44d8eaf36e0367a04c21803533f9}{\index{maths.\+h@{maths.\+h}!D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S@{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}}
+\index{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S@{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}!maths.\+h@{maths.\+h}}
+\subsubsection[{D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S(
+\begin{DoxyParamCaption}
+\item[{}]{angle}
+\end{DoxyParamCaption}
+)~((angle / 10.\+0f) $\ast$ 0.\+0174532925f)}}\label{maths_8h_acf6c44d8eaf36e0367a04c21803533f9}
+\hypertarget{maths_8h_aa59fd9f832bffc841510db96423df66f}{\index{maths.\+h@{maths.\+h}!D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S@{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S}}
+\index{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S@{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S}!maths.\+h@{maths.\+h}}
+\subsubsection[{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+D\+E\+C\+I\+D\+E\+G\+R\+E\+E\+S(
+\begin{DoxyParamCaption}
+\item[{}]{angle}
+\end{DoxyParamCaption}
+)~(angle $\ast$ 10)}}\label{maths_8h_aa59fd9f832bffc841510db96423df66f}
+\hypertarget{maths_8h_aa43f318e7b59527738074a927809563b}{\index{maths.\+h@{maths.\+h}!D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S@{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}}
+\index{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S@{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}!maths.\+h@{maths.\+h}}
+\subsubsection[{D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+G\+R\+E\+E\+S\+\_\+\+T\+O\+\_\+\+R\+A\+D\+I\+A\+N\+S(
+\begin{DoxyParamCaption}
+\item[{}]{angle}
+\end{DoxyParamCaption}
+)~((angle) $\ast$ 0.\+0174532925f)}}\label{maths_8h_aa43f318e7b59527738074a927809563b}
+\hypertarget{maths_8h_a8a9a5a1895aa864d106cbdcef2067526}{\index{maths.\+h@{maths.\+h}!F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y@{F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y}}
+\index{F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y@{F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y}!maths.\+h@{maths.\+h}}
+\subsubsection[{F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+A\+S\+T\+\_\+\+T\+R\+I\+G\+O\+N\+O\+M\+E\+T\+R\+Y}}\label{maths_8h_a8a9a5a1895aa864d106cbdcef2067526}
+\hypertarget{maths_8h_acbb42dc053fedc161079f0a4d20a64e8}{\index{maths.\+h@{maths.\+h}!M\+\_\+\+P\+If@{M\+\_\+\+P\+If}}
+\index{M\+\_\+\+P\+If@{M\+\_\+\+P\+If}!maths.\+h@{maths.\+h}}
+\subsubsection[{M\+\_\+\+P\+If}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+\_\+\+P\+If~3.\+14159265358979323846f}}\label{maths_8h_acbb42dc053fedc161079f0a4d20a64e8}
+\hypertarget{maths_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}{\index{maths.\+h@{maths.\+h}!M\+A\+X@{M\+A\+X}}
+\index{M\+A\+X@{M\+A\+X}!maths.\+h@{maths.\+h}}
+\subsubsection[{M\+A\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~((a) $>$ (b) ? (a) \+: (b))}}\label{maths_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}
+\hypertarget{maths_8h_a3acffbd305ee72dcd4593c0d8af64a4f}{\index{maths.\+h@{maths.\+h}!M\+I\+N@{M\+I\+N}}
+\index{M\+I\+N@{M\+I\+N}!maths.\+h@{maths.\+h}}
+\subsubsection[{M\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+I\+N(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~((a) $<$ (b) ? (a) \+: (b))}}\label{maths_8h_a3acffbd305ee72dcd4593c0d8af64a4f}
+\hypertarget{maths_8h_ab812f1e2f95156906fcaca00bc6f490e}{\index{maths.\+h@{maths.\+h}!R\+A\+D@{R\+A\+D}}
+\index{R\+A\+D@{R\+A\+D}!maths.\+h@{maths.\+h}}
+\subsubsection[{R\+A\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+A\+D~({\bf M\+\_\+\+P\+If} / 180.\+0f)}}\label{maths_8h_ab812f1e2f95156906fcaca00bc6f490e}
+\hypertarget{maths_8h_ae7aa4ac8c0f70e321bbfa049e41c5def}{\index{maths.\+h@{maths.\+h}!sin\+\_\+approx@{sin\+\_\+approx}}
+\index{sin\+\_\+approx@{sin\+\_\+approx}!maths.\+h@{maths.\+h}}
+\subsubsection[{sin\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}\#define sin\+\_\+approx(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~sinf(x)}}\label{maths_8h_ae7aa4ac8c0f70e321bbfa049e41c5def}
+\hypertarget{maths_8h_ae7616788b30810a219d9cdee95904ba4}{\index{maths.\+h@{maths.\+h}!sq@{sq}}
+\index{sq@{sq}!maths.\+h@{maths.\+h}}
+\subsubsection[{sq}]{\setlength{\rightskip}{0pt plus 5cm}\#define sq(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((x)$\ast$(x))}}\label{maths_8h_ae7616788b30810a219d9cdee95904ba4}
+\hypertarget{maths_8h_a6c2b592f142deafaeb461f50632b04f4}{\index{maths.\+h@{maths.\+h}!tan\+\_\+approx@{tan\+\_\+approx}}
+\index{tan\+\_\+approx@{tan\+\_\+approx}!maths.\+h@{maths.\+h}}
+\subsubsection[{tan\+\_\+approx}]{\setlength{\rightskip}{0pt plus 5cm}\#define tan\+\_\+approx(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~tanf(x)}}\label{maths_8h_a6c2b592f142deafaeb461f50632b04f4}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{maths_8h_ae8dce9df3c21175ef9fdfc8b5882f8a3}{\index{maths.\+h@{maths.\+h}!fp\+\_\+angles\+\_\+def@{fp\+\_\+angles\+\_\+def}}
+\index{fp\+\_\+angles\+\_\+def@{fp\+\_\+angles\+\_\+def}!maths.\+h@{maths.\+h}}
+\subsubsection[{fp\+\_\+angles\+\_\+def}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf fp\+\_\+angles}  {\bf fp\+\_\+angles\+\_\+def}}}\label{maths_8h_ae8dce9df3c21175ef9fdfc8b5882f8a3}
+\hypertarget{maths_8h_ab94f66efe0608e356c00bd871f5fd4e8}{\index{maths.\+h@{maths.\+h}!matrix\+\_\+3x3\+\_\+t@{matrix\+\_\+3x3\+\_\+t}}
+\index{matrix\+\_\+3x3\+\_\+t@{matrix\+\_\+3x3\+\_\+t}!maths.\+h@{maths.\+h}}
+\subsubsection[{matrix\+\_\+3x3\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef float matrix\+\_\+3x3\+\_\+t\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}}\label{maths_8h_ab94f66efe0608e356c00bd871f5fd4e8}
+\hypertarget{maths_8h_a6274a436c6082d67601c5bf296afbcf2}{\index{maths.\+h@{maths.\+h}!stdev\+\_\+t@{stdev\+\_\+t}}
+\index{stdev\+\_\+t@{stdev\+\_\+t}!maths.\+h@{maths.\+h}}
+\subsubsection[{stdev\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf stdev\+\_\+s}  {\bf stdev\+\_\+t}}}\label{maths_8h_a6274a436c6082d67601c5bf296afbcf2}
+\hypertarget{maths_8h_ad0649c60931904ba867e909c5cd2b41f}{\index{maths.\+h@{maths.\+h}!t\+\_\+fp\+\_\+vector\+\_\+def@{t\+\_\+fp\+\_\+vector\+\_\+def}}
+\index{t\+\_\+fp\+\_\+vector\+\_\+def@{t\+\_\+fp\+\_\+vector\+\_\+def}!maths.\+h@{maths.\+h}}
+\subsubsection[{t\+\_\+fp\+\_\+vector\+\_\+def}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf fp\+\_\+vector}  {\bf t\+\_\+fp\+\_\+vector\+\_\+def}}}\label{maths_8h_ad0649c60931904ba867e909c5cd2b41f}
+
+
+\subsection{Function Documentation}
+\hypertarget{maths_8h_a41636974f363dcb1d08e8a5be0d4706a}{\index{maths.\+h@{maths.\+h}!apply\+Deadband@{apply\+Deadband}}
+\index{apply\+Deadband@{apply\+Deadband}!maths.\+h@{maths.\+h}}
+\subsubsection[{apply\+Deadband}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t apply\+Deadband (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{value, }
+\item[{int32\+\_\+t}]{deadband}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a41636974f363dcb1d08e8a5be0d4706a}
+\hypertarget{maths_8h_afa9830bed7e03bd519d50c85e3e93da4}{\index{maths.\+h@{maths.\+h}!array\+Sub\+Int32@{array\+Sub\+Int32}}
+\index{array\+Sub\+Int32@{array\+Sub\+Int32}!maths.\+h@{maths.\+h}}
+\subsubsection[{array\+Sub\+Int32}]{\setlength{\rightskip}{0pt plus 5cm}void array\+Sub\+Int32 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{dest, }
+\item[{int32\+\_\+t $\ast$}]{array1, }
+\item[{int32\+\_\+t $\ast$}]{array2, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_afa9830bed7e03bd519d50c85e3e93da4}
+\hypertarget{maths_8h_ae051f367de8da318779e435c0f30ff48}{\index{maths.\+h@{maths.\+h}!build\+Rotation\+Matrix@{build\+Rotation\+Matrix}}
+\index{build\+Rotation\+Matrix@{build\+Rotation\+Matrix}!maths.\+h@{maths.\+h}}
+\subsubsection[{build\+Rotation\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}void build\+Rotation\+Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf fp\+\_\+angles\+\_\+t} $\ast$}]{delta, }
+\item[{float}]{matrix\mbox{[}3\mbox{]}\mbox{[}3\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_ae051f367de8da318779e435c0f30ff48}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{maths_8h_ae051f367de8da318779e435c0f30ff48_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8h_adcad298527436e28d347ba411cf2d28d}{\index{maths.\+h@{maths.\+h}!constrain@{constrain}}
+\index{constrain@{constrain}!maths.\+h@{maths.\+h}}
+\subsubsection[{constrain}]{\setlength{\rightskip}{0pt plus 5cm}int constrain (
+\begin{DoxyParamCaption}
+\item[{int}]{amt, }
+\item[{int}]{low, }
+\item[{int}]{high}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_adcad298527436e28d347ba411cf2d28d}
+\hypertarget{maths_8h_a388978033f229476aff37df9e3ef50a2}{\index{maths.\+h@{maths.\+h}!constrainf@{constrainf}}
+\index{constrainf@{constrainf}!maths.\+h@{maths.\+h}}
+\subsubsection[{constrainf}]{\setlength{\rightskip}{0pt plus 5cm}float constrainf (
+\begin{DoxyParamCaption}
+\item[{float}]{amt, }
+\item[{float}]{low, }
+\item[{float}]{high}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a388978033f229476aff37df9e3ef50a2}
+\hypertarget{maths_8h_a9d9e746df4553b61522720bc5b243985}{\index{maths.\+h@{maths.\+h}!degrees\+To\+Radians@{degrees\+To\+Radians}}
+\index{degrees\+To\+Radians@{degrees\+To\+Radians}!maths.\+h@{maths.\+h}}
+\subsubsection[{degrees\+To\+Radians}]{\setlength{\rightskip}{0pt plus 5cm}float degrees\+To\+Radians (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t}]{degrees}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a9d9e746df4553b61522720bc5b243985}
+\hypertarget{maths_8h_acba908432cccbeaf05cf19ad16dc4840}{\index{maths.\+h@{maths.\+h}!dev\+Clear@{dev\+Clear}}
+\index{dev\+Clear@{dev\+Clear}!maths.\+h@{maths.\+h}}
+\subsubsection[{dev\+Clear}]{\setlength{\rightskip}{0pt plus 5cm}void dev\+Clear (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_acba908432cccbeaf05cf19ad16dc4840}
+\hypertarget{maths_8h_ac331cc992292dea1eaad5a3cecc9cbe3}{\index{maths.\+h@{maths.\+h}!dev\+Push@{dev\+Push}}
+\index{dev\+Push@{dev\+Push}!maths.\+h@{maths.\+h}}
+\subsubsection[{dev\+Push}]{\setlength{\rightskip}{0pt plus 5cm}void dev\+Push (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev, }
+\item[{float}]{x}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_ac331cc992292dea1eaad5a3cecc9cbe3}
+\hypertarget{maths_8h_a8495adce9f391f6bc0bfd723a358e6a2}{\index{maths.\+h@{maths.\+h}!dev\+Standard\+Deviation@{dev\+Standard\+Deviation}}
+\index{dev\+Standard\+Deviation@{dev\+Standard\+Deviation}!maths.\+h@{maths.\+h}}
+\subsubsection[{dev\+Standard\+Deviation}]{\setlength{\rightskip}{0pt plus 5cm}float dev\+Standard\+Deviation (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a8495adce9f391f6bc0bfd723a358e6a2}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{maths_8h_a8495adce9f391f6bc0bfd723a358e6a2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8h_aeafc436ee3d8dbf9895990608a636a33}{\index{maths.\+h@{maths.\+h}!dev\+Variance@{dev\+Variance}}
+\index{dev\+Variance@{dev\+Variance}!maths.\+h@{maths.\+h}}
+\subsubsection[{dev\+Variance}]{\setlength{\rightskip}{0pt plus 5cm}float dev\+Variance (
+\begin{DoxyParamCaption}
+\item[{{\bf stdev\+\_\+t} $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_aeafc436ee3d8dbf9895990608a636a33}
+\hypertarget{maths_8h_ac969ac66a7dede9deccae7154aa0d3ea}{\index{maths.\+h@{maths.\+h}!matrix\+\_\+set\+\_\+identity@{matrix\+\_\+set\+\_\+identity}}
+\index{matrix\+\_\+set\+\_\+identity@{matrix\+\_\+set\+\_\+identity}!maths.\+h@{maths.\+h}}
+\subsubsection[{matrix\+\_\+set\+\_\+identity}]{\setlength{\rightskip}{0pt plus 5cm}void matrix\+\_\+set\+\_\+identity (
+\begin{DoxyParamCaption}
+\item[{{\bf matrix\+\_\+3x3\+\_\+t}}]{mat}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_ac969ac66a7dede9deccae7154aa0d3ea}
+\hypertarget{maths_8h_a9c37023d875e57f0548bafddc79afff4}{\index{maths.\+h@{maths.\+h}!normalize\+V@{normalize\+V}}
+\index{normalize\+V@{normalize\+V}!maths.\+h@{maths.\+h}}
+\subsubsection[{normalize\+V}]{\setlength{\rightskip}{0pt plus 5cm}void normalize\+V (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{src, }
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{dest}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a9c37023d875e57f0548bafddc79afff4}
+\hypertarget{maths_8h_abad95284b076d4f4f4721a9c0dbf0ca2}{\index{maths.\+h@{maths.\+h}!quick\+Median\+Filter3@{quick\+Median\+Filter3}}
+\index{quick\+Median\+Filter3@{quick\+Median\+Filter3}!maths.\+h@{maths.\+h}}
+\subsubsection[{quick\+Median\+Filter3}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter3 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_abad95284b076d4f4f4721a9c0dbf0ca2}
+\hypertarget{maths_8h_a852d720eb99c329fe706ebff8b30a975}{\index{maths.\+h@{maths.\+h}!quick\+Median\+Filter5@{quick\+Median\+Filter5}}
+\index{quick\+Median\+Filter5@{quick\+Median\+Filter5}!maths.\+h@{maths.\+h}}
+\subsubsection[{quick\+Median\+Filter5}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter5 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a852d720eb99c329fe706ebff8b30a975}
+\hypertarget{maths_8h_a0f4123231e1535e7413a3d517b826705}{\index{maths.\+h@{maths.\+h}!quick\+Median\+Filter7@{quick\+Median\+Filter7}}
+\index{quick\+Median\+Filter7@{quick\+Median\+Filter7}!maths.\+h@{maths.\+h}}
+\subsubsection[{quick\+Median\+Filter7}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter7 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a0f4123231e1535e7413a3d517b826705}
+\hypertarget{maths_8h_a112901c847abddac82a9a0abffe6c099}{\index{maths.\+h@{maths.\+h}!quick\+Median\+Filter9@{quick\+Median\+Filter9}}
+\index{quick\+Median\+Filter9@{quick\+Median\+Filter9}!maths.\+h@{maths.\+h}}
+\subsubsection[{quick\+Median\+Filter9}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t quick\+Median\+Filter9 (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t $\ast$}]{v}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a112901c847abddac82a9a0abffe6c099}
+\hypertarget{maths_8h_a7fe047f05505982fe22bfe010f17d7cd}{\index{maths.\+h@{maths.\+h}!rotate\+V@{rotate\+V}}
+\index{rotate\+V@{rotate\+V}!maths.\+h@{maths.\+h}}
+\subsubsection[{rotate\+V}]{\setlength{\rightskip}{0pt plus 5cm}void rotate\+V (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fp\+\_\+vector} $\ast$}]{v, }
+\item[{{\bf fp\+\_\+angles\+\_\+t} $\ast$}]{delta}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a7fe047f05505982fe22bfe010f17d7cd}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{maths_8h_a7fe047f05505982fe22bfe010f17d7cd_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{maths_8h_ab8e8e0aaef25bc3a235d3e9d3a7f289e}{\index{maths.\+h@{maths.\+h}!scale\+Range@{scale\+Range}}
+\index{scale\+Range@{scale\+Range}!maths.\+h@{maths.\+h}}
+\subsubsection[{scale\+Range}]{\setlength{\rightskip}{0pt plus 5cm}int scale\+Range (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{src\+Min, }
+\item[{int}]{src\+Max, }
+\item[{int}]{dest\+Min, }
+\item[{int}]{dest\+Max}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_ab8e8e0aaef25bc3a235d3e9d3a7f289e}
+\hypertarget{maths_8h_a6f54610483fda09f37018562c2f59f09}{\index{maths.\+h@{maths.\+h}!scale\+Rangef@{scale\+Rangef}}
+\index{scale\+Rangef@{scale\+Rangef}!maths.\+h@{maths.\+h}}
+\subsubsection[{scale\+Rangef}]{\setlength{\rightskip}{0pt plus 5cm}float scale\+Rangef (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{in\+\_\+min, }
+\item[{float}]{in\+\_\+max, }
+\item[{float}]{out\+\_\+min, }
+\item[{float}]{out\+\_\+max}
+\end{DoxyParamCaption}
+)}}\label{maths_8h_a6f54610483fda09f37018562c2f59f09}

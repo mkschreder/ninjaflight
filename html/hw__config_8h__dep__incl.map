@@ -1,0 +1,8 @@
+<map id="src/main/drivers/vcp/hw_config.h" name="src/main/drivers/vcp/hw_config.h">
+<area shape="rect" id="node2" href="$serial__usb__vcp_8c.html" title="src/main/drivers/serial\l_usb_vcp.c" alt="" coords="5,97,155,138"/>
+<area shape="rect" id="node3" href="$hw__config_8c.html" title="Hardware Configuration &amp; Setup. " alt="" coords="179,97,319,138"/>
+<area shape="rect" id="node4" href="$stm32__it_8c.html" title="Main Interrupt Service Routines. This file provides template for all exceptions handler and periphera..." alt="" coords="343,97,483,138"/>
+<area shape="rect" id="node5" href="$usb__endp_8c.html" title="Endpoint routines. " alt="" coords="507,97,647,138"/>
+<area shape="rect" id="node6" href="$usb__prop_8c.html" title="All processing related to Virtual Com Port Demo. " alt="" coords="671,97,811,138"/>
+<area shape="rect" id="node7" href="$usb__pwr_8c.html" title="Connection/disconnection &amp; power management. " alt="" coords="835,97,975,138"/>
+</map>

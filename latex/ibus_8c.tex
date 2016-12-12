@@ -1,0 +1,44 @@
+\hypertarget{ibus_8c}{\section{src/main/rx/ibus.c File Reference}
+\label{ibus_8c}\index{src/main/rx/ibus.\+c@{src/main/rx/ibus.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/ibus.\+h\char`\"{}}\\*
+Include dependency graph for ibus.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ibus_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ibus_8c_a23f9d386d01be4922e1047d1835844b5}{I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L}~10
+\item 
+\#define \hyperlink{ibus_8c_a308a21fe3a45cd69431d4bb478c081eb}{I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E}~32
+\item 
+\#define \hyperlink{ibus_8c_a7f96e984589d232bbe690714316ec61d}{I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E}~0x20
+\item 
+\#define \hyperlink{ibus_8c_a71178a6bb99ef04e155d33d52f038909}{I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}~115200
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{ibus_8c_a71178a6bb99ef04e155d33d52f038909}{\index{ibus.\+c@{ibus.\+c}!I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}}
+\index{I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}!ibus.\+c@{ibus.\+c}}
+\subsubsection[{I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+B\+U\+S\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E~115200}}\label{ibus_8c_a71178a6bb99ef04e155d33d52f038909}
+\hypertarget{ibus_8c_a308a21fe3a45cd69431d4bb478c081eb}{\index{ibus.\+c@{ibus.\+c}!I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E@{I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E}}
+\index{I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E@{I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E}!ibus.\+c@{ibus.\+c}}
+\subsubsection[{I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+B\+U\+S\+\_\+\+B\+U\+F\+F\+S\+I\+Z\+E~32}}\label{ibus_8c_a308a21fe3a45cd69431d4bb478c081eb}
+\hypertarget{ibus_8c_a23f9d386d01be4922e1047d1835844b5}{\index{ibus.\+c@{ibus.\+c}!I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L@{I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L}}
+\index{I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L@{I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L}!ibus.\+c@{ibus.\+c}}
+\subsubsection[{I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+B\+U\+S\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L~10}}\label{ibus_8c_a23f9d386d01be4922e1047d1835844b5}
+\hypertarget{ibus_8c_a7f96e984589d232bbe690714316ec61d}{\index{ibus.\+c@{ibus.\+c}!I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E@{I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E}}
+\index{I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E@{I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E}!ibus.\+c@{ibus.\+c}}
+\subsubsection[{I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+B\+U\+S\+\_\+\+S\+Y\+N\+C\+B\+Y\+T\+E~0x20}}\label{ibus_8c_a7f96e984589d232bbe690714316ec61d}

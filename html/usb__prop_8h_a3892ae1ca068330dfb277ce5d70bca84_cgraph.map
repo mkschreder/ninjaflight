@@ -1,0 +1,5 @@
+<map id="Virtual_Com_Port_init" name="Virtual_Com_Port_init">
+<area shape="rect" id="node2" href="$hw__config_8c.html#a9d58f33671e71604d44e0c2c30b5f1b6" title="Get_SerialNum" alt="" coords="203,5,314,32"/>
+<area shape="rect" id="node3" href="$usb__pwr_8c.html#a23cb7957e66d04c1411f2151b19c6c5c" title="PowerOn" alt="" coords="221,56,297,83"/>
+<area shape="rect" id="node4" href="$hw__config_8c.html#aa99b8eac23843be0bca036fae722c788" title="USB_Cable_Config" alt="" coords="363,56,499,83"/>
+</map>

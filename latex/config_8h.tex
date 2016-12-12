@@ -1,0 +1,296 @@
+\hypertarget{config_8h}{\section{src/main/config/config.h File Reference}
+\label{config_8h}\index{src/main/config/config.\+h@{src/main/config/config.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}accelerometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}altitudehold.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}blackbox.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gps.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}imu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}navigation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rate\+\_\+profile.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}tilt.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gimbal.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rc\+\_\+controls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rc\+\_\+adjustments.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}transponder.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ledstrip.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}frsky.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}hott.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pwm\+\_\+rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtune.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}profile.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}feature.\+h\char`\"{}}\\*
+Include dependency graph for config.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_8h__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structconfig__profile}{config\+\_\+profile}
+\item 
+struct \hyperlink{structconfig}{config}
+\item 
+struct \hyperlink{structconfig__store}{config\+\_\+store}
+\begin{DoxyCompactList}\small\item\em structure used for storing config in the eeprom \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__config_gacfd2f8c35eaccee63c54b7b6d528e8bc}{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}~1
+\item 
+\#define \hyperlink{group__config_gaded80893ebf962ab49ad6318fce24f14}{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S}~1500
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structeeprom__delta}{eeprom\+\_\+delta} \hyperlink{group__config_ga25ae095baa2f7f76e117754a937e6cfa}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed))
+\item 
+struct \hyperlink{structconfig}{config} \hyperlink{group__config_gaa5c3786fbfff87abd7c63b1b374b279d}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed, aligned(2)))
+\item 
+struct \hyperlink{structconfig__store}{config\+\_\+store} \hyperlink{group__config_ga3ea6d562b09ef92ab0a2969a76f09282}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((aligned(4)))
+\item 
+const struct \hyperlink{structconfig__profile}{config\+\_\+profile} const $\ast$ \hyperlink{group__config_ga547d1cb3ff0bbd0bb7381c73155ca8dd}{config\+\_\+get\+\_\+profile} (const struct \hyperlink{structconfig}{config} $\ast$const self)
+\item 
+struct \hyperlink{structconfig__profile}{config\+\_\+profile} $\ast$ \hyperlink{group__config_gad1e2009e01a92da1990ead7bd87c5476}{config\+\_\+get\+\_\+profile\+\_\+rw} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+struct \hyperlink{structrate__profile}{rate\+\_\+profile} const $\ast$ \hyperlink{group__config_gab2653104e4f0b8fcd39c0449401212d2}{config\+\_\+get\+\_\+rate\+\_\+profile} (const struct \hyperlink{structconfig}{config} $\ast$const self)
+\item 
+struct \hyperlink{structrate__profile}{rate\+\_\+profile} $\ast$ \hyperlink{group__config_gac3170633e7100e518a3174d3ac162c2a}{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+int \hyperlink{group__config_ga6cb2bfd6f8116779ec2925cf3f1de774}{config\+\_\+save} (const struct \hyperlink{structconfig}{config} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system})
+\item 
+int \hyperlink{group__config_ga033bfd111bc778cad1e84b836e7feb01}{config\+\_\+load} (struct \hyperlink{structconfig}{config} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system})
+\item 
+void \hyperlink{group__config_ga4b70e19635bc68e4d7ca8cab5646c833}{config\+\_\+reset} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+bool \hyperlink{group__config_ga73a0dc0f70f79138f7e6517cadb77adf}{config\+\_\+fixup} (struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpid__config}{pid\+\_\+config} \hyperlink{config_8h_a9517cd1c29ad1564a1e2ffb254d405bf}{pid}
+\item 
+struct \hyperlink{structaccelerometer__config}{accelerometer\+\_\+config} \hyperlink{config_8h_a02f20852869a3d4603ee32ba05a67b96}{acc}
+\item 
+struct \hyperlink{structmag__config}{mag\+\_\+config} \hyperlink{config_8h_affa9658d49671c2eb8485581003eef6e}{mag}
+\item 
+struct \hyperlink{structbarometer__config}{barometer\+\_\+config} \hyperlink{config_8h_a4f13051b05a920e5474cbe9af7a720a5}{baro}
+\item 
+struct \hyperlink{structgimbal__config}{gimbal\+\_\+config} \hyperlink{config_8h_a4f648643512834b60d126e92d63c8645}{gimbal}
+\item 
+struct \hyperlink{structgtune__config}{gtune\+\_\+config} \hyperlink{config_8h_adadb54df034ee94e00045104154abd63}{gtune}
+\item 
+struct \hyperlink{structthrottle__correction__config}{throttle\+\_\+correction\+\_\+config} \hyperlink{config_8h_af3042b74eb735c761cbc341e82441469}{throttle}
+\item 
+struct \hyperlink{structservo__profile}{servo\+\_\+profile} \hyperlink{config_8h_a88a4dccfb11d70065537310770992316}{servos}
+\item 
+struct \hyperlink{structgps__profile}{gps\+\_\+profile} \hyperlink{config_8h_a03efaa90d25a618b0bc37515610695a2}{gps}
+\item 
+struct \hyperlink{structrate__profile__selection}{rate\+\_\+profile\+\_\+selection} \hyperlink{config_8h_afce113bfefba707cc08bbaf4459e3b7d}{rate}
+\item 
+struct \hyperlink{structrc__adjustment__profile}{rc\+\_\+adjustment\+\_\+profile} \hyperlink{config_8h_abb584f297b9857e2708c0ab16f673c1c}{rc\+\_\+adj}
+\item 
+struct \hyperlink{structrc__function__profile}{rc\+\_\+function\+\_\+profile} \hyperlink{config_8h_adb066cf2d0201d863cd92284d7fc2f8c}{rc\+\_\+funcs}
+\item 
+struct \hyperlink{structrc__controls__config}{rc\+\_\+controls\+\_\+config} \hyperlink{config_8h_ae0cafa099a9bd2ba7b41438ba17e82d2}{rc}
+\item 
+struct \hyperlink{structprofile__config}{profile\+\_\+config} \hyperlink{config_8h_a15036efeb6d1d8f4efaf9b0e4330ee36}{profile}
+\item 
+struct \hyperlink{structgyro__config}{gyro\+\_\+config} \hyperlink{config_8h_ac4df030c9d113721c4a784786b3cd5c5}{gyro}
+\item 
+struct \hyperlink{structconfig__profile}{config\+\_\+profile} \hyperlink{config_8h_a74a6c478c0029354ca0e4e71f8b301e3}{profiles} \mbox{[}\hyperlink{group__config_gacfd2f8c35eaccee63c54b7b6d528e8bc}{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+struct \hyperlink{structairplane__althold__config}{airplane\+\_\+althold\+\_\+config} \hyperlink{config_8h_ac1acf43bc0f69c76278f5a1bc11a01c5}{airplane\+\_\+althold}
+\item 
+struct \hyperlink{structbattery__config}{battery\+\_\+config} \hyperlink{config_8h_a5466ed569575da51b3da2fef03e2fdfe}{bat}
+\item 
+struct \hyperlink{structblackbox__config}{blackbox\+\_\+config} \hyperlink{config_8h_ae5e7d4f8d2a12f7503232ac9352ebf20}{blackbox}
+\item 
+struct \hyperlink{structboard__alignment__config}{board\+\_\+alignment\+\_\+config} \hyperlink{config_8h_a42ef088b9cbd0d8325bb72a6fe6fefa2}{alignment}
+\item 
+struct \hyperlink{structsystem__config}{system\+\_\+config} \hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system}
+\item 
+struct \hyperlink{structfailsafe__config}{failsafe\+\_\+config} \hyperlink{config_8h_a6560626bf16bd8784642aed01aa758f9}{failsafe}
+\item 
+struct \hyperlink{structfeature__config}{feature\+\_\+config} \hyperlink{config_8h_ae36471edc0f25db9ecac821ab9228b6f}{feature}
+\item 
+struct \hyperlink{structfrsky__telemetry__config}{frsky\+\_\+telemetry\+\_\+config} \hyperlink{config_8h_a6d787e88db4efecd884191f28a29dff8}{frsky}
+\item 
+struct \hyperlink{structhott__telemetry__config}{hott\+\_\+telemetry\+\_\+config} \hyperlink{config_8h_a37a3206e97e348d3a08aae0a6400ef64}{hott}
+\item 
+struct \hyperlink{structimu__config}{imu\+\_\+config} \hyperlink{config_8h_afb1d8a3279cf6582408b2371422c0f64}{imu}
+\item 
+struct \hyperlink{structledstrip__config}{ledstrip\+\_\+config} \hyperlink{config_8h_a9a131a25f8ac3773bee2d0ad2e495233}{ledstrip}
+\item 
+struct \hyperlink{structmixer__config}{mixer\+\_\+config} \hyperlink{config_8h_a6f2f19873017f93a2bc5c9d12bba1119}{mixer}
+\item 
+struct \hyperlink{structmotor__3d__config}{motor\+\_\+3d\+\_\+config} \hyperlink{config_8h_aaef935a2db6bae4cd80843de542a1e0c}{motor\+\_\+3d}
+\item 
+struct \hyperlink{structpwm__output__config}{pwm\+\_\+output\+\_\+config} \hyperlink{config_8h_ad08a98b2a73deba940dedca5f981df7a}{pwm\+\_\+out}
+\item 
+struct \hyperlink{structpwm__input__config}{pwm\+\_\+input\+\_\+config} \hyperlink{config_8h_a805b465402e075bf506c12f54581a548}{pwm\+\_\+in}
+\item 
+struct \hyperlink{structarming__config}{arming\+\_\+config} \hyperlink{config_8h_ae3d9f57c89e669d5a78ee2b55e3b7b3a}{arm}
+\item 
+struct \hyperlink{structrx__config}{rx\+\_\+config} \hyperlink{config_8h_a2e6330ee5c4a5a3cee8b2425d8ef255a}{rx}
+\item 
+struct \hyperlink{structrx__output__config}{rx\+\_\+output\+\_\+config} \hyperlink{config_8h_a44763ff5b03db3860df7accb3d627fc4}{rx\+\_\+output}
+\item 
+struct \hyperlink{structsensor__config}{sensor\+\_\+config} \hyperlink{config_8h_a3555ce8e9355a1a24d51396360120120}{sensors}
+\item 
+struct \hyperlink{structserial__config}{serial\+\_\+config} \hyperlink{config_8h_a08b6379f686f5e5b756fa0cb295c997d}{serial}
+\item 
+struct \hyperlink{structtelemetry__config}{telemetry\+\_\+config} \hyperlink{config_8h_aaa22ae7624a0f28d8901a666fdc4de94}{telemetry}
+\item 
+struct \hyperlink{structtilt__config}{tilt\+\_\+config} \hyperlink{config_8h_aeca148094004b79783929ac65bd06110}{tilt}
+\item 
+struct \hyperlink{structtransponder__config}{transponder\+\_\+config} \hyperlink{config_8h_ad2f75434dcdd4e590e57e87f10ad182e}{transponder}
+\item 
+struct \hyperlink{structconfig}{config} \hyperlink{config_8h_ae81f30d80aa5eef5d234880a940b2916}{data}
+\item 
+uint16\+\_\+t \hyperlink{config_8h_aa60093a9a5d5d17864cfda66c47733e3}{crc}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{config_8h_a02f20852869a3d4603ee32ba05a67b96}{\index{config.\+h@{config.\+h}!acc@{acc}}
+\index{acc@{acc}!config.\+h@{config.\+h}}
+\subsubsection[{acc}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf accelerometer\+\_\+config} acc}}\label{config_8h_a02f20852869a3d4603ee32ba05a67b96}
+\hypertarget{config_8h_ac1acf43bc0f69c76278f5a1bc11a01c5}{\index{config.\+h@{config.\+h}!airplane\+\_\+althold@{airplane\+\_\+althold}}
+\index{airplane\+\_\+althold@{airplane\+\_\+althold}!config.\+h@{config.\+h}}
+\subsubsection[{airplane\+\_\+althold}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf airplane\+\_\+althold\+\_\+config} airplane\+\_\+althold}}\label{config_8h_ac1acf43bc0f69c76278f5a1bc11a01c5}
+\hypertarget{config_8h_a42ef088b9cbd0d8325bb72a6fe6fefa2}{\index{config.\+h@{config.\+h}!alignment@{alignment}}
+\index{alignment@{alignment}!config.\+h@{config.\+h}}
+\subsubsection[{alignment}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf board\+\_\+alignment\+\_\+config} alignment}}\label{config_8h_a42ef088b9cbd0d8325bb72a6fe6fefa2}
+\hypertarget{config_8h_ae3d9f57c89e669d5a78ee2b55e3b7b3a}{\index{config.\+h@{config.\+h}!arm@{arm}}
+\index{arm@{arm}!config.\+h@{config.\+h}}
+\subsubsection[{arm}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf arming\+\_\+config} arm}}\label{config_8h_ae3d9f57c89e669d5a78ee2b55e3b7b3a}
+\hypertarget{config_8h_a4f13051b05a920e5474cbe9af7a720a5}{\index{config.\+h@{config.\+h}!baro@{baro}}
+\index{baro@{baro}!config.\+h@{config.\+h}}
+\subsubsection[{baro}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf barometer\+\_\+config} {\bf baro}}}\label{config_8h_a4f13051b05a920e5474cbe9af7a720a5}
+\hypertarget{config_8h_a5466ed569575da51b3da2fef03e2fdfe}{\index{config.\+h@{config.\+h}!bat@{bat}}
+\index{bat@{bat}!config.\+h@{config.\+h}}
+\subsubsection[{bat}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf battery\+\_\+config} bat}}\label{config_8h_a5466ed569575da51b3da2fef03e2fdfe}
+\hypertarget{config_8h_ae5e7d4f8d2a12f7503232ac9352ebf20}{\index{config.\+h@{config.\+h}!blackbox@{blackbox}}
+\index{blackbox@{blackbox}!config.\+h@{config.\+h}}
+\subsubsection[{blackbox}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf blackbox\+\_\+config} {\bf blackbox}}}\label{config_8h_ae5e7d4f8d2a12f7503232ac9352ebf20}
+\hypertarget{config_8h_aa60093a9a5d5d17864cfda66c47733e3}{\index{config.\+h@{config.\+h}!crc@{crc}}
+\index{crc@{crc}!config.\+h@{config.\+h}}
+\subsubsection[{crc}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t crc}}\label{config_8h_aa60093a9a5d5d17864cfda66c47733e3}
+\hypertarget{config_8h_ae81f30d80aa5eef5d234880a940b2916}{\index{config.\+h@{config.\+h}!data@{data}}
+\index{data@{data}!config.\+h@{config.\+h}}
+\subsubsection[{data}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config} data}}\label{config_8h_ae81f30d80aa5eef5d234880a940b2916}
+\hypertarget{config_8h_a6560626bf16bd8784642aed01aa758f9}{\index{config.\+h@{config.\+h}!failsafe@{failsafe}}
+\index{failsafe@{failsafe}!config.\+h@{config.\+h}}
+\subsubsection[{failsafe}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf failsafe\+\_\+config} {\bf failsafe}}}\label{config_8h_a6560626bf16bd8784642aed01aa758f9}
+\hypertarget{config_8h_ae36471edc0f25db9ecac821ab9228b6f}{\index{config.\+h@{config.\+h}!feature@{feature}}
+\index{feature@{feature}!config.\+h@{config.\+h}}
+\subsubsection[{feature}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf feature\+\_\+config} feature}}\label{config_8h_ae36471edc0f25db9ecac821ab9228b6f}
+\hypertarget{config_8h_a6d787e88db4efecd884191f28a29dff8}{\index{config.\+h@{config.\+h}!frsky@{frsky}}
+\index{frsky@{frsky}!config.\+h@{config.\+h}}
+\subsubsection[{frsky}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf frsky\+\_\+telemetry\+\_\+config} frsky}}\label{config_8h_a6d787e88db4efecd884191f28a29dff8}
+\hypertarget{config_8h_a4f648643512834b60d126e92d63c8645}{\index{config.\+h@{config.\+h}!gimbal@{gimbal}}
+\index{gimbal@{gimbal}!config.\+h@{config.\+h}}
+\subsubsection[{gimbal}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gimbal\+\_\+config} gimbal}}\label{config_8h_a4f648643512834b60d126e92d63c8645}
+\hypertarget{config_8h_a03efaa90d25a618b0bc37515610695a2}{\index{config.\+h@{config.\+h}!gps@{gps}}
+\index{gps@{gps}!config.\+h@{config.\+h}}
+\subsubsection[{gps}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gps\+\_\+config} {\bf gps}}}\label{config_8h_a03efaa90d25a618b0bc37515610695a2}
+\hypertarget{config_8h_adadb54df034ee94e00045104154abd63}{\index{config.\+h@{config.\+h}!gtune@{gtune}}
+\index{gtune@{gtune}!config.\+h@{config.\+h}}
+\subsubsection[{gtune}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gtune\+\_\+config} gtune}}\label{config_8h_adadb54df034ee94e00045104154abd63}
+\hypertarget{config_8h_ac4df030c9d113721c4a784786b3cd5c5}{\index{config.\+h@{config.\+h}!gyro@{gyro}}
+\index{gyro@{gyro}!config.\+h@{config.\+h}}
+\subsubsection[{gyro}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gyro\+\_\+config} gyro}}\label{config_8h_ac4df030c9d113721c4a784786b3cd5c5}
+\hypertarget{config_8h_a37a3206e97e348d3a08aae0a6400ef64}{\index{config.\+h@{config.\+h}!hott@{hott}}
+\index{hott@{hott}!config.\+h@{config.\+h}}
+\subsubsection[{hott}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf hott\+\_\+telemetry\+\_\+config} {\bf hott}}}\label{config_8h_a37a3206e97e348d3a08aae0a6400ef64}
+\hypertarget{config_8h_afb1d8a3279cf6582408b2371422c0f64}{\index{config.\+h@{config.\+h}!imu@{imu}}
+\index{imu@{imu}!config.\+h@{config.\+h}}
+\subsubsection[{imu}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf imu\+\_\+config} {\bf imu}}}\label{config_8h_afb1d8a3279cf6582408b2371422c0f64}
+\hypertarget{config_8h_a9a131a25f8ac3773bee2d0ad2e495233}{\index{config.\+h@{config.\+h}!ledstrip@{ledstrip}}
+\index{ledstrip@{ledstrip}!config.\+h@{config.\+h}}
+\subsubsection[{ledstrip}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf ledstrip\+\_\+config} {\bf ledstrip}}}\label{config_8h_a9a131a25f8ac3773bee2d0ad2e495233}
+\hypertarget{config_8h_affa9658d49671c2eb8485581003eef6e}{\index{config.\+h@{config.\+h}!mag@{mag}}
+\index{mag@{mag}!config.\+h@{config.\+h}}
+\subsubsection[{mag}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mag\+\_\+config} mag}}\label{config_8h_affa9658d49671c2eb8485581003eef6e}
+\hypertarget{config_8h_a6f2f19873017f93a2bc5c9d12bba1119}{\index{config.\+h@{config.\+h}!mixer@{mixer}}
+\index{mixer@{mixer}!config.\+h@{config.\+h}}
+\subsubsection[{mixer}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf mixer\+\_\+config} {\bf mixer}}}\label{config_8h_a6f2f19873017f93a2bc5c9d12bba1119}
+\hypertarget{config_8h_aaef935a2db6bae4cd80843de542a1e0c}{\index{config.\+h@{config.\+h}!motor\+\_\+3d@{motor\+\_\+3d}}
+\index{motor\+\_\+3d@{motor\+\_\+3d}!config.\+h@{config.\+h}}
+\subsubsection[{motor\+\_\+3d}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf motor\+\_\+3d\+\_\+config} motor\+\_\+3d}}\label{config_8h_aaef935a2db6bae4cd80843de542a1e0c}
+\hypertarget{config_8h_a9517cd1c29ad1564a1e2ffb254d405bf}{\index{config.\+h@{config.\+h}!pid@{pid}}
+\index{pid@{pid}!config.\+h@{config.\+h}}
+\subsubsection[{pid}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pid\+\_\+config} pid}}\label{config_8h_a9517cd1c29ad1564a1e2ffb254d405bf}
+\hypertarget{config_8h_a15036efeb6d1d8f4efaf9b0e4330ee36}{\index{config.\+h@{config.\+h}!profile@{profile}}
+\index{profile@{profile}!config.\+h@{config.\+h}}
+\subsubsection[{profile}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf profile\+\_\+config} profile}}\label{config_8h_a15036efeb6d1d8f4efaf9b0e4330ee36}
+\hypertarget{config_8h_a74a6c478c0029354ca0e4e71f8b301e3}{\index{config.\+h@{config.\+h}!profiles@{profiles}}
+\index{profiles@{profiles}!config.\+h@{config.\+h}}
+\subsubsection[{profiles}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config\+\_\+profile} profiles\mbox{[}{\bf M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{config_8h_a74a6c478c0029354ca0e4e71f8b301e3}
+\hypertarget{config_8h_a805b465402e075bf506c12f54581a548}{\index{config.\+h@{config.\+h}!pwm\+\_\+in@{pwm\+\_\+in}}
+\index{pwm\+\_\+in@{pwm\+\_\+in}!config.\+h@{config.\+h}}
+\subsubsection[{pwm\+\_\+in}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pwm\+\_\+input\+\_\+config} pwm\+\_\+in}}\label{config_8h_a805b465402e075bf506c12f54581a548}
+\hypertarget{config_8h_ad08a98b2a73deba940dedca5f981df7a}{\index{config.\+h@{config.\+h}!pwm\+\_\+out@{pwm\+\_\+out}}
+\index{pwm\+\_\+out@{pwm\+\_\+out}!config.\+h@{config.\+h}}
+\subsubsection[{pwm\+\_\+out}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf pwm\+\_\+output\+\_\+config} pwm\+\_\+out}}\label{config_8h_ad08a98b2a73deba940dedca5f981df7a}
+\hypertarget{config_8h_afce113bfefba707cc08bbaf4459e3b7d}{\index{config.\+h@{config.\+h}!rate@{rate}}
+\index{rate@{rate}!config.\+h@{config.\+h}}
+\subsubsection[{rate}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rate\+\_\+config} rate}}\label{config_8h_afce113bfefba707cc08bbaf4459e3b7d}
+\hypertarget{config_8h_ae0cafa099a9bd2ba7b41438ba17e82d2}{\index{config.\+h@{config.\+h}!rc@{rc}}
+\index{rc@{rc}!config.\+h@{config.\+h}}
+\subsubsection[{rc}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rc\+\_\+controls\+\_\+config} {\bf rc}}}\label{config_8h_ae0cafa099a9bd2ba7b41438ba17e82d2}
+\hypertarget{config_8h_abb584f297b9857e2708c0ab16f673c1c}{\index{config.\+h@{config.\+h}!rc\+\_\+adj@{rc\+\_\+adj}}
+\index{rc\+\_\+adj@{rc\+\_\+adj}!config.\+h@{config.\+h}}
+\subsubsection[{rc\+\_\+adj}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rc\+\_\+adjustment\+\_\+profile} {\bf rc\+\_\+adj}}}\label{config_8h_abb584f297b9857e2708c0ab16f673c1c}
+\hypertarget{config_8h_adb066cf2d0201d863cd92284d7fc2f8c}{\index{config.\+h@{config.\+h}!rc\+\_\+funcs@{rc\+\_\+funcs}}
+\index{rc\+\_\+funcs@{rc\+\_\+funcs}!config.\+h@{config.\+h}}
+\subsubsection[{rc\+\_\+funcs}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rc\+\_\+function\+\_\+profile} rc\+\_\+funcs}}\label{config_8h_adb066cf2d0201d863cd92284d7fc2f8c}
+\hypertarget{config_8h_a2e6330ee5c4a5a3cee8b2425d8ef255a}{\index{config.\+h@{config.\+h}!rx@{rx}}
+\index{rx@{rx}!config.\+h@{config.\+h}}
+\subsubsection[{rx}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rx\+\_\+config} {\bf rx}}}\label{config_8h_a2e6330ee5c4a5a3cee8b2425d8ef255a}
+\hypertarget{config_8h_a44763ff5b03db3860df7accb3d627fc4}{\index{config.\+h@{config.\+h}!rx\+\_\+output@{rx\+\_\+output}}
+\index{rx\+\_\+output@{rx\+\_\+output}!config.\+h@{config.\+h}}
+\subsubsection[{rx\+\_\+output}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rx\+\_\+output\+\_\+config} rx\+\_\+output}}\label{config_8h_a44763ff5b03db3860df7accb3d627fc4}
+\hypertarget{config_8h_a3555ce8e9355a1a24d51396360120120}{\index{config.\+h@{config.\+h}!sensors@{sensors}}
+\index{sensors@{sensors}!config.\+h@{config.\+h}}
+\subsubsection[{sensors}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf sensor\+\_\+config} sensors}}\label{config_8h_a3555ce8e9355a1a24d51396360120120}
+\hypertarget{config_8h_a08b6379f686f5e5b756fa0cb295c997d}{\index{config.\+h@{config.\+h}!serial@{serial}}
+\index{serial@{serial}!config.\+h@{config.\+h}}
+\subsubsection[{serial}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf serial\+\_\+config} serial}}\label{config_8h_a08b6379f686f5e5b756fa0cb295c997d}
+\hypertarget{config_8h_a88a4dccfb11d70065537310770992316}{\index{config.\+h@{config.\+h}!servos@{servos}}
+\index{servos@{servos}!config.\+h@{config.\+h}}
+\subsubsection[{servos}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf servo\+\_\+profile} servos}}\label{config_8h_a88a4dccfb11d70065537310770992316}
+\hypertarget{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{\index{config.\+h@{config.\+h}!system@{system}}
+\index{system@{system}!config.\+h@{config.\+h}}
+\subsubsection[{system}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf system\+\_\+config} system}}\label{config_8h_a2c2c170dddadaff6ffd4467b45986b25}
+\hypertarget{config_8h_aaa22ae7624a0f28d8901a666fdc4de94}{\index{config.\+h@{config.\+h}!telemetry@{telemetry}}
+\index{telemetry@{telemetry}!config.\+h@{config.\+h}}
+\subsubsection[{telemetry}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf telemetry\+\_\+config} telemetry}}\label{config_8h_aaa22ae7624a0f28d8901a666fdc4de94}
+\hypertarget{config_8h_af3042b74eb735c761cbc341e82441469}{\index{config.\+h@{config.\+h}!throttle@{throttle}}
+\index{throttle@{throttle}!config.\+h@{config.\+h}}
+\subsubsection[{throttle}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf throttle\+\_\+correction\+\_\+config} throttle}}\label{config_8h_af3042b74eb735c761cbc341e82441469}
+\hypertarget{config_8h_aeca148094004b79783929ac65bd06110}{\index{config.\+h@{config.\+h}!tilt@{tilt}}
+\index{tilt@{tilt}!config.\+h@{config.\+h}}
+\subsubsection[{tilt}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf tilt\+\_\+config} tilt}}\label{config_8h_aeca148094004b79783929ac65bd06110}
+\hypertarget{config_8h_ad2f75434dcdd4e590e57e87f10ad182e}{\index{config.\+h@{config.\+h}!transponder@{transponder}}
+\index{transponder@{transponder}!config.\+h@{config.\+h}}
+\subsubsection[{transponder}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf transponder\+\_\+config} transponder}}\label{config_8h_ad2f75434dcdd4e590e57e87f10ad182e}

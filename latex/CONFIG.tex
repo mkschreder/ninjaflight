@@ -1,0 +1,11 @@
+
+\begin{DoxyItemize}
+\item Config reset must set all fields in the config to appropriate defaults. If some fields do not have defaults then this is an error!
+\item Make sure that initial load after reset does not modify the config.
+\item Test that config saving and loading works. Must make sure that only deltas are being written. At the very least checksum will be written as a delta since it is not part of the data.
+\item Test that when eeprom content is corrupted, loading of config fails.
+\item Test how the delta packing code behaves when there is not enough memory. It should correctly return error when config can not be saved.
+\item Test that system works the same way on flash based memory (where erased value is 0xff) and on normal eeprom where eraced value is 0x00.
+\item Test that loading of configs works as expected when eeprom reads fail
+\item Test various fixups. 
+\end{DoxyItemize}

@@ -1,0 +1,12 @@
+<map id="MixerBasicTest::SetUp" name="MixerBasicTest::SetUp">
+<area shape="rect" id="node2" href="$classMixerBasicTest.html#abc2ed3fadd3ad9ec42abebe97fc7fac1" title="MixerBasicTest::_init\l_mixer_defaults" alt="" coords="214,95,359,137"/>
+<area shape="rect" id="node9" href="$mock__system_8cc.html#a449f3580fa90e6b7ecd29b259f6ad060" title="mock_system_reset" alt="" coords="217,161,357,188"/>
+<area shape="rect" id="node10" href="$group__config.html#ga4b70e19635bc68e4d7ca8cab5646c833" title="config_reset" alt="" coords="240,212,333,239"/>
+<area shape="rect" id="node3" href="$group__config.html#gad1e2009e01a92da1990ead7bd87c5476" title="config_get_profile_rw" alt="" coords="414,5,559,32"/>
+<area shape="rect" id="node4" href="$group__MIXER.html#ga1ac8758754f82b6ad750ed377c154733" title="mixer_init" alt="" coords="447,56,526,83"/>
+<area shape="rect" id="node7" href="$mock__system_8cc.html#aee16ae4e490af0431a008403c31b7940" title="mock_syscalls" alt="" coords="432,107,541,133"/>
+<area shape="rect" id="node8" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="415,157,558,184"/>
+<area shape="rect" id="node5" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="614,49,741,90"/>
+<area shape="rect" id="node6" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="789,56,864,83"/>
+<area shape="rect" id="node11" href="$config_2rx_8c.html#ac6732f88711e700ce8dcf532c425a107" title="Configures the rx using the specified channel layout and config. (channel layout example: AETR1234) ..." alt="" coords="409,212,565,239"/>
+</map>

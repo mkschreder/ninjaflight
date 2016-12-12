@@ -1,0 +1,5 @@
+<map id="flash_write" name="flash_write">
+<area shape="rect" id="node2" href="$mock__flash_8cc.html#a4084d0184bab463a1579271bf474aaef" title="FLASH_Unlock" alt="" coords="158,5,271,32"/>
+<area shape="rect" id="node3" href="$mock__flash_8cc.html#af695dba98bac7b28a7153e005f7b0da6" title="FLASH_ProgramWord" alt="" coords="139,56,291,83"/>
+<area shape="rect" id="node4" href="$mock__flash_8cc.html#a46899557353c4312ddbe3f25e65df1d8" title="FLASH_Lock" alt="" coords="165,107,265,133"/>
+</map>

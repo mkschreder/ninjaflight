@@ -1,0 +1,11 @@
+<map id="src/main/drivers/compass_ak8975.c" name="src/main/drivers/compass_ak8975.c">
+<area shape="rect" id="node5" href="$build__config_8h.html" title="build_config.h" alt="" coords="230,96,332,123"/>
+<area shape="rect" id="node7" href="$axis_8h.html" title="common/axis.h" alt="" coords="462,96,572,123"/>
+<area shape="rect" id="node8" href="$maths_8h.html" title="common/maths.h" alt="" coords="597,96,720,123"/>
+<area shape="rect" id="node9" href="$drivers_2system_8h.html" title="system.h" alt="" coords="43,96,119,123"/>
+<area shape="rect" id="node10" href="$gpio_8h.html" title="gpio.h" alt="" coords="795,96,852,123"/>
+<area shape="rect" id="node11" href="$bus__i2c_8h.html" title="bus_i2c.h" alt="" coords="877,96,955,123"/>
+<area shape="rect" id="node12" href="$sensor_8h.html" title="sensor.h" alt="" coords="1027,171,1099,197"/>
+<area shape="rect" id="node13" href="$drivers_2compass_8h.html" title="compass.h" alt="" coords="979,96,1065,123"/>
+<area shape="rect" id="node14" href="$compass__ak8975_8h.html" title="compass_ak8975.h" alt="" coords="1142,96,1276,123"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="src/main/ninjaflight.h" name="src/main/ninjaflight.h">
+<area shape="rect" id="node2" href="$failsafe_8c.html" title="src/main/flight/failsafe.c" alt="" coords="5,88,165,115"/>
+<area shape="rect" id="node3" href="$main_8c.html" title="src/main/main.c" alt="" coords="191,88,305,115"/>
+<area shape="rect" id="node4" href="$msp_8c.html" title="src/main/msp.c" alt="" coords="329,88,440,115"/>
+<area shape="rect" id="node5" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="465,88,580,115"/>
+<area shape="rect" id="node6" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="605,88,760,115"/>
+<area shape="rect" id="node7" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="785,88,927,115"/>
+<area shape="rect" id="node8" href="$mavlink_8c.html" title="src/main/telemetry\l/mavlink.c" alt="" coords="951,81,1080,122"/>
+</map>

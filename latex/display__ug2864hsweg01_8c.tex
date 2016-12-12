@@ -1,0 +1,141 @@
+\hypertarget{display__ug2864hsweg01_8c}{\section{src/main/drivers/display\+\_\+ug2864hsweg01.c File Reference}
+\label{display__ug2864hsweg01_8c}\index{src/main/drivers/display\+\_\+ug2864hsweg01.\+c@{src/main/drivers/display\+\_\+ug2864hsweg01.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}bus\+\_\+i2c.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}display\+\_\+ug2864hsweg01.\+h\char`\"{}}\\*
+Include dependency graph for display\+\_\+ug2864hsweg01.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{display__ug2864hsweg01_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{display__ug2864hsweg01_8c_a64d85b3c553196095ea5fd636f2196f2}{I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}~0x7f
+\item 
+\#define \hyperlink{display__ug2864hsweg01_8c_a2c537871222d2c599a9f232d576a1b66}{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}~0x00
+\item 
+\#define \hyperlink{display__ug2864hsweg01_8c_a1ee21f5657509988c2a07a33a5fdb164}{O\+L\+E\+D\+\_\+address}~0x3\+C
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_a4b8320d2414ef7c5fb402250a3492045}{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display} (void)
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_afd8dca9013e19b25b489e9f674fd1ff3}{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick} (void)
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_a065d9bdd18f3b7c10e239c3901423b22}{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy} (uint8\+\_\+t col, uint8\+\_\+t row)
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_aee0f56fffb94412596ea00f800758aab}{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line} (uint8\+\_\+t row)
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_a1c4a8641e1823b955c5fd27f00a857e5}{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char} (unsigned char ascii)
+\item 
+void \hyperlink{display__ug2864hsweg01_8c_adab78b62a4afff0597aeb65d30bf4329}{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string} (const char $\ast$string)
+\item 
+bool \hyperlink{display__ug2864hsweg01_8c_a34f27b54ad45ee4a460fb05bb605e0cb}{ug2864hsweg01\+Init\+I2\+C} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \hyperlink{display__ug2864hsweg01_8c_a914608db7f59a03f08099d75b259f25f}{C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T} = \hyperlink{display__ug2864hsweg01_8c_a2c537871222d2c599a9f232d576a1b66}{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{display__ug2864hsweg01_8c_a64d85b3c553196095ea5fd636f2196f2}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}}
+\index{I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+V\+E\+R\+S\+E\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T~0x7f}}\label{display__ug2864hsweg01_8c_a64d85b3c553196095ea5fd636f2196f2}
+\hypertarget{display__ug2864hsweg01_8c_a2c537871222d2c599a9f232d576a1b66}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}}
+\index{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T~0x00}}\label{display__ug2864hsweg01_8c_a2c537871222d2c599a9f232d576a1b66}
+\hypertarget{display__ug2864hsweg01_8c_a1ee21f5657509988c2a07a33a5fdb164}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!O\+L\+E\+D\+\_\+address@{O\+L\+E\+D\+\_\+address}}
+\index{O\+L\+E\+D\+\_\+address@{O\+L\+E\+D\+\_\+address}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{O\+L\+E\+D\+\_\+address}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+L\+E\+D\+\_\+address~0x3\+C}}\label{display__ug2864hsweg01_8c_a1ee21f5657509988c2a07a33a5fdb164}
+
+
+\subsection{Function Documentation}
+\hypertarget{display__ug2864hsweg01_8c_a4b8320d2414ef7c5fb402250a3492045}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display@{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display@{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_a4b8320d2414ef7c5fb402250a3492045}
+\hypertarget{display__ug2864hsweg01_8c_afd8dca9013e19b25b489e9f674fd1ff3}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick@{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick@{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+clear\+\_\+display\+\_\+quick (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_afd8dca9013e19b25b489e9f674fd1ff3}
+\hypertarget{display__ug2864hsweg01_8c_a1c4a8641e1823b955c5fd27f00a857e5}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char@{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char@{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+char (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{ascii}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_a1c4a8641e1823b955c5fd27f00a857e5}
+\hypertarget{display__ug2864hsweg01_8c_adab78b62a4afff0597aeb65d30bf4329}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string@{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string@{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+send\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{string}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_adab78b62a4afff0597aeb65d30bf4329}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{display__ug2864hsweg01_8c_adab78b62a4afff0597aeb65d30bf4329_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{display__ug2864hsweg01_8c_aee0f56fffb94412596ea00f800758aab}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line@{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line@{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{row}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_aee0f56fffb94412596ea00f800758aab}
+\hypertarget{display__ug2864hsweg01_8c_a065d9bdd18f3b7c10e239c3901423b22}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy@{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy}}
+\index{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy@{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy}]{\setlength{\rightskip}{0pt plus 5cm}void i2c\+\_\+\+O\+L\+E\+D\+\_\+set\+\_\+xy (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{col, }
+\item[{uint8\+\_\+t}]{row}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_a065d9bdd18f3b7c10e239c3901423b22}
+\hypertarget{display__ug2864hsweg01_8c_a34f27b54ad45ee4a460fb05bb605e0cb}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!ug2864hsweg01\+Init\+I2\+C@{ug2864hsweg01\+Init\+I2\+C}}
+\index{ug2864hsweg01\+Init\+I2\+C@{ug2864hsweg01\+Init\+I2\+C}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{ug2864hsweg01\+Init\+I2\+C}]{\setlength{\rightskip}{0pt plus 5cm}bool ug2864hsweg01\+Init\+I2\+C (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{display__ug2864hsweg01_8c_a34f27b54ad45ee4a460fb05bb605e0cb}
+according to \href{http://www.adafruit.com/datasheets/UG-2864HSWEG01.pdf}{\tt http\+://www.\+adafruit.\+com/datasheets/\+U\+G-\/2864\+H\+S\+W\+E\+G01.\+pdf} Chapter 4.\+4 Page 15 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{display__ug2864hsweg01_8c_a34f27b54ad45ee4a460fb05bb605e0cb_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{display__ug2864hsweg01_8c_a914608db7f59a03f08099d75b259f25f}{\index{display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}!C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}}
+\index{C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T@{C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}!display\+\_\+ug2864hsweg01.\+c@{display\+\_\+ug2864hsweg01.\+c}}
+\subsubsection[{C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T = {\bf N\+O\+R\+M\+A\+L\+\_\+\+C\+H\+A\+R\+\_\+\+F\+O\+R\+M\+A\+T}}}\label{display__ug2864hsweg01_8c_a914608db7f59a03f08099d75b259f25f}

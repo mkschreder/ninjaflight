@@ -1,0 +1,4 @@
+<map id="flashfsEraseRange" name="flashfsEraseRange">
+<area shape="rect" id="node2" href="$flash__m25p16_8h.html#a7bfef7eb51b0ef8ce9e6be098ed66706" title="m25p16_getGeometry" alt="" coords="187,5,338,32"/>
+<area shape="rect" id="node3" href="$flash__m25p16_8h.html#a1c6484055ea0f85b4a61780f41dd28c3" title="m25p16_eraseSector" alt="" coords="190,56,335,83"/>
+</map>

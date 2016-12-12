@@ -1,0 +1,26 @@
+\hypertarget{structsystem__calls__range}{\section{system\+\_\+calls\+\_\+range Struct Reference}
+\label{structsystem__calls__range}\index{system\+\_\+calls\+\_\+range@{system\+\_\+calls\+\_\+range}}
+}
+
+
+{\ttfamily \#include $<$system\+\_\+calls.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int($\ast$ \hyperlink{structsystem__calls__range_a0e09d6229856c77de785eea2df5a595d}{read\+\_\+range} )(const struct \hyperlink{structsystem__calls__range}{system\+\_\+calls\+\_\+range} $\ast$self, uint16\+\_\+t deg, uint16\+\_\+t $\ast$\hyperlink{config_2rx_8h_a53eac340462a61108eed07ba3e52e233}{range})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interface to a lateral range sensor. If no range sensor is available then this function should return -\/1. If all directions are not covered then implementation can decide what to return for the directions that are not covered -\/ either an error can be returned or a mix of surrounding points. For example if only four directions are available then read range may return value of the front sensor for a range of angles. 
+
+\subsection{Field Documentation}
+\hypertarget{structsystem__calls__range_a0e09d6229856c77de785eea2df5a595d}{\index{system\+\_\+calls\+\_\+range@{system\+\_\+calls\+\_\+range}!read\+\_\+range@{read\+\_\+range}}
+\index{read\+\_\+range@{read\+\_\+range}!system\+\_\+calls\+\_\+range@{system\+\_\+calls\+\_\+range}}
+\subsubsection[{read\+\_\+range}]{\setlength{\rightskip}{0pt plus 5cm}int($\ast$ system\+\_\+calls\+\_\+range\+::read\+\_\+range)(const struct {\bf system\+\_\+calls\+\_\+range} $\ast$self, uint16\+\_\+t deg, uint16\+\_\+t $\ast${\bf range})}}\label{structsystem__calls__range_a0e09d6229856c77de785eea2df5a595d}
+Read range specified by an angle direction. 0 is forward, 90 is to the right etc. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{system__calls_8h}{system\+\_\+calls.\+h}\end{DoxyCompactItemize}

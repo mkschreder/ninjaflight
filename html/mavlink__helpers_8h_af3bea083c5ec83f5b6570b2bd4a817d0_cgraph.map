@@ -1,0 +1,4 @@
+<map id="mavlink_finalize_message" name="mavlink_finalize_message">
+<area shape="rect" id="node2" href="$mavlink__helpers_8h.html#aa66131138fc02101dcc73b4b556ab422" title="Finalize a MAVLink message with channel assignment. " alt="" coords="229,12,440,39"/>
+<area shape="rect" id="node3" href="$mavlink__helpers_8h.html#ac006d308067f48514ca5c0cf0b046c28" title="mavlink_get_channel\l_status" alt="" coords="488,5,632,46"/>
+</map>

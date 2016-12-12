@@ -1,0 +1,99 @@
+\hypertarget{struct____mavlink__camera__status__t}{\section{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t Struct Reference}
+\label{struct____mavlink__camera__status__t}\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+camera\+\_\+status.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__camera__status__t_a12593dc20e6c4488d604b0cc3a6173d7}{time\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em Image timestamp (microseconds since U\+N\+I\+X epoch, according to camera clock) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__status__t_a9f0f4d16590fffe5524c6051e5b2405d}{p1}
+\begin{DoxyCompactList}\small\item\em Parameter 1 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__status__t_a03b8078bfb07bf7b94c8980cf85a020d}{p2}
+\begin{DoxyCompactList}\small\item\em Parameter 2 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__status__t_a0314b46e082251d221c7c3ea10129aae}{p3}
+\begin{DoxyCompactList}\small\item\em Parameter 3 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__camera__status__t_a98d593c668bd59529d4d8bc6ed8697d9}{p4}
+\begin{DoxyCompactList}\small\item\em Parameter 4 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__camera__status__t_a7833bdc7c05f95ad25ad03c5a4721bb7}{img\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em Image index. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__status__t_a3886bbba5cff1758e5da10c463aeb391}{target\+\_\+system}
+\begin{DoxyCompactList}\small\item\em System I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__status__t_a76aa5b2c6f3c71e709202e7533b6ec4e}{cam\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em Camera I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__camera__status__t_a21082504252f369243898d1f39579f84}{event\+\_\+id}
+\begin{DoxyCompactList}\small\item\em See C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum for definition of the bitmask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__camera__status__t_a76aa5b2c6f3c71e709202e7533b6ec4e}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!cam\+\_\+idx@{cam\+\_\+idx}}
+\index{cam\+\_\+idx@{cam\+\_\+idx}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{cam\+\_\+idx}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::cam\+\_\+idx}}\label{struct____mavlink__camera__status__t_a76aa5b2c6f3c71e709202e7533b6ec4e}
+
+
+Camera I\+D. 
+
+\hypertarget{struct____mavlink__camera__status__t_a21082504252f369243898d1f39579f84}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!event\+\_\+id@{event\+\_\+id}}
+\index{event\+\_\+id@{event\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{event\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::event\+\_\+id}}\label{struct____mavlink__camera__status__t_a21082504252f369243898d1f39579f84}
+
+
+See C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum for definition of the bitmask. 
+
+\hypertarget{struct____mavlink__camera__status__t_a7833bdc7c05f95ad25ad03c5a4721bb7}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!img\+\_\+idx@{img\+\_\+idx}}
+\index{img\+\_\+idx@{img\+\_\+idx}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{img\+\_\+idx}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::img\+\_\+idx}}\label{struct____mavlink__camera__status__t_a7833bdc7c05f95ad25ad03c5a4721bb7}
+
+
+Image index. 
+
+\hypertarget{struct____mavlink__camera__status__t_a9f0f4d16590fffe5524c6051e5b2405d}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!p1@{p1}}
+\index{p1@{p1}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{p1}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::p1}}\label{struct____mavlink__camera__status__t_a9f0f4d16590fffe5524c6051e5b2405d}
+
+
+Parameter 1 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) 
+
+\hypertarget{struct____mavlink__camera__status__t_a03b8078bfb07bf7b94c8980cf85a020d}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!p2@{p2}}
+\index{p2@{p2}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{p2}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::p2}}\label{struct____mavlink__camera__status__t_a03b8078bfb07bf7b94c8980cf85a020d}
+
+
+Parameter 2 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) 
+
+\hypertarget{struct____mavlink__camera__status__t_a0314b46e082251d221c7c3ea10129aae}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!p3@{p3}}
+\index{p3@{p3}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{p3}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::p3}}\label{struct____mavlink__camera__status__t_a0314b46e082251d221c7c3ea10129aae}
+
+
+Parameter 3 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) 
+
+\hypertarget{struct____mavlink__camera__status__t_a98d593c668bd59529d4d8bc6ed8697d9}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!p4@{p4}}
+\index{p4@{p4}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{p4}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::p4}}\label{struct____mavlink__camera__status__t_a98d593c668bd59529d4d8bc6ed8697d9}
+
+
+Parameter 4 (meaning depends on event, see C\+A\+M\+E\+R\+A\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+T\+Y\+P\+E\+S enum) 
+
+\hypertarget{struct____mavlink__camera__status__t_a3886bbba5cff1758e5da10c463aeb391}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!target\+\_\+system@{target\+\_\+system}}
+\index{target\+\_\+system@{target\+\_\+system}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{target\+\_\+system}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::target\+\_\+system}}\label{struct____mavlink__camera__status__t_a3886bbba5cff1758e5da10c463aeb391}
+
+
+System I\+D. 
+
+\hypertarget{struct____mavlink__camera__status__t_a12593dc20e6c4488d604b0cc3a6173d7}{\index{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}!time\+\_\+usec@{time\+\_\+usec}}
+\index{time\+\_\+usec@{time\+\_\+usec}!\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t}}
+\subsubsection[{time\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+camera\+\_\+status\+\_\+t\+::time\+\_\+usec}}\label{struct____mavlink__camera__status__t_a12593dc20e6c4488d604b0cc3a6173d7}
+
+
+Image timestamp (microseconds since U\+N\+I\+X epoch, according to camera clock) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__camera__status_8h}{mavlink\+\_\+msg\+\_\+camera\+\_\+status.\+h}\end{DoxyCompactItemize}

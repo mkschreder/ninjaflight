@@ -1,0 +1,26 @@
+var struct____mavlink__image__available__t =
+[
+    [ "alt", "struct____mavlink__image__available__t.html#a02d7a1fd93825b80d12c4a6188f8a486", null ],
+    [ "cam_id", "struct____mavlink__image__available__t.html#adb12c07627b04d6babbbbe9af879adc5", null ],
+    [ "cam_no", "struct____mavlink__image__available__t.html#a31888b3bcf6b8abb286795bf9c94313e", null ],
+    [ "channels", "struct____mavlink__image__available__t.html#a0cea54d6d8cde7411cbd8e1deb729873", null ],
+    [ "depth", "struct____mavlink__image__available__t.html#ac4201b17a19aa7835c7e0bdf0f78a128", null ],
+    [ "exposure", "struct____mavlink__image__available__t.html#aee99095f03d198eb05b2ba220d398c1c", null ],
+    [ "gain", "struct____mavlink__image__available__t.html#a8f7456ee295f1e11f912daabd9658ea5", null ],
+    [ "ground_x", "struct____mavlink__image__available__t.html#acca01133ac2d009cdde67460cd6c3a80", null ],
+    [ "ground_y", "struct____mavlink__image__available__t.html#a7af72af41728ab05afbfdce680b2897d", null ],
+    [ "ground_z", "struct____mavlink__image__available__t.html#a1841e4a3c1e6cdbcdd768040e336b790", null ],
+    [ "height", "struct____mavlink__image__available__t.html#a09e859dfd3fa5fc9a08e9d4e042cbd85", null ],
+    [ "img_buf_index", "struct____mavlink__image__available__t.html#af983c6207a4062b08e9f99e889fde124", null ],
+    [ "img_seq", "struct____mavlink__image__available__t.html#a8574894f5f5fd321cea7c83ef6756873", null ],
+    [ "key", "struct____mavlink__image__available__t.html#a042a2b1564807927e9b174ceed464535", null ],
+    [ "lat", "struct____mavlink__image__available__t.html#a9325fb7fc6a336498abdd3deefc6ae32", null ],
+    [ "local_z", "struct____mavlink__image__available__t.html#af5b42ebab80cce99211e957e4cb4aab1", null ],
+    [ "lon", "struct____mavlink__image__available__t.html#a50de3c4b3b923b79096e95cf1b02855d", null ],
+    [ "pitch", "struct____mavlink__image__available__t.html#a5ee810fc74de0b1113b9e9c0419de043", null ],
+    [ "roll", "struct____mavlink__image__available__t.html#a70a2b5f46ce055f4cfa6c903438a7ca8", null ],
+    [ "timestamp", "struct____mavlink__image__available__t.html#aacc732ef97c4f29be485280afe6a5031", null ],
+    [ "valid_until", "struct____mavlink__image__available__t.html#af17ddf110570d8aa5530b54e9dae1b15", null ],
+    [ "width", "struct____mavlink__image__available__t.html#a577f2cf7105af75a14301b7d238f6a4e", null ],
+    [ "yaw", "struct____mavlink__image__available__t.html#a804cfe3215d4b9eca8f0640cad24af83", null ]
+];

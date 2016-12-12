@@ -1,0 +1,4 @@
+<map id="writeConfigToEEPROM" name="writeConfigToEEPROM">
+<area shape="rect" id="node2" href="$config__eeprom_8c.html#a37615656b9ca65825c8b3460ea12df7a" title="isEEPROMContentValid" alt="" coords="216,5,381,32"/>
+<area shape="rect" id="node3" href="$config__eeprom_8c.html#a05cb66e5e70482d1fda1c99db4f7ffe5" title="scanEEPROM" alt="" coords="430,5,538,32"/>
+</map>

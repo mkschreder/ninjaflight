@@ -1,0 +1,305 @@
+\hypertarget{group__config}{\section{Configuration}
+\label{group__config}\index{Configuration@{Configuration}}
+}
+Collaboration diagram for Configuration\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{group__config}
+\end{center}
+\end{figure}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__accelerometer}{Accelerometer}
+\item 
+\hyperlink{group__altitudehold}{Altitudehold}
+\item 
+\hyperlink{group__anglerate}{Anglerate}
+\end{DoxyCompactItemize}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{config_8c}{config.\+c}
+\end{DoxyCompactItemize}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structeeprom__delta}{eeprom\+\_\+delta}
+\item 
+struct \hyperlink{structconfig__profile}{config\+\_\+profile}
+\item 
+struct \hyperlink{structconfig}{config}
+\item 
+struct \hyperlink{structconfig__store}{config\+\_\+store}
+\begin{DoxyCompactList}\small\item\em structure used for storing config in the eeprom \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{group__config_gaa82407faddc0bb6f2e8e8acc8938ed96}{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T}~0
+\begin{DoxyCompactList}\small\item\em this is the starting address of the config eeprom area \end{DoxyCompactList}\item 
+\#define \hyperlink{group__config_ga05f89c8676acb8b7a7db4bf198965b0b}{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E}~4096
+\begin{DoxyCompactList}\small\item\em this is the size of the eeporm area used by the config \end{DoxyCompactList}\item 
+\#define \hyperlink{group__config_ga6b8c4cbf895c833d99fec3753854d8de}{D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E}~\hyperlink{config_2blackbox_8h_a877d661ca083c1e109540103b63c8b65a71fd6b602cdb5e5dd20fcea08d3ce7a4}{B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+S\+E\+R\+I\+A\+L}
+\item 
+\#define \hyperlink{group__config_ga98a6c026bec6ab29554cfb7796af8024}{B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}~16000
+\item 
+\#define \hyperlink{group__config_ga5a04e5992ea75d8544421b541ef6ca7a}{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}~400
+\item 
+\#define \hyperlink{group__config_ga450eded8e86f47c2209c88fdc563d960}{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}~\hyperlink{group__config_ga5a04e5992ea75d8544421b541ef6ca7a}{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}
+\item 
+\#define \hyperlink{group__config_ga34bad804a5ac2075c08aa3f833bc8fcc}{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N}~0
+\item 
+\#define \hyperlink{group__config_gacfd2f8c35eaccee63c54b7b6d528e8bc}{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}~1
+\item 
+\#define \hyperlink{group__config_gaded80893ebf962ab49ad6318fce24f14}{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S}~1500
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structeeprom__delta}{eeprom\+\_\+delta} \hyperlink{group__config_ga25ae095baa2f7f76e117754a937e6cfa}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed))
+\item 
+void \hyperlink{group__config_ga4b70e19635bc68e4d7ca8cab5646c833}{config\+\_\+reset} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+const struct \hyperlink{structconfig__profile}{config\+\_\+profile} const $\ast$ \hyperlink{group__config_ga547d1cb3ff0bbd0bb7381c73155ca8dd}{config\+\_\+get\+\_\+profile} (const struct \hyperlink{structconfig}{config} $\ast$const self)
+\item 
+struct \hyperlink{structconfig__profile}{config\+\_\+profile} $\ast$ \hyperlink{group__config_gad1e2009e01a92da1990ead7bd87c5476}{config\+\_\+get\+\_\+profile\+\_\+rw} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+struct \hyperlink{structrate__profile}{rate\+\_\+profile} const $\ast$ \hyperlink{group__config_gab2653104e4f0b8fcd39c0449401212d2}{config\+\_\+get\+\_\+rate\+\_\+profile} (const struct \hyperlink{structconfig}{config} $\ast$const self)
+\item 
+struct \hyperlink{structrate__profile}{rate\+\_\+profile} $\ast$ \hyperlink{group__config_gac3170633e7100e518a3174d3ac162c2a}{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw} (struct \hyperlink{structconfig}{config} $\ast$self)
+\item 
+int \hyperlink{group__config_ga6cb2bfd6f8116779ec2925cf3f1de774}{config\+\_\+save} (const struct \hyperlink{structconfig}{config} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system})
+\item 
+bool \hyperlink{group__config_ga73a0dc0f70f79138f7e6517cadb77adf}{config\+\_\+fixup} (struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+int \hyperlink{group__config_ga033bfd111bc778cad1e84b836e7feb01}{config\+\_\+load} (struct \hyperlink{structconfig}{config} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system})
+\item 
+struct \hyperlink{structconfig}{config} \hyperlink{group__config_gaa5c3786fbfff87abd7c63b1b374b279d}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed, aligned(2)))
+\item 
+struct \hyperlink{structconfig__store}{config\+\_\+store} \hyperlink{group__config_ga3ea6d562b09ef92ab0a2969a76f09282}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((aligned(4)))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{config_2serial_8h_a5aaf3d2a774f7a0335773299b8d78182}{serial\+Port\+Identifier\+\_\+e} \hyperlink{group__config_ga6604b8703c26d1030d6c12d78bcedfed}{serial\+Port\+Identifiers} \mbox{[}\hyperlink{test_2unit_2target_8h_af040928dacfd97611f1283a6246bfce2}{S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The purpose of this module is to provide a systemwide configuration structure where all settings can be stored. It uses system calls to save the configuration to an eeprom (or equivalent) storage. This module decouples configuration variables from implementation of the subsystems and organizes them into a single packed structure called struct config. Many other systems depend on this module for their settings. It also provides reasonable default values and perhaps later will also provide validation of values for each config. It should be seen as an equivalent of a database where each configuration submodule does contain some module specifics but always only uses basic types to represent the data. You should never ever make any data structures in this module depend on any driver/hardware/implementation specific data structures. It should be kept very simple and completely implementation-\/agnostic.\hypertarget{group__config_config-load}{}\subsection{Loading of config}\label{group__config_config-load}
+Config module typically only stores deltas in the eeprom. Before loading a config, the data area is filled with available defaults. Then deltas are loaded from the eeprom which overwrite some values that have been modified by the user from defaults. Finally the new checksum is loaded from the eeprom as well. If checksum of the loaded data matches the checksum loaded from the eeprom then all config data is copied to the config struct supplied to config\+\_\+load. If data can not be loaded then config\+\_\+load will return an error. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{group__config_ga98a6c026bec6ab29554cfb7796af8024}{\index{Configuration@{Configuration}!B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}}
+\index{B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}!Configuration@{Configuration}}
+\subsubsection[{B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+R\+U\+S\+H\+E\+D\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E~16000}}\label{group__config_ga98a6c026bec6ab29554cfb7796af8024}
+\hypertarget{group__config_ga5a04e5992ea75d8544421b541ef6ca7a}{\index{Configuration@{Configuration}!B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}}
+\index{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}!Configuration@{Configuration}}
+\subsubsection[{B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E~400}}\label{group__config_ga5a04e5992ea75d8544421b541ef6ca7a}
+\hypertarget{group__config_ga05f89c8676acb8b7a7db4bf198965b0b}{\index{Configuration@{Configuration}!C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E@{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E}}
+\index{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E@{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E}!Configuration@{Configuration}}
+\subsubsection[{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+I\+Z\+E~4096}}\label{group__config_ga05f89c8676acb8b7a7db4bf198965b0b}
+
+
+this is the size of the eeporm area used by the config 
+
+\hypertarget{group__config_gaa82407faddc0bb6f2e8e8acc8938ed96}{\index{Configuration@{Configuration}!C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T@{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T}}
+\index{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T@{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T}!Configuration@{Configuration}}
+\subsubsection[{C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+O\+N\+F\+I\+G\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+S\+T\+A\+R\+T~0}}\label{group__config_gaa82407faddc0bb6f2e8e8acc8938ed96}
+
+
+this is the starting address of the config eeprom area 
+
+\hypertarget{group__config_ga6b8c4cbf895c833d99fec3753854d8de}{\index{Configuration@{Configuration}!D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E}!Configuration@{Configuration}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E~{\bf B\+L\+A\+C\+K\+B\+O\+X\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+S\+E\+R\+I\+A\+L}}}\label{group__config_ga6b8c4cbf895c833d99fec3753854d8de}
+\hypertarget{group__config_ga450eded8e86f47c2209c88fdc563d960}{\index{Configuration@{Configuration}!D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}!Configuration@{Configuration}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E~{\bf B\+R\+U\+S\+H\+L\+E\+S\+S\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+P\+W\+M\+\_\+\+R\+A\+T\+E}}}\label{group__config_ga450eded8e86f47c2209c88fdc563d960}
+\hypertarget{group__config_ga34bad804a5ac2075c08aa3f833bc8fcc}{\index{Configuration@{Configuration}!D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N@{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N@{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N}!Configuration@{Configuration}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+E\+L\+E\+M\+E\+T\+R\+Y\+\_\+\+I\+N\+V\+E\+R\+S\+I\+O\+N~0}}\label{group__config_ga34bad804a5ac2075c08aa3f833bc8fcc}
+\hypertarget{group__config_gacfd2f8c35eaccee63c54b7b6d528e8bc}{\index{Configuration@{Configuration}!M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}}
+\index{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T@{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}!Configuration@{Configuration}}
+\subsubsection[{M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+\_\+\+P\+R\+O\+F\+I\+L\+E\+\_\+\+C\+O\+U\+N\+T~1}}\label{group__config_gacfd2f8c35eaccee63c54b7b6d528e8bc}
+\hypertarget{group__config_gaded80893ebf962ab49ad6318fce24f14}{\index{Configuration@{Configuration}!O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S@{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S}}
+\index{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S@{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S}!Configuration@{Configuration}}
+\subsubsection[{O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+N\+E\+S\+H\+O\+T\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+C\+H\+A\+N\+G\+E\+D\+\_\+\+D\+E\+L\+A\+Y\+\_\+\+O\+N\+\_\+\+B\+O\+O\+T\+\_\+\+M\+S~1500}}\label{group__config_gaded80893ebf962ab49ad6318fce24f14}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__config_ga25ae095baa2f7f76e117754a937e6cfa}{\index{Configuration@{Configuration}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!Configuration@{Configuration}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf eeprom\+\_\+delta} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga25ae095baa2f7f76e117754a937e6cfa}
+\hypertarget{group__config_gaa5c3786fbfff87abd7c63b1b374b279d}{\index{Configuration@{Configuration}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!Configuration@{Configuration}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(packed, aligned(2))}]{}
+\end{DoxyParamCaption}
+)}}\label{group__config_gaa5c3786fbfff87abd7c63b1b374b279d}
+\hypertarget{group__config_ga3ea6d562b09ef92ab0a2969a76f09282}{\index{Configuration@{Configuration}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!Configuration@{Configuration}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config\+\_\+store} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(aligned(4))}]{}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga3ea6d562b09ef92ab0a2969a76f09282}
+\hypertarget{group__config_ga73a0dc0f70f79138f7e6517cadb77adf}{\index{Configuration@{Configuration}!config\+\_\+fixup@{config\+\_\+fixup}}
+\index{config\+\_\+fixup@{config\+\_\+fixup}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+fixup}]{\setlength{\rightskip}{0pt plus 5cm}bool config\+\_\+fixup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga73a0dc0f70f79138f7e6517cadb77adf}
+\hypertarget{group__config_ga547d1cb3ff0bbd0bb7381c73155ca8dd}{\index{Configuration@{Configuration}!config\+\_\+get\+\_\+profile@{config\+\_\+get\+\_\+profile}}
+\index{config\+\_\+get\+\_\+profile@{config\+\_\+get\+\_\+profile}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+get\+\_\+profile}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config\+\_\+profile} const $\ast$ config\+\_\+get\+\_\+profile (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$const}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga547d1cb3ff0bbd0bb7381c73155ca8dd}
+\hypertarget{group__config_gad1e2009e01a92da1990ead7bd87c5476}{\index{Configuration@{Configuration}!config\+\_\+get\+\_\+profile\+\_\+rw@{config\+\_\+get\+\_\+profile\+\_\+rw}}
+\index{config\+\_\+get\+\_\+profile\+\_\+rw@{config\+\_\+get\+\_\+profile\+\_\+rw}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+get\+\_\+profile\+\_\+rw}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf config\+\_\+profile} $\ast$ config\+\_\+get\+\_\+profile\+\_\+rw (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__config_gad1e2009e01a92da1990ead7bd87c5476}
+\hypertarget{group__config_gab2653104e4f0b8fcd39c0449401212d2}{\index{Configuration@{Configuration}!config\+\_\+get\+\_\+rate\+\_\+profile@{config\+\_\+get\+\_\+rate\+\_\+profile}}
+\index{config\+\_\+get\+\_\+rate\+\_\+profile@{config\+\_\+get\+\_\+rate\+\_\+profile}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+get\+\_\+rate\+\_\+profile}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rate\+\_\+profile} const $\ast$ config\+\_\+get\+\_\+rate\+\_\+profile (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$const}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__config_gab2653104e4f0b8fcd39c0449401212d2}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{group__config_gab2653104e4f0b8fcd39c0449401212d2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__config_gac3170633e7100e518a3174d3ac162c2a}{\index{Configuration@{Configuration}!config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw@{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw}}
+\index{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw@{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rate\+\_\+profile} $\ast$ config\+\_\+get\+\_\+rate\+\_\+profile\+\_\+rw (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__config_gac3170633e7100e518a3174d3ac162c2a}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{group__config_gac3170633e7100e518a3174d3ac162c2a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__config_ga033bfd111bc778cad1e84b836e7feb01}{\index{Configuration@{Configuration}!config\+\_\+load@{config\+\_\+load}}
+\index{config\+\_\+load@{config\+\_\+load}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+load}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+load (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self, }
+\item[{const struct {\bf system\+\_\+calls} $\ast$}]{system}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga033bfd111bc778cad1e84b836e7feb01}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__config_ga033bfd111bc778cad1e84b836e7feb01_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__config_ga4b70e19635bc68e4d7ca8cab5646c833}{\index{Configuration@{Configuration}!config\+\_\+reset@{config\+\_\+reset}}
+\index{config\+\_\+reset@{config\+\_\+reset}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}void config\+\_\+reset (
+\begin{DoxyParamCaption}
+\item[{struct {\bf config} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga4b70e19635bc68e4d7ca8cab5646c833}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{group__config_ga4b70e19635bc68e4d7ca8cab5646c833_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{group__config_ga6cb2bfd6f8116779ec2925cf3f1de774}{\index{Configuration@{Configuration}!config\+\_\+save@{config\+\_\+save}}
+\index{config\+\_\+save@{config\+\_\+save}!Configuration@{Configuration}}
+\subsubsection[{config\+\_\+save}]{\setlength{\rightskip}{0pt plus 5cm}int config\+\_\+save (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf config} $\ast$}]{self, }
+\item[{const struct {\bf system\+\_\+calls} $\ast$}]{system}
+\end{DoxyParamCaption}
+)}}\label{group__config_ga6cb2bfd6f8116779ec2925cf3f1de774}
+N\+O\+T\+E\+: this function makes heavy use of the stack to store 2 $\ast$ sizeof(config) which can be up to 4k. It may therefore cause stack overflow if ram if almost used up when it is called 
+\begin{DoxyParams}{Parameters}
+{\em self} & config which is to be saved to eeprom \\
+\hline
+\end{DoxyParams}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group__config_ga6cb2bfd6f8116779ec2925cf3f1de774_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__config_ga6604b8703c26d1030d6c12d78bcedfed}{\index{Configuration@{Configuration}!serial\+Port\+Identifiers@{serial\+Port\+Identifiers}}
+\index{serial\+Port\+Identifiers@{serial\+Port\+Identifiers}!Configuration@{Configuration}}
+\subsubsection[{serial\+Port\+Identifiers}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf serial\+Port\+Identifier\+\_\+e} serial\+Port\+Identifiers\mbox{[}{\bf S\+E\+R\+I\+A\+L\+\_\+\+P\+O\+R\+T\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{group__config_ga6604b8703c26d1030d6c12d78bcedfed}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    \}
+\end{DoxyCode}

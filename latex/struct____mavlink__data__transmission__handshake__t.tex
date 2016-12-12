@@ -1,0 +1,81 @@
+\hypertarget{struct____mavlink__data__transmission__handshake__t}{\section{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t Struct Reference}
+\label{struct____mavlink__data__transmission__handshake__t}\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+data\+\_\+transmission\+\_\+handshake.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_a56ed0b75c46c954e34311d97b5ade566}{size}
+\begin{DoxyCompactList}\small\item\em total data size in bytes (set on A\+C\+K only) \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_a6550eca37edfa6254a10b0900ed591ac}{width}
+\begin{DoxyCompactList}\small\item\em Width of a matrix or image. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_affb5a0e1cc2b43b11a1e61eb794f50ea}{height}
+\begin{DoxyCompactList}\small\item\em Height of a matrix or image. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_ace3170e3ecd241c543c1aca1cabadcbf}{packets}
+\begin{DoxyCompactList}\small\item\em number of packets beeing sent (set on A\+C\+K only) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_aa9f6130e6e6de5cc36cf929f34eb9efa}{type}
+\begin{DoxyCompactList}\small\item\em type of requested/acknowledged data (as defined in E\+N\+U\+M D\+A\+T\+A\+\_\+\+T\+Y\+P\+E\+S in mavlink/include/mavlink\+\_\+types.\+h) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_aad2f91bab9dd0218b7077b3f26c58de8}{payload}
+\begin{DoxyCompactList}\small\item\em payload size per packet (normally 253 byte, see D\+A\+T\+A field size in message E\+N\+C\+A\+P\+S\+U\+L\+A\+T\+E\+D\+\_\+\+D\+A\+T\+A) (set on A\+C\+K only) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__data__transmission__handshake__t_adc3ee44ee1fccd48e2220fc5df1c9966}{jpg\+\_\+quality}
+\begin{DoxyCompactList}\small\item\em J\+P\+E\+G quality out of \mbox{[}1,100\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__data__transmission__handshake__t_affb5a0e1cc2b43b11a1e61eb794f50ea}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!height@{height}}
+\index{height@{height}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::height}}\label{struct____mavlink__data__transmission__handshake__t_affb5a0e1cc2b43b11a1e61eb794f50ea}
+
+
+Height of a matrix or image. 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_adc3ee44ee1fccd48e2220fc5df1c9966}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!jpg\+\_\+quality@{jpg\+\_\+quality}}
+\index{jpg\+\_\+quality@{jpg\+\_\+quality}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{jpg\+\_\+quality}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::jpg\+\_\+quality}}\label{struct____mavlink__data__transmission__handshake__t_adc3ee44ee1fccd48e2220fc5df1c9966}
+
+
+J\+P\+E\+G quality out of \mbox{[}1,100\mbox{]}. 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_ace3170e3ecd241c543c1aca1cabadcbf}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!packets@{packets}}
+\index{packets@{packets}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{packets}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::packets}}\label{struct____mavlink__data__transmission__handshake__t_ace3170e3ecd241c543c1aca1cabadcbf}
+
+
+number of packets beeing sent (set on A\+C\+K only) 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_aad2f91bab9dd0218b7077b3f26c58de8}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!payload@{payload}}
+\index{payload@{payload}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{payload}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::payload}}\label{struct____mavlink__data__transmission__handshake__t_aad2f91bab9dd0218b7077b3f26c58de8}
+
+
+payload size per packet (normally 253 byte, see D\+A\+T\+A field size in message E\+N\+C\+A\+P\+S\+U\+L\+A\+T\+E\+D\+\_\+\+D\+A\+T\+A) (set on A\+C\+K only) 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_a56ed0b75c46c954e34311d97b5ade566}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!size@{size}}
+\index{size@{size}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::size}}\label{struct____mavlink__data__transmission__handshake__t_a56ed0b75c46c954e34311d97b5ade566}
+
+
+total data size in bytes (set on A\+C\+K only) 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_aa9f6130e6e6de5cc36cf929f34eb9efa}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!type@{type}}
+\index{type@{type}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::type}}\label{struct____mavlink__data__transmission__handshake__t_aa9f6130e6e6de5cc36cf929f34eb9efa}
+
+
+type of requested/acknowledged data (as defined in E\+N\+U\+M D\+A\+T\+A\+\_\+\+T\+Y\+P\+E\+S in mavlink/include/mavlink\+\_\+types.\+h) 
+
+\hypertarget{struct____mavlink__data__transmission__handshake__t_a6550eca37edfa6254a10b0900ed591ac}{\index{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}!width@{width}}
+\index{width@{width}!\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+data\+\_\+transmission\+\_\+handshake\+\_\+t\+::width}}\label{struct____mavlink__data__transmission__handshake__t_a6550eca37edfa6254a10b0900ed591ac}
+
+
+Width of a matrix or image. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__data__transmission__handshake_8h}{mavlink\+\_\+msg\+\_\+data\+\_\+transmission\+\_\+handshake.\+h}\end{DoxyCompactItemize}

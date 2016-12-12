@@ -1,0 +1,50 @@
+<map id="MixerBasicTest" name="MixerBasicTest">
+<area shape="rect" id="node3" href="$structmixer.html" title="mixer" alt="" coords="891,107,946,133"/>
+<area shape="rect" id="node4" href="$structbiquad__s.html" title="biquad_s" alt="" coords="639,56,713,83"/>
+<area shape="rect" id="node5" href="$structconfig.html" title="config" alt="" coords="647,740,705,767"/>
+<area shape="rect" id="node6" href="$structpwm__output__config.html" title="pwm_output_config" alt="" coords="317,157,451,184"/>
+<area shape="rect" id="node7" href="$structtilt__config.html" title="tilt_config" alt="" coords="345,208,423,235"/>
+<area shape="rect" id="node8" href="$structrate__config.html" title="rate_config" alt="" coords="341,309,427,336"/>
+<area shape="rect" id="node9" href="$structrate__profile.html" title="rate_profile" alt="" coords="46,309,133,336"/>
+<area shape="rect" id="node10" href="$structmixer__config.html" title="general mixer settings " alt="" coords="336,56,432,83"/>
+<area shape="rect" id="node11" href="$structmixer__rule__def.html" title="mixer rule definition in new format " alt="" coords="36,85,143,112"/>
+<area shape="rect" id="node12" href="$structgps__config.html" title="gps_config" alt="" coords="341,411,427,437"/>
+<area shape="rect" id="node13" href="$structairplane__althold__config.html" title="airplane_althold_config" alt="" coords="307,461,461,488"/>
+<area shape="rect" id="node14" href="$structhott__telemetry__config.html" title="hott_telemetry_config" alt="" coords="311,512,457,539"/>
+<area shape="rect" id="node15" href="$structprofile__config.html" title="profile_config" alt="" coords="335,563,433,589"/>
+<area shape="rect" id="node16" href="$structledstrip__config.html" title="ledstrip_config" alt="" coords="331,613,437,640"/>
+<area shape="rect" id="node17" href="$structled__config.html" title="led_config" alt="" coords="49,639,130,665"/>
+<area shape="rect" id="node18" href="$structhsvColor__s.html" title="hsvColor_s" alt="" coords="45,689,133,716"/>
+<area shape="rect" id="node19" href="$structled__spc__color__indices.html" title="led_spc_color_indices" alt="" coords="14,537,165,564"/>
+<area shape="rect" id="node20" href="$structled__mode__color__indices.html" title="led_mode_color_indices" alt="" coords="9,588,170,615"/>
+<area shape="rect" id="node21" href="$structfeature__config.html" title="feature_config" alt="" coords="332,664,436,691"/>
+<area shape="rect" id="node22" href="$structbattery__config.html" title="battery_config" alt="" coords="332,715,436,741"/>
+<area shape="rect" id="node23" href="$structrx__output__config.html" title="rx_output_config" alt="" coords="325,765,443,792"/>
+<area shape="rect" id="node24" href="$structrx__failsafe__chan__config.html" title="rx_failsafe_chan_config" alt="" coords="10,752,169,779"/>
+<area shape="rect" id="node25" href="$structrx__channel__range__config.html" title="rx_channel_range_config" alt="" coords="6,803,173,829"/>
+<area shape="rect" id="node26" href="$structarming__config.html" title="arming_config" alt="" coords="333,816,435,843"/>
+<area shape="rect" id="node27" href="$structsystem__config.html" title="system_config" alt="" coords="331,867,437,893"/>
+<area shape="rect" id="node28" href="$structtelemetry__config.html" title="telemetry_config" alt="" coords="325,917,443,944"/>
+<area shape="rect" id="node29" href="$structmotor__3d__config.html" title="3d mode mixer settings (used when mixer_enable_3d_mode is called with true) " alt="" coords="325,968,443,995"/>
+<area shape="rect" id="node30" href="$structimu__config.html" title="imu_config" alt="" coords="341,1019,427,1045"/>
+<area shape="rect" id="node31" href="$structboard__alignment__config.html" title="board_alignment_config" alt="" coords="305,1069,463,1096"/>
+<area shape="rect" id="node32" href="$structblackbox__config.html" title="blackbox_config" alt="" coords="326,1120,442,1147"/>
+<area shape="rect" id="node33" href="$structconfig__profile.html" title="config_profile" alt="" coords="335,1171,433,1197"/>
+<area shape="rect" id="node34" href="$structgps__profile.html" title="gps_profile" alt="" coords="47,1095,132,1121"/>
+<area shape="rect" id="node35" href="$structgimbal__config.html" title="gimbal_config" alt="" coords="38,1145,141,1172"/>
+<area shape="rect" id="node36" href="$structbarometer__config.html" title="barometer_config" alt="" coords="28,1196,151,1223"/>
+<area shape="rect" id="node37" href="$structpid__config.html" title="pid_config" alt="" coords="49,1247,130,1273"/>
+<area shape="rect" id="node38" href="$structrc__adjustment__profile.html" title="rc_adjustment_profile" alt="" coords="16,1297,163,1324"/>
+<area shape="rect" id="node39" href="$structmag__config.html" title="mag_config" alt="" coords="45,1348,134,1375"/>
+<area shape="rect" id="node40" href="$structaccelerometer__config.html" title="accelerometer_config" alt="" coords="16,993,163,1020"/>
+<area shape="rect" id="node41" href="$structrc__controls__config.html" title="rc_controls_config" alt="" coords="25,1044,153,1071"/>
+<area shape="rect" id="node42" href="$structrx__config.html" title="rx_config" alt="" coords="347,1221,421,1248"/>
+<area shape="rect" id="node43" href="$structfailsafe__config.html" title="Failsafe system configuration. " alt="" coords="331,1272,437,1299"/>
+<area shape="rect" id="node44" href="$structserial__config.html" title="serial_config" alt="" coords="337,1323,431,1349"/>
+<area shape="rect" id="node45" href="$structsensor__config.html" title="sensor_config" alt="" coords="333,1373,435,1400"/>
+<area shape="rect" id="node46" href="$structpwm__input__config.html" title="pwm_input_config" alt="" coords="321,1424,447,1451"/>
+<area shape="rect" id="node47" href="$structtransponder__config.html" title="transponder_config" alt="" coords="318,1475,450,1501"/>
+<area shape="rect" id="node48" href="$structgyro__config.html" title="gyro_config" alt="" coords="339,259,429,285"/>
+<area shape="rect" id="node49" href="$structfrsky__telemetry__config.html" title="frsky_telemetry_config" alt="" coords="307,360,461,387"/>
+<area shape="rect" id="node50" href="$structsystem__calls__pwm.html" title="pwm related system calls " alt="" coords="609,5,743,32"/>
+</map>

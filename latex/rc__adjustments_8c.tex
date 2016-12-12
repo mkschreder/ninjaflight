@@ -1,0 +1,162 @@
+\hypertarget{rc__adjustments_8c}{\section{src/main/io/rc\+\_\+adjustments.c File Reference}
+\label{rc__adjustments_8c}\index{src/main/io/rc\+\_\+adjustments.\+c@{src/main/io/rc\+\_\+adjustments.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/beeper.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninja.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/rc\+\_\+adjustments.\+h\char`\"{}}\\*
+Include dependency graph for rc\+\_\+adjustments.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc__adjustments_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rc__adjustments_8c_a4749306de0bdea29f0f4a7a081b87360}{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y}(\hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index})~self-\/$>$adjustment\+State\+Mask $\vert$= (1 $<$$<$ \hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index})
+\item 
+\#define \hyperlink{rc__adjustments_8c_ab2543eea319c6bba15a0892cc99c7f30}{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y}(\hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index})~self-\/$>$adjustment\+State\+Mask \&= $\sim$(1 $<$$<$ \hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index})
+\item 
+\#define \hyperlink{rc__adjustments_8c_a6739557c4fdf11661e5775baa6b5759d}{I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}(\hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index})~(self-\/$>$adjustment\+State\+Mask \& (1 $<$$<$ \hyperlink{config_2rc__adjustments_8h_adb082c68e719d4885545c2e80858cb34}{adjustment\+Index}))
+\item 
+\#define \hyperlink{rc__adjustments_8c_a7b586f0a04f407534561e1d5600dbed5}{R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z}~(1000 / 2)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rc__adjustments_8c_ad9864494c071da11aeda7cc7012d2cb1}{blackbox\+Log\+Inflight\+Adjustment\+Event\+Float} (\hyperlink{io_2rc__adjustments_8h_a2e159427f64b0177a45b5be9c31b5455}{adjustment\+Function\+\_\+e} \hyperlink{config_2rc__adjustments_8h_ad4e3d23dd3ca82d66bc32d92e4c3feac}{adjustment\+Function}, float new\+Float\+Value)
+\item 
+void \hyperlink{rc__adjustments_8c_abb9f8ddb711982bb5fd8817f61bff7e8}{rc\+\_\+adj\+\_\+add\+\_\+range} (struct \hyperlink{structrc__adj}{rc\+\_\+adj} $\ast$self, adjustment\+Range\+\_\+t $\ast$adjustment\+Range)
+\item 
+void \hyperlink{rc__adjustments_8c_a901f1f95c80b976fa512cb47a3f5a335}{rc\+\_\+adj\+\_\+update} (struct \hyperlink{structrc__adj}{rc\+\_\+adj} $\ast$self)
+\item 
+void \hyperlink{rc__adjustments_8c_ab87fc1daccb4f132e1f3145f9afc1658}{rc\+\_\+adj\+\_\+update\+\_\+states} (struct \hyperlink{structrc__adj}{rc\+\_\+adj} $\ast$self, adjustment\+Range\+\_\+t $\ast$\hyperlink{config_2rc__adjustments_8h_aff5cf8bc3a22374bf2aeb093e6212fe1}{adjustment\+Ranges})
+\item 
+void \hyperlink{rc__adjustments_8c_a9005ef80d2f29b61185aff2954cb7b54}{rc\+\_\+adj\+\_\+init} (struct \hyperlink{structrc__adj}{rc\+\_\+adj} $\ast$self, struct \hyperlink{structninja}{ninja} $\ast$\hyperlink{structninja}{ninja}, struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{rc__adjustments_8c_a845700fdaa4dd902d95741b18e97833d}{rc\+\_\+adj\+\_\+reset} (struct \hyperlink{structrc__adj}{rc\+\_\+adj} $\ast$self)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rc__adjustments_8c_a6739557c4fdf11661e5775baa6b5759d}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y@{I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}}
+\index{I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y@{I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+S\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+U\+S\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf adjustment\+Index}}
+\end{DoxyParamCaption}
+)~(self-\/$>$adjustment\+State\+Mask \& (1 $<$$<$ {\bf adjustment\+Index}))}}\label{rc__adjustments_8c_a6739557c4fdf11661e5775baa6b5759d}
+\hypertarget{rc__adjustments_8c_a4749306de0bdea29f0f4a7a081b87360}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y@{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y}}
+\index{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y@{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+B\+U\+S\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf adjustment\+Index}}
+\end{DoxyParamCaption}
+)~self-\/$>$adjustment\+State\+Mask $\vert$= (1 $<$$<$ {\bf adjustment\+Index})}}\label{rc__adjustments_8c_a4749306de0bdea29f0f4a7a081b87360}
+\hypertarget{rc__adjustments_8c_ab2543eea319c6bba15a0892cc99c7f30}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y@{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y}}
+\index{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y@{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+R\+K\+\_\+\+A\+D\+J\+U\+S\+T\+M\+E\+N\+T\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+S\+\_\+\+R\+E\+A\+D\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf adjustment\+Index}}
+\end{DoxyParamCaption}
+)~self-\/$>$adjustment\+State\+Mask \&= $\sim$(1 $<$$<$ {\bf adjustment\+Index})}}\label{rc__adjustments_8c_ab2543eea319c6bba15a0892cc99c7f30}
+\hypertarget{rc__adjustments_8c_a7b586f0a04f407534561e1d5600dbed5}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z@{R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z}}
+\index{R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z@{R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+S\+E\+T\+\_\+\+F\+R\+E\+Q\+U\+E\+N\+C\+Y\+\_\+2\+H\+Z~(1000 / 2)}}\label{rc__adjustments_8c_a7b586f0a04f407534561e1d5600dbed5}
+
+
+\subsection{Function Documentation}
+\hypertarget{rc__adjustments_8c_ad9864494c071da11aeda7cc7012d2cb1}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!blackbox\+Log\+Inflight\+Adjustment\+Event\+Float@{blackbox\+Log\+Inflight\+Adjustment\+Event\+Float}}
+\index{blackbox\+Log\+Inflight\+Adjustment\+Event\+Float@{blackbox\+Log\+Inflight\+Adjustment\+Event\+Float}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{blackbox\+Log\+Inflight\+Adjustment\+Event\+Float}]{\setlength{\rightskip}{0pt plus 5cm}void blackbox\+Log\+Inflight\+Adjustment\+Event\+Float (
+\begin{DoxyParamCaption}
+\item[{{\bf adjustment\+Function\+\_\+e}}]{adjustment\+Function, }
+\item[{float}]{new\+Float\+Value}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_ad9864494c071da11aeda7cc7012d2cb1}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc__adjustments_8c_ad9864494c071da11aeda7cc7012d2cb1_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rc__adjustments_8c_abb9f8ddb711982bb5fd8817f61bff7e8}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!rc\+\_\+adj\+\_\+add\+\_\+range@{rc\+\_\+adj\+\_\+add\+\_\+range}}
+\index{rc\+\_\+adj\+\_\+add\+\_\+range@{rc\+\_\+adj\+\_\+add\+\_\+range}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{rc\+\_\+adj\+\_\+add\+\_\+range}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+adj\+\_\+add\+\_\+range (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc\+\_\+adj} $\ast$}]{self, }
+\item[{adjustment\+Range\+\_\+t $\ast$}]{adjustment\+Range}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_abb9f8ddb711982bb5fd8817f61bff7e8}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{rc__adjustments_8c_abb9f8ddb711982bb5fd8817f61bff7e8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rc__adjustments_8c_a9005ef80d2f29b61185aff2954cb7b54}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!rc\+\_\+adj\+\_\+init@{rc\+\_\+adj\+\_\+init}}
+\index{rc\+\_\+adj\+\_\+init@{rc\+\_\+adj\+\_\+init}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{rc\+\_\+adj\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+adj\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc\+\_\+adj} $\ast$}]{self, }
+\item[{struct {\bf ninja} $\ast$}]{ninja, }
+\item[{struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_a9005ef80d2f29b61185aff2954cb7b54}
+\hypertarget{rc__adjustments_8c_a845700fdaa4dd902d95741b18e97833d}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!rc\+\_\+adj\+\_\+reset@{rc\+\_\+adj\+\_\+reset}}
+\index{rc\+\_\+adj\+\_\+reset@{rc\+\_\+adj\+\_\+reset}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{rc\+\_\+adj\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+adj\+\_\+reset (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc\+\_\+adj} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_a845700fdaa4dd902d95741b18e97833d}
+\hypertarget{rc__adjustments_8c_a901f1f95c80b976fa512cb47a3f5a335}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!rc\+\_\+adj\+\_\+update@{rc\+\_\+adj\+\_\+update}}
+\index{rc\+\_\+adj\+\_\+update@{rc\+\_\+adj\+\_\+update}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{rc\+\_\+adj\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+adj\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc\+\_\+adj} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_a901f1f95c80b976fa512cb47a3f5a335}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rc__adjustments_8c_a901f1f95c80b976fa512cb47a3f5a335_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rc__adjustments_8c_ab87fc1daccb4f132e1f3145f9afc1658}{\index{rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}!rc\+\_\+adj\+\_\+update\+\_\+states@{rc\+\_\+adj\+\_\+update\+\_\+states}}
+\index{rc\+\_\+adj\+\_\+update\+\_\+states@{rc\+\_\+adj\+\_\+update\+\_\+states}!rc\+\_\+adjustments.\+c@{rc\+\_\+adjustments.\+c}}
+\subsubsection[{rc\+\_\+adj\+\_\+update\+\_\+states}]{\setlength{\rightskip}{0pt plus 5cm}void rc\+\_\+adj\+\_\+update\+\_\+states (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rc\+\_\+adj} $\ast$}]{self, }
+\item[{adjustment\+Range\+\_\+t $\ast$}]{adjustment\+Ranges}
+\end{DoxyParamCaption}
+)}}\label{rc__adjustments_8c_ab87fc1daccb4f132e1f3145f9afc1658}

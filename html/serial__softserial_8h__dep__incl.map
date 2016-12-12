@@ -1,0 +1,9 @@
+<map id="src/main/drivers/serial_softserial.h" name="src/main/drivers/serial_softserial.h">
+<area shape="rect" id="node2" href="$io_2serial_8c.html" title="src/main/io/serial.c" alt="" coords="5,104,136,131"/>
+<area shape="rect" id="node3" href="$main_8c.html" title="src/main/main.c" alt="" coords="161,104,276,131"/>
+<area shape="rect" id="node4" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="300,104,435,131"/>
+<area shape="rect" id="node5" href="$telemetry_8c.html" title="src/main/telemetry\l/telemetry.c" alt="" coords="460,97,589,138"/>
+<area shape="rect" id="node6" href="$io__serial__unittest_8cc.html" title="src/test/unit/io_serial\l_unittest.cc" alt="" coords="614,97,756,138"/>
+<area shape="rect" id="node7" href="$msp__unittest_8cc.html" title="src/test/unit/msp_unittest.cc" alt="" coords="781,104,968,131"/>
+<area shape="rect" id="node8" href="$serial__msp__unittest_8cc.html" title="src/test/unit/serial\l_msp_unittest.cc" alt="" coords="993,97,1119,138"/>
+</map>

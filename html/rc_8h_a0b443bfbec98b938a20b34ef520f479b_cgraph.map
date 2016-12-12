@@ -1,0 +1,4 @@
+<map id="rc_init" name="rc_init">
+<area shape="rect" id="node2" href="$rc__command_8c.html#a1be34c401b7cbed06d0e1f80f6f60dc1" title="Initializes the curves with default linear ranges. " alt="" coords="127,5,249,32"/>
+<area shape="rect" id="node3" href="$rc__command_8c.html#a8931d60ef49e4f497c02c157762641ca" title="Updates internal variables to use new rates and also recalculates the lookup tables if the supplied p..." alt="" coords="113,57,263,98"/>
+</map>

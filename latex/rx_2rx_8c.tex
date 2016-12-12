@@ -1,0 +1,281 @@
+\hypertarget{rx_2rx_8c}{\section{src/main/rx/rx.c File Reference}
+\label{rx_2rx_8c}\index{src/main/rx/rx.\+c@{src/main/rx/rx.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../drivers/pwm\+\_\+rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../drivers/adc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pwm.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sbus.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spektrum.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sumd.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sumh.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}xbus.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ibus.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx.\+h\char`\"{}}\\*
+Include dependency graph for rx.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rx_2rx_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rx_2rx_8c_a54644a4de0b5c5626b4a68ee958d90db}{D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z}~(1000000 / 50)
+\item 
+\#define \hyperlink{rx_2rx_8c_aa9537b980a8aca5c5f37fed825b33e37}{D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z}~(1000000 / 10)
+\item 
+\#define \hyperlink{rx_2rx_8c_a9eb369abdf4d52b96be3684a81506334}{D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z}~(1000000 / 5)
+\item 
+\#define \hyperlink{rx_2rx_8c_a7a319f5b04078d4ffa6c035d04953a74}{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D}~1500000
+\item 
+\#define \hyperlink{rx_2rx_8c_a366eb2fc1e277ec4f81b3d0282e229d2}{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E}~2
+\item 
+\#define \hyperlink{rx_2rx_8c_a45abead2e127a40ee21d8f808cb8419c}{R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K}~0x0\+F
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rx_2rx_8c_acd16f4bc761cf1f6f012a2db89603080}{serial\+Rx\+Init} (struct \hyperlink{structrx__config}{rx\+\_\+config} $\ast$rx\+Config)
+\item 
+bool \hyperlink{rx_2rx_8c_abd96fd93c2c6c1d852259ca3faeb75c6}{is\+Pulse\+Valid} (const struct \hyperlink{structrx__config}{rx\+\_\+config} $\ast$conf, uint16\+\_\+t pulse\+Duration)
+\item 
+void \hyperlink{rx_2rx_8c_ac8ef8458c7824c8c5622b471790c403f}{rx\+\_\+init} (struct \hyperlink{structrx}{rx} $\ast$self, const struct \hyperlink{structsystem__calls}{system\+\_\+calls} $\ast$\hyperlink{config_8h_a2c2c170dddadaff6ffd4467b45986b25}{system}, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{rx_2rx_8c_a79514592272b8a9b9e81281ac22b53d8}{rx\+\_\+set\+\_\+type} (struct \hyperlink{structrx}{rx} $\ast$self, \hyperlink{rx_2rx_8h_a9af89ac92f13acbf1a8bc349ce21ba65}{rx\+\_\+type\+\_\+t} \hyperlink{fat__standard_8h_a1d127017fb298b889f4ba24752d08b8e}{type})
+\begin{DoxyCompactList}\small\item\em changes the receiver type (determines what system calls the rx system will use to get receiver data) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{rx_2rx_8c_a5951042f6cad6008737871a5de3e1f79}{serial\+Rx\+Frame\+Status} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+bool \hyperlink{rx_2rx_8c_a2bd21e47783f0d5dca6cc120720d8af7}{rx\+\_\+has\+\_\+signal} (struct \hyperlink{structrx}{rx} $\ast$self)
+\begin{DoxyCompactList}\small\item\em R\+X has signal if at least one channel is healthy. \end{DoxyCompactList}\item 
+bool \hyperlink{rx_2rx_8c_a8fec405260ae907003ad4c912d8ffc07}{rx\+\_\+is\+\_\+healthy} (struct \hyperlink{structrx}{rx} $\ast$self)
+\begin{DoxyCompactList}\small\item\em R\+X is healthy if all channels are healthy. \end{DoxyCompactList}\item 
+bool \hyperlink{rx_2rx_8c_a0c40c772a2cad4dd6ad3d3fa2fed1d9b}{rx\+\_\+flight\+\_\+channels\+\_\+valid} (struct \hyperlink{structrx}{rx} $\ast$self)
+\begin{DoxyCompactList}\small\item\em Returns true if channels 0-\/3 are active. \end{DoxyCompactList}\item 
+void \hyperlink{rx_2rx_8c_a3053040ca606418044343cbc8c727a74}{rx\+\_\+suspend\+\_\+signal} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+void \hyperlink{rx_2rx_8c_ab5d5e106e91d4a1e84188ddd200a710e}{rx\+\_\+resume\+\_\+signal} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+void \hyperlink{rx_2rx_8c_af09eb13c8a7ea08b9e3c106abd150029}{rx\+\_\+update} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+void \hyperlink{rx_2rx_8c_a21ca8fd3c6557041ac1529bcdf5f2bad}{rx\+\_\+update\+\_\+rssi} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+uint16\+\_\+t \hyperlink{rx_2rx_8c_a75de7aed693f34674874a4682cbaf02c}{rx\+\_\+get\+\_\+refresh\+\_\+rate} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+uint16\+\_\+t \hyperlink{rx_2rx_8c_a8b923e87036c0d4a68fe547cc78a015e}{rx\+\_\+get\+\_\+rssi} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+uint8\+\_\+t \hyperlink{rx_2rx_8c_a1545533bac20ccdfc879a2202cc103a6}{rx\+\_\+get\+\_\+channel\+\_\+count} (struct \hyperlink{structrx}{rx} $\ast$self)
+\item 
+int16\+\_\+t \hyperlink{rx_2rx_8c_a527cff8e1e26ba1124119aaa4cea4815}{rx\+\_\+get\+\_\+channel} (struct \hyperlink{structrx}{rx} $\ast$self, uint8\+\_\+t chan)
+\begin{DoxyCompactList}\small\item\em Get channel value. Returns interval \mbox{[}rx\+\_\+min\+\_\+usec;rx\+\_\+max\+\_\+usec\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rx_2rx_8c_aa9537b980a8aca5c5f37fed825b33e37}{\index{rx/rx.\+c@{rx/rx.\+c}!D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z}}
+\index{D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+L\+A\+Y\+\_\+10\+\_\+\+H\+Z~(1000000 / 10)}}\label{rx_2rx_8c_aa9537b980a8aca5c5f37fed825b33e37}
+\hypertarget{rx_2rx_8c_a54644a4de0b5c5626b4a68ee958d90db}{\index{rx/rx.\+c@{rx/rx.\+c}!D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z}}
+\index{D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+L\+A\+Y\+\_\+50\+\_\+\+H\+Z~(1000000 / 50)}}\label{rx_2rx_8c_a54644a4de0b5c5626b4a68ee958d90db}
+\hypertarget{rx_2rx_8c_a9eb369abdf4d52b96be3684a81506334}{\index{rx/rx.\+c@{rx/rx.\+c}!D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z}}
+\index{D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z@{D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+L\+A\+Y\+\_\+5\+\_\+\+H\+Z~(1000000 / 5)}}\label{rx_2rx_8c_a9eb369abdf4d52b96be3684a81506334}
+\hypertarget{rx_2rx_8c_a45abead2e127a40ee21d8f808cb8419c}{\index{rx/rx.\+c@{rx/rx.\+c}!R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K@{R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K}}
+\index{R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K@{R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+M\+A\+S\+K~0x0\+F}}\label{rx_2rx_8c_a45abead2e127a40ee21d8f808cb8419c}
+\hypertarget{rx_2rx_8c_a7a319f5b04078d4ffa6c035d04953a74}{\index{rx/rx.\+c@{rx/rx.\+c}!S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D@{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D}}
+\index{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D@{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+O\+N\+\_\+\+S\+U\+S\+P\+E\+N\+D\+\_\+\+P\+E\+R\+I\+O\+D~1500000}}\label{rx_2rx_8c_a7a319f5b04078d4ffa6c035d04953a74}
+\hypertarget{rx_2rx_8c_a366eb2fc1e277ec4f81b3d0282e229d2}{\index{rx/rx.\+c@{rx/rx.\+c}!S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E@{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E}}
+\index{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E@{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+K\+I\+P\+\_\+\+R\+C\+\_\+\+S\+A\+M\+P\+L\+E\+S\+\_\+\+O\+N\+\_\+\+R\+E\+S\+U\+M\+E~2}}\label{rx_2rx_8c_a366eb2fc1e277ec4f81b3d0282e229d2}
+
+
+\subsection{Function Documentation}
+\hypertarget{rx_2rx_8c_abd96fd93c2c6c1d852259ca3faeb75c6}{\index{rx/rx.\+c@{rx/rx.\+c}!is\+Pulse\+Valid@{is\+Pulse\+Valid}}
+\index{is\+Pulse\+Valid@{is\+Pulse\+Valid}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{is\+Pulse\+Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Pulse\+Valid (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf rx\+\_\+config} $\ast$}]{conf, }
+\item[{uint16\+\_\+t}]{pulse\+Duration}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_abd96fd93c2c6c1d852259ca3faeb75c6}
+\hypertarget{rx_2rx_8c_a0c40c772a2cad4dd6ad3d3fa2fed1d9b}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+flight\+\_\+channels\+\_\+valid@{rx\+\_\+flight\+\_\+channels\+\_\+valid}}
+\index{rx\+\_\+flight\+\_\+channels\+\_\+valid@{rx\+\_\+flight\+\_\+channels\+\_\+valid}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+flight\+\_\+channels\+\_\+valid}]{\setlength{\rightskip}{0pt plus 5cm}bool rx\+\_\+flight\+\_\+channels\+\_\+valid (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a0c40c772a2cad4dd6ad3d3fa2fed1d9b}
+
+
+Returns true if channels 0-\/3 are active. 
+
+\hypertarget{rx_2rx_8c_a527cff8e1e26ba1124119aaa4cea4815}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+get\+\_\+channel@{rx\+\_\+get\+\_\+channel}}
+\index{rx\+\_\+get\+\_\+channel@{rx\+\_\+get\+\_\+channel}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+get\+\_\+channel}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t rx\+\_\+get\+\_\+channel (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self, }
+\item[{uint8\+\_\+t}]{chan}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a527cff8e1e26ba1124119aaa4cea4815}
+
+
+Get channel value. Returns interval \mbox{[}rx\+\_\+min\+\_\+usec;rx\+\_\+max\+\_\+usec\mbox{]}. 
+
+\hypertarget{rx_2rx_8c_a1545533bac20ccdfc879a2202cc103a6}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+get\+\_\+channel\+\_\+count@{rx\+\_\+get\+\_\+channel\+\_\+count}}
+\index{rx\+\_\+get\+\_\+channel\+\_\+count@{rx\+\_\+get\+\_\+channel\+\_\+count}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+get\+\_\+channel\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rx\+\_\+get\+\_\+channel\+\_\+count (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a1545533bac20ccdfc879a2202cc103a6}
+\hypertarget{rx_2rx_8c_a75de7aed693f34674874a4682cbaf02c}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+get\+\_\+refresh\+\_\+rate@{rx\+\_\+get\+\_\+refresh\+\_\+rate}}
+\index{rx\+\_\+get\+\_\+refresh\+\_\+rate@{rx\+\_\+get\+\_\+refresh\+\_\+rate}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+get\+\_\+refresh\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+get\+\_\+refresh\+\_\+rate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a75de7aed693f34674874a4682cbaf02c}
+\hypertarget{rx_2rx_8c_a8b923e87036c0d4a68fe547cc78a015e}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+get\+\_\+rssi@{rx\+\_\+get\+\_\+rssi}}
+\index{rx\+\_\+get\+\_\+rssi@{rx\+\_\+get\+\_\+rssi}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+get\+\_\+rssi}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t rx\+\_\+get\+\_\+rssi (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a8b923e87036c0d4a68fe547cc78a015e}
+\hypertarget{rx_2rx_8c_a2bd21e47783f0d5dca6cc120720d8af7}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+has\+\_\+signal@{rx\+\_\+has\+\_\+signal}}
+\index{rx\+\_\+has\+\_\+signal@{rx\+\_\+has\+\_\+signal}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+has\+\_\+signal}]{\setlength{\rightskip}{0pt plus 5cm}bool rx\+\_\+has\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a2bd21e47783f0d5dca6cc120720d8af7}
+
+
+R\+X has signal if at least one channel is healthy. 
+
+\hypertarget{rx_2rx_8c_ac8ef8458c7824c8c5622b471790c403f}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+init@{rx\+\_\+init}}
+\index{rx\+\_\+init@{rx\+\_\+init}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self, }
+\item[{const struct {\bf system\+\_\+calls} $\ast$}]{system, }
+\item[{const struct {\bf config} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_ac8ef8458c7824c8c5622b471790c403f}
+\hypertarget{rx_2rx_8c_a8fec405260ae907003ad4c912d8ffc07}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+is\+\_\+healthy@{rx\+\_\+is\+\_\+healthy}}
+\index{rx\+\_\+is\+\_\+healthy@{rx\+\_\+is\+\_\+healthy}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+is\+\_\+healthy}]{\setlength{\rightskip}{0pt plus 5cm}bool rx\+\_\+is\+\_\+healthy (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a8fec405260ae907003ad4c912d8ffc07}
+
+
+R\+X is healthy if all channels are healthy. 
+
+\hypertarget{rx_2rx_8c_ab5d5e106e91d4a1e84188ddd200a710e}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+resume\+\_\+signal@{rx\+\_\+resume\+\_\+signal}}
+\index{rx\+\_\+resume\+\_\+signal@{rx\+\_\+resume\+\_\+signal}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+resume\+\_\+signal}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+resume\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_ab5d5e106e91d4a1e84188ddd200a710e}
+\hypertarget{rx_2rx_8c_a79514592272b8a9b9e81281ac22b53d8}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+set\+\_\+type@{rx\+\_\+set\+\_\+type}}
+\index{rx\+\_\+set\+\_\+type@{rx\+\_\+set\+\_\+type}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+set\+\_\+type}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+set\+\_\+type (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self, }
+\item[{{\bf rx\+\_\+type\+\_\+t}}]{type}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a79514592272b8a9b9e81281ac22b53d8}
+
+
+changes the receiver type (determines what system calls the rx system will use to get receiver data) 
+
+Sets receiver type. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{rx_2rx_8c_a79514592272b8a9b9e81281ac22b53d8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rx_2rx_8c_a3053040ca606418044343cbc8c727a74}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+suspend\+\_\+signal@{rx\+\_\+suspend\+\_\+signal}}
+\index{rx\+\_\+suspend\+\_\+signal@{rx\+\_\+suspend\+\_\+signal}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+suspend\+\_\+signal}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+suspend\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a3053040ca606418044343cbc8c727a74}
+\hypertarget{rx_2rx_8c_af09eb13c8a7ea08b9e3c106abd150029}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+update@{rx\+\_\+update}}
+\index{rx\+\_\+update@{rx\+\_\+update}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+update}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+update (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_af09eb13c8a7ea08b9e3c106abd150029}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{rx_2rx_8c_af09eb13c8a7ea08b9e3c106abd150029_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rx_2rx_8c_a21ca8fd3c6557041ac1529bcdf5f2bad}{\index{rx/rx.\+c@{rx/rx.\+c}!rx\+\_\+update\+\_\+rssi@{rx\+\_\+update\+\_\+rssi}}
+\index{rx\+\_\+update\+\_\+rssi@{rx\+\_\+update\+\_\+rssi}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{rx\+\_\+update\+\_\+rssi}]{\setlength{\rightskip}{0pt plus 5cm}void rx\+\_\+update\+\_\+rssi (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a21ca8fd3c6557041ac1529bcdf5f2bad}
+\hypertarget{rx_2rx_8c_a5951042f6cad6008737871a5de3e1f79}{\index{rx/rx.\+c@{rx/rx.\+c}!serial\+Rx\+Frame\+Status@{serial\+Rx\+Frame\+Status}}
+\index{serial\+Rx\+Frame\+Status@{serial\+Rx\+Frame\+Status}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{serial\+Rx\+Frame\+Status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t serial\+Rx\+Frame\+Status (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_a5951042f6cad6008737871a5de3e1f79}
+F\+I\+X\+M\+E\+: Each of the xxxx\+Frame\+Status() methods M\+U\+S\+T be able to survive being called without the corresponding xxx\+Init() method having been called first.
+
+This situation arises when the cli or the msp changes the value of rx\+Config-\/$>$serialrx\+\_\+provider
+
+A solution is for the \+\_\+\+\_\+\+\_\+\+Init() to configure the serial\+Rx\+Frame\+Status function pointer which should be used instead of the switch statement below.
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{rx_2rx_8c_a5951042f6cad6008737871a5de3e1f79_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{rx_2rx_8c_acd16f4bc761cf1f6f012a2db89603080}{\index{rx/rx.\+c@{rx/rx.\+c}!serial\+Rx\+Init@{serial\+Rx\+Init}}
+\index{serial\+Rx\+Init@{serial\+Rx\+Init}!rx/rx.\+c@{rx/rx.\+c}}
+\subsubsection[{serial\+Rx\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void serial\+Rx\+Init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rx\+\_\+config} $\ast$}]{rx\+Config}
+\end{DoxyParamCaption}
+)}}\label{rx_2rx_8c_acd16f4bc761cf1f6f012a2db89603080}

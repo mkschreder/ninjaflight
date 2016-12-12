@@ -1,0 +1,8 @@
+<map id="src/main/sensors/initialisation.h" name="src/main/sensors/initialisation.h">
+<area shape="rect" id="node2" href="$main_8c.html" title="src/main/main.c" alt="" coords="5,80,120,107"/>
+<area shape="rect" id="node3" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="144,80,259,107"/>
+<area shape="rect" id="node4" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="283,80,439,107"/>
+<area shape="rect" id="node5" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="463,80,605,107"/>
+<area shape="rect" id="node6" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="631,80,836,107"/>
+<area shape="rect" id="node7" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="860,80,995,107"/>
+</map>

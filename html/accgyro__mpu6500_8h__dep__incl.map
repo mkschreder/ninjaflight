@@ -1,0 +1,8 @@
+<map id="src/main/drivers/accgyro_mpu6500.h" name="src/main/drivers/accgyro_mpu6500.h">
+<area shape="rect" id="node2" href="$accgyro__mpu_8c.html" title="src/main/drivers/accgyro\l_mpu.c" alt="" coords="5,97,169,138"/>
+<area shape="rect" id="node3" href="$accgyro__mpu6500_8c.html" title="src/main/drivers/accgyro\l_mpu6500.c" alt="" coords="195,97,359,138"/>
+<area shape="rect" id="node4" href="$accgyro__spi__mpu6500_8c.html" title="src/main/drivers/accgyro\l_spi_mpu6500.c" alt="" coords="384,97,548,138"/>
+<area shape="rect" id="node5" href="$compass__ak8963_8c.html" title="src/main/drivers/compass\l_ak8963.c" alt="" coords="574,97,745,138"/>
+<area shape="rect" id="node6" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="771,104,976,131"/>
+<area shape="rect" id="node7" href="$NAZE_2hardware__revision_8c.html" title="src/main/target/NAZE\l/hardware_revision.c" alt="" coords="1000,97,1148,138"/>
+</map>

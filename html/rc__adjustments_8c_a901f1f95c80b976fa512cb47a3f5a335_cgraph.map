@@ -1,0 +1,7 @@
+<map id="rc_adj_update" name="rc_adj_update">
+<area shape="rect" id="node2" href="$rx_2rx_8c.html#a2bd21e47783f0d5dca6cc120720d8af7" title="RX has signal if at least one channel is healthy. " alt="" coords="194,5,297,32"/>
+<area shape="rect" id="node3" href="$rx_2rx_8c.html#a527cff8e1e26ba1124119aaa4cea4815" title="Get channel value. Returns interval [rx_min_usec;rx_max_usec]. " alt="" coords="190,56,301,83"/>
+<area shape="rect" id="node4" href="$group__config.html#gac3170633e7100e518a3174d3ac162c2a" title="config_get_rate_profile_rw" alt="" coords="158,107,333,133"/>
+<area shape="rect" id="node6" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="208,157,283,184"/>
+<area shape="rect" id="node5" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="382,107,506,133"/>
+</map>

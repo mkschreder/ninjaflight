@@ -1,0 +1,81 @@
+\hypertarget{flight_2mixer_8h}{\section{src/main/flight/mixer.h File Reference}
+\label{flight_2mixer_8h}\index{src/main/flight/mixer.\+h@{src/main/flight/mixer.\+h}}
+}
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../config/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../config/rc\+\_\+controls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../config/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../common/filter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}../common/maths.\+h\char`\"{}}\\*
+Include dependency graph for mixer.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight_2mixer_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight_2mixer_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmixer}{mixer}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flight_2mixer_8h_ae43e842aeca6e4a3ec3f4fc3c8ab2981}{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W}~80
+\item 
+\#define \hyperlink{flight_2mixer_8h_a60c1efd6cb5622bc8283e6d8a9686e7a}{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H}~500
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{flight_2mixer_8h_a2bd8fee2474a0beb7688edf83a8ff369}{mixer\+\_\+init} (struct \hyperlink{structmixer}{mixer} $\ast$self, const struct \hyperlink{structconfig}{config} $\ast$\hyperlink{structconfig}{config}, const struct \hyperlink{structsystem__calls__pwm}{system\+\_\+calls\+\_\+pwm} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em initializes a mixer struct \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_gaedfa8863c1b4819082c4349bc4f053be}{mixer\+\_\+input\+\_\+command} (struct \hyperlink{structmixer}{mixer} $\ast$self, \hyperlink{config_2mixer_8h_a0d4a27769492fd12822190587e6b482a}{mixer\+\_\+input\+\_\+t} i, int16\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em inputs a command to one of the input channels of the mixer \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_ga724983e86f9da0e57f4aa4ec495d2d87}{mixer\+\_\+update} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em calculates outputs from all mixer inputs and mixing rules \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_ga2250ad03e802112ed15b702ba86faaf4}{mixer\+\_\+enable\+\_\+armed} (struct \hyperlink{structmixer}{mixer} $\ast$self, bool on)
+\begin{DoxyCompactList}\small\item\em puts mixer into armed state so that outputs are calculated (T\+O\+D\+O\+: this should probably be placed outside of the mixer!) \end{DoxyCompactList}\item 
+bool \hyperlink{group__MIXER_gad159e060c41bada3e06ecb889517533e}{mixer\+\_\+motor\+\_\+limit\+\_\+reached} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em tests if any of the motors have reached their limit (usually maxthrottle) \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_gabff36b1d8ccaf72b089c8776573a00e8}{mixer\+\_\+set\+\_\+throttle\+\_\+range} (struct \hyperlink{structmixer}{mixer} $\ast$self, int16\+\_\+t mid, int16\+\_\+t \hyperlink{config_2rx_8h_a1a1f4624f66ab0b2eb0b98316514c369}{min}, int16\+\_\+t \hyperlink{config_2rx_8h_ac66b569507cc273bbf83ce5dd5f70e84}{max})
+\begin{DoxyCompactList}\small\item\em sets throttle range of the mixer (can be used to set 3d throttle range too) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{group__MIXER_gab6ecb3be636e39dc1582e4bb448c3bf7}{mixer\+\_\+get\+\_\+motor\+\_\+count} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns total number of motors that are being actively mixed by the mixer as part of current profile \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{group__MIXER_gaec0e6d4ba020b8ae1b3d593afdbd4586}{mixer\+\_\+get\+\_\+servo\+\_\+count} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em returns total number of servos that are being actively mxier by the mixer as part of current profile \end{DoxyCompactList}\item 
+void \hyperlink{group__MIXER_gadc257851e57bc3de20fe776f8fca0a78}{mixer\+\_\+clear\+\_\+rules} (struct \hyperlink{structmixer}{mixer} $\ast$self)
+\begin{DoxyCompactList}\small\item\em saves motor mixer into cleanflight motor mixer format \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{flight_2mixer_8h_a60c1efd6cb5622bc8283e6d8a9686e7a}{\index{flight/mixer.\+h@{flight/mixer.\+h}!Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H@{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H}}
+\index{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H@{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H}!flight/mixer.\+h@{flight/mixer.\+h}}
+\subsubsection[{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+H\+I\+G\+H~500}}\label{flight_2mixer_8h_a60c1efd6cb5622bc8283e6d8a9686e7a}
+\hypertarget{flight_2mixer_8h_ae43e842aeca6e4a3ec3f4fc3c8ab2981}{\index{flight/mixer.\+h@{flight/mixer.\+h}!Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W@{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W}}
+\index{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W@{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W}!flight/mixer.\+h@{flight/mixer.\+h}}
+\subsubsection[{Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W}]{\setlength{\rightskip}{0pt plus 5cm}\#define Y\+A\+W\+\_\+\+J\+U\+M\+P\+\_\+\+P\+R\+E\+V\+E\+N\+T\+I\+O\+N\+\_\+\+L\+I\+M\+I\+T\+\_\+\+L\+O\+W~80}}\label{flight_2mixer_8h_ae43e842aeca6e4a3ec3f4fc3c8ab2981}
+
+
+\subsection{Function Documentation}
+\hypertarget{flight_2mixer_8h_a2bd8fee2474a0beb7688edf83a8ff369}{\index{flight/mixer.\+h@{flight/mixer.\+h}!mixer\+\_\+init@{mixer\+\_\+init}}
+\index{mixer\+\_\+init@{mixer\+\_\+init}!flight/mixer.\+h@{flight/mixer.\+h}}
+\subsubsection[{mixer\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void mixer\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{struct {\bf mixer} $\ast$}]{self, }
+\item[{const struct {\bf config} $\ast$}]{config, }
+\item[{const struct {\bf system\+\_\+calls\+\_\+pwm} $\ast$}]{pwm}
+\end{DoxyParamCaption}
+)}}\label{flight_2mixer_8h_a2bd8fee2474a0beb7688edf83a8ff369}
+
+
+initializes a mixer struct 
+

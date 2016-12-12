@@ -1,0 +1,150 @@
+The C\+J\+M\+C\+U is a tiny (80mm) board running a S\+T\+M32\+F103, which contains a 3-\/\+Axis Compass (H\+M\+C5883\+L) and an Accelerometer/\+Gyro (M\+P\+U6050).
+
+This board does not have an onboard U\+S\+B-\/\+Serial converter, so an external adapter is needed.
+
+\section*{Hardware revisions}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Revision }&{\bf Notes  }\\\cline{1-2}
+1 &No boot jumper pads by L\+E\+D1. Uses blue and red L\+E\+Ds \\\cline{1-2}
+2 &Boot jumper pads presoldered with pins and a jumper by L\+E\+D1. Uses green and red L\+E\+Ds. \\\cline{1-2}
+\end{TabularC}
+Version 2 boards are supported from firmware v1.\+4.\+0 onwards, do N\+O\+T flash earlier versions to version 2 boards.
+
+\section*{Pins}
+
+\subsection*{R\+X Connections}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Pin Label }&{\bf Description  }\\\cline{1-2}
+P\+A0 &R\+C Channel 1 \\\cline{1-2}
+P\+A1 &R\+C Channel 2 \\\cline{1-2}
+P\+A2 &R\+C Channel 3 / U\+S\+A\+R\+T2 T\+X \\\cline{1-2}
+P\+A3 &R\+C Channel 4 / U\+S\+A\+R\+T2 R\+X \\\cline{1-2}
+V\+C\+C &Power (See note) \\\cline{1-2}
+G\+N\+D &Ground \\\cline{1-2}
+\end{TabularC}
+N\+O\+T\+E\+: The V\+C\+C R\+X Pin is not regulated and will supply what ever voltage is provided to the board, this will mean it'll provide 5v if a 5v serial connection is used. Be careful if you are using a voltage sensitive R\+X. A regulated 3.\+3v supply can be found on the top pin of column 1, just below the R\+X G\+N\+D pin.
+
+\subsection*{Serial Connections}
+
+U\+S\+A\+R\+T1 (along with power) is on the following pins.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Pin Label }&{\bf Description  }\\\cline{1-2}
+T\+X1 &U\+A\+R\+T1 T\+X \\\cline{1-2}
+R\+X1 &U\+A\+R\+T2 R\+X \\\cline{1-2}
+G\+N\+D &Ground \\\cline{1-2}
+3\+V3 &Power +3.3v \\\cline{1-2}
+5\+V &Power +5v \\\cline{1-2}
+\end{TabularC}
+U\+S\+A\+R\+T2 is the following pins.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Pin Label }&{\bf Description  }\\\cline{1-2}
+P\+A2 &U\+S\+A\+R\+T2 T\+X \\\cline{1-2}
+P\+A3 &U\+S\+A\+R\+T2 R\+X \\\cline{1-2}
+\end{TabularC}
+
+
+\subsection*{Power Connections}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Pin Label }&{\bf Description  }\\\cline{1-2}
+Power + &Power -\/ 1 Cell 3.\+7v Max \\\cline{1-2}
+Power -\/ &Ground \\\cline{1-2}
+\end{TabularC}
+\subsection*{Motor Connections}
+
+In standard Q\+U\+A\+D\+X configuration, the motors are mapped\+:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Cleanflight }&{\bf C\+J\+M\+C\+U  }\\\cline{1-2}
+Motor 1 &Motor3 \\\cline{1-2}
+Motor 2 &Motor2 \\\cline{1-2}
+Motor 3 &Motor4 \\\cline{1-2}
+Motor 4 &Motor1 \\\cline{1-2}
+\end{TabularC}
+It is therefore simplest to wire the motors\+:
+\begin{DoxyItemize}
+\item Motor 1 -\/$>$ Clockwise
+\item Motor 2 -\/$>$ Anti-\/\+Clockwise
+\item Motor 3 -\/$>$ Clockwise
+\item Motor 4 -\/$>$ Anti-\/\+Clockwise
+\end{DoxyItemize}
+
+If you are using the Hubsan x4/\+Ladybird motors, clockwise are Blue (G\+N\+D) / Red (V\+C\+C) wires, anticlockwise are Black (G\+N\+D) / White (V\+C\+C). i.\+e. there is one wire on each motor out of the standard R\+E\+D/\+B\+L\+A\+C\+K V\+C\+C/\+G\+N\+D polarity colors that can be used to identify polarity.
+
+If you have wired as above, Motor1/\+Motor2 on the board will be forward.
+
+\section*{Connecting a Serial-\/\+U\+S\+B Adapter}
+
+You will need a U\+S\+B -\/$>$ Serial U\+A\+R\+T adapter. Connect\+:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Adapter }&{\bf C\+J\+M\+C\+U  }\\\cline{1-2}
+Either 3.\+3v O\+R 5v &The correct 3.\+3v O\+R 5v pin \\\cline{1-2}
+R\+X &T\+X \\\cline{1-2}
+T\+X &R\+X \\\cline{1-2}
+\end{TabularC}
+When first connected this should power up the board, and will be in bootloader mode. If this does not happen, check the charge switch is set to P\+O\+W. After the flashing process has been completed, this will allow access via the cleanflight configurator to change settings or flash a new firmware.
+
+W\+A\+R\+N\+I\+N\+G\+: If the motors are connected and the board boots into the bootloader, they will start to spin after around 20 seconds, it is recommended not to connect the motors until the board is flashed.
+
+\section*{Flashing}
+
+To flash the board\+:
+\begin{DoxyItemize}
+\item Open Cleanflight Configurator
+\item Choose the latest C\+J\+M\+C\+U firmware from the list.
+\item Select \char`\"{}\+Load Firmware \mbox{[}\+Online\mbox{]}\char`\"{} and wait for the firmware to download.
+\item Tick \char`\"{}\+No Reboot Sequence\char`\"{} and \char`\"{}\+Full Chip Erase\char`\"{}
+\item Connect the U\+S\+B-\/$>$Serial adapter to the board
+\item Select the U\+S\+B-\/\+U\+A\+R\+T adapter from the top left box
+\item Click \char`\"{}\+Flash Firmware\char`\"{}
+\item You should see \char`\"{}\+Programming\+: S\+U\+C\+C\+E\+S\+S\+F\+U\+L\char`\"{} in the log box
+\item Click \char`\"{}\+Connect\char`\"{} -\/$>$ This should open the \char`\"{}\+Initial Setup\char`\"{} tab and you should see sensor data from the quad shown
+\item Unplug the quad and short the 2 \char`\"{}\+B\+O\+O\+T0\char`\"{} pins. Revision 1 boards require this to be soldered, revision 2 boards can connect the included jumper to the two pre-\/soldered pins -\/ This prevents the board from going into bootloader mode on next boot, if anything goes wrong, simply disconnect these two pins and the bootloader will start, allowing you to reflash. You cannot overwrite the bootloader.
+\end{DoxyItemize}
+
+\section*{Charging}
+
+The C\+J\+M\+C\+U has on it a T\+P4056 Lithium battery charging I\+C that can charge a 1\+S battery at 1\+A using a provided 5v supply attached to the 5v serial pin.
+
+To charge an attached battery\+:
+\begin{DoxyItemize}
+\item Set the power switch to O\+F\+F
+\item Set the charge switch to C\+H\+G
+\item Plug in a 1\+S battery to the battery pins
+\item Plug in a 5v supply to the 5v serial pins
+\end{DoxyItemize}
+
+The charger will finish when either the battery reaches 4.\+2v, or the battery's voltage is greater than the charger's input voltage.
+
+The two nearby L\+E\+Ds will show the status of charging\+:
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Status }&{\bf Green L\+E\+D }&{\bf Red L\+E\+D  }\\\cline{1-3}
+Charging &On &Off \\\cline{1-3}
+Finished &Off &On \\\cline{1-3}
+5v not connected &Off &Off \\\cline{1-3}
+Batt not connected &Flashing &On \\\cline{1-3}
+\end{TabularC}
+
+
+\section*{Helpful Hints}
+
+
+\begin{DoxyItemize}
+\item If you are only using a 4 channel R\+X, in the auxiliary configuration tab, you can add a \char`\"{}\+Horizon\char`\"{} mode range around 1500 for one of the the A\+U\+X channels which will result in it being always on
+\item Enabling the feature M\+O\+T\+O\+R\+\_\+\+S\+T\+O\+P helps with crashes so it doesn't try to keep spinning on its back
+\item When the power runs low, the quad will start jumping around a bit, if the flight behaviour seems strange, check your batteries charge 
+\end{DoxyItemize}

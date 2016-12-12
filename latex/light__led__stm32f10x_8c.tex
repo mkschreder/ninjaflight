@@ -1,0 +1,131 @@
+\hypertarget{light__led__stm32f10x_8c}{\section{src/main/drivers/light\+\_\+led\+\_\+stm32f10x.c File Reference}
+\label{light__led__stm32f10x_8c}\index{src/main/drivers/light\+\_\+led\+\_\+stm32f10x.\+c@{src/main/drivers/light\+\_\+led\+\_\+stm32f10x.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}light\+\_\+led.\+h\char`\"{}}\\*
+Include dependency graph for light\+\_\+led\+\_\+stm32f10x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{light__led__stm32f10x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_aebc6389533d9fc8dcbe4d2129a4d5a45}{L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_aef2e39b9fd343d0e437fac0463f3e02d}{L\+E\+D0\+\_\+\+O\+F\+F}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_a1e48dc02333bfc2e6ad3e5bd466eecd4}{L\+E\+D0\+\_\+\+O\+N}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_a267fdbba1d750146b73da35c1731fd17}{L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_a343fd2d3ce61b84f88ddfaea32c67c58}{L\+E\+D1\+\_\+\+O\+F\+F}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_aadd4c7ae0cd4e9bbb17f7055dd51fe08}{L\+E\+D1\+\_\+\+O\+N}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_acd16785845ce7004334b91a98707f8eb}{L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_ac6468b1df4dfabcca0bb142044d6f976}{L\+E\+D2\+\_\+\+O\+F\+F}~do \{\} while(0)
+\item 
+\#define \hyperlink{light__led__stm32f10x_8c_ab55f588eb2c5177d3f7806e60d379fba}{L\+E\+D2\+\_\+\+O\+N}~do \{\} while(0)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{light__led__stm32f10x_8c_a8b1dd741937a8c0d266cf2ab7986f525}{led\+\_\+toggle} (int id)
+\item 
+void \hyperlink{group__scheduler_ga4a7f2ef4eb60c70033b51343c9e7075a}{led\+\_\+on} (int id)
+\item 
+void \hyperlink{group__scheduler_ga853f476fe49866f93159854c5f1c8c10}{led\+\_\+off} (int id)
+\item 
+void \hyperlink{light__led__stm32f10x_8c_a48152f9f47876d73f04c7d2231d3facb}{led\+\_\+init} (bool alternative\+\_\+led)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\hyperlink{structGPIO__TypeDef}{GPIO\_TypeDef} $\ast$ \hyperlink{light__led__stm32f10x_8c_a9d9aec8d08779b9692169a2f5b3281e0}{gpio}\\
+\>uint16\_t \hyperlink{light__led__stm32f10x_8c_a4144813adfa4dfe7e7cbeea17d1b06eb}{pin}\\
+\} \hyperlink{light__led__stm32f10x_8c_ab399fbaa5fa7e23d12db2a0035a82342}{led\_config} \mbox{[}3\mbox{]}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{light__led__stm32f10x_8c_aef2e39b9fd343d0e437fac0463f3e02d}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D0\+\_\+\+O\+F\+F@{L\+E\+D0\+\_\+\+O\+F\+F}}
+\index{L\+E\+D0\+\_\+\+O\+F\+F@{L\+E\+D0\+\_\+\+O\+F\+F}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D0\+\_\+\+O\+F\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D0\+\_\+\+O\+F\+F~do \{\} while(0)}}\label{light__led__stm32f10x_8c_aef2e39b9fd343d0e437fac0463f3e02d}
+\hypertarget{light__led__stm32f10x_8c_a1e48dc02333bfc2e6ad3e5bd466eecd4}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D0\+\_\+\+O\+N@{L\+E\+D0\+\_\+\+O\+N}}
+\index{L\+E\+D0\+\_\+\+O\+N@{L\+E\+D0\+\_\+\+O\+N}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D0\+\_\+\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D0\+\_\+\+O\+N~do \{\} while(0)}}\label{light__led__stm32f10x_8c_a1e48dc02333bfc2e6ad3e5bd466eecd4}
+\hypertarget{light__led__stm32f10x_8c_aebc6389533d9fc8dcbe4d2129a4d5a45}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E}}
+\index{L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D0\+\_\+\+T\+O\+G\+G\+L\+E~do \{\} while(0)}}\label{light__led__stm32f10x_8c_aebc6389533d9fc8dcbe4d2129a4d5a45}
+\hypertarget{light__led__stm32f10x_8c_a343fd2d3ce61b84f88ddfaea32c67c58}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D1\+\_\+\+O\+F\+F@{L\+E\+D1\+\_\+\+O\+F\+F}}
+\index{L\+E\+D1\+\_\+\+O\+F\+F@{L\+E\+D1\+\_\+\+O\+F\+F}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D1\+\_\+\+O\+F\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D1\+\_\+\+O\+F\+F~do \{\} while(0)}}\label{light__led__stm32f10x_8c_a343fd2d3ce61b84f88ddfaea32c67c58}
+\hypertarget{light__led__stm32f10x_8c_aadd4c7ae0cd4e9bbb17f7055dd51fe08}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D1\+\_\+\+O\+N@{L\+E\+D1\+\_\+\+O\+N}}
+\index{L\+E\+D1\+\_\+\+O\+N@{L\+E\+D1\+\_\+\+O\+N}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D1\+\_\+\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D1\+\_\+\+O\+N~do \{\} while(0)}}\label{light__led__stm32f10x_8c_aadd4c7ae0cd4e9bbb17f7055dd51fe08}
+\hypertarget{light__led__stm32f10x_8c_a267fdbba1d750146b73da35c1731fd17}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E}}
+\index{L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D1\+\_\+\+T\+O\+G\+G\+L\+E~do \{\} while(0)}}\label{light__led__stm32f10x_8c_a267fdbba1d750146b73da35c1731fd17}
+\hypertarget{light__led__stm32f10x_8c_ac6468b1df4dfabcca0bb142044d6f976}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D2\+\_\+\+O\+F\+F@{L\+E\+D2\+\_\+\+O\+F\+F}}
+\index{L\+E\+D2\+\_\+\+O\+F\+F@{L\+E\+D2\+\_\+\+O\+F\+F}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D2\+\_\+\+O\+F\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D2\+\_\+\+O\+F\+F~do \{\} while(0)}}\label{light__led__stm32f10x_8c_ac6468b1df4dfabcca0bb142044d6f976}
+\hypertarget{light__led__stm32f10x_8c_ab55f588eb2c5177d3f7806e60d379fba}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D2\+\_\+\+O\+N@{L\+E\+D2\+\_\+\+O\+N}}
+\index{L\+E\+D2\+\_\+\+O\+N@{L\+E\+D2\+\_\+\+O\+N}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D2\+\_\+\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D2\+\_\+\+O\+N~do \{\} while(0)}}\label{light__led__stm32f10x_8c_ab55f588eb2c5177d3f7806e60d379fba}
+\hypertarget{light__led__stm32f10x_8c_acd16785845ce7004334b91a98707f8eb}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E}}
+\index{L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E@{L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D2\+\_\+\+T\+O\+G\+G\+L\+E~do \{\} while(0)}}\label{light__led__stm32f10x_8c_acd16785845ce7004334b91a98707f8eb}
+
+
+\subsection{Function Documentation}
+\hypertarget{light__led__stm32f10x_8c_a48152f9f47876d73f04c7d2231d3facb}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!led\+\_\+init@{led\+\_\+init}}
+\index{led\+\_\+init@{led\+\_\+init}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{led\+\_\+init}]{\setlength{\rightskip}{0pt plus 5cm}void led\+\_\+init (
+\begin{DoxyParamCaption}
+\item[{bool}]{alternative\+\_\+led}
+\end{DoxyParamCaption}
+)}}\label{light__led__stm32f10x_8c_a48152f9f47876d73f04c7d2231d3facb}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{light__led__stm32f10x_8c_a48152f9f47876d73f04c7d2231d3facb_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{light__led__stm32f10x_8c_a8b1dd741937a8c0d266cf2ab7986f525}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!led\+\_\+toggle@{led\+\_\+toggle}}
+\index{led\+\_\+toggle@{led\+\_\+toggle}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{led\+\_\+toggle}]{\setlength{\rightskip}{0pt plus 5cm}void led\+\_\+toggle (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{light__led__stm32f10x_8c_a8b1dd741937a8c0d266cf2ab7986f525}
+
+
+\subsection{Variable Documentation}
+\hypertarget{light__led__stm32f10x_8c_a9d9aec8d08779b9692169a2f5b3281e0}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!gpio@{gpio}}
+\index{gpio@{gpio}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{gpio}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\+P\+I\+O\+\_\+\+Type\+Def}$\ast$ gpio}}\label{light__led__stm32f10x_8c_a9d9aec8d08779b9692169a2f5b3281e0}
+\hypertarget{light__led__stm32f10x_8c_ab399fbaa5fa7e23d12db2a0035a82342}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!led\+\_\+config@{led\+\_\+config}}
+\index{led\+\_\+config@{led\+\_\+config}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{led\+\_\+config}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   {\bf led\+\_\+config}\mbox{[}3\mbox{]}}}\label{light__led__stm32f10x_8c_ab399fbaa5fa7e23d12db2a0035a82342}
+\hypertarget{light__led__stm32f10x_8c_a4144813adfa4dfe7e7cbeea17d1b06eb}{\index{light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}!pin@{pin}}
+\index{pin@{pin}!light\+\_\+led\+\_\+stm32f10x.\+c@{light\+\_\+led\+\_\+stm32f10x.\+c}}
+\subsubsection[{pin}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t pin}}\label{light__led__stm32f10x_8c_a4144813adfa4dfe7e7cbeea17d1b06eb}

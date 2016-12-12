@@ -1,0 +1,5 @@
+<map id="Ninja" name="Ninja">
+<area shape="rect" id="node1" href="$group__scheduler.html" title="Scheduler" alt="" coords="147,5,227,32"/>
+<area shape="rect" id="node3" href="$group__syscalls.html" title="Syscalls" alt="" coords="151,56,223,83"/>
+<area shape="rect" id="node4" href="$group__cli.html" title="Command line interface" alt="" coords="107,107,267,133"/>
+</map>

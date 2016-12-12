@@ -1,0 +1,6 @@
+<map id="ins_process_gyro" name="ins_process_gyro">
+<area shape="rect" id="node2" href="$boardalignment_8c.html#a5285bcaf5a228f05b07db1fa32d40d75" title="board_alignment_rotate\l_vector" alt="" coords="187,5,344,46"/>
+<area shape="rect" id="node3" href="$gyro_8c.html#a9aa1d061d3803d5bd885b68337981a3b" title="ins_gyro_process_sample" alt="" coords="179,71,352,97"/>
+<area shape="rect" id="node5" href="$group__IMU.html#ga57e6b2abb21fe897496e1d88104d40d2" title="imu_input_gyro" alt="" coords="210,121,321,148"/>
+<area shape="rect" id="node4" href="$filter_8c.html#a0a8fc4d542ea87774f572d8227ee41a3" title="applyBiQuadFilter" alt="" coords="400,71,525,97"/>
+</map>

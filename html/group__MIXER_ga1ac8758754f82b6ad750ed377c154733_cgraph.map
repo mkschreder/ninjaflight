@@ -1,0 +1,4 @@
+<map id="mixer_init" name="mixer_init">
+<area shape="rect" id="node2" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="134,5,261,46"/>
+<area shape="rect" id="node3" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="309,12,384,39"/>
+</map>

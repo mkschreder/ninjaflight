@@ -1,0 +1,253 @@
+\hypertarget{ins__unittest_8cc}{\section{src/test/unit/ins\+\_\+unittest.cc File Reference}
+\label{ins__unittest_8cc}\index{src/test/unit/ins\+\_\+unittest.\+cc@{src/test/unit/ins\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for ins\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ins__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{B\+A\+R\+O}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ins__unittest_8cc_a80c8aac918128f997973bfbaf8b7b0d3}{input\+\_\+accel} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int16\+\_\+t x, int16\+\_\+t y, int16\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{ins__unittest_8cc_a363567be0928a52bbd806460545f6626}{input\+\_\+mag} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int16\+\_\+t x, int16\+\_\+t y, int16\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+void \hyperlink{ins__unittest_8cc_a228db5293edbf6bef1fc9cddabc83716}{input\+\_\+gyro} (struct \hyperlink{structinstruments}{instruments} $\ast$self, int16\+\_\+t x, int16\+\_\+t y, int16\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z}, unsigned int duration)
+\item 
+void \hyperlink{ins__unittest_8cc_a23dcacf305cdf857012322c794100791}{reset\+\_\+trims} (void)
+\item 
+\hyperlink{ins__unittest_8cc_ae612b40d3ff0c052fd541bbd50da05a7}{T\+E\+S\+T} (Ins\+Unit\+Test, Test\+Acc\+Calibration)
+\item 
+\hyperlink{ins__unittest_8cc_a2b9b08c0066fb339a3c4ac8a0235a905}{T\+E\+S\+T} (Ins\+Unit\+Test, Test\+Gyro\+Calibration)
+\item 
+void \hyperlink{ins__unittest_8cc_a3be5895e66fd44d0e4711f0a55f47b1f}{print\+\_\+ins} (struct \hyperlink{structinstruments}{instruments} $\ast$self)
+\item 
+\hyperlink{ins__unittest_8cc_a6f3dba7037b10b397246f0cb39dbf382}{T\+E\+S\+T} (Ins\+Unit\+Test, Test\+Gyro\+Integration)
+\item 
+\hyperlink{ins__unittest_8cc_ae70c0a25b34a95822b0ca00a50ad0d42}{T\+E\+S\+T} (Ins\+Unit\+Test, Test\+Euler\+Angle\+Calculation)
+\item 
+\hyperlink{ins__unittest_8cc_aa729f34e35b3a017728944e28d3933f6}{T\+E\+S\+T} (Ins\+Unit\+Test, Test\+Mag\+Yaw\+Angle\+Calculation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{ins__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!B\+A\+R\+O@{B\+A\+R\+O}}
+\index{B\+A\+R\+O@{B\+A\+R\+O}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{B\+A\+R\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+R\+O}}\label{ins__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}
+
+
+\subsection{Function Documentation}
+\hypertarget{ins__unittest_8cc_a80c8aac918128f997973bfbaf8b7b0d3}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!input\+\_\+accel@{input\+\_\+accel}}
+\index{input\+\_\+accel@{input\+\_\+accel}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{input\+\_\+accel}]{\setlength{\rightskip}{0pt plus 5cm}void input\+\_\+accel (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{x, }
+\item[{int16\+\_\+t}]{y, }
+\item[{int16\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a80c8aac918128f997973bfbaf8b7b0d3}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_a80c8aac918128f997973bfbaf8b7b0d3_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_a228db5293edbf6bef1fc9cddabc83716}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!input\+\_\+gyro@{input\+\_\+gyro}}
+\index{input\+\_\+gyro@{input\+\_\+gyro}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{input\+\_\+gyro}]{\setlength{\rightskip}{0pt plus 5cm}void input\+\_\+gyro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{x, }
+\item[{int16\+\_\+t}]{y, }
+\item[{int16\+\_\+t}]{z, }
+\item[{unsigned int}]{duration}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a228db5293edbf6bef1fc9cddabc83716}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_a228db5293edbf6bef1fc9cddabc83716_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_a363567be0928a52bbd806460545f6626}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!input\+\_\+mag@{input\+\_\+mag}}
+\index{input\+\_\+mag@{input\+\_\+mag}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{input\+\_\+mag}]{\setlength{\rightskip}{0pt plus 5cm}void input\+\_\+mag (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{x, }
+\item[{int16\+\_\+t}]{y, }
+\item[{int16\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a363567be0928a52bbd806460545f6626}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_a363567be0928a52bbd806460545f6626_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_a3be5895e66fd44d0e4711f0a55f47b1f}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!print\+\_\+ins@{print\+\_\+ins}}
+\index{print\+\_\+ins@{print\+\_\+ins}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{print\+\_\+ins}]{\setlength{\rightskip}{0pt plus 5cm}void print\+\_\+ins (
+\begin{DoxyParamCaption}
+\item[{struct {\bf instruments} $\ast$}]{self}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a3be5895e66fd44d0e4711f0a55f47b1f}
+\hypertarget{ins__unittest_8cc_a23dcacf305cdf857012322c794100791}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!reset\+\_\+trims@{reset\+\_\+trims}}
+\index{reset\+\_\+trims@{reset\+\_\+trims}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{reset\+\_\+trims}]{\setlength{\rightskip}{0pt plus 5cm}void reset\+\_\+trims (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a23dcacf305cdf857012322c794100791}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{ins__unittest_8cc_a23dcacf305cdf857012322c794100791_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_ae612b40d3ff0c052fd541bbd50da05a7}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Ins\+Unit\+Test}]{, }
+\item[{Test\+Acc\+Calibration}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_ae612b40d3ff0c052fd541bbd50da05a7}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_ae612b40d3ff0c052fd541bbd50da05a7_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_a2b9b08c0066fb339a3c4ac8a0235a905}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Ins\+Unit\+Test}]{, }
+\item[{Test\+Gyro\+Calibration}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a2b9b08c0066fb339a3c4ac8a0235a905}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_a2b9b08c0066fb339a3c4ac8a0235a905_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_a6f3dba7037b10b397246f0cb39dbf382}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Ins\+Unit\+Test}]{, }
+\item[{Test\+Gyro\+Integration}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_a6f3dba7037b10b397246f0cb39dbf382}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_a6f3dba7037b10b397246f0cb39dbf382_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_ae70c0a25b34a95822b0ca00a50ad0d42}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Ins\+Unit\+Test}]{, }
+\item[{Test\+Euler\+Angle\+Calculation}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_ae70c0a25b34a95822b0ca00a50ad0d42}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_ae70c0a25b34a95822b0ca00a50ad0d42_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ins__unittest_8cc_aa729f34e35b3a017728944e28d3933f6}{\index{ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!ins\+\_\+unittest.\+cc@{ins\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{Ins\+Unit\+Test}]{, }
+\item[{Test\+Mag\+Yaw\+Angle\+Calculation}]{}
+\end{DoxyParamCaption}
+)}}\label{ins__unittest_8cc_aa729f34e35b3a017728944e28d3933f6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ins__unittest_8cc_aa729f34e35b3a017728944e28d3933f6_cgraph}
+\end{center}
+\end{figure}
+
+

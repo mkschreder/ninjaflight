@@ -1,0 +1,161 @@
+The Sparky is a very low cost and very powerful board.
+
+
+\begin{DoxyItemize}
+\item 3 hardware serial ports.
+\item Built-\/in serial port inverters which allows S.\+B\+U\+S receivers to be used without external inverters.
+\item U\+S\+B (can be used at the same time as the serial ports).
+\item 10 P\+W\+M outputs.
+\item Dedicated P\+P\+M/\+Serial\+R\+X input pin.
+\item M\+P\+U9150 I2\+C Acc/\+Gyro/\+Mag
+\item Baro
+\end{DoxyItemize}
+
+Tested with revision 1 \& 2 boards.
+
+\subsection*{T\+O\+D\+O}
+
+
+\begin{DoxyItemize}
+\item Display (via Flex port)
+\item Soft\+Serial -\/ though having 3 hardware serial ports makes it a little redundant.
+\item Airplane P\+W\+M mappings.
+\end{DoxyItemize}
+
+\section*{Voltage and current monitoring (A\+D\+C support)}
+
+Voltage monitoring is possible when enabled via P\+W\+M9 pin and current can be monitored via P\+W\+M8 pin. The voltage divider and current sensor need to be connected externally. The vbatscale cli parameter need to be adjusted to fit the sensor specification. For more details regarding the sensor hardware you can check here\+: \href{https://github.com/TauLabs/TauLabs/wiki/User-Guide:-Battery-Configuration}{\tt https\+://github.\+com/\+Tau\+Labs/\+Tau\+Labs/wiki/\+User-\/\+Guide\+:-\/\+Battery-\/\+Configuration}
+
+\section*{Flashing}
+
+\subsection*{Via Device Firmware Upload (D\+F\+U, U\+S\+B) -\/ Windows}
+
+These instructions are for flashing the Sparky board under Windows using Dfu\+S\+E. Credits go to Thomas Shue (Full video of the below steps can be found here\+: \href{https://www.youtube.com/watch?v=I4yHiRVRY94}{\tt https\+://www.\+youtube.\+com/watch?v=\+I4y\+Hi\+R\+V\+R\+Y94})
+
+Required Software\+: Dfu\+S\+E Version 3.\+0.\+2 (latest version 3.\+0.\+4 causes errors)\+: \href{http://code.google.com/p/multipilot32/downloads/detail?name=DfuSe.rar}{\tt http\+://code.\+google.\+com/p/multipilot32/downloads/detail?name=\+Dfu\+Se.\+rar} S\+T\+M V\+C\+P Driver 1.\+4.\+0\+: \href{http://www.st.com/web/en/catalog/tools/PF257938}{\tt http\+://www.\+st.\+com/web/en/catalog/tools/\+P\+F257938}
+
+A binary file is required for D\+F\+U, not a .hex file. If one is not included in the release then build one as follows.
+
+``` Unpack Dfu\+S\+E and the S\+T\+M V\+C\+P Drivers into a folder on your Hardrive Download the latest Sparky release (cleanflight\+\_\+\+S\+P\+A\+R\+K\+Y.\+hex) from\+: \href{https://github.com/cleanflight/cleanflight/releases}{\tt https\+://github.\+com/cleanflight/cleanflight/releases} and store it on your Hardrive
+
+In your Dfu\+S\+E folder go to B\+I\+N and start Dfu\+File\+Mgr.\+exe Select\+: \char`\"{}\+I want to G\+E\+N\+E\+R\+A\+T\+E a D\+F\+Ufile from S19,\+H\+E\+X or B\+I\+N files\char`\"{} press O\+K Press\+: \char`\"{}\+S19 or Hex..\char`\"{} Go to the folder where you saved the cleanflight\+\_\+\+S\+P\+A\+R\+K\+Y.\+hex file, select it and press open (you might need to change the filetype in the Dfu\+S\+E explorer window to \char`\"{}hex Files ($\ast$.\+hex)\char`\"{} to be able to see the file) Press\+: \char`\"{}\+Generate\char`\"{} and select the .dfu output file and location If all worked well you should see \char`\"{} Success for '\+Image for lternate Setting 00 (\+S\+T..)'!\char`\"{}
+
+```
+
+Put the device into D\+F\+U mode by powering on the sparky with the bootloader pins temporarily bridged. The only light that should come on is the blue P\+W\+R led.
+
+Check the windows device manager to make sure the board is recognized correctly. It should show up as \char`\"{}\+S\+T\+M Device in D\+F\+U mode\char`\"{} under Universal Serial Bus Controllers
+
+If it shows up as \char`\"{}\+S\+T\+Microelectronics Virtual C\+O\+M\char`\"{} under Ports (C\+O\+M \& L\+P\+T) instead then the board is not in D\+F\+U mode. Disconnect the board, short the bootloader pins again while connecting the board.
+
+If the board shows up as \char`\"{}\+S\+T\+M 32 Bootloader\char`\"{} device in the device manager, the drivers need to be updated manually. Select the device in the device manager, press \char`\"{}update drivers\char`\"{}, select \char`\"{}manual update drivers\char`\"{} and choose the location where you extracted the S\+T\+M V\+C\+P Drivers, select \char`\"{}let me choose which driver to install\char`\"{}. You shoud now be able to select either the S\+T\+M32 Bootloader driver or the S\+T\+M in D\+F\+U mode driver. Select the later and install.
+
+Then flash the binary as below.
+
+``` In your Dfu\+S\+E folder go to B\+I\+N and start Dfu\+Se\+Demo.\+exe Select the Sparky Board (S\+T\+M in D\+F\+U Mode) from the Available D\+F\+U and compatible H\+I\+D Devices drop down list Press \char`\"{}\+Choose..\char`\"{} at the bootom of the window and select the .dfu file created in the previous step \char`\"{}\+File correctly loaded\char`\"{} should appear in the status bar Press \char`\"{}\+Upgrade\char`\"{} and confirm with \char`\"{}\+Yes\char`\"{} The status bar will show the upload progress and confirm that the upload is complete at the end
+
+```
+
+Disconnect and reconnect the board from U\+S\+B and continue to configure it via the Cleanflight configurator as per normal
+
+\subsection*{Via Device Firmware Upload (D\+F\+U, U\+S\+B) -\/ Mac O\+S X / Linux}
+
+These instructions are for dfu-\/util, tested using dfu-\/util 0.\+7 for O\+S\+X from the Open\+T\+X project.
+
+\href{http://www.open-tx.org/2013/07/15/dfu-util-07-for-mac-taranis-flashing-utility/}{\tt http\+://www.\+open-\/tx.\+org/2013/07/15/dfu-\/util-\/07-\/for-\/mac-\/taranis-\/flashing-\/utility/}
+
+A binary file is required for D\+F\+U, not a .hex file. If one is not included in the release then build one as follows.
+
+``` make T\+A\+R\+G\+E\+T=S\+P\+A\+R\+K\+Y clean make T\+A\+R\+G\+E\+T=S\+P\+A\+R\+K\+Y binary ```
+
+Put the device into D\+F\+U mode by powering on the sparky with the bootloader pins temporarily bridged. The only light that should come on is the blue P\+W\+R led.
+
+Run 'dfu-\/util -\/l' to make sure the device is listed, as below.
+
+``` \$ dfu-\/util -\/l dfu-\/util 0.\+7
+
+Copyright 2005-\/2008 Weston Schmidt, Harald Welte and Open\+Moko Inc. Copyright 2010-\/2012 Tormod Volden and Stefan Schmidt This program is Free Software and has A\+B\+S\+O\+L\+U\+T\+E\+L\+Y N\+O W\+A\+R\+R\+A\+N\+T\+Y Please report bugs to \href{mailto:dfu-util@lists.gnumonks.org}{\tt dfu-\/util@lists.\+gnumonks.\+org}
+
+Found D\+F\+U\+: \mbox{[}0483\+:df11\mbox{]} devnum=0, cfg=1, intf=0, alt=0, name=\char`\"{}@\+Internal Flash  /0x08000000/128$\ast$0002\+Kg\char`\"{} Found D\+F\+U\+: \mbox{[}0483\+:df11\mbox{]} devnum=0, cfg=1, intf=0, alt=1, name=\char`\"{}@\+Option Bytes  /0x1\+F\+F\+F\+F800/01$\ast$016 e\char`\"{} ```
+
+Then flash the binary as below.
+
+``` dfu-\/util -\/\+D obj/cleanflight\+\_\+\+S\+P\+A\+R\+K\+Y.\+bin --alt 0 -\/\+R -\/s 0x08000000 ```
+
+The output should be similar to this\+:
+
+``` dfu-\/util 0.\+7
+
+Copyright 2005-\/2008 Weston Schmidt, Harald Welte and Open\+Moko Inc. Copyright 2010-\/2012 Tormod Volden and Stefan Schmidt This program is Free Software and has A\+B\+S\+O\+L\+U\+T\+E\+L\+Y N\+O W\+A\+R\+R\+A\+N\+T\+Y Please report bugs to \href{mailto:dfu-util@lists.gnumonks.org}{\tt dfu-\/util@lists.\+gnumonks.\+org}
+
+Opening D\+F\+U capable U\+S\+B device... I\+D 0483\+:df11 Run-\/time device D\+F\+U version 011a Found D\+F\+U\+: \mbox{[}0483\+:df11\mbox{]} devnum=0, cfg=1, intf=0, alt=0, name=\char`\"{}@\+Internal Flash  /0x08000000/128$\ast$0002\+Kg\char`\"{} Claiming U\+S\+B D\+F\+U Interface... Setting Alternate Setting \#0 ... Determining device status\+: state = dfu\+E\+R\+R\+O\+R, status = 10 dfu\+E\+R\+R\+O\+R, clearing status Determining device status\+: state = dfu\+I\+D\+L\+E, status = 0 dfu\+I\+D\+L\+E, continuing D\+F\+U mode device D\+F\+U version 011a Device returned transfer size 2048 No valid D\+F\+U suffix signature Warning\+: File has no D\+F\+U suffix Dfu\+Se interface name\+: \char`\"{}\+Internal Flash  \char`\"{} Downloading to address = 0x08000000, size = 76764 ...................................... File downloaded successfully can't detach Resetting U\+S\+B to switch back to runtime mode
+
+``` On Linux you might want to take care that the modemmanager isn't trying to use your sparky as modem getting it into bootloader mode while doing so. In doubt you probably want to uninstall it. It could also be good idea to get udev fixed. It looks like teensy did just that -\/$>$ \href{http://www.pjrc.com/teensy/49-teensy.rules}{\tt http\+://www.\+pjrc.\+com/teensy/49-\/teensy.\+rules} (untested)
+
+To make a full chip erase you can use a file created by ``` dd if=/dev/zero of=zero.\+bin bs=1 count=262144 ``` This can be used by dfu-\/util.
+
+\subsection*{Via S\+W\+D}
+
+On the bottom of the board there is an S\+W\+D header socket onto switch a J\+S\+T-\/\+S\+H connector can be soldered. Once you have S\+W\+D connected you can use the st-\/link or j-\/link tools to flash a binary.
+
+See Sparky schematic for C\+O\+N\+N2 pinouts.
+
+\subsection*{Tau\+Labs bootloader}
+
+Flashing cleanflight will erase the Tau\+Labs bootloader, this is not a problem and can easily be restored using the st flashloader tool.
+
+\section*{Serial Ports}
+
+\begin{TabularC}{5}
+\hline
+\rowcolor{lightgray}{\bf Value }&{\bf Identifier }&{\bf R\+X }&{\bf T\+X }&{\bf Notes  }\\\cline{1-5}
+1 &U\+S\+B V\+C\+P &R\+X (U\+S\+B) &T\+X (U\+S\+B) &\\\cline{1-5}
+2 &U\+S\+A\+R\+T1 &R\+X / P\+B7 &T\+X / P\+B6 &Conn1 / Flexi Port. \\\cline{1-5}
+3 &U\+S\+A\+R\+T2 &R\+X / P\+A3 &P\+W\+M6 / P\+A2 &On R\+X is on I\+N\+P\+U\+T header. Best port for Serial R\+X input \\\cline{1-5}
+4 &U\+S\+A\+R\+T3 &R\+X / P\+B11 &T\+X / P\+B10 &R\+X/\+T\+X is on one end of the 6-\/pin header above the P\+W\+M outputs. \\\cline{1-5}
+\end{TabularC}
+U\+S\+B V\+C\+P {\itshape can} be used at the same time as other serial ports (unlike Naze32).
+
+All U\+S\+A\+R\+T ports all support automatic hardware inversion which allows direct connection of serial rx receivers like the Fr\+Sky X4\+R\+S\+B -\/ no external inverter needed.
+
+\section*{Sonar Connections}
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Signal }&{\bf Function }&{\bf Resistor  }\\\cline{1-4}
+P\+W\+M6 &P\+A2 &Trigger pin &1\+K Ohm \\\cline{1-4}
+P\+W\+M7 &P\+B1 &Echo pin &1\+K Ohm \\\cline{1-4}
+\end{TabularC}
+W\+A\+R\+N\+I\+N\+G\+: Both P\+W\+M6 and P\+W\+M7 pins are N\+O\+T 5 volt tolerant, so a 1\+K Ohm resistor is required between the sensor and the F\+C pins.
+
+\section*{Battery Monitoring Connections}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Signal }&{\bf Function  }\\\cline{1-3}
+P\+W\+M9 &P\+A4 &Battery Voltage \\\cline{1-3}
+P\+W\+M8 &P\+A7 &Current Meter \\\cline{1-3}
+\end{TabularC}
+\subsection*{Voltage Monitoring}
+
+The Sparky has no battery divider cricuit, P\+W\+M9 has an inline 10k resistor which has to be factored into the resistor calculations. The divider circuit should eventally create a voltage between 0v and 3.\+3v (M\+A\+X) at the M\+C\+U input pin.
+
+W\+A\+R\+N\+I\+N\+G\+: Double check the output of your voltage divider using a voltmeter {\itshape before} connecting to the F\+C.
+
+\subsubsection*{Example Circuit}
+
+For a 3\+Cell battery divider the following circuit works\+:
+
+{\ttfamily Battery (+) -\/-\/-\/$<$ R1 $>$-\/-\/-\/ P\+W\+M9 -\/-\/-\/$<$ R2 $>$-\/-\/-\/ Battery (-\/)}
+
+
+\begin{DoxyItemize}
+\item R1 = 8k2 (Grey Red Red)
+\item R2 = 2k0 (Red Black Red)
+\end{DoxyItemize}
+
+This gives a 2.\+2k for an 11.\+2v battery. The {\ttfamily vbat\+\_\+scale} for this divider should be set around {\ttfamily 52}.
+
+\subsection*{Current Monitoring}
+
+Connect a current sensor to P\+W\+M8/\+P\+A7 that gives a range between 0v and 3.\+3v out (M\+A\+X). 

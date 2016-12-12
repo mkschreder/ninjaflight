@@ -1,0 +1,7 @@
+<map id="src/main/common/printf.h" name="src/main/common/printf.h">
+<area shape="rect" id="node2" href="$cli_8c.html" title="src/main/cli.c" alt="" coords="5,80,104,107"/>
+<area shape="rect" id="node3" href="$printf_8c.html" title="src/main/common/printf.c" alt="" coords="129,80,300,107"/>
+<area shape="rect" id="node4" href="$display_8c.html" title="src/main/io/display.c" alt="" coords="325,80,467,107"/>
+<area shape="rect" id="node5" href="$io_2ledstrip_8c.html" title="src/main/io/ledstrip.c" alt="" coords="491,80,633,107"/>
+<area shape="rect" id="node6" href="$main_8c.html" title="src/main/main.c" alt="" coords="659,80,773,107"/>
+</map>

@@ -1,0 +1,172 @@
+\hypertarget{accgyro__mpu_8c}{\section{src/main/drivers/accgyro\+\_\+mpu.c File Reference}
+\label{accgyro__mpu_8c}\index{src/main/drivers/accgyro\+\_\+mpu.\+c@{src/main/drivers/accgyro\+\_\+mpu.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nvic.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}exti.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}bus\+\_\+i2c.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gyro\+\_\+sync.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+mpu3050.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+mpu6050.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+mpu6500.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+spi\+\_\+mpu6000.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+spi\+\_\+mpu6500.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}accgyro\+\_\+mpu.\+h\char`\"{}}\\*
+Include dependency graph for accgyro\+\_\+mpu.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{accgyro__mpu_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{accgyro__mpu_8c_a24568c030711174374016ee0c69f4049}{M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S}~0x68
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{accgyro__mpu_8h_a0c8c1fb9caae8b62a4098cd6ded3a9bd}{mpu\+Detection\+Result\+\_\+t} $\ast$ \hyperlink{accgyro__mpu_8c_ae69bab38345a48dfaf4293840b528a7d}{detect\+Mpu} (const \hyperlink{exti_8h_ab5f75930a0564aab3753eb77b63fc3fa}{exti\+Config\+\_\+t} $\ast$config\+To\+Use)
+\item 
+void \hyperlink{accgyro__mpu_8c_a58bc418ffdb0aa0e85ce4b9ec2bbdf5b}{M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler} (void)
+\item 
+void \hyperlink{accgyro__mpu_8c_a1a4bbcf217c4ce0ddc412b0310cfc652}{configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling} (void)
+\item 
+void \hyperlink{accgyro__mpu_8c_a24fb9dd478b6162a8ecb378d47d0ff6e}{mpu\+Int\+Exti\+Init} (void)
+\item 
+bool \hyperlink{accgyro__mpu_8c_acbc7c540ea2b7a42f4505f2da74710ae}{mpu\+Acc\+Read} (int16\+\_\+t $\ast$acc\+Data)
+\item 
+bool \hyperlink{accgyro__mpu_8c_a1e15ecc0e8d8a9356edf94915f5940dc}{mpu\+Gyro\+Read} (int16\+\_\+t $\ast$gyro\+A\+D\+C)
+\item 
+bool \hyperlink{accgyro__mpu_8c_a6e414f79cc31b7cebb8e7176e8559ffc}{mpu\+Is\+Data\+Ready} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{accgyro__mpu_8h_a0c8c1fb9caae8b62a4098cd6ded3a9bd}{mpu\+Detection\+Result\+\_\+t} \hyperlink{accgyro__mpu_8c_a6074900d6b4901c44203c79df765644a}{mpu\+Detection\+Result}
+\item 
+\hyperlink{accgyro__mpu_8h_aaf95e8aba9be30bbcee2ecb164f70292}{mpu\+Configuration\+\_\+t} \hyperlink{accgyro__mpu_8c_a973053f1daa336fe43fa298b66341e6d}{mpu\+Configuration}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{accgyro__mpu_8c_a24568c030711174374016ee0c69f4049}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S@{M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S}}
+\index{M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S@{M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+P\+U\+\_\+\+A\+D\+D\+R\+E\+S\+S~0x68}}\label{accgyro__mpu_8c_a24568c030711174374016ee0c69f4049}
+
+
+\subsection{Function Documentation}
+\hypertarget{accgyro__mpu_8c_a1a4bbcf217c4ce0ddc412b0310cfc652}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling@{configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling}}
+\index{configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling@{configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling}]{\setlength{\rightskip}{0pt plus 5cm}void configure\+M\+P\+U\+Data\+Ready\+Interrupt\+Handling (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_a1a4bbcf217c4ce0ddc412b0310cfc652}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{accgyro__mpu_8c_a1a4bbcf217c4ce0ddc412b0310cfc652_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{accgyro__mpu_8c_ae69bab38345a48dfaf4293840b528a7d}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!detect\+Mpu@{detect\+Mpu}}
+\index{detect\+Mpu@{detect\+Mpu}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{detect\+Mpu}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mpu\+Detection\+Result\+\_\+t}$\ast$ detect\+Mpu (
+\begin{DoxyParamCaption}
+\item[{const {\bf exti\+Config\+\_\+t} $\ast$}]{config\+To\+Use}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_ae69bab38345a48dfaf4293840b528a7d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{accgyro__mpu_8c_ae69bab38345a48dfaf4293840b528a7d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{accgyro__mpu_8c_a58bc418ffdb0aa0e85ce4b9ec2bbdf5b}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler@{M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}}
+\index{M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler@{M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void M\+P\+U\+\_\+\+D\+A\+T\+A\+\_\+\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+T\+I\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_a58bc418ffdb0aa0e85ce4b9ec2bbdf5b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{accgyro__mpu_8c_a58bc418ffdb0aa0e85ce4b9ec2bbdf5b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{accgyro__mpu_8c_acbc7c540ea2b7a42f4505f2da74710ae}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Acc\+Read@{mpu\+Acc\+Read}}
+\index{mpu\+Acc\+Read@{mpu\+Acc\+Read}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Acc\+Read}]{\setlength{\rightskip}{0pt plus 5cm}bool mpu\+Acc\+Read (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$}]{acc\+Data}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_acbc7c540ea2b7a42f4505f2da74710ae}
+\hypertarget{accgyro__mpu_8c_a1e15ecc0e8d8a9356edf94915f5940dc}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Gyro\+Read@{mpu\+Gyro\+Read}}
+\index{mpu\+Gyro\+Read@{mpu\+Gyro\+Read}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Gyro\+Read}]{\setlength{\rightskip}{0pt plus 5cm}bool mpu\+Gyro\+Read (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$}]{gyro\+A\+D\+C}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_a1e15ecc0e8d8a9356edf94915f5940dc}
+\hypertarget{accgyro__mpu_8c_a24fb9dd478b6162a8ecb378d47d0ff6e}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Int\+Exti\+Init@{mpu\+Int\+Exti\+Init}}
+\index{mpu\+Int\+Exti\+Init@{mpu\+Int\+Exti\+Init}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Int\+Exti\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void mpu\+Int\+Exti\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_a24fb9dd478b6162a8ecb378d47d0ff6e}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{accgyro__mpu_8c_a24fb9dd478b6162a8ecb378d47d0ff6e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{accgyro__mpu_8c_a6e414f79cc31b7cebb8e7176e8559ffc}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Is\+Data\+Ready@{mpu\+Is\+Data\+Ready}}
+\index{mpu\+Is\+Data\+Ready@{mpu\+Is\+Data\+Ready}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Is\+Data\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool mpu\+Is\+Data\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{accgyro__mpu_8c_a6e414f79cc31b7cebb8e7176e8559ffc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{accgyro__mpu_8c_a973053f1daa336fe43fa298b66341e6d}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Configuration@{mpu\+Configuration}}
+\index{mpu\+Configuration@{mpu\+Configuration}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Configuration}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mpu\+Configuration\+\_\+t} mpu\+Configuration}}\label{accgyro__mpu_8c_a973053f1daa336fe43fa298b66341e6d}
+\hypertarget{accgyro__mpu_8c_a6074900d6b4901c44203c79df765644a}{\index{accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}!mpu\+Detection\+Result@{mpu\+Detection\+Result}}
+\index{mpu\+Detection\+Result@{mpu\+Detection\+Result}!accgyro\+\_\+mpu.\+c@{accgyro\+\_\+mpu.\+c}}
+\subsubsection[{mpu\+Detection\+Result}]{\setlength{\rightskip}{0pt plus 5cm}{\bf mpu\+Detection\+Result\+\_\+t} mpu\+Detection\+Result}}\label{accgyro__mpu_8c_a6074900d6b4901c44203c79df765644a}

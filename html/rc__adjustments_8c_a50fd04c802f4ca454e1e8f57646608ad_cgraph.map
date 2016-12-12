@@ -1,0 +1,5 @@
+<map id="rc_adj_update" name="rc_adj_update">
+<area shape="rect" id="node2" href="$rx_8c.html#a2bd21e47783f0d5dca6cc120720d8af7" title="RX has signal if at least one channel is healthy. " alt="" coords="162,5,265,32"/>
+<area shape="rect" id="node3" href="$rx_8c.html#a527cff8e1e26ba1124119aaa4cea4815" title="Get channel value. Returns interval [rx_min_usec;rx_max_usec]. " alt="" coords="158,56,269,83"/>
+<area shape="rect" id="node4" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="176,107,251,133"/>
+</map>

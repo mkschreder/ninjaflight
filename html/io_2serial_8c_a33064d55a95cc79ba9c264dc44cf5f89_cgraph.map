@@ -1,0 +1,11 @@
+<map id="openSerialPort" name="openSerialPort">
+<area shape="rect" id="node2" href="$serial__usb__vcp_8c.html#aec5328154c55939af50f979f662c7638" title="usbVcpOpen" alt="" coords="165,81,262,108"/>
+<area shape="rect" id="node8" href="$serial__uart_8c.html#a31c15c151ce058264e6c5c6e8642a15b" title="uartOpen" alt="" coords="176,132,251,159"/>
+<area shape="rect" id="node9" href="$serial__softserial_8h.html#ada417d0bfdb7ffaaa3f5d1fbd3532bb3" title="openSoftSerial" alt="" coords="160,183,267,209"/>
+<area shape="rect" id="node10" href="$drivers_2serial_8c.html#a599a037d9e38ce6c9334a2ec7c22e732" title="serialSetMode" alt="" coords="161,233,266,260"/>
+<area shape="rect" id="node3" href="$hw__config_8c.html#aa4a6b2ee08d21d686867426fe6838fa2" title="Set_System" alt="" coords="346,31,441,57"/>
+<area shape="rect" id="node6" href="$hw__config_8c.html#ad9be4b2bc4261431d9efa533f9e8ae98" title="Set_USBClock" alt="" coords="338,81,449,108"/>
+<area shape="rect" id="node7" href="$hw__config_8c.html#ab8919e0a1a2c1c1e4878575748c3ff76" title="USB_Interrupts_Config" alt="" coords="315,132,472,159"/>
+<area shape="rect" id="node4" href="$baro__bmp085__unittest_8cc.html#aed637e0664dfdef0faafdac841ef61cc" title="RCC_APB2PeriphClockCmd" alt="" coords="521,5,713,32"/>
+<area shape="rect" id="node5" href="$usb__io_8h.html#a693710002ffd103baadf8111b8c22054" title="usbGenerateDisconnectPulse" alt="" coords="520,56,715,83"/>
+</map>

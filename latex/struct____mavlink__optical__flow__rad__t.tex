@@ -1,0 +1,126 @@
+\hypertarget{struct____mavlink__optical__flow__rad__t}{\section{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t Struct Reference}
+\label{struct____mavlink__optical__flow__rad__t}\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+optical\+\_\+flow\+\_\+rad.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_ae6daf47eecbfcaae33d28058f9f66343}{time\+\_\+usec}
+\begin{DoxyCompactList}\small\item\em Timestamp (microseconds, synced to U\+N\+I\+X time or since system boot) \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_a71280c6e42fe0c2a7590b8ac54275070}{integration\+\_\+time\+\_\+us}
+\begin{DoxyCompactList}\small\item\em Integration time in microseconds. Divide integrated\+\_\+x and integrated\+\_\+y by the integration time to obtain average flow. The integration time also indicates the. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_a1253563da9b3db2235f33a6aae3d9427}{integrated\+\_\+x}
+\begin{DoxyCompactList}\small\item\em Flow in radians around X axis (Sensor R\+H rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_acc14c952d5780461cf91a5d4a7fedc89}{integrated\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Flow in radians around Y axis (Sensor R\+H rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_a8c0376467ce566ac5d2c2514b3bc9c75}{integrated\+\_\+xgyro}
+\begin{DoxyCompactList}\small\item\em R\+H rotation around X axis (rad) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_a60c6d175fc107f766d708fe407468469}{integrated\+\_\+ygyro}
+\begin{DoxyCompactList}\small\item\em R\+H rotation around Y axis (rad) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_a18f87c1bec8fe3e656967326437add8b}{integrated\+\_\+zgyro}
+\begin{DoxyCompactList}\small\item\em R\+H rotation around Z axis (rad) \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_a1581c7df4066597b07103c3d24002ecc}{time\+\_\+delta\+\_\+distance\+\_\+us}
+\begin{DoxyCompactList}\small\item\em Time in microseconds since the distance was sampled. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__optical__flow__rad__t_ada976b8a6db1ec3228d745c9ad81d4f3}{distance}
+\begin{DoxyCompactList}\small\item\em Distance to the center of the flow field in meters. Positive value (including zero)\+: distance known. Negative value\+: Unknown distance. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_a1d864c4730f94d21dd2fcfa19b2ee7e4}{temperature}
+\begin{DoxyCompactList}\small\item\em Temperature $\ast$ 100 in centi-\/degrees Celsius. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_a1aba9a5b85e33d09f1161661d95376c1}{sensor\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Sensor I\+D. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__optical__flow__rad__t_a35206139e7148b28cabf4e12977ad315}{quality}
+\begin{DoxyCompactList}\small\item\em Optical flow quality / confidence. 0\+: no valid flow, 255\+: maximum quality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__optical__flow__rad__t_ada976b8a6db1ec3228d745c9ad81d4f3}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!distance@{distance}}
+\index{distance@{distance}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{distance}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::distance}}\label{struct____mavlink__optical__flow__rad__t_ada976b8a6db1ec3228d745c9ad81d4f3}
+
+
+Distance to the center of the flow field in meters. Positive value (including zero)\+: distance known. Negative value\+: Unknown distance. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a1253563da9b3db2235f33a6aae3d9427}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integrated\+\_\+x@{integrated\+\_\+x}}
+\index{integrated\+\_\+x@{integrated\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integrated\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integrated\+\_\+x}}\label{struct____mavlink__optical__flow__rad__t_a1253563da9b3db2235f33a6aae3d9427}
+
+
+Flow in radians around X axis (Sensor R\+H rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.) 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a8c0376467ce566ac5d2c2514b3bc9c75}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integrated\+\_\+xgyro@{integrated\+\_\+xgyro}}
+\index{integrated\+\_\+xgyro@{integrated\+\_\+xgyro}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integrated\+\_\+xgyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integrated\+\_\+xgyro}}\label{struct____mavlink__optical__flow__rad__t_a8c0376467ce566ac5d2c2514b3bc9c75}
+
+
+R\+H rotation around X axis (rad) 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_acc14c952d5780461cf91a5d4a7fedc89}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integrated\+\_\+y@{integrated\+\_\+y}}
+\index{integrated\+\_\+y@{integrated\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integrated\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integrated\+\_\+y}}\label{struct____mavlink__optical__flow__rad__t_acc14c952d5780461cf91a5d4a7fedc89}
+
+
+Flow in radians around Y axis (Sensor R\+H rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.) 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a60c6d175fc107f766d708fe407468469}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integrated\+\_\+ygyro@{integrated\+\_\+ygyro}}
+\index{integrated\+\_\+ygyro@{integrated\+\_\+ygyro}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integrated\+\_\+ygyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integrated\+\_\+ygyro}}\label{struct____mavlink__optical__flow__rad__t_a60c6d175fc107f766d708fe407468469}
+
+
+R\+H rotation around Y axis (rad) 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a18f87c1bec8fe3e656967326437add8b}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integrated\+\_\+zgyro@{integrated\+\_\+zgyro}}
+\index{integrated\+\_\+zgyro@{integrated\+\_\+zgyro}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integrated\+\_\+zgyro}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integrated\+\_\+zgyro}}\label{struct____mavlink__optical__flow__rad__t_a18f87c1bec8fe3e656967326437add8b}
+
+
+R\+H rotation around Z axis (rad) 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a71280c6e42fe0c2a7590b8ac54275070}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!integration\+\_\+time\+\_\+us@{integration\+\_\+time\+\_\+us}}
+\index{integration\+\_\+time\+\_\+us@{integration\+\_\+time\+\_\+us}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{integration\+\_\+time\+\_\+us}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::integration\+\_\+time\+\_\+us}}\label{struct____mavlink__optical__flow__rad__t_a71280c6e42fe0c2a7590b8ac54275070}
+
+
+Integration time in microseconds. Divide integrated\+\_\+x and integrated\+\_\+y by the integration time to obtain average flow. The integration time also indicates the. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a35206139e7148b28cabf4e12977ad315}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!quality@{quality}}
+\index{quality@{quality}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{quality}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::quality}}\label{struct____mavlink__optical__flow__rad__t_a35206139e7148b28cabf4e12977ad315}
+
+
+Optical flow quality / confidence. 0\+: no valid flow, 255\+: maximum quality. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a1aba9a5b85e33d09f1161661d95376c1}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!sensor\+\_\+id@{sensor\+\_\+id}}
+\index{sensor\+\_\+id@{sensor\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{sensor\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::sensor\+\_\+id}}\label{struct____mavlink__optical__flow__rad__t_a1aba9a5b85e33d09f1161661d95376c1}
+
+
+Sensor I\+D. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a1d864c4730f94d21dd2fcfa19b2ee7e4}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!temperature@{temperature}}
+\index{temperature@{temperature}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::temperature}}\label{struct____mavlink__optical__flow__rad__t_a1d864c4730f94d21dd2fcfa19b2ee7e4}
+
+
+Temperature $\ast$ 100 in centi-\/degrees Celsius. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_a1581c7df4066597b07103c3d24002ecc}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!time\+\_\+delta\+\_\+distance\+\_\+us@{time\+\_\+delta\+\_\+distance\+\_\+us}}
+\index{time\+\_\+delta\+\_\+distance\+\_\+us@{time\+\_\+delta\+\_\+distance\+\_\+us}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{time\+\_\+delta\+\_\+distance\+\_\+us}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::time\+\_\+delta\+\_\+distance\+\_\+us}}\label{struct____mavlink__optical__flow__rad__t_a1581c7df4066597b07103c3d24002ecc}
+
+
+Time in microseconds since the distance was sampled. 
+
+\hypertarget{struct____mavlink__optical__flow__rad__t_ae6daf47eecbfcaae33d28058f9f66343}{\index{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}!time\+\_\+usec@{time\+\_\+usec}}
+\index{time\+\_\+usec@{time\+\_\+usec}!\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t}}
+\subsubsection[{time\+\_\+usec}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+optical\+\_\+flow\+\_\+rad\+\_\+t\+::time\+\_\+usec}}\label{struct____mavlink__optical__flow__rad__t_ae6daf47eecbfcaae33d28058f9f66343}
+
+
+Timestamp (microseconds, synced to U\+N\+I\+X time or since system boot) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__optical__flow__rad_8h}{mavlink\+\_\+msg\+\_\+optical\+\_\+flow\+\_\+rad.\+h}\end{DoxyCompactItemize}

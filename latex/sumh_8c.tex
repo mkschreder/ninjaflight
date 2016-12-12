@@ -1,0 +1,39 @@
+\hypertarget{sumh_8c}{\section{src/main/rx/sumh.c File Reference}
+\label{sumh_8c}\index{src/main/rx/sumh.\+c@{src/main/rx/sumh.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/sumh.\+h\char`\"{}}\\*
+Include dependency graph for sumh.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sumh_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sumh_8c_aaacdbe834514f12a3b2935d385344334}{S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}~115200
+\item 
+\#define \hyperlink{sumh_8c_a4a3d52080c345f30cde006aae095961a}{S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}~8
+\item 
+\#define \hyperlink{sumh_8c_a431aea13ab437952f26367a12c7c3709}{S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}~21
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sumh_8c_aaacdbe834514f12a3b2935d385344334}{\index{sumh.\+c@{sumh.\+c}!S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}}
+\index{S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E@{S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}!sumh.\+c@{sumh.\+c}}
+\subsubsection[{S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+U\+M\+H\+\_\+\+B\+A\+U\+D\+R\+A\+T\+E~115200}}\label{sumh_8c_aaacdbe834514f12a3b2935d385344334}
+\hypertarget{sumh_8c_a431aea13ab437952f26367a12c7c3709}{\index{sumh.\+c@{sumh.\+c}!S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}}
+\index{S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E@{S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}!sumh.\+c@{sumh.\+c}}
+\subsubsection[{S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+U\+M\+H\+\_\+\+F\+R\+A\+M\+E\+\_\+\+S\+I\+Z\+E~21}}\label{sumh_8c_a431aea13ab437952f26367a12c7c3709}
+\hypertarget{sumh_8c_a4a3d52080c345f30cde006aae095961a}{\index{sumh.\+c@{sumh.\+c}!S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}}
+\index{S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T@{S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}!sumh.\+c@{sumh.\+c}}
+\subsubsection[{S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+U\+M\+H\+\_\+\+M\+A\+X\+\_\+\+C\+H\+A\+N\+N\+E\+L\+\_\+\+C\+O\+U\+N\+T~8}}\label{sumh_8c_a4a3d52080c345f30cde006aae095961a}

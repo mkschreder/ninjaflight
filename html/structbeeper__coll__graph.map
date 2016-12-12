@@ -1,0 +1,13 @@
+<map id="beeper" name="beeper">
+<area shape="rect" id="node2" href="$structsystem__calls.html" title="system_calls" alt="" coords="251,157,349,184"/>
+<area shape="rect" id="node3" href="$structsystem__calls__imu.html" title="system_calls_imu" alt="" coords="17,5,143,32"/>
+<area shape="rect" id="node4" href="$structsystem__calls__beeper.html" title="system_calls_beeper" alt="" coords="7,56,153,83"/>
+<area shape="rect" id="node5" href="$structsystem__calls__time.html" title="system_calls_time" alt="" coords="15,107,145,133"/>
+<area shape="rect" id="node6" href="$structsystem__calls__leds.html" title="system_calls_leds" alt="" coords="15,157,145,184"/>
+<area shape="rect" id="node7" href="$structsystem__calls__eeprom.html" title="system_calls_eeprom" alt="" coords="5,208,155,235"/>
+<area shape="rect" id="node8" href="$structsystem__calls__pwm.html" title="pwm related system calls " alt="" coords="13,259,147,285"/>
+<area shape="rect" id="node9" href="$structsystem__calls__range.html" title="system_calls_range" alt="" coords="11,309,149,336"/>
+<area shape="rect" id="node10" href="$structmorse__letter.html" title="morse_letter" alt="" coords="253,208,347,235"/>
+<area shape="rect" id="node11" href="$structpt.html" title="pt" alt="" coords="281,259,319,285"/>
+<area shape="rect" id="node12" href="$structbeeper__entry.html" title="beeper_entry" alt="" coords="251,309,349,336"/>
+</map>

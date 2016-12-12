@@ -1,0 +1,72 @@
+\hypertarget{mavlink__msg__boot_8h}{\section{src/main/mavlink/slugs/mavlink\+\_\+msg\+\_\+boot.h File Reference}
+\label{mavlink__msg__boot_8h}\index{src/main/mavlink/slugs/mavlink\+\_\+msg\+\_\+boot.\+h@{src/main/mavlink/slugs/mavlink\+\_\+msg\+\_\+boot.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{mavlink__msg__boot_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct____mavlink__boot__t}{\+\_\+\+\_\+mavlink\+\_\+boot\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_a17a1b4ee6e205728bb163e28f65a7b52}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T}~197
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_a38d6fdffbacb59fa9c6306f7371f1016}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N}~4
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_af42464dd206ecf8b2873be836191d628}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N}~4
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_aa3d731ffa370de2de0db8107d381e055}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C}~39
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_a74905cf3ecfb2b7521e5e5ab57658bdc}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C}~39
+\item 
+\#define \hyperlink{mavlink__msg__boot_8h_aa3ea8695230c2e965939358f2a7e7585}{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{struct____mavlink__boot__t}{\+\_\+\+\_\+mavlink\+\_\+boot\+\_\+t} \hyperlink{mavlink__msg__boot_8h_ad47184b6b5171fcaaa1375cf73376807}{mavlink\+\_\+boot\+\_\+t}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{mavlink__msg__boot_8h_aa3ea8695230c2e965939358f2a7e7585}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+E\+S\+S\+A\+G\+E\+\_\+\+I\+N\+F\+O\+\_\+\+B\+O\+O\+T}}\label{mavlink__msg__boot_8h_aa3ea8695230c2e965939358f2a7e7585}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    \textcolor{stringliteral}{"BOOT"}, \(\backslash\)
+    1, \(\backslash\)
+    \{  \{ \textcolor{stringliteral}{"version"}, NULL, \hyperlink{mavlink__types_8h_ab6045b7adc25bdc05a5011a91dc645a4ade8fcbd09eb9c44492650baf961e6d2b}{MAVLINK\_TYPE\_UINT32\_T}, 0, 0, offsetof(
+      \hyperlink{struct____mavlink__boot__t}{mavlink\_boot\_t}, version) \}, \(\backslash\)
+         \} \(\backslash\)
+\}
+\end{DoxyCode}
+\hypertarget{mavlink__msg__boot_8h_a74905cf3ecfb2b7521e5e5ab57658bdc}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+C\+R\+C~39}}\label{mavlink__msg__boot_8h_a74905cf3ecfb2b7521e5e5ab57658bdc}
+\hypertarget{mavlink__msg__boot_8h_af42464dd206ecf8b2873be836191d628}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+197\+\_\+\+L\+E\+N~4}}\label{mavlink__msg__boot_8h_af42464dd206ecf8b2873be836191d628}
+\hypertarget{mavlink__msg__boot_8h_a17a1b4ee6e205728bb163e28f65a7b52}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T~197}}\label{mavlink__msg__boot_8h_a17a1b4ee6e205728bb163e28f65a7b52}
+\hypertarget{mavlink__msg__boot_8h_aa3d731ffa370de2de0db8107d381e055}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+C\+R\+C~39}}\label{mavlink__msg__boot_8h_aa3d731ffa370de2de0db8107d381e055}
+\hypertarget{mavlink__msg__boot_8h_a38d6fdffbacb59fa9c6306f7371f1016}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N}}
+\index{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N@{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+V\+L\+I\+N\+K\+\_\+\+M\+S\+G\+\_\+\+I\+D\+\_\+\+B\+O\+O\+T\+\_\+\+L\+E\+N~4}}\label{mavlink__msg__boot_8h_a38d6fdffbacb59fa9c6306f7371f1016}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{mavlink__msg__boot_8h_ad47184b6b5171fcaaa1375cf73376807}{\index{mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}!mavlink\+\_\+boot\+\_\+t@{mavlink\+\_\+boot\+\_\+t}}
+\index{mavlink\+\_\+boot\+\_\+t@{mavlink\+\_\+boot\+\_\+t}!mavlink\+\_\+msg\+\_\+boot.\+h@{mavlink\+\_\+msg\+\_\+boot.\+h}}
+\subsubsection[{mavlink\+\_\+boot\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \+\_\+\+\_\+mavlink\+\_\+boot\+\_\+t}  {\bf mavlink\+\_\+boot\+\_\+t}}}\label{mavlink__msg__boot_8h_ad47184b6b5171fcaaa1375cf73376807}

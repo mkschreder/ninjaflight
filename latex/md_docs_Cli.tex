@@ -1,0 +1,251 @@
+Cleanflight has a command line interface (C\+L\+I) that can be used to change settings and configure the F\+C.
+
+\subsection*{Accessing the C\+L\+I.}
+
+The C\+L\+I can be accessed via the G\+U\+I tool or via a terminal emulator connected to the C\+L\+I serial port.
+
+
+\begin{DoxyEnumerate}
+\item Connect your terminal emulator to the C\+L\+I serial port (which, by default, is the same as the M\+S\+P serial port)
+\item Use the baudrate specified by msp\+\_\+baudrate (115200 by default).
+\item Send a {\ttfamily \#} character.
+\end{DoxyEnumerate}
+
+To save your settings type in 'save', saving will reboot the flight controller.
+
+To exit the C\+L\+I without saving power off the flight controller or type in 'exit'.
+
+To see a list of other commands type in 'help' and press return.
+
+To dump your configuration (including the current profile), use the 'dump' command.
+
+See the other documentation sections for details of the cli commands and settings that are available.
+
+\subsection*{Backup via C\+L\+I}
+
+Disconnect main power, connect to cli via U\+S\+B/\+F\+T\+D\+I.
+
+dump using cli
+
+``` rateprofile 0 profile 0 dump ```
+
+dump profiles using cli if you use them
+
+``` profile 1 dump profile profile 2 dump profile ```
+
+dump rate profiles using cli if you use them
+
+``` rateprofile 1 dump rates rateprofile 2 dump rates ``` copy screen output to a file and save it.
+
+\subsection*{Restore via C\+L\+I.}
+
+Use the cli {\ttfamily defaults} command first.
+
+When restoring from a backup it is a good idea to do a dump of the latest defaults so you know what has changed -\/ if you do this each time a firmware release is created youwill be able to see the cli changes between firmware versions. For instance, in December 2014 the default G\+P\+S navigation P\+I\+Ds changed. If you blindly restore your backup you would not benefit from these new defaults.
+
+Use the C\+L\+I and send all the output from the saved backup commands.
+
+Do not send the file too fast, if you do the F\+C might not be able to keep up when using U\+S\+A\+R\+T adapters (including built in ones) since there is no hardware serial flow control.
+
+You may find you have to copy/paste a few lines at a time.
+
+Repeat the backup process again!
+
+Compare the two backups to make sure you are happy with your restored settings.
+
+Re-\/apply any new defaults as desired.
+
+\subsection*{C\+L\+I Command Reference}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf {\ttfamily Command} }&{\bf Description  }\\\cline{1-2}
+{\ttfamily 1wire $<$esc$>$} &passthrough 1wire to the specified esc \\\cline{1-2}
+{\ttfamily adjrange} &show/set adjustment ranges settings \\\cline{1-2}
+{\ttfamily aux} &show/set aux settings \\\cline{1-2}
+{\ttfamily mmix} &design custom motor mixer \\\cline{1-2}
+{\ttfamily smix} &design custom servo mixer \\\cline{1-2}
+{\ttfamily color} &configure colors \\\cline{1-2}
+{\ttfamily defaults} &reset to defaults and reboot \\\cline{1-2}
+{\ttfamily dump} &print configurable settings in a pastable form \\\cline{1-2}
+{\ttfamily exit} &\\\cline{1-2}
+{\ttfamily feature} &list or -\/val or val \\\cline{1-2}
+{\ttfamily get} &get variable value \\\cline{1-2}
+{\ttfamily gpspassthrough} &passthrough gps to serial \\\cline{1-2}
+{\ttfamily help} &\\\cline{1-2}
+{\ttfamily led} &configure leds \\\cline{1-2}
+{\ttfamily map} &mapping of rc channel order \\\cline{1-2}
+{\ttfamily mixer} &mixer name or list \\\cline{1-2}
+{\ttfamily motor} &get/set motor output value \\\cline{1-2}
+{\ttfamily play\+\_\+sound} &index, or none for next \\\cline{1-2}
+{\ttfamily profile} &index (0 to 2) \\\cline{1-2}
+{\ttfamily rateprofile} &index (0 to 2) \\\cline{1-2}
+{\ttfamily rxrange} &configure rx channel ranges (end-\/points) \\\cline{1-2}
+{\ttfamily save} &save and reboot \\\cline{1-2}
+{\ttfamily set} &name=value or blank or $\ast$ for list \\\cline{1-2}
+{\ttfamily status} &show system status \\\cline{1-2}
+{\ttfamily version} &\\\cline{1-2}
+\end{TabularC}
+\subsection*{C\+L\+I Variable Reference}
+
+\begin{TabularC}{7}
+\hline
+\rowcolor{lightgray}{\bf {\ttfamily Variable} }&{\bf Description/\+Units }&{\bf Min }&{\bf Max }&{\bf Default }&{\bf Type }&{\bf Datatype  }\\\cline{1-7}
+{\ttfamily looptime} &This is the main loop time (in us). Changing this affects P\+I\+D effect with some P\+I\+D controllers (see P\+I\+D section for details). Default of 3500us/285\+Hz should work for everyone. Setting it to zero does not limit loop time, so it will go as fast as possible. &0 &9000 &3500 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily emf\+\_\+avoidance} &Default value is 0 for 72\+M\+Hz processor speed. Setting this to 1 increases the processor speed, to move the 6th harmonic away from 432\+M\+Hz. &O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i2c\+\_\+highspeed} &Enabling this feature speeds up I\+M\+U speed significantly and faster looptimes are possible. &O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gyro\+\_\+sync} &This option enables gyro\+\_\+sync feature. In this case the loop will be synced to gyro refresh rate. Loop will always wait for the newest gyro measurement. Use gyro\+\_\+lpf and gyro\+\_\+sync\+\_\+denom determine the gyro refresh rate. Note that different targets have different limits. Setting too high refresh rate can mean that F\+C cannot keep up with the gyro and higher gyro\+\_\+sync\+\_\+denom is needed, &O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gyro\+\_\+sync\+\_\+denom} &This option determines the sampling ratio. Denominator of 1 means full gyro sampling rate. Denominator 2 would mean 1/2 samples will be collected. Denominator and gyro\+\_\+lpf will together determine the control loop speed. &0 &1 &1 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily mid\+\_\+rc} &This is an important number to set in order to avoid trimming receiver/transmitter. Most standard receivers will have this at 1500, however Futaba transmitters will need this set to 1520. A way to find out if this needs to be changed, is to clear all trim/subtrim on transmitter, and connect to G\+U\+I. Note the value most channels idle at -\/ this should be the number to choose. Once midrc is set, use subtrim on transmitter to make sure all channels (except throttle of course) are centered at midrc value. &1200 &1700 &1500 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily min\+\_\+check} &These are min/max values (in us) which, when a channel is smaller (min) or larger (max) than the value will activate various R\+C commands, such as arming, or stick configuration. Normally, every R\+C channel should be set so that min = 1000us, max = 2000us. On most transmitters this usually means 125\% endpoints. Default check values are 100us above/below this value. &0 &2000 &1100 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily max\+\_\+check} &These are min/max values (in us) which, when a channel is smaller (min) or larger (max) than the value will activate various R\+C commands, such as arming, or stick configuration. Normally, every R\+C channel should be set so that min = 1000us, max = 2000us. On most transmitters this usually means 125\% endpoints. Default check values are 100us above/below this value. &0 &2000 &1900 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily rssi\+\_\+channel} &&0 &18 &0 &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily rssi\+\_\+scale} &&1 &255 &30 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily rssi\+\_\+ppm\+\_\+invert} &&0 &1 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily input\+\_\+filtering\+\_\+mode} &&0 &1 &0 &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily rc\+\_\+smoothing} &Interpolation of Rc data during looptimes when there are no new updates. This gives smoother R\+C input to P\+I\+D controller and cleaner P\+I\+Dsum &O\+F\+F &O\+N &O\+N &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily min\+\_\+throttle} &These are min/max values (in us) that are sent to esc when armed. Defaults of 1150/1850 are O\+K for everyone, for use with Afro\+E\+S\+C, they could be set to 1064/1864. &0 &2000 &1150 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily max\+\_\+throttle} &These are min/max values (in us) that are sent to esc when armed. Defaults of 1150/1850 are O\+K for everyone, for use with Afro\+E\+S\+C, they could be set to 1064/1864. If you have brushed motors, the value should be set to 2000. &0 &2000 &1850 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily min\+\_\+command} &This is the P\+W\+M value sent to E\+S\+Cs when they are not armed. If E\+S\+Cs beep slowly when powered up, try decreasing this value. It can also be used for calibrating all E\+S\+Cs at once. &0 &2000 &1000 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily servo\+\_\+center\+\_\+pulse} &&0 &2000 &1500 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily 3d\+\_\+deadband\+\_\+low} &&0 &2000 &1406 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily 3d\+\_\+deadband\+\_\+high} &&0 &2000 &1514 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily 3d\+\_\+neutral} &&0 &2000 &1460 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily 3d\+\_\+deadband\+\_\+throttle} &&0 &2000 &50 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily motor\+\_\+pwm\+\_\+rate} &Output frequency (in Hz) for motor pins. Defaults are 400\+Hz for motor. If setting above 500\+Hz, will switch to brushed (direct drive) motors mode. For example, setting to 8000 will use brushed mode at 8k\+Hz switching frequency. Up to 32k\+Hz is supported. Default is 16000 for boards with brushed motors. Note, that in brushed mode, minthrottle is offset to zero. For brushed mode, set {\ttfamily max\+\_\+throttle} to 2000. &50 &32000 &400 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily servo\+\_\+pwm\+\_\+rate} &Output frequency (in Hz) servo pins. Default is 50\+Hz. When using tricopters or gimbal with digital servo, this rate can be increased. Max of 498\+Hz (for 500\+Hz pwm period), and min of 50\+Hz. Most digital servos will support for example 330\+Hz. &50 &498 &50 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily servo\+\_\+lowpass\+\_\+freq} &Selects the servo P\+W\+M output cutoff frequency. Valid values range from 10 to 400. This is a fraction of the loop frequency in 1/1000ths. For example, {\ttfamily 40} means {\ttfamily 0.\+040}. The cutoff frequency can be determined by the following formula\+: {\ttfamily Frequency = 1000 $\ast$ servo\+\_\+lowpass\+\_\+freq / looptime} &10 &400 &400 &Master &I\+N\+T16 \\\cline{1-7}
+{\ttfamily servo\+\_\+lowpass\+\_\+enable} &Disabled by default. &O\+F\+F &O\+N &O\+F\+F &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily retarded\+\_\+arm} &Disabled by default, enabling (setting to 1) allows disarming by throttle low + roll. This could be useful for mode-\/1 users and non-\/acro tricopters, where default arming by yaw could move tail servo too much. &O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily disarm\+\_\+kill\+\_\+switch} &Enabled by default. Disarms the motors independently of throttle value. Setting to 0 reverts to the old behaviour of disarming only when the throttle is low. Only applies when arming and disarming with an A\+U\+X channel. &O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily auto\+\_\+disarm\+\_\+delay} &&0 &60 &5 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily small\+\_\+angle} &If the copter tilt angle exceed this value the copter will refuse to arm. default is 25°. &0 &180 &25 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily pid\+\_\+at\+\_\+min\+\_\+throttle} &If enabled, the copter will process the pid algorithm at minimum throttle. Cannot be used when {\ttfamily retarded\+\_\+arm} is enabled. &O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily flaps\+\_\+speed} &&0 &100 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily fixedwing\+\_\+althold\+\_\+dir} &&-\/1 &1 &1 &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily reboot\+\_\+character} &&48 &126 &82 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+provider} &N\+M\+E\+A, U\+B\+L\+O\+X &&&N\+M\+E\+A &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+sbas\+\_\+mode} &E\+G\+N\+O\+S, W\+A\+A\+S, M\+S\+A\+S, G\+A\+G\+A\+N &&&A\+U\+T\+O &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+auto\+\_\+config} &&O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+auto\+\_\+baud} &&O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+pos\+\_\+p} &&0 &200 &15 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+pos\+\_\+i} &&0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+pos\+\_\+d} &&0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+posr\+\_\+p} &&0 &200 &34 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+posr\+\_\+i} &&0 &200 &14 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+posr\+\_\+d} &&0 &200 &53 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+nav\+\_\+p} &&0 &200 &25 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+nav\+\_\+i} &&0 &200 &33 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+nav\+\_\+d} &&0 &200 &83 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gps\+\_\+wp\+\_\+radius} &&0 &2000 &200 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily nav\+\_\+controls\+\_\+heading} &&O\+F\+F &O\+N &O\+N &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily nav\+\_\+speed\+\_\+min} &&10 &2000 &100 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily nav\+\_\+speed\+\_\+max} &&10 &2000 &300 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily nav\+\_\+slew\+\_\+rate} &&0 &100 &30 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily serialrx\+\_\+provider} &When feature S\+E\+R\+I\+A\+L\+R\+X is enabled, this allows connection to several receivers which output data via digital interface resembling serial. See R\+X section. &0 &6 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily sbus\+\_\+inversion} &Standard S\+B\+U\+S (Futaba, Fr\+S\+K\+Y) uses an inverted signal. Some Open\+L\+R\+S receivers produce a non-\/inverted S\+B\+U\+S signal. This setting is to support this type of receivers (including modified Fr\+S\+K\+Y). This only works on supported hardware (mainly F3 based flight controllers). &O\+F\+F &O\+N &O\+N &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily spektrum\+\_\+sat\+\_\+bind} &&0 &10 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily telemetry\+\_\+switch} &Which aux channel to use to change serial output \& baud rate (M\+S\+P / Telemetry). It disables automatic switching to Telemetry when armed. &O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily telemetry\+\_\+inversion} &&O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily frsky\+\_\+default\+\_\+lattitude} &&-\/90 &90 &0 &Master &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily frsky\+\_\+default\+\_\+longitude} &&-\/180 &180 &0 &Master &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily frsky\+\_\+coordinates\+\_\+format} &&0 &1 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily frsky\+\_\+unit} &&&&$\ast$ &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily battery\+\_\+capacity} &&0 &20000 &0 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily vbat\+\_\+scale} &Result is Vbatt in 0.\+1\+V steps. 3.\+3\+V = A\+D\+C Vref, 4095 = 12bit adc, 110 = 11\+:1 voltage divider (10k\+:1k) x 10 for 0.\+1\+V. Adjust this slightly if reported pack voltage is different from multimeter reading. You can get current voltage by typing \char`\"{}status\char`\"{}\char`\"{} in cli.\char`\"{} &0 &255 &110 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily vbat\+\_\+max\+\_\+cell\+\_\+voltage} &Maximum voltage per cell, used for auto-\/detecting battery voltage in 0.\+1\+V units, default is 43 (4.\+3\+V) &10 &50 &43 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily vbat\+\_\+min\+\_\+cell\+\_\+voltage} &Minimum voltage per cell, this triggers battery out alarms, in 0.\+1\+V units, default is 33 (3.\+3\+V) &10 &50 &33 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily vbat\+\_\+warning\+\_\+cell\+\_\+voltage} &&10 &50 &35 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily current\+\_\+meter\+\_\+scale} &This sets the output voltage to current scaling for the current sensor in 0.\+1 m\+V/\+A steps. 400 is 40m\+V/\+A such as the A\+C\+S756 sensor outputs. 183 is the setting for the uberdistro with a 0.\+25m\+Ohm shunt. &-\/10000 &10000 &400 &Master &I\+N\+T16 \\\cline{1-7}
+{\ttfamily current\+\_\+meter\+\_\+offset} &This sets the output offset voltage of the current sensor in millivolts. &0 &3300 &0 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily multiwii\+\_\+current\+\_\+meter\+\_\+output} &Default current output via M\+S\+P is in 0.\+01\+A steps. Setting this to 1 causes output in default multiwii scaling (1m\+A steps). &O\+F\+F &O\+N &O\+F\+F &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily current\+\_\+meter\+\_\+type} &&0 &2 &1 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily align\+\_\+gyro} &When running on non-\/default hardware or adding support for new sensors/sensor boards, these values are used for sensor orientation. When carefully understood, these values can also be used to rotate (in 90deg steps) or flip the board. Possible values are\+: D\+E\+F\+A\+U\+L\+T, C\+W0, C\+W90, C\+W180, C\+W270, C\+W0\+F\+L\+I\+P, C\+W90\+F\+L\+I\+P, C\+W180\+F\+L\+I\+P, C\+W270\+F\+L\+I\+P. &&&D\+E\+F\+A\+U\+L\+T &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily align\+\_\+acc} &When running on non-\/default hardware or adding support for new sensors/sensor boards, these values are used for sensor orientation. When carefully understood, these values can also be used to rotate (in 90deg steps) or flip the board. Possible values are\+: D\+E\+F\+A\+U\+L\+T, C\+W0, C\+W90, C\+W180, C\+W270, C\+W0\+F\+L\+I\+P, C\+W90\+F\+L\+I\+P, C\+W180\+F\+L\+I\+P, C\+W270\+F\+L\+I\+P. &&&D\+E\+F\+A\+U\+L\+T &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily align\+\_\+mag} &When running on non-\/default hardware or adding support for new sensors/sensor boards, these values are used for sensor orientation. When carefully understood, these values can also be used to rotate (in 90deg steps) or flip the board. Possible values are\+: D\+E\+F\+A\+U\+L\+T, C\+W0, C\+W90, C\+W180, C\+W270, C\+W0\+F\+L\+I\+P, C\+W90\+F\+L\+I\+P, C\+W180\+F\+L\+I\+P, C\+W270\+F\+L\+I\+P. &&&D\+E\+F\+A\+U\+L\+T &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily align\+\_\+board\+\_\+roll} &Arbitrary board rotation in degrees, to allow mounting it sideways / upside down / rotated etc &-\/180 &360 &0 &Master &I\+N\+T16 \\\cline{1-7}
+{\ttfamily align\+\_\+board\+\_\+pitch} &Arbitrary board rotation in degrees, to allow mounting it sideways / upside down / rotated etc &-\/180 &360 &0 &Master &I\+N\+T16 \\\cline{1-7}
+{\ttfamily align\+\_\+board\+\_\+yaw} &Arbitrary board rotation in degrees, to allow mounting it sideways / upside down / rotated etc &-\/180 &360 &0 &Master &I\+N\+T16 \\\cline{1-7}
+{\ttfamily max\+\_\+angle\+\_\+inclination} &This setting controls max inclination (tilt) allowed in angle (level) mode. default 500 (50 degrees). &100 &900 &500 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily gyro\+\_\+lpf} &Hardware lowpass filter for gyro. Allowed values depend on the driver -\/ For example M\+P\+U6050 allows 10\+H\+Z,20\+H\+Z,42\+H\+Z,98\+H\+Z,188\+H\+Z,256\+Hz (8khz mode). If you have to set gyro lpf below 42\+Hz generally means the frame is vibrating too much, and that should be fixed first. &10\+H\+Z &256\+H\+Z &42\+H\+Z &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily moron\+\_\+threshold} &When powering up, gyro bias is calculated. If the model is shaking/moving during this initial calibration, offsets are calculated incorrectly, and could lead to poor flying performance. This threshold (default of 32) means how much average gyro reading could differ before re-\/calibration is triggered. &0 &128 &32 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gyro\+\_\+cmpf\+\_\+factor} &This setting controls the Gyro Weight for the Gyro/\+Acc complementary filter. Increasing this value reduces and delays Acc influence on the output of the filter. &100 &1000 &600 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily gyro\+\_\+cmpfm\+\_\+factor} &This setting controls the Gyro Weight for the Gyro/\+Magnetometer complementary filter. Increasing this value reduces and delays the Magnetometer influence on the output of the filter. &100 &1000 &250 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily alt\+\_\+hold\+\_\+deadband} &&1 &250 &40 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily alt\+\_\+hold\+\_\+fast\+\_\+change} &&O\+F\+F &O\+N &O\+N &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily deadband} &These are values (in us) by how much R\+C input can be different before it's considered valid for roll and pitch axis. For transmitters with jitter on outputs, this value can be increased. Defaults are zero, but can be increased up to 10 or so if rc inputs twitch while idle. This value is applied either side of the centrepoint. &0 &32 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily yaw\+\_\+deadband} &These are values (in us) by how much R\+C input can be different before it's considered valid for the yaw axis. For transmitters with jitter on outputs, this value can be increased. Defaults are zero, but can be increased up to 10 or so if rc inputs twitch while idle. This value is applied either side of the centrepoint. &0 &100 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily throttle\+\_\+correction\+\_\+value} &The throttle\+\_\+correction\+\_\+value will be added to the throttle input. It will be maximal at the throttle\+\_\+correction\+\_\+angle and over, null when the copter is leveled and proportional in bewteen. The angle is set with 0.\+1 deg steps from 1 to 900, ie \+: 300 = 30.\+0 deg, 225 = 22.\+5 deg. &0 &150 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily throttle\+\_\+correction\+\_\+angle} &The throttle\+\_\+correction\+\_\+value will be added to the throttle input. It will be maximal at the throttle\+\_\+correction\+\_\+angle and over, null when the copter is leveled and proportional in bewteen. The angle is set with 0.\+1 deg steps from 1 to 900, ie \+: 300 = 30.\+0 deg, 225 = 22.\+5 deg. &1 &900 &800 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily yaw\+\_\+control\+\_\+direction} &&-\/1 &1 &1 &Master &I\+N\+T8 \\\cline{1-7}
+{\ttfamily yaw\+\_\+motor\+\_\+direction} &&-\/1 &1 &1 &Profile &I\+N\+T8 \\\cline{1-7}
+{\ttfamily tri\+\_\+unarmed\+\_\+servo} &On tricopter mix only, if this is set to 1, servo will always be correcting regardless of armed state. to disable this, set it to 0. &O\+F\+F &O\+N &O\+N &Profile &I\+N\+T8 \\\cline{1-7}
+{\ttfamily default\+\_\+rate\+\_\+profile} &Default = profile number &0 &2 &&Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily rc\+\_\+rate} &&0 &250 &90 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily rc\+\_\+expo} &&0 &100 &65 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily rc\+\_\+yaw\+\_\+expo} &&0 &100 &0 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily thr\+\_\+mid} &&0 &100 &50 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily thr\+\_\+expo} &&0 &100 &0 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily roll\+\_\+pitch\+\_\+rate} &&0 &100 &0 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily yaw\+\_\+rate} &&0 &100 &0 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily tpa\+\_\+rate} &Throttle P\+I\+D attenuation reduces influence of P on R\+O\+L\+L and P\+I\+T\+C\+H as throttle increases. For every 1\% throttle after the T\+P\+A breakpoint, P is reduced by the T\+P\+A rate. &0 &100 &0 &Rate Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily tpa\+\_\+breakpoint} &See tpa\+\_\+rate. &1000 &2000 &1500 &Rate Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily failsafe\+\_\+delay} &Time in deciseconds to wait before activating failsafe when signal is lost. See \href{Failsafe.md#failsafe_delay}{\tt Failsafe documentation}. &0 &200 &10 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily failsafe\+\_\+off\+\_\+delay} &Time in deciseconds to wait before turning off motors when failsafe is activated. See \href{Failsafe.md#failsafe_off_delay}{\tt Failsafe documentation}. &0 &200 &200 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily failsafe\+\_\+throttle} &Throttle level used for landing when failsafe is enabled. See \href{Failsafe.md#failsafe_throttle}{\tt Failsafe documentation}. &1000 &2000 &1000 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily rx\+\_\+min\+\_\+usec} &Defines the shortest pulse width value used when ensuring the channel value is valid. If the receiver gives a pulse value lower than this value then the channel will be marked as bad and will default to the value of {\ttfamily mid\+\_\+rc}. &100 &2000 &885 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily rx\+\_\+max\+\_\+usec} &Defines the longest pulse width value used when ensuring the channel value is valid. If the receiver gives a pulse value higher than this value then the channel will be marked as bad and will default to the value of {\ttfamily mid\+\_\+rc}. &100 &3000 &2115 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily gimbal\+\_\+mode} &When feature S\+E\+R\+V\+O\+\_\+\+T\+I\+L\+T is enabled, this can be either N\+O\+R\+M\+A\+L or M\+I\+X\+T\+I\+L\+T &&&N\+O\+R\+M\+A\+L &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily acc\+\_\+hardware} &This is used to suggest which accelerometer driver should load, or to force no accelerometer in case gyro-\/only flight is needed. Default (0) will attempt to auto-\/detect among enabled drivers. Otherwise, to force a particular device, set it to 2 for A\+D\+X\+L345, 3 for M\+P\+U6050 integrated accelerometer, 4 for M\+M\+A8452, 5 for B\+M\+A280, 6 for L\+S\+M303\+D\+L\+H\+C, 7 for M\+P\+U6000, 8 for M\+P\+U6500 or 1 to disable accelerometer alltogether -\/ resulting in gyro-\/only operation. &0 &9 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily acc\+\_\+cut\+\_\+hz} &Set the Low Pass Filter factor for A\+C\+C. Reducing this value would reduce A\+C\+C noise (visible in G\+U\+I), but would increase A\+C\+C lag time. Zero = no filter &0 &200 &15 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily accxy\+\_\+deadband} &&0 &100 &40 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily accz\+\_\+deadband} &&0 &100 &40 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily accz\+\_\+lpf\+\_\+cutoff} &&1 &20 &5 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily acc\+\_\+unarmedcal} &&O\+F\+F &O\+N &O\+N &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily acc\+\_\+trim\+\_\+pitch} &&-\/300 &300 &0 &Profile &I\+N\+T16 \\\cline{1-7}
+{\ttfamily acc\+\_\+trim\+\_\+roll} &&-\/300 &300 &0 &Profile &I\+N\+T16 \\\cline{1-7}
+{\ttfamily baro\+\_\+tab\+\_\+size} &&0 &48 &21 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily baro\+\_\+noise\+\_\+lpf} &&0 &1 &0.\+6 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily baro\+\_\+cf\+\_\+vel} &&0 &1 &0.\+985 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily baro\+\_\+cf\+\_\+alt} &&0 &1 &0.\+965 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily mag\+\_\+hardware} &0 = Default, use whatever mag hardware is defined for your board type ; 1 = None, disable mag ; 2 = H\+M\+C5883 ; 3 = A\+K8975 (for versions $<$= 1.\+7.\+1\+: 1 = H\+M\+C5883 ; 2 = A\+K8975 ; 3 = None, disable mag) &0 &3 &0 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily mag\+\_\+declination} &Current location magnetic declination in format. For example, -\/6deg 37min, = for Japan. Leading zero in ddd not required. Get your local magnetic declination here\+: \href{http://magnetic-declination.com/}{\tt http\+://magnetic-\/declination.\+com/} &-\/18000 &18000 &0 &Profile &I\+N\+T16 \\\cline{1-7}
+{\ttfamily pid\+\_\+controller} &M\+W23, M\+W\+R\+E\+W\+R\+I\+T\+E, L\+U\+X &&&M\+W\+R\+E\+W\+R\+I\+T\+E &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+pitch} &&0 &200 &40 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+pitch} &&0 &200 &30 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+pitch} &&0 &200 &23 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+roll} &&0 &200 &40 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+roll} &&0 &200 &30 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+roll} &&0 &200 &23 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+yaw} &&0 &200 &85 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+yaw} &&0 &200 &45 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+yaw} &&0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+pitchf} &&0 &100 &1.\+5 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily i\+\_\+pitchf} &&0 &100 &0.\+4 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily d\+\_\+pitchf} &&0 &100 &0.\+03 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily p\+\_\+rollf} &&0 &100 &1.\+5 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily i\+\_\+rollf} &&0 &100 &0.\+4 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily d\+\_\+rollf} &&0 &100 &0.\+03 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily p\+\_\+yawf} &&0 &100 &2.\+5 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily i\+\_\+yawf} &&0 &100 &1.\+0 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily d\+\_\+yawf} &&0 &100 &0.\+00 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily level\+\_\+horizon} &&0 &10 &3 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily level\+\_\+angle} &&0 &10 &5 &Profile &F\+L\+O\+A\+T \\\cline{1-7}
+{\ttfamily sensitivity\+\_\+horizon} &&0 &250 &75 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+alt} &&0 &200 &50 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+alt} &&0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+alt} &&0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+level} &&0 &200 &20 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+level} &&0 &200 &10 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+level} &&0 &200 &100 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily p\+\_\+vel} &&0 &200 &120 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily i\+\_\+vel} &&0 &200 &45 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily d\+\_\+vel} &&0 &200 &1 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily dterm\+\_\+cut\+\_\+hz} &Lowpass cutoff filter for Dterm for all P\+I\+D controllers &0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily pterm\+\_\+cut\+\_\+hz} &Lowpass cutoff filter for Pterm for all P\+I\+D controllers &0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily gyro\+\_\+cut\+\_\+hz} &Lowpass cutoff filter for gyro input &0 &200 &0 &Profile &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily yaw\+\_\+jump\+\_\+prevention\+\_\+limit} &Prevent yaw jumps during yaw stops and rapid Y\+A\+W input. To disable set to 500. Adjust this if your aircraft 'skids out'. Higher values increases Y\+A\+W authority but can cause roll/pitch instability in case of underpowered U\+A\+Vs. Lower values makes yaw adjustments more gentle but can cause U\+A\+V unable to keep heading &80 &500 &200 &Master &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily yaw\+\_\+p\+\_\+limit} &Limiter for yaw P term. This parameter is only affecting P\+I\+D controller M\+W23. To disable set to 500 (actual default). &100 &500 &500 &Profile &U\+I\+N\+T16 \\\cline{1-7}
+{\ttfamily blackbox\+\_\+rate\+\_\+num} &&1 &32 &1 &Master &U\+I\+N\+T8 \\\cline{1-7}
+{\ttfamily blackbox\+\_\+rate\+\_\+denom} &&1 &32 &1 &Master &U\+I\+N\+T8 \\\cline{1-7}
+\end{TabularC}

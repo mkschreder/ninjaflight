@@ -1,0 +1,72 @@
+\hypertarget{struct____mavlink__manual__control__t}{\section{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t Struct Reference}
+\label{struct____mavlink__manual__control__t}\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+manual\+\_\+control.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+int16\+\_\+t \hyperlink{struct____mavlink__manual__control__t_add34b2bd0b54651701e7d8b2912868a6}{x}
+\begin{DoxyCompactList}\small\item\em X-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to forward(1000)-\/backward(-\/1000) movement on a joystick and the pitch of a vehicle. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{struct____mavlink__manual__control__t_a5f705735ffdbe9c373151fe73c0abedb}{y}
+\begin{DoxyCompactList}\small\item\em Y-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to left(-\/1000)-\/right(1000) movement on a joystick and the roll of a vehicle. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{struct____mavlink__manual__control__t_a9e3fd9d9bcd622e31cca4d44f66343c1}{z}
+\begin{DoxyCompactList}\small\item\em Z-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -\/1000 on a joystick and the thrust of a vehicle. \end{DoxyCompactList}\item 
+int16\+\_\+t \hyperlink{struct____mavlink__manual__control__t_a7311c5d986a66ba78c8f3c62e6163d8b}{r}
+\begin{DoxyCompactList}\small\item\em R-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-\/clockwise being 1000 and clockwise being -\/1000, and the yaw of a vehicle. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__manual__control__t_addf991277abf6fad36b842fdba36fd89}{buttons}
+\begin{DoxyCompactList}\small\item\em A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__manual__control__t_ac69f96effc87ea6377989b2350a2a4eb}{target}
+\begin{DoxyCompactList}\small\item\em The system to be controlled. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__manual__control__t_addf991277abf6fad36b842fdba36fd89}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!buttons@{buttons}}
+\index{buttons@{buttons}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{buttons}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::buttons}}\label{struct____mavlink__manual__control__t_addf991277abf6fad36b842fdba36fd89}
+
+
+A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1. 
+
+\hypertarget{struct____mavlink__manual__control__t_a7311c5d986a66ba78c8f3c62e6163d8b}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!r@{r}}
+\index{r@{r}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{r}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::r}}\label{struct____mavlink__manual__control__t_a7311c5d986a66ba78c8f3c62e6163d8b}
+
+
+R-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-\/clockwise being 1000 and clockwise being -\/1000, and the yaw of a vehicle. 
+
+\hypertarget{struct____mavlink__manual__control__t_ac69f96effc87ea6377989b2350a2a4eb}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!target@{target}}
+\index{target@{target}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{target}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::target}}\label{struct____mavlink__manual__control__t_ac69f96effc87ea6377989b2350a2a4eb}
+
+
+The system to be controlled. 
+
+\hypertarget{struct____mavlink__manual__control__t_add34b2bd0b54651701e7d8b2912868a6}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!x@{x}}
+\index{x@{x}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::x}}\label{struct____mavlink__manual__control__t_add34b2bd0b54651701e7d8b2912868a6}
+
+
+X-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to forward(1000)-\/backward(-\/1000) movement on a joystick and the pitch of a vehicle. 
+
+\hypertarget{struct____mavlink__manual__control__t_a5f705735ffdbe9c373151fe73c0abedb}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!y@{y}}
+\index{y@{y}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::y}}\label{struct____mavlink__manual__control__t_a5f705735ffdbe9c373151fe73c0abedb}
+
+
+Y-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to left(-\/1000)-\/right(1000) movement on a joystick and the roll of a vehicle. 
+
+\hypertarget{struct____mavlink__manual__control__t_a9e3fd9d9bcd622e31cca4d44f66343c1}{\index{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}!z@{z}}
+\index{z@{z}!\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t}}
+\subsubsection[{z}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+manual\+\_\+control\+\_\+t\+::z}}\label{struct____mavlink__manual__control__t_a9e3fd9d9bcd622e31cca4d44f66343c1}
+
+
+Z-\/axis, normalized to the range \mbox{[}-\/1000,1000\mbox{]}. A value of I\+N\+T16\+\_\+\+M\+A\+X indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -\/1000 on a joystick and the thrust of a vehicle. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__manual__control_8h}{mavlink\+\_\+msg\+\_\+manual\+\_\+control.\+h}\end{DoxyCompactItemize}

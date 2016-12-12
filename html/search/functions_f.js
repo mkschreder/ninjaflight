@@ -1,0 +1,12 @@
+var searchData=
+[
+  ['quat_5fadd',['quat_add',['../quaternion_8c.html#a7f9fce4e01e226aa6ac7af98f70e3d5a',1,'quat_add(const quat_t *a, const quat_t *b):&#160;quaternion.c'],['../quaternion_8h.html#a7f9fce4e01e226aa6ac7af98f70e3d5a',1,'quat_add(const quat_t *a, const quat_t *b):&#160;quaternion.c']]],
+  ['quat_5finv',['quat_inv',['../quaternion_8c.html#ac1eb4ebe1c3395cfb93da9b9ef8ed3c4',1,'quat_inv(const quat_t *q):&#160;quaternion.c'],['../quaternion_8h.html#ac1eb4ebe1c3395cfb93da9b9ef8ed3c4',1,'quat_inv(const quat_t *q):&#160;quaternion.c']]],
+  ['quat_5fmul',['quat_mul',['../quaternion_8c.html#ad32e28d4cbc69c38aa67dbfe10819521',1,'quat_mul(const quat_t *a, const quat_t *b):&#160;quaternion.c'],['../quaternion_8h.html#ad32e28d4cbc69c38aa67dbfe10819521',1,'quat_mul(const quat_t *a, const quat_t *b):&#160;quaternion.c']]],
+  ['quat_5fnormalize',['quat_normalize',['../quaternion_8c.html#a218371ffcff6493fc11c8d2d75d00c89',1,'quat_normalize(const quat_t *q):&#160;quaternion.c'],['../quaternion_8h.html#a218371ffcff6493fc11c8d2d75d00c89',1,'quat_normalize(const quat_t *q):&#160;quaternion.c']]],
+  ['quat_5fscale',['quat_scale',['../quaternion_8c.html#afb2e12c286a0696c92e4226f93e2f34d',1,'quat_scale(const quat_t *q, float scale):&#160;quaternion.c'],['../quaternion_8h.html#afb2e12c286a0696c92e4226f93e2f34d',1,'quat_scale(const quat_t *q, float scale):&#160;quaternion.c']]],
+  ['quickmedianfilter3',['quickMedianFilter3',['../maths_8c.html#abad95284b076d4f4f4721a9c0dbf0ca2',1,'quickMedianFilter3(int32_t *v):&#160;maths.c'],['../maths_8h.html#abad95284b076d4f4f4721a9c0dbf0ca2',1,'quickMedianFilter3(int32_t *v):&#160;maths.c']]],
+  ['quickmedianfilter5',['quickMedianFilter5',['../maths_8c.html#a852d720eb99c329fe706ebff8b30a975',1,'quickMedianFilter5(int32_t *v):&#160;maths.c'],['../maths_8h.html#a852d720eb99c329fe706ebff8b30a975',1,'quickMedianFilter5(int32_t *v):&#160;maths.c']]],
+  ['quickmedianfilter7',['quickMedianFilter7',['../maths_8c.html#a0f4123231e1535e7413a3d517b826705',1,'quickMedianFilter7(int32_t *v):&#160;maths.c'],['../maths_8h.html#a0f4123231e1535e7413a3d517b826705',1,'quickMedianFilter7(int32_t *v):&#160;maths.c']]],
+  ['quickmedianfilter9',['quickMedianFilter9',['../maths_8c.html#a112901c847abddac82a9a0abffe6c099',1,'quickMedianFilter9(int32_t *v):&#160;maths.c'],['../maths_8h.html#a112901c847abddac82a9a0abffe6c099',1,'quickMedianFilter9(int32_t *v):&#160;maths.c']]]
+];

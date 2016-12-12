@@ -1,0 +1,11 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$flight__mixer__unittest_8cc.html#acaff33755e1a4f280642b9572b7d7b81" title="resetRX" alt="" coords="170,5,241,32"/>
+<area shape="rect" id="node3" href="$group__MIXER.html#gab6ecb3be636e39dc1582e4bb448c3bf7" title="returns the number of motors that are currently being controlled by mixer profile ..." alt="" coords="126,56,285,83"/>
+<area shape="rect" id="node4" href="$group__MIXER.html#gaec0e6d4ba020b8ae1b3d593afdbd4586" title="returns number of servos that are used by the mixer. " alt="" coords="127,107,284,133"/>
+<area shape="rect" id="node5" href="$group__MIXER.html#gaedfa8863c1b4819082c4349bc4f053be" title="inputs a command to one of the input channels of the mixer " alt="" coords="129,157,282,184"/>
+<area shape="rect" id="node7" href="$group__MIXER.html#ga2250ad03e802112ed15b702ba86faaf4" title="arms/disarms the mixer (when disarmed, motor outputs will be set to disarmed pwm values. These are reset to either midrc when in 3d mode or to mincommand when not in 3d mode) " alt="" coords="134,208,277,235"/>
+<area shape="rect" id="node8" href="$group__MIXER.html#ga724983e86f9da0e57f4aa4ec495d2d87" title="calculates outputs from all mixer inputs and mixing rules " alt="" coords="155,325,255,352"/>
+<area shape="rect" id="node10" href="$group__MIXER.html#gabff36b1d8ccaf72b089c8776573a00e8" title="sets throttle range of the mixer (can be used to set 3d throttle range too) " alt="" coords="142,259,269,301"/>
+<area shape="rect" id="node6" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="359,267,433,293"/>
+<area shape="rect" id="node9" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="334,325,458,352"/>
+</map>

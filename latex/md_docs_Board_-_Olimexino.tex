@@ -1,0 +1,107 @@
+The Olimexino is a cheap and widely available development board
+
+This board is not recommended for cleanflight development because many of the pins needed are not broken out to header pins. A better choice for development is the Port103\+R, E\+U\+S\+T\+M32\+F103\+R\+B (F1) or the S\+T\+M32\+F3\+Discovery (F3).
+
+\subsection*{Connections}
+
+\subsubsection*{R\+C Input}
+
+I\+N\+P\+U\+T
+
+P\+A0 C\+H1 -\/ D2 -\/ P\+W\+M1 / P\+P\+M P\+A1 C\+H2 -\/ D3 -\/ P\+W\+M2 / P\+W\+M R\+S\+S\+I P\+A2 C\+H3 -\/ D1 -\/ P\+W\+M3 / U\+A\+R\+T2 T\+X P\+A3 C\+H4 -\/ D0 -\/ P\+W\+M4 / U\+A\+R\+T2 R\+X P\+A6 C\+H5 -\/ D12 -\/ P\+W\+M5 / S\+O\+F\+T\+S\+E\+R\+I\+A\+L1 R\+X P\+A7 C\+H6 -\/ D11 -\/ P\+W\+M6 / S\+O\+F\+T\+S\+E\+R\+I\+A\+L1 T\+X P\+B0 C\+H7 -\/ D27 -\/ P\+W\+M7 / S\+O\+F\+T\+S\+E\+R\+I\+A\+L2 R\+X P\+B1 C\+H8 -\/ D28 -\/ P\+W\+M8 / S\+O\+F\+T\+S\+E\+R\+I\+A\+L2 T\+X
+
+\subsubsection*{P\+W\+M Output}
+
+O\+U\+T\+P\+U\+T P\+A8 C\+H1 -\/ P\+W\+M9 -\/ D6 P\+A11 C\+H2 -\/ P\+W\+M10 -\/ U\+S\+B\+D\+M P\+B6 C\+H3 -\/ P\+W\+M11 -\/ D5 P\+B7 C\+H4 -\/ P\+W\+M12 -\/ D9 P\+B8 C\+H5 -\/ P\+W\+M13 -\/ D14 P\+B9 C\+H6 -\/ P\+W\+M14 -\/ D24
+
+\subsection*{Olimexino Shield V1}
+
+Headers for a C\+P2102 for U\+A\+R\+T1
+
+Top left
+
+6 way header pinouts (left to right)
+
+1 -\/ N/\+C 2 -\/ N/\+C 3 -\/ N/\+C 4 -\/ D7 -\/ U\+A\+R\+T1 T\+X / C\+P2102 R\+X 5 -\/ D8 -\/ U\+A\+R\+T1 R\+X / C\+P2102 T\+X 6 -\/ G\+N\+D
+
+Headers for P\+P\+M, R\+S\+S\+I, Soft\+Serial1 inputs and Motor outputs
+
+Top centre
+
+Top Row = G\+R\+O\+U\+N\+D Middle Row = 5\+V Bottom Row = Signals
+
+Signal pinouts (left to right)
+
+1 -\/ D2 -\/ P\+W\+M1 -\/ P\+P\+M 2 -\/ D3 -\/ P\+W\+M2 -\/ R\+S\+S\+I 3 -\/ D11 -\/ P\+W\+M6 -\/ I\+N\+P\+U\+T C\+H6 / S\+S1 T\+X 4 -\/ D12 -\/ P\+W\+M5 -\/ I\+N\+P\+U\+T C\+H5 / S\+S1 R\+X 5 -\/ D5 -\/ P\+W\+M11 -\/ O\+U\+T\+P\+U\+T C\+H3 6 -\/ D9 -\/ P\+W\+M12 -\/ O\+U\+T\+P\+U\+T C\+H4 7 -\/ D14 -\/ P\+W\+M13 -\/ O\+U\+T\+P\+U\+T C\+H5 8 -\/ D24 -\/ P\+W\+M14 -\/ O\+U\+T\+P\+U\+T C\+H6
+
+Soft\+Serial 1 -\/ Headers for F\+T\+D\+I
+
+Top Right
+
+6 way header pinouts (left to right)
+
+1 -\/ N/\+C 2 -\/ D11 -\/ S\+S1 or U\+A\+R\+T2 T\+X / F\+T\+D\+I R\+X 3 -\/ D12 -\/ S\+S1 or U\+A\+R\+T2 R\+X / F\+T\+D\+I T\+X 4 -\/ N/\+C 5 -\/ N/\+C 6 -\/ G\+N\+D
+
+Top Right
+
+3 way power selector header
+
+1 -\/ V\+I\+N 2 -\/ 5\+V from F\+T\+D\+I 3 -\/ N/\+C -\/ Jumper Storage
+
+Middle Left
+
+3 way power selector header
+
+1 -\/ V\+I\+N 2 -\/ 5\+V from C\+P2102 3 -\/ N/\+C -\/ Jumper Storage
+
+Use either power selector to supply V\+I\+N from the serial port adapter sockets, ensure that both power selectors are not enabled at the same time. One or both of the power selector jumpers M\+U\+S\+T be in the jumper storage position.
+
+Sonar
+
+Inner Middle Bottom Right
+
+4 Header pins (top to bottom)
+
+1 -\/ V\+I\+N 2 -\/ Trigger 3 -\/ Echo 4 -\/ G\+N\+D
+
+Serial I\+O \& Serial Loopback
+
+Bottom right
+
+The header pins allows combinations of serial loopback and Serial I\+O. Any amount of connections or jumpers can be used at the same time.
+
+Jumper positions
+
+$>$$<$ = Horizontal jumper
+
+v = Vertical jumper $^\wedge$
+
+$>$$<$-\/ F\+T\+D\+I R\+X connected to S\+S1 T\+X $>$$<$-\/ F\+T\+D\+I T\+X connected to S\+S1 R\+X
+
+-\/$>$$<$ F\+T\+D\+I R\+X connected to U\+A\+R\+T2 T\+X -\/$>$$<$ F\+T\+D\+I T\+X connected to U\+A\+R\+T2 R\+X
+
+-\/v-\/ F\+T\+D\+I L\+O\+O\+P\+B\+A\+C\+K -\/$^\wedge$-\/
+
+v-- S\+S1 L\+O\+O\+P\+B\+A\+C\+K $^\wedge$--
+
+--v U\+A\+R\+T2 L\+O\+O\+P\+B\+A\+C\+K --$^\wedge$
+
+6 way header pinouts (top left to bottom right)
+
+123 456
+
+1 -\/ S\+S 1 T\+X 2 -\/ F\+T\+D\+I R\+X 3 -\/ U\+A\+R\+T2 T\+X 4 -\/ S\+S1 R\+X 5 -\/ F\+T\+D\+I T\+X 6 -\/ U\+A\+R\+T2 R\+X
+
+Bottom Right
+
+Ho\+T\+T Telemetry port
+
+When the Ho\+T\+T enable jumper is on pins 2 and 3 then Ho\+T\+T data can be received/transmitted on either serial port depending on the placement of the Derial I\+O selection jumpers.
+
+When not in use the Ho\+T\+T enable jumper can be stored on pins 3 and 4
+
+The Ho\+T\+T telemetry is connected to the center pins (2 \& 5) of the Serial I\+O header.
+
+4 way header (left to right)
+
+1 -\/ Ho\+T\+T Telemetry In/\+Out 2 -\/ Ho\+T\+T Enable Jumper 3 -\/ Ho\+T\+T Enable Jumper 4 -\/ N/\+C -\/ Jumper Storage 

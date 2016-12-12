@@ -1,0 +1,95 @@
+\subsection*{Arming}
+
+When armed, the aircraft is ready to fly and the motors will spin when throttle is applied. The motors will spin at a slow speed when armed (this feature may be disabled by setting M\+O\+T\+O\+R\+\_\+\+S\+T\+O\+P, but for safety reasons, that is not recommended).
+
+By default, arming and disarming is done using stick positions. (N\+O\+T\+E\+: this feature is disabled when using a switch to arm.)
+
+Arming is disabled if\+:
+\begin{DoxyItemize}
+\item C\+L\+I is active in the configurator
+\item The aircraft has landed in failsafe mode
+\item Maximum arming angle is exceeded
+\item Calibration is active
+\item The system is overloaded
+\end{DoxyItemize}
+
+\subsection*{Stick Positions}
+
+The three stick positions are\+:
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Position }&{\bf Approx. Channel Input  }\\\cline{1-2}
+L\+O\+W &1000 \\\cline{1-2}
+C\+E\+N\+T\+E\+R &1500 \\\cline{1-2}
+H\+I\+G\+H &2000 \\\cline{1-2}
+\end{TabularC}
+The stick positions are combined to activate different functions\+:
+
+\begin{TabularC}{5}
+\hline
+\rowcolor{lightgray}{\bf Function }&{\bf Throttle }&{\bf Yaw }&{\bf Pitch }&{\bf Roll  }\\\cline{1-5}
+A\+R\+M &L\+O\+W &H\+I\+G\+H &C\+E\+N\+T\+E\+R &C\+E\+N\+T\+E\+R \\\cline{1-5}
+D\+I\+S\+A\+R\+M &L\+O\+W &L\+O\+W &C\+E\+N\+T\+E\+R &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Profile 1 &L\+O\+W &L\+O\+W &C\+E\+N\+T\+E\+R &L\+O\+W \\\cline{1-5}
+Profile 2 &L\+O\+W &L\+O\+W &H\+I\+G\+H &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Profile 3 &L\+O\+W &L\+O\+W &C\+E\+N\+T\+E\+R &H\+I\+G\+H \\\cline{1-5}
+Calibrate Gyro &L\+O\+W &L\+O\+W &L\+O\+W &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Calibrate Acc &H\+I\+G\+H &L\+O\+W &L\+O\+W &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Calibrate Mag/\+Compass &H\+I\+G\+H &H\+I\+G\+H &L\+O\+W &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Inflight calibration controls &L\+O\+W &L\+O\+W &H\+I\+G\+H &H\+I\+G\+H \\\cline{1-5}
+Trim Acc Left &H\+I\+G\+H &C\+E\+N\+T\+E\+R &C\+E\+N\+T\+E\+R &L\+O\+W \\\cline{1-5}
+Trim Acc Right &H\+I\+G\+H &C\+E\+N\+T\+E\+R &C\+E\+N\+T\+E\+R &H\+I\+G\+H \\\cline{1-5}
+Trim Acc Forwards &H\+I\+G\+H &C\+E\+N\+T\+E\+R &H\+I\+G\+H &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Trim Acc Backwards &H\+I\+G\+H &C\+E\+N\+T\+E\+R &L\+O\+W &C\+E\+N\+T\+E\+R \\\cline{1-5}
+Disable L\+C\+D Page Cycling &L\+O\+W &C\+E\+N\+T\+E\+R &H\+I\+G\+H &L\+O\+W \\\cline{1-5}
+Enable L\+C\+D Page Cycling &L\+O\+W &C\+E\+N\+T\+E\+R &H\+I\+G\+H &H\+I\+G\+H \\\cline{1-5}
+Save setting &L\+O\+W &L\+O\+W &L\+O\+W &H\+I\+G\+H \\\cline{1-5}
+\end{TabularC}
+
+
+Download a graphic \href{https://multiwii.googlecode.com/svn/branches/Hamburger/MultiWii-StickConfiguration-23_v0-5772156649.pdf}{\tt cheat sheet} with Tx stick commands (the latest version can always be found \href{https://code.google.com/p/multiwii/source/browse/#svn%2Fbranches%2FHamburger}{\tt here}).
+
+\subsection*{Yaw control}
+
+While arming/disarming with sticks, your yaw stick will be moving to extreme values. In order to prevent your craft from trying to yaw during arming/disarming while on the ground, your yaw input will not cause the craft to yaw when the throttle is L\+O\+W (i.\+e. below the {\ttfamily min\+\_\+check} setting).
+
+For tricopters, you may want to retain the ability to yaw while on the ground, so that you can verify that your tail servo is working correctly before takeoff. You can do this by setting {\ttfamily tri\+\_\+unarmed\+\_\+servo} to {\ttfamily 1} on the C\+L\+I (this is the default). If you are having issues with your tail rotor contacting the ground during arm/disarm, you can set this to {\ttfamily 0} instead. Check this table to decide which setting will suit you\+:
+
+\begin{TabularC}{5}
+\hline
+\rowcolor{lightgray}\multicolumn{5}{|p{(\linewidth-\tabcolsep*5-\arrayrulewidth*1)*5/5}|}{\cellcolor{lightgray}{\bf Is yaw control of the tricopter allowed?  }}\\\cline{1-5}
+\rowcolor{lightgray}{\bf }&\multicolumn{2}{p{(\linewidth-\tabcolsep*5-\arrayrulewidth*3)*2/5}|}{\cellcolor{lightgray}{\bf Disarmed}}&\multicolumn{2}{p{(\linewidth-\tabcolsep*5-\arrayrulewidth*3)*2/5}|}{\cellcolor{lightgray}{\bf Armed  }}\\\cline{1-5}
+\rowcolor{lightgray}{\bf }&{\bf Throttle low}&{\bf Throttle normal}&{\bf Throttle low}&{\bf Throttle normal  }\\\cline{1-5}
+\multirow{2}{\linewidth}{tri\+\_\+unarmed\+\_\+servo = 0}&No&No&No&Yes  \\\cline{2-5}
+&No&No&No&Yes  \\\cline{1-5}
+\multirow{2}{\linewidth}{tri\+\_\+unarmed\+\_\+servo = 1}&Yes&Yes&Yes&Yes  \\\cline{2-5}
+&Yes&Yes&Yes&Yes  \\\cline{1-5}
+\end{TabularC}
+
+
+\subsection*{Throttle settings and their interaction}
+
+{\ttfamily min\+\_\+command} -\/ With motor stop enabled this is the command sent to the esc's when the throttle is below min\+\_\+check or disarmed. With motor stop disabled, this is the command sent only when the copter is disarmed. This must be set well below motors spinning for safety.
+
+{\ttfamily min\+\_\+check} -\/ With switch arming mode is in use, lowering your throttle below min\+\_\+check will result in motors spinning at min\+\_\+throttle. When using the default stick arming, lowering your throttle below min\+\_\+check will result in motors spinning at min\+\_\+throttle and yaw being disabled so that you may arm/disarm. With motor stop enabled, lowering your throttle below min\+\_\+check will also result in motors off and the esc's being sent min\+\_\+command. Min\+\_\+check must be set to a level that is 100\% reliably met by the throttle throw. A setting too low may result in a dangerous condition where the copter can’t be disarmed. It is ok to set this below min\+\_\+throttle because the F\+C will automaticly scale the output to the esc's
+
+{\ttfamily min\+\_\+throttle} -\/ Typically set to just above reliable spin up of all motors. Sometimes this is set slightly higher for prop stall prevention during advanced maneuvers or sometimes considerably higher to produce a desired result. When armed with motor stop off, your motors will spin at this command so keep that in mind from a safety stand point.
+
+{\ttfamily max\+\_\+check} -\/ Throttle positions above this level will send max\+\_\+command to the esc's.
+
+{\ttfamily max\+\_\+throttle} -\/ This is the max command to the esc's from the flight controller.
+
+In depth videos explaining these terms are available from Joshua Bardwell here\+:
+
+\href{https://www.youtube.com/watch?v=WFU3VewGbbA}{\tt https\+://www.\+youtube.\+com/watch?v=\+W\+F\+U3\+Vew\+Gbb\+A}
+
+\href{https://www.youtube.com/watch?v=YNRl0OTKRGA}{\tt https\+://www.\+youtube.\+com/watch?v=\+Y\+N\+Rl0\+O\+T\+K\+R\+G\+A}
+
+\subsection*{Deadband}
+
+If yaw, roll or pitch sticks do not reliably return to centre or the radio has a lot of jitter around the centrepoint, deadband can be applied. The whole deadband value is applied {\itshape either side} of the center point rather than half the value above and half the value below. The deadband value will have an effect on stick endpoint values as the axis value will be reduced by the amount of deadband applied.
+
+{\ttfamily deadband} -\/ Applied to roll, pitch.
+
+{\ttfamily yaw\+\_\+deadband} Only applied to yaw. 

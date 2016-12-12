@@ -1,0 +1,6 @@
+<map id="ledstrip_config" name="ledstrip_config">
+<area shape="rect" id="node2" href="$structled__config.html" title="led_config" alt="" coords="5,5,85,32"/>
+<area shape="rect" id="node3" href="$structhsvColor__s.html" title="hsvColor_s" alt="" coords="111,5,199,32"/>
+<area shape="rect" id="node4" href="$structled__spc__color__indices.html" title="led_spc_color_indices" alt="" coords="223,5,373,32"/>
+<area shape="rect" id="node5" href="$structled__mode__color__indices.html" title="led_mode_color_indices" alt="" coords="398,5,559,32"/>
+</map>

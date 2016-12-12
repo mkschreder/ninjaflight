@@ -1,0 +1,4 @@
+<map id="detectMpu" name="detectMpu">
+<area shape="rect" id="node2" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="137,5,197,32"/>
+<area shape="rect" id="node3" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="245,5,307,32"/>
+</map>

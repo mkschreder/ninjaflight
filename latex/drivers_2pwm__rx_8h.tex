@@ -1,0 +1,108 @@
+\hypertarget{drivers_2pwm__rx_8h}{\section{src/main/drivers/pwm\+\_\+rx.h File Reference}
+\label{drivers_2pwm__rx_8h}\index{src/main/drivers/pwm\+\_\+rx.\+h@{src/main/drivers/pwm\+\_\+rx.\+h}}
+}
+{\ttfamily \#include \char`\"{}../config/pwm\+\_\+rx.\+h\char`\"{}}\\*
+Include dependency graph for pwm\+\_\+rx.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{drivers_2pwm__rx_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{drivers_2pwm__rx_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{drivers_2pwm__rx_8h_aaec150d94f83759e4b0bdd2cf453df72}{P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T}~0
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{drivers_2pwm__rx_8h_a8f4110207832c17105e68bcc71be3693}{ppm\+In\+Config} (const struct \hyperlink{structtimerHardware__s}{timer\+Hardware\+\_\+s} $\ast$timer\+Hardware\+Ptr)
+\item 
+void \hyperlink{drivers_2pwm__rx_8h_a4a85be22ba1aba42690e2e553c223ece}{pwm\+In\+Config} (const struct \hyperlink{structtimerHardware__s}{timer\+Hardware\+\_\+s} $\ast$timer\+Hardware\+Ptr, uint8\+\_\+t channel)
+\item 
+uint16\+\_\+t \hyperlink{drivers_2pwm__rx_8h_afc17948bcfbebd6c58505300395bab73}{pwm\+Read} (uint8\+\_\+t channel)
+\item 
+uint16\+\_\+t \hyperlink{drivers_2pwm__rx_8h_aedf845e46bc721774cf1ca5ff9ba62fd}{ppm\+Read} (uint8\+\_\+t channel)
+\item 
+bool \hyperlink{drivers_2pwm__rx_8h_a2f1a57299c1e1ccdaa95799cb3c18d52}{is\+P\+P\+M\+Data\+Being\+Received} (void)
+\item 
+void \hyperlink{drivers_2pwm__rx_8h_ac933e0aedd3aaf5c74dd3b8ef2dba8a4}{reset\+P\+P\+M\+Data\+Received\+State} (void)
+\item 
+void \hyperlink{drivers_2pwm__rx_8h_a38b3b94bbb3ef80329b84cea7a4e5210}{pwm\+Rx\+Init} (void)
+\item 
+bool \hyperlink{drivers_2pwm__rx_8h_af0059c1630d4e92409199aa870c2ece3}{is\+P\+W\+M\+Data\+Being\+Received} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{drivers_2pwm__rx_8h_aaec150d94f83759e4b0bdd2cf453df72}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T@{P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T}}
+\index{P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T@{P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+P\+M\+\_\+\+R\+C\+V\+R\+\_\+\+T\+I\+M\+E\+O\+U\+T~0}}\label{drivers_2pwm__rx_8h_aaec150d94f83759e4b0bdd2cf453df72}
+
+
+\subsection{Function Documentation}
+\hypertarget{drivers_2pwm__rx_8h_a2f1a57299c1e1ccdaa95799cb3c18d52}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!is\+P\+P\+M\+Data\+Being\+Received@{is\+P\+P\+M\+Data\+Being\+Received}}
+\index{is\+P\+P\+M\+Data\+Being\+Received@{is\+P\+P\+M\+Data\+Being\+Received}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{is\+P\+P\+M\+Data\+Being\+Received}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+P\+P\+M\+Data\+Being\+Received (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_a2f1a57299c1e1ccdaa95799cb3c18d52}
+\hypertarget{drivers_2pwm__rx_8h_af0059c1630d4e92409199aa870c2ece3}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!is\+P\+W\+M\+Data\+Being\+Received@{is\+P\+W\+M\+Data\+Being\+Received}}
+\index{is\+P\+W\+M\+Data\+Being\+Received@{is\+P\+W\+M\+Data\+Being\+Received}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{is\+P\+W\+M\+Data\+Being\+Received}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+P\+W\+M\+Data\+Being\+Received (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_af0059c1630d4e92409199aa870c2ece3}
+\hypertarget{drivers_2pwm__rx_8h_a8f4110207832c17105e68bcc71be3693}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!ppm\+In\+Config@{ppm\+In\+Config}}
+\index{ppm\+In\+Config@{ppm\+In\+Config}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{ppm\+In\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void ppm\+In\+Config (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf timer\+Hardware\+\_\+s} $\ast$}]{timer\+Hardware\+Ptr}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_a8f4110207832c17105e68bcc71be3693}
+\hypertarget{drivers_2pwm__rx_8h_aedf845e46bc721774cf1ca5ff9ba62fd}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!ppm\+Read@{ppm\+Read}}
+\index{ppm\+Read@{ppm\+Read}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{ppm\+Read}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t ppm\+Read (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_aedf845e46bc721774cf1ca5ff9ba62fd}
+\hypertarget{drivers_2pwm__rx_8h_a4a85be22ba1aba42690e2e553c223ece}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!pwm\+In\+Config@{pwm\+In\+Config}}
+\index{pwm\+In\+Config@{pwm\+In\+Config}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{pwm\+In\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+In\+Config (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf timer\+Hardware\+\_\+s} $\ast$}]{timer\+Hardware\+Ptr, }
+\item[{uint8\+\_\+t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_a4a85be22ba1aba42690e2e553c223ece}
+\hypertarget{drivers_2pwm__rx_8h_afc17948bcfbebd6c58505300395bab73}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!pwm\+Read@{pwm\+Read}}
+\index{pwm\+Read@{pwm\+Read}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{pwm\+Read}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t pwm\+Read (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{channel}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_afc17948bcfbebd6c58505300395bab73}
+\hypertarget{drivers_2pwm__rx_8h_a38b3b94bbb3ef80329b84cea7a4e5210}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!pwm\+Rx\+Init@{pwm\+Rx\+Init}}
+\index{pwm\+Rx\+Init@{pwm\+Rx\+Init}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{pwm\+Rx\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void pwm\+Rx\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_a38b3b94bbb3ef80329b84cea7a4e5210}
+\hypertarget{drivers_2pwm__rx_8h_ac933e0aedd3aaf5c74dd3b8ef2dba8a4}{\index{drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}!reset\+P\+P\+M\+Data\+Received\+State@{reset\+P\+P\+M\+Data\+Received\+State}}
+\index{reset\+P\+P\+M\+Data\+Received\+State@{reset\+P\+P\+M\+Data\+Received\+State}!drivers/pwm\+\_\+rx.\+h@{drivers/pwm\+\_\+rx.\+h}}
+\subsubsection[{reset\+P\+P\+M\+Data\+Received\+State}]{\setlength{\rightskip}{0pt plus 5cm}void reset\+P\+P\+M\+Data\+Received\+State (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{drivers_2pwm__rx_8h_ac933e0aedd3aaf5c74dd3b8ef2dba8a4}

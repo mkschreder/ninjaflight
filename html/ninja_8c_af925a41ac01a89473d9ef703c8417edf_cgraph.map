@@ -1,0 +1,8 @@
+<map id="_prearm_checks_ok" name="_prearm_checks_ok">
+<area shape="rect" id="node2" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="193,107,311,133"/>
+<area shape="rect" id="node3" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="374,5,525,32"/>
+<area shape="rect" id="node4" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="376,56,523,83"/>
+<area shape="rect" id="node5" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="361,107,538,133"/>
+<area shape="rect" id="node6" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="366,158,533,199"/>
+<area shape="rect" id="node7" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="360,224,539,251"/>
+</map>

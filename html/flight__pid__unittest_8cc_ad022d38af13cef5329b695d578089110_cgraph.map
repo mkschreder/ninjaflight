@@ -1,0 +1,18 @@
+<map id="update_anglerate" name="update_anglerate">
+<area shape="rect" id="node2" href="$group__Instruments__Main.html#ga126803b1bfe06b359e1f812a6953c521" title="ins_update" alt="" coords="207,256,292,283"/>
+<area shape="rect" id="node13" href="$anglerate_8c.html#a91914ad277ec16225499dff3d13369a3" title="anglerate_input_user" alt="" coords="178,336,321,363"/>
+<area shape="rect" id="node15" href="$anglerate_8c.html#a17ced6d2e96702ac720e3cb2253edb7b" title="anglerate_input_body\l_rates" alt="" coords="177,387,322,429"/>
+<area shape="rect" id="node16" href="$anglerate_8c.html#ab6a35e5c315c0500a5e64ff3eb214ae7" title="anglerate_input_body\l_angles" alt="" coords="177,453,322,494"/>
+<area shape="rect" id="node17" href="$anglerate_8c.html#a986121df3128fbb0b37caf46d83df48f" title="anglerate_update" alt="" coords="189,519,310,545"/>
+<area shape="rect" id="node3" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="386,157,505,184"/>
+<area shape="rect" id="node10" href="$group__IMU.html#gad46d84705e3777ce1b6a682e1c6b3a34" title="imu_enable_fast_dcm\l_convergence" alt="" coords="371,234,520,275"/>
+<area shape="rect" id="node11" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="401,300,490,327"/>
+<area shape="rect" id="node4" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="582,5,733,32"/>
+<area shape="rect" id="node5" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="584,56,731,83"/>
+<area shape="rect" id="node6" href="$flight__altitudehold__unittest_8cc.html#adfa2eeff190a02b6409eadbbdc58884d" title="sensors" alt="" coords="623,107,691,133"/>
+<area shape="rect" id="node7" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="569,157,746,184"/>
+<area shape="rect" id="node8" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="574,209,741,250"/>
+<area shape="rect" id="node9" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="568,275,747,301"/>
+<area shape="rect" id="node12" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="607,325,707,352"/>
+<area shape="rect" id="node14" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="408,351,483,377"/>
+</map>

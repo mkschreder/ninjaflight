@@ -1,0 +1,42 @@
+The M\+O\+T\+O\+L\+A\+B build target supports the S\+T\+M32\+F3-\/based boards provided by Moto\+Lab.
+
+At present this includes the Tornado\+F\+C, Cyclone\+F\+C and Moto\+F3.
+
+The Cyclone\+F\+C and Tornado\+F\+C are described here\+:
+
+\href{http://www.rcgroups.com/forums/showpost.php?p=32330479&postcount=2}{\tt http\+://www.\+rcgroups.\+com/forums/showpost.\+php?p=32330479\&postcount=2}
+
+The Moto\+F3 is described here\+:
+
+\href{http://www.rcgroups.com/forums/showpost.php?p=28508139&postcount=3}{\tt http\+://www.\+rcgroups.\+com/forums/showpost.\+php?p=28508139\&postcount=3}
+
+All boards use the S\+T\+M32\+F303 microcontroller and have the following features\+:
+
+
+\begin{DoxyItemize}
+\item 256\+K bytes of flash memory
+\item Floating point math coprocessor
+\item Three hardware serial port U\+A\+R\+Ts
+\item U\+S\+B using the built-\/in U\+S\+B phy that does not interfere with any hardware U\+A\+R\+T
+\item Stable voltage regulation
+\item High-\/voltage/high-\/current buzzer/\+L\+E\+D output
+\item Serial L\+E\+D interface
+\item Low-\/pass filtered V\+B\+A\+T input with 1/10 divider ratio
+\item Low-\/pass filtered P\+W\+M or analog R\+S\+S\+I input
+\item 8 short-\/circuit protected P\+W\+M outputs, with 5\+V buffering on the Tornado\+F\+C
+\item On-\/board 4\+S-\/compatible switching regulator (Cyclone\+F\+C and Moto\+F3)
+\item Direct mounting option for a Pololu switching regulator for up to 6\+S lipo operation (Tornado\+F\+C)
+\item Pass-\/through programming and configuration of B\+L\+Heli-\/based E\+S\+Cs using Cleanflight Configurator
+\end{DoxyItemize}
+
+The Moto\+F3 also provides built-\/in power distribution for four E\+S\+Cs, an on-\/board buzzer, and 2\+Mbyte S\+P\+I flash for data logging.
+
+\section*{Flashing}
+
+Moto\+Lab boards all use the built-\/in U\+S\+B interface on the S\+T\+M32\+F3 microcontroller. New versions of Cleanflight can be installed using Cleanflight Configurator through the U\+S\+B interface. Installation of new firmware is described here\+:
+
+U\+S\+B Flashing.\+md \char`\"{}\+U\+S\+B Flashing\char`\"{}
+
+Firmware installation using Windows operating system is complicated because the default device driver for the S\+T\+M32 U\+S\+B interface in D\+F\+U programming mode is not compatible with the Configurator flash tool. The required D\+F\+U mode driver must be manually installed. The default driver for the U\+S\+B port in normal (V\+C\+P) mode is also required for connection to Configurator. Additional details on the drivers and their installion is provided here\+:
+
+\href{http://www.rcgroups.com/forums/showthread.php?t=2537379}{\tt http\+://www.\+rcgroups.\+com/forums/showthread.\+php?t=2537379} 

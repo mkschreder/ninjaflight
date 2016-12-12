@@ -1,0 +1,225 @@
+\hypertarget{struct____mavlink__image__available__t}{\section{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t Struct Reference}
+\label{struct____mavlink__image__available__t}\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+image\+\_\+available.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__image__available__t_adb12c07627b04d6babbbbe9af879adc5}{cam\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Camera id. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__image__available__t_aacc732ef97c4f29be485280afe6a5031}{timestamp}
+\begin{DoxyCompactList}\small\item\em Timestamp. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{struct____mavlink__image__available__t_af17ddf110570d8aa5530b54e9dae1b15}{valid\+\_\+until}
+\begin{DoxyCompactList}\small\item\em Until which timestamp this buffer will stay valid. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__image__available__t_a8574894f5f5fd321cea7c83ef6756873}{img\+\_\+seq}
+\begin{DoxyCompactList}\small\item\em The image sequence number. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__image__available__t_af983c6207a4062b08e9f99e889fde124}{img\+\_\+buf\+\_\+index}
+\begin{DoxyCompactList}\small\item\em Position of the image in the buffer, starts with 0. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__image__available__t_a042a2b1564807927e9b174ceed464535}{key}
+\begin{DoxyCompactList}\small\item\em Shared memory area key. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__image__available__t_aee99095f03d198eb05b2ba220d398c1c}{exposure}
+\begin{DoxyCompactList}\small\item\em Exposure time, in microseconds. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a8f7456ee295f1e11f912daabd9658ea5}{gain}
+\begin{DoxyCompactList}\small\item\em Camera gain. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a70a2b5f46ce055f4cfa6c903438a7ca8}{roll}
+\begin{DoxyCompactList}\small\item\em Roll angle in rad. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a5ee810fc74de0b1113b9e9c0419de043}{pitch}
+\begin{DoxyCompactList}\small\item\em Pitch angle in rad. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a804cfe3215d4b9eca8f0640cad24af83}{yaw}
+\begin{DoxyCompactList}\small\item\em Yaw angle in rad. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_af5b42ebab80cce99211e957e4cb4aab1}{local\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Local frame Z coordinate (height over ground) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a9325fb7fc6a336498abdd3deefc6ae32}{lat}
+\begin{DoxyCompactList}\small\item\em G\+P\+S X coordinate. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a50de3c4b3b923b79096e95cf1b02855d}{lon}
+\begin{DoxyCompactList}\small\item\em G\+P\+S Y coordinate. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a02d7a1fd93825b80d12c4a6188f8a486}{alt}
+\begin{DoxyCompactList}\small\item\em Global frame altitude. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_acca01133ac2d009cdde67460cd6c3a80}{ground\+\_\+x}
+\begin{DoxyCompactList}\small\item\em Ground truth X. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a7af72af41728ab05afbfdce680b2897d}{ground\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Ground truth Y. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__image__available__t_a1841e4a3c1e6cdbcdd768040e336b790}{ground\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Ground truth Z. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__image__available__t_a577f2cf7105af75a14301b7d238f6a4e}{width}
+\begin{DoxyCompactList}\small\item\em Image width. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__image__available__t_a09e859dfd3fa5fc9a08e9d4e042cbd85}{height}
+\begin{DoxyCompactList}\small\item\em Image height. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__image__available__t_ac4201b17a19aa7835c7e0bdf0f78a128}{depth}
+\begin{DoxyCompactList}\small\item\em Image depth. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__image__available__t_a31888b3bcf6b8abb286795bf9c94313e}{cam\+\_\+no}
+\begin{DoxyCompactList}\small\item\em Camera \# (starts with 0) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__image__available__t_a0cea54d6d8cde7411cbd8e1deb729873}{channels}
+\begin{DoxyCompactList}\small\item\em Image channels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__image__available__t_a02d7a1fd93825b80d12c4a6188f8a486}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!alt@{alt}}
+\index{alt@{alt}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{alt}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::alt}}\label{struct____mavlink__image__available__t_a02d7a1fd93825b80d12c4a6188f8a486}
+
+
+Global frame altitude. 
+
+\hypertarget{struct____mavlink__image__available__t_adb12c07627b04d6babbbbe9af879adc5}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!cam\+\_\+id@{cam\+\_\+id}}
+\index{cam\+\_\+id@{cam\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{cam\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::cam\+\_\+id}}\label{struct____mavlink__image__available__t_adb12c07627b04d6babbbbe9af879adc5}
+
+
+Camera id. 
+
+\hypertarget{struct____mavlink__image__available__t_a31888b3bcf6b8abb286795bf9c94313e}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!cam\+\_\+no@{cam\+\_\+no}}
+\index{cam\+\_\+no@{cam\+\_\+no}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{cam\+\_\+no}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::cam\+\_\+no}}\label{struct____mavlink__image__available__t_a31888b3bcf6b8abb286795bf9c94313e}
+
+
+Camera \# (starts with 0) 
+
+\hypertarget{struct____mavlink__image__available__t_a0cea54d6d8cde7411cbd8e1deb729873}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!channels@{channels}}
+\index{channels@{channels}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{channels}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::channels}}\label{struct____mavlink__image__available__t_a0cea54d6d8cde7411cbd8e1deb729873}
+
+
+Image channels. 
+
+\hypertarget{struct____mavlink__image__available__t_ac4201b17a19aa7835c7e0bdf0f78a128}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!depth@{depth}}
+\index{depth@{depth}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{depth}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::depth}}\label{struct____mavlink__image__available__t_ac4201b17a19aa7835c7e0bdf0f78a128}
+
+
+Image depth. 
+
+\hypertarget{struct____mavlink__image__available__t_aee99095f03d198eb05b2ba220d398c1c}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!exposure@{exposure}}
+\index{exposure@{exposure}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{exposure}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::exposure}}\label{struct____mavlink__image__available__t_aee99095f03d198eb05b2ba220d398c1c}
+
+
+Exposure time, in microseconds. 
+
+\hypertarget{struct____mavlink__image__available__t_a8f7456ee295f1e11f912daabd9658ea5}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!gain@{gain}}
+\index{gain@{gain}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{gain}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::gain}}\label{struct____mavlink__image__available__t_a8f7456ee295f1e11f912daabd9658ea5}
+
+
+Camera gain. 
+
+\hypertarget{struct____mavlink__image__available__t_acca01133ac2d009cdde67460cd6c3a80}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!ground\+\_\+x@{ground\+\_\+x}}
+\index{ground\+\_\+x@{ground\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{ground\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::ground\+\_\+x}}\label{struct____mavlink__image__available__t_acca01133ac2d009cdde67460cd6c3a80}
+
+
+Ground truth X. 
+
+\hypertarget{struct____mavlink__image__available__t_a7af72af41728ab05afbfdce680b2897d}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!ground\+\_\+y@{ground\+\_\+y}}
+\index{ground\+\_\+y@{ground\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{ground\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::ground\+\_\+y}}\label{struct____mavlink__image__available__t_a7af72af41728ab05afbfdce680b2897d}
+
+
+Ground truth Y. 
+
+\hypertarget{struct____mavlink__image__available__t_a1841e4a3c1e6cdbcdd768040e336b790}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!ground\+\_\+z@{ground\+\_\+z}}
+\index{ground\+\_\+z@{ground\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{ground\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::ground\+\_\+z}}\label{struct____mavlink__image__available__t_a1841e4a3c1e6cdbcdd768040e336b790}
+
+
+Ground truth Z. 
+
+\hypertarget{struct____mavlink__image__available__t_a09e859dfd3fa5fc9a08e9d4e042cbd85}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!height@{height}}
+\index{height@{height}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{height}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::height}}\label{struct____mavlink__image__available__t_a09e859dfd3fa5fc9a08e9d4e042cbd85}
+
+
+Image height. 
+
+\hypertarget{struct____mavlink__image__available__t_af983c6207a4062b08e9f99e889fde124}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!img\+\_\+buf\+\_\+index@{img\+\_\+buf\+\_\+index}}
+\index{img\+\_\+buf\+\_\+index@{img\+\_\+buf\+\_\+index}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{img\+\_\+buf\+\_\+index}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::img\+\_\+buf\+\_\+index}}\label{struct____mavlink__image__available__t_af983c6207a4062b08e9f99e889fde124}
+
+
+Position of the image in the buffer, starts with 0. 
+
+\hypertarget{struct____mavlink__image__available__t_a8574894f5f5fd321cea7c83ef6756873}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!img\+\_\+seq@{img\+\_\+seq}}
+\index{img\+\_\+seq@{img\+\_\+seq}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{img\+\_\+seq}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::img\+\_\+seq}}\label{struct____mavlink__image__available__t_a8574894f5f5fd321cea7c83ef6756873}
+
+
+The image sequence number. 
+
+\hypertarget{struct____mavlink__image__available__t_a042a2b1564807927e9b174ceed464535}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!key@{key}}
+\index{key@{key}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{key}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::key}}\label{struct____mavlink__image__available__t_a042a2b1564807927e9b174ceed464535}
+
+
+Shared memory area key. 
+
+\hypertarget{struct____mavlink__image__available__t_a9325fb7fc6a336498abdd3deefc6ae32}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!lat@{lat}}
+\index{lat@{lat}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{lat}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::lat}}\label{struct____mavlink__image__available__t_a9325fb7fc6a336498abdd3deefc6ae32}
+
+
+G\+P\+S X coordinate. 
+
+\hypertarget{struct____mavlink__image__available__t_af5b42ebab80cce99211e957e4cb4aab1}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!local\+\_\+z@{local\+\_\+z}}
+\index{local\+\_\+z@{local\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{local\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::local\+\_\+z}}\label{struct____mavlink__image__available__t_af5b42ebab80cce99211e957e4cb4aab1}
+
+
+Local frame Z coordinate (height over ground) 
+
+\hypertarget{struct____mavlink__image__available__t_a50de3c4b3b923b79096e95cf1b02855d}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!lon@{lon}}
+\index{lon@{lon}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{lon}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::lon}}\label{struct____mavlink__image__available__t_a50de3c4b3b923b79096e95cf1b02855d}
+
+
+G\+P\+S Y coordinate. 
+
+\hypertarget{struct____mavlink__image__available__t_a5ee810fc74de0b1113b9e9c0419de043}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!pitch@{pitch}}
+\index{pitch@{pitch}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{pitch}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::pitch}}\label{struct____mavlink__image__available__t_a5ee810fc74de0b1113b9e9c0419de043}
+
+
+Pitch angle in rad. 
+
+\hypertarget{struct____mavlink__image__available__t_a70a2b5f46ce055f4cfa6c903438a7ca8}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!roll@{roll}}
+\index{roll@{roll}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{roll}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::roll}}\label{struct____mavlink__image__available__t_a70a2b5f46ce055f4cfa6c903438a7ca8}
+
+
+Roll angle in rad. 
+
+\hypertarget{struct____mavlink__image__available__t_aacc732ef97c4f29be485280afe6a5031}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{timestamp}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::timestamp}}\label{struct____mavlink__image__available__t_aacc732ef97c4f29be485280afe6a5031}
+
+
+Timestamp. 
+
+\hypertarget{struct____mavlink__image__available__t_af17ddf110570d8aa5530b54e9dae1b15}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!valid\+\_\+until@{valid\+\_\+until}}
+\index{valid\+\_\+until@{valid\+\_\+until}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{valid\+\_\+until}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::valid\+\_\+until}}\label{struct____mavlink__image__available__t_af17ddf110570d8aa5530b54e9dae1b15}
+
+
+Until which timestamp this buffer will stay valid. 
+
+\hypertarget{struct____mavlink__image__available__t_a577f2cf7105af75a14301b7d238f6a4e}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!width@{width}}
+\index{width@{width}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{width}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::width}}\label{struct____mavlink__image__available__t_a577f2cf7105af75a14301b7d238f6a4e}
+
+
+Image width. 
+
+\hypertarget{struct____mavlink__image__available__t_a804cfe3215d4b9eca8f0640cad24af83}{\index{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}!yaw@{yaw}}
+\index{yaw@{yaw}!\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t}}
+\subsubsection[{yaw}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+image\+\_\+available\+\_\+t\+::yaw}}\label{struct____mavlink__image__available__t_a804cfe3215d4b9eca8f0640cad24af83}
+
+
+Yaw angle in rad. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/pixhawk/\hyperlink{mavlink__msg__image__available_8h}{mavlink\+\_\+msg\+\_\+image\+\_\+available.\+h}\end{DoxyCompactItemize}

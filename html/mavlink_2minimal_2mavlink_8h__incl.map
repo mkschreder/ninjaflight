@@ -1,0 +1,10 @@
+<map id="src/main/mavlink/minimal/mavlink.h" name="src/main/mavlink/minimal/mavlink.h">
+<area shape="rect" id="node2" href="$mavlink_2minimal_2version_8h.html" title="MAVLink comm protocol built from minimal.xml. " alt="" coords="77,96,151,123"/>
+<area shape="rect" id="node3" href="$minimal_8h.html" title="MAVLink comm protocol generated from minimal.xml. " alt="" coords="177,96,255,123"/>
+<area shape="rect" id="node4" href="$protocol_8h.html" title="../protocol.h" alt="" coords="91,171,181,197"/>
+<area shape="rect" id="node12" href="$minimal_2mavlink__msg__heartbeat_8h.html" title="./mavlink_msg_heartbeat.h" alt="" coords="205,171,384,197"/>
+<area shape="rect" id="node6" href="$mavlink__types_8h.html" title="mavlink_types.h" alt="" coords="93,320,209,347"/>
+<area shape="rect" id="node8" href="$mavlink__helpers_8h.html" title="mavlink_helpers.h" alt="" coords="174,245,300,272"/>
+<area shape="rect" id="node9" href="$checksum_8h.html" title="checksum.h" alt="" coords="235,320,328,347"/>
+<area shape="rect" id="node10" href="$mavlink__conversions_8h.html" title="mavlink_conversions.h" alt="" coords="352,320,505,347"/>
+</map>

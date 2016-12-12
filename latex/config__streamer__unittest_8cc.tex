@@ -1,0 +1,210 @@
+\hypertarget{config__streamer__unittest_8cc}{\section{src/test/unit/config\+\_\+streamer\+\_\+unittest.cc File Reference}
+\label{config__streamer__unittest_8cc}\index{src/test/unit/config\+\_\+streamer\+\_\+unittest.\+cc@{src/test/unit/config\+\_\+streamer\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}drivers/config\+\_\+streamer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for config\+\_\+streamer\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structMockFlash}{Mock\+Flash}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{config__streamer__unittest_8cc_a4084d0184bab463a1579271bf474aaef}{F\+L\+A\+S\+H\+\_\+\+Unlock} (void)
+\item 
+void \hyperlink{config__streamer__unittest_8cc_a46899557353c4312ddbe3f25e65df1d8}{F\+L\+A\+S\+H\+\_\+\+Lock} (void)
+\item 
+\hyperlink{test_2unit_2platform_8h_adc63a6f3404ff1f71229a66915e9cdc0}{F\+L\+A\+S\+H\+\_\+\+Status} \hyperlink{config__streamer__unittest_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}{F\+L\+A\+S\+H\+\_\+\+Erase\+Page} (uint32\+\_\+t address)
+\item 
+\hyperlink{test_2unit_2platform_8h_adc63a6f3404ff1f71229a66915e9cdc0}{F\+L\+A\+S\+H\+\_\+\+Status} \hyperlink{config__streamer__unittest_8cc_af695dba98bac7b28a7153e005f7b0da6}{F\+L\+A\+S\+H\+\_\+\+Program\+Word} (uint32\+\_\+t address, uint32\+\_\+t \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})
+\item 
+config\+\_\+streamer\+\_\+t \hyperlink{config__streamer__unittest_8cc_afcc5c2cb40508b914cb684195e85931c}{setup} ()
+\item 
+\hyperlink{config__streamer__unittest_8cc_a0ec42d11d9da3880201e06a2e3a3772d}{T\+E\+S\+T} (config\+Streamer\+Test, Test\+Init)
+\item 
+\hyperlink{config__streamer__unittest_8cc_a4d678959d9897a8fd5df196281c86f9a}{T\+E\+S\+T} (config\+Streamer\+Test, Test\+Write\+Small)
+\item 
+\hyperlink{config__streamer__unittest_8cc_a9a56c95f9caf6df351c56b1142e7fef8}{T\+E\+S\+T} (config\+Streamer\+Test, Test\+Write\+Cross\+Word)
+\item 
+\hyperlink{config__streamer__unittest_8cc_a3435faacffe386d63a5c6a9b85a5aef8}{T\+E\+S\+T} (config\+Streamer\+Test, Test\+Write\+Word\+Multiple)
+\item 
+\hyperlink{config__streamer__unittest_8cc_a49a404e8b27105ae10dbd1cb51410fc3}{T\+E\+S\+T} (config\+Streamer\+Test, Test\+Write\+Three\+Chunks)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{config__streamer__unittest_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!F\+L\+A\+S\+H\+\_\+\+Erase\+Page@{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}}
+\index{F\+L\+A\+S\+H\+\_\+\+Erase\+Page@{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Erase\+Page (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_acc0d5bb9eadcbdc191cab2d88467c22c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a46899557353c4312ddbe3f25e65df1d8}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!F\+L\+A\+S\+H\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+Lock}}
+\index{F\+L\+A\+S\+H\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+Lock}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Lock}]{\setlength{\rightskip}{0pt plus 5cm}void F\+L\+A\+S\+H\+\_\+\+Lock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a46899557353c4312ddbe3f25e65df1d8}
+\hypertarget{config__streamer__unittest_8cc_af695dba98bac7b28a7153e005f7b0da6}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!F\+L\+A\+S\+H\+\_\+\+Program\+Word@{F\+L\+A\+S\+H\+\_\+\+Program\+Word}}
+\index{F\+L\+A\+S\+H\+\_\+\+Program\+Word@{F\+L\+A\+S\+H\+\_\+\+Program\+Word}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Program\+Word}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Program\+Word (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address, }
+\item[{uint32\+\_\+t}]{data}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_af695dba98bac7b28a7153e005f7b0da6}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_af695dba98bac7b28a7153e005f7b0da6_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a4084d0184bab463a1579271bf474aaef}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!F\+L\+A\+S\+H\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+Unlock}}
+\index{F\+L\+A\+S\+H\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+Unlock}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Unlock}]{\setlength{\rightskip}{0pt plus 5cm}void F\+L\+A\+S\+H\+\_\+\+Unlock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a4084d0184bab463a1579271bf474aaef}
+\hypertarget{config__streamer__unittest_8cc_afcc5c2cb40508b914cb684195e85931c}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!setup@{setup}}
+\index{setup@{setup}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}config\+\_\+streamer\+\_\+t setup (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_afcc5c2cb40508b914cb684195e85931c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_afcc5c2cb40508b914cb684195e85931c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a0ec42d11d9da3880201e06a2e3a3772d}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{config\+Streamer\+Test}]{, }
+\item[{Test\+Init}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a0ec42d11d9da3880201e06a2e3a3772d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_a0ec42d11d9da3880201e06a2e3a3772d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a4d678959d9897a8fd5df196281c86f9a}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{config\+Streamer\+Test}]{, }
+\item[{Test\+Write\+Small}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a4d678959d9897a8fd5df196281c86f9a}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_a4d678959d9897a8fd5df196281c86f9a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a9a56c95f9caf6df351c56b1142e7fef8}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{config\+Streamer\+Test}]{, }
+\item[{Test\+Write\+Cross\+Word}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a9a56c95f9caf6df351c56b1142e7fef8}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_a9a56c95f9caf6df351c56b1142e7fef8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a3435faacffe386d63a5c6a9b85a5aef8}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{config\+Streamer\+Test}]{, }
+\item[{Test\+Write\+Word\+Multiple}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a3435faacffe386d63a5c6a9b85a5aef8}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_a3435faacffe386d63a5c6a9b85a5aef8_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config__streamer__unittest_8cc_a49a404e8b27105ae10dbd1cb51410fc3}{\index{config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}!T\+E\+S\+T@{T\+E\+S\+T}}
+\index{T\+E\+S\+T@{T\+E\+S\+T}!config\+\_\+streamer\+\_\+unittest.\+cc@{config\+\_\+streamer\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T (
+\begin{DoxyParamCaption}
+\item[{config\+Streamer\+Test}]{, }
+\item[{Test\+Write\+Three\+Chunks}]{}
+\end{DoxyParamCaption}
+)}}\label{config__streamer__unittest_8cc_a49a404e8b27105ae10dbd1cb51410fc3}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config__streamer__unittest_8cc_a49a404e8b27105ae10dbd1cb51410fc3_cgraph}
+\end{center}
+\end{figure}
+
+

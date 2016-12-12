@@ -1,0 +1,26 @@
+<map id="mspSerialProcess" name="mspSerialProcess">
+<area shape="rect" id="node2" href="$drivers_2serial_8c.html#a1030bfb53adff55fa7de9f0babce6c29" title="serialRxBytesWaiting" alt="" coords="207,5,355,32"/>
+<area shape="rect" id="node3" href="$drivers_2serial_8c.html#a6c74a91bbf5d8fd122fb2321492b4193" title="serialRead" alt="" coords="239,56,323,83"/>
+<area shape="rect" id="node4" href="$cli_8c.html#a9a15dcaa435e2730133b192c95b414b2" title="cli_start" alt="" coords="247,107,315,133"/>
+<area shape="rect" id="node9" href="$system_8h.html#a0be99ee90fcb1948837fba48e0e42081" title="systemResetToBootloader" alt="" coords="193,157,370,184"/>
+<area shape="rect" id="node11" href="$serial__msp_8c.html#a03c116044ccc30f36a927a520cc385f4" title="mspSerialProcessReceived\lCommand" alt="" coords="190,209,373,250"/>
+<area shape="rect" id="node14" href="$io_2serial_8c.html#aacf1e06791249cd1f57ffa58c28f36ca" title="waitForSerialPortToFinish\lTransmitting" alt="" coords="195,274,367,315"/>
+<area shape="rect" id="node18" href="$pwm__output_8c.html#a439f7c205f12382fdfe35fb90357f6a3" title="pwmStopMotors" alt="" coords="223,340,340,367"/>
+<area shape="rect" id="node23" href="$feature_8c.html#abc8587c28b888a5e63aeaec10676ddb7" title="feature" alt="" coords="250,391,313,417"/>
+<area shape="rect" id="node24" href="$config_8c.html#a827aa5680657cf411b2d66116f3c6bef" title="handleOneshotFeatureChange\lOnRestart" alt="" coords="182,442,381,483"/>
+<area shape="rect" id="node25" href="$system_8h.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="231,508,331,535"/>
+<area shape="rect" id="node5" href="$printf_8c.html#a2bae28268997bbdccafe9c03bc286eb9" title="setPrintfSerialPort" alt="" coords="460,5,588,32"/>
+<area shape="rect" id="node6" href="$buf__writer_8c.html#a1e6475df23b19ae0b2bec62f9dad0850" title="bufWriterInit" alt="" coords="477,56,571,83"/>
+<area shape="rect" id="node7" href="$drivers_2serial_8c.html#a434b04f9469873a5d3a8545efcc16048" title="serialWriteBufShim" alt="" coords="457,107,591,133"/>
+<area shape="rect" id="node8" href="$drivers_2serial_8c.html#aa777b1bacb4f44b825ae85b893ac6fb4" title="serialWriteBuf" alt="" coords="731,107,835,133"/>
+<area shape="rect" id="node10" href="$system__stm32f10x_8c.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="474,157,574,184"/>
+<area shape="rect" id="node12" href="$msp_8c.html#a9436befdef3a0d8a8d6da3cc618c34a7" title="mspProcess" alt="" coords="477,208,571,235"/>
+<area shape="rect" id="node13" href="$streambuf_8c.html#ab4b54c1b5ba233d772a771cd6da373c3" title="sbufSwitchToReader" alt="" coords="452,259,596,285"/>
+<area shape="rect" id="node15" href="$drivers_2serial_8c.html#afda3f6426d3b80a7028810c618127a68" title="isSerialTransmitBufferEmpty" alt="" coords="429,309,619,336"/>
+<area shape="rect" id="node16" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="753,360,813,387"/>
+<area shape="rect" id="node17" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="984,360,1045,387"/>
+<area shape="rect" id="node19" href="$pwm__output_8c.html#ac342fe18f718e9b74749af27ee9d7a55" title="pwmWriteAllMotors" alt="" coords="456,411,592,437"/>
+<area shape="rect" id="node20" href="$pwm__output_8c.html#afbb29ed99f7b36cb134005429e83a96e" title="pwmWriteMotor" alt="" coords="725,411,840,437"/>
+<area shape="rect" id="node21" href="$pwm__output_8c.html#a532829034cab121116ead923416e1638" title="pwmCompleteOneshotMotorUpdate" alt="" coords="667,461,898,488"/>
+<area shape="rect" id="node22" href="$timer_8c.html#a203b81c37af6c58f6b37143495228a76" title="timerForceOverflow" alt="" coords="947,461,1083,488"/>
+</map>

@@ -1,0 +1,104 @@
+\hypertarget{statusindicator_8c}{\section{src/main/io/statusindicator.c File Reference}
+\label{statusindicator_8c}\index{src/main/io/statusindicator.\+c@{src/main/io/statusindicator.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/light\+\_\+led.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}statusindicator.\+h\char`\"{}}\\*
+Include dependency graph for statusindicator.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{statusindicator_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1}{warning\+Led\+State\+\_\+e} \{ \hyperlink{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1af68f0119c466ed700b439f3327e75760}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F} = 0, 
+\hyperlink{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a2342444777bb3640a17a68cb8fe9353d}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N}, 
+\hyperlink{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a25c8b2ca89706d5d402d8fc1f7db571f}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{statusindicator_8c_a330d1c98643c953f01cf2d44490df190}{warning\+Led\+Enable} (void)
+\item 
+void \hyperlink{statusindicator_8c_a0aac17bd490dbad37532235fc03034c1}{warning\+Led\+Disable} (void)
+\item 
+void \hyperlink{statusindicator_8c_a08e505397da4431037b50dbffd70e106}{warning\+Led\+Flash} (void)
+\item 
+void \hyperlink{statusindicator_8c_af8389082fb550926e3dd40f42818e16f}{warning\+Led\+Refresh} (const struct \hyperlink{structsystem__calls__leds}{system\+\_\+calls\+\_\+leds} $\ast$\hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds})
+\item 
+void \hyperlink{statusindicator_8c_a7a3a950472fbb1a581cda2cdfc7b8933}{warning\+Led\+Update} (const struct \hyperlink{structsystem__calls__leds}{system\+\_\+calls\+\_\+leds} $\ast$\hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds}, int32\+\_\+t now)
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+State\+\_\+e@{warning\+Led\+State\+\_\+e}}
+\index{warning\+Led\+State\+\_\+e@{warning\+Led\+State\+\_\+e}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+State\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf warning\+Led\+State\+\_\+e}}}\label{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F}!statusindicator.\+c@{statusindicator.\+c}}\index{statusindicator.\+c@{statusindicator.\+c}!W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F}}\item[{\em 
+\hypertarget{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1af68f0119c466ed700b439f3327e75760}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+F\+F}\label{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1af68f0119c466ed700b439f3327e75760}
+}]\index{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N}!statusindicator.\+c@{statusindicator.\+c}}\index{statusindicator.\+c@{statusindicator.\+c}!W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N}}\item[{\em 
+\hypertarget{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a2342444777bb3640a17a68cb8fe9353d}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+O\+N}\label{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a2342444777bb3640a17a68cb8fe9353d}
+}]\index{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H}!statusindicator.\+c@{statusindicator.\+c}}\index{statusindicator.\+c@{statusindicator.\+c}!W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H@{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H}}\item[{\em 
+\hypertarget{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a25c8b2ca89706d5d402d8fc1f7db571f}{W\+A\+R\+N\+I\+N\+G\+\_\+\+L\+E\+D\+\_\+\+F\+L\+A\+S\+H}\label{statusindicator_8c_a7fec6db599ad573b77604be276e21ef1a25c8b2ca89706d5d402d8fc1f7db571f}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{statusindicator_8c_a0aac17bd490dbad37532235fc03034c1}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+Disable@{warning\+Led\+Disable}}
+\index{warning\+Led\+Disable@{warning\+Led\+Disable}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+Disable}]{\setlength{\rightskip}{0pt plus 5cm}void warning\+Led\+Disable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{statusindicator_8c_a0aac17bd490dbad37532235fc03034c1}
+\hypertarget{statusindicator_8c_a330d1c98643c953f01cf2d44490df190}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+Enable@{warning\+Led\+Enable}}
+\index{warning\+Led\+Enable@{warning\+Led\+Enable}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+Enable}]{\setlength{\rightskip}{0pt plus 5cm}void warning\+Led\+Enable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{statusindicator_8c_a330d1c98643c953f01cf2d44490df190}
+\hypertarget{statusindicator_8c_a08e505397da4431037b50dbffd70e106}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+Flash@{warning\+Led\+Flash}}
+\index{warning\+Led\+Flash@{warning\+Led\+Flash}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+Flash}]{\setlength{\rightskip}{0pt plus 5cm}void warning\+Led\+Flash (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{statusindicator_8c_a08e505397da4431037b50dbffd70e106}
+\hypertarget{statusindicator_8c_af8389082fb550926e3dd40f42818e16f}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+Refresh@{warning\+Led\+Refresh}}
+\index{warning\+Led\+Refresh@{warning\+Led\+Refresh}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+Refresh}]{\setlength{\rightskip}{0pt plus 5cm}void warning\+Led\+Refresh (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+leds} $\ast$}]{leds}
+\end{DoxyParamCaption}
+)}}\label{statusindicator_8c_af8389082fb550926e3dd40f42818e16f}
+\hypertarget{statusindicator_8c_a7a3a950472fbb1a581cda2cdfc7b8933}{\index{statusindicator.\+c@{statusindicator.\+c}!warning\+Led\+Update@{warning\+Led\+Update}}
+\index{warning\+Led\+Update@{warning\+Led\+Update}!statusindicator.\+c@{statusindicator.\+c}}
+\subsubsection[{warning\+Led\+Update}]{\setlength{\rightskip}{0pt plus 5cm}void warning\+Led\+Update (
+\begin{DoxyParamCaption}
+\item[{const struct {\bf system\+\_\+calls\+\_\+leds} $\ast$}]{leds, }
+\item[{int32\+\_\+t}]{now}
+\end{DoxyParamCaption}
+)}}\label{statusindicator_8c_a7a3a950472fbb1a581cda2cdfc7b8933}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{statusindicator_8c_a7a3a950472fbb1a581cda2cdfc7b8933_cgraph}
+\end{center}
+\end{figure}
+
+

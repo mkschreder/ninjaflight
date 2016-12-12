@@ -1,0 +1,5 @@
+<map id="ins_process_mag" name="ins_process_mag">
+<area shape="rect" id="node2" href="$boardalignment_8c.html#a5285bcaf5a228f05b07db1fa32d40d75" title="board_alignment_rotate\l_vector" alt="" coords="187,5,344,46"/>
+<area shape="rect" id="node3" href="$compass_8c.html#ae22f898646129a65940365983c831eb2" title="ins_mag_process_sample" alt="" coords="179,71,352,97"/>
+<area shape="rect" id="node4" href="$group__IMU.html#gafd573f1d86b59931a3588c939f233bcd" title="imu_input_magnetometer" alt="" coords="181,121,349,148"/>
+</map>

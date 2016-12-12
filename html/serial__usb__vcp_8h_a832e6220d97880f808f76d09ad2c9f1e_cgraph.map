@@ -1,0 +1,4 @@
+<map id="usbVcpGetBaudRate" name="usbVcpGetBaudRate">
+<area shape="rect" id="node2" href="$hw__config_8c.html#a7b6919631145f262b0d697c6ff4875cf" title="CDC_BaudRate" alt="" coords="200,5,317,32"/>
+<area shape="rect" id="node3" href="$usb__prop_8c.html#af46c7fcd97473dc66e24d271e4a6fce1" title="Virtual_Com_Port_GetBaudRate" alt="" coords="365,5,576,32"/>
+</map>

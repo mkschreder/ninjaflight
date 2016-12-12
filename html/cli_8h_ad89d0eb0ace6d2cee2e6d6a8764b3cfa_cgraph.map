@@ -1,0 +1,5 @@
+<map id="cli_update" name="cli_update">
+<area shape="rect" id="node2" href="$buf__writer_8c.html#a83f7b4135f7877239ab58a378639aba7" title="bufWriterFlush" alt="" coords="157,5,264,32"/>
+<area shape="rect" id="node3" href="$drivers_2serial_8c.html#a1030bfb53adff55fa7de9f0babce6c29" title="serialRxBytesWaiting" alt="" coords="137,56,285,83"/>
+<area shape="rect" id="node4" href="$drivers_2serial_8c.html#a6c74a91bbf5d8fd122fb2321492b4193" title="serialRead" alt="" coords="169,107,253,133"/>
+</map>

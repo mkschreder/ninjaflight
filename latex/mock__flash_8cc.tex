@@ -1,0 +1,87 @@
+\hypertarget{mock__flash_8cc}{\section{src/test/mock/mock\+\_\+flash.cc File Reference}
+\label{mock__flash_8cc}\index{src/test/mock/mock\+\_\+flash.\+cc@{src/test/mock/mock\+\_\+flash.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for mock\+\_\+flash.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{mock__flash_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structMockFlash}{Mock\+Flash}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{config__flash_8c_a070610463b4ceab59b1634b0b84280be}{\+\_\+\+\_\+config\+\_\+start}\mbox{[}8192\mbox{]} \hyperlink{mock__flash_8cc_a0b784705921ebbd1f29c6d9242cd4ed9}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((aligned(1024)))
+\item 
+void \hyperlink{mock__flash_8cc_a4084d0184bab463a1579271bf474aaef}{F\+L\+A\+S\+H\+\_\+\+Unlock} (void)
+\item 
+void \hyperlink{mock__flash_8cc_a46899557353c4312ddbe3f25e65df1d8}{F\+L\+A\+S\+H\+\_\+\+Lock} (void)
+\item 
+\hyperlink{test_2unit_2platform_8h_adc63a6f3404ff1f71229a66915e9cdc0}{F\+L\+A\+S\+H\+\_\+\+Status} \hyperlink{mock__flash_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}{F\+L\+A\+S\+H\+\_\+\+Erase\+Page} (uint32\+\_\+t address)
+\item 
+\hyperlink{test_2unit_2platform_8h_adc63a6f3404ff1f71229a66915e9cdc0}{F\+L\+A\+S\+H\+\_\+\+Status} \hyperlink{mock__flash_8cc_af695dba98bac7b28a7153e005f7b0da6}{F\+L\+A\+S\+H\+\_\+\+Program\+Word} (uint32\+\_\+t address, uint32\+\_\+t \hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{mock__flash_8cc_a7dd2313337fa940184ca22d172bd3596}{\+\_\+\+\_\+config\+\_\+end} \mbox{[}1\mbox{]}
+\item 
+\hyperlink{structMockFlash}{Mock\+Flash} \hyperlink{mock__flash_8cc_a793970325a4b54467234f246ef9275f8}{mock\+Flash}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{mock__flash_8cc_a0b784705921ebbd1f29c6d9242cd4ed9}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t {\bf \+\_\+\+\_\+config\+\_\+start} \mbox{[}8192\mbox{]} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(aligned(1024))}]{}
+\end{DoxyParamCaption}
+)}}\label{mock__flash_8cc_a0b784705921ebbd1f29c6d9242cd4ed9}
+\hypertarget{mock__flash_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!F\+L\+A\+S\+H\+\_\+\+Erase\+Page@{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}}
+\index{F\+L\+A\+S\+H\+\_\+\+Erase\+Page@{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Erase\+Page}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Erase\+Page (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address}
+\end{DoxyParamCaption}
+)}}\label{mock__flash_8cc_acc0d5bb9eadcbdc191cab2d88467c22c}
+\hypertarget{mock__flash_8cc_a46899557353c4312ddbe3f25e65df1d8}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!F\+L\+A\+S\+H\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+Lock}}
+\index{F\+L\+A\+S\+H\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+Lock}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Lock}]{\setlength{\rightskip}{0pt plus 5cm}void F\+L\+A\+S\+H\+\_\+\+Lock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{mock__flash_8cc_a46899557353c4312ddbe3f25e65df1d8}
+\hypertarget{mock__flash_8cc_af695dba98bac7b28a7153e005f7b0da6}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!F\+L\+A\+S\+H\+\_\+\+Program\+Word@{F\+L\+A\+S\+H\+\_\+\+Program\+Word}}
+\index{F\+L\+A\+S\+H\+\_\+\+Program\+Word@{F\+L\+A\+S\+H\+\_\+\+Program\+Word}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Program\+Word}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Program\+Word (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address, }
+\item[{uint32\+\_\+t}]{data}
+\end{DoxyParamCaption}
+)}}\label{mock__flash_8cc_af695dba98bac7b28a7153e005f7b0da6}
+\hypertarget{mock__flash_8cc_a4084d0184bab463a1579271bf474aaef}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!F\+L\+A\+S\+H\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+Unlock}}
+\index{F\+L\+A\+S\+H\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+Unlock}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{F\+L\+A\+S\+H\+\_\+\+Unlock}]{\setlength{\rightskip}{0pt plus 5cm}void F\+L\+A\+S\+H\+\_\+\+Unlock (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{mock__flash_8cc_a4084d0184bab463a1579271bf474aaef}
+
+
+\subsection{Variable Documentation}
+\hypertarget{mock__flash_8cc_a7dd2313337fa940184ca22d172bd3596}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!\+\_\+\+\_\+config\+\_\+end@{\+\_\+\+\_\+config\+\_\+end}}
+\index{\+\_\+\+\_\+config\+\_\+end@{\+\_\+\+\_\+config\+\_\+end}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{\+\_\+\+\_\+config\+\_\+end}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+config\+\_\+end\mbox{[}1\mbox{]}}}\label{mock__flash_8cc_a7dd2313337fa940184ca22d172bd3596}
+\hypertarget{mock__flash_8cc_a793970325a4b54467234f246ef9275f8}{\index{mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}!mock\+Flash@{mock\+Flash}}
+\index{mock\+Flash@{mock\+Flash}!mock\+\_\+flash.\+cc@{mock\+\_\+flash.\+cc}}
+\subsubsection[{mock\+Flash}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mock\+Flash} mock\+Flash}}\label{mock__flash_8cc_a793970325a4b54467234f246ef9275f8}

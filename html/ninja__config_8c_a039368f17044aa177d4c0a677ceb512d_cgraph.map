@@ -1,0 +1,13 @@
+<map id="ninja_config_save_and_beep" name="ninja_config_save_and_beep">
+<area shape="rect" id="node2" href="$ninja__config_8c.html#a7dc50e32dc7a877406a5f3ef3e391a2b" title="ninja_config_save" alt="" coords="249,81,375,108"/>
+<area shape="rect" id="node6" href="$ninja__config_8c.html#aabfd19b204ae7745d3ae50ecf534b296" title="ninja_config_load" alt="" coords="251,157,373,184"/>
+<area shape="rect" id="node10" href="$beeper_8c.html#a4926e98046b69d6dc02f1d9f81980025" title="Initiates a sequence of multiple 20ms beeps with 200ms pauses. Does not block. " alt="" coords="243,259,381,285"/>
+<area shape="rect" id="node3" href="$rx_2rx_8c.html#a3053040ca606418044343cbc8c727a74" title="rx_suspend_signal" alt="" coords="429,107,560,133"/>
+<area shape="rect" id="node4" href="$config_8c.html#a6cb2bfd6f8116779ec2925cf3f1de774" title="config_save" alt="" coords="449,5,541,32"/>
+<area shape="rect" id="node5" href="$rx_2rx_8c.html#ab5d5e106e91d4a1e84188ddd200a710e" title="rx_resume_signal" alt="" coords="433,56,557,83"/>
+<area shape="rect" id="node7" href="$rc__adjustments_8c.html#a845700fdaa4dd902d95741b18e97833d" title="rc_adj_reset" alt="" coords="448,157,541,184"/>
+<area shape="rect" id="node8" href="$flight_2navigation_8h.html#a4e557f43f55c7b59cb4bd3749a7a0c88" title="gpsUsePIDs" alt="" coords="446,208,543,235"/>
+<area shape="rect" id="node9" href="$config_8c.html#ac48025e524c6b9ff50d7e2f5abf554da" title="config_get_profile" alt="" coords="433,259,557,285"/>
+<area shape="rect" id="node11" href="$beeper_8c.html#a989c9cfd38525653c07fb4e1e47b62cf" title="Puts beeper into a new beep state. " alt="" coords="447,309,542,336"/>
+<area shape="rect" id="node12" href="$beeper_8c.html#ab0f04a4c38ec3a3a5905e2bcbfc54265" title="Aborts current beeper function. " alt="" coords="608,309,701,336"/>
+</map>

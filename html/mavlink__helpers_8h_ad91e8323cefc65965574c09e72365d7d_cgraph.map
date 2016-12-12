@@ -1,0 +1,6 @@
+<map id="mavlink_parse_char" name="mavlink_parse_char">
+<area shape="rect" id="node2" href="$mavlink__helpers_8h.html#a65cce515993cd158e828aa7d061ca5b8" title="mavlink_get_channel\l_buffer" alt="" coords="211,5,355,46"/>
+<area shape="rect" id="node3" href="$mavlink__helpers_8h.html#ac006d308067f48514ca5c0cf0b046c28" title="mavlink_get_channel\l_status" alt="" coords="211,70,355,111"/>
+<area shape="rect" id="node4" href="$mavlink__helpers_8h.html#ae7cbde569213151151d20c3766edd244" title="mavlink_start_checksum" alt="" coords="199,136,366,163"/>
+<area shape="rect" id="node5" href="$mavlink__helpers_8h.html#a3293deb7b51f9a9f0b30bf56c8739593" title="mavlink_update_checksum" alt="" coords="193,187,373,213"/>
+</map>

@@ -1,0 +1,363 @@
+\hypertarget{sitl_2main_8c}{\section{src/main/sitl/main.c File Reference}
+\label{sitl_2main_8c}\index{src/main/sitl/main.\+c@{src/main/sitl/main.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$pthread.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/color.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/streambuf.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/utils.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/light\+\_\+led.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+softserial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+uart.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/inverter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/gyro\+\_\+sync.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/spektrum.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/ledstrip.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/display.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial\+\_\+msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/sonar.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/initialisation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}blackbox/blackbox.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/navigation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sitl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninja.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+{\ttfamily \#include $<$termio.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structapplication}{application}
+\item 
+struct \hyperlink{structsitl__serial__port}{sitl\+\_\+serial\+\_\+port}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sitl_2main_8c_a829d9d4c4428c85934a4289e493b5e5c}{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}~4096
+\item 
+\#define \hyperlink{sitl_2main_8c_a6e6cca780ea23fbf3524afe267aa892f}{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S}~1
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct fc\+\_\+sitl\+\_\+server\+\_\+interface $\ast$ \hyperlink{sitl_2main_8c_a98e3bca6d149cbfb54d59646f280ab0f}{fc\+\_\+sitl\+\_\+create\+\_\+aircraft} (struct fc\+\_\+sitl\+\_\+client\+\_\+interface $\ast$cl)
+\item 
+uint32\+\_\+t \hyperlink{sitl_2main_8c_a562c45b0a8114034959d85de2d7ecfbb}{gyro\+\_\+sync\+\_\+get\+\_\+looptime} (void)
+\item 
+void \hyperlink{sitl_2main_8c_a5e200f50cd8b3d77ff4430ec2955bdc1}{validate\+And\+Fix\+Config} (void)
+\item 
+void \hyperlink{sitl_2main_8c_a4ff63eaa896df76617a32d46e6e649ea}{set\+Acceleration\+Trims} (flight\+Dynamics\+Trims\+\_\+t $\ast$\hyperlink{sensors_8h_a1233c7469c532f51fef85c96731db067}{trims})
+\item 
+void \hyperlink{sitl_2main_8c_a1b7bbdff3f4842ea6a2dfdb131006153}{recalculate\+Magnetic\+Declination} (void)
+\item 
+void \hyperlink{sitl_2main_8c_ad8ea5e5ecc810d4a223eec2e340e3bca}{failure\+Mode} (uint8\+\_\+t \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode})
+\item 
+int16\+\_\+t \hyperlink{sitl_2main_8c_a13b446b635373466b6d51ef79a22074a}{adc\+Get\+Channel} (uint8\+\_\+t chan)
+\item 
+bool \hyperlink{sitl_2main_8c_a6ab71765601504aa30df9b88e64006da}{is\+Acceleration\+Calibration\+Complete} (void)
+\item 
+bool \hyperlink{sitl_2main_8c_a979080a0e83abcf647b5218939dd485b}{is\+Gyro\+Calibration\+Complete} (void)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{sitl_2main_8c_ae36edb2b78cdd9bd95b9d0cc2a8e035a}{usb\+Vcp\+Open} (uint8\+\_\+t id, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode}, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{sitl_2main_8c_a31c15c151ce058264e6c5c6e8642a15b}{uart\+Open} (uint8\+\_\+t id, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_ae93363f27f1a41ae63f3bb5b8170e661}{port\+Mode\+\_\+t} \hyperlink{config_2tilt_8h_a37e90f5e3bd99fac2021fb3a326607d4}{mode}, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{sitl_2main_8c_adb1fc0757fd770e337e275f6d4fa6e19}{open\+Soft\+Serial} (\hyperlink{serial__softserial_8h_a60d3140544808412ba2eb496210936a8}{soft\+Serial\+Port\+Index\+\_\+e} id, \hyperlink{drivers_2serial_8h_a487fbdc83dcad54ab5d0c79b54565bf2}{serial\+Receive\+Callback\+Ptr} callback, uint32\+\_\+t baud\+Rate, \hyperlink{drivers_2serial_8h_a1c894642b7e3db5ca0401c3507e8434f}{port\+Options\+\_\+t} options)
+\item 
+void \hyperlink{sitl_2main_8c_a0be99ee90fcb1948837fba48e0e42081}{system\+Reset\+To\+Bootloader} (void)
+\item 
+void \hyperlink{sitl_2main_8c_a6c693c89b8019cdd21599d1baa6b0434}{system\+Reset} (void)
+\item 
+void \hyperlink{sitl_2main_8c_a3733189e9cc87b53670f45223733f3af}{set\+Led\+Hsv} (void)
+\item 
+int \hyperlink{sitl_2main_8c_a1cef79e677883d4811d43a03f8578a94}{get\+Led\+Hsv} (void)
+\item 
+bool \hyperlink{sitl_2main_8c_a26808e44314583045c67ac17fa7da0f8}{is\+W\+S2811\+Led\+Strip\+Ready} (void)
+\item 
+void \hyperlink{sitl_2main_8c_af1ad127663b84ee19da2027edc68e14c}{ws2811\+Led\+Strip\+Init} (void)
+\item 
+void \hyperlink{sitl_2main_8c_ae12f50d4f61a0b78b9334cfaa12a8324}{ws2811\+Update\+Strip} (void)
+\item 
+void \hyperlink{sitl_2main_8c_af4989f2637fcf1808f73e5dad2c8655f}{set\+Strip\+Color} (const \hyperlink{color_8h_a77557e8e81ba7de7fe3baa9be6b67b8f}{hsv\+Color\+\_\+t} $\ast$\hyperlink{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{color})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{sitl_2main_8c_a1428891a4ec3960f2a4c8d9b2dccbae5}{flash\+\_\+fd} = -\/1
+\item 
+uint8\+\_\+t \hyperlink{sitl_2main_8c_ae0ae7830249bf589c179802db54b9816}{state\+Flags}
+\item 
+uint16\+\_\+t \hyperlink{sitl_2main_8c_ad6b2512a5d7645a11fbc1626fa55a0dc}{flight\+Mode\+Flags}
+\item 
+uint32\+\_\+t \hyperlink{sitl_2main_8c_af77590ad2c015dff5422b5982c636c85}{rc\+Mode\+Activation\+Mask} = 0
+\item 
+float \hyperlink{sitl_2main_8c_aa0d4463ec5da92c1fb8e8d977a2c6def}{magnetic\+Declination} = 0
+\item 
+uint8\+\_\+t \hyperlink{sitl_2main_8c_ac7057fdf2d77f51cda9e0cfc2c99d899}{cli\+Mode}
+\item 
+int16\+\_\+t \hyperlink{sitl_2main_8c_a70097a9f538e55d41d69d9883f6dc397}{debug} \mbox{[}\hyperlink{debug_8h_aa25ee465b0e07851506b480889d9bf16}{D\+E\+B\+U\+G16\+\_\+\+V\+A\+L\+U\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sitl_2main_8c_a6e6cca780ea23fbf3524afe267aa892f}{\index{sitl/main.\+c@{sitl/main.\+c}!S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S@{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S}}
+\index{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S@{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+N\+U\+M\+\_\+\+P\+A\+G\+E\+S~1}}\label{sitl_2main_8c_a6e6cca780ea23fbf3524afe267aa892f}
+\hypertarget{sitl_2main_8c_a829d9d4c4428c85934a4289e493b5e5c}{\index{sitl/main.\+c@{sitl/main.\+c}!S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}}
+\index{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+I\+T\+L\+\_\+\+E\+E\+P\+R\+O\+M\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E~4096}}\label{sitl_2main_8c_a829d9d4c4428c85934a4289e493b5e5c}
+
+
+\subsection{Function Documentation}
+\hypertarget{sitl_2main_8c_a13b446b635373466b6d51ef79a22074a}{\index{sitl/main.\+c@{sitl/main.\+c}!adc\+Get\+Channel@{adc\+Get\+Channel}}
+\index{adc\+Get\+Channel@{adc\+Get\+Channel}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{adc\+Get\+Channel}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t adc\+Get\+Channel (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{chan}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a13b446b635373466b6d51ef79a22074a}
+\hypertarget{sitl_2main_8c_ad8ea5e5ecc810d4a223eec2e340e3bca}{\index{sitl/main.\+c@{sitl/main.\+c}!failure\+Mode@{failure\+Mode}}
+\index{failure\+Mode@{failure\+Mode}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{failure\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}void failure\+Mode (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{mode}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_ad8ea5e5ecc810d4a223eec2e340e3bca}
+\hypertarget{sitl_2main_8c_a98e3bca6d149cbfb54d59646f280ab0f}{\index{sitl/main.\+c@{sitl/main.\+c}!fc\+\_\+sitl\+\_\+create\+\_\+aircraft@{fc\+\_\+sitl\+\_\+create\+\_\+aircraft}}
+\index{fc\+\_\+sitl\+\_\+create\+\_\+aircraft@{fc\+\_\+sitl\+\_\+create\+\_\+aircraft}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{fc\+\_\+sitl\+\_\+create\+\_\+aircraft}]{\setlength{\rightskip}{0pt plus 5cm}struct fc\+\_\+sitl\+\_\+server\+\_\+interface $\ast$ fc\+\_\+sitl\+\_\+create\+\_\+aircraft (
+\begin{DoxyParamCaption}
+\item[{struct fc\+\_\+sitl\+\_\+client\+\_\+interface $\ast$}]{cl}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a98e3bca6d149cbfb54d59646f280ab0f}
+\hypertarget{sitl_2main_8c_a1cef79e677883d4811d43a03f8578a94}{\index{sitl/main.\+c@{sitl/main.\+c}!get\+Led\+Hsv@{get\+Led\+Hsv}}
+\index{get\+Led\+Hsv@{get\+Led\+Hsv}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{get\+Led\+Hsv}]{\setlength{\rightskip}{0pt plus 5cm}int get\+Led\+Hsv (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a1cef79e677883d4811d43a03f8578a94}
+\hypertarget{sitl_2main_8c_a562c45b0a8114034959d85de2d7ecfbb}{\index{sitl/main.\+c@{sitl/main.\+c}!gyro\+\_\+sync\+\_\+get\+\_\+looptime@{gyro\+\_\+sync\+\_\+get\+\_\+looptime}}
+\index{gyro\+\_\+sync\+\_\+get\+\_\+looptime@{gyro\+\_\+sync\+\_\+get\+\_\+looptime}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{gyro\+\_\+sync\+\_\+get\+\_\+looptime}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t gyro\+\_\+sync\+\_\+get\+\_\+looptime (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a562c45b0a8114034959d85de2d7ecfbb}
+\hypertarget{sitl_2main_8c_a6ab71765601504aa30df9b88e64006da}{\index{sitl/main.\+c@{sitl/main.\+c}!is\+Acceleration\+Calibration\+Complete@{is\+Acceleration\+Calibration\+Complete}}
+\index{is\+Acceleration\+Calibration\+Complete@{is\+Acceleration\+Calibration\+Complete}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{is\+Acceleration\+Calibration\+Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Acceleration\+Calibration\+Complete (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a6ab71765601504aa30df9b88e64006da}
+\hypertarget{sitl_2main_8c_a979080a0e83abcf647b5218939dd485b}{\index{sitl/main.\+c@{sitl/main.\+c}!is\+Gyro\+Calibration\+Complete@{is\+Gyro\+Calibration\+Complete}}
+\index{is\+Gyro\+Calibration\+Complete@{is\+Gyro\+Calibration\+Complete}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{is\+Gyro\+Calibration\+Complete}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Gyro\+Calibration\+Complete (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a979080a0e83abcf647b5218939dd485b}
+\hypertarget{sitl_2main_8c_a26808e44314583045c67ac17fa7da0f8}{\index{sitl/main.\+c@{sitl/main.\+c}!is\+W\+S2811\+Led\+Strip\+Ready@{is\+W\+S2811\+Led\+Strip\+Ready}}
+\index{is\+W\+S2811\+Led\+Strip\+Ready@{is\+W\+S2811\+Led\+Strip\+Ready}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{is\+W\+S2811\+Led\+Strip\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+W\+S2811\+Led\+Strip\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a26808e44314583045c67ac17fa7da0f8}
+\hypertarget{sitl_2main_8c_adb1fc0757fd770e337e275f6d4fa6e19}{\index{sitl/main.\+c@{sitl/main.\+c}!open\+Soft\+Serial@{open\+Soft\+Serial}}
+\index{open\+Soft\+Serial@{open\+Soft\+Serial}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{open\+Soft\+Serial}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ open\+Soft\+Serial (
+\begin{DoxyParamCaption}
+\item[{{\bf soft\+Serial\+Port\+Index\+\_\+e}}]{id, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_adb1fc0757fd770e337e275f6d4fa6e19}
+\hypertarget{sitl_2main_8c_a1b7bbdff3f4842ea6a2dfdb131006153}{\index{sitl/main.\+c@{sitl/main.\+c}!recalculate\+Magnetic\+Declination@{recalculate\+Magnetic\+Declination}}
+\index{recalculate\+Magnetic\+Declination@{recalculate\+Magnetic\+Declination}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{recalculate\+Magnetic\+Declination}]{\setlength{\rightskip}{0pt plus 5cm}void recalculate\+Magnetic\+Declination (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a1b7bbdff3f4842ea6a2dfdb131006153}
+\hypertarget{sitl_2main_8c_a4ff63eaa896df76617a32d46e6e649ea}{\index{sitl/main.\+c@{sitl/main.\+c}!set\+Acceleration\+Trims@{set\+Acceleration\+Trims}}
+\index{set\+Acceleration\+Trims@{set\+Acceleration\+Trims}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{set\+Acceleration\+Trims}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Acceleration\+Trims (
+\begin{DoxyParamCaption}
+\item[{flight\+Dynamics\+Trims\+\_\+t $\ast$}]{trims}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a4ff63eaa896df76617a32d46e6e649ea}
+\hypertarget{sitl_2main_8c_a3733189e9cc87b53670f45223733f3af}{\index{sitl/main.\+c@{sitl/main.\+c}!set\+Led\+Hsv@{set\+Led\+Hsv}}
+\index{set\+Led\+Hsv@{set\+Led\+Hsv}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{set\+Led\+Hsv}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Led\+Hsv (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a3733189e9cc87b53670f45223733f3af}
+\hypertarget{sitl_2main_8c_af4989f2637fcf1808f73e5dad2c8655f}{\index{sitl/main.\+c@{sitl/main.\+c}!set\+Strip\+Color@{set\+Strip\+Color}}
+\index{set\+Strip\+Color@{set\+Strip\+Color}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{set\+Strip\+Color}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Strip\+Color (
+\begin{DoxyParamCaption}
+\item[{const {\bf hsv\+Color\+\_\+t} $\ast$}]{color}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_af4989f2637fcf1808f73e5dad2c8655f}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{sitl_2main_8c_af4989f2637fcf1808f73e5dad2c8655f_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sitl_2main_8c_a6c693c89b8019cdd21599d1baa6b0434}{\index{sitl/main.\+c@{sitl/main.\+c}!system\+Reset@{system\+Reset}}
+\index{system\+Reset@{system\+Reset}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{system\+Reset}]{\setlength{\rightskip}{0pt plus 5cm}void system\+Reset (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a6c693c89b8019cdd21599d1baa6b0434}
+\hypertarget{sitl_2main_8c_a0be99ee90fcb1948837fba48e0e42081}{\index{sitl/main.\+c@{sitl/main.\+c}!system\+Reset\+To\+Bootloader@{system\+Reset\+To\+Bootloader}}
+\index{system\+Reset\+To\+Bootloader@{system\+Reset\+To\+Bootloader}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{system\+Reset\+To\+Bootloader}]{\setlength{\rightskip}{0pt plus 5cm}void system\+Reset\+To\+Bootloader (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a0be99ee90fcb1948837fba48e0e42081}
+\hypertarget{sitl_2main_8c_a31c15c151ce058264e6c5c6e8642a15b}{\index{sitl/main.\+c@{sitl/main.\+c}!uart\+Open@{uart\+Open}}
+\index{uart\+Open@{uart\+Open}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{uart\+Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ uart\+Open (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a31c15c151ce058264e6c5c6e8642a15b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{sitl_2main_8c_a31c15c151ce058264e6c5c6e8642a15b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sitl_2main_8c_ae36edb2b78cdd9bd95b9d0cc2a8e035a}{\index{sitl/main.\+c@{sitl/main.\+c}!usb\+Vcp\+Open@{usb\+Vcp\+Open}}
+\index{usb\+Vcp\+Open@{usb\+Vcp\+Open}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{usb\+Vcp\+Open}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ usb\+Vcp\+Open (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{id, }
+\item[{{\bf serial\+Receive\+Callback\+Ptr}}]{callback, }
+\item[{uint32\+\_\+t}]{baud\+Rate, }
+\item[{{\bf port\+Mode\+\_\+t}}]{mode, }
+\item[{{\bf port\+Options\+\_\+t}}]{options}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_ae36edb2b78cdd9bd95b9d0cc2a8e035a}
+\hypertarget{sitl_2main_8c_a5e200f50cd8b3d77ff4430ec2955bdc1}{\index{sitl/main.\+c@{sitl/main.\+c}!validate\+And\+Fix\+Config@{validate\+And\+Fix\+Config}}
+\index{validate\+And\+Fix\+Config@{validate\+And\+Fix\+Config}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{validate\+And\+Fix\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void validate\+And\+Fix\+Config (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_a5e200f50cd8b3d77ff4430ec2955bdc1}
+\hypertarget{sitl_2main_8c_af1ad127663b84ee19da2027edc68e14c}{\index{sitl/main.\+c@{sitl/main.\+c}!ws2811\+Led\+Strip\+Init@{ws2811\+Led\+Strip\+Init}}
+\index{ws2811\+Led\+Strip\+Init@{ws2811\+Led\+Strip\+Init}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{ws2811\+Led\+Strip\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Led\+Strip\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_af1ad127663b84ee19da2027edc68e14c}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sitl_2main_8c_af1ad127663b84ee19da2027edc68e14c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sitl_2main_8c_ae12f50d4f61a0b78b9334cfaa12a8324}{\index{sitl/main.\+c@{sitl/main.\+c}!ws2811\+Update\+Strip@{ws2811\+Update\+Strip}}
+\index{ws2811\+Update\+Strip@{ws2811\+Update\+Strip}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{ws2811\+Update\+Strip}]{\setlength{\rightskip}{0pt plus 5cm}void ws2811\+Update\+Strip (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{sitl_2main_8c_ae12f50d4f61a0b78b9334cfaa12a8324}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sitl_2main_8c_ae12f50d4f61a0b78b9334cfaa12a8324_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{sitl_2main_8c_ac7057fdf2d77f51cda9e0cfc2c99d899}{\index{sitl/main.\+c@{sitl/main.\+c}!cli\+Mode@{cli\+Mode}}
+\index{cli\+Mode@{cli\+Mode}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{cli\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t cli\+Mode}}\label{sitl_2main_8c_ac7057fdf2d77f51cda9e0cfc2c99d899}
+\hypertarget{sitl_2main_8c_a70097a9f538e55d41d69d9883f6dc397}{\index{sitl/main.\+c@{sitl/main.\+c}!debug@{debug}}
+\index{debug@{debug}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t debug\mbox{[}{\bf D\+E\+B\+U\+G16\+\_\+\+V\+A\+L\+U\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{sitl_2main_8c_a70097a9f538e55d41d69d9883f6dc397}
+\hypertarget{sitl_2main_8c_a1428891a4ec3960f2a4c8d9b2dccbae5}{\index{sitl/main.\+c@{sitl/main.\+c}!flash\+\_\+fd@{flash\+\_\+fd}}
+\index{flash\+\_\+fd@{flash\+\_\+fd}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{flash\+\_\+fd}]{\setlength{\rightskip}{0pt plus 5cm}int flash\+\_\+fd = -\/1}}\label{sitl_2main_8c_a1428891a4ec3960f2a4c8d9b2dccbae5}
+\hypertarget{sitl_2main_8c_ad6b2512a5d7645a11fbc1626fa55a0dc}{\index{sitl/main.\+c@{sitl/main.\+c}!flight\+Mode\+Flags@{flight\+Mode\+Flags}}
+\index{flight\+Mode\+Flags@{flight\+Mode\+Flags}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{flight\+Mode\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t flight\+Mode\+Flags}}\label{sitl_2main_8c_ad6b2512a5d7645a11fbc1626fa55a0dc}
+\hypertarget{sitl_2main_8c_aa0d4463ec5da92c1fb8e8d977a2c6def}{\index{sitl/main.\+c@{sitl/main.\+c}!magnetic\+Declination@{magnetic\+Declination}}
+\index{magnetic\+Declination@{magnetic\+Declination}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{magnetic\+Declination}]{\setlength{\rightskip}{0pt plus 5cm}float magnetic\+Declination = 0}}\label{sitl_2main_8c_aa0d4463ec5da92c1fb8e8d977a2c6def}
+\hypertarget{sitl_2main_8c_af77590ad2c015dff5422b5982c636c85}{\index{sitl/main.\+c@{sitl/main.\+c}!rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}}
+\index{rc\+Mode\+Activation\+Mask@{rc\+Mode\+Activation\+Mask}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{rc\+Mode\+Activation\+Mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t rc\+Mode\+Activation\+Mask = 0}}\label{sitl_2main_8c_af77590ad2c015dff5422b5982c636c85}
+\hypertarget{sitl_2main_8c_ae0ae7830249bf589c179802db54b9816}{\index{sitl/main.\+c@{sitl/main.\+c}!state\+Flags@{state\+Flags}}
+\index{state\+Flags@{state\+Flags}!sitl/main.\+c@{sitl/main.\+c}}
+\subsubsection[{state\+Flags}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t state\+Flags}}\label{sitl_2main_8c_ae0ae7830249bf589c179802db54b9816}

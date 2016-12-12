@@ -1,0 +1,71 @@
+\hypertarget{structrc}{\section{rc Struct Reference}
+\label{structrc}\index{rc@{rc}}
+}
+
+
+{\ttfamily \#include $<$rc.\+h$>$}
+
+
+
+Collaboration diagram for rc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structrc__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structrc__command}{rc\+\_\+command} \hyperlink{structrc_a4b0d090708f7ecc11b7b626a799a17aa}{rc\+\_\+command}
+\item 
+uint32\+\_\+t \hyperlink{structrc_a8affeb79d786c16752fde7dc1758eb36}{boxes}
+\item 
+struct \hyperlink{structrx}{rx} $\ast$ \hyperlink{structrc_adc90118df1a6cf987c36268c9fa4eb75}{rx}
+\item 
+struct \hyperlink{structrc__event__listener}{rc\+\_\+event\+\_\+listener} $\ast$ \hyperlink{structrc_aa9d91f7afe038418779187d52e0eeb22}{evl}
+\item 
+uint8\+\_\+t \hyperlink{structrc_a2fb4afd6728a7c78922c6facb548e658}{key\+\_\+mask} \mbox{[}\hyperlink{rc_8h_ae3f7a6474966dabf22159d8d834fa84ba363dbd024bb0d0992a440ec82d97bd2a}{R\+C\+\_\+\+N\+U\+M\+\_\+\+K\+E\+Y\+S}/8+1\mbox{]}
+\begin{DoxyCompactList}\small\item\em holds the key bits. This mask grows as we add more keys. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{structrc_adbe93bdd991cf5dce29b8a560ebd5176}{key\+\_\+enabled\+\_\+mask} \mbox{[}\hyperlink{rc_8h_ae3f7a6474966dabf22159d8d834fa84ba363dbd024bb0d0992a440ec82d97bd2a}{R\+C\+\_\+\+N\+U\+M\+\_\+\+K\+E\+Y\+S}/8+1\mbox{]}
+\item 
+uint32\+\_\+t \hyperlink{structrc_a313a29909162376cedd0bf1b59e623df}{range\+\_\+mask}
+\item 
+const struct \hyperlink{structconfig}{config} $\ast$ \hyperlink{structrc_a4cf950c3fbd19e35a743adeb6ae06031}{config}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structrc_a8affeb79d786c16752fde7dc1758eb36}{\index{rc@{rc}!boxes@{boxes}}
+\index{boxes@{boxes}!rc@{rc}}
+\subsubsection[{boxes}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t rc\+::boxes}}\label{structrc_a8affeb79d786c16752fde7dc1758eb36}
+\hypertarget{structrc_a4cf950c3fbd19e35a743adeb6ae06031}{\index{rc@{rc}!config@{config}}
+\index{config@{config}!rc@{rc}}
+\subsubsection[{config}]{\setlength{\rightskip}{0pt plus 5cm}const struct {\bf config}$\ast$ rc\+::config}}\label{structrc_a4cf950c3fbd19e35a743adeb6ae06031}
+\hypertarget{structrc_aa9d91f7afe038418779187d52e0eeb22}{\index{rc@{rc}!evl@{evl}}
+\index{evl@{evl}!rc@{rc}}
+\subsubsection[{evl}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rc\+\_\+event\+\_\+listener}$\ast$ rc\+::evl}}\label{structrc_aa9d91f7afe038418779187d52e0eeb22}
+\hypertarget{structrc_adbe93bdd991cf5dce29b8a560ebd5176}{\index{rc@{rc}!key\+\_\+enabled\+\_\+mask@{key\+\_\+enabled\+\_\+mask}}
+\index{key\+\_\+enabled\+\_\+mask@{key\+\_\+enabled\+\_\+mask}!rc@{rc}}
+\subsubsection[{key\+\_\+enabled\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rc\+::key\+\_\+enabled\+\_\+mask\mbox{[}{\bf R\+C\+\_\+\+N\+U\+M\+\_\+\+K\+E\+Y\+S}/8+1\mbox{]}}}\label{structrc_adbe93bdd991cf5dce29b8a560ebd5176}
+\hypertarget{structrc_a2fb4afd6728a7c78922c6facb548e658}{\index{rc@{rc}!key\+\_\+mask@{key\+\_\+mask}}
+\index{key\+\_\+mask@{key\+\_\+mask}!rc@{rc}}
+\subsubsection[{key\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t rc\+::key\+\_\+mask\mbox{[}{\bf R\+C\+\_\+\+N\+U\+M\+\_\+\+K\+E\+Y\+S}/8+1\mbox{]}}}\label{structrc_a2fb4afd6728a7c78922c6facb548e658}
+
+
+holds the key bits. This mask grows as we add more keys. 
+
+\hypertarget{structrc_a313a29909162376cedd0bf1b59e623df}{\index{rc@{rc}!range\+\_\+mask@{range\+\_\+mask}}
+\index{range\+\_\+mask@{range\+\_\+mask}!rc@{rc}}
+\subsubsection[{range\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t rc\+::range\+\_\+mask}}\label{structrc_a313a29909162376cedd0bf1b59e623df}
+\hypertarget{structrc_a4b0d090708f7ecc11b7b626a799a17aa}{\index{rc@{rc}!rc\+\_\+command@{rc\+\_\+command}}
+\index{rc\+\_\+command@{rc\+\_\+command}!rc@{rc}}
+\subsubsection[{rc\+\_\+command}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rc\+\_\+command} rc\+::rc\+\_\+command}}\label{structrc_a4b0d090708f7ecc11b7b626a799a17aa}
+\hypertarget{structrc_adc90118df1a6cf987c36268c9fa4eb75}{\index{rc@{rc}!rx@{rx}}
+\index{rx@{rx}!rc@{rc}}
+\subsubsection[{rx}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf rx}$\ast$ rc\+::rx}}\label{structrc_adc90118df1a6cf987c36268c9fa4eb75}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/rx/\hyperlink{rc_8h}{rc.\+h}\end{DoxyCompactItemize}

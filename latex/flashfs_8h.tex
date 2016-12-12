@@ -1,0 +1,364 @@
+\hypertarget{flashfs_8h}{\section{src/main/drivers/flashfs.h File Reference}
+\label{flashfs_8h}\index{src/main/drivers/flashfs.\+h@{src/main/drivers/flashfs.\+h}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}drivers/flash.\+h\char`\"{}}\\*
+Include dependency graph for flashfs.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{flashfs_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flashfs_8h_ab0c2f6dfae387ac8d9b23376dfcae00c}{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~128
+\item 
+\#define \hyperlink{flashfs_8h_a7c7bcf8ad418523dda73d69ae4871119}{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E}~(\hyperlink{flashfs_8h_ab0c2f6dfae387ac8d9b23376dfcae00c}{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E} -\/ 1)
+\item 
+\#define \hyperlink{flashfs_8h_a6ae6bf19cad95da96522155d41874f1b}{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N}~64
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{flashfs_8h_af305d5b54cf9b9b4befc96cc47cb1c85}{flashfs\+Erase\+Completely} (void)
+\item 
+void \hyperlink{flashfs_8h_aada62ef80d96173bb11f09c3208453f3}{flashfs\+Erase\+Range} (uint32\+\_\+t start, uint32\+\_\+t end)
+\item 
+uint32\+\_\+t \hyperlink{flashfs_8h_aecc02b9c34b4b9d70907ebeac7343693}{flashfs\+Get\+Size} (void)
+\item 
+uint32\+\_\+t \hyperlink{flashfs_8h_ad406c839a0e62fdc08049448048f8ae4}{flashfs\+Get\+Offset} (void)
+\item 
+uint32\+\_\+t \hyperlink{flashfs_8h_ac5a079c85dc47e19990745407b4fe83e}{flashfs\+Get\+Write\+Buffer\+Free\+Space} (void)
+\item 
+uint32\+\_\+t \hyperlink{flashfs_8h_a28861728348e4afce0d32a950fd86dbd}{flashfs\+Get\+Write\+Buffer\+Size} (void)
+\item 
+int \hyperlink{flashfs_8h_a61a96b15378b768496daf79f070cf1a3}{flashfs\+Identify\+Start\+Of\+Free\+Space} (void)
+\item 
+const \hyperlink{flash_8h_a8021cd5c7f3a135915339b112cd05d8e}{flash\+Geometry\+\_\+t} $\ast$ \hyperlink{flashfs_8h_a56385f2558d26d7ac6fe5550aa34e54a}{flashfs\+Get\+Geometry} (void)
+\item 
+void \hyperlink{flashfs_8h_a92e3c54c429aed35f3292114e38e2aba}{flashfs\+Seek\+Abs} (uint32\+\_\+t offset)
+\item 
+void \hyperlink{flashfs_8h_ace448dc465fb8eb5a3c1ecee0069b504}{flashfs\+Seek\+Rel} (int32\+\_\+t offset)
+\item 
+void \hyperlink{flashfs_8h_a32f00648d9cb3025d90ca434d1b566fb}{flashfs\+Write\+Byte} (uint8\+\_\+t byte)
+\item 
+void \hyperlink{flashfs_8h_a084fda8992dee01127597f323cbf9fb8}{flashfs\+Write} (const uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, unsigned int len, bool sync)
+\item 
+int \hyperlink{flashfs_8h_a98b69d13d3cf6743d1c1497e18309746}{flashfs\+Read\+Abs} (uint32\+\_\+t offset, uint8\+\_\+t $\ast$\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data}, unsigned int len)
+\item 
+bool \hyperlink{flashfs_8h_aa93d40233e62caf7c8753f628afd882a}{flashfs\+Flush\+Async} (void)
+\item 
+void \hyperlink{flashfs_8h_afd36658ab9f170b0250d54b253404eec}{flashfs\+Flush\+Sync} (void)
+\item 
+void \hyperlink{flashfs_8h_abf2ed47a8e24a2a3516172199cc12ec2}{flashfs\+Init} (void)
+\item 
+bool \hyperlink{flashfs_8h_acbae5f8519cd4513afbb8af5d8bd363c}{flashfs\+Is\+Ready} (void)
+\item 
+bool \hyperlink{flashfs_8h_a8d635abfb3b9a3abdac69a0ddad4ef54}{flashfs\+Is\+E\+O\+F} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{flashfs_8h_a6ae6bf19cad95da96522155d41874f1b}{\index{flashfs.\+h@{flashfs.\+h}!F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N}}
+\index{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+U\+S\+H\+\_\+\+L\+E\+N~64}}\label{flashfs_8h_a6ae6bf19cad95da96522155d41874f1b}
+\hypertarget{flashfs_8h_ab0c2f6dfae387ac8d9b23376dfcae00c}{\index{flashfs.\+h@{flashfs.\+h}!F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~128}}\label{flashfs_8h_ab0c2f6dfae387ac8d9b23376dfcae00c}
+\hypertarget{flashfs_8h_a7c7bcf8ad418523dda73d69ae4871119}{\index{flashfs.\+h@{flashfs.\+h}!F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E}}
+\index{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E@{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+U\+S\+A\+B\+L\+E~({\bf F\+L\+A\+S\+H\+F\+S\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E} -\/ 1)}}\label{flashfs_8h_a7c7bcf8ad418523dda73d69ae4871119}
+
+
+\subsection{Function Documentation}
+\hypertarget{flashfs_8h_af305d5b54cf9b9b4befc96cc47cb1c85}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Erase\+Completely@{flashfs\+Erase\+Completely}}
+\index{flashfs\+Erase\+Completely@{flashfs\+Erase\+Completely}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Erase\+Completely}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Erase\+Completely (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_af305d5b54cf9b9b4befc96cc47cb1c85}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_af305d5b54cf9b9b4befc96cc47cb1c85_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_aada62ef80d96173bb11f09c3208453f3}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Erase\+Range@{flashfs\+Erase\+Range}}
+\index{flashfs\+Erase\+Range@{flashfs\+Erase\+Range}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Erase\+Range}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Erase\+Range (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{start, }
+\item[{uint32\+\_\+t}]{end}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_aada62ef80d96173bb11f09c3208453f3}
+Start and end must lie on sector boundaries, or they will be rounded out to sector boundaries such that all the bytes in the range \mbox{[}start...end) are erased. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{flashfs_8h_aada62ef80d96173bb11f09c3208453f3_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_aa93d40233e62caf7c8753f628afd882a}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Flush\+Async@{flashfs\+Flush\+Async}}
+\index{flashfs\+Flush\+Async@{flashfs\+Flush\+Async}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Flush\+Async}]{\setlength{\rightskip}{0pt plus 5cm}bool flashfs\+Flush\+Async (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_aa93d40233e62caf7c8753f628afd882a}
+If the flash is ready to accept writes, flush the buffer to it.
+
+Returns true if all data in the buffer has been flushed to the device, or false if there is still data to be written (call flush again later). \hypertarget{flashfs_8h_afd36658ab9f170b0250d54b253404eec}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Flush\+Sync@{flashfs\+Flush\+Sync}}
+\index{flashfs\+Flush\+Sync@{flashfs\+Flush\+Sync}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Flush\+Sync}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Flush\+Sync (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_afd36658ab9f170b0250d54b253404eec}
+Wait for the flash to become ready and begin flushing any buffered data to flash.
+
+The flash will still be busy some time after this sync completes, but space will be freed up to accept more writes in the write buffer. \hypertarget{flashfs_8h_a56385f2558d26d7ac6fe5550aa34e54a}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Get\+Geometry@{flashfs\+Get\+Geometry}}
+\index{flashfs\+Get\+Geometry@{flashfs\+Get\+Geometry}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Get\+Geometry}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf flash\+Geometry\+\_\+t}$\ast$ flashfs\+Get\+Geometry (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a56385f2558d26d7ac6fe5550aa34e54a}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{flashfs_8h_a56385f2558d26d7ac6fe5550aa34e54a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_ad406c839a0e62fdc08049448048f8ae4}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Get\+Offset@{flashfs\+Get\+Offset}}
+\index{flashfs\+Get\+Offset@{flashfs\+Get\+Offset}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Get\+Offset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t flashfs\+Get\+Offset (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_ad406c839a0e62fdc08049448048f8ae4}
+Get the current offset of the file pointer within the volume. \hypertarget{flashfs_8h_aecc02b9c34b4b9d70907ebeac7343693}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Get\+Size@{flashfs\+Get\+Size}}
+\index{flashfs\+Get\+Size@{flashfs\+Get\+Size}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Get\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t flashfs\+Get\+Size (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_aecc02b9c34b4b9d70907ebeac7343693}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{flashfs_8h_aecc02b9c34b4b9d70907ebeac7343693_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_ac5a079c85dc47e19990745407b4fe83e}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Get\+Write\+Buffer\+Free\+Space@{flashfs\+Get\+Write\+Buffer\+Free\+Space}}
+\index{flashfs\+Get\+Write\+Buffer\+Free\+Space@{flashfs\+Get\+Write\+Buffer\+Free\+Space}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Get\+Write\+Buffer\+Free\+Space}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t flashfs\+Get\+Write\+Buffer\+Free\+Space (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_ac5a079c85dc47e19990745407b4fe83e}
+Get the number of bytes that can currently be written to flashfs without any blocking or data loss. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_ac5a079c85dc47e19990745407b4fe83e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_a28861728348e4afce0d32a950fd86dbd}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Get\+Write\+Buffer\+Size@{flashfs\+Get\+Write\+Buffer\+Size}}
+\index{flashfs\+Get\+Write\+Buffer\+Size@{flashfs\+Get\+Write\+Buffer\+Size}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Get\+Write\+Buffer\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t flashfs\+Get\+Write\+Buffer\+Size (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a28861728348e4afce0d32a950fd86dbd}
+Get the size of the largest single write that flashfs could ever accept without blocking or data loss. \hypertarget{flashfs_8h_a61a96b15378b768496daf79f070cf1a3}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Identify\+Start\+Of\+Free\+Space@{flashfs\+Identify\+Start\+Of\+Free\+Space}}
+\index{flashfs\+Identify\+Start\+Of\+Free\+Space@{flashfs\+Identify\+Start\+Of\+Free\+Space}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Identify\+Start\+Of\+Free\+Space}]{\setlength{\rightskip}{0pt plus 5cm}int flashfs\+Identify\+Start\+Of\+Free\+Space (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a61a96b15378b768496daf79f070cf1a3}
+Find the offset of the start of the free space on the device (or the size of the device if it is full). 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_a61a96b15378b768496daf79f070cf1a3_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_abf2ed47a8e24a2a3516172199cc12ec2}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Init@{flashfs\+Init}}
+\index{flashfs\+Init@{flashfs\+Init}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_abf2ed47a8e24a2a3516172199cc12ec2}
+Call after initializing the flash chip in order to set up the filesystem. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_abf2ed47a8e24a2a3516172199cc12ec2_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_a8d635abfb3b9a3abdac69a0ddad4ef54}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Is\+E\+O\+F@{flashfs\+Is\+E\+O\+F}}
+\index{flashfs\+Is\+E\+O\+F@{flashfs\+Is\+E\+O\+F}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Is\+E\+O\+F}]{\setlength{\rightskip}{0pt plus 5cm}bool flashfs\+Is\+E\+O\+F (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a8d635abfb3b9a3abdac69a0ddad4ef54}
+Returns true if the file pointer is at the end of the device. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_a8d635abfb3b9a3abdac69a0ddad4ef54_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_acbae5f8519cd4513afbb8af5d8bd363c}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Is\+Ready@{flashfs\+Is\+Ready}}
+\index{flashfs\+Is\+Ready@{flashfs\+Is\+Ready}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Is\+Ready}]{\setlength{\rightskip}{0pt plus 5cm}bool flashfs\+Is\+Ready (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_acbae5f8519cd4513afbb8af5d8bd363c}
+Return true if the flash is not currently occupied with an operation. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{flashfs_8h_acbae5f8519cd4513afbb8af5d8bd363c_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_a98b69d13d3cf6743d1c1497e18309746}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Read\+Abs@{flashfs\+Read\+Abs}}
+\index{flashfs\+Read\+Abs@{flashfs\+Read\+Abs}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Read\+Abs}]{\setlength{\rightskip}{0pt plus 5cm}int flashfs\+Read\+Abs (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{address, }
+\item[{uint8\+\_\+t $\ast$}]{buffer, }
+\item[{unsigned int}]{len}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a98b69d13d3cf6743d1c1497e18309746}
+Read {\ttfamily len} bytes from the given address into the supplied buffer.
+
+Returns the number of bytes actually read which may be less than that requested. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flashfs_8h_a98b69d13d3cf6743d1c1497e18309746_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_a92e3c54c429aed35f3292114e38e2aba}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Seek\+Abs@{flashfs\+Seek\+Abs}}
+\index{flashfs\+Seek\+Abs@{flashfs\+Seek\+Abs}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Seek\+Abs}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Seek\+Abs (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{offset}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a92e3c54c429aed35f3292114e38e2aba}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{flashfs_8h_a92e3c54c429aed35f3292114e38e2aba_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_ace448dc465fb8eb5a3c1ecee0069b504}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Seek\+Rel@{flashfs\+Seek\+Rel}}
+\index{flashfs\+Seek\+Rel@{flashfs\+Seek\+Rel}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Seek\+Rel}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Seek\+Rel (
+\begin{DoxyParamCaption}
+\item[{int32\+\_\+t}]{offset}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_ace448dc465fb8eb5a3c1ecee0069b504}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{flashfs_8h_ace448dc465fb8eb5a3c1ecee0069b504_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flashfs_8h_a084fda8992dee01127597f323cbf9fb8}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Write@{flashfs\+Write}}
+\index{flashfs\+Write@{flashfs\+Write}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Write}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Write (
+\begin{DoxyParamCaption}
+\item[{const uint8\+\_\+t $\ast$}]{data, }
+\item[{unsigned int}]{len, }
+\item[{bool}]{sync}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a084fda8992dee01127597f323cbf9fb8}
+Write the given buffer to the flash either synchronously or asynchronously depending on the 'sync' parameter.
+
+If writing asynchronously, data will be silently discarded if the buffer overflows. If writing synchronously, the routine will block waiting for the flash to become ready so will never drop data. \hypertarget{flashfs_8h_a32f00648d9cb3025d90ca434d1b566fb}{\index{flashfs.\+h@{flashfs.\+h}!flashfs\+Write\+Byte@{flashfs\+Write\+Byte}}
+\index{flashfs\+Write\+Byte@{flashfs\+Write\+Byte}!flashfs.\+h@{flashfs.\+h}}
+\subsubsection[{flashfs\+Write\+Byte}]{\setlength{\rightskip}{0pt plus 5cm}void flashfs\+Write\+Byte (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{byte}
+\end{DoxyParamCaption}
+)}}\label{flashfs_8h_a32f00648d9cb3025d90ca434d1b566fb}
+Write the given byte asynchronously to the flash. If the buffer overflows, data is silently discarded. 
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{flashfs_8h_a32f00648d9cb3025d90ca434d1b566fb_cgraph}
+\end{center}
+\end{figure}
+
+

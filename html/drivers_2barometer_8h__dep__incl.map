@@ -1,0 +1,7 @@
+<map id="src/main/drivers/barometer.h" name="src/main/drivers/barometer.h">
+<area shape="rect" id="node2" href="$barometer__bmp085_8c.html" title="src/main/drivers/barometer\l_bmp085.c" alt="" coords="5,81,181,122"/>
+<area shape="rect" id="node3" href="$barometer__bmp280_8c.html" title="src/main/drivers/barometer\l_bmp280.c" alt="" coords="206,81,383,122"/>
+<area shape="rect" id="node4" href="$barometer__ms5611_8c.html" title="src/main/drivers/barometer\l_ms5611.c" alt="" coords="407,81,584,122"/>
+<area shape="rect" id="node5" href="$barometer_8c.html" title="src/main/sensors/barometer.c" alt="" coords="609,88,804,115"/>
+<area shape="rect" id="node6" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="828,88,1033,115"/>
+</map>

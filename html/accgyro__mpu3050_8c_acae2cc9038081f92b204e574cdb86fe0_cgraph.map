@@ -1,0 +1,4 @@
+<map id="mpu3050Detect" name="mpu3050Detect">
+<area shape="rect" id="node2" href="$accgyro__mpu_8c.html#a1e15ecc0e8d8a9356edf94915f5940dc" title="mpuGyroRead" alt="" coords="177,5,284,32"/>
+<area shape="rect" id="node3" href="$accgyro__mpu_8c.html#a6e414f79cc31b7cebb8e7176e8559ffc" title="mpuIsDataReady" alt="" coords="169,56,293,83"/>
+</map>

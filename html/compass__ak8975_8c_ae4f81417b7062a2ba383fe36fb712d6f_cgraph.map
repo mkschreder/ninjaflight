@@ -1,0 +1,9 @@
+<map id="ak8975Detect" name="ak8975Detect">
+<area shape="rect" id="node2" href="$bus__i2c_8h.html#a75fc5214b1f74a63cfb40496d10c9152" title="i2cRead" alt="" coords="302,5,373,32"/>
+<area shape="rect" id="node3" href="$compass__ak8975_8c.html#a76697400a57a533736520363dc81dbb0" title="ak8975Init" alt="" coords="164,81,247,108"/>
+<area shape="rect" id="node8" href="$compass__ak8975_8c.html#a9cb3a12a3168fb14c5d966dbee04066d" title="ak8975Read" alt="" coords="158,31,253,57"/>
+<area shape="rect" id="node4" href="$bus__i2c_8h.html#a2cc37629c1772a0dbb4073be28e8443b" title="i2cWrite" alt="" coords="302,56,373,83"/>
+<area shape="rect" id="node6" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="307,107,367,133"/>
+<area shape="rect" id="node5" href="$bus__i2c__stm32f10x_8c.html#a7f4928d12ee609b82b13c71954b1053a" title="i2cWriteBuffer" alt="" coords="422,56,527,83"/>
+<area shape="rect" id="node7" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="444,107,505,133"/>
+</map>

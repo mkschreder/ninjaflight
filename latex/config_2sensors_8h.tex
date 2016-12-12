@@ -1,0 +1,142 @@
+\hypertarget{config_2sensors_8h}{\section{src/main/config/sensors.h File Reference}
+\label{config_2sensors_8h}\index{src/main/config/sensors.\+h@{src/main/config/sensors.\+h}}
+}
+{\ttfamily \#include \char`\"{}parameter\+\_\+group.\+h\char`\"{}}\\*
+Include dependency graph for sensors.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{config_2sensors_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_2sensors_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsensorAlignmentConfig__s}{sensor\+Alignment\+Config\+\_\+s}
+\item 
+struct \hyperlink{structsensorSelectionConfig__s}{sensor\+Selection\+Config\+\_\+s}
+\item 
+struct \hyperlink{structint16__flightDynamicsTrims__s}{int16\+\_\+flight\+Dynamics\+Trims\+\_\+s}
+\item 
+union \hyperlink{unionflightDynamicsTrims__t}{flight\+Dynamics\+Trims\+\_\+t}
+\item 
+struct \hyperlink{structsensorTrims__s}{sensor\+Trims\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \\*
+\hyperlink{structsensorAlignmentConfig__s}{sensor\+Alignment\+Config\+\_\+s} \hyperlink{config_2sensors_8h_af2ed803820c7ef496bcc065ac2b43c6c}{sensor\+Alignment\+Config\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structsensorSelectionConfig__s}{sensor\+Selection\+Config\+\_\+s} \hyperlink{config_2sensors_8h_ad4e2770fd4c9053fea7a0b1cfc7475a9}{sensor\+Selection\+Config\+\_\+t}
+\item 
+typedef struct \\*
+\hyperlink{structint16__flightDynamicsTrims__s}{int16\+\_\+flight\+Dynamics\+Trims\+\_\+s} \hyperlink{config_2sensors_8h_af05b1dd64bf7155efe1eed7b2862cb75}{flight\+Dynamics\+Trims\+\_\+def\+\_\+t}
+\item 
+typedef struct \hyperlink{structsensorTrims__s}{sensor\+Trims\+\_\+s} \hyperlink{config_2sensors_8h_a87f6ab4883f05ed584f978c3fb126640}{sensor\+Trims\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}{sensor\+\_\+align\+\_\+e} \{ \\*
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7c04a448df5879a2a0d086021c0e2825}{A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T} = 0, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7edaf859d4f918ee344271b4cf7eb142}{C\+W0\+\_\+\+D\+E\+G} = 1, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aac65f046f297ab0a7e68867fda14aa51}{C\+W90\+\_\+\+D\+E\+G} = 2, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ae3551621dabadc54752a5b44697cdd97}{C\+W180\+\_\+\+D\+E\+G} = 3, 
+\\*
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a94e0b26ade00bbfc074bc2f2b2b8e38c}{C\+W270\+\_\+\+D\+E\+G} = 4, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aaf65c7a397eeea5c3fb4da9b8545fb5f}{C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P} = 5, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ab130079d2dbf7fca8405b4b46d8248e7}{C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P} = 6, 
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8acdb407e5d25e3323e4a54639795b30a8}{C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P} = 7, 
+\\*
+\hyperlink{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ad7cff27d41a2f40f863d3c4cf6a97829}{C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P} = 8
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{config_2sensors_8h_a265ae53df48eb0ef8c4af66471e42593}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E} (\hyperlink{config_2sensors_8h_ad4e2770fd4c9053fea7a0b1cfc7475a9}{sensor\+Selection\+Config\+\_\+t}, sensor\+Selection\+Config)
+\item 
+\hyperlink{config_2sensors_8h_a491ac5098df3d5461e249ba5f3c89ac6}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E} (\hyperlink{config_2sensors_8h_af2ed803820c7ef496bcc065ac2b43c6c}{sensor\+Alignment\+Config\+\_\+t}, sensor\+Alignment\+Config)
+\item 
+\hyperlink{config_2sensors_8h_a4083b70be4d918b08b636dfc24f41d2c}{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E} (\hyperlink{config_2sensors_8h_a87f6ab4883f05ed584f978c3fb126640}{sensor\+Trims\+\_\+t}, sensor\+Trims)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{config_2sensors_8h_af05b1dd64bf7155efe1eed7b2862cb75}{\index{config/sensors.\+h@{config/sensors.\+h}!flight\+Dynamics\+Trims\+\_\+def\+\_\+t@{flight\+Dynamics\+Trims\+\_\+def\+\_\+t}}
+\index{flight\+Dynamics\+Trims\+\_\+def\+\_\+t@{flight\+Dynamics\+Trims\+\_\+def\+\_\+t}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{flight\+Dynamics\+Trims\+\_\+def\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf int16\+\_\+flight\+Dynamics\+Trims\+\_\+s}  {\bf flight\+Dynamics\+Trims\+\_\+def\+\_\+t}}}\label{config_2sensors_8h_af05b1dd64bf7155efe1eed7b2862cb75}
+\hypertarget{config_2sensors_8h_af2ed803820c7ef496bcc065ac2b43c6c}{\index{config/sensors.\+h@{config/sensors.\+h}!sensor\+Alignment\+Config\+\_\+t@{sensor\+Alignment\+Config\+\_\+t}}
+\index{sensor\+Alignment\+Config\+\_\+t@{sensor\+Alignment\+Config\+\_\+t}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{sensor\+Alignment\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sensor\+Alignment\+Config\+\_\+s}  {\bf sensor\+Alignment\+Config\+\_\+t}}}\label{config_2sensors_8h_af2ed803820c7ef496bcc065ac2b43c6c}
+\hypertarget{config_2sensors_8h_ad4e2770fd4c9053fea7a0b1cfc7475a9}{\index{config/sensors.\+h@{config/sensors.\+h}!sensor\+Selection\+Config\+\_\+t@{sensor\+Selection\+Config\+\_\+t}}
+\index{sensor\+Selection\+Config\+\_\+t@{sensor\+Selection\+Config\+\_\+t}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{sensor\+Selection\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sensor\+Selection\+Config\+\_\+s}  {\bf sensor\+Selection\+Config\+\_\+t}}}\label{config_2sensors_8h_ad4e2770fd4c9053fea7a0b1cfc7475a9}
+\hypertarget{config_2sensors_8h_a87f6ab4883f05ed584f978c3fb126640}{\index{config/sensors.\+h@{config/sensors.\+h}!sensor\+Trims\+\_\+t@{sensor\+Trims\+\_\+t}}
+\index{sensor\+Trims\+\_\+t@{sensor\+Trims\+\_\+t}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{sensor\+Trims\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf sensor\+Trims\+\_\+s}  {\bf sensor\+Trims\+\_\+t}}}\label{config_2sensors_8h_a87f6ab4883f05ed584f978c3fb126640}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}{\index{config/sensors.\+h@{config/sensors.\+h}!sensor\+\_\+align\+\_\+e@{sensor\+\_\+align\+\_\+e}}
+\index{sensor\+\_\+align\+\_\+e@{sensor\+\_\+align\+\_\+e}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{sensor\+\_\+align\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sensor\+\_\+align\+\_\+e}}}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T@{A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T@{A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7c04a448df5879a2a0d086021c0e2825}{A\+L\+I\+G\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7c04a448df5879a2a0d086021c0e2825}
+}]\index{C\+W0\+\_\+\+D\+E\+G@{C\+W0\+\_\+\+D\+E\+G}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W0\+\_\+\+D\+E\+G@{C\+W0\+\_\+\+D\+E\+G}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7edaf859d4f918ee344271b4cf7eb142}{C\+W0\+\_\+\+D\+E\+G}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a7edaf859d4f918ee344271b4cf7eb142}
+}]\index{C\+W90\+\_\+\+D\+E\+G@{C\+W90\+\_\+\+D\+E\+G}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W90\+\_\+\+D\+E\+G@{C\+W90\+\_\+\+D\+E\+G}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aac65f046f297ab0a7e68867fda14aa51}{C\+W90\+\_\+\+D\+E\+G}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aac65f046f297ab0a7e68867fda14aa51}
+}]\index{C\+W180\+\_\+\+D\+E\+G@{C\+W180\+\_\+\+D\+E\+G}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W180\+\_\+\+D\+E\+G@{C\+W180\+\_\+\+D\+E\+G}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ae3551621dabadc54752a5b44697cdd97}{C\+W180\+\_\+\+D\+E\+G}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ae3551621dabadc54752a5b44697cdd97}
+}]\index{C\+W270\+\_\+\+D\+E\+G@{C\+W270\+\_\+\+D\+E\+G}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W270\+\_\+\+D\+E\+G@{C\+W270\+\_\+\+D\+E\+G}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a94e0b26ade00bbfc074bc2f2b2b8e38c}{C\+W270\+\_\+\+D\+E\+G}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8a94e0b26ade00bbfc074bc2f2b2b8e38c}
+}]\index{C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aaf65c7a397eeea5c3fb4da9b8545fb5f}{C\+W0\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8aaf65c7a397eeea5c3fb4da9b8545fb5f}
+}]\index{C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ab130079d2dbf7fca8405b4b46d8248e7}{C\+W90\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ab130079d2dbf7fca8405b4b46d8248e7}
+}]\index{C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8acdb407e5d25e3323e4a54639795b30a8}{C\+W180\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8acdb407e5d25e3323e4a54639795b30a8}
+}]\index{C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}!config/sensors.\+h@{config/sensors.\+h}}\index{config/sensors.\+h@{config/sensors.\+h}!C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P@{C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}}\item[{\em 
+\hypertarget{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ad7cff27d41a2f40f863d3c4cf6a97829}{C\+W270\+\_\+\+D\+E\+G\+\_\+\+F\+L\+I\+P}\label{config_2sensors_8h_a64e3c71d4562f54f6e168ac1f597dcf8ad7cff27d41a2f40f863d3c4cf6a97829}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{config_2sensors_8h_a265ae53df48eb0ef8c4af66471e42593}{\index{config/sensors.\+h@{config/sensors.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\+Selection\+Config\+\_\+t}}]{, }
+\item[{sensor\+Selection\+Config}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2sensors_8h_a265ae53df48eb0ef8c4af66471e42593}
+\hypertarget{config_2sensors_8h_a491ac5098df3d5461e249ba5f3c89ac6}{\index{config/sensors.\+h@{config/sensors.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\+Alignment\+Config\+\_\+t}}]{, }
+\item[{sensor\+Alignment\+Config}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2sensors_8h_a491ac5098df3d5461e249ba5f3c89ac6}
+\hypertarget{config_2sensors_8h_a4083b70be4d918b08b636dfc24f41d2c}{\index{config/sensors.\+h@{config/sensors.\+h}!P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}}
+\index{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E@{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}!config/sensors.\+h@{config/sensors.\+h}}
+\subsubsection[{P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}P\+G\+\_\+\+D\+E\+C\+L\+A\+R\+E (
+\begin{DoxyParamCaption}
+\item[{{\bf sensor\+Trims\+\_\+t}}]{, }
+\item[{sensor\+Trims}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2sensors_8h_a4083b70be4d918b08b636dfc24f41d2c}

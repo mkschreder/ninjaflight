@@ -1,0 +1,81 @@
+\hypertarget{struct____mavlink__attitude__target__t}{\section{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t Struct Reference}
+\label{struct____mavlink__attitude__target__t}\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+attitude\+\_\+target.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__attitude__target__t_a30f03ea01450aa75dbe6e874862af65f}{time\+\_\+boot\+\_\+ms}
+\begin{DoxyCompactList}\small\item\em Timestamp in milliseconds since system boot. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__attitude__target__t_a22e93897167920d75275ffce5e498737}{q} \mbox{[}4\mbox{]}
+\begin{DoxyCompactList}\small\item\em Attitude quaternion (w, x, y, z order, zero-\/rotation is 1, 0, 0, 0) \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__attitude__target__t_a00211309ef8af7c5b9e62443e57704ae}{body\+\_\+roll\+\_\+rate}
+\begin{DoxyCompactList}\small\item\em Body roll rate in radians per second. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__attitude__target__t_a3b3200787da434bba5de48ff5e0aec62}{body\+\_\+pitch\+\_\+rate}
+\begin{DoxyCompactList}\small\item\em Body roll rate in radians per second. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__attitude__target__t_a3f999f4c4bd0cb8b9729b174459303c0}{body\+\_\+yaw\+\_\+rate}
+\begin{DoxyCompactList}\small\item\em Body roll rate in radians per second. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__attitude__target__t_a198f948867f37042f9c9077e84f2052a}{thrust}
+\begin{DoxyCompactList}\small\item\em Collective thrust, normalized to 0 .. 1 (-\/1 .. 1 for vehicles capable of reverse trust) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__attitude__target__t_a7e13f53152b3b1d8eda9a8bd1e7dce02}{type\+\_\+mask}
+\begin{DoxyCompactList}\small\item\em Mappings\+: If any of these bits are set, the corresponding input should be ignored\+: bit 1\+: body roll rate, bit 2\+: body pitch rate, bit 3\+: body yaw rate. bit 4-\/bit 7\+: reserved, bit 8\+: attitude. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__attitude__target__t_a3b3200787da434bba5de48ff5e0aec62}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!body\+\_\+pitch\+\_\+rate@{body\+\_\+pitch\+\_\+rate}}
+\index{body\+\_\+pitch\+\_\+rate@{body\+\_\+pitch\+\_\+rate}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{body\+\_\+pitch\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::body\+\_\+pitch\+\_\+rate}}\label{struct____mavlink__attitude__target__t_a3b3200787da434bba5de48ff5e0aec62}
+
+
+Body roll rate in radians per second. 
+
+\hypertarget{struct____mavlink__attitude__target__t_a00211309ef8af7c5b9e62443e57704ae}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!body\+\_\+roll\+\_\+rate@{body\+\_\+roll\+\_\+rate}}
+\index{body\+\_\+roll\+\_\+rate@{body\+\_\+roll\+\_\+rate}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{body\+\_\+roll\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::body\+\_\+roll\+\_\+rate}}\label{struct____mavlink__attitude__target__t_a00211309ef8af7c5b9e62443e57704ae}
+
+
+Body roll rate in radians per second. 
+
+\hypertarget{struct____mavlink__attitude__target__t_a3f999f4c4bd0cb8b9729b174459303c0}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!body\+\_\+yaw\+\_\+rate@{body\+\_\+yaw\+\_\+rate}}
+\index{body\+\_\+yaw\+\_\+rate@{body\+\_\+yaw\+\_\+rate}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{body\+\_\+yaw\+\_\+rate}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::body\+\_\+yaw\+\_\+rate}}\label{struct____mavlink__attitude__target__t_a3f999f4c4bd0cb8b9729b174459303c0}
+
+
+Body roll rate in radians per second. 
+
+\hypertarget{struct____mavlink__attitude__target__t_a22e93897167920d75275ffce5e498737}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!q@{q}}
+\index{q@{q}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{q}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::q\mbox{[}4\mbox{]}}}\label{struct____mavlink__attitude__target__t_a22e93897167920d75275ffce5e498737}
+
+
+Attitude quaternion (w, x, y, z order, zero-\/rotation is 1, 0, 0, 0) 
+
+\hypertarget{struct____mavlink__attitude__target__t_a198f948867f37042f9c9077e84f2052a}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!thrust@{thrust}}
+\index{thrust@{thrust}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{thrust}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::thrust}}\label{struct____mavlink__attitude__target__t_a198f948867f37042f9c9077e84f2052a}
+
+
+Collective thrust, normalized to 0 .. 1 (-\/1 .. 1 for vehicles capable of reverse trust) 
+
+\hypertarget{struct____mavlink__attitude__target__t_a30f03ea01450aa75dbe6e874862af65f}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}}
+\index{time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{time\+\_\+boot\+\_\+ms}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::time\+\_\+boot\+\_\+ms}}\label{struct____mavlink__attitude__target__t_a30f03ea01450aa75dbe6e874862af65f}
+
+
+Timestamp in milliseconds since system boot. 
+
+\hypertarget{struct____mavlink__attitude__target__t_a7e13f53152b3b1d8eda9a8bd1e7dce02}{\index{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}!type\+\_\+mask@{type\+\_\+mask}}
+\index{type\+\_\+mask@{type\+\_\+mask}!\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t}}
+\subsubsection[{type\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+attitude\+\_\+target\+\_\+t\+::type\+\_\+mask}}\label{struct____mavlink__attitude__target__t_a7e13f53152b3b1d8eda9a8bd1e7dce02}
+
+
+Mappings\+: If any of these bits are set, the corresponding input should be ignored\+: bit 1\+: body roll rate, bit 2\+: body pitch rate, bit 3\+: body yaw rate. bit 4-\/bit 7\+: reserved, bit 8\+: attitude. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__attitude__target_8h}{mavlink\+\_\+msg\+\_\+attitude\+\_\+target.\+h}\end{DoxyCompactItemize}

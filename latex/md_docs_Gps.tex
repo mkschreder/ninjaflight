@@ -1,0 +1,189 @@
+G\+P\+S features in Cleanflight are experimental. Please share your findings with the developers.
+
+G\+P\+S works best if the G\+P\+S receiver is mounted above and away from other sources of interference.
+
+The compass/mag sensor should be well away from sources of magnetic interference, e.\+g. keep it away from power wires, motors, E\+S\+Cs.
+
+Two G\+P\+S protocols are supported. N\+M\+E\+A text and U\+B\+L\+O\+X binary.
+
+\subsection*{Configuration}
+
+Enable the G\+P\+S from the C\+L\+I as follows\+:
+
+
+\begin{DoxyEnumerate}
+\item \hyperlink{Serial_8md}{configure a serial port to use for G\+P\+S.}
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item set your G\+P\+S baud rate
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item enable the {\ttfamily feature G\+P\+S}
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item set the {\ttfamily gps\+\_\+provider}
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item connect your G\+P\+S to the serial port configured for G\+P\+S.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item save and reboot.
+\end{DoxyEnumerate}
+
+Note\+: G\+P\+S packet loss has been observed at 115200. Try using 57600 if you experience this.
+
+For the connections step check the Board documentation for pins and port numbers.
+
+\subsubsection*{G\+P\+S Provider}
+
+Set the {\ttfamily gps\+\_\+provider} appropriately, for example {\ttfamily set gps\+\_\+provider=U\+B\+L\+O\+X}
+
+\begin{TabularC}{1}
+\hline
+\rowcolor{lightgray}{\bf Value  }\\\cline{1-1}
+N\+M\+E\+A \\\cline{1-1}
+U\+B\+L\+O\+X \\\cline{1-1}
+\end{TabularC}
+\subsubsection*{G\+P\+S Auto configuration}
+
+When using U\+B\+L\+O\+X it is a good idea to use G\+P\+S auto configuration so your F\+C gets the G\+P\+S messages it needs.
+
+Enable G\+P\+S auto configuration as follows {\ttfamily set gps\+\_\+auto\+\_\+config=O\+N}.
+
+If you are not using G\+P\+S auto configuration then ensure your G\+P\+S receiver sends out the correct messages at the right frequency. See below for manual U\+Blox settings.
+
+\subsubsection*{S\+B\+A\+S}
+
+When using a U\+B\+L\+O\+X G\+P\+S the S\+B\+A\+S mode can be configured using {\ttfamily gps\+\_\+sbas\+\_\+mode}.
+
+The default is A\+U\+T\+O.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Value }&{\bf Region  }\\\cline{1-2}
+A\+U\+T\+O &Global \\\cline{1-2}
+E\+G\+N\+O\+S &Europe \\\cline{1-2}
+W\+A\+A\+S &North America \\\cline{1-2}
+M\+S\+A\+S &Asia \\\cline{1-2}
+G\+A\+G\+A\+N &India \\\cline{1-2}
+\end{TabularC}
+If you use a regional specific setting you may achieve a faster G\+P\+S lock than using A\+U\+T\+O.
+
+This setting only works when {\ttfamily gps\+\_\+auto\+\_\+config=O\+N}
+
+\subsection*{G\+P\+S Receiver Configuration}
+
+U\+Blox G\+P\+S units can either be configured using the F\+C or manually.
+
+\subsubsection*{U\+Blox G\+P\+S manual configuration}
+
+Use U\+Box U-\/\+Center and connect your G\+P\+S to your computer. The C\+L\+I {\ttfamily gpspassthrough} command may be of use if you do not have a spare U\+S\+A\+R\+T to U\+S\+B adapter.
+
+Note that many boards will not provide +5\+V from U\+S\+B to the G\+P\+S module, such as the S\+P\+Racing\+F3; if you are using {\ttfamily gpspassthrough} you may need to connect a B\+E\+C to the controller if your board permits it, or use a standalone U\+A\+R\+T adapter. Check your board documentation to see if your G\+P\+S port is powered from U\+S\+B.
+
+Display the Packet Console (so you can see what messages your receiver is sending to your computer).
+
+Display the Configation View.
+
+Navigate to C\+F\+G (Configuration)
+
+Select {\ttfamily Revert to default configuration}. Click {\ttfamily Send}.
+
+At this point you might need to disconnect and reconnect at the default baudrate -\/ probably 9600 baud.
+
+Navigate to P\+R\+T (Ports)
+
+Set {\ttfamily Target} to {\ttfamily 1 -\/ Uart 1} Set {\ttfamily Protocol In} to {\ttfamily 0+1+2} Set {\ttfamily Protocol Out} to {\ttfamily 0+1} Set {\ttfamily Buadrate} to {\ttfamily 57600} {\ttfamily 115200} Press {\ttfamily Send}
+
+This will immediatly \char`\"{}break\char`\"{} communication to the G\+P\+S. Since you haven't saved the new baudrate setting to the non-\/volatile memory you need to change the baudrate you communicate to the G\+P\+S without resetting the G\+P\+S. So {\ttfamily Disconnect}, Change baud rate to match, then {\ttfamily Connect}.
+
+Click on {\ttfamily P\+R\+T} in the Configuration view again and inspect the packet console to make sure messages are being sent and acknowledged.
+
+Next, to ensure the F\+C doesn't waste time processing unneeded messages, click on {\ttfamily M\+S\+G} and enable the following on U\+A\+R\+T1 alone with a rate of 1. When changing message target and rates remember to click {\ttfamily Send} after changing each message.\+: \begin{DoxyVerb}NAV-POSLLH
+NAV-DOP
+NAV-SOL
+NAV-VELNED
+NAV-TIMEUTC
+\end{DoxyVerb}
+
+
+Enable the following on U\+A\+R\+T1 with a rate of 5, to reduce bandwidth and load on the F\+C. \begin{DoxyVerb}NAV-SVINFO
+\end{DoxyVerb}
+
+
+All other message types should be disabled.
+
+Next change the global update rate, click {\ttfamily Rate (Rates)} in the Configuration view.
+
+Set {\ttfamily Measurement period} to {\ttfamily 100} ms. Set {\ttfamily Navigation rate} to {\ttfamily 1}. Click {\ttfamily Send}.
+
+This will cause the G\+P\+S receive to send the require messages out 10 times a second. If your G\+P\+S receiver cannot be set to use {\ttfamily 100}ms try {\ttfamily 200}ms (5hz) -\/ this is less precise.
+
+Next change the mode, click {\ttfamily N\+A\+V5 (Navigation 5)} in the Configuration View.
+
+Set to {\ttfamily Dynamic Model} to {\ttfamily Pedestrian} and click {\ttfamily Send}.
+
+Next change the S\+B\+A\+S settings. Click {\ttfamily S\+B\+A\+S (S\+B\+A\+S Settings)} in the Configuration View.
+
+Set {\ttfamily Subsystem} to {\ttfamily Enabled}. Set {\ttfamily P\+R\+N Codes} to {\ttfamily Auto-\/\+Scan}. Click {\ttfamily Send}.
+
+Finally, we need to save the configuration.
+
+Click {\ttfamily C\+F\+G (Configuration} in the Configuration View.
+
+Select {\ttfamily Save current configuration} and click {\ttfamily Send}.
+
+\subsubsection*{U\+Blox Navigation model}
+
+Cleanflight will use {\ttfamily Pedestrian} when gps auto config is used.
+
+From the U\+Blox documentation\+:
+
+
+\begin{DoxyItemize}
+\item Pedestrian -\/ Applications with low acceleration and speed, e.\+g. how a pedestrian would move. Low acceleration assumed. M\+A\+X Altitude \mbox{[}m\mbox{]}\+: 9000, M\+A\+X Velocity \mbox{[}m/s\mbox{]}\+: 30, M\+A\+X Vertical, Velocity \mbox{[}m/s\mbox{]}\+: 20, Sanity check type\+: Altitude and Velocity, Max Position Deviation\+: Small.
+\item Portable -\/ Applications with low acceleration, e.\+g. portable devices. Suitable for most situations. M\+A\+X Altitude \mbox{[}m\mbox{]}\+: 12000, M\+A\+X Velocity \mbox{[}m/s\mbox{]}\+: 310, M\+A\+X Vertical Velocity \mbox{[}m/s\mbox{]}\+: 50, Sanity check type\+: Altitude and Velocity, Max Position Deviation\+: Medium.
+\item Airborne $<$ 1\+G -\/ Used for applications with a higher dynamic range and vertical acceleration than a passenger car. No 2\+D position fixes supported. M\+A\+X Altitude \mbox{[}m\mbox{]}\+: 50000, M\+A\+X Velocity \mbox{[}m/s\mbox{]}\+: 100, M\+A\+X Vertical Velocity \mbox{[}m/s\mbox{]}\+: 100, Sanity check type\+: Altitude, Max Position Deviation\+: Large
+\end{DoxyItemize}
+
+\subsection*{Hardware}
+
+There are many G\+P\+S receivers available on the market. Below are some examples of user-\/tested hardware.
+
+\subsubsection*{Ublox}
+
+\subsubsection*{U-\/\+Blox}
+
+\paragraph*{N\+E\+O-\/\+M8}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Module }&{\bf Comments  }\\\cline{1-2}
+U-\/blox Neo-\/\+M8\+N w/\+Compass &Pinout can be found in Pixfalcon manual. S\+D\+A and S\+C\+L can be attached to I2\+C bus for compass, T\+X and R\+X can be attached to U\+A\+R\+T for G\+P\+S. Power must be applied for either to function. \\\cline{1-2}
+Reyax R\+Y825\+A\+I &N\+E\+O-\/\+M8\+N, 18\+Hz U\+A\+R\+T U\+S\+B interface G\+P\+S Glonass Bei\+Dou Q\+Z\+S\+S antenna module flash. \href{http://www.ebay.com/itm/RY825AI-18Hz-UART-USB-interface-GPS-Glonass-BeiDou-QZSS-antenna-module-flash/181566850426}{\tt e\+Bay} \\\cline{1-2}
+\end{TabularC}
+\paragraph*{N\+E\+O-\/7}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Module }&{\bf Comments  }\\\cline{1-2}
+U-\/blox Neo-\/7\+M w/\+Compass &\href{http://www.hobbyking.com/hobbyking/store/__55558__Ublox_Neo_7M_GPS_with_Compass_and_Pedestal_Mount.html}{\tt Hobby\+King} \\\cline{1-2}
+\end{TabularC}
+\paragraph*{N\+E\+O-\/6}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Module }&{\bf Comments  }\\\cline{1-2}
+Ublox N\+E\+O-\/6\+M G\+P\+S with Compass &\href{http://www.ebay.com/itm/111585855757}{\tt e\+Bay} \\\cline{1-2}
+\end{TabularC}
+
+
+\subsubsection*{Serial N\+M\+E\+A}
+
+\paragraph*{Media\+Tek}
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}{\bf Module }&{\bf Comments  }\\\cline{1-2}
+M\+T\+K 3329 &Tested on hardware serial at 115200 baud (default) and on softserial at 19200 baud. The baudrate and refresh rate can be adjusted using the Mini\+G\+P\+S software (recommended if you lower the baudrate). The software will estimate the percentage of U\+A\+R\+T bandwidth used for your chosen baudrate and update rate. \\\cline{1-2}
+\end{TabularC}

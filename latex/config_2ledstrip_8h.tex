@@ -1,0 +1,404 @@
+\hypertarget{config_2ledstrip_8h}{\section{src/main/config/ledstrip.h File Reference}
+\label{config_2ledstrip_8h}\index{src/main/config/ledstrip.\+h@{src/main/config/ledstrip.\+h}}
+}
+{\ttfamily \#include \char`\"{}../common/color.\+h\char`\"{}}\\*
+Include dependency graph for ledstrip.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{config_2ledstrip_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_2ledstrip_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structled__spc__color__indices}{led\+\_\+spc\+\_\+color\+\_\+indices}
+\item 
+struct \hyperlink{structled__mode__color__indices}{led\+\_\+mode\+\_\+color\+\_\+indices}
+\item 
+struct \hyperlink{structled__config}{led\+\_\+config}
+\item 
+struct \hyperlink{structledstrip__config}{ledstrip\+\_\+config}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{config_2ledstrip_8h_acf2ceddfc923060f2f67258134d4be61}{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}~8
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a2d701d2f0fa9c14613f8cda8b1e78f0e}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}~6
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a7f8ff468ff6bbb673274f84e042cad47}{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}~32
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a558c50db19fe692e9ab8afcfc30443fc}{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}~16
+\item 
+\#define \hyperlink{config_2ledstrip_8h_aae88569d0f355e430fcee9db484b9c40}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}~6
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a29984a27441719fbc726e2c08a382cc1}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}~10
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a71d51a029f576431f80c4452e6da37af}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}~0
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a5b8b64a819bc5ce75ba1b186f069645b}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}~\hyperlink{config_2ledstrip_8h_a2d701d2f0fa9c14613f8cda8b1e78f0e}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a38983fb6285918255d38955828d09917}{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}~4
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a17de452976c37d5b1b05ea27395bc953}{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}~0
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a3e0ae86e87d40e2421d95ecf97c1eaf7}{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}~0x0\+F
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a736af3900e80241ca359446002e49e7a}{C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y}(x, y)~((((x) \& \hyperlink{config_2ledstrip_8h_a3e0ae86e87d40e2421d95ecf97c1eaf7}{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}) $<$$<$ \hyperlink{config_2ledstrip_8h_a38983fb6285918255d38955828d09917}{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}) $\vert$ (((y) \& \hyperlink{config_2ledstrip_8h_a3e0ae86e87d40e2421d95ecf97c1eaf7}{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}) $<$$<$ \hyperlink{config_2ledstrip_8h_a17de452976c37d5b1b05ea27395bc953}{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}))
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a15839b074b79b30198b89ad4d03a2a7e}{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N}(direction\+Id)~(1 $<$$<$ (\hyperlink{config_2ledstrip_8h_a71d51a029f576431f80c4452e6da37af}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T} + (direction\+Id)))
+\item 
+\#define \hyperlink{config_2ledstrip_8h_ad18d7cc9b2bba3ee4c1c581dd24ced6e}{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}~(((1 $<$$<$ \hyperlink{config_2ledstrip_8h_a2d701d2f0fa9c14613f8cda8b1e78f0e}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}) -\/ 1) $<$$<$ \hyperlink{config_2ledstrip_8h_a71d51a029f576431f80c4452e6da37af}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T})
+\item 
+\#define \hyperlink{config_2ledstrip_8h_acfd82c8d79d9c9553b84463247823270}{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}(function\+Id)~(1 $<$$<$ (\hyperlink{config_2ledstrip_8h_a5b8b64a819bc5ce75ba1b186f069645b}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T} + (function\+Id)))
+\item 
+\#define \hyperlink{config_2ledstrip_8h_a941165542d146899fcd794e294629e64}{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}~(((1 $<$$<$ \hyperlink{config_2ledstrip_8h_a29984a27441719fbc726e2c08a382cc1}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}) -\/ 1) $<$$<$ \hyperlink{config_2ledstrip_8h_a5b8b64a819bc5ce75ba1b186f069645b}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T})
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4e}{led\+Mode\+Index\+\_\+e} \{ \\*
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea262ec54d73ec72c88f9f319066ca18e7}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N} = 0, 
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea217bbfb744dd6fdb88614ba241145676}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E}, 
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eae663f34f2cadfa40c3de2af74ffdbc6c}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N}, 
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea6efdec6a92e7b58cafe2b24d5281699d}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E}, 
+\\*
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eaa79cc4b58974ee5f54d9529d557acae5}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G}, 
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead56337b8f6eb64c9418495c9852b2419}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O}, 
+\hyperlink{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead23192dd4d9b014111ea9195583d9253}{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L}
+ \}
+\item 
+enum \hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093c}{led\+Special\+Color\+Ids\+\_\+e} \{ \\*
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca78ec2d0d07c22fd0a17fefd0873d2cc7}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D} = 0, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cacb5282a2712da750575f4cb5cf5a2397}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D}, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca2f94d0e47db08ffad592370802dbd07f}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N}, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca0e0742d463ac136bc996dcae4cd8727a}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}, 
+\\*
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cae694de5101b4c8674c284f4e1b6ca393}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cad54e1483714b242f39172535d5854b9e}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S}, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac0f2ca38db49e491d646c320ec5d9ed6}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K}, 
+\hyperlink{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac275d167448af21ae4217bf98fdfb316}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D}
+ \}
+\item 
+enum \hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053}{color\+Id\+\_\+e} \{ \\*
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a2a9daf215a30f1c539ead18c66380fc1}{C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K} = 0, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ad47b4c240a0109970bb2a7fe3a07d3ec}{C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a592503b9434c1e751a92f3fc536d7950}{C\+O\+L\+O\+R\+\_\+\+R\+E\+D}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0d36904c1e8ef3978abfe51c57b70423}{C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E}, 
+\\*
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ab03862907066c68204ee9df1ee04aa29}{C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053abdfff6e4b2ba64bb923b0847643f137f}{C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053acfa9d8bbffc418447ed826f286abca02}{C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a6b18993be7191d4421eace468b64c95c}{C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N}, 
+\\*
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a7896ff2cc707b5873da0b97d38bf852e}{C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a97e4b144ec0f5f6a6d19eccd00a1cba8}{C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1340428efccb140dcbdb71aa6176f696}{C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1fc05eff0fe23901c985bd5ec9b17106}{C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T}, 
+\\*
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a543701a16830d494b0e460cccf0f9b37}{C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A}, 
+\hyperlink{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0f0c45d1d6eb272466bae0b597af6ccf}{C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K}
+ \}
+\item 
+enum \hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afe}{led\+Direction\+Id\+\_\+e} \{ \\*
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea447060fb744f964daad2e3d3f8193f2d}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H} = 0, 
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea615d21d57c527a5c0db285352c902225}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T}, 
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeaed57e066d58ed97ea81555db6d1479ac}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H}, 
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeae3d8dcc6a76111a2f510f1e214a804c1}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T}, 
+\\*
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea4d051d6520c475e284dbfdf0c62940cb}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P}, 
+\hyperlink{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea1438e0b3c40dbc3cb0bf62f5ae551e39}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N}
+ \}
+\item 
+enum \hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99}{led\+Function\+Id\+\_\+e} \{ \\*
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a8958dbe755c7a98a17bcd908d5bb954d}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a7b8925fe2e8b9c51c5ceea8c883f4b44}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a141e4dbef2b8859c6b292a826b708cb8}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a46c1083166ff5508c4363a8c688f3d5e}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E}, 
+\\*
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ad01664cf9d52440eb367c455c7d78438}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a035e12d1b6631a8365651dd2649aedbe}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a84af42e652ab492e04e95eb24c28cbd4}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ac00c316d3f78604292d9864601e4f79d}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}, 
+\\*
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a96ae39e7bf075ef094cc5973d6da9830}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I}, 
+\hyperlink{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99afdf67c67cfcad5ae8ebbd968fca28b41}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structled__spc__color__indices}{led\+\_\+spc\+\_\+color\+\_\+indices} \hyperlink{config_2ledstrip_8h_a6038c1dc3b257b2dd07ea7da41228901}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((packed))
+\item 
+bool \hyperlink{config_2ledstrip_8h_ab227fe493e6bcd1146f7478d0827e868}{ledstrip\+\_\+config\+\_\+set\+\_\+color} (struct \hyperlink{structledstrip__config}{ledstrip\+\_\+config} $\ast$self, int index, const char $\ast$color\+Config)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{config_2ledstrip_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}
+\item 
+uint8\+\_\+t \hyperlink{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{color} \mbox{[}\hyperlink{config_2ledstrip_8h_acf2ceddfc923060f2f67258134d4be61}{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+uint8\+\_\+t \hyperlink{config_2ledstrip_8h_ae8c93de8e6f01fa4d97e4fb27a103593}{xy}
+\item 
+uint16\+\_\+t \hyperlink{config_2ledstrip_8h_a1e87af3c18a2fd36c61faf89949bdc3f}{flags}
+\item 
+struct \hyperlink{structled__config}{led\+\_\+config} \hyperlink{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{leds} \mbox{[}\hyperlink{config_2ledstrip_8h_a7f8ff468ff6bbb673274f84e042cad47}{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}\mbox{]}
+\item 
+struct \hyperlink{structhsvColor__s}{hsv\+Color\+\_\+s} \hyperlink{config_2ledstrip_8h_adf18c8aa725c62e456adc445cba25f9f}{colors} \mbox{[}\hyperlink{config_2ledstrip_8h_a558c50db19fe692e9ab8afcfc30443fc}{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+struct \hyperlink{structled__mode__color__indices}{led\+\_\+mode\+\_\+color\+\_\+indices} \hyperlink{config_2ledstrip_8h_a71d823cdedc11b7f6ff4daf687f68bc9}{mode\+Colors} \mbox{[}\hyperlink{config_2ledstrip_8h_aae88569d0f355e430fcee9db484b9c40}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}
+\item 
+struct \hyperlink{structled__spc__color__indices}{led\+\_\+spc\+\_\+color\+\_\+indices} \hyperlink{config_2ledstrip_8h_aefeddd3cea0b7f8ae7aaaf322af820b6}{spc\+Colors} \mbox{[}1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{config_2ledstrip_8h_a736af3900e80241ca359446002e49e7a}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y@{C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y}}
+\index{C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y@{C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+A\+L\+C\+U\+L\+A\+T\+E\+\_\+\+L\+E\+D\+\_\+\+X\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~((((x) \& {\bf L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}) $<$$<$ {\bf L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}) $\vert$ (((y) \& {\bf L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}) $<$$<$ {\bf L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}))}}\label{config_2ledstrip_8h_a736af3900e80241ca359446002e49e7a}
+\hypertarget{config_2ledstrip_8h_a558c50db19fe692e9ab8afcfc30443fc}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}}
+\index{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T~16}}\label{config_2ledstrip_8h_a558c50db19fe692e9ab8afcfc30443fc}
+\hypertarget{config_2ledstrip_8h_a71d51a029f576431f80c4452e6da37af}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T~0}}\label{config_2ledstrip_8h_a71d51a029f576431f80c4452e6da37af}
+\hypertarget{config_2ledstrip_8h_a2d701d2f0fa9c14613f8cda8b1e78f0e}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}}
+\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T~6}}\label{config_2ledstrip_8h_a2d701d2f0fa9c14613f8cda8b1e78f0e}
+\hypertarget{config_2ledstrip_8h_a15839b074b79b30198b89ad4d03a2a7e}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N}}
+\index{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{direction\+Id}
+\end{DoxyParamCaption}
+)~(1 $<$$<$ ({\bf L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T} + (direction\+Id)))}}\label{config_2ledstrip_8h_a15839b074b79b30198b89ad4d03a2a7e}
+\hypertarget{config_2ledstrip_8h_ad18d7cc9b2bba3ee4c1c581dd24ced6e}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}}
+\index{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K~(((1 $<$$<$ {\bf L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}) -\/ 1) $<$$<$ {\bf L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T})}}\label{config_2ledstrip_8h_ad18d7cc9b2bba3ee4c1c581dd24ced6e}
+\hypertarget{config_2ledstrip_8h_acfd82c8d79d9c9553b84463247823270}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}}
+\index{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{function\+Id}
+\end{DoxyParamCaption}
+)~(1 $<$$<$ ({\bf L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T} + (function\+Id)))}}\label{config_2ledstrip_8h_acfd82c8d79d9c9553b84463247823270}
+\hypertarget{config_2ledstrip_8h_a941165542d146899fcd794e294629e64}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}}
+\index{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+L\+A\+G\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+M\+A\+S\+K~(((1 $<$$<$ {\bf L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}) -\/ 1) $<$$<$ {\bf L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T})}}\label{config_2ledstrip_8h_a941165542d146899fcd794e294629e64}
+\hypertarget{config_2ledstrip_8h_a5b8b64a819bc5ce75ba1b186f069645b}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T~{\bf L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}}}\label{config_2ledstrip_8h_a5b8b64a819bc5ce75ba1b186f069645b}
+\hypertarget{config_2ledstrip_8h_a29984a27441719fbc726e2c08a382cc1}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}}
+\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+U\+N\+T~10}}\label{config_2ledstrip_8h_a29984a27441719fbc726e2c08a382cc1}
+\hypertarget{config_2ledstrip_8h_a7f8ff468ff6bbb673274f84e042cad47}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H@{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}}
+\index{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H@{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H~32}}\label{config_2ledstrip_8h_a7f8ff468ff6bbb673274f84e042cad47}
+\hypertarget{config_2ledstrip_8h_aae88569d0f355e430fcee9db484b9c40}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}}
+\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T~6}}\label{config_2ledstrip_8h_aae88569d0f355e430fcee9db484b9c40}
+\hypertarget{config_2ledstrip_8h_acf2ceddfc923060f2f67258134d4be61}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}}
+\index{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T@{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T~8}}\label{config_2ledstrip_8h_acf2ceddfc923060f2f67258134d4be61}
+\hypertarget{config_2ledstrip_8h_a38983fb6285918255d38955828d09917}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+X\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T~4}}\label{config_2ledstrip_8h_a38983fb6285918255d38955828d09917}
+\hypertarget{config_2ledstrip_8h_a3e0ae86e87d40e2421d95ecf97c1eaf7}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}}
+\index{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K@{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+X\+Y\+\_\+\+M\+A\+S\+K~0x0\+F}}\label{config_2ledstrip_8h_a3e0ae86e87d40e2421d95ecf97c1eaf7}
+\hypertarget{config_2ledstrip_8h_a17de452976c37d5b1b05ea27395bc953}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}}
+\index{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T@{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+E\+D\+\_\+\+Y\+\_\+\+B\+I\+T\+\_\+\+O\+F\+F\+S\+E\+T~0}}\label{config_2ledstrip_8h_a17de452976c37d5b1b05ea27395bc953}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!color\+Id\+\_\+e@{color\+Id\+\_\+e}}
+\index{color\+Id\+\_\+e@{color\+Id\+\_\+e}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{color\+Id\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf color\+Id\+\_\+e}}}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K@{C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K@{C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a2a9daf215a30f1c539ead18c66380fc1}{C\+O\+L\+O\+R\+\_\+\+B\+L\+A\+C\+K}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a2a9daf215a30f1c539ead18c66380fc1}
+}]\index{C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E@{C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E@{C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ad47b4c240a0109970bb2a7fe3a07d3ec}{C\+O\+L\+O\+R\+\_\+\+W\+H\+I\+T\+E}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ad47b4c240a0109970bb2a7fe3a07d3ec}
+}]\index{C\+O\+L\+O\+R\+\_\+\+R\+E\+D@{C\+O\+L\+O\+R\+\_\+\+R\+E\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+R\+E\+D@{C\+O\+L\+O\+R\+\_\+\+R\+E\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a592503b9434c1e751a92f3fc536d7950}{C\+O\+L\+O\+R\+\_\+\+R\+E\+D}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a592503b9434c1e751a92f3fc536d7950}
+}]\index{C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E@{C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E@{C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0d36904c1e8ef3978abfe51c57b70423}{C\+O\+L\+O\+R\+\_\+\+O\+R\+A\+N\+G\+E}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0d36904c1e8ef3978abfe51c57b70423}
+}]\index{C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W@{C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W@{C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ab03862907066c68204ee9df1ee04aa29}{C\+O\+L\+O\+R\+\_\+\+Y\+E\+L\+L\+O\+W}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053ab03862907066c68204ee9df1ee04aa29}
+}]\index{C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053abdfff6e4b2ba64bb923b0847643f137f}{C\+O\+L\+O\+R\+\_\+\+L\+I\+M\+E\+\_\+\+G\+R\+E\+E\+N}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053abdfff6e4b2ba64bb923b0847643f137f}
+}]\index{C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053acfa9d8bbffc418447ed826f286abca02}{C\+O\+L\+O\+R\+\_\+\+G\+R\+E\+E\+N}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053acfa9d8bbffc418447ed826f286abca02}
+}]\index{C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N@{C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a6b18993be7191d4421eace468b64c95c}{C\+O\+L\+O\+R\+\_\+\+M\+I\+N\+T\+\_\+\+G\+R\+E\+E\+N}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a6b18993be7191d4421eace468b64c95c}
+}]\index{C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N@{C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N@{C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a7896ff2cc707b5873da0b97d38bf852e}{C\+O\+L\+O\+R\+\_\+\+C\+Y\+A\+N}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a7896ff2cc707b5873da0b97d38bf852e}
+}]\index{C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E@{C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E@{C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a97e4b144ec0f5f6a6d19eccd00a1cba8}{C\+O\+L\+O\+R\+\_\+\+L\+I\+G\+H\+T\+\_\+\+B\+L\+U\+E}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a97e4b144ec0f5f6a6d19eccd00a1cba8}
+}]\index{C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E@{C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E@{C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1340428efccb140dcbdb71aa6176f696}{C\+O\+L\+O\+R\+\_\+\+B\+L\+U\+E}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1340428efccb140dcbdb71aa6176f696}
+}]\index{C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T@{C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T@{C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1fc05eff0fe23901c985bd5ec9b17106}{C\+O\+L\+O\+R\+\_\+\+D\+A\+R\+K\+\_\+\+V\+I\+O\+L\+E\+T}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a1fc05eff0fe23901c985bd5ec9b17106}
+}]\index{C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A@{C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A@{C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a543701a16830d494b0e460cccf0f9b37}{C\+O\+L\+O\+R\+\_\+\+M\+A\+G\+E\+N\+T\+A}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a543701a16830d494b0e460cccf0f9b37}
+}]\index{C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K@{C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K@{C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0f0c45d1d6eb272466bae0b597af6ccf}{C\+O\+L\+O\+R\+\_\+\+D\+E\+E\+P\+\_\+\+P\+I\+N\+K}\label{config_2ledstrip_8h_ac3f99b0e29f088fe23bc0f10f44cf053a0f0c45d1d6eb272466bae0b597af6ccf}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afe}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!led\+Direction\+Id\+\_\+e@{led\+Direction\+Id\+\_\+e}}
+\index{led\+Direction\+Id\+\_\+e@{led\+Direction\+Id\+\_\+e}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{led\+Direction\+Id\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf led\+Direction\+Id\+\_\+e}}}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afe}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea447060fb744f964daad2e3d3f8193f2d}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+N\+O\+R\+T\+H}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea447060fb744f964daad2e3d3f8193f2d}
+}]\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea615d21d57c527a5c0db285352c902225}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+E\+A\+S\+T}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea615d21d57c527a5c0db285352c902225}
+}]\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeaed57e066d58ed97ea81555db6d1479ac}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+S\+O\+U\+T\+H}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeaed57e066d58ed97ea81555db6d1479ac}
+}]\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeae3d8dcc6a76111a2f510f1e214a804c1}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+W\+E\+S\+T}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afeae3d8dcc6a76111a2f510f1e214a804c1}
+}]\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea4d051d6520c475e284dbfdf0c62940cb}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+U\+P}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea4d051d6520c475e284dbfdf0c62940cb}
+}]\index{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N@{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea1438e0b3c40dbc3cb0bf62f5ae551e39}{L\+E\+D\+\_\+\+D\+I\+R\+E\+C\+T\+I\+O\+N\+\_\+\+D\+O\+W\+N}\label{config_2ledstrip_8h_ab8c0a2ab0ff02e900a0ed9d3292a4afea1438e0b3c40dbc3cb0bf62f5ae551e39}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!led\+Function\+Id\+\_\+e@{led\+Function\+Id\+\_\+e}}
+\index{led\+Function\+Id\+\_\+e@{led\+Function\+Id\+\_\+e}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{led\+Function\+Id\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf led\+Function\+Id\+\_\+e}}}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a8958dbe755c7a98a17bcd908d5bb954d}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+I\+N\+D\+I\+C\+A\+T\+O\+R}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a8958dbe755c7a98a17bcd908d5bb954d}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a7b8925fe2e8b9c51c5ceea8c883f4b44}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+W\+A\+R\+N\+I\+N\+G}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a7b8925fe2e8b9c51c5ceea8c883f4b44}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a141e4dbef2b8859c6b292a826b708cb8}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+F\+L\+I\+G\+H\+T\+\_\+\+M\+O\+D\+E}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a141e4dbef2b8859c6b292a826b708cb8}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a46c1083166ff5508c4363a8c688f3d5e}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+A\+R\+M\+\_\+\+S\+T\+A\+T\+E}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a46c1083166ff5508c4363a8c688f3d5e}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ad01664cf9d52440eb367c455c7d78438}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+O\+T\+T\+L\+E}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ad01664cf9d52440eb367c455c7d78438}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a035e12d1b6631a8365651dd2649aedbe}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+T\+H\+R\+U\+S\+T\+\_\+\+R\+I\+N\+G}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a035e12d1b6631a8365651dd2649aedbe}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a84af42e652ab492e04e95eb24c28cbd4}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+C\+O\+L\+O\+R}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a84af42e652ab492e04e95eb24c28cbd4}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ac00c316d3f78604292d9864601e4f79d}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+G\+P\+S}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99ac00c316d3f78604292d9864601e4f79d}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a96ae39e7bf075ef094cc5973d6da9830}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+R\+S\+S\+I}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99a96ae39e7bf075ef094cc5973d6da9830}
+}]\index{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K@{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99afdf67c67cfcad5ae8ebbd968fca28b41}{L\+E\+D\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+B\+L\+I\+N\+K}\label{config_2ledstrip_8h_a3a584e5bcb0111bec0d991e5a5640c99afdf67c67cfcad5ae8ebbd968fca28b41}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4e}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!led\+Mode\+Index\+\_\+e@{led\+Mode\+Index\+\_\+e}}
+\index{led\+Mode\+Index\+\_\+e@{led\+Mode\+Index\+\_\+e}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{led\+Mode\+Index\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf led\+Mode\+Index\+\_\+e}}}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4e}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea262ec54d73ec72c88f9f319066ca18e7}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+O\+R\+I\+E\+N\+T\+A\+T\+I\+O\+N}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea262ec54d73ec72c88f9f319066ca18e7}
+}]\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea217bbfb744dd6fdb88614ba241145676}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+E\+A\+D\+F\+R\+E\+E}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea217bbfb744dd6fdb88614ba241145676}
+}]\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eae663f34f2cadfa40c3de2af74ffdbc6c}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+H\+O\+R\+I\+Z\+O\+N}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eae663f34f2cadfa40c3de2af74ffdbc6c}
+}]\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea6efdec6a92e7b58cafe2b24d5281699d}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+A\+N\+G\+L\+E}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ea6efdec6a92e7b58cafe2b24d5281699d}
+}]\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eaa79cc4b58974ee5f54d9529d557acae5}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+G}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4eaa79cc4b58974ee5f54d9529d557acae5}
+}]\index{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O@{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead56337b8f6eb64c9418495c9852b2419}{L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+B\+A\+R\+O}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead56337b8f6eb64c9418495c9852b2419}
+}]\index{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L@{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L@{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead23192dd4d9b014111ea9195583d9253}{L\+E\+D\+\_\+\+S\+P\+E\+C\+I\+A\+L}\label{config_2ledstrip_8h_a5347632aa30cd49f5ddfd9ba58a22f4ead23192dd4d9b014111ea9195583d9253}
+}]\end{description}
+\end{Desc}
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093c}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!led\+Special\+Color\+Ids\+\_\+e@{led\+Special\+Color\+Ids\+\_\+e}}
+\index{led\+Special\+Color\+Ids\+\_\+e@{led\+Special\+Color\+Ids\+\_\+e}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{led\+Special\+Color\+Ids\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf led\+Special\+Color\+Ids\+\_\+e}}}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093c}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca78ec2d0d07c22fd0a17fefd0873d2cc7}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+D\+I\+S\+A\+R\+M\+E\+D}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca78ec2d0d07c22fd0a17fefd0873d2cc7}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cacb5282a2712da750575f4cb5cf5a2397}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+R\+M\+E\+D}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cacb5282a2712da750575f4cb5cf5a2397}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca2f94d0e47db08ffad592370802dbd07f}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+A\+N\+I\+M\+A\+T\+I\+O\+N}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca2f94d0e47db08ffad592370802dbd07f}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca0e0742d463ac136bc996dcae4cd8727a}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093ca0e0742d463ac136bc996dcae4cd8727a}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cae694de5101b4c8674c284f4e1b6ca393}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+B\+L\+I\+N\+K\+B\+A\+C\+K\+G\+R\+O\+U\+N\+D}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cae694de5101b4c8674c284f4e1b6ca393}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cad54e1483714b242f39172535d5854b9e}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+S\+A\+T\+S}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cad54e1483714b242f39172535d5854b9e}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac0f2ca38db49e491d646c320ec5d9ed6}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+N\+O\+L\+O\+C\+K}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac0f2ca38db49e491d646c320ec5d9ed6}
+}]\index{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D}!config/ledstrip.\+h@{config/ledstrip.\+h}}\index{config/ledstrip.\+h@{config/ledstrip.\+h}!L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D@{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D}}\item[{\em 
+\hypertarget{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac275d167448af21ae4217bf98fdfb316}{L\+E\+D\+\_\+\+S\+C\+O\+L\+O\+R\+\_\+\+G\+P\+S\+L\+O\+C\+K\+E\+D}\label{config_2ledstrip_8h_acb348d65c0d6828b99e4dd8278bb093cac275d167448af21ae4217bf98fdfb316}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{config_2ledstrip_8h_a6038c1dc3b257b2dd07ea7da41228901}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf led\+\_\+spc\+\_\+color\+\_\+indices} {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(packed)}]{}
+\end{DoxyParamCaption}
+)}}\label{config_2ledstrip_8h_a6038c1dc3b257b2dd07ea7da41228901}
+\hypertarget{config_2ledstrip_8h_ab227fe493e6bcd1146f7478d0827e868}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!ledstrip\+\_\+config\+\_\+set\+\_\+color@{ledstrip\+\_\+config\+\_\+set\+\_\+color}}
+\index{ledstrip\+\_\+config\+\_\+set\+\_\+color@{ledstrip\+\_\+config\+\_\+set\+\_\+color}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{ledstrip\+\_\+config\+\_\+set\+\_\+color}]{\setlength{\rightskip}{0pt plus 5cm}bool ledstrip\+\_\+config\+\_\+set\+\_\+color (
+\begin{DoxyParamCaption}
+\item[{struct {\bf ledstrip\+\_\+config} $\ast$}]{self, }
+\item[{int}]{index, }
+\item[{const char $\ast$}]{color\+Config}
+\end{DoxyParamCaption}
+)}}\label{config_2ledstrip_8h_ab227fe493e6bcd1146f7478d0827e868}
+
+
+\subsection{Variable Documentation}
+\hypertarget{config_2ledstrip_8h_aeab68f17dc686a2f7dc72ab2b712e464}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}typedef    {\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+}}}\label{config_2ledstrip_8h_aeab68f17dc686a2f7dc72ab2b712e464}
+\hypertarget{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!color@{color}}
+\index{color@{color}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{color}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t color}}\label{config_2ledstrip_8h_ad0ea951b8792108ca639b212d67c2fa5}
+\hypertarget{config_2ledstrip_8h_adf18c8aa725c62e456adc445cba25f9f}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!colors@{colors}}
+\index{colors@{colors}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{colors}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf hsv\+Color\+\_\+s} colors\mbox{[}{\bf L\+E\+D\+\_\+\+C\+O\+N\+F\+I\+G\+U\+R\+A\+B\+L\+E\+\_\+\+C\+O\+L\+O\+R\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{config_2ledstrip_8h_adf18c8aa725c62e456adc445cba25f9f}
+\hypertarget{config_2ledstrip_8h_a1e87af3c18a2fd36c61faf89949bdc3f}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!flags@{flags}}
+\index{flags@{flags}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t flags}}\label{config_2ledstrip_8h_a1e87af3c18a2fd36c61faf89949bdc3f}
+\hypertarget{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!leds@{leds}}
+\index{leds@{leds}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{leds}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf led\+\_\+config} leds\mbox{[}{\bf L\+E\+D\+\_\+\+M\+A\+X\+\_\+\+S\+T\+R\+I\+P\+\_\+\+L\+E\+N\+G\+T\+H}\mbox{]}}}\label{config_2ledstrip_8h_afb8a5fc2cb2bd2f269db76087ddee126}
+\hypertarget{config_2ledstrip_8h_a71d823cdedc11b7f6ff4daf687f68bc9}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!mode\+Colors@{mode\+Colors}}
+\index{mode\+Colors@{mode\+Colors}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{mode\+Colors}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf led\+\_\+mode\+\_\+color\+\_\+indices} mode\+Colors\mbox{[}{\bf L\+E\+D\+\_\+\+M\+O\+D\+E\+\_\+\+C\+O\+U\+N\+T}\mbox{]}}}\label{config_2ledstrip_8h_a71d823cdedc11b7f6ff4daf687f68bc9}
+\hypertarget{config_2ledstrip_8h_aefeddd3cea0b7f8ae7aaaf322af820b6}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!spc\+Colors@{spc\+Colors}}
+\index{spc\+Colors@{spc\+Colors}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{spc\+Colors}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf led\+\_\+spc\+\_\+color\+\_\+indices} spc\+Colors\mbox{[}1\mbox{]}}}\label{config_2ledstrip_8h_aefeddd3cea0b7f8ae7aaaf322af820b6}
+\hypertarget{config_2ledstrip_8h_ae8c93de8e6f01fa4d97e4fb27a103593}{\index{config/ledstrip.\+h@{config/ledstrip.\+h}!xy@{xy}}
+\index{xy@{xy}!config/ledstrip.\+h@{config/ledstrip.\+h}}
+\subsubsection[{xy}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t xy}}\label{config_2ledstrip_8h_ae8c93de8e6f01fa4d97e4fb27a103593}

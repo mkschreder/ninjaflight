@@ -1,0 +1,10 @@
+<map id="gps_enable_passthrough" name="gps_enable_passthrough">
+<area shape="rect" id="node2" href="$io_2serial_8c.html#aacf1e06791249cd1f57ffa58c28f36ca" title="waitForSerialPortToFinish\lTransmitting" alt="" coords="222,23,394,65"/>
+<area shape="rect" id="node6" href="$drivers_2serial_8c.html#a599a037d9e38ce6c9334a2ec7c22e732" title="serialSetMode" alt="" coords="255,89,361,116"/>
+<area shape="rect" id="node7" href="$drivers_2serial_8c.html#a1030bfb53adff55fa7de9f0babce6c29" title="serialRxBytesWaiting" alt="" coords="234,140,382,167"/>
+<area shape="rect" id="node8" href="$drivers_2serial_8c.html#a6c74a91bbf5d8fd122fb2321492b4193" title="serialRead" alt="" coords="266,191,350,217"/>
+<area shape="rect" id="node9" href="$drivers_2serial_8c.html#a1d2886fbce32033a1af48d522439756b" title="serialWrite" alt="" coords="266,241,350,268"/>
+<area shape="rect" id="node3" href="$drivers_2serial_8c.html#afda3f6426d3b80a7028810c618127a68" title="isSerialTransmitBufferEmpty" alt="" coords="443,5,632,32"/>
+<area shape="rect" id="node4" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="507,56,567,83"/>
+<area shape="rect" id="node5" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="680,56,741,83"/>
+</map>

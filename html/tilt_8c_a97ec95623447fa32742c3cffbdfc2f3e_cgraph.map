@@ -1,0 +1,6 @@
+<map id="tilt_calculate_compensation" name="tilt_calculate_compensation">
+<area shape="rect" id="node2" href="$maths_8c.html#adcad298527436e28d347ba411cf2d28d" title="constrain" alt="" coords="265,5,340,32"/>
+<area shape="rect" id="node3" href="$maths_8c.html#a9d9e746df4553b61522720bc5b243985" title="degreesToRadians" alt="" coords="237,56,368,83"/>
+<area shape="rect" id="node4" href="$maths_8c.html#a82462a5597861c636a301dad9263919d" title="cos_approx" alt="" coords="258,107,347,133"/>
+<area shape="rect" id="node5" href="$maths_8c.html#a6fc3517bdd4f977e0ab6ce2abfe20116" title="sin_approx" alt="" coords="416,107,501,133"/>
+</map>

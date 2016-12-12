@@ -1,0 +1,21 @@
+<map id="input_mag" name="input_mag">
+<area shape="rect" id="node2" href="$group__Instruments__Main.html#gab819d65960b422c029b6b65c5e093615" title="ins_process_mag" alt="" coords="137,85,261,112"/>
+<area shape="rect" id="node6" href="$group__Instruments__Main.html#ga87572d36a8af9fcad5d632a721ed671d" title="ins_process_gyro" alt="" coords="137,173,261,200"/>
+<area shape="rect" id="node10" href="$group__Instruments__Main.html#ga126803b1bfe06b359e1f812a6953c521" title="ins_update" alt="" coords="156,329,241,356"/>
+<area shape="rect" id="node3" href="$boardalignment_8c.html#a5285bcaf5a228f05b07db1fa32d40d75" title="board_alignment_rotate\l_vector" alt="" coords="317,107,475,149"/>
+<area shape="rect" id="node4" href="$compass_8c.html#ae22f898646129a65940365983c831eb2" title="ins_mag_process_sample" alt="" coords="309,5,483,32"/>
+<area shape="rect" id="node5" href="$group__IMU.html#gafd573f1d86b59931a3588c939f233bcd" title="imu_input_magnetometer" alt="" coords="312,56,480,83"/>
+<area shape="rect" id="node7" href="$gyro_8c.html#a9aa1d061d3803d5bd885b68337981a3b" title="ins_gyro_process_sample" alt="" coords="309,173,483,200"/>
+<area shape="rect" id="node9" href="$group__IMU.html#ga57e6b2abb21fe897496e1d88104d40d2" title="imu_input_gyro" alt="" coords="341,224,451,251"/>
+<area shape="rect" id="node8" href="$filter_8c.html#a0a8fc4d542ea87774f572d8227ee41a3" title="applyBiQuadFilter" alt="" coords="557,148,683,175"/>
+<area shape="rect" id="node11" href="$group__Instruments__Main.html#gad94176bbfa1cc3c1548ee241787eb98a" title="ins_is_calibrated" alt="" coords="337,300,455,327"/>
+<area shape="rect" id="node17" href="$group__IMU.html#gad46d84705e3777ce1b6a682e1c6b3a34" title="imu_enable_fast_dcm\l_convergence" alt="" coords="321,351,471,393"/>
+<area shape="rect" id="node18" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="351,468,441,495"/>
+<area shape="rect" id="node12" href="$gyro_8c.html#ae5a8dcbdbe5a6d66bdd83a3451baa738" title="ins_gyro_is_calibrated" alt="" coords="545,199,695,225"/>
+<area shape="rect" id="node13" href="$acceleration_8c.html#aac0f117f5df7b0d515d44a4fdb51fde1" title="ins_acc_is_calibrated" alt="" coords="547,249,693,276"/>
+<area shape="rect" id="node14" href="$barometer_8c.html#a56c60ae167877ca9b3e1a048ae280802" title="isBaroCalibrationComplete" alt="" coords="531,300,709,327"/>
+<area shape="rect" id="node15" href="$sitl_2main_8c.html#a6ab71765601504aa30df9b88e64006da" title="isAccelerationCalibration\lComplete" alt="" coords="537,351,703,393"/>
+<area shape="rect" id="node16" href="$sitl_2main_8c.html#a979080a0e83abcf647b5218939dd485b" title="isGyroCalibrationComplete" alt="" coords="531,417,709,444"/>
+<area shape="rect" id="node19" href="$group__config.html#ga547d1cb3ff0bbd0bb7381c73155ca8dd" title="config_get_profile" alt="" coords="558,468,682,495"/>
+<area shape="rect" id="node20" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="570,519,670,545"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="input_imu_accel" name="input_imu_accel">
+<area shape="rect" id="node2" href="$group__IMU.html#gac2f3d89971ad35932072f3d450ec4a07" title="imu_reset" alt="" coords="215,5,294,32"/>
+<area shape="rect" id="node3" href="$group__IMU.html#ga515a0c1950608b61bb91fdc26504dd86" title="imu_input_accelerometer" alt="" coords="171,56,338,83"/>
+<area shape="rect" id="node4" href="$group__IMU.html#ga57e6b2abb21fe897496e1d88104d40d2" title="imu_input_gyro" alt="" coords="199,107,310,133"/>
+<area shape="rect" id="node5" href="$group__IMU.html#gaea89e9b064c1540b404b159a6299d3e1" title="imu_update" alt="" coords="210,157,299,184"/>
+<area shape="rect" id="node6" href="$config_8c.html#ac48025e524c6b9ff50d7e2f5abf554da" title="config_get_profile" alt="" coords="387,132,511,159"/>
+<area shape="rect" id="node7" href="$filter_8c.html#a03b2178a8fa46ed820482d157b84210e" title="filterApplyPt1" alt="" coords="399,183,499,209"/>
+</map>

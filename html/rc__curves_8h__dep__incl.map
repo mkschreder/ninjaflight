@@ -1,0 +1,9 @@
+<map id="src/main/io/rc_curves.h" name="src/main/io/rc_curves.h">
+<area shape="rect" id="node2" href="$rc__adjustments_8c.html" title="src/main/io/rc_adjustments.c" alt="" coords="5,80,195,107"/>
+<area shape="rect" id="node3" href="$rc__curves_8c.html" title="src/main/io/rc_curves.c" alt="" coords="219,80,377,107"/>
+<area shape="rect" id="node4" href="$ninja_8c.html" title="src/main/ninja.c" alt="" coords="403,80,517,107"/>
+<area shape="rect" id="node5" href="$ninja__config_8c.html" title="src/main/ninja_config.c" alt="" coords="542,80,697,107"/>
+<area shape="rect" id="node6" href="$ninja__input_8c.html" title="src/main/ninja_input.c" alt="" coords="723,80,871,107"/>
+<area shape="rect" id="node7" href="$ninjaflight_8c.html" title="src/main/ninjaflight.c" alt="" coords="895,80,1037,107"/>
+<area shape="rect" id="node8" href="$rc__commands_8c.html" title="src/main/rc_commands.c" alt="" coords="1062,80,1231,107"/>
+</map>

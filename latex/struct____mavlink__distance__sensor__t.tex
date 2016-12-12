@@ -1,0 +1,90 @@
+\hypertarget{struct____mavlink__distance__sensor__t}{\section{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t Struct Reference}
+\label{struct____mavlink__distance__sensor__t}\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+distance\+\_\+sensor.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_a8dbd24433a8cb2c08e0d3675bd99476a}{time\+\_\+boot\+\_\+ms}
+\begin{DoxyCompactList}\small\item\em Time since system boot. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_a86645b183bc2be28eb6327a205baff2b}{min\+\_\+distance}
+\begin{DoxyCompactList}\small\item\em Minimum distance the sensor can measure in centimeters. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_ad961692c0e76ba99f5239ab5472b1acb}{max\+\_\+distance}
+\begin{DoxyCompactList}\small\item\em Maximum distance the sensor can measure in centimeters. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_a62933c0663982034023b0e66dcf84cce}{current\+\_\+distance}
+\begin{DoxyCompactList}\small\item\em Current distance reading. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_a8381164d6c466b323c9bf3d07d2a7d82}{type}
+\begin{DoxyCompactList}\small\item\em Type from M\+A\+V\+\_\+\+D\+I\+S\+T\+A\+N\+C\+E\+\_\+\+S\+E\+N\+S\+O\+R enum. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_aa1571c2fd20e829474f6e2f29cd9c753}{id}
+\begin{DoxyCompactList}\small\item\em Onboard I\+D of the sensor. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_af074a52389ea13cb4e410a59b1867303}{orientation}
+\begin{DoxyCompactList}\small\item\em Direction the sensor faces from F\+I\+X\+M\+E enum. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__distance__sensor__t_a860430e9a01d70a549c90038cc956b50}{covariance}
+\begin{DoxyCompactList}\small\item\em Measurement covariance in centimeters, 0 for unknown / invalid readings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__distance__sensor__t_a860430e9a01d70a549c90038cc956b50}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!covariance@{covariance}}
+\index{covariance@{covariance}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{covariance}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::covariance}}\label{struct____mavlink__distance__sensor__t_a860430e9a01d70a549c90038cc956b50}
+
+
+Measurement covariance in centimeters, 0 for unknown / invalid readings. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_a62933c0663982034023b0e66dcf84cce}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!current\+\_\+distance@{current\+\_\+distance}}
+\index{current\+\_\+distance@{current\+\_\+distance}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{current\+\_\+distance}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::current\+\_\+distance}}\label{struct____mavlink__distance__sensor__t_a62933c0663982034023b0e66dcf84cce}
+
+
+Current distance reading. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_aa1571c2fd20e829474f6e2f29cd9c753}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!id@{id}}
+\index{id@{id}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::id}}\label{struct____mavlink__distance__sensor__t_aa1571c2fd20e829474f6e2f29cd9c753}
+
+
+Onboard I\+D of the sensor. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_ad961692c0e76ba99f5239ab5472b1acb}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!max\+\_\+distance@{max\+\_\+distance}}
+\index{max\+\_\+distance@{max\+\_\+distance}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{max\+\_\+distance}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::max\+\_\+distance}}\label{struct____mavlink__distance__sensor__t_ad961692c0e76ba99f5239ab5472b1acb}
+
+
+Maximum distance the sensor can measure in centimeters. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_a86645b183bc2be28eb6327a205baff2b}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!min\+\_\+distance@{min\+\_\+distance}}
+\index{min\+\_\+distance@{min\+\_\+distance}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{min\+\_\+distance}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::min\+\_\+distance}}\label{struct____mavlink__distance__sensor__t_a86645b183bc2be28eb6327a205baff2b}
+
+
+Minimum distance the sensor can measure in centimeters. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_af074a52389ea13cb4e410a59b1867303}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!orientation@{orientation}}
+\index{orientation@{orientation}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::orientation}}\label{struct____mavlink__distance__sensor__t_af074a52389ea13cb4e410a59b1867303}
+
+
+Direction the sensor faces from F\+I\+X\+M\+E enum. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_a8dbd24433a8cb2c08e0d3675bd99476a}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}}
+\index{time\+\_\+boot\+\_\+ms@{time\+\_\+boot\+\_\+ms}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{time\+\_\+boot\+\_\+ms}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::time\+\_\+boot\+\_\+ms}}\label{struct____mavlink__distance__sensor__t_a8dbd24433a8cb2c08e0d3675bd99476a}
+
+
+Time since system boot. 
+
+\hypertarget{struct____mavlink__distance__sensor__t_a8381164d6c466b323c9bf3d07d2a7d82}{\index{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}!type@{type}}
+\index{type@{type}!\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+distance\+\_\+sensor\+\_\+t\+::type}}\label{struct____mavlink__distance__sensor__t_a8381164d6c466b323c9bf3d07d2a7d82}
+
+
+Type from M\+A\+V\+\_\+\+D\+I\+S\+T\+A\+N\+C\+E\+\_\+\+S\+E\+N\+S\+O\+R enum. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/common/\hyperlink{mavlink__msg__distance__sensor_8h}{mavlink\+\_\+msg\+\_\+distance\+\_\+sensor.\+h}\end{DoxyCompactItemize}

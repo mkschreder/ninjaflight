@@ -1,0 +1,4 @@
+<map id="rx_output_config" name="rx_output_config">
+<area shape="rect" id="node2" href="$structrx__failsafe__chan__config.html" title="rx_failsafe_chan_config" alt="" coords="5,5,163,32"/>
+<area shape="rect" id="node3" href="$structrx__channel__range__config.html" title="rx_channel_range_config" alt="" coords="187,5,353,32"/>
+</map>

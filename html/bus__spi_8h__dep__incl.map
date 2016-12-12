@@ -1,0 +1,12 @@
+<map id="src/main/drivers/bus_spi.h" name="src/main/drivers/bus_spi.h">
+<area shape="rect" id="node2" href="$accgyro__l3gd20_8c.html" title="src/main/drivers/accgyro\l_l3gd20.c" alt="" coords="5,97,169,138"/>
+<area shape="rect" id="node3" href="$accgyro__spi__mpu6000_8c.html" title="src/main/drivers/accgyro\l_spi_mpu6000.c" alt="" coords="195,97,359,138"/>
+<area shape="rect" id="node4" href="$accgyro__spi__mpu6500_8c.html" title="src/main/drivers/accgyro\l_spi_mpu6500.c" alt="" coords="384,97,548,138"/>
+<area shape="rect" id="node5" href="$bus__spi_8c.html" title="src/main/drivers/bus\l_spi.c" alt="" coords="574,97,713,138"/>
+<area shape="rect" id="node6" href="$compass__ak8963_8c.html" title="src/main/drivers/compass\l_ak8963.c" alt="" coords="738,97,909,138"/>
+<area shape="rect" id="node7" href="$sdcard_8c.html" title="src/main/drivers/sdcard.c" alt="" coords="934,104,1103,131"/>
+<area shape="rect" id="node8" href="$main_8c.html" title="src/main/main.c" alt="" coords="1128,104,1243,131"/>
+<area shape="rect" id="node9" href="$initialisation_8c.html" title="src/main/sensors/initialisation.c" alt="" coords="1267,104,1472,131"/>
+<area shape="rect" id="node10" href="$CJMCU_2hardware__revision_8c.html" title="src/main/target/CJMCU\l/hardware_revision.c" alt="" coords="1497,97,1657,138"/>
+<area shape="rect" id="node11" href="$NAZE_2hardware__revision_8c.html" title="src/main/target/NAZE\l/hardware_revision.c" alt="" coords="1683,97,1831,138"/>
+</map>

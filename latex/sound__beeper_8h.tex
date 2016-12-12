@@ -1,0 +1,110 @@
+\hypertarget{sound__beeper_8h}{\section{src/main/drivers/sound\+\_\+beeper.h File Reference}
+\label{sound__beeper_8h}\index{src/main/drivers/sound\+\_\+beeper.\+h@{src/main/drivers/sound\+\_\+beeper.\+h}}
+}
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\\*
+Include dependency graph for sound\+\_\+beeper.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{sound__beeper_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sound__beeper_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbeeperConfig__s}{beeper\+Config\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sound__beeper_8h_a46eb8c8efbf40d35f924bdebe71148a7}{B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E}~do\{\} while(0)
+\item 
+\#define \hyperlink{sound__beeper_8h_a7a6d5e3e348423f4001e8385ae9e8304}{B\+E\+E\+P\+\_\+\+O\+F\+F}~do \{\} while(0)
+\item 
+\#define \hyperlink{sound__beeper_8h_a8b6bec150572ef50d940e3e56069b72a}{B\+E\+E\+P\+\_\+\+O\+N}~do \{\} while(0)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structbeeperConfig__s}{beeper\+Config\+\_\+s} \hyperlink{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}{beeper\+Config\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sound__beeper_8h_a2639b86f2b86a0021defd1d6373340bb}{init\+Beeper\+Hardware} (\hyperlink{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}{beeper\+Config\+\_\+t} $\ast$\hyperlink{structconfig}{config})
+\item 
+void \hyperlink{sound__beeper_8h_aa1f14a8202e93fca22eac8ccd48f3633}{beeper\+Init} (\hyperlink{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}{beeper\+Config\+\_\+t} $\ast$beeper\+Config)
+\item 
+void \hyperlink{sound__beeper_8h_ab2444fa10c49efca27d26c2c301f8190}{system\+Beep} (bool onoff)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{sound__beeper_8h_a7a6d5e3e348423f4001e8385ae9e8304}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!B\+E\+E\+P\+\_\+\+O\+F\+F@{B\+E\+E\+P\+\_\+\+O\+F\+F}}
+\index{B\+E\+E\+P\+\_\+\+O\+F\+F@{B\+E\+E\+P\+\_\+\+O\+F\+F}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{B\+E\+E\+P\+\_\+\+O\+F\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+E\+E\+P\+\_\+\+O\+F\+F~do \{\} while(0)}}\label{sound__beeper_8h_a7a6d5e3e348423f4001e8385ae9e8304}
+\hypertarget{sound__beeper_8h_a8b6bec150572ef50d940e3e56069b72a}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!B\+E\+E\+P\+\_\+\+O\+N@{B\+E\+E\+P\+\_\+\+O\+N}}
+\index{B\+E\+E\+P\+\_\+\+O\+N@{B\+E\+E\+P\+\_\+\+O\+N}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{B\+E\+E\+P\+\_\+\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+E\+E\+P\+\_\+\+O\+N~do \{\} while(0)}}\label{sound__beeper_8h_a8b6bec150572ef50d940e3e56069b72a}
+\hypertarget{sound__beeper_8h_a46eb8c8efbf40d35f924bdebe71148a7}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E@{B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E}}
+\index{B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E@{B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+E\+E\+P\+\_\+\+T\+O\+G\+G\+L\+E~do\{\} while(0)}}\label{sound__beeper_8h_a46eb8c8efbf40d35f924bdebe71148a7}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!beeper\+Config\+\_\+t@{beeper\+Config\+\_\+t}}
+\index{beeper\+Config\+\_\+t@{beeper\+Config\+\_\+t}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{beeper\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf beeper\+Config\+\_\+s}  {\bf beeper\+Config\+\_\+t}}}\label{sound__beeper_8h_ac1d41fc2b0f7deb17ffb2dcbcdc4e32a}
+
+
+\subsection{Function Documentation}
+\hypertarget{sound__beeper_8h_aa1f14a8202e93fca22eac8ccd48f3633}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!beeper\+Init@{beeper\+Init}}
+\index{beeper\+Init@{beeper\+Init}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{beeper\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void beeper\+Init (
+\begin{DoxyParamCaption}
+\item[{{\bf beeper\+Config\+\_\+t} $\ast$}]{beeper\+Config}
+\end{DoxyParamCaption}
+)}}\label{sound__beeper_8h_aa1f14a8202e93fca22eac8ccd48f3633}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sound__beeper_8h_aa1f14a8202e93fca22eac8ccd48f3633_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sound__beeper_8h_a2639b86f2b86a0021defd1d6373340bb}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!init\+Beeper\+Hardware@{init\+Beeper\+Hardware}}
+\index{init\+Beeper\+Hardware@{init\+Beeper\+Hardware}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{init\+Beeper\+Hardware}]{\setlength{\rightskip}{0pt plus 5cm}void init\+Beeper\+Hardware (
+\begin{DoxyParamCaption}
+\item[{{\bf beeper\+Config\+\_\+t} $\ast$}]{config}
+\end{DoxyParamCaption}
+)}}\label{sound__beeper_8h_a2639b86f2b86a0021defd1d6373340bb}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sound__beeper_8h_a2639b86f2b86a0021defd1d6373340bb_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{sound__beeper_8h_ab2444fa10c49efca27d26c2c301f8190}{\index{sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}!system\+Beep@{system\+Beep}}
+\index{system\+Beep@{system\+Beep}!sound\+\_\+beeper.\+h@{sound\+\_\+beeper.\+h}}
+\subsubsection[{system\+Beep}]{\setlength{\rightskip}{0pt plus 5cm}void system\+Beep (
+\begin{DoxyParamCaption}
+\item[{bool}]{onoff}
+\end{DoxyParamCaption}
+)}}\label{sound__beeper_8h_ab2444fa10c49efca27d26c2c301f8190}

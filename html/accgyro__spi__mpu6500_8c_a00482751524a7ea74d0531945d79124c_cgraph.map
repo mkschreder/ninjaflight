@@ -1,0 +1,3 @@
+<map id="mpu6500WriteRegister" name="mpu6500WriteRegister">
+<area shape="rect" id="node2" href="$bus__spi_8c.html#aeeb5a646f2bd17e5164fdd1ff4bbe9ff" title="spiTransferByte" alt="" coords="208,5,323,32"/>
+</map>

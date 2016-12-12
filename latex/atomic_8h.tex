@@ -1,0 +1,128 @@
+\hypertarget{atomic_8h}{\section{src/main/common/atomic.h File Reference}
+\label{atomic_8h}\index{src/main/common/atomic.\+h@{src/main/common/atomic.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{atomic_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{atomic_8h_a97dac955aa89f585d229a7415f46bdb0}{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K}(prio)
+\item 
+\#define \hyperlink{atomic_8h_a3d3b26c1ba6839b0b91c774f8dfadd51}{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B}(prio)
+\item 
+\#define \hyperlink{atomic_8h_a6bcd6ccbf057393d9c521197d6a834e9}{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}(x, y)~x \#\# y
+\item 
+\#define \hyperlink{atomic_8h_ace01f0be245475890332d43a8528e32a}{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}(x, y)~\hyperlink{atomic_8h_a6bcd6ccbf057393d9c521197d6a834e9}{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}(x,y)
+\item 
+\#define \hyperlink{atomic_8h_a7a2973c16d801e45138f236a82a6c038}{\+\_\+\+\_\+\+U\+N\+I\+Q\+L}(x)~\hyperlink{atomic_8h_ace01f0be245475890332d43a8528e32a}{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}(x,\+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+)
+\item 
+\#define \hyperlink{atomic_8h_ae5ed9d0b60737832165651f656b2f217}{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R}(\hyperlink{transponder_8h_a8bfd79faff98a8b652ff64958dec9a18}{data})
+\item 
+\#define \hyperlink{atomic_8h_aa17c6151fe8d19f23ac65332af823f12}{A\+T\+O\+M\+I\+C\+\_\+\+O\+R}(ptr, val)~\+\_\+\+\_\+sync\+\_\+fetch\+\_\+and\+\_\+or(ptr, val)
+\item 
+\#define \hyperlink{atomic_8h_a53644977d38e6b8b83c8b339406a8f00}{A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D}(ptr, val)~\+\_\+\+\_\+sync\+\_\+fetch\+\_\+and\+\_\+and(ptr, val)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{atomic_8h_a595a97ce2b60706c374b76fc9dbc4687}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((always\+\_\+inline)) static inline void \+\_\+\+\_\+set\+\_\+\+B\+A\+S\+E\+P\+R\+I\+\_\+nb(uint32\+\_\+t base\+Pri)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{atomic_8h_a7a2973c16d801e45138f236a82a6c038}{\index{atomic.\+h@{atomic.\+h}!\+\_\+\+\_\+\+U\+N\+I\+Q\+L@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L}}
+\index{\+\_\+\+\_\+\+U\+N\+I\+Q\+L@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+U\+N\+I\+Q\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+\_\+\+U\+N\+I\+Q\+L(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}(x,\+\_\+\+\_\+\+L\+I\+N\+E\+\_\+\+\_\+)}}\label{atomic_8h_a7a2973c16d801e45138f236a82a6c038}
+\hypertarget{atomic_8h_ace01f0be245475890332d43a8528e32a}{\index{atomic.\+h@{atomic.\+h}!\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}}
+\index{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}(x,y)}}\label{atomic_8h_ace01f0be245475890332d43a8528e32a}
+\hypertarget{atomic_8h_a6bcd6ccbf057393d9c521197d6a834e9}{\index{atomic.\+h@{atomic.\+h}!\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}}
+\index{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2@{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+\_\+\+U\+N\+I\+Q\+L\+\_\+\+C\+O\+N\+C\+A\+T2(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~x \#\# y}}\label{atomic_8h_a6bcd6ccbf057393d9c521197d6a834e9}
+\hypertarget{atomic_8h_a53644977d38e6b8b83c8b339406a8f00}{\index{atomic.\+h@{atomic.\+h}!A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D@{A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D}}
+\index{A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D@{A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+T\+O\+M\+I\+C\+\_\+\+A\+N\+D(
+\begin{DoxyParamCaption}
+\item[{}]{ptr, }
+\item[{}]{val}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+sync\+\_\+fetch\+\_\+and\+\_\+and(ptr, val)}}\label{atomic_8h_a53644977d38e6b8b83c8b339406a8f00}
+\hypertarget{atomic_8h_ae5ed9d0b60737832165651f656b2f217}{\index{atomic.\+h@{atomic.\+h}!A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R@{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R}}
+\index{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R@{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+T\+O\+M\+I\+C\+\_\+\+B\+A\+R\+R\+I\+E\+R(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf data}}
+\end{DoxyParamCaption}
+)}}\label{atomic_8h_ae5ed9d0b60737832165651f656b2f217}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\_\_extension\_\_ \textcolor{keywordtype}{void}  \hyperlink{atomic_8h_a7a2973c16d801e45138f236a82a6c038}{\_\_UNIQL}(\_\_barrierEnd)(typeof(\hyperlink{config_8c_aa6e451eccf9519b0809baad41f5ab241}{data}) **\_\_d) \{     \(\backslash\)
+        \_\_asm\_\_ \textcolor{keyword}{volatile} (\textcolor{stringliteral}{"\(\backslash\)t# barier("} #\hyperlink{config_8c_aa6e451eccf9519b0809baad41f5ab241}{data} \textcolor{stringliteral}{")  end\(\backslash\)n"} : : \textcolor{stringliteral}{"m"} (**\_\_d));                          \(\backslash\)
+    \}                                                                   \(\backslash\)
+    typeof(\hyperlink{config_8c_aa6e451eccf9519b0809baad41f5ab241}{data})  \hyperlink{struct____attribute____}{\_\_attribute\_\_}((\_\_cleanup\_\_(\hyperlink{atomic_8h_a7a2973c16d801e45138f236a82a6c038}{\_\_UNIQL}(\_\_barrierEnd)))) *
+      \hyperlink{atomic_8h_a7a2973c16d801e45138f236a82a6c038}{\_\_UNIQL}(\_\_barrier) = &\hyperlink{config_8c_aa6e451eccf9519b0809baad41f5ab241}{data}; \(\backslash\)
+    \_\_asm\_\_ volatile ("\(\backslash\)t\textcolor{preprocessor}{# barier (" #data ") start\(\backslash\)n" : "=m" (*\_\_UNIQL(\_\_barrier)))}
+\end{DoxyCode}
+\hypertarget{atomic_8h_a97dac955aa89f585d229a7415f46bdb0}{\index{atomic.\+h@{atomic.\+h}!A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K@{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K}}
+\index{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K@{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K(
+\begin{DoxyParamCaption}
+\item[{}]{prio}
+\end{DoxyParamCaption}
+)}}\label{atomic_8h_a97dac955aa89f585d229a7415f46bdb0}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} ( uint8\_t \_\_basepri\_save \hyperlink{atomic_8h_a595a97ce2b60706c374b76fc9dbc4687}{\_\_attribute\_\_}((\_\_cleanup\_\_(\_\_basepriRestoreMem))) = \_\_get\_BASEPRI
+      (), \(\backslash\)
+                                     \_\_ToDo = \_\_basepriSetMemRetVal(prio); \_\_ToDo ; \_\_ToDo = 0 )
+\end{DoxyCode}
+\hypertarget{atomic_8h_a3d3b26c1ba6839b0b91c774f8dfadd51}{\index{atomic.\+h@{atomic.\+h}!A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B@{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B}}
+\index{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B@{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+T\+O\+M\+I\+C\+\_\+\+B\+L\+O\+C\+K\+\_\+\+N\+B(
+\begin{DoxyParamCaption}
+\item[{}]{prio}
+\end{DoxyParamCaption}
+)}}\label{atomic_8h_a3d3b26c1ba6839b0b91c774f8dfadd51}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} ( uint8\_t \_\_basepri\_save \hyperlink{atomic_8h_a595a97ce2b60706c374b76fc9dbc4687}{\_\_attribute\_\_}((\_\_cleanup\_\_(\_\_basepriRestore))) = \_\_get\_BASEPRI(),
+       \(\backslash\)
+                                    \_\_ToDo = \_\_basepriSetRetVal(prio); \_\_ToDo ; \_\_ToDo = 0 ) \(\backslash\)
+\end{DoxyCode}
+\hypertarget{atomic_8h_aa17c6151fe8d19f23ac65332af823f12}{\index{atomic.\+h@{atomic.\+h}!A\+T\+O\+M\+I\+C\+\_\+\+O\+R@{A\+T\+O\+M\+I\+C\+\_\+\+O\+R}}
+\index{A\+T\+O\+M\+I\+C\+\_\+\+O\+R@{A\+T\+O\+M\+I\+C\+\_\+\+O\+R}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{A\+T\+O\+M\+I\+C\+\_\+\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+T\+O\+M\+I\+C\+\_\+\+O\+R(
+\begin{DoxyParamCaption}
+\item[{}]{ptr, }
+\item[{}]{val}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+sync\+\_\+fetch\+\_\+and\+\_\+or(ptr, val)}}\label{atomic_8h_aa17c6151fe8d19f23ac65332af823f12}
+
+
+\subsection{Function Documentation}
+\hypertarget{atomic_8h_a595a97ce2b60706c374b76fc9dbc4687}{\index{atomic.\+h@{atomic.\+h}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!atomic.\+h@{atomic.\+h}}
+\subsubsection[{\+\_\+\+\_\+attribute\+\_\+\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \+\_\+\+\_\+attribute\+\_\+\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{(always\+\_\+inline)}]{}
+\end{DoxyParamCaption}
+)}}\label{atomic_8h_a595a97ce2b60706c374b76fc9dbc4687}

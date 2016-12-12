@@ -1,0 +1,9 @@
+<map id="src/main/sensors/sensors.c" name="src/main/sensors/sensors.c">
+<area shape="rect" id="node4" href="$platform_8h.html" title="platform.h" alt="" coords="195,88,273,115"/>
+<area shape="rect" id="node6" href="$debug_8h.html" title="debug.h" alt="" coords="299,88,367,115"/>
+<area shape="rect" id="node7" href="$parameter__group_8h.html" title="config/parameter_group.h" alt="" coords="515,245,684,272"/>
+<area shape="rect" id="node8" href="$parameter__group__ids_8h.html" title="config/parameter_group\l_ids.h" alt="" coords="443,81,601,122"/>
+<area shape="rect" id="node9" href="$config_8h.html" title="config/config.h" alt="" coords="547,171,653,197"/>
+<area shape="rect" id="node10" href="$sensors_2sensors_8h.html" title="sensors/sensors.h" alt="" coords="678,88,807,115"/>
+<area shape="rect" id="node11" href="$config_2sensors_8h.html" title="../config/sensors.h" alt="" coords="677,171,807,197"/>
+</map>

@@ -1,0 +1,26 @@
+var structanglerate =
+[
+    [ "_delta_state_set", "structanglerate.html#a791aca4980ff446f7f08d7aeb3cadc8c", null ],
+    [ "body_angles", "structanglerate.html#aef3bee5f62f2b945b9ad2e1addf0ec40", null ],
+    [ "body_rates", "structanglerate.html#a7fa2ff32b7d5254518fb306972595744", null ],
+    [ "config", "structanglerate.html#a77185b9c6bf487f9230a0bdecefa7d87", null ],
+    [ "deltaFilterState", "structanglerate.html#a3d49268a9f4578c40955aa80f062b3b1", null ],
+    [ "deltaStatef", "structanglerate.html#ad485d2221d96b593479ce93bdd775e80", null ],
+    [ "deltaStatei", "structanglerate.html#a51b10e50794851dc3e8d3ed00fbeedf4", null ],
+    [ "flags", "structanglerate.html#afa6209c948a30bd4e278301197293997", null ],
+    [ "ins", "structanglerate.html#ab31a88423e071c1b95fde769ea6ba95e", null ],
+    [ "ITermAngle", "structanglerate.html#a72503f633d6abdc31bff77302164c309", null ],
+    [ "ITermLimit", "structanglerate.html#a07c045ea44bd11d63fd025664da5fa49", null ],
+    [ "ITermLimitf", "structanglerate.html#a3045a46c37820e7eb48530bbec4b9e20", null ],
+    [ "lastITerm", "structanglerate.html#ae9bc7a1b87c4ac7b00372a2d366ee040", null ],
+    [ "lastITermf", "structanglerate.html#a300d0a43ea110b10c06ef420e9eb4c35", null ],
+    [ "lastRateForDelta", "structanglerate.html#a621d3cb26d7611e043342c5b2d93e88b", null ],
+    [ "lastRateForDeltai", "structanglerate.html#ada491129c2feb4eccfa84b92686809dd", null ],
+    [ "level_percent", "structanglerate.html#a065744ff4d81802ac4df2bac10a2f64a", null ],
+    [ "max_angle_inclination", "structanglerate.html#a286815d345492397b2e70b170662db2f", null ],
+    [ "output", "structanglerate.html#a08ef69d5fa18072c152721f424fb6136", null ],
+    [ "pidScale", "structanglerate.html#a1e7b09302ddc7c322489df9eee9fdcfb", null ],
+    [ "PIDweight", "structanglerate.html#af067ec7680ad2ae0127d7f904abdcb0e", null ],
+    [ "update", "structanglerate.html#a451594ac6c3fc331c36e1dc8ed3d928d", null ],
+    [ "user", "structanglerate.html#ad75fb5013c76c41ae7ddd01658469b99", null ]
+];

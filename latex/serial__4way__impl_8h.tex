@@ -1,0 +1,143 @@
+\hypertarget{serial__4way__impl_8h}{\section{src/main/io/serial\+\_\+4way\+\_\+impl.h File Reference}
+\label{serial__4way__impl_8h}\index{src/main/io/serial\+\_\+4way\+\_\+impl.\+h@{src/main/io/serial\+\_\+4way\+\_\+impl.\+h}}
+}
+{\ttfamily \#include \char`\"{}drivers/gpio.\+h\char`\"{}}\\*
+Include dependency graph for serial\+\_\+4way\+\_\+impl.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{serial__4way__impl_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{serial__4way__impl_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structescHardware__t}{esc\+Hardware\+\_\+t}
+\item 
+struct \hyperlink{structioMem__s}{io\+Mem\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{serial__4way__impl_8h_ab67e58585c649396f2136d6a6c4709b3}{E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I}~\hyperlink{serial__4way__impl_8h_a6e6b215476f8b366deb519d63a8da00b}{is\+Esc\+Hi}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\item 
+\#define \hyperlink{serial__4way__impl_8h_a4e3fd13ec756cfbf0d54f5de748c011d}{E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O}~\hyperlink{serial__4way__impl_8h_a43c42b86731e71618d9c2384bb8f1bab}{is\+Esc\+Lo}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\item 
+\#define \hyperlink{serial__4way__impl_8h_a2bdb365b4c83308bb0bf2c9d101ccc34}{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I}~\hyperlink{serial__4way__impl_8h_a8e79619c74978d60c4dc5f8c1b6137bd}{set\+Esc\+Hi}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\item 
+\#define \hyperlink{serial__4way__impl_8h_a4066ee8be5b4fa96d40b52bb989d56b1}{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O}~\hyperlink{serial__4way__impl_8h_ab2bb23ea805455526e81aaa10f98d8bb}{set\+Esc\+Lo}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\item 
+\#define \hyperlink{serial__4way__impl_8h_abb65e417c7d445030a0f6f96936d9a27}{E\+S\+C\+\_\+\+I\+N\+P\+U\+T}~\hyperlink{serial__4way__impl_8h_a2c82fc7c547d22bae90dc455c5aabc0d}{set\+Esc\+Input}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\item 
+\#define \hyperlink{serial__4way__impl_8h_a63fe166c8ea37121be5aea04679ef728}{E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T}~\hyperlink{serial__4way__impl_8h_af3bfca741f8ea4ae100ee11b9f041a91}{set\+Esc\+Output}(\hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected})
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structioMem__s}{io\+Mem\+\_\+s} \hyperlink{serial__4way__impl_8h_ac5a858b366c39b2097cc1be489bfb20f}{io\+Mem\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{serial__4way__impl_8h_a6e6b215476f8b366deb519d63a8da00b}{is\+Esc\+Hi} (uint8\+\_\+t sel\+Esc)
+\item 
+bool \hyperlink{serial__4way__impl_8h_a43c42b86731e71618d9c2384bb8f1bab}{is\+Esc\+Lo} (uint8\+\_\+t sel\+Esc)
+\item 
+void \hyperlink{serial__4way__impl_8h_a8e79619c74978d60c4dc5f8c1b6137bd}{set\+Esc\+Hi} (uint8\+\_\+t sel\+Esc)
+\item 
+void \hyperlink{serial__4way__impl_8h_ab2bb23ea805455526e81aaa10f98d8bb}{set\+Esc\+Lo} (uint8\+\_\+t sel\+Esc)
+\item 
+void \hyperlink{serial__4way__impl_8h_a2c82fc7c547d22bae90dc455c5aabc0d}{set\+Esc\+Input} (uint8\+\_\+t sel\+Esc)
+\item 
+void \hyperlink{serial__4way__impl_8h_af3bfca741f8ea4ae100ee11b9f041a91}{set\+Esc\+Output} (uint8\+\_\+t sel\+Esc)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{esc\+Selected}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{serial__4way__impl_8h_abb65e417c7d445030a0f6f96936d9a27}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+I\+N\+P\+U\+T@{E\+S\+C\+\_\+\+I\+N\+P\+U\+T}}
+\index{E\+S\+C\+\_\+\+I\+N\+P\+U\+T@{E\+S\+C\+\_\+\+I\+N\+P\+U\+T}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+I\+N\+P\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+I\+N\+P\+U\+T~{\bf set\+Esc\+Input}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_abb65e417c7d445030a0f6f96936d9a27}
+\hypertarget{serial__4way__impl_8h_ab67e58585c649396f2136d6a6c4709b3}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I@{E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I}}
+\index{E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I@{E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+I\+S\+\_\+\+H\+I~{\bf is\+Esc\+Hi}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_ab67e58585c649396f2136d6a6c4709b3}
+\hypertarget{serial__4way__impl_8h_a4e3fd13ec756cfbf0d54f5de748c011d}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O@{E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O}}
+\index{E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O@{E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+I\+S\+\_\+\+L\+O~{\bf is\+Esc\+Lo}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_a4e3fd13ec756cfbf0d54f5de748c011d}
+\hypertarget{serial__4way__impl_8h_a63fe166c8ea37121be5aea04679ef728}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T@{E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T}}
+\index{E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T@{E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+O\+U\+T\+P\+U\+T~{\bf set\+Esc\+Output}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_a63fe166c8ea37121be5aea04679ef728}
+\hypertarget{serial__4way__impl_8h_a2bdb365b4c83308bb0bf2c9d101ccc34}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I@{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I}}
+\index{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I@{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+H\+I~{\bf set\+Esc\+Hi}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_a2bdb365b4c83308bb0bf2c9d101ccc34}
+\hypertarget{serial__4way__impl_8h_a4066ee8be5b4fa96d40b52bb989d56b1}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O@{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O}}
+\index{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O@{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+S\+C\+\_\+\+S\+E\+T\+\_\+\+L\+O~{\bf set\+Esc\+Lo}({\bf esc\+Selected})}}\label{serial__4way__impl_8h_a4066ee8be5b4fa96d40b52bb989d56b1}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{serial__4way__impl_8h_ac5a858b366c39b2097cc1be489bfb20f}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!io\+Mem\+\_\+t@{io\+Mem\+\_\+t}}
+\index{io\+Mem\+\_\+t@{io\+Mem\+\_\+t}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{io\+Mem\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf io\+Mem\+\_\+s}  {\bf io\+Mem\+\_\+t}}}\label{serial__4way__impl_8h_ac5a858b366c39b2097cc1be489bfb20f}
+
+
+\subsection{Function Documentation}
+\hypertarget{serial__4way__impl_8h_a6e6b215476f8b366deb519d63a8da00b}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!is\+Esc\+Hi@{is\+Esc\+Hi}}
+\index{is\+Esc\+Hi@{is\+Esc\+Hi}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{is\+Esc\+Hi}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Esc\+Hi (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_a6e6b215476f8b366deb519d63a8da00b}
+\hypertarget{serial__4way__impl_8h_a43c42b86731e71618d9c2384bb8f1bab}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!is\+Esc\+Lo@{is\+Esc\+Lo}}
+\index{is\+Esc\+Lo@{is\+Esc\+Lo}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{is\+Esc\+Lo}]{\setlength{\rightskip}{0pt plus 5cm}bool is\+Esc\+Lo (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_a43c42b86731e71618d9c2384bb8f1bab}
+\hypertarget{serial__4way__impl_8h_a8e79619c74978d60c4dc5f8c1b6137bd}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!set\+Esc\+Hi@{set\+Esc\+Hi}}
+\index{set\+Esc\+Hi@{set\+Esc\+Hi}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{set\+Esc\+Hi}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Esc\+Hi (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_a8e79619c74978d60c4dc5f8c1b6137bd}
+\hypertarget{serial__4way__impl_8h_a2c82fc7c547d22bae90dc455c5aabc0d}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!set\+Esc\+Input@{set\+Esc\+Input}}
+\index{set\+Esc\+Input@{set\+Esc\+Input}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{set\+Esc\+Input}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Esc\+Input (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_a2c82fc7c547d22bae90dc455c5aabc0d}
+\hypertarget{serial__4way__impl_8h_ab2bb23ea805455526e81aaa10f98d8bb}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!set\+Esc\+Lo@{set\+Esc\+Lo}}
+\index{set\+Esc\+Lo@{set\+Esc\+Lo}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{set\+Esc\+Lo}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Esc\+Lo (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_ab2bb23ea805455526e81aaa10f98d8bb}
+\hypertarget{serial__4way__impl_8h_af3bfca741f8ea4ae100ee11b9f041a91}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!set\+Esc\+Output@{set\+Esc\+Output}}
+\index{set\+Esc\+Output@{set\+Esc\+Output}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{set\+Esc\+Output}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Esc\+Output (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{sel\+Esc}
+\end{DoxyParamCaption}
+)}}\label{serial__4way__impl_8h_af3bfca741f8ea4ae100ee11b9f041a91}
+
+
+\subsection{Variable Documentation}
+\hypertarget{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}{\index{serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}!esc\+Selected@{esc\+Selected}}
+\index{esc\+Selected@{esc\+Selected}!serial\+\_\+4way\+\_\+impl.\+h@{serial\+\_\+4way\+\_\+impl.\+h}}
+\subsubsection[{esc\+Selected}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t esc\+Selected}}\label{serial__4way__impl_8h_ae5ceb1340c2028ec8245ef40829da585}

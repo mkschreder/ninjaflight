@@ -1,0 +1,83 @@
+\hypertarget{structcfTask__s}{\section{cf\+Task\+\_\+s Struct Reference}
+\label{structcfTask__s}\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+}
+
+
+{\ttfamily \#include $<$ninja\+\_\+sched.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{structcfTask__s_ab9c9ba27f9fb1b72c98e44f995fb2e12}{task\+Name}
+\item 
+bool($\ast$ \hyperlink{structcfTask__s_a79e1d3beaa31d68bca80cb1057be23d5}{check\+Func} )(struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self, uint32\+\_\+t current\+Delta\+Time)
+\item 
+void($\ast$ \hyperlink{structcfTask__s_abebc1afeb90952b2f2f3965ae62e893e}{task\+Func} )(struct \hyperlink{structninja__sched}{ninja\+\_\+sched} $\ast$self)
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_adb81d1a2c7487daeb00adefa272b3c67}{desired\+Period}
+\item 
+const uint8\+\_\+t \hyperlink{structcfTask__s_ac13ee939e38c25a4d55d9fa1ca91431b}{static\+Priority}
+\item 
+uint16\+\_\+t \hyperlink{structcfTask__s_a69a238e067da4f91c4d904903aded475}{dynamic\+Priority}
+\item 
+uint16\+\_\+t \hyperlink{structcfTask__s_ad7fc05ee0ef2f1c24aeffe48ecccba8b}{task\+Age\+Cycles}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_a15b9476e69707e50cb8aca4eaf4b99b3}{last\+Executed\+At}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_a7ee18c456eadd929d9408d7912301663}{last\+Signaled\+At}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_a132b3b610c2181dcb2583ab23330abda}{average\+Execution\+Time}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_a1646d4713287068c9c3dc139fa49c23f}{task\+Latest\+Delta\+Time}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_a45c57c3fd1504415d8fac7a8f5aa0f17}{max\+Execution\+Time}
+\item 
+uint32\+\_\+t \hyperlink{structcfTask__s_ab55f1d125ac2fd676608f6c4733eebe9}{total\+Execution\+Time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structcfTask__s_a132b3b610c2181dcb2583ab23330abda}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!average\+Execution\+Time@{average\+Execution\+Time}}
+\index{average\+Execution\+Time@{average\+Execution\+Time}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{average\+Execution\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::average\+Execution\+Time}}\label{structcfTask__s_a132b3b610c2181dcb2583ab23330abda}
+\hypertarget{structcfTask__s_a79e1d3beaa31d68bca80cb1057be23d5}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!check\+Func@{check\+Func}}
+\index{check\+Func@{check\+Func}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{check\+Func}]{\setlength{\rightskip}{0pt plus 5cm}bool($\ast$ cf\+Task\+\_\+s\+::check\+Func)(struct {\bf ninja\+\_\+sched} $\ast$self, uint32\+\_\+t current\+Delta\+Time)}}\label{structcfTask__s_a79e1d3beaa31d68bca80cb1057be23d5}
+\hypertarget{structcfTask__s_adb81d1a2c7487daeb00adefa272b3c67}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!desired\+Period@{desired\+Period}}
+\index{desired\+Period@{desired\+Period}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{desired\+Period}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::desired\+Period}}\label{structcfTask__s_adb81d1a2c7487daeb00adefa272b3c67}
+\hypertarget{structcfTask__s_a69a238e067da4f91c4d904903aded475}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!dynamic\+Priority@{dynamic\+Priority}}
+\index{dynamic\+Priority@{dynamic\+Priority}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{dynamic\+Priority}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t cf\+Task\+\_\+s\+::dynamic\+Priority}}\label{structcfTask__s_a69a238e067da4f91c4d904903aded475}
+\hypertarget{structcfTask__s_a15b9476e69707e50cb8aca4eaf4b99b3}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!last\+Executed\+At@{last\+Executed\+At}}
+\index{last\+Executed\+At@{last\+Executed\+At}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{last\+Executed\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::last\+Executed\+At}}\label{structcfTask__s_a15b9476e69707e50cb8aca4eaf4b99b3}
+\hypertarget{structcfTask__s_a7ee18c456eadd929d9408d7912301663}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!last\+Signaled\+At@{last\+Signaled\+At}}
+\index{last\+Signaled\+At@{last\+Signaled\+At}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{last\+Signaled\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::last\+Signaled\+At}}\label{structcfTask__s_a7ee18c456eadd929d9408d7912301663}
+\hypertarget{structcfTask__s_a45c57c3fd1504415d8fac7a8f5aa0f17}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!max\+Execution\+Time@{max\+Execution\+Time}}
+\index{max\+Execution\+Time@{max\+Execution\+Time}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{max\+Execution\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::max\+Execution\+Time}}\label{structcfTask__s_a45c57c3fd1504415d8fac7a8f5aa0f17}
+\hypertarget{structcfTask__s_ac13ee939e38c25a4d55d9fa1ca91431b}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!static\+Priority@{static\+Priority}}
+\index{static\+Priority@{static\+Priority}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{static\+Priority}]{\setlength{\rightskip}{0pt plus 5cm}const uint8\+\_\+t cf\+Task\+\_\+s\+::static\+Priority}}\label{structcfTask__s_ac13ee939e38c25a4d55d9fa1ca91431b}
+\hypertarget{structcfTask__s_ad7fc05ee0ef2f1c24aeffe48ecccba8b}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!task\+Age\+Cycles@{task\+Age\+Cycles}}
+\index{task\+Age\+Cycles@{task\+Age\+Cycles}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{task\+Age\+Cycles}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t cf\+Task\+\_\+s\+::task\+Age\+Cycles}}\label{structcfTask__s_ad7fc05ee0ef2f1c24aeffe48ecccba8b}
+\hypertarget{structcfTask__s_abebc1afeb90952b2f2f3965ae62e893e}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!task\+Func@{task\+Func}}
+\index{task\+Func@{task\+Func}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{task\+Func}]{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ cf\+Task\+\_\+s\+::task\+Func)(struct {\bf ninja\+\_\+sched} $\ast$self)}}\label{structcfTask__s_abebc1afeb90952b2f2f3965ae62e893e}
+\hypertarget{structcfTask__s_a1646d4713287068c9c3dc139fa49c23f}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!task\+Latest\+Delta\+Time@{task\+Latest\+Delta\+Time}}
+\index{task\+Latest\+Delta\+Time@{task\+Latest\+Delta\+Time}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{task\+Latest\+Delta\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::task\+Latest\+Delta\+Time}}\label{structcfTask__s_a1646d4713287068c9c3dc139fa49c23f}
+\hypertarget{structcfTask__s_ab9c9ba27f9fb1b72c98e44f995fb2e12}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!task\+Name@{task\+Name}}
+\index{task\+Name@{task\+Name}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{task\+Name}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ cf\+Task\+\_\+s\+::task\+Name}}\label{structcfTask__s_ab9c9ba27f9fb1b72c98e44f995fb2e12}
+\hypertarget{structcfTask__s_ab55f1d125ac2fd676608f6c4733eebe9}{\index{cf\+Task\+\_\+s@{cf\+Task\+\_\+s}!total\+Execution\+Time@{total\+Execution\+Time}}
+\index{total\+Execution\+Time@{total\+Execution\+Time}!cf\+Task\+\_\+s@{cf\+Task\+\_\+s}}
+\subsubsection[{total\+Execution\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t cf\+Task\+\_\+s\+::total\+Execution\+Time}}\label{structcfTask__s_ab55f1d125ac2fd676608f6c4733eebe9}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/\hyperlink{ninja__sched_8h}{ninja\+\_\+sched.\+h}\end{DoxyCompactItemize}

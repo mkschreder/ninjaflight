@@ -1,0 +1,187 @@
+\hypertarget{main_8c}{\section{src/main/main.c File Reference}
+\label{main_8c}\index{src/main/main.\+c@{src/main/main.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}system\+\_\+calls.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/color.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/printf.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/streambuf.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/feature.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/nvic.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/system.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/dma.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/config\+\_\+flash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/light\+\_\+led.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sound\+\_\+beeper.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/timer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+softserial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/serial\+\_\+uart.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/pwm\+\_\+mapping.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/pwm\+\_\+rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/adc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/bus\+\_\+i2c.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/bus\+\_\+spi.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/inverter.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/pwm\+\_\+output.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/flash\+\_\+m25p16.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sonar\+\_\+hcsr04.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sdcard.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/usb\+\_\+io.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/gyro\+\_\+sync.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/flashfs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/asyncfatfs/asyncfatfs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/spektrum.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/ledstrip.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/display.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}io/serial\+\_\+msp.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/sonar.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/battery.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/boardalignment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/initialisation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/instruments.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}telemetry/telemetry.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}blackbox/blackbox.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/failsafe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/navigation.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}ninjaflight.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{main_8c_aa67160ae10f55c2c867f7b9de7d9dac5}{process\+Loopback}()
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4b}{system\+State\+\_\+e} \{ \\*
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4ba9c76a2a22b548ed7d5344d758b008f36}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G} = 0, 
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4baadda60a8090428f537554b87c22e30cd}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D} = (1 $<$$<$ 0), 
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4ba840e3a2033a9cfeb270d84340202c318}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y} = (1 $<$$<$ 1), 
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4baad23c8b12b80ce9f098b85f59108c51e}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4bad2b1f11bf44fc415664103904ced30c2}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D} = (1 $<$$<$ 3), 
+\hyperlink{main_8c_ab25112859ae75be308b72b8d0fd28c4ba51d53c48e27188b19e288e58b6b092b1}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y} = (1 $<$$<$ 7)
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const struct sonar\+\_\+hardware $\ast$ \hyperlink{main_8c_a81da7ae0fd9a28c0e11f227f5d1dac82}{sonar\+Get\+Hardware\+Configuration} (\hyperlink{config_2battery_8h_a387ff84df47a674a3e04d2d3f8d8f310}{current\+\_\+sensor\+\_\+type\+\_\+t} \hyperlink{config_2battery_8h_ade2de79968d7b034fc897fe824478b79}{current\+Meter\+Type})
+\item 
+int \hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\item 
+void \hyperlink{main_8c_a2bffc10d5bd4106753b7c30e86903bea}{Hard\+Fault\+\_\+\+Handler} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{main_8c_ad4c3dbcb408adf7386297aac9025571a}{current\+Time}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{main_8c_aa67160ae10f55c2c867f7b9de7d9dac5}{\index{main.\+c@{main.\+c}!process\+Loopback@{process\+Loopback}}
+\index{process\+Loopback@{process\+Loopback}!main.\+c@{main.\+c}}
+\subsubsection[{process\+Loopback}]{\setlength{\rightskip}{0pt plus 5cm}\#define process\+Loopback(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{main_8c_aa67160ae10f55c2c867f7b9de7d9dac5}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4b}{\index{main.\+c@{main.\+c}!system\+State\+\_\+e@{system\+State\+\_\+e}}
+\index{system\+State\+\_\+e@{system\+State\+\_\+e}!main.\+c@{main.\+c}}
+\subsubsection[{system\+State\+\_\+e}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf system\+State\+\_\+e}}}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4ba9c76a2a22b548ed7d5344d758b008f36}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+I\+N\+I\+T\+I\+A\+L\+I\+S\+I\+N\+G}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4ba9c76a2a22b548ed7d5344d758b008f36}
+}]\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4baadda60a8090428f537554b87c22e30cd}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+L\+O\+A\+D\+E\+D}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4baadda60a8090428f537554b87c22e30cd}
+}]\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4ba840e3a2033a9cfeb270d84340202c318}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+E\+N\+S\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4ba840e3a2033a9cfeb270d84340202c318}
+}]\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4baad23c8b12b80ce9f098b85f59108c51e}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+M\+O\+T\+O\+R\+S\+\_\+\+R\+E\+A\+D\+Y}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4baad23c8b12b80ce9f098b85f59108c51e}
+}]\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4bad2b1f11bf44fc415664103904ced30c2}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+E\+N\+A\+B\+L\+E\+D}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4bad2b1f11bf44fc415664103904ced30c2}
+}]\index{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y}!main.\+c@{main.\+c}}\index{main.\+c@{main.\+c}!S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y@{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y}}\item[{\em 
+\hypertarget{main_8c_ab25112859ae75be308b72b8d0fd28c4ba51d53c48e27188b19e288e58b6b092b1}{S\+Y\+S\+T\+E\+M\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+Y}\label{main_8c_ab25112859ae75be308b72b8d0fd28c4ba51d53c48e27188b19e288e58b6b092b1}
+}]\end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{main_8c_a2bffc10d5bd4106753b7c30e86903bea}{\index{main.\+c@{main.\+c}!Hard\+Fault\+\_\+\+Handler@{Hard\+Fault\+\_\+\+Handler}}
+\index{Hard\+Fault\+\_\+\+Handler@{Hard\+Fault\+\_\+\+Handler}!main.\+c@{main.\+c}}
+\subsubsection[{Hard\+Fault\+\_\+\+Handler}]{\setlength{\rightskip}{0pt plus 5cm}void Hard\+Fault\+\_\+\+Handler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{main_8c_a2bffc10d5bd4106753b7c30e86903bea}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c_a2bffc10d5bd4106753b7c30e86903bea_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{\index{main.\+c@{main.\+c}!main@{main}}
+\index{main@{main}!main.\+c@{main.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{main_8c_a840291bc02cba5474a4cb46a9b9566fe_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{main_8c_a81da7ae0fd9a28c0e11f227f5d1dac82}{\index{main.\+c@{main.\+c}!sonar\+Get\+Hardware\+Configuration@{sonar\+Get\+Hardware\+Configuration}}
+\index{sonar\+Get\+Hardware\+Configuration@{sonar\+Get\+Hardware\+Configuration}!main.\+c@{main.\+c}}
+\subsubsection[{sonar\+Get\+Hardware\+Configuration}]{\setlength{\rightskip}{0pt plus 5cm}const struct sonar\+\_\+hardware$\ast$ sonar\+Get\+Hardware\+Configuration (
+\begin{DoxyParamCaption}
+\item[{{\bf current\+\_\+sensor\+\_\+type\+\_\+t}}]{current\+Meter\+Type}
+\end{DoxyParamCaption}
+)}}\label{main_8c_a81da7ae0fd9a28c0e11f227f5d1dac82}
+
+
+\subsection{Variable Documentation}
+\hypertarget{main_8c_ad4c3dbcb408adf7386297aac9025571a}{\index{main.\+c@{main.\+c}!current\+Time@{current\+Time}}
+\index{current\+Time@{current\+Time}!main.\+c@{main.\+c}}
+\subsubsection[{current\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t current\+Time}}\label{main_8c_ad4c3dbcb408adf7386297aac9025571a}

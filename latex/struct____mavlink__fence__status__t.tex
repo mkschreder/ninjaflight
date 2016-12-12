@@ -1,0 +1,54 @@
+\hypertarget{struct____mavlink__fence__status__t}{\section{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t Struct Reference}
+\label{struct____mavlink__fence__status__t}\index{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+fence\+\_\+status.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{struct____mavlink__fence__status__t_a9ecb570b993e2c9525ff6f6dfd967916}{breach\+\_\+time}
+\begin{DoxyCompactList}\small\item\em time of last breach in milliseconds since boot \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__fence__status__t_a4a5592dc473ed8cc03668e7fc851ced1}{breach\+\_\+count}
+\begin{DoxyCompactList}\small\item\em number of fence breaches \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__fence__status__t_ac4c4d72b7f8364bee6c54721a3f5bcf5}{breach\+\_\+status}
+\begin{DoxyCompactList}\small\item\em 0 if currently inside fence, 1 if outside \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__fence__status__t_a638d845cdd228e40ef32d988f6235667}{breach\+\_\+type}
+\begin{DoxyCompactList}\small\item\em last breach type (see F\+E\+N\+C\+E\+\_\+\+B\+R\+E\+A\+C\+H\+\_\+$\ast$ enum) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__fence__status__t_a4a5592dc473ed8cc03668e7fc851ced1}{\index{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}!breach\+\_\+count@{breach\+\_\+count}}
+\index{breach\+\_\+count@{breach\+\_\+count}!\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}}
+\subsubsection[{breach\+\_\+count}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t\+::breach\+\_\+count}}\label{struct____mavlink__fence__status__t_a4a5592dc473ed8cc03668e7fc851ced1}
+
+
+number of fence breaches 
+
+\hypertarget{struct____mavlink__fence__status__t_ac4c4d72b7f8364bee6c54721a3f5bcf5}{\index{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}!breach\+\_\+status@{breach\+\_\+status}}
+\index{breach\+\_\+status@{breach\+\_\+status}!\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}}
+\subsubsection[{breach\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t\+::breach\+\_\+status}}\label{struct____mavlink__fence__status__t_ac4c4d72b7f8364bee6c54721a3f5bcf5}
+
+
+0 if currently inside fence, 1 if outside 
+
+\hypertarget{struct____mavlink__fence__status__t_a9ecb570b993e2c9525ff6f6dfd967916}{\index{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}!breach\+\_\+time@{breach\+\_\+time}}
+\index{breach\+\_\+time@{breach\+\_\+time}!\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}}
+\subsubsection[{breach\+\_\+time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t \+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t\+::breach\+\_\+time}}\label{struct____mavlink__fence__status__t_a9ecb570b993e2c9525ff6f6dfd967916}
+
+
+time of last breach in milliseconds since boot 
+
+\hypertarget{struct____mavlink__fence__status__t_a638d845cdd228e40ef32d988f6235667}{\index{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}!breach\+\_\+type@{breach\+\_\+type}}
+\index{breach\+\_\+type@{breach\+\_\+type}!\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t}}
+\subsubsection[{breach\+\_\+type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+fence\+\_\+status\+\_\+t\+::breach\+\_\+type}}\label{struct____mavlink__fence__status__t_a638d845cdd228e40ef32d988f6235667}
+
+
+last breach type (see F\+E\+N\+C\+E\+\_\+\+B\+R\+E\+A\+C\+H\+\_\+$\ast$ enum) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__fence__status_8h}{mavlink\+\_\+msg\+\_\+fence\+\_\+status.\+h}\end{DoxyCompactItemize}

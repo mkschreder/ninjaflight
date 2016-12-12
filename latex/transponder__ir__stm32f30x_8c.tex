@@ -1,0 +1,148 @@
+\hypertarget{transponder__ir__stm32f30x_8c}{\section{src/main/drivers/transponder\+\_\+ir\+\_\+stm32f30x.c File Reference}
+\label{transponder__ir__stm32f30x_8c}\index{src/main/drivers/transponder\+\_\+ir\+\_\+stm32f30x.\+c@{src/main/drivers/transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}drivers/gpio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/transponder\+\_\+ir.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/nvic.\+h\char`\"{}}\\*
+Include dependency graph for transponder\+\_\+ir\+\_\+stm32f30x.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{transponder__ir__stm32f30x_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a2a4c148e75fc045392d9787b9754b2b6}{U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3}
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_abf170fe6a4b50e0575ad6098e76c0a77}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O}~G\+P\+I\+O\+B
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a88bf47136f617b8615f21664f6ee900d}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+G\+P\+I\+O\+B
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a62d505e5d7d9f030b70a1f7472aafa9c}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}~G\+P\+I\+O\+\_\+\+A\+F\+\_\+1
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a26b9cce49c60f2cc47df7168d33b65b3}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N}~G\+P\+I\+O\+\_\+\+Pin\+\_\+8
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_ad50f904371e5e95e201450f512c60c91}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}~G\+P\+I\+O\+\_\+\+Pin\+Source8
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a29544ac8a66fed3f290f6bcf95c5645f}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R}~T\+I\+M16
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_ace71a48f78f63ecdb27914be9e12af9d}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}~R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+T\+I\+M16
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a3297dbb6ff15cc967d2d0cf0dc9ac6a6}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}~D\+M\+A1\+\_\+\+Channel3
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_af198dae98399d715fe6afd336d609a69}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q}~D\+M\+A1\+\_\+\+Channel3\+\_\+\+I\+R\+Qn
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_acfb21b2267023c6774882006e767071b}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}~D\+M\+A1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C3
+\item 
+\#define \hyperlink{transponder__ir__stm32f30x_8c_a9959828643563e82bd5cc369a82fb922}{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}~\hyperlink{dma_8h_afd8085af0168c1b679ca081219b47bbba9f165a3cbc26abac03046bc0b45ee9f0}{D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{transponder__ir__stm32f30x_8c_abadc4beb05b913aef02f2cf5f2b64887}{transponder\+Ir\+Hardware\+Init} (void)
+\item 
+void \hyperlink{transponder__ir__stm32f30x_8c_af8f4f7bb0d0cbaba312263cdde78485b}{transponder\+Ir\+D\+M\+A\+Enable} (void)
+\item 
+void \hyperlink{transponder__ir__stm32f30x_8c_ad40396545648405562a581b615123c85}{transponder\+Ir\+Disable} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{transponder__ir__stm32f30x_8c_a3297dbb6ff15cc967d2d0cf0dc9ac6a6}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+C\+H\+A\+N\+N\+E\+L~D\+M\+A1\+\_\+\+Channel3}}\label{transponder__ir__stm32f30x_8c_a3297dbb6ff15cc967d2d0cf0dc9ac6a6}
+\hypertarget{transponder__ir__stm32f30x_8c_a9959828643563e82bd5cc369a82fb922}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+H\+A\+N\+D\+L\+E\+R\+\_\+\+I\+D\+E\+N\+T\+I\+F\+E\+R~{\bf D\+M\+A1\+\_\+\+C\+H3\+\_\+\+H\+A\+N\+D\+L\+E\+R}}}\label{transponder__ir__stm32f30x_8c_a9959828643563e82bd5cc369a82fb922}
+\hypertarget{transponder__ir__stm32f30x_8c_acfb21b2267023c6774882006e767071b}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+D\+M\+A\+\_\+\+T\+C\+\_\+\+F\+L\+A\+G~D\+M\+A1\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C3}}\label{transponder__ir__stm32f30x_8c_acfb21b2267023c6774882006e767071b}
+\hypertarget{transponder__ir__stm32f30x_8c_abf170fe6a4b50e0575ad6098e76c0a77}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O~G\+P\+I\+O\+B}}\label{transponder__ir__stm32f30x_8c_abf170fe6a4b50e0575ad6098e76c0a77}
+\hypertarget{transponder__ir__stm32f30x_8c_a62d505e5d7d9f030b70a1f7472aafa9c}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+F~G\+P\+I\+O\+\_\+\+A\+F\+\_\+1}}\label{transponder__ir__stm32f30x_8c_a62d505e5d7d9f030b70a1f7472aafa9c}
+\hypertarget{transponder__ir__stm32f30x_8c_a88bf47136f617b8615f21664f6ee900d}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+G\+P\+I\+O\+\_\+\+A\+H\+B\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+G\+P\+I\+O\+B}}\label{transponder__ir__stm32f30x_8c_a88bf47136f617b8615f21664f6ee900d}
+\hypertarget{transponder__ir__stm32f30x_8c_af198dae98399d715fe6afd336d609a69}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+I\+R\+Q~D\+M\+A1\+\_\+\+Channel3\+\_\+\+I\+R\+Qn}}\label{transponder__ir__stm32f30x_8c_af198dae98399d715fe6afd336d609a69}
+\hypertarget{transponder__ir__stm32f30x_8c_a26b9cce49c60f2cc47df7168d33b65b3}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N~G\+P\+I\+O\+\_\+\+Pin\+\_\+8}}\label{transponder__ir__stm32f30x_8c_a26b9cce49c60f2cc47df7168d33b65b3}
+\hypertarget{transponder__ir__stm32f30x_8c_ad50f904371e5e95e201450f512c60c91}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+C\+E~G\+P\+I\+O\+\_\+\+Pin\+Source8}}\label{transponder__ir__stm32f30x_8c_ad50f904371e5e95e201450f512c60c91}
+\hypertarget{transponder__ir__stm32f30x_8c_a29544ac8a66fed3f290f6bcf95c5645f}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R~T\+I\+M16}}\label{transponder__ir__stm32f30x_8c_a29544ac8a66fed3f290f6bcf95c5645f}
+\hypertarget{transponder__ir__stm32f30x_8c_ace71a48f78f63ecdb27914be9e12af9d}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}}
+\index{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L@{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+T\+I\+M\+E\+R\+\_\+\+A\+P\+B2\+\_\+\+P\+E\+R\+I\+P\+H\+E\+R\+A\+L~R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+T\+I\+M16}}\label{transponder__ir__stm32f30x_8c_ace71a48f78f63ecdb27914be9e12af9d}
+\hypertarget{transponder__ir__stm32f30x_8c_a2a4c148e75fc045392d9787b9754b2b6}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3@{U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3}}
+\index{U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3@{U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+S\+E\+\_\+\+T\+R\+A\+N\+S\+P\+O\+N\+D\+E\+R\+\_\+\+O\+N\+\_\+\+D\+M\+A1\+\_\+\+C\+H\+A\+N\+N\+E\+L3}}\label{transponder__ir__stm32f30x_8c_a2a4c148e75fc045392d9787b9754b2b6}
+
+
+\subsection{Function Documentation}
+\hypertarget{transponder__ir__stm32f30x_8c_ad40396545648405562a581b615123c85}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!transponder\+Ir\+Disable@{transponder\+Ir\+Disable}}
+\index{transponder\+Ir\+Disable@{transponder\+Ir\+Disable}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{transponder\+Ir\+Disable}]{\setlength{\rightskip}{0pt plus 5cm}void transponder\+Ir\+Disable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{transponder__ir__stm32f30x_8c_ad40396545648405562a581b615123c85}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{transponder__ir__stm32f30x_8c_ad40396545648405562a581b615123c85_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{transponder__ir__stm32f30x_8c_af8f4f7bb0d0cbaba312263cdde78485b}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!transponder\+Ir\+D\+M\+A\+Enable@{transponder\+Ir\+D\+M\+A\+Enable}}
+\index{transponder\+Ir\+D\+M\+A\+Enable@{transponder\+Ir\+D\+M\+A\+Enable}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{transponder\+Ir\+D\+M\+A\+Enable}]{\setlength{\rightskip}{0pt plus 5cm}void transponder\+Ir\+D\+M\+A\+Enable (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{transponder__ir__stm32f30x_8c_af8f4f7bb0d0cbaba312263cdde78485b}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{transponder__ir__stm32f30x_8c_af8f4f7bb0d0cbaba312263cdde78485b_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{transponder__ir__stm32f30x_8c_abadc4beb05b913aef02f2cf5f2b64887}{\index{transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}!transponder\+Ir\+Hardware\+Init@{transponder\+Ir\+Hardware\+Init}}
+\index{transponder\+Ir\+Hardware\+Init@{transponder\+Ir\+Hardware\+Init}!transponder\+\_\+ir\+\_\+stm32f30x.\+c@{transponder\+\_\+ir\+\_\+stm32f30x.\+c}}
+\subsubsection[{transponder\+Ir\+Hardware\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void transponder\+Ir\+Hardware\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{transponder__ir__stm32f30x_8c_abadc4beb05b913aef02f2cf5f2b64887}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{transponder__ir__stm32f30x_8c_abadc4beb05b913aef02f2cf5f2b64887_cgraph}
+\end{center}
+\end{figure}
+
+

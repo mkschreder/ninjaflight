@@ -1,0 +1,81 @@
+\hypertarget{struct____mavlink__status__gps__t}{\section{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t Struct Reference}
+\label{struct____mavlink__status__gps__t}\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+status\+\_\+gps.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct____mavlink__status__gps__t_a41cbb27a8dac54c0b56e8408207cbbad}{mag\+Var}
+\begin{DoxyCompactList}\small\item\em Magnetic variation, degrees. \end{DoxyCompactList}\item 
+uint16\+\_\+t \hyperlink{struct____mavlink__status__gps__t_a81ba591419b5bac3886e78638b074ade}{cs\+Fails}
+\begin{DoxyCompactList}\small\item\em Number of times checksum has failed. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__status__gps__t_ad31a7b94c10f0c7ad7bc3a65aa00b629}{gps\+Quality}
+\begin{DoxyCompactList}\small\item\em The quality indicator, 0=fix not available or invalid, 1=G\+P\+S fix, 2=C/\+A differential G\+P\+S, 6=Dead reckoning mode, 7=Manual input mode (fixed position), 8=Simulator mode, 9= W\+A\+A\+S a. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__status__gps__t_a96c027a987f25db1277acc899a396451}{msgs\+Type}
+\begin{DoxyCompactList}\small\item\em Indicates if G\+N, G\+L or G\+P messages are being received. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__status__gps__t_acae74afd8a08e75f2235006688fe6b47}{pos\+Status}
+\begin{DoxyCompactList}\small\item\em A = data valid, V = data invalid. \end{DoxyCompactList}\item 
+int8\+\_\+t \hyperlink{struct____mavlink__status__gps__t_afa2fba66d9c86959e3468554871c3393}{mag\+Dir}
+\begin{DoxyCompactList}\small\item\em Magnetic variation direction E/\+W. Easterly variation (E) subtracts from True course and Westerly variation (W) adds to True course. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__status__gps__t_a4e700ec21561fc1deaa021942b6cde87}{mode\+Ind}
+\begin{DoxyCompactList}\small\item\em Positioning system mode indicator. A -\/ Autonomous;D-\/\+Differential; E-\/\+Estimated (dead reckoning) mode;M-\/\+Manual input; N-\/\+Data not valid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__status__gps__t_a81ba591419b5bac3886e78638b074ade}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!cs\+Fails@{cs\+Fails}}
+\index{cs\+Fails@{cs\+Fails}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{cs\+Fails}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::cs\+Fails}}\label{struct____mavlink__status__gps__t_a81ba591419b5bac3886e78638b074ade}
+
+
+Number of times checksum has failed. 
+
+\hypertarget{struct____mavlink__status__gps__t_ad31a7b94c10f0c7ad7bc3a65aa00b629}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!gps\+Quality@{gps\+Quality}}
+\index{gps\+Quality@{gps\+Quality}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{gps\+Quality}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::gps\+Quality}}\label{struct____mavlink__status__gps__t_ad31a7b94c10f0c7ad7bc3a65aa00b629}
+
+
+The quality indicator, 0=fix not available or invalid, 1=G\+P\+S fix, 2=C/\+A differential G\+P\+S, 6=Dead reckoning mode, 7=Manual input mode (fixed position), 8=Simulator mode, 9= W\+A\+A\+S a. 
+
+\hypertarget{struct____mavlink__status__gps__t_afa2fba66d9c86959e3468554871c3393}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!mag\+Dir@{mag\+Dir}}
+\index{mag\+Dir@{mag\+Dir}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{mag\+Dir}]{\setlength{\rightskip}{0pt plus 5cm}int8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::mag\+Dir}}\label{struct____mavlink__status__gps__t_afa2fba66d9c86959e3468554871c3393}
+
+
+Magnetic variation direction E/\+W. Easterly variation (E) subtracts from True course and Westerly variation (W) adds to True course. 
+
+\hypertarget{struct____mavlink__status__gps__t_a41cbb27a8dac54c0b56e8408207cbbad}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!mag\+Var@{mag\+Var}}
+\index{mag\+Var@{mag\+Var}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{mag\+Var}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::mag\+Var}}\label{struct____mavlink__status__gps__t_a41cbb27a8dac54c0b56e8408207cbbad}
+
+
+Magnetic variation, degrees. 
+
+\hypertarget{struct____mavlink__status__gps__t_a4e700ec21561fc1deaa021942b6cde87}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!mode\+Ind@{mode\+Ind}}
+\index{mode\+Ind@{mode\+Ind}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{mode\+Ind}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::mode\+Ind}}\label{struct____mavlink__status__gps__t_a4e700ec21561fc1deaa021942b6cde87}
+
+
+Positioning system mode indicator. A -\/ Autonomous;D-\/\+Differential; E-\/\+Estimated (dead reckoning) mode;M-\/\+Manual input; N-\/\+Data not valid. 
+
+\hypertarget{struct____mavlink__status__gps__t_a96c027a987f25db1277acc899a396451}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!msgs\+Type@{msgs\+Type}}
+\index{msgs\+Type@{msgs\+Type}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{msgs\+Type}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::msgs\+Type}}\label{struct____mavlink__status__gps__t_a96c027a987f25db1277acc899a396451}
+
+
+Indicates if G\+N, G\+L or G\+P messages are being received. 
+
+\hypertarget{struct____mavlink__status__gps__t_acae74afd8a08e75f2235006688fe6b47}{\index{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}!pos\+Status@{pos\+Status}}
+\index{pos\+Status@{pos\+Status}!\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t}}
+\subsubsection[{pos\+Status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+status\+\_\+gps\+\_\+t\+::pos\+Status}}\label{struct____mavlink__status__gps__t_acae74afd8a08e75f2235006688fe6b47}
+
+
+A = data valid, V = data invalid. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/slugs/\hyperlink{mavlink__msg__status__gps_8h}{mavlink\+\_\+msg\+\_\+status\+\_\+gps.\+h}\end{DoxyCompactItemize}

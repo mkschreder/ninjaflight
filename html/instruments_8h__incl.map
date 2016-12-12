@@ -1,0 +1,22 @@
+<map id="src/main/sensors/instruments.h" name="src/main/sensors/instruments.h">
+<area shape="rect" id="node2" href="$config_2imu_8h.html" title="../config/imu.h" alt="" coords="5,155,109,181"/>
+<area shape="rect" id="node3" href="$sensors_2imu_8h.html" title="imu.h" alt="" coords="358,80,412,107"/>
+<area shape="rect" id="node9" href="$acceleration_8h.html" title="acceleration.h" alt="" coords="891,80,993,107"/>
+<area shape="rect" id="node14" href="$sensors_2gyro_8h.html" title="gyro.h" alt="" coords="1067,80,1124,107"/>
+<area shape="rect" id="node17" href="$sensors_2compass_8h.html" title="compass.h" alt="" coords="1338,80,1424,107"/>
+<area shape="rect" id="node20" href="$sensors_2boardalignment_8h.html" title="boardalignment.h" alt="" coords="1551,80,1672,107"/>
+<area shape="rect" id="node22" href="$sensors_2barometer_8h.html" title="barometer.h" alt="" coords="1903,80,1993,107"/>
+<area shape="rect" id="node5" href="$axis_8h.html" title="common/axis.h" alt="" coords="741,155,851,181"/>
+<area shape="rect" id="node6" href="$maths_8h.html" title="common/maths.h" alt="" coords="403,155,525,181"/>
+<area shape="rect" id="node8" href="$quaternion_8h.html" title="common/quaternion.h" alt="" coords="232,155,379,181"/>
+<area shape="rect" id="node10" href="$accgyro_8h.html" title="../drivers/accgyro.h" alt="" coords="875,155,1009,181"/>
+<area shape="rect" id="node12" href="$accelerometer_8h.html" title="../config/accelerometer.h" alt="" coords="550,155,716,181"/>
+<area shape="rect" id="node13" href="$sensors_8h.html" title="../config/sensors.h" alt="" coords="1316,155,1445,181"/>
+<area shape="rect" id="node11" href="$sensor_8h.html" title="sensor.h" alt="" coords="1203,229,1275,256"/>
+<area shape="rect" id="node15" href="$filter_8h.html" title="../common/filter.h" alt="" coords="1034,155,1157,181"/>
+<area shape="rect" id="node16" href="$config_2gyro_8h.html" title="../config/gyro.h" alt="" coords="1183,155,1292,181"/>
+<area shape="rect" id="node18" href="$drivers_2compass_8h.html" title="drivers/compass.h" alt="" coords="1470,155,1599,181"/>
+<area shape="rect" id="node19" href="$config_2compass_8h.html" title="../config/compass.h" alt="" coords="1623,155,1760,181"/>
+<area shape="rect" id="node21" href="$config_2boardalignment_8h.html" title="../config/boardalignment.h" alt="" coords="1785,155,1956,181"/>
+<area shape="rect" id="node23" href="$config_2barometer_8h.html" title="../config/barometer.h" alt="" coords="1981,155,2123,181"/>
+</map>

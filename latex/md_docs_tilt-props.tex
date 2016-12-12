@@ -1,0 +1,33 @@
+For tilted propeller quads, ninjaflight provides yaw and roll compensation as well as throttle compensation for cases where tilt is dynamic (ie controlled through a radio channel).
+
+\subsection*{Commands }
+
+
+\begin{DoxyItemize}
+\item tilt \mbox{[}pitch$\vert$roll\mbox{]} motor \mbox{[}N\+O\+N\+E$\vert$\+P\+I\+T\+C\+H$\vert$\+R\+O\+L\+L$\vert$\+A\+U\+X1$\vert$\+A\+U\+X2\mbox{]} -\/ this command sets the rc channel to be used for pitch tilt. If the channel is set to P\+I\+T\+C\+H then rc pitch will control propeller tilt during flight and flight controller will try to stabilize the body (by assuming that requested pitch angle of the body is always static).
+\item tilt \mbox{[}pitch$\vert$roll\mbox{]} body \mbox{[}N\+O\+N\+E$\vert$\+A\+U\+X1$\vert$\+A\+U\+X2\mbox{]} -\/ sets the channel to be used to control body pitch independently of the propeller pitch. This allows body to change pitch while leaving propeller pitch the same relative to earth frame.
+\item tilt \mbox{[}pitch$\vert$roll\mbox{]} angle \mbox{[}value -\/maxangle to +maxangle\mbox{]} -\/ sets static angle for either axis. Only used when mode is set to static.
+\item tilt mode \mbox{[}dynamic$\vert$static$\vert$disabled\mbox{]} -\/ sets the mode used for tilt. In dynamic mode the pitch and roll body/motor channels are used for controlling the tilting function. In static mode the \char`\"{}angle\char`\"{} setting is used as a static value for calculating flight compensation values.
+\item tilt \mbox{[}pitch$\vert$roll\mbox{]} servorange \mbox{[}min\mbox{]} \mbox{[}max\mbox{]} -\/ controlls the minimum and maximum angle of the propellers relative to earth frame (valid range -\/45 to 45 deg, min must be smaller than max). Note that this setting is also limited by physical characteristics of the frame design and the servo travel.
+\end{DoxyItemize}
+
+\subsection*{Different flight modes }
+
+The behaviour of the tilting logic is dependent on the flight mode that is being used.
+
+
+\begin{DoxyItemize}
+\item R\+A\+T\+E mode\+: tilt angle must be controlled using one of the A\+U\+X channels. If one of the tilt channels is set to be controlled using pitch or roll stick then that function is ignored and middle value is used instead. Flight controller compensates when yawing. Roll and pitch sticks tilt the multirotor as in normal rate mode. This mode is useful for tilting props into a certain angle and then keeping them tilted at the same angle during most of the flight. This mode can also be used with statically tilted props.
+\item A\+N\+G\+L\+E mode\+: when pitch/roll is used as tilt channel, the controller will feed body tilt channel to the angle/rate controller as the amount of tilt to apply to the body and the pitch/roll channel controls tilting of the propellers. When body angle is set to zero or the channel is set to N\+O\+N\+E, the quad essentially tilts the propellers to go forward and sideways while keeping the body stable in the air.
+\item H\+O\+R\+I\+Z\+O\+N mode\+: when sticks are around center position, the pitch/roll stick controls the tilt of the propellers. As stick moves to the extreme positions the body starts to tilt as well as it usually would do in normal R\+A\+T\+E mode. This mode allows acro/racing flight.
+\end{DoxyItemize}
+
+When in A\+N\+G\+L\+E or H\+O\+R\+I\+Z\+O\+N modes the controller will try to level the propellers regardless of the desired body angle so that the thrust is pointing upwards.
+
+\subsection*{Configuring for T\+I\+L\+T Ranger }
+
+The T\+I\+L\+T Ranger drone uses tilting propellers for pitch angle. Frame needs to be set to \char`\"{}\+Quad\+X Tilt 1 Servo\char`\"{}. The mode needs to be dynamic and pitch tilt channel needs to be set to P\+I\+T\+C\+H. Body channel can be left as default (N\+O\+N\+E) or set to one of the A\+U\+X channels. \begin{DoxyVerb}tilt mode dynamic
+tilt pitch motor PITCH
+tilt roll motor NONE
+tilt pitch body NONE\end{DoxyVerb}
+ 

@@ -1,0 +1,108 @@
+This is a step-\/by-\/step guide that can help a person that has never used Cleanflight before set up a flight controller and the aircraft around it for flight. Basic R\+C knowledge is required, though. A total beginner should first familiarize themselves with concepts and techniques of R\+C before using this (e.\+g. basic controls, soldering, transmitter operation etc). One could use \href{http://www.rcgroups.com/forums/index.php}{\tt R\+C\+Groups} and/or \href{https://www.youtube.com/user/flitetest}{\tt the Youtube show Flite\+Test} for this.
+
+D\+I\+S\+C\+L\+A\+I\+M\+E\+R\+: This documents is a work in progress. We cannot guarantee the safety or success of your project. At this point the document is only meant to be a helping guide, not an authoritative checklist of everything you should do to be safe and successful. Always exercise common sense, critical thinking and caution.
+
+Read the \hyperlink{Introduction_8md}{Introduction} chapter for an overview of Cleanflight and how the community works.
+
+\subsection*{Hardware}
+
+N\+O\+T\+E\+: Flight Controllers are typically equipped with accelerometers. These devices are sensitive to shocks. When the device is not yet installed to an aircraft, it has very little mass by itself. If you drop or bump the controller, a big force will be applied on its accelerometers, which could potentially damage them. Bottom line\+: Handle the board very carefully until it's installed on an aircraft!
+
+For an overview of the hardware Cleanflight (hereby C\+F) can run on, see \hyperlink{Boards_8md}{Boards.md}. For information about specific boards, see the board specific documentation.
+
+
+\begin{DoxyItemize}
+\item Assuming that you have a flight controller board (hereby F\+C) in hand, you should first read through the manual that it came with. You can skip the details about software setup, as we'll cover that here.
+\item Decide how you'll connect your receiver by reading the \hyperlink{Rx_8md}{receiver} chapter, and how many pins you need on the outputs (to connect E\+S\+Cs and servos) by reading about \hyperlink{Mixer_8md}{Mixers}.
+\item If you're interested in monitoring your flight battery with C\+F, see \hyperlink{Battery_8md}{Battery Monitoring}.
+\item You may want audible feedback from your copter so skim through \hyperlink{Buzzer_8md}{Buzzer} and mark the pins that will be used.
+\item Do you want your R\+C Receiver's R\+S\+S\+I to be sent to the board? \hyperlink{Rssi_8md}{The R\+S\+S\+I chapter} explains how. You may or may not need to make an additional connection from your Receiver to the F\+C.
+\item Would you like to try using a G\+P\+S unit to get your aircraft to Loiter or Return-\/\+To-\/\+Launch? Take a look at the \hyperlink{Gps_8md}{G\+P\+S} and G\+P\+S Tested Hardware chapters.
+\item You may also want to read the \hyperlink{Serial_8md}{Serial} chapter to determine what extra devices (such as Blackbox, O\+S\+D, Telemetry) you may want to use, and how they should be connected.
+\item Now that you know what features you are going to use, and which pins you need, you can go ahead and solder them to your board, if they are not soldered already. Soldering only the pins required for the application may save weight and contribute to a neater looking setup, but if you need to use a new feature later you may have to unmount the board from the craft and solder missing pins, so plan accordingly. Before soldering your F\+C please review a how-\/to-\/solder tutorial to avoid expensive mistakes, practice soldering on some scrap before soldering your F\+C.
+\item If you are going to use \hyperlink{Oneshot_8md}{Oneshot125}, you may need to enable that on your E\+S\+Cs using a jumper or flashing them with the latest stable firmware and enable Damped Light in their settings, if it's supported. Refer to the E\+S\+Cs' documentation or online discussions to determine this.
+\end{DoxyItemize}
+
+\subsection*{Software setup}
+
+Now that your board has pins on it, you are ready to connect it to your P\+C and flash it with C\+F. Install the Chromium browser or Google Chrome to your P\+C, if you don't have it already, add the \href{https://chrome.google.com/webstore/detail/cleanflight-configurator/enacoimjcgeinfnnnpajinjgmkahmfgb}{\tt Cleanflight Configurator} to it, and start it.
+
+Then follow these instructions for \hyperlink{Installation_8md}{Installation} of the firmware to the F\+C.
+
+\subsection*{Cleanflight Configuration}
+
+Your F\+C should now be running C\+F, and you should be able to connect to it using the Configurator. If that is not the case, please go back to the previous sections and follow the steps carefully.
+
+Now, there are two ways to \hyperlink{Configuration_8md}{configure C\+F}; via the Configurator's tabs (in a \char`\"{}graphical\char`\"{} way, clicking through and selecting/changing values and tickboxes) and using the \hyperlink{Cli_8md}{Command Line Interface (C\+L\+I)}. Some settings may only be configurable using the C\+L\+I and some settings are best configured using the G\+U\+I (particularly the ports settings, which aren't documented for the C\+L\+I as they're not human friendly).
+
+
+\begin{DoxyItemize}
+\item It is now a good time to setup your R\+C Receiver and Transmitter. Set the Tx so that it outputs at least 4 channels (Aileron, Elevator, Throttle, Rudder) but preferably more. E.\+g. you can set channels 5 and 6 to be controlled by 3-\/position switches, to be used later. Maybe set up E\+X\+P\+O on A\+I\+L/\+E\+L\+E/\+R\+U\+D, but you should know that it can also be done in C\+F's software later. If using R\+S\+S\+I over P\+P\+M or P\+W\+M, it's now time to configure your Rx to output it on a spare channel.
+\item Connect the Rx to the F\+C, and the F\+C to the P\+C. You may need to power the Rx through a B\+E\+C (its 5\+V rail -\/ observe polarity!).
+\item On your P\+C, connect to the Configurator, and go to the first tab. Check that the board animation is moving properly when you move the actual board. Do an accelerometer calibration.
+\item Configuration tab\+: Select your aircraft configuration (e.\+g. Quad X), and go through each option in the tab to check if relevant for you.
+\begin{DoxyItemize}
+\item E.\+g. you may want to enable O\+N\+E\+S\+H\+O\+T125 for Oneshot-\/capable E\+S\+Cs.
+\item You may need R\+X\+\_\+\+P\+P\+M if you're using an R\+C Receiver with P\+P\+M output etc.
+\item If planning to use the battery measurement feature of the F\+C, check V\+B\+A\+T under Battery Voltage.
+\item If using analog R\+S\+S\+I, enable that under R\+S\+S\+I. Do not enable this setting if using R\+S\+S\+I injected into the P\+P\+M stream.
+\item Motors will spin by default when the F\+C is armed. If you don't like this, enable M\+O\+T\+O\+R\+\_\+\+S\+T\+O\+P.
+\item Also, adjust the minimum, middle and maximum throttle according to these guidelines\+:
+\begin{DoxyItemize}
+\item Minimum Throttle -\/ Set this to the minimum throttle level that enables all motors to start reliably. If this is too low, some motors may not start properly after spindowns, which can cause loss of stability and control. A typical value would be 1100.
+\item Middle Throttle -\/ The throttle level for middle stick position. Many radios use 1500, but some (e.\+g. Futaba) may use 1520 or other values.
+\item Maximum Throttle -\/ The maximum throttle level that the E\+S\+Cs should receive. A typical value would be 2000.
+\item Minimum Command -\/ This is the \char`\"{}idle\char`\"{} signal level that will be sent to the E\+S\+Cs when the craft is disarmed, which should not cause the motors to spin. A typical value would be 1000.
+\end{DoxyItemize}
+\item Finally, click Save and Reboot.
+\end{DoxyItemize}
+\item Receiver tab\+:
+\begin{DoxyItemize}
+\item Check that the channel inputs move according to your Tx inputs.
+\item Check that the Channel map is correct along with the R\+S\+S\+I Channel, if you use that.
+\item Verify the range of each channel goes from $\sim$1000 to $\sim$2000. See also \hyperlink{Controls_8md}{controls}. and {\ttfamily rx\+\_\+min\+\_\+usec} and {\ttfamily rx\+\_\+max\+\_\+usec}.
+\item You can also set E\+X\+P\+O here instead of your Tx.
+\item Click Save!
+\end{DoxyItemize}
+\item Modes tab\+: Setup the desired modes. See the \hyperlink{Modes_8md}{modes} chapter for what each mode does, but for the beginning you mainly need H\+O\+R\+I\+Z\+O\+N, if any.
+\item Before finishing this section, you should calibrate the E\+S\+Cs, install the F\+C to the frame, and connect the R\+S\+S\+I cable, buzzer and battery if you have chosen to use those.
+\end{DoxyItemize}
+
+\subsection*{Final testing and safety}
+
+It's important that you have configured C\+F properly, so that your aircraft does not fly away, or even worse fly into property and people! This is an important step that you should N\+O\+T postpone until after your maiden flight. Please do this now, before you head off to the flying field.
+
+
+\begin{DoxyItemize}
+\item First read the \hyperlink{Safety_8md}{safety} section.
+\item Next, learn how to arm your F\+C, and about other \hyperlink{Controls_8md}{controls}.
+\item Next up, setup \hyperlink{Failsafe_8md}{Failsafe}. Take your time, do it properly.
+\item Now, on the bench, without props, test that failsafe works properly, according to the above doc.
+\item Additionally, test the effect of A\+I\+L/\+E\+L\+E input of your Tx. Is the aircraft responding properly? Do the same for R\+U\+D input.
+\item Test the direction of A\+I\+L/\+E\+L\+E auto correction. Raise throttle at 30\% (no blades!); when you tilt the aircraft, do the motors try to compensate momentarily? This should simulate random wind forces that the F\+C should counteract
+\item Test the direction of A\+I\+L/\+E\+L\+E auto correction in H\+O\+R\+I\+Z\+O\+N mode. With throttle at 30\%, if you tilt the aircraft so that one motor is lowered towards the ground, does it spin up and stay at high R\+P\+M until you level it off again? This tests the auto-\/leveling direction.
+\end{DoxyItemize}
+
+If one of these tests fail, do not attempt to fly, but go back to the configuration phase instead. Some channel may need reversing, or the direction of the board is wrong.
+
+\subsection*{Using it (A\+K\+A\+: Flying)}
+
+Go to the field, turn Tx on, place aircraft on the ground, connect flight battery and wait. Arm and fly. Good luck!
+
+\subsection*{Advanced Matters}
+
+Some advanced configurations and features are documented in the following pages, but have not been touched-\/upon earlier\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{Profiles_8md}{Profiles}
+\item P\+I\+D tuning.\+md \char`\"{}\+P\+I\+D tuning\char`\"{}
+\item Inflight Adjustments.\+md \char`\"{}\+In-\/flight Adjustments\char`\"{}
+\item \hyperlink{Blackbox_8md}{Blackbox logging}
+\item \hyperlink{Sonar_8md}{Using a Sonar}
+\item Spektrum bind.\+md \char`\"{}\+Spektrum Bind\char`\"{}
+\item \hyperlink{Telemetry_8md}{Telemetry}
+\item \hyperlink{Display_8md}{Using a Display}
+\item \hyperlink{LedStrip_8md}{Using a L\+E\+D strip}
+\item Migrating from baseflight.\+md \char`\"{}\+Migrating from baseflight\char`\"{} 
+\end{DoxyItemize}

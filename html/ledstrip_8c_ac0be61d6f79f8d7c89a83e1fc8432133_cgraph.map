@@ -1,0 +1,4 @@
+<map id="ledstrip_update" name="ledstrip_update">
+<area shape="rect" id="node2" href="$light__ws2811strip_8c.html#a26808e44314583045c67ac17fa7da0f8" title="isWS2811LedStripReady" alt="" coords="165,5,333,32"/>
+<area shape="rect" id="node3" href="$light__ws2811strip_8c.html#ae12f50d4f61a0b78b9334cfaa12a8324" title="ws2811UpdateStrip" alt="" coords="181,56,317,83"/>
+</map>

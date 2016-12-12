@@ -1,0 +1,10 @@
+<map id="blackboxWriteFloat" name="blackboxWriteFloat">
+<area shape="rect" id="node2" href="$blackbox__io_8c.html#a2692f557567adece78f03336c941d9c4" title="blackboxWriteU32" alt="" coords="195,56,325,83"/>
+<area shape="rect" id="node9" href="$encoding_8c.html#a7a91911c51ec4c035534b927a9bab1fd" title="castFloatBytesToInt" alt="" coords="190,107,330,133"/>
+<area shape="rect" id="node3" href="$blackbox__io_8c.html#ae9a6d0cb8f7a61f120b1b7d6c314b537" title="blackboxWrite" alt="" coords="379,56,485,83"/>
+<area shape="rect" id="node4" href="$flashfs_8c.html#a32f00648d9cb3025d90ca434d1b566fb" title="flashfsWriteByte" alt="" coords="534,5,653,32"/>
+<area shape="rect" id="node6" href="$asyncfatfs_8c.html#a48cc60f56884206251a165dd3a372f09" title="afatfs_fputc" alt="" coords="548,56,639,83"/>
+<area shape="rect" id="node8" href="$drivers_2serial_8c.html#a1d2886fbce32033a1af48d522439756b" title="serialWrite" alt="" coords="551,107,635,133"/>
+<area shape="rect" id="node5" href="$flashfs_8c.html#aa93d40233e62caf7c8753f628afd882a" title="flashfsFlushAsync" alt="" coords="701,5,832,32"/>
+<area shape="rect" id="node7" href="$asyncfatfs_8c.html#afcedacafe900edfa97f06ec529c00e7b" title="afatfs_fwrite" alt="" coords="719,56,814,83"/>
+</map>

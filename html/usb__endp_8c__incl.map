@@ -1,0 +1,7 @@
+<map id="src/main/drivers/vcp/usb_endp.c" name="src/main/drivers/vcp/usb_endp.c">
+<area shape="rect" id="node3" href="$usb__desc_8h.html" title="Descriptor Header for Virtual COM Port Device. " alt="" coords="103,96,192,123"/>
+<area shape="rect" id="node5" href="$hw__config_8h.html" title="Hardware Configuration &amp; Setup. " alt="" coords="333,96,424,123"/>
+<area shape="rect" id="node7" href="$usb__istr_8h.html" title="This file includes the peripherals header files in the user application. " alt="" coords="449,96,527,123"/>
+<area shape="rect" id="node9" href="$usb__pwr_8h.html" title="Connection/disconnection &amp; power management header. " alt="" coords="552,96,633,123"/>
+<area shape="rect" id="node8" href="$usb__conf_8h.html" title="Virtual COM Port Demo configuration header. " alt="" coords="445,171,531,197"/>
+</map>

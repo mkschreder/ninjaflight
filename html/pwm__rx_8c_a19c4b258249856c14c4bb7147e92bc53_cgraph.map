@@ -1,0 +1,8 @@
+<map id="pwmInConfig" name="pwmInConfig">
+<area shape="rect" id="node2" href="$pwm__rx_8c.html#a0c00748c9c79e9e7c9fd2502c4d091e9" title="pwmICConfig" alt="" coords="183,5,286,32"/>
+<area shape="rect" id="node3" href="$timer_8c.html#aa5c5b6b1acd1e4785ecfa42bcadc225e" title="timerConfigure" alt="" coords="181,56,288,83"/>
+<area shape="rect" id="node5" href="$timer_8c.html#ac7a9698c5558de06ab160b984f87d758" title="timerChCCHandlerInit" alt="" coords="159,107,310,133"/>
+<area shape="rect" id="node6" href="$timer_8c.html#af9971dfef843e22d1227f0d86c4c05bf" title="timerChOvrHandlerInit" alt="" coords="159,157,311,184"/>
+<area shape="rect" id="node7" href="$timer_8c.html#a4f2c841d6d41af6744e338365ab3e4a6" title="timerChConfigCallbacks" alt="" coords="153,208,317,235"/>
+<area shape="rect" id="node4" href="$timer_8c.html#a6f7c6753903f081c4199ad8e013d7296" title="configTimeBase" alt="" coords="366,56,482,83"/>
+</map>

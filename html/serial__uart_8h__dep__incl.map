@@ -1,0 +1,12 @@
+<map id="src/main/drivers/serial_uart.h" name="src/main/drivers/serial_uart.h">
+<area shape="rect" id="node2" href="$pwm__mapping_8c.html" title="src/main/drivers/pwm\l_mapping.c" alt="" coords="5,97,152,138"/>
+<area shape="rect" id="node3" href="$serial__uart_8c.html" title="src/main/drivers/serial\l_uart.c" alt="" coords="177,97,327,138"/>
+<area shape="rect" id="node4" href="$serial__uart__stm32f10x_8c.html" title="src/main/drivers/serial\l_uart_stm32f10x.c" alt="" coords="351,97,501,138"/>
+<area shape="rect" id="node5" href="$serial__uart__stm32f30x_8c.html" title="src/main/drivers/serial\l_uart_stm32f30x.c" alt="" coords="526,97,676,138"/>
+<area shape="rect" id="node6" href="$system_8c.html" title="src/main/drivers/system.c" alt="" coords="701,104,875,131"/>
+<area shape="rect" id="node7" href="$navigation_8c.html" title="src/main/flight/navigation.c" alt="" coords="899,104,1077,131"/>
+<area shape="rect" id="node8" href="$io_2serial_8c.html" title="src/main/io/serial.c" alt="" coords="1102,104,1233,131"/>
+<area shape="rect" id="node9" href="$main_8c.html" title="src/main/main.c" alt="" coords="1259,104,1373,131"/>
+<area shape="rect" id="node10" href="$gps_8c.html" title="src/main/sensors/gps.c" alt="" coords="1398,104,1556,131"/>
+<area shape="rect" id="node11" href="$sitl_2main_8c.html" title="src/main/sitl/main.c" alt="" coords="1581,104,1716,131"/>
+</map>

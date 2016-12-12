@@ -1,0 +1,93 @@
+\hypertarget{compass__hmc5883l_8h}{\section{src/main/drivers/compass\+\_\+hmc5883l.h File Reference}
+\label{compass__hmc5883l_8h}\index{src/main/drivers/compass\+\_\+hmc5883l.\+h@{src/main/drivers/compass\+\_\+hmc5883l.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structhmc5883Config__s}{hmc5883\+Config\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structhmc5883Config__s}{hmc5883\+Config\+\_\+s} \hyperlink{compass__hmc5883l_8h_aeef5ca3fa5b11bc05fcd792ac90c45da}{hmc5883\+Config\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{compass__hmc5883l_8h_aafe13b0a986db6811454d817381523b4}{hmc5883l\+Detect} (\hyperlink{drivers_2compass_8h_a75baa82eef2261988c9b0faa399e5bce}{mag\+\_\+t} $\ast$\hyperlink{initialisation_8h_a69fe6c4b5f393a329d0107320686f5d9}{mag}, const \hyperlink{compass__hmc5883l_8h_aeef5ca3fa5b11bc05fcd792ac90c45da}{hmc5883\+Config\+\_\+t} $\ast$hmc5883\+Config\+To\+Use)
+\item 
+void \hyperlink{compass__hmc5883l_8h_aee79dbde2bc3263498add01336f9c9e7}{hmc5883l\+Init} (void)
+\item 
+bool \hyperlink{compass__hmc5883l_8h_a11c500d744ed654361418ba1e193a8e1}{hmc5883l\+Read} (int16\+\_\+t $\ast$mag\+Data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{compass__hmc5883l_8h_aeef5ca3fa5b11bc05fcd792ac90c45da}{\index{compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}!hmc5883\+Config\+\_\+t@{hmc5883\+Config\+\_\+t}}
+\index{hmc5883\+Config\+\_\+t@{hmc5883\+Config\+\_\+t}!compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}}
+\subsubsection[{hmc5883\+Config\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf hmc5883\+Config\+\_\+s}  {\bf hmc5883\+Config\+\_\+t}}}\label{compass__hmc5883l_8h_aeef5ca3fa5b11bc05fcd792ac90c45da}
+
+
+\subsection{Function Documentation}
+\hypertarget{compass__hmc5883l_8h_aafe13b0a986db6811454d817381523b4}{\index{compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}!hmc5883l\+Detect@{hmc5883l\+Detect}}
+\index{hmc5883l\+Detect@{hmc5883l\+Detect}!compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}}
+\subsubsection[{hmc5883l\+Detect}]{\setlength{\rightskip}{0pt plus 5cm}bool hmc5883l\+Detect (
+\begin{DoxyParamCaption}
+\item[{{\bf mag\+\_\+t} $\ast$}]{mag, }
+\item[{const {\bf hmc5883\+Config\+\_\+t} $\ast$}]{hmc5883\+Config\+To\+Use}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8h_aafe13b0a986db6811454d817381523b4}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8h_aafe13b0a986db6811454d817381523b4_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{compass__hmc5883l_8h_aee79dbde2bc3263498add01336f9c9e7}{\index{compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}!hmc5883l\+Init@{hmc5883l\+Init}}
+\index{hmc5883l\+Init@{hmc5883l\+Init}!compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}}
+\subsubsection[{hmc5883l\+Init}]{\setlength{\rightskip}{0pt plus 5cm}void hmc5883l\+Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8h_aee79dbde2bc3263498add01336f9c9e7}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{compass__hmc5883l_8h_aee79dbde2bc3263498add01336f9c9e7_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{compass__hmc5883l_8h_a11c500d744ed654361418ba1e193a8e1}{\index{compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}!hmc5883l\+Read@{hmc5883l\+Read}}
+\index{hmc5883l\+Read@{hmc5883l\+Read}!compass\+\_\+hmc5883l.\+h@{compass\+\_\+hmc5883l.\+h}}
+\subsubsection[{hmc5883l\+Read}]{\setlength{\rightskip}{0pt plus 5cm}bool hmc5883l\+Read (
+\begin{DoxyParamCaption}
+\item[{int16\+\_\+t $\ast$}]{mag\+Data}
+\end{DoxyParamCaption}
+)}}\label{compass__hmc5883l_8h_a11c500d744ed654361418ba1e193a8e1}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{compass__hmc5883l_8h_a11c500d744ed654361418ba1e193a8e1_cgraph}
+\end{center}
+\end{figure}
+
+

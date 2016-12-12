@@ -1,0 +1,99 @@
+\hypertarget{struct____mavlink__mag__cal__progress__t}{\section{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t Struct Reference}
+\label{struct____mavlink__mag__cal__progress__t}\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+}
+
+
+{\ttfamily \#include $<$mavlink\+\_\+msg\+\_\+mag\+\_\+cal\+\_\+progress.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{struct____mavlink__mag__cal__progress__t_a2f3d8129e9448ada15293a4487c8a6f4}{direction\+\_\+x}
+\begin{DoxyCompactList}\small\item\em Body frame direction vector for display. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__progress__t_aa6d29bfcbbc29992ad49decba3ebfaca}{direction\+\_\+y}
+\begin{DoxyCompactList}\small\item\em Body frame direction vector for display. \end{DoxyCompactList}\item 
+float \hyperlink{struct____mavlink__mag__cal__progress__t_af156578adf97e273af5b880655c0f142}{direction\+\_\+z}
+\begin{DoxyCompactList}\small\item\em Body frame direction vector for display. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_a1a66b3ff2022d636acd965f8e7cd9be8}{compass\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Compass being calibrated. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_ad4bfbc8fc9a8a2ae84478fd5879eb690}{cal\+\_\+mask}
+\begin{DoxyCompactList}\small\item\em Bitmask of compasses being calibrated. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_a8c87e5a7d1e4ba20ae63e72f463f08d8}{cal\+\_\+status}
+\begin{DoxyCompactList}\small\item\em Status (see M\+A\+G\+\_\+\+C\+A\+L\+\_\+\+S\+T\+A\+T\+U\+S enum) \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_a1f5e7c770402e1a04c28e5f1ca1fd2b8}{attempt}
+\begin{DoxyCompactList}\small\item\em Attempt number. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_a9b0f5a88d925b9e667e4714770c119ed}{completion\+\_\+pct}
+\begin{DoxyCompactList}\small\item\em Completion percentage. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{struct____mavlink__mag__cal__progress__t_a943429de851771dff29cb6b0f2ced1df}{completion\+\_\+mask} \mbox{[}10\mbox{]}
+\begin{DoxyCompactList}\small\item\em Bitmask of sphere sections (see \href{http://en.wikipedia.org/wiki/Geodesic_grid}{\tt http\+://en.\+wikipedia.\+org/wiki/\+Geodesic\+\_\+grid}) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct____mavlink__mag__cal__progress__t_a1f5e7c770402e1a04c28e5f1ca1fd2b8}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!attempt@{attempt}}
+\index{attempt@{attempt}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{attempt}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::attempt}}\label{struct____mavlink__mag__cal__progress__t_a1f5e7c770402e1a04c28e5f1ca1fd2b8}
+
+
+Attempt number. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_ad4bfbc8fc9a8a2ae84478fd5879eb690}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!cal\+\_\+mask@{cal\+\_\+mask}}
+\index{cal\+\_\+mask@{cal\+\_\+mask}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{cal\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::cal\+\_\+mask}}\label{struct____mavlink__mag__cal__progress__t_ad4bfbc8fc9a8a2ae84478fd5879eb690}
+
+
+Bitmask of compasses being calibrated. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_a8c87e5a7d1e4ba20ae63e72f463f08d8}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!cal\+\_\+status@{cal\+\_\+status}}
+\index{cal\+\_\+status@{cal\+\_\+status}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{cal\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::cal\+\_\+status}}\label{struct____mavlink__mag__cal__progress__t_a8c87e5a7d1e4ba20ae63e72f463f08d8}
+
+
+Status (see M\+A\+G\+\_\+\+C\+A\+L\+\_\+\+S\+T\+A\+T\+U\+S enum) 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_a1a66b3ff2022d636acd965f8e7cd9be8}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!compass\+\_\+id@{compass\+\_\+id}}
+\index{compass\+\_\+id@{compass\+\_\+id}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{compass\+\_\+id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::compass\+\_\+id}}\label{struct____mavlink__mag__cal__progress__t_a1a66b3ff2022d636acd965f8e7cd9be8}
+
+
+Compass being calibrated. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_a943429de851771dff29cb6b0f2ced1df}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!completion\+\_\+mask@{completion\+\_\+mask}}
+\index{completion\+\_\+mask@{completion\+\_\+mask}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{completion\+\_\+mask}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::completion\+\_\+mask\mbox{[}10\mbox{]}}}\label{struct____mavlink__mag__cal__progress__t_a943429de851771dff29cb6b0f2ced1df}
+
+
+Bitmask of sphere sections (see \href{http://en.wikipedia.org/wiki/Geodesic_grid}{\tt http\+://en.\+wikipedia.\+org/wiki/\+Geodesic\+\_\+grid}) 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_a9b0f5a88d925b9e667e4714770c119ed}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!completion\+\_\+pct@{completion\+\_\+pct}}
+\index{completion\+\_\+pct@{completion\+\_\+pct}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{completion\+\_\+pct}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::completion\+\_\+pct}}\label{struct____mavlink__mag__cal__progress__t_a9b0f5a88d925b9e667e4714770c119ed}
+
+
+Completion percentage. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_a2f3d8129e9448ada15293a4487c8a6f4}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!direction\+\_\+x@{direction\+\_\+x}}
+\index{direction\+\_\+x@{direction\+\_\+x}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{direction\+\_\+x}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::direction\+\_\+x}}\label{struct____mavlink__mag__cal__progress__t_a2f3d8129e9448ada15293a4487c8a6f4}
+
+
+Body frame direction vector for display. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_aa6d29bfcbbc29992ad49decba3ebfaca}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!direction\+\_\+y@{direction\+\_\+y}}
+\index{direction\+\_\+y@{direction\+\_\+y}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{direction\+\_\+y}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::direction\+\_\+y}}\label{struct____mavlink__mag__cal__progress__t_aa6d29bfcbbc29992ad49decba3ebfaca}
+
+
+Body frame direction vector for display. 
+
+\hypertarget{struct____mavlink__mag__cal__progress__t_af156578adf97e273af5b880655c0f142}{\index{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}!direction\+\_\+z@{direction\+\_\+z}}
+\index{direction\+\_\+z@{direction\+\_\+z}!\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t@{\+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t}}
+\subsubsection[{direction\+\_\+z}]{\setlength{\rightskip}{0pt plus 5cm}float \+\_\+\+\_\+mavlink\+\_\+mag\+\_\+cal\+\_\+progress\+\_\+t\+::direction\+\_\+z}}\label{struct____mavlink__mag__cal__progress__t_af156578adf97e273af5b880655c0f142}
+
+
+Body frame direction vector for display. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/mavlink/ardupilotmega/\hyperlink{mavlink__msg__mag__cal__progress_8h}{mavlink\+\_\+msg\+\_\+mag\+\_\+cal\+\_\+progress.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,92 @@
+\hypertarget{structhott}{\section{hott Struct Reference}
+\label{structhott}\index{hott@{hott}}
+}
+
+
+{\ttfamily \#include $<$hott.\+h$>$}
+
+
+
+Collaboration diagram for hott\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structhott__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{structhott_a9515a156e9ac0cb17dab598b44ecc1cc}{last\+Ho\+T\+T\+Request\+Check\+At}
+\item 
+uint32\+\_\+t \hyperlink{structhott_a161f29f2e2fbf636d7ef73a113a1a51a}{last\+Messages\+Prepared\+At}
+\item 
+uint32\+\_\+t \hyperlink{structhott_ad76603535b91ce456b54c8e27751ff7b}{last\+Hott\+Alarm\+Sound\+Time}
+\item 
+bool \hyperlink{structhott_afea5e8a740c8d36689c1aa141364cc37}{hott\+Is\+Sending}
+\item 
+uint8\+\_\+t $\ast$ \hyperlink{structhott_a2ef7c23deaf5b2feccc549710f3de3db}{hott\+Msg}
+\item 
+uint8\+\_\+t \hyperlink{structhott_af62c87d592cf1500e1755151830fb218}{hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count}
+\item 
+uint8\+\_\+t \hyperlink{structhott_aefc0dd2fe3dbaaa38d1d045a82acd7ca}{hott\+Msg\+Crc}
+\item 
+\hyperlink{drivers_2serial_8h_a64a5e2f04e1a908fbb1b3b165f88e0ef}{serial\+Port\+\_\+t} $\ast$ \hyperlink{structhott_aa15d75608c63aa00e6ca0f2ef8fb3dbf}{hott\+Port}
+\item 
+struct \hyperlink{structserial__port__config}{serial\+\_\+port\+\_\+config} $\ast$ \hyperlink{structhott_a02eb8255643fae88335061e5100c4375}{port\+Config}
+\item 
+bool \hyperlink{structhott_a7ff07a115d9b58ea2985abeb212e9977}{hott\+Telemetry\+Enabled}
+\item 
+\hyperlink{config_2serial_8h_abf0b69624c13c172601595b52e672022}{port\+Sharing\+\_\+e} \hyperlink{structhott_ac6ac82b8c690145e6beec06ce4d1decd}{hott\+Port\+Sharing}
+\item 
+\hyperlink{telemetry_2hott_8h_ae6def72a29b211874fad6f74fa8bf4e8}{H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t} \hyperlink{structhott_aef8c209abf90904dff60ee056ffebf53}{hott\+G\+P\+S\+Message}
+\item 
+\hyperlink{telemetry_2hott_8h_aa6cb9b407d05356bd97bcbacceac12f9}{H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t} \hyperlink{structhott_af920cbcbc98ed6ad67de8fa4974faf57}{hott\+E\+A\+M\+Message}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structhott_af920cbcbc98ed6ad67de8fa4974faf57}{\index{hott@{hott}!hott\+E\+A\+M\+Message@{hott\+E\+A\+M\+Message}}
+\index{hott\+E\+A\+M\+Message@{hott\+E\+A\+M\+Message}!hott@{hott}}
+\subsubsection[{hott\+E\+A\+M\+Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf H\+O\+T\+T\+\_\+\+E\+A\+M\+\_\+\+M\+S\+G\+\_\+t} hott\+::hott\+E\+A\+M\+Message}}\label{structhott_af920cbcbc98ed6ad67de8fa4974faf57}
+\hypertarget{structhott_aef8c209abf90904dff60ee056ffebf53}{\index{hott@{hott}!hott\+G\+P\+S\+Message@{hott\+G\+P\+S\+Message}}
+\index{hott\+G\+P\+S\+Message@{hott\+G\+P\+S\+Message}!hott@{hott}}
+\subsubsection[{hott\+G\+P\+S\+Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf H\+O\+T\+T\+\_\+\+G\+P\+S\+\_\+\+M\+S\+G\+\_\+t} hott\+::hott\+G\+P\+S\+Message}}\label{structhott_aef8c209abf90904dff60ee056ffebf53}
+\hypertarget{structhott_afea5e8a740c8d36689c1aa141364cc37}{\index{hott@{hott}!hott\+Is\+Sending@{hott\+Is\+Sending}}
+\index{hott\+Is\+Sending@{hott\+Is\+Sending}!hott@{hott}}
+\subsubsection[{hott\+Is\+Sending}]{\setlength{\rightskip}{0pt plus 5cm}bool hott\+::hott\+Is\+Sending}}\label{structhott_afea5e8a740c8d36689c1aa141364cc37}
+\hypertarget{structhott_a2ef7c23deaf5b2feccc549710f3de3db}{\index{hott@{hott}!hott\+Msg@{hott\+Msg}}
+\index{hott\+Msg@{hott\+Msg}!hott@{hott}}
+\subsubsection[{hott\+Msg}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t$\ast$ hott\+::hott\+Msg}}\label{structhott_a2ef7c23deaf5b2feccc549710f3de3db}
+\hypertarget{structhott_aefc0dd2fe3dbaaa38d1d045a82acd7ca}{\index{hott@{hott}!hott\+Msg\+Crc@{hott\+Msg\+Crc}}
+\index{hott\+Msg\+Crc@{hott\+Msg\+Crc}!hott@{hott}}
+\subsubsection[{hott\+Msg\+Crc}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t hott\+::hott\+Msg\+Crc}}\label{structhott_aefc0dd2fe3dbaaa38d1d045a82acd7ca}
+\hypertarget{structhott_af62c87d592cf1500e1755151830fb218}{\index{hott@{hott}!hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count@{hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count}}
+\index{hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count@{hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count}!hott@{hott}}
+\subsubsection[{hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t hott\+::hott\+Msg\+Remaining\+Bytes\+To\+Send\+Count}}\label{structhott_af62c87d592cf1500e1755151830fb218}
+\hypertarget{structhott_aa15d75608c63aa00e6ca0f2ef8fb3dbf}{\index{hott@{hott}!hott\+Port@{hott\+Port}}
+\index{hott\+Port@{hott\+Port}!hott@{hott}}
+\subsubsection[{hott\+Port}]{\setlength{\rightskip}{0pt plus 5cm}{\bf serial\+Port\+\_\+t}$\ast$ hott\+::hott\+Port}}\label{structhott_aa15d75608c63aa00e6ca0f2ef8fb3dbf}
+\hypertarget{structhott_ac6ac82b8c690145e6beec06ce4d1decd}{\index{hott@{hott}!hott\+Port\+Sharing@{hott\+Port\+Sharing}}
+\index{hott\+Port\+Sharing@{hott\+Port\+Sharing}!hott@{hott}}
+\subsubsection[{hott\+Port\+Sharing}]{\setlength{\rightskip}{0pt plus 5cm}{\bf port\+Sharing\+\_\+e} hott\+::hott\+Port\+Sharing}}\label{structhott_ac6ac82b8c690145e6beec06ce4d1decd}
+\hypertarget{structhott_a7ff07a115d9b58ea2985abeb212e9977}{\index{hott@{hott}!hott\+Telemetry\+Enabled@{hott\+Telemetry\+Enabled}}
+\index{hott\+Telemetry\+Enabled@{hott\+Telemetry\+Enabled}!hott@{hott}}
+\subsubsection[{hott\+Telemetry\+Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool hott\+::hott\+Telemetry\+Enabled}}\label{structhott_a7ff07a115d9b58ea2985abeb212e9977}
+\hypertarget{structhott_ad76603535b91ce456b54c8e27751ff7b}{\index{hott@{hott}!last\+Hott\+Alarm\+Sound\+Time@{last\+Hott\+Alarm\+Sound\+Time}}
+\index{last\+Hott\+Alarm\+Sound\+Time@{last\+Hott\+Alarm\+Sound\+Time}!hott@{hott}}
+\subsubsection[{last\+Hott\+Alarm\+Sound\+Time}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t hott\+::last\+Hott\+Alarm\+Sound\+Time}}\label{structhott_ad76603535b91ce456b54c8e27751ff7b}
+\hypertarget{structhott_a9515a156e9ac0cb17dab598b44ecc1cc}{\index{hott@{hott}!last\+Ho\+T\+T\+Request\+Check\+At@{last\+Ho\+T\+T\+Request\+Check\+At}}
+\index{last\+Ho\+T\+T\+Request\+Check\+At@{last\+Ho\+T\+T\+Request\+Check\+At}!hott@{hott}}
+\subsubsection[{last\+Ho\+T\+T\+Request\+Check\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t hott\+::last\+Ho\+T\+T\+Request\+Check\+At}}\label{structhott_a9515a156e9ac0cb17dab598b44ecc1cc}
+\hypertarget{structhott_a161f29f2e2fbf636d7ef73a113a1a51a}{\index{hott@{hott}!last\+Messages\+Prepared\+At@{last\+Messages\+Prepared\+At}}
+\index{last\+Messages\+Prepared\+At@{last\+Messages\+Prepared\+At}!hott@{hott}}
+\subsubsection[{last\+Messages\+Prepared\+At}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t hott\+::last\+Messages\+Prepared\+At}}\label{structhott_a161f29f2e2fbf636d7ef73a113a1a51a}
+\hypertarget{structhott_a02eb8255643fae88335061e5100c4375}{\index{hott@{hott}!port\+Config@{port\+Config}}
+\index{port\+Config@{port\+Config}!hott@{hott}}
+\subsubsection[{port\+Config}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf serial\+\_\+port\+\_\+config}$\ast$ hott\+::port\+Config}}\label{structhott_a02eb8255643fae88335061e5100c4375}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/telemetry/\hyperlink{telemetry_2hott_8h}{hott.\+h}\end{DoxyCompactItemize}

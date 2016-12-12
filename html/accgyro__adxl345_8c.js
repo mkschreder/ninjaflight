@@ -1,0 +1,26 @@
+var accgyro__adxl345_8c =
+[
+    [ "ADXL345_ADDRESS", "accgyro__adxl345_8c.html#acebdef7f400bcadad0131b0e4918ff00", null ],
+    [ "ADXL345_BW_RATE", "accgyro__adxl345_8c.html#a6c544488de7b709a48f48ede00922ed3", null ],
+    [ "ADXL345_DATA_FORMAT", "accgyro__adxl345_8c.html#a45aacd07b6d543e2b5d2e1ae160e21c9", null ],
+    [ "ADXL345_DATA_OUT", "accgyro__adxl345_8c.html#ad33285df892f394ee037cd3c6f47bb7c", null ],
+    [ "ADXL345_FIFO_CTL", "accgyro__adxl345_8c.html#a53875db2e594f4536e380c11be255fb7", null ],
+    [ "ADXL345_FIFO_STREAM", "accgyro__adxl345_8c.html#a1138e74bb24a4b0d203f23ef8478e944", null ],
+    [ "ADXL345_FULL_RANGE", "accgyro__adxl345_8c.html#a1de1d07587fe678a2fbdd8828a3e8d76", null ],
+    [ "ADXL345_INT_ENABLE", "accgyro__adxl345_8c.html#ab4fe7d4de760324e97b7bd1534570766", null ],
+    [ "ADXL345_POWER_CTL", "accgyro__adxl345_8c.html#a5eb7ada4d70f1d789e7ecb3835dfaf0f", null ],
+    [ "ADXL345_POWER_MEAS", "accgyro__adxl345_8c.html#a180295dedc8096577d1d288a32595c6e", null ],
+    [ "ADXL345_RANGE_16G", "accgyro__adxl345_8c.html#a8cb06ef9eec9ffa9a68ea76ac50bda7c", null ],
+    [ "ADXL345_RANGE_2G", "accgyro__adxl345_8c.html#afa89d0888b9e734ad7f992dec25c1fa7", null ],
+    [ "ADXL345_RANGE_4G", "accgyro__adxl345_8c.html#a5e66e140e085d6e8fdc98ce7f8b87290", null ],
+    [ "ADXL345_RANGE_8G", "accgyro__adxl345_8c.html#a1b3f9e470894f3452c818c3167076be6", null ],
+    [ "ADXL345_RATE_100", "accgyro__adxl345_8c.html#ad99fa8a458639c2bb08cfcf0abf990a9", null ],
+    [ "ADXL345_RATE_1600", "accgyro__adxl345_8c.html#ab48a552434e1e882bfc8fa9266843efd", null ],
+    [ "ADXL345_RATE_200", "accgyro__adxl345_8c.html#a93b49258a0fc436648e49232ff2f5a1c", null ],
+    [ "ADXL345_RATE_3200", "accgyro__adxl345_8c.html#a9adcc3f0aa616dd909fd50e60f376b7f", null ],
+    [ "ADXL345_RATE_400", "accgyro__adxl345_8c.html#a7d24c1e74567e88b0d90d8e6e163a9e4", null ],
+    [ "ADXL345_RATE_50", "accgyro__adxl345_8c.html#acf25be1a64a51865d53a30ea521c5929", null ],
+    [ "ADXL345_RATE_800", "accgyro__adxl345_8c.html#a214c453f4226ec0f8105672900320e36", null ],
+    [ "adxl345Detect", "accgyro__adxl345_8c.html#a32f6cd75e7feb1a52ecbc805b4e3d272", null ],
+    [ "acc_samples", "accgyro__adxl345_8c.html#a4c113fef45fdce76d2c69588266695ee", null ]
+];

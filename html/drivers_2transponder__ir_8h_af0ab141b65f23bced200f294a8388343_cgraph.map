@@ -1,0 +1,5 @@
+<map id="transponderIrTransmit" name="transponderIrTransmit">
+<area shape="rect" id="node2" href="$drivers_2transponder__ir_8c.html#ae7119bd6a8b1610f3a504ee45a7daf2f" title="transponderIrWaitForTransmit\lComplete" alt="" coords="203,5,397,46"/>
+<area shape="rect" id="node3" href="$drivers_2transponder__ir_8h.html#af8f4f7bb0d0cbaba312263cdde78485b" title="transponderIrDMAEnable" alt="" coords="216,71,384,97"/>
+<area shape="rect" id="node4" href="$test_2unit_2platform_8h.html#a5b773763fe9c007fad2d86c2769bc726" title="DMA_Cmd" alt="" coords="446,71,533,97"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="src/main/drivers/vcp/usb_conf.h" name="src/main/drivers/vcp/usb_conf.h">
+<area shape="rect" id="node2" href="$usb__istr_8h.html" title="This file includes the peripherals header files in the user application. " alt="" coords="169,97,308,138"/>
+<area shape="rect" id="node6" href="$usb__prop_8c.html" title="All processing related to Virtual Com Port Demo. " alt="" coords="333,97,472,138"/>
+<area shape="rect" id="node7" href="$usb__pwr_8c.html" title="Connection/disconnection &amp; power management. " alt="" coords="497,97,636,138"/>
+<area shape="rect" id="node3" href="$stm32__it_8c.html" title="Main Interrupt Service Routines. This file provides template for all exceptions handler and periphera..." alt="" coords="5,187,144,229"/>
+<area shape="rect" id="node4" href="$usb__endp_8c.html" title="Endpoint routines. " alt="" coords="169,187,308,229"/>
+<area shape="rect" id="node5" href="$usb__istr_8c.html" title="ISTR events interrupt service routines. " alt="" coords="333,187,472,229"/>
+</map>

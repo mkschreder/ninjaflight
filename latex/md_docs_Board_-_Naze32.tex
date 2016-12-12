@@ -1,0 +1,75 @@
+The Naze32 target supports all Naze hardware revisions. Revision 4 and 5 are used and frequently flown by the primary maintainer. Previous Naze hardware revisions may have issues, if found please report via the \href{https://github.com/cleanflight/cleanflight/issues}{\tt github issue tracker}.
+
+\subsection*{Serial Ports}
+
+\begin{TabularC}{5}
+\hline
+\rowcolor{lightgray}{\bf Value }&{\bf Identifier }&{\bf R\+X }&{\bf T\+X }&{\bf Notes  }\\\cline{1-5}
+1 &U\+S\+A\+R\+T1 &R\+X / P\+A10 &T\+X / P\+A9 / T\+E\+L\+E\+M &T\+E\+L\+E\+M output is always inverted (for Fr\+Sky). Internally connected to U\+S\+B port via C\+P2102 I\+C \\\cline{1-5}
+2 &U\+S\+A\+R\+T2 &R\+C4 / P\+A3 &R\+C3 / P\+A2 &\\\cline{1-5}
+4 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L1 &R\+C5 / P\+A6 &R\+C6 / P\+A7 &\\\cline{1-5}
+5 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L2 &R\+C7 / P\+B0 &R\+C8 / P\+B1 &\\\cline{1-5}
+\end{TabularC}
+
+\begin{DoxyItemize}
+\item You cannot use U\+S\+A\+R\+T1/\+T\+X/\+T\+E\+L\+E\+M pins at the same time.
+\item You may encounter flashing problems if you have something connected to the R\+X/\+T\+X pins. Try disconnecting R\+X/\+T\+X.
+\end{DoxyItemize}
+
+\subsection*{Pinouts}
+
+The 10 pin R\+C I/\+O connector has the following pinouts when used in R\+X\+\_\+\+P\+P\+M/\+R\+X\+\_\+\+S\+E\+R\+I\+A\+L mode.
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Identifier }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+1 &&Ground &\\\cline{1-4}
+2 &Circle &+5\+V &\\\cline{1-4}
+3 &1 &R\+X\+\_\+\+P\+P\+M &Enable {\ttfamily feature R\+X\+\_\+\+P\+P\+M} \\\cline{1-4}
+4 &2 &R\+S\+S\+I\+\_\+\+A\+D\+C &Enable {\ttfamily feature R\+S\+S\+I\+\_\+\+A\+D\+C}. Connect to the output of a P\+W\+M-\/\+R\+S\+S\+I conditioner, 0v-\/3.\+3v input \\\cline{1-4}
+5 &3 &U\+S\+A\+R\+T2 T\+X &\\\cline{1-4}
+6 &4 &U\+S\+A\+R\+T2 R\+X &\\\cline{1-4}
+7 &5 &L\+E\+D\+\_\+\+S\+T\+R\+I\+P &Enable {\ttfamily feature L\+E\+D\+\_\+\+S\+T\+R\+I\+P} \\\cline{1-4}
+8 &6 &unused &\\\cline{1-4}
+9 &7 &Sonar Trigger &\\\cline{1-4}
+10 &8 &Sonar Echo / C\+U\+R\+R\+E\+N\+T &Enable {\ttfamily feature C\+U\+R\+R\+E\+N\+T\+\_\+\+M\+E\+T\+E\+R} Connect to the output of a current sensor, 0v-\/3.\+3v input \\\cline{1-4}
+\end{TabularC}
+When S\+O\+F\+T\+S\+E\+R\+I\+A\+L is enabled, L\+E\+D\+\_\+\+S\+T\+R\+I\+P and C\+U\+R\+R\+E\+N\+T\+\_\+\+M\+E\+T\+E\+R are unavailable, but two Soft\+Serial ports are made available to use instead.
+
+\begin{TabularC}{4}
+\hline
+\rowcolor{lightgray}{\bf Pin }&{\bf Identifier }&{\bf Function }&{\bf Notes  }\\\cline{1-4}
+7 &5 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L1 R\+X &Enable {\ttfamily feature S\+O\+F\+T\+S\+E\+R\+I\+A\+L} \\\cline{1-4}
+8 &6 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L1 T\+X &\\\cline{1-4}
+9 &7 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L2 R\+X &\\\cline{1-4}
+10 &8 &S\+O\+F\+T\+S\+E\+R\+I\+A\+L2 T\+X &\\\cline{1-4}
+\end{TabularC}
+\subsection*{Recovery}
+
+\subsubsection*{Board}
+
+
+\begin{DoxyItemize}
+\item Short the two pads labelled 'Boot' {\bfseries taking extra care not to touch the 5\+V pad}
+\item Apply power to the board
+\item Remove the short on the board
+\end{DoxyItemize}
+
+\subsubsection*{Cleanflight configurator}
+
+
+\begin{DoxyItemize}
+\item Select the correct hardware and the desired release of the Clearflight firmware
+\item Put a check in the \char`\"{}\+No reboot sequence\char`\"{}
+\item Flash firmware
+\end{DoxyItemize}
+
+``` /-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/---\textbackslash{} $\vert$\+O O$\vert$ $\vert$ \mbox{[}\mbox{]}5\+V $\vert$ \begin{TabularC}{1}
+\hline
+\rowcolor{lightgray}{\bf \mbox{[}\mbox{]}\mbox{[}\mbox{]}Boot  }\\\cline{1-1}
+\\\cline{1-1}
+\\\cline{1-1}
+\\\cline{1-1}
+O O \\\cline{1-1}
+\end{TabularC}
+-\/-\/-\/-\/---\mbox{[}U\+S\+B\mbox{]}-\/-\/-\/-\/---/ ``` 

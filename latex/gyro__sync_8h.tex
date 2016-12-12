@@ -1,0 +1,66 @@
+\hypertarget{gyro__sync_8h}{\section{src/main/drivers/gyro\+\_\+sync.h File Reference}
+\label{gyro__sync_8h}\index{src/main/drivers/gyro\+\_\+sync.\+h@{src/main/drivers/gyro\+\_\+sync.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gyro__sync_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{gyro__sync_8h_aa4959d90393c4174b822361806f4228b}{I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}~10
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \hyperlink{gyro__sync_8h_a562c45b0a8114034959d85de2d7ecfbb}{gyro\+\_\+sync\+\_\+get\+\_\+looptime} (void)
+\item 
+bool \hyperlink{gyro__sync_8h_ad87b8b2b66b20db45ac38f33e20accda}{gyro\+Sync\+Check\+Update} (void)
+\item 
+uint8\+\_\+t \hyperlink{gyro__sync_8h_a7cd9ae05fcf959b55626591c21cc730f}{gyro\+M\+P\+U6xxx\+Calculate\+Divider} (void)
+\item 
+void \hyperlink{gyro__sync_8h_addf77b1c6d7530b6721ac8ce19c5eef6}{gyro\+Set\+Sample\+Rate} (uint32\+\_\+t \hyperlink{config_2imu_8h_a3dd25f38adbd21b9a269b581fb2d71a5}{looptime}, uint8\+\_\+t lpf, uint8\+\_\+t \hyperlink{config_2imu_8h_ac754dbdddec97dde954f2fb73dd21fb3}{gyro\+Sync}, uint8\+\_\+t \hyperlink{config_2imu_8h_aa0524588c092fc3d76149c0930704aef}{gyro\+Sync\+Denominator})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{gyro__sync_8h_aa4959d90393c4174b822361806f4228b}{\index{gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}!I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E@{I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}}
+\index{I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E@{I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}!gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}}
+\subsubsection[{I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+E\+R\+R\+U\+P\+T\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E~10}}\label{gyro__sync_8h_aa4959d90393c4174b822361806f4228b}
+
+
+\subsection{Function Documentation}
+\hypertarget{gyro__sync_8h_a562c45b0a8114034959d85de2d7ecfbb}{\index{gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}!gyro\+\_\+sync\+\_\+get\+\_\+looptime@{gyro\+\_\+sync\+\_\+get\+\_\+looptime}}
+\index{gyro\+\_\+sync\+\_\+get\+\_\+looptime@{gyro\+\_\+sync\+\_\+get\+\_\+looptime}!gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}}
+\subsubsection[{gyro\+\_\+sync\+\_\+get\+\_\+looptime}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t gyro\+\_\+sync\+\_\+get\+\_\+looptime (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{gyro__sync_8h_a562c45b0a8114034959d85de2d7ecfbb}
+\hypertarget{gyro__sync_8h_a7cd9ae05fcf959b55626591c21cc730f}{\index{gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}!gyro\+M\+P\+U6xxx\+Calculate\+Divider@{gyro\+M\+P\+U6xxx\+Calculate\+Divider}}
+\index{gyro\+M\+P\+U6xxx\+Calculate\+Divider@{gyro\+M\+P\+U6xxx\+Calculate\+Divider}!gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}}
+\subsubsection[{gyro\+M\+P\+U6xxx\+Calculate\+Divider}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t gyro\+M\+P\+U6xxx\+Calculate\+Divider (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{gyro__sync_8h_a7cd9ae05fcf959b55626591c21cc730f}
+\hypertarget{gyro__sync_8h_addf77b1c6d7530b6721ac8ce19c5eef6}{\index{gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}!gyro\+Set\+Sample\+Rate@{gyro\+Set\+Sample\+Rate}}
+\index{gyro\+Set\+Sample\+Rate@{gyro\+Set\+Sample\+Rate}!gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}}
+\subsubsection[{gyro\+Set\+Sample\+Rate}]{\setlength{\rightskip}{0pt plus 5cm}void gyro\+Set\+Sample\+Rate (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{looptime, }
+\item[{uint8\+\_\+t}]{lpf, }
+\item[{uint8\+\_\+t}]{gyro\+Sync, }
+\item[{uint8\+\_\+t}]{gyro\+Sync\+Denominator}
+\end{DoxyParamCaption}
+)}}\label{gyro__sync_8h_addf77b1c6d7530b6721ac8ce19c5eef6}
+\hypertarget{gyro__sync_8h_ad87b8b2b66b20db45ac38f33e20accda}{\index{gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}!gyro\+Sync\+Check\+Update@{gyro\+Sync\+Check\+Update}}
+\index{gyro\+Sync\+Check\+Update@{gyro\+Sync\+Check\+Update}!gyro\+\_\+sync.\+h@{gyro\+\_\+sync.\+h}}
+\subsubsection[{gyro\+Sync\+Check\+Update}]{\setlength{\rightskip}{0pt plus 5cm}bool gyro\+Sync\+Check\+Update (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{gyro__sync_8h_ad87b8b2b66b20db45ac38f33e20accda}

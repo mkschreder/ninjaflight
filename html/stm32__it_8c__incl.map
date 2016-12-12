@@ -1,0 +1,7 @@
+<map id="src/main/drivers/vcp/stm32_it.c" name="src/main/drivers/vcp/stm32_it.c">
+<area shape="rect" id="node2" href="$hw__config_8h.html" title="Hardware Configuration &amp; Setup. " alt="" coords="10,96,101,123"/>
+<area shape="rect" id="node4" href="$stm32__it_8h.html" title="This file contains the headers of the interrupt handlers. " alt="" coords="131,96,212,123"/>
+<area shape="rect" id="node7" href="$usb__istr_8h.html" title="This file includes the peripherals header files in the user application. " alt="" coords="336,96,440,123"/>
+<area shape="rect" id="node5" href="$platform__config_8h.html" title="Evaluation board specific configuration file. " alt="" coords="116,171,239,197"/>
+<area shape="rect" id="node8" href="$usb__conf_8h.html" title="Virtual COM Port Demo configuration header. " alt="" coords="345,171,431,197"/>
+</map>

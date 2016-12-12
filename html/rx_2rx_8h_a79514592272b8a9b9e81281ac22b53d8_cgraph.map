@@ -1,0 +1,11 @@
+<map id="rx_set_type" name="rx_set_type">
+<area shape="rect" id="node2" href="$pwm_8c.html#aea57e7a554cdc526f89c1470599689c7" title="rxPwmInit" alt="" coords="151,5,233,32"/>
+<area shape="rect" id="node3" href="$pwm_8c.html#af9f7be3b05dfd2e1dc2d2da66e493d41" title="rxPPMInit" alt="" coords="152,56,232,83"/>
+<area shape="rect" id="node4" href="$rx_2msp_8c.html#a4a78128eaa5fd756be8fe79c61b2ba4a" title="rxMspInit" alt="" coords="154,107,230,133"/>
+<area shape="rect" id="node5" href="$spektrum_8h.html#a1d2e255400aae5b8d5716dbe511af7fb" title="spektrumInit" alt="" coords="145,157,239,184"/>
+<area shape="rect" id="node6" href="$sbus_8h.html#ae518b0f0a36341db3d4d08eb419e1755" title="sbusInit" alt="" coords="158,208,226,235"/>
+<area shape="rect" id="node7" href="$sumd_8h.html#a35aea72ece47a7e93c65c8667e97bff3" title="sumdInit" alt="" coords="156,259,228,285"/>
+<area shape="rect" id="node8" href="$sumh_8h.html#a918c80af3866b80c226f280e51f0d9df" title="sumhInit" alt="" coords="156,309,228,336"/>
+<area shape="rect" id="node9" href="$xbus_8h.html#a09b5a2ec36fcc1cc520e40e037d6b6e1" title="xBusInit" alt="" coords="157,360,227,387"/>
+<area shape="rect" id="node10" href="$ibus_8h.html#a4c72820af26b3f9d87eb18b7837b49ae" title="ibusInit" alt="" coords="160,411,224,437"/>
+</map>

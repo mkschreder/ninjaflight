@@ -1,0 +1,158 @@
+\href{https://travis-ci.org/mkschreder/ninjaflight}{\tt !\mbox{[}Build Status\mbox{]}(https\+://travis-\/ci.\+org/mkschreder/ninjaflight.\+svg?branch=master)} \href{https://coveralls.io/github/mkschreder/ninjaflight?branch=master}{\tt !\mbox{[}Coverage Status\mbox{]}(https\+://coveralls.\+io/repos/github/mkschreder/ninjaflight/badge.\+svg?branch=master)}
+
+An even cleaner version of cleanflight flight-\/controller. Flight controllers are used to fly multi-\/rotor craft and fixed wing aircraft.
+
+I\+M\+P\+O\+R\+T\+A\+N\+T N\+O\+T\+E\+: currently \char`\"{}master\char`\"{} git branch (which you are probably looking at) is undergoing many {\itshape major} changes so it is not going to work.
+
+Latest release\+: 1.\+16.\+10 (Codename\+: \char`\"{}\+Panic In The Sewers\char`\"{})
+
+This fork differs from cleanflight in that it introduces S\+I\+T\+L (software in the loop) support that is able to simulate the flight controller in a simulated physics environment powered by Bullet physics. It also adds support for tilted motor quads and uses modern development practices to simplify maintainability and improve quality of the firmware.
+
+This is done by\+:
+\begin{DoxyItemize}
+\item Using code coverage to write better unit tests (aiming at 100\% coverage for all code).
+\item Using object oriented design in C with minimal use of static/global data
+\item Separating modules into as small modules as possible each of which can be unit tested separately.
+\item Testing on S\+I\+T\+L, through unit tests and on real hardware in parallel to achieve greater robustness.
+\end{DoxyItemize}
+
+U\+P\+D\+A\+T\+E\+: new changes will be published into master branch. This means that most of the time master branch contains potentially untested code. For stable firmware use tagged version releases.
+
+\subsection*{S\+I\+T\+L}
+
+Simulator is an integral part of the development cycle. It is however located in a separate repo and requires some data files to work (notably pak0.\+pk3 from quake3). Main makefile can already download the necessary files for you.
+
+To build and run the sitl on linux you can do the following\+: \begin{DoxyVerb}make start-sitl
+\end{DoxyVerb}
+
+
+\subsection*{Features}
+
+
+\begin{DoxyItemize}
+\item Multi-\/color R\+G\+B L\+E\+D strip support (each L\+E\+D can be a different color using variable length W\+S2811 addressable R\+G\+B strips -\/ use for orientation indicators, low battery warning, flight mode status, etc.).
+\item Oneshot E\+S\+C support.
+\item Blackbox flight recorder logging (to onboard flash or external S\+D card).
+\item Support for additional targets that use the S\+T\+M32\+F3 processors (baseflight only supports S\+T\+M32\+F1).
+\item Support for the Seriously Pro Racing F3 board (S\+T\+M32\+F303, I2\+C sensors, large flash, excellent I/\+O.).
+\item Support for the Tau\+Labs Sparky board (S\+T\+M32\+F303, I2\+C sensors, based board with acc/gyro/compass and baro, $\sim$\$35).
+\item Support for the Open\+Pilot C\+C3\+D board (S\+T\+M32\+F103, board, S\+P\+I acc/gyro, $\sim$\$20).
+\item Support for the C\+J\+M\+C\+U nano quadcopter board.
+\item Support for developer breakout boards\+: (Port103\+R, E\+U\+S\+T\+M32\+F103\+R\+C, Olimexino, S\+T\+M32\+F3\+Discovery).
+\item Support for more than 8 R\+C channels -\/ (e.\+g. 16 Channels via Fr\+Sky X4\+R\+S\+B S\+Bus).
+\item Support for N-\/\+Position switches via flexible channel ranges -\/ not just 3 like baseflight or 3/6 in Multi\+Wii.
+\item Lux's new P\+I\+D (uses float values internally, resistant to looptime variation).
+\item Simultaneous Bluetooth configuration and O\+S\+D.
+\item Better P\+W\+M and P\+P\+M input and failsafe detection than baseflight.
+\item Better Fr\+Sky Telemetry than baseflight.
+\item L\+T\+M Telemetry.
+\item Smartport Telemetry.
+\item R\+S\+S\+I via A\+D\+C -\/ Uses A\+D\+C to read P\+W\+M R\+S\+S\+I signals, tested with Fr\+Sky D4\+R-\/\+I\+I and X8\+R.
+\item O\+L\+E\+D Displays -\/ Display information on\+: Battery voltage, profile, rate profile, version, sensors, R\+C, etc.
+\item In-\/flight manual P\+I\+D tuning and rate adjustment.
+\item Rate profiles and in-\/flight selection of them.
+\item Graupner P\+P\+M failsafe.
+\item Graupner Ho\+T\+T telemetry.
+\item Multiple simultaneous telemetry providers.
+\item Configurable serial ports for Serial R\+X, Telemetry, M\+S\+P, G\+P\+S -\/ Use most devices on any port, softserial too.
+\item And many more minor bug fixes.
+\end{DoxyItemize}
+
+Ninjaflight also supports\+:
+
+
+\begin{DoxyItemize}
+\item S\+I\+T\+L simulation support
+\item Tilted propeller racing drones with dynamic and static tilting. Throttle compensation and yaw/roll compensation is also supported.
+\end{DoxyItemize}
+
+\subsection*{Most popular supported boards}
+
+
+
+{\itshape N\+A\+Z\+E}
+
+
+
+{\itshape C\+J\+M\+C\+U}
+
+
+
+{\itshape C\+C3\+D}
+
+
+
+{\itshape D\+O\+D\+O}
+
+
+
+{\itshape Sparky}
+
+
+
+{\itshape S\+P\+Racing\+E\+V\+O}
+
+
+
+{\itshape S\+P\+Racing\+F3}
+
+
+
+{\itshape Colibri Race}
+
+
+
+{\itshape Lux Race}
+
+
+
+{\itshape Olimexino}
+
+\subsection*{Installation}
+
+See\+: \hyperlink{md_docs_Installation}{Installation.md}
+
+\subsection*{Documentation}
+
+See\+: \href{https://github.com/mkschreder/ninjaflight/tree/master/docs}{\tt docs folder}
+
+If what you need is not covered, check the \href{https://github.com/cleanflight/cleanflight/tree/master/docs}{\tt Cleanflight documentation}.
+
+In many ways currently ninjaflight works exactly like cleanflight so a lot of things are already covered by cleanflight documentation (although this may change as the project evolves).
+
+\subsection*{Configuration Tool}
+
+To configure Ninjaflight you can use the \href{https://chrome.google.com/webstore/detail/cleanflight-configurator/enacoimjcgeinfnnnpajinjgmkahmfgb}{\tt Cleanflight-\/configurator G\+U\+I tool} (Windows/\+O\+S\+X/\+Linux).
+
+The source for it is here\+:
+
+\href{https://github.com/cleanflight/cleanflight-configurator}{\tt https\+://github.\+com/cleanflight/cleanflight-\/configurator}
+
+\subsection*{Contributing}
+
+Contributions are welcome and encouraged. You can contribute in many ways\+:
+
+
+\begin{DoxyItemize}
+\item Documentation updates and corrections.
+\item How-\/\+To guides -\/ Received help? Help others!
+\item Bug fixes.
+\item New features.
+\item Telling us your ideas and suggestions.
+\end{DoxyItemize}
+
+The best place to start is the I\+R\+C channel on freenode (see above), drop in, say hi. Next place is the github issue tracker\+:
+
+\href{https://github.com/mkschreder/ninjaflight/issues}{\tt https\+://github.\+com/mkschreder/ninjaflight/issues}
+
+And also\+:
+
+\href{https://github.com/mkschreder/ninjaflight/issues}{\tt https\+://github.\+com/mkschreder/ninjaflight/issues} \href{https://github.com/cleanflight/cleanflight-configurator/issues}{\tt https\+://github.\+com/cleanflight/cleanflight-\/configurator/issues}
+
+Before creating new issues please check to see if there is an existing one, search first otherwise you waste peoples time when they could be coding instead!
+
+See C\+O\+N\+T\+R\+I\+B\+U\+T\+I\+N\+G.md
+
+\subsection*{Acknowlegements}
+
+Every single person who has contributed to this project over time (see A\+U\+T\+H\+O\+R\+S file). 

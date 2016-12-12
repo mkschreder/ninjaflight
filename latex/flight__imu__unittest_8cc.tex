@@ -1,0 +1,119 @@
+\hypertarget{flight__imu__unittest_8cc}{\section{src/test/unit/flight\+\_\+imu\+\_\+unittest.cc File Reference}
+\label{flight__imu__unittest_8cc}\index{src/test/unit/flight\+\_\+imu\+\_\+unittest.\+cc@{src/test/unit/flight\+\_\+imu\+\_\+unittest.\+cc}}
+}
+{\ttfamily \#include $<$stdint.\+h$>$}\\*
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include $<$platform.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}build\+\_\+config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}debug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/axis.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common/maths.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config/config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/sensor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/accgyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}drivers/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/gyro.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/compass.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/acceleration.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sensors/barometer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}rx/rx.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/mixer.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}flight/anglerate.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}unittest\+\_\+macros.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}gtest/gtest.\+h\char`\"{}}\\*
+Include dependency graph for flight\+\_\+imu\+\_\+unittest.\+cc\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__imu__unittest_8cc__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classFlightImuTest}{Flight\+Imu\+Test}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{flight__imu__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{B\+A\+R\+O}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{flight__imu__unittest_8cc_a5f1ab07634771914ecf9483760f14b1d}{input\+\_\+imu\+\_\+accel} (struct \hyperlink{structimu}{imu} $\ast$self, int16\+\_\+t x, int16\+\_\+t y, int16\+\_\+t \hyperlink{accelerometer_8h_ab3539ae3820541b70d17c66cfc5a0e3f}{z})
+\item 
+\hyperlink{flight__imu__unittest_8cc_a9b0aead5db7d9a8372ac0c68786b4f10}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classFlightImuTest}{Flight\+Imu\+Test}, Test\+Imu\+Level)
+\item 
+\hyperlink{flight__imu__unittest_8cc_a99bfdd1a546639f687abf49304d0d918}{T\+E\+S\+T\+\_\+\+F} (\hyperlink{classFlightImuTest}{Flight\+Imu\+Test}, Test\+Euler\+Angle\+Calculation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{flight__imu__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}{\index{flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}!B\+A\+R\+O@{B\+A\+R\+O}}
+\index{B\+A\+R\+O@{B\+A\+R\+O}!flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}}
+\subsubsection[{B\+A\+R\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+A\+R\+O}}\label{flight__imu__unittest_8cc_acebb671867b290dfde1982d31e9f1d75}
+
+
+\subsection{Function Documentation}
+\hypertarget{flight__imu__unittest_8cc_a5f1ab07634771914ecf9483760f14b1d}{\index{flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}!input\+\_\+imu\+\_\+accel@{input\+\_\+imu\+\_\+accel}}
+\index{input\+\_\+imu\+\_\+accel@{input\+\_\+imu\+\_\+accel}!flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}}
+\subsubsection[{input\+\_\+imu\+\_\+accel}]{\setlength{\rightskip}{0pt plus 5cm}void input\+\_\+imu\+\_\+accel (
+\begin{DoxyParamCaption}
+\item[{struct {\bf imu} $\ast$}]{self, }
+\item[{int16\+\_\+t}]{x, }
+\item[{int16\+\_\+t}]{y, }
+\item[{int16\+\_\+t}]{z}
+\end{DoxyParamCaption}
+)}}\label{flight__imu__unittest_8cc_a5f1ab07634771914ecf9483760f14b1d}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__imu__unittest_8cc_a5f1ab07634771914ecf9483760f14b1d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flight__imu__unittest_8cc_a9b0aead5db7d9a8372ac0c68786b4f10}{\index{flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Flight\+Imu\+Test}}]{, }
+\item[{Test\+Imu\+Level}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__imu__unittest_8cc_a9b0aead5db7d9a8372ac0c68786b4f10}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__imu__unittest_8cc_a9b0aead5db7d9a8372ac0c68786b4f10_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{flight__imu__unittest_8cc_a99bfdd1a546639f687abf49304d0d918}{\index{flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}!T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}}
+\index{T\+E\+S\+T\+\_\+\+F@{T\+E\+S\+T\+\_\+\+F}!flight\+\_\+imu\+\_\+unittest.\+cc@{flight\+\_\+imu\+\_\+unittest.\+cc}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F}]{\setlength{\rightskip}{0pt plus 5cm}T\+E\+S\+T\+\_\+\+F (
+\begin{DoxyParamCaption}
+\item[{{\bf Flight\+Imu\+Test}}]{, }
+\item[{Test\+Euler\+Angle\+Calculation}]{}
+\end{DoxyParamCaption}
+)}}\label{flight__imu__unittest_8cc_a99bfdd1a546639f687abf49304d0d918}
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{flight__imu__unittest_8cc_a99bfdd1a546639f687abf49304d0d918_cgraph}
+\end{center}
+\end{figure}
+
+

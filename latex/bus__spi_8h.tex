@@ -1,0 +1,92 @@
+\hypertarget{bus__spi_8h}{\section{src/main/drivers/bus\+\_\+spi.h File Reference}
+\label{bus__spi_8h}\index{src/main/drivers/bus\+\_\+spi.\+h@{src/main/drivers/bus\+\_\+spi.\+h}}
+}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{bus__spi_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{bus__spi_8h_a88b047919907faf538daaf87e0db63bd}{S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}~256
+\item 
+\#define \hyperlink{bus__spi_8h_a72f79967bee5f2891c432efacfdaccc7}{S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}~128
+\item 
+\#define \hyperlink{bus__spi_8h_a0a088c123da6352e8ddf16d59198cf3c}{S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}~2
+\item 
+\#define \hyperlink{bus__spi_8h_a1a0006c18dd438b39a8ab56eee0526c6}{S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}~4
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{bus__spi_8h_a07b9dca18c631bc392e8d39edbf6ed41}{spi\+Init} (S\+P\+I\+\_\+\+Type\+Def $\ast$instance)
+\item 
+void \hyperlink{bus__spi_8h_a20faff963e0c4f9e10bbdf9b228e7566}{spi\+Set\+Divisor} (S\+P\+I\+\_\+\+Type\+Def $\ast$instance, uint16\+\_\+t divisor)
+\item 
+uint8\+\_\+t \hyperlink{bus__spi_8h_a4af7154591225d4f8f712385159cd42b}{spi\+Transfer\+Byte} (S\+P\+I\+\_\+\+Type\+Def $\ast$instance, uint8\+\_\+t in)
+\item 
+bool \hyperlink{bus__spi_8h_a7ca5f9dfcec84b55a94bb2bd018ef832}{spi\+Is\+Bus\+Busy} (S\+P\+I\+\_\+\+Type\+Def $\ast$instance)
+\item 
+void \hyperlink{bus__spi_8h_a55be18cfbbb81f22c0eb9e8589af212d}{spi\+Transfer} (S\+P\+I\+\_\+\+Type\+Def $\ast$instance, uint8\+\_\+t $\ast$out, const uint8\+\_\+t $\ast$in, int len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{bus__spi_8h_a88b047919907faf538daaf87e0db63bd}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+P\+I\+\_\+0\+\_\+28125\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R~256}}\label{bus__spi_8h_a88b047919907faf538daaf87e0db63bd}
+\hypertarget{bus__spi_8h_a72f79967bee5f2891c432efacfdaccc7}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+P\+I\+\_\+0\+\_\+5625\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R~128}}\label{bus__spi_8h_a72f79967bee5f2891c432efacfdaccc7}
+\hypertarget{bus__spi_8h_a0a088c123da6352e8ddf16d59198cf3c}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+P\+I\+\_\+18\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R~2}}\label{bus__spi_8h_a0a088c123da6352e8ddf16d59198cf3c}
+\hypertarget{bus__spi_8h_a1a0006c18dd438b39a8ab56eee0526c6}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}}
+\index{S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R@{S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+P\+I\+\_\+9\+M\+H\+Z\+\_\+\+C\+L\+O\+C\+K\+\_\+\+D\+I\+V\+I\+D\+E\+R~4}}\label{bus__spi_8h_a1a0006c18dd438b39a8ab56eee0526c6}
+
+
+\subsection{Function Documentation}
+\hypertarget{bus__spi_8h_a07b9dca18c631bc392e8d39edbf6ed41}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!spi\+Init@{spi\+Init}}
+\index{spi\+Init@{spi\+Init}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{spi\+Init}]{\setlength{\rightskip}{0pt plus 5cm}bool spi\+Init (
+\begin{DoxyParamCaption}
+\item[{S\+P\+I\+\_\+\+Type\+Def $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{bus__spi_8h_a07b9dca18c631bc392e8d39edbf6ed41}
+\hypertarget{bus__spi_8h_a7ca5f9dfcec84b55a94bb2bd018ef832}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!spi\+Is\+Bus\+Busy@{spi\+Is\+Bus\+Busy}}
+\index{spi\+Is\+Bus\+Busy@{spi\+Is\+Bus\+Busy}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{spi\+Is\+Bus\+Busy}]{\setlength{\rightskip}{0pt plus 5cm}bool spi\+Is\+Bus\+Busy (
+\begin{DoxyParamCaption}
+\item[{S\+P\+I\+\_\+\+Type\+Def $\ast$}]{instance}
+\end{DoxyParamCaption}
+)}}\label{bus__spi_8h_a7ca5f9dfcec84b55a94bb2bd018ef832}
+Return true if the bus is currently in the middle of a transmission. \hypertarget{bus__spi_8h_a20faff963e0c4f9e10bbdf9b228e7566}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!spi\+Set\+Divisor@{spi\+Set\+Divisor}}
+\index{spi\+Set\+Divisor@{spi\+Set\+Divisor}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{spi\+Set\+Divisor}]{\setlength{\rightskip}{0pt plus 5cm}void spi\+Set\+Divisor (
+\begin{DoxyParamCaption}
+\item[{S\+P\+I\+\_\+\+Type\+Def $\ast$}]{instance, }
+\item[{uint16\+\_\+t}]{divisor}
+\end{DoxyParamCaption}
+)}}\label{bus__spi_8h_a20faff963e0c4f9e10bbdf9b228e7566}
+\hypertarget{bus__spi_8h_a55be18cfbbb81f22c0eb9e8589af212d}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!spi\+Transfer@{spi\+Transfer}}
+\index{spi\+Transfer@{spi\+Transfer}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{spi\+Transfer}]{\setlength{\rightskip}{0pt plus 5cm}void spi\+Transfer (
+\begin{DoxyParamCaption}
+\item[{S\+P\+I\+\_\+\+Type\+Def $\ast$}]{instance, }
+\item[{uint8\+\_\+t $\ast$}]{out, }
+\item[{const uint8\+\_\+t $\ast$}]{in, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{bus__spi_8h_a55be18cfbbb81f22c0eb9e8589af212d}
+\hypertarget{bus__spi_8h_a4af7154591225d4f8f712385159cd42b}{\index{bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}!spi\+Transfer\+Byte@{spi\+Transfer\+Byte}}
+\index{spi\+Transfer\+Byte@{spi\+Transfer\+Byte}!bus\+\_\+spi.\+h@{bus\+\_\+spi.\+h}}
+\subsubsection[{spi\+Transfer\+Byte}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t spi\+Transfer\+Byte (
+\begin{DoxyParamCaption}
+\item[{S\+P\+I\+\_\+\+Type\+Def $\ast$}]{instance, }
+\item[{uint8\+\_\+t}]{in}
+\end{DoxyParamCaption}
+)}}\label{bus__spi_8h_a4af7154591225d4f8f712385159cd42b}

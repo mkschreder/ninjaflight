@@ -1,0 +1,25 @@
+<map id="ninja_config_save_and_beep" name="ninja_config_save_and_beep">
+<area shape="rect" id="node2" href="$ninja__config_8c.html#a7dc50e32dc7a877406a5f3ef3e391a2b" title="ninja_config_save" alt="" coords="249,81,375,108"/>
+<area shape="rect" id="node8" href="$ninja__config_8c.html#aabfd19b204ae7745d3ae50ecf534b296" title="ninja_config_load" alt="" coords="251,233,373,260"/>
+<area shape="rect" id="node22" href="$beeper_8c.html#a4926e98046b69d6dc02f1d9f81980025" title="Initiates a sequence of multiple 20ms beeps with 200ms pauses. Does not block. " alt="" coords="243,372,381,399"/>
+<area shape="rect" id="node3" href="$rx_8c.html#a3053040ca606418044343cbc8c727a74" title="rx_suspend_signal" alt="" coords="445,56,576,83"/>
+<area shape="rect" id="node4" href="$config__eeprom_8c.html#a4123db04d7017b859648d5f8207b1e17" title="writeConfigToEEPROM" alt="" coords="430,5,591,32"/>
+<area shape="rect" id="node7" href="$rx_8c.html#ab5d5e106e91d4a1e84188ddd200a710e" title="rx_resume_signal" alt="" coords="449,107,573,133"/>
+<area shape="rect" id="node5" href="$config__eeprom_8c.html#a37615656b9ca65825c8b3460ea12df7a" title="isEEPROMContentValid" alt="" coords="647,56,812,83"/>
+<area shape="rect" id="node6" href="$config__eeprom_8c.html#a05cb66e5e70482d1fda1c99db4f7ffe5" title="scanEEPROM" alt="" coords="867,107,975,133"/>
+<area shape="rect" id="node9" href="$system_8c.html#aaaf9af1ec192ad8edc3573be55e1a92c" title="failureMode" alt="" coords="466,309,555,336"/>
+<area shape="rect" id="node18" href="$parameter__group_8c.html#aeb89721d6a6634822cce68a09611dc4a" title="pgActivateProfile" alt="" coords="450,360,571,387"/>
+<area shape="rect" id="node19" href="$profile_8c.html#a916eef060d83282b8e91fb753a3a9435" title="getCurrentProfile" alt="" coords="451,411,571,437"/>
+<area shape="rect" id="node20" href="$rc__adjustments_8c.html#a845700fdaa4dd902d95741b18e97833d" title="rc_adj_reset" alt="" coords="464,208,557,235"/>
+<area shape="rect" id="node21" href="$flight_2navigation_8h.html#a4e557f43f55c7b59cb4bd3749a7a0c88" title="gpsUsePIDs" alt="" coords="462,259,559,285"/>
+<area shape="rect" id="node10" href="$light__led_8h.html#a4a7f2ef4eb60c70033b51343c9e7075a" title="led_on" alt="" coords="699,309,759,336"/>
+<area shape="rect" id="node11" href="$light__led_8h.html#a853f476fe49866f93159854c5f1c8c10" title="led_off" alt="" coords="699,360,760,387"/>
+<area shape="rect" id="node12" href="$light__led_8h.html#a8b1dd741937a8c0d266cf2ab7986f525" title="led_toggle" alt="" coords="689,411,770,437"/>
+<area shape="rect" id="node13" href="$system_8c.html#afeebbaae62529ba54dc5e6b1e15602c2" title="usleep" alt="" coords="699,208,759,235"/>
+<area shape="rect" id="node15" href="$system_8h.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="679,259,779,285"/>
+<area shape="rect" id="node16" href="$system_8h.html#a0be99ee90fcb1948837fba48e0e42081" title="systemResetToBootloader" alt="" coords="641,461,818,488"/>
+<area shape="rect" id="node14" href="$system_8c.html#af543edc4b91ee97e556de2f0bbc709ad" title="micros" alt="" coords="891,208,952,235"/>
+<area shape="rect" id="node17" href="$system__stm32f10x_8c.html#a6c693c89b8019cdd21599d1baa6b0434" title="systemReset" alt="" coords="871,461,971,488"/>
+<area shape="rect" id="node23" href="$beeper_8c.html#a989c9cfd38525653c07fb4e1e47b62cf" title="Puts beeper into a new beep state. " alt="" coords="463,487,558,513"/>
+<area shape="rect" id="node24" href="$beeper_8c.html#ab0f04a4c38ec3a3a5905e2bcbfc54265" title="Aborts current beeper function. " alt="" coords="683,512,776,539"/>
+</map>
