@@ -118,7 +118,7 @@ struct blackbox {
 	// Cache for FLIGHT_LOG_FIELD_CONDITION_* test results:
 	uint32_t blackboxConditionCache;
 
-	const struct config const *config;
+	const struct config *config;
 };
 
 void blackbox_init(struct blackbox *self, struct ninja *owner, const struct config * config);

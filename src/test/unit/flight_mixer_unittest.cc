@@ -169,7 +169,7 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 	resetRX();
 
 	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
-	EXPECT_EQ(0, mixer_get_servo_count(&mixer));
+	EXPECT_EQ(1, mixer_get_servo_count(&mixer));
 
 	mixer_input_command(&mixer, MIXER_INPUT_G0_ROLL, 0);
 	mixer_input_command(&mixer, MIXER_INPUT_G0_PITCH, 0);
@@ -289,6 +289,8 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
  * configuration rules.
  */
 TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
+	_init_mixer_defaults(MIXER_QUADP);
+
 	// center all servos
 	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX1, 0);
 	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX2, 0);
@@ -335,7 +337,7 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 
 	// we have 4 motors and 0 managed servos
 	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
-	EXPECT_EQ(0, mixer_get_servo_count(&mixer));
+	EXPECT_EQ(1, mixer_get_servo_count(&mixer));
 
 	mixer_enable_armed(&mixer, true);
 
@@ -435,7 +437,7 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 
 	// we have 4 motors and 0 managed servos
 	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
-	EXPECT_EQ(0, mixer_get_servo_count(&mixer));
+	EXPECT_EQ(1, mixer_get_servo_count(&mixer));
 
 	mixer_enable_armed(&mixer, true);
 

@@ -617,6 +617,9 @@ void mixer_init(struct mixer *self, const struct config const *config, const str
 	mixer_set_throttle_range(self, 1500,
 		self->config->pwm_out.minthrottle,
 		self->config->pwm_out.maxthrottle);
+
+	// load preset from config
+	_load_preset(self, self->config->mixer.mixerMode);
 }
 
 #if 0

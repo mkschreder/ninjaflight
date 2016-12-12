@@ -40,10 +40,19 @@ extern uint16_t mock_eeprom_pages;
 extern uint16_t mock_eeprom_page_size;
 extern uint8_t mock_eeprom_erase_byte;
 extern char mock_eeprom_data[];
+extern int32_t mock_time_micros;
+extern bool mock_beeper_is_on;
 
 struct system_calls;
 const struct system_calls *mock_syscalls();
 void mock_system_reset();
 void mock_eeprom_erase();
+
+typedef enum {
+	MOCK_CLOCK_REALTIME,
+	MOCK_CLOCK_MANUAL
+} mock_clock_mode_t;
+
+void mock_system_clock_mode(mock_clock_mode_t mode);
 
 #define UNUSED(x) (void)(x)

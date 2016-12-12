@@ -254,11 +254,10 @@ bool beeper_start(struct beeper *self, beeper_command_t mode){
 		return false;
 	}
 
+	beeper_stop(self);
+
 	self->cur_entry = selectedCandidate;
 	self->entry_pos = 0;
-
-	// reset the state machine
-	PT_INIT(&self->state);
 
 	return true;
 }
@@ -284,8 +283,12 @@ static PT_THREAD(_beeper_fsm(struct beeper *self)){
 			while(self->cur_entry->sequence[self->entry_pos] != BEEPER_COMMAND_STOP){
 				if(self->entry_pos % 2 == 0) sys_beeper_on(self->system);
 				else sys_beeper_off(self->system);
-				self->timeout = sys_millis(self->system) + self->cur_entry->sequence[self->entry_pos] * 10;
-				PT_WAIT_UNTIL(&self->state, sys_millis(self->system) > self->timeout);
+				// NOTE: the total timing of the beeper will lag in this case.
+				// We probably want it though (another approach would be to
+				// record start time and then compute all timing based on that)
+				self->timeout = sys_millis(self->system) +
+					((int32_t)self->cur_entry->sequence[self->entry_pos]) * 10;
+				PT_WAIT_UNTIL(&self->state, sys_millis(self->system) >= self->timeout);
 				self->entry_pos++;
 			}
 			self->cur_entry = NULL;
@@ -296,12 +299,14 @@ static PT_THREAD(_beeper_fsm(struct beeper *self)){
 		//printf("beep: %c\n", ch);
 		//fflush(stdout);
 		int idx = 0;
-		if(isdigit(ch)) idx = ('Z' - 'A') + (ch - '0');
-		else if(ch >= 'A' && ch <= 'Z') idx = ch - 'A';
+		if(isdigit(ch))
+			idx = ('Z' - 'A') + (ch - '0') + 1; // +1 is important because first part will end us up on Z
+		else if(ch >= 'A' && ch <= 'Z')
+			idx = ch - 'A';
 		else if(ch == ' '){
 			// do a word pause and continue
 			self->timeout = sys_millis(self->system) + MORSE_WORD_PAUSE;
-			PT_WAIT_UNTIL(&self->state, self->timeout < sys_millis(self->system));
+			PT_WAIT_UNTIL(&self->state, sys_millis(self->system) >= self->timeout);
 			continue;
 		} else {
 			// unknown character: skip
@@ -310,19 +315,23 @@ static PT_THREAD(_beeper_fsm(struct beeper *self)){
 		self->cur_letter = &morse_letters[idx];
 		self->part_idx = 0;
 		while(self->cur_letter->code[self->part_idx] != MEND){
-			uint8_t part = self->cur_letter->code[self->part_idx];
+			uint8_t part = self->cur_letter->code[self->part_idx++];
 			if(part == MDA) self->timeout = sys_millis(self->system) + MORSE_DASH_LENGTH;
 			else if(part == MDI) self->timeout = sys_millis(self->system) + MORSE_DOT_LENGTH;
 			// turn on the beeper and wait for the timeout
 			sys_beeper_on(self->system);
-			PT_WAIT_UNTIL(&self->state, sys_millis(self->system) > self->timeout);
+			PT_WAIT_UNTIL(&self->state, sys_millis(self->system) >= self->timeout);
 			sys_beeper_off(self->system);
-			self->timeout = sys_millis(self->system) + MORSE_PART_PAUSE;
-			PT_WAIT_UNTIL(&self->state, sys_millis(self->system) > self->timeout);
-			self->part_idx++;
+			// we should not insert pause if we have transmitted last element (thanks to unit tests!)
+			if(self->cur_letter->code[self->part_idx] == MEND) break;
+			else {
+				// insert pause between parts of a letter
+				self->timeout = sys_millis(self->system) + MORSE_PART_PAUSE;
+				PT_WAIT_UNTIL(&self->state, sys_millis(self->system) >= self->timeout);
+			}
 		}
 		self->timeout = sys_millis(self->system) + MORSE_LETTER_PAUSE;
-		PT_WAIT_UNTIL(&self->state, sys_millis(self->system) > self->timeout);
+		PT_WAIT_UNTIL(&self->state, sys_millis(self->system) >= self->timeout);
 	}
 	PT_END(&self->state);
 }

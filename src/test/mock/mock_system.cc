@@ -25,6 +25,8 @@ extern "C" {
 
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+#include "unittest_macros.h"
 
 uint16_t mock_motor_pwm[8];
 uint16_t mock_servo_pwm[8];
@@ -36,10 +38,18 @@ uint32_t mock_eeprom_written = 0;
 uint16_t mock_eeprom_pages = 2;
 uint16_t mock_eeprom_page_size = 512;
 uint8_t mock_eeprom_erase_byte = 0xff;
+static bool mock_clock_manual = false;
+int32_t mock_time_micros = 0;
+bool mock_beeper_is_on = false;
 
 #define MOCK_EEPROM_MAX_SIZE 4096
 
 char mock_eeprom_data[MOCK_EEPROM_MAX_SIZE];
+
+void mock_system_clock_mode(mock_clock_mode_t mode){
+	if(mode == MOCK_CLOCK_MANUAL) mock_clock_manual = true;
+	else mock_clock_manual = false;
+}
 
 void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
 	(void)pwm;
@@ -69,15 +79,18 @@ uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 	return mock_rc_pwm[id];
 }
 
-#include <string.h>
 static int32_t _micros(const struct system_calls_time *time){
 	(void)time;
-	struct timespec ts;
-	static struct timespec start_ts = {0, 0};
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	if(start_ts.tv_sec == 0) memcpy(&start_ts, &ts, sizeof(start_ts));
-	int32_t t = (ts.tv_sec - start_ts.tv_sec) * 1000000 + ts.tv_nsec / 1000;
-	//printf("read time: %d\n", t);
+	int32_t t = 0;
+	if(mock_clock_manual) t = mock_time_micros;
+	else {
+		struct timespec ts;
+		static struct timespec start_ts = {0, 0};
+		clock_gettime(CLOCK_MONOTONIC, &ts);
+		if(start_ts.tv_sec == 0) memcpy(&start_ts, &ts, sizeof(start_ts));
+		t = (ts.tv_sec - start_ts.tv_sec) * 1000000 + ts.tv_nsec / 1000;
+	}
+	//printf("time: %d\n", t);
 	return t;
 }
 
@@ -97,6 +110,18 @@ static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	return 0;
 }
 
+static int _read_pressure(const struct system_calls_imu *self, uint16_t *out) {
+	(void)self;
+	*out = 0;
+	return 0;
+}
+
+static int _read_temperature(const struct system_calls_imu *self, uint16_t *out){
+	(void)self;
+	*out = 0;
+	return 0;
+}
+
 static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
 	(void)leds;
 	printf("led %d %s\n", id, (on)?"on":"off");
@@ -111,8 +136,9 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 
 static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 	(void)beeper;
-	printf("beeper %s\n", (on)?"on":"off");
-	fflush(stdout);
+	mock_beeper_is_on = on;
+	//printf("beeper %s\n", (on)?"on":"off");
+	//fflush(stdout);
 }
 
 static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
@@ -167,6 +193,13 @@ static void _eeprom_get_info(const struct system_calls_eeprom *self, struct syst
 	info->num_pages = mock_eeprom_pages;
 }
 
+static int _read_range(const struct system_calls_range *self, uint16_t deg, uint16_t *range){
+	(void) self;
+	(void) deg;
+	*range = 0;
+	return 0;
+}
+
 static const struct system_calls syscalls {
 	.pwm = {
 		.write_motor = _write_motor,
@@ -176,7 +209,9 @@ static const struct system_calls syscalls {
 	},
 	.imu = {
 		.read_gyro = _read_gyro,
-		.read_acc = _read_acc
+		.read_acc = _read_acc,
+		.read_pressure = _read_pressure,
+		.read_temperature = _read_temperature
 	},
 	.leds = {
 		.on = _led_on,
@@ -193,6 +228,9 @@ static const struct system_calls syscalls {
 		.write = _eeprom_write,
 		.erase_page = _eeprom_erase_page,
 		.get_info = _eeprom_get_info
+	},
+	.range = {
+		.read_range = _read_range
 	}
 };
 
@@ -219,6 +257,7 @@ void mock_system_reset(){
 	memset(mock_eeprom_data, mock_eeprom_erase_byte, sizeof(mock_eeprom_data));
 	mock_pwm_errors = 0;
 	mock_eeprom_written = 0;
+	mock_time_micros = 0;
 }
 
 #include "unittest_macros.h"

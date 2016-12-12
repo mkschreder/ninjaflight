@@ -104,27 +104,22 @@ TEST(InsUnitTest, TestAccCalibration){
     config.imu.small_angle = 25;
     config.imu.max_angle_inclination = 500;
 
-	const int acc_1G = 1234; // we try a different 1G acc here so we can see what happens
-
 	// set zero such that we are tilten in roll 10 deg
 	int16_t zx = 0;
-	int16_t zy = sin(10 * RAD) * acc_1G;
-	int16_t zz = cos(10 * RAD) * acc_1G;
+	int16_t zy = sin(10 * RAD) * SYSTEM_ACC_1G;
+	int16_t zz = cos(10 * RAD) * SYSTEM_ACC_1G;
 
 	ins_init(&ins, &config);
 
-	ins_set_gyro_scale(&ins, 1.0f/16.4f);
-	ins_set_acc_scale(&ins, acc_1G);
-
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(acc_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
 
 	ins_reset_imu(&ins);
 	ins_start_acc_calibration(&ins);
 	EXPECT_EQ(false, ins_is_calibrated(&ins));
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, zx, zy, zz + acc_1G);
+		ins_process_acc(&ins, zx, zy, zz + SYSTEM_ACC_1G);
 		ins_process_gyro(&ins, 0, 0, 0);
 		ins_update(&ins, 0.001);
 	}
@@ -132,12 +127,12 @@ TEST(InsUnitTest, TestAccCalibration){
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(acc_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
 
 	// test a few variations of the acceleration vector to make sure we get correct results
-	input_accel(&ins, zx + acc_1G, zy, zz);
+	input_accel(&ins, zx + SYSTEM_ACC_1G, zy, zz);
 
-	EXPECT_EQ(acc_1G, ins_get_acc_x(&ins));
+	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
 	EXPECT_EQ(0, ins_get_acc_z(&ins));
 
@@ -145,7 +140,7 @@ TEST(InsUnitTest, TestAccCalibration){
     EXPECT_EQ(-900, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-	int16_t tv = sin(45.0f * RAD) * acc_1G;
+	int16_t tv = sin(45.0f * RAD) * SYSTEM_ACC_1G;
     input_accel(&ins, zx + tv, zy, zz + tv);
 
 	EXPECT_EQ(tv, ins_get_acc_x(&ins));
@@ -172,8 +167,8 @@ TEST(InsUnitTest, TestAccCalibration){
     EXPECT_EQ(724, ins_get_acc_y(&ins));
     EXPECT_EQ(724, ins_get_acc_z(&ins));
 
-	// note, since this is not 1G value, we expect 0 angles
-    EXPECT_EQ(0, ins_get_roll_dd(&ins));
+	// this is now 45 deg since we have standardized acc_1G
+    EXPECT_EQ(450, ins_get_roll_dd(&ins));
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
@@ -191,17 +186,11 @@ TEST(InsUnitTest, TestGyroCalibration){
     config.imu.small_angle = 25;
     config.imu.max_angle_inclination = 500;
 
-	const int acc_1G = 1234; // we try a different 1G acc here so we can see what happens
-
-
 	ins_init(&ins, &config);
-
-	ins_set_gyro_scale(&ins, 1.0f/16.4f);
-	ins_set_acc_scale(&ins, acc_1G);
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(acc_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
 
 	ins_reset_imu(&ins);
 	ins_start_gyro_calibration(&ins);
@@ -215,7 +204,7 @@ TEST(InsUnitTest, TestGyroCalibration){
 	// set move threshold deviation to 50 ( with ns = 300 the deviation will be around 90)
 	config.gyro.move_threshold = 50;
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, 0, 0, acc_1G);
+		ins_process_acc(&ins, 0, 0, SYSTEM_ACC_1G);
 		ins_process_gyro(&ins, rand() % ns, rand() % ns, rand() % ns);
 		ins_update(&ins, 0.001);
 	}
@@ -227,7 +216,7 @@ TEST(InsUnitTest, TestGyroCalibration){
 	// now set ns to 100 and recalibrate (now deviation will be around 30)
 	ns = 100;
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, 0, 0, acc_1G);
+		ins_process_acc(&ins, 0, 0, SYSTEM_ACC_1G);
 		ins_process_gyro(&ins, rand() % ns, rand() % ns, rand() % ns);
 		ins_update(&ins, 0.001);
 	}
@@ -262,9 +251,6 @@ TEST(InsUnitTest, TestGyroIntegration){
 	config.gyro.soft_gyro_lpf_hz = 500;
 
 	ins_init(&ins, &config);
-
-	ins_set_gyro_scale(&ins, 1.0f/16.4f);
-	ins_set_acc_scale(&ins, 1024);
 
 	// simulate calibration
 	ins_reset_imu(&ins);
@@ -348,9 +334,6 @@ TEST(InsUnitTest, TestEulerAngleCalculation){
 
 	ins_init(&ins, &config);
 
-	ins_set_gyro_scale(&ins, 1.0f/16.4f);
-	ins_set_acc_scale(&ins, 1024);
-
 	// simulate calibration
 	for(int c = 0; c < 1000; c++){
 		input_accel(&ins, 0, 0, 1024);
@@ -406,9 +389,6 @@ TEST(InsUnitTest, TestMagYawAngleCalculation){
 	reset_trims();
 
 	ins_init(&ins, &config);
-
-	ins_set_gyro_scale(&ins, 1.0f/16.4f);
-	ins_set_acc_scale(&ins, 1024);
 
 	// simulate calibration
 	int16_t zx = 124, zy = -150, zz = 34;

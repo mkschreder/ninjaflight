@@ -55,6 +55,11 @@ void ins_acc_init(struct ins_acc *self, const struct sensor_trims_config *trims,
 	self->calibratingA = 0; // do not calibrate by default since this can lead to weird effects
 	self->config = config;
 	memcpy(&self->trims, trims, sizeof(self->trims));
+
+	self->accADC[X] = 0;
+	self->accADC[Y] = 0;
+	self->accADC[Z] = SYSTEM_ACC_1G;
+
 }
 
 #if 0
