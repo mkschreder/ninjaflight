@@ -324,6 +324,8 @@ static uint32_t packFlightModeFlags(struct msp *self)
 	*/
 	if(rc_key_state(&self->ninja->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) boxEnabledMask |= (1 << BOXANGLE);
 	if(rc_key_state(&self->ninja->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED) boxEnabledMask |= (1 << BOXHORIZON);
+	if(rc_key_state(&self->ninja->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED) boxEnabledMask |= (1 << BOXBEEPERON);
+
 /*
     // enable BOXes dependent on rcMode bits, indexes are the same.
     // only subset of BOXes depend on rcMode, use mask to mark them

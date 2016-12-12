@@ -84,6 +84,7 @@ static bool _range_is_active(struct rc *self, uint8_t auxChannelIndex, const cha
 			&& channelValue < MODE_STEP_TO_CHANNEL_VALUE(range->endStep));
 }
 
+#include <stdio.h>
 static uint32_t _update_boxes(struct rc *self, const struct rc_func_range *modeActivationConditions){
 	uint32_t newRcModeMask = 0;
 
@@ -99,7 +100,7 @@ static uint32_t _update_boxes(struct rc *self, const struct rc_func_range *modeA
 }
 
 static bool _box_active(struct rc *self, boxId_e box){
-	return !!(self->boxes & box) && (self->range_mask & box);
+	return !!(self->boxes & (1 << box)) && (self->range_mask & (1 << box));
 }
 
 static void _key_down(struct rc *self, rc_key_t key){
@@ -140,6 +141,7 @@ void rc_update(struct rc *self){
 	if(_box_active(self, BOXARM)) _key_down(self, RC_KEY_FUNC_ARM);
 	if(_box_active(self, BOXANGLE)) _key_down(self, RC_KEY_FUNC_LEVEL);
 	if(_box_active(self, BOXHORIZON)) _key_down(self, RC_KEY_FUNC_BLEND);
+	if(_box_active(self, BOXBEEPERON)) _key_down(self, RC_KEY_FUNC_BEEPER);
 
 	// compare the old mask to the new mask and fire the events
 	for(int c = 0; c < RC_NUM_KEYS; c++){

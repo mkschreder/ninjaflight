@@ -100,7 +100,7 @@ typedef enum {
 	MIXER_INPUT_G0_PITCH,		//!< flight control angular rate for y axis
 	MIXER_INPUT_G0_YAW,			//!< flight control angular rate for z axis
 	MIXER_INPUT_G0_THROTTLE,	//!< flight control throttle
-	MIXER_INPUT_G0_FLAPS,		//!< flight control flaps
+	MIXER_INPUT_G0_TILT_PITCH,	//!< flight control tilt pitch
 	MIXER_INPUT_G0_SPOILERS,	//!< flight control spoilers
 	MIXER_INPUT_G0_AIRBREAKS,	//!< flight control airbreaks
 	MIXER_INPUT_G0_LANDINGGEAR, //!< flight control landing gear

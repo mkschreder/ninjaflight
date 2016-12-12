@@ -428,6 +428,7 @@ static void _run_control_loop(struct ninja *self){
 	roll = (yawCompensationInv + rollCompensation);
 	yaw = -(yawCompensation + rollCompensationInv);
 */
+/*
 	uint16_t a, b, c, d;
 	const struct system_calls *sys = self->system;
 	sys_range_read(sys, 0, &a);
@@ -438,6 +439,7 @@ static void _run_control_loop(struct ninja *self){
 	if(a < 180) pitch += 50;
 	if(d < 180) roll -= 50;
 	if(c < 180) roll += 50;
+	*/
 	//printf("range: %d %d %d %d %d\n", a, b, c, d, pitch);
 
 	anglerate_input_user(&self->ctrl, roll, pitch, yaw);
@@ -664,6 +666,11 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	_fsm_arming(self);
 
 	_fsm_controller(self);
+
+	// handle emergency beeper
+	if(rc_key_state(&self->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED){
+		beeper_start(&self->beeper, BEEPER_RX_SET);
+	}
 }
 
 /**

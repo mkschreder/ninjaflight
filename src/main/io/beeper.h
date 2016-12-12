@@ -36,7 +36,7 @@
 
 typedef enum {
     // IMPORTANT: these are in priority order, 0 = Highest
-    BEEPER_SILENCE = 0,             //!< Silence, see beeperSilence()
+    BEEPER_NONE = 0,             //!< Silence, see beeperSilence()
     BEEPER_GYRO_CALIBRATED,
     BEEPER_RX_LOST_LANDING,         //!< Beeps SOS when armed and TX is turned off or signal lost (autolanding/autodisarm)
     BEEPER_RX_LOST,                 //!< Beeps when TX is turned off or signal lost (repeat until TX is okay)
@@ -47,24 +47,30 @@ typedef enum {
     BEEPER_BAT_LOW,                 //!< Warning beeps when battery is getting low (repeats)
     BEEPER_GPS_STATUS,				//!< Beep used for indicating changed gps status (such as sattelites being aquired)
     BEEPER_RX_SET,                  //!< Beeps when aux channel is set for beep or beep sequence how many satellites has found if GPS enabled
+	BEEPER_MULTI_BEEPS,				//!< multiple 20ms beeps
     BEEPER_DISARM_REPEAT,           //!< Beeps sounded while stick held in disarm position
     BEEPER_ACC_CALIBRATION,         //!< ACC inflight calibration completed confirmation
     BEEPER_ACC_CALIBRATION_FAIL,    //!< ACC inflight calibration failed
     BEEPER_READY_BEEP,              //!< Ring a tone when GPS is locked and ready
     BEEPER_ARMED,                   //!< Warning beeps when board is armed (repeats until board is disarmed or throttle is increased)
+	BEEPER_MORSE,					//!< use the morse buffer to telegraph text
 } beeper_command_t;
 
-typedef struct beeperTableEntry_s {
+struct beeper_entry {
     uint8_t mode;
     uint8_t priority; // 0 = Highest
     const uint8_t *sequence;
 #ifdef BEEPER_NAMES
     const char *name;
 #endif
-} beeperTableEntry_t;
+} ;
 
 struct morse_letter;
 struct beeper {
+	int entry_pos;
+	const struct beeper_entry *cur_entry;
+	int multibeeps;
+
 	struct pt state;
 	struct cbuf buffer;
 	char buffer_data[16];
@@ -81,7 +87,7 @@ void beeper_init(struct beeper *self, const struct system_calls *system);
 //! Write any text to the beeper (will be sent as morse)
 void beeper_write(struct beeper *self, const char *text);
 //! Puts beeper into a new beep state
-void beeper_start(struct beeper *self, beeper_command_t cmd);
+bool beeper_start(struct beeper *self, beeper_command_t cmd);
 //! Aborts current beeper function
 void beeper_stop(struct beeper *self);
 //! Updates beeper state

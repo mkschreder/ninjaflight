@@ -49,9 +49,9 @@
 #define BEEPER_COMMAND_STOP   0xFF
 
 enum {
+	MEND,
 	MDA,
-	MDI,
-	MEND
+	MDI
 };
 
 struct morse_letter {
@@ -99,6 +99,102 @@ static const struct morse_letter morse_letters[] = {
 	{ '9', { MDA, MDA, MDA, MDA, MDI, MEND }},
 };
 
+#define BEEPER_COMMAND_REPEAT 0xFE
+#define BEEPER_COMMAND_STOP   0xFF
+
+/* Beeper Sound Sequences: (Square wave generation)
+ * Sequence must end with 0xFF or 0xFE. 0xFE repeats the sequence from
+ * start when 0xFF stops the sound when it's completed.
+ *
+ * "Sound" Sequences are made so that 1st, 3rd, 5th.. are the delays how
+ * long the beeper is on and 2nd, 4th, 6th.. are the delays how long beeper
+ * is off. Delays are in milliseconds/10 (i.e., 5 => 50ms).
+ */
+// short fast beep
+static const uint8_t beep_shortBeep[] = {
+    10, 10, BEEPER_COMMAND_STOP
+};
+// arming beep
+static const uint8_t beep_armingBeep[] = {
+    30, 5, 5, 5, BEEPER_COMMAND_STOP
+};
+// armed beep (first pause, then short beep)
+static const uint8_t beep_armedBeep[] = {
+    0, 245, 10, 5, BEEPER_COMMAND_STOP
+};
+// disarming beeps
+static const uint8_t beep_disarmBeep[] = {
+    15, 5, 15, 5, BEEPER_COMMAND_STOP
+};
+// beeps while stick held in disarm position (after pause)
+static const uint8_t beep_disarmRepeatBeep[] = {
+    0, 100, 10, BEEPER_COMMAND_STOP
+};
+// Long beep and pause after that
+static const uint8_t beep_lowBatteryBeep[] = {
+    25, 50, BEEPER_COMMAND_STOP
+};
+// critical battery beep
+static const uint8_t beep_critBatteryBeep[] = {
+    50, 2, BEEPER_COMMAND_STOP
+};
+
+// transmitter-signal-lost tone
+static const uint8_t beep_txLostBeep[] = {
+    50, 50, BEEPER_COMMAND_STOP
+};
+// SOS morse code:
+static const uint8_t beep_sos[] = {
+    10, 10, 10, 10, 10, 40, 40, 10, 40, 10, 40, 40, 10, 10, 10, 10, 10, 70, BEEPER_COMMAND_STOP
+};
+// Arming when GPS is fixed
+static const uint8_t beep_armedGpsFix[] = {
+    5, 5, 15, 5, 5, 5, 15, 30, BEEPER_COMMAND_STOP
+};
+// Ready beeps. When gps has fix and copter is ready to fly.
+static const uint8_t beep_readyBeep[] = {
+    4, 5, 4, 5, 8, 5, 15, 5, 8, 5, 4, 5, 4, 5, BEEPER_COMMAND_STOP
+};
+// 2 fast short beeps
+static const uint8_t beep_2shortBeeps[] = {
+    5, 5, 5, 5, BEEPER_COMMAND_STOP
+};
+// 2 longer beeps
+static const uint8_t beep_2longerBeeps[] = {
+    20, 15, 35, 5, BEEPER_COMMAND_STOP
+};
+// 3 beeps
+static const uint8_t beep_gyroCalibrated[] = {
+    20, 10, 20, 10, 20, 10, BEEPER_COMMAND_STOP
+};
+
+#ifdef BEEPER_NAMES
+#define BEEPER_ENTRY(a,b,c,d) a,b,c,d
+#else
+#define BEEPER_ENTRY(a,b,c,d) a,b,c
+#endif
+
+static const struct beeper_entry beeperTable[] = {
+    { BEEPER_ENTRY(BEEPER_GYRO_CALIBRATED,       0, beep_gyroCalibrated,   "GYRO_CALIBRATED") },
+    { BEEPER_ENTRY(BEEPER_RX_LOST_LANDING,       1, beep_sos,              "RX_LOST_LANDING") },
+    { BEEPER_ENTRY(BEEPER_RX_LOST,               2, beep_txLostBeep,       "RX_LOST") },
+    { BEEPER_ENTRY(BEEPER_DISARMING,             3, beep_disarmBeep,       "DISARMING") },
+    { BEEPER_ENTRY(BEEPER_ARMING,                4, beep_armingBeep,       "ARMING")  },
+    { BEEPER_ENTRY(BEEPER_ARMING_GPS_FIX,        5, beep_armedGpsFix,      "ARMING_GPS_FIX") },
+    { BEEPER_ENTRY(BEEPER_BAT_CRIT_LOW,          6, beep_critBatteryBeep,  "BAT_CRIT_LOW") },
+    { BEEPER_ENTRY(BEEPER_BAT_LOW,               7, beep_lowBatteryBeep,   "BAT_LOW") },
+    { BEEPER_ENTRY(BEEPER_RX_SET,                9, beep_shortBeep,        "RX_SET") },
+    { BEEPER_ENTRY(BEEPER_ACC_CALIBRATION,       10, beep_2shortBeeps,     "ACC_CALIBRATION") },
+    { BEEPER_ENTRY(BEEPER_ACC_CALIBRATION_FAIL,  11, beep_2longerBeeps,    "ACC_CALIBRATION_FAIL") },
+    { BEEPER_ENTRY(BEEPER_READY_BEEP,            12, beep_readyBeep,       "READY_BEEP") },
+    { BEEPER_ENTRY(BEEPER_MULTI_BEEPS,           13, NULL,      "MULTIBEEP") }, // FIXME having this listed makes no sense since the beep array will not be initialised.
+    { BEEPER_ENTRY(BEEPER_DISARM_REPEAT,         14, beep_disarmRepeatBeep, "DISARM_REPEAT") },
+    { BEEPER_ENTRY(BEEPER_ARMED,                 15, beep_armedBeep,       "ARMED") },
+    { BEEPER_ENTRY(BEEPER_MORSE,                 16, NULL,       "MORSE") },
+};
+
+#define BEEPER_TABLE_ENTRY_COUNT (sizeof(beeperTable) / sizeof(beeperTable[0]))
+
 void beeper_init(struct beeper *self, const struct system_calls *system){
 	memset(self, 0, sizeof(*self));
 	self->system = system;
@@ -110,12 +206,8 @@ void beeper_init(struct beeper *self, const struct system_calls *system){
  * Called to activate/deactivate beeper, using the given "BEEPER_..." value.
  * This function returns immediately (does not block).
  */
-void beeper_start(struct beeper *self, beeper_command_t mode){
-	if (mode == BEEPER_SILENCE) {
-		beeper_stop(self);
-		return;
-	}
-
+bool beeper_start(struct beeper *self, beeper_command_t mode){
+/*
 	const char *text = NULL;
 
 	switch(mode){
@@ -139,22 +231,19 @@ void beeper_start(struct beeper *self, beeper_command_t mode){
 	}
 	if(text)
 		cbuf_write(&self->buffer, text, strlen(text));
-	
-	// TODO: do we need priority?
-	/*
-	const beeperTableEntry_t *selectedCandidate = NULL;
+*/
+	const struct beeper_entry *selectedCandidate = NULL;
 	for (uint32_t i = 0; i < BEEPER_TABLE_ENTRY_COUNT; i++) {
-		const beeperTableEntry_t *candidate = &beeperTable[i];
-		if (candidate->mode != mode) {
+		const struct beeper_entry *candidate = &beeperTable[i];
+		if (candidate->mode != mode)
 			continue;
-		}
 
-		if (!self->currentBeeperEntry) {
+		if (!self->cur_entry) {
 			selectedCandidate = candidate;
 			break;
 		}
 
-		if (candidate->priority < self->currentBeeperEntry->priority) {
+		if (candidate->priority < self->cur_entry->priority) {
 			selectedCandidate = candidate;
 		}
 
@@ -162,14 +251,16 @@ void beeper_start(struct beeper *self, beeper_command_t mode){
 	}
 
 	if (!selectedCandidate) {
-		return;
+		return false;
 	}
 
-	self->currentBeeperEntry = selectedCandidate;
+	self->cur_entry = selectedCandidate;
+	self->entry_pos = 0;
 
-	self->beeperPos = 0;
-	self->beeperNextToggleTime = 0;
-	*/
+	// reset the state machine
+	PT_INIT(&self->state);
+
+	return true;
 }
 
 void beeper_write(struct beeper *self, const char *text){
@@ -189,6 +280,17 @@ void beeper_stop(struct beeper *self){
 static PT_THREAD(_beeper_fsm(struct beeper *self)){
 	PT_BEGIN(&self->state);
 	while(true){
+		if(self->cur_entry){
+			while(self->cur_entry->sequence[self->entry_pos] != BEEPER_COMMAND_STOP){
+				if(self->entry_pos % 2 == 0) sys_beeper_on(self->system);
+				else sys_beeper_off(self->system);
+				self->timeout = sys_millis(self->system) + self->cur_entry->sequence[self->entry_pos] * 10;
+				PT_WAIT_UNTIL(&self->state, sys_millis(self->system) > self->timeout);
+				self->entry_pos++;
+			}
+			self->cur_entry = NULL;
+		}
+		// wait until morse code
 		PT_WAIT_UNTIL(&self->state, cbuf_cnt(&self->buffer) > 0);
 		uint8_t ch = toupper(cbuf_get(&self->buffer) & 0xff);
 		//printf("beep: %c\n", ch);
