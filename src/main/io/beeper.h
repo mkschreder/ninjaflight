@@ -18,6 +18,9 @@
 #pragma once
 
 #include "system_calls.h"
+#include "common/pt.h"
+
+#include "utype/cbuf.h"
 
 /**
  * @defgroup BEEPER Beeper
@@ -48,7 +51,6 @@ typedef enum {
     BEEPER_ACC_CALIBRATION,         //!< ACC inflight calibration completed confirmation
     BEEPER_ACC_CALIBRATION_FAIL,    //!< ACC inflight calibration failed
     BEEPER_READY_BEEP,              //!< Ring a tone when GPS is locked and ready
-    BEEPER_MULTI_BEEPS,             //!< Internal value used by 'beeperConfirmationBeeps()'.
     BEEPER_ARMED,                   //!< Warning beeps when board is armed (repeats until board is disarmed or throttle is increased)
 } beeper_command_t;
 
@@ -61,24 +63,23 @@ typedef struct beeperTableEntry_s {
 #endif
 } beeperTableEntry_t;
 
+struct morse_letter;
 struct beeper {
-	//! Beeper off = 0 Beeper on = 1
-	uint8_t beeperIsOn;
-	//! Place in current sequence
-	uint16_t beeperPos;
-	//! Time when beeper routine must act next time
-	uint32_t beeperNextToggleTime;
-	//! Time of last arming beep in microseconds (for blackbox)
-	uint32_t armingBeepTimeMicros;
-	const beeperTableEntry_t *currentBeeperEntry;
+	struct pt state;
+	struct cbuf buffer;
+	char buffer_data[16];
 
+	const struct morse_letter *cur_letter;
+	uint8_t part_idx;
+
+	sys_millis_t timeout;
 	const struct system_calls *system;
 };
 
 //! Initializes defaults for beeper function
 void beeper_init(struct beeper *self, const struct system_calls *system);
-//! Initiates a sequence of multiple 20ms beeps with 200ms pauses. Does not block.
-void beeper_multi_beeps(struct beeper *self, uint8_t beepCount);
+//! Write any text to the beeper (will be sent as morse)
+void beeper_write(struct beeper *self, const char *text);
 //! Puts beeper into a new beep state
 void beeper_start(struct beeper *self, beeper_command_t cmd);
 //! Aborts current beeper function

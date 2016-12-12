@@ -623,17 +623,17 @@ static PT_THREAD(_fsm_controller(struct ninja *self)){
 				if(rc_key_state(&self->rc, RC_KEY_PROFILE1) == RC_KEY_PRESSED){
 					// TODO
 					//ninja_config_change_profile(self, 0);
-					beeper_multi_beeps(&self->beeper, 1);
+					beeper_write(&self->beeper, "E");
 				}
 				if(rc_key_state(&self->rc, RC_KEY_PROFILE2) == RC_KEY_PRESSED){
 					// TODO
 					//ninja_config_change_profile(self, 1);
-					beeper_multi_beeps(&self->beeper, 2);
+					beeper_write(&self->beeper, "I");
 				}
 				if(rc_key_state(&self->rc, RC_KEY_PROFILE3) == RC_KEY_PRESSED){
 					// TODO
 					//ninja_config_change_profile(self, 2);
-					beeper_multi_beeps(&self->beeper, 3);
+					beeper_write(&self->beeper, "S");
 				}
 
 				if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){

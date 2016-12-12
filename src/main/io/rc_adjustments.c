@@ -112,9 +112,9 @@ static void setAdjustment(uint8_t* ptr, uint8_t adjustment, int delta, uint8_t m
 static void applyStepAdjustment(struct rc_adj *self, struct rate_profile *controlRateConfig, uint8_t adjustmentFunction, int delta){
 	struct pid_config *pid = &config_get_profile_rw(self->config)->pid;
     if (delta > 0) {
-        beeper_multi_beeps(&self->ninja->beeper, 2);
+        beeper_write(&self->ninja->beeper, "I");
     } else {
-        beeper_multi_beeps(&self->ninja->beeper, 1);
+        beeper_write(&self->ninja->beeper, "E");
     }
     switch(adjustmentFunction) {
         case ADJUSTMENT_RC_RATE:
@@ -256,8 +256,11 @@ static void applySelectAdjustment(struct rc_adj *self, uint8_t adjustmentFunctio
 			break;
     }
 
+	char buf[16];
+	snprintf(buf, sizeof(buf), "%d", position + 1);
+
     if (applied) {
-        beeper_multi_beeps(&self->ninja->beeper, position + 1);
+        beeper_write(&self->ninja->beeper, buf);
     }
 }
 

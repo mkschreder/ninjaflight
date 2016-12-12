@@ -199,15 +199,9 @@ static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
 }
 
 static void _beeper_on(const struct system_calls_beeper *calls, bool on){
-	(void)calls;
-	//struct application *self = container_of(container_of(calls, struct system_calls, beeper), struct application, syscalls);
-	//struct fc_sitl_client_interface *cl = self->sitl->client;
-	
-	static bool last = false;
-	if(!last && on)
-		printf("BEEP\n");
-	last = on;
-	fflush(stdout);
+	struct application *self = container_of(container_of(calls, struct system_calls, beeper), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+	cl->beeper(cl, on);
 }
 
 #define SITL_EEPROM_PAGE_SIZE 4096

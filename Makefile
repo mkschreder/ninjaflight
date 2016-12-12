@@ -70,7 +70,7 @@ SRC_DIR		 = $(ROOT)/src/main
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(ROOT)/lib/main/CMSIS
-INCLUDE_DIRS	 = $(SRC_DIR)
+INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/include/
 LINKER_DIR	 = $(ROOT)/src/main/target
 
 # Search path for sources
@@ -299,6 +299,7 @@ COMMON_SRC = build_config.c \
 		   sensors/initialisation.c \
 		   sensors/instruments.c \
 		   sensors/imu.c \
+		   ../../libutype/src/cbuf.c\
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
 
@@ -796,6 +797,7 @@ SITL_SRC = \
 		telemetry/telemetry.c \
 		version.c \
 		drivers/serial.c \
+		../../libutype/src/cbuf.c\
 		../../ninjasitl/src/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
@@ -946,7 +948,9 @@ hex:    $(TARGET_HEX)
 # rules that should be handled in toplevel Makefile, not dependent on TARGET
 GLOBAL_GOALS	= all_targets cppcheck test
 
-start-sitl:
+start-sitl: 
+	make TARGET=SITL
+	cp $(TARGET_SITL) ninjasitl/fc_ninjaflight.so
 	cd ninjasitl && ./start-quadsim.sh
 
 .PHONY: $(VALID_TARGETS) docs ninjasitl lcov start-sitl
@@ -1026,9 +1030,14 @@ test-memory test-cache test-stack:
 # sitl source code needs to be checked out from my git repo
 ninjasitl:
 	if [ ! -d ninjasitl ]; then git clone https://github.com/mkschreder/ninjasitl.git ninjasitl; fi
-	
+
+$(ROOT)/include/utype:
+	if [ ! -d libutype/src/ ]; then echo "Please checkout utype to libutype directory (https://github.com/mkschreder/libutype.git)"; exit 1; fi
+	mkdir -p include
+	if [ ! -d $(ROOT)/include/utype ]; then ln -s ../libutype/src $(ROOT)/include/utype || echo "Not creating link to utype. Already exists."; fi
+
 # rebuild everything when makefile changes
-$(TARGET_OBJS) : Makefile
+$(TARGET_OBJS) : $(ROOT)/include/utype Makefile
 
 # List of buildable ELF files and their object dependencies.
 # It would be nice to compute these lists, but that seems to be just beyond make.
