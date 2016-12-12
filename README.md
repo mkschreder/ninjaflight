@@ -29,6 +29,16 @@ UPDATE: new changes will be published into master branch. This means that most
 of the time master branch contains potentially untested code. For stable
 firmware use tagged version releases.
 
+## SITL
+
+Simulator is an integral part of the development cycle. It is however located
+in a separate repo and requires some data files to work (notably pak0.pk3 from
+quake3). Main makefile can already download the necessary files for you. 
+
+To build and run the sitl on linux you can do the following:
+
+	make start-sitl
+
 ## Features
 
 - Multi-color RGB LED strip support (each LED can be a different color using
