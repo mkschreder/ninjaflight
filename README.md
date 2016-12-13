@@ -6,8 +6,8 @@
 An even cleaner version of cleanflight flight-controller. Flight controllers
 are used to fly multi-rotor craft and fixed wing aircraft. 
 
-IMPORTANT NOTE: currently "master" git branch (which you are probably looking
-at) is undergoing many *major* changes so it is not going to work. 
+IMPORTANT: if you are building from source code then do not use "master"
+branch. Instead use a tagged release.
 
 Latest release: 1.16.10 (Codename: "Panic In The Sewers")
 
@@ -25,9 +25,23 @@ This is done by:
 - Testing on SITL, through unit tests and on real hardware in parallel to
   achieve greater robustness.
 
-UPDATE: new changes will be published into master branch. This means that most
-of the time master branch contains potentially untested code. For stable
-firmware use tagged version releases.
+## New in NinjaFlight
+
+- Fully portble flight controller. New system call interface separating
+  hardware drivers from flight controller code. [Docs](https://mkschreder.github.io/ninjaflight/group__syscalls.html)
+- SITL (software in the loop) simulator. New features can be simulated on your
+  desktop. Sitl runs the whole flight controller - including the scheduler.
+- All new features unit tested. Older code is gradually being unit tested as
+  well.
+- New config interface that saves only deltas to EEPROM. Flash erases are kept
+  to a minimum and only happen once a page is full. Delta writes mean that
+  eeprom can potentially be smaller than the config because users rarely modify
+  every single variable in the configuration.
+- Unified mixer (no separation between servo and motor mixer). Rules are the
+  same and much easier to set up. Mixer uses a set of input groups that you can
+  mix in a custom mixer (idea borrowed from px4 autopilot).
+- Morse beeper. You can program it like a telegraph. Old functionality with
+  static beeps and beep priorities is kept as well for maximum flexibility.  
 
 ## SITL
 
