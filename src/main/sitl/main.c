@@ -248,6 +248,20 @@ static int _read_range(const struct system_calls_range *sys, uint16_t deg, uint1
 	return cl->read_range(cl, deg, range);
 }
 
+static int _read_pressure(const struct system_calls_imu *sys, uint32_t *pressure){
+	struct application *self = container_of(container_of(sys, struct system_calls, imu), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+
+	return cl->read_pressure(cl, pressure);
+}
+
+static int _read_temperature(const struct system_calls_imu *sys, int16_t *pressure){
+	struct application *self = container_of(container_of(sys, struct system_calls, imu), struct application, syscalls);
+	struct fc_sitl_client_interface *cl = self->sitl->client;
+
+	return cl->read_temperature(cl, pressure);
+}
+
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
 	flash_fd = open("sitl_eeprom.bin", O_RDWR | O_CREAT, 0644);
 	posix_fallocate(flash_fd, 0, SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES);
@@ -263,7 +277,9 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		},
 		.imu = {
 			.read_gyro = _read_gyro,
-			.read_acc = _read_acc
+			.read_acc = _read_acc,
+			.read_pressure = _read_pressure,
+			.read_temperature = _read_temperature
 		},
 		.leds = {
 			.on = _led_on,

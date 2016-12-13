@@ -35,6 +35,7 @@ bool ins_is_calibrated(struct instruments *self);
 void ins_process_gyro(struct instruments *self, int32_t x, int32_t y, int32_t z);
 void ins_process_acc(struct instruments *self, int32_t x, int32_t y, int32_t z);
 void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z);
+void ins_process_pressure(struct instruments *self, uint32_t pressure);
 
 void ins_update(struct instruments *self, float dt);
 

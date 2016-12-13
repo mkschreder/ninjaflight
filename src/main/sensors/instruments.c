@@ -7,6 +7,7 @@
 #include "config/config.h"
 
 #include "imu.h"
+#include "barometer.h"
 #include "instruments.h"
 
 #include "system_calls.h"
@@ -144,6 +145,10 @@ void ins_process_mag(struct instruments *self, int32_t x, int32_t y, int32_t z){
 	imu_input_magnetometer(&self->imu, ins_mag_get_x(&self->mag), ins_mag_get_y(&self->mag), ins_mag_get_z(&self->mag));
 }
 
+void ins_process_pressure(struct instruments *self, uint32_t pressure){
+	baro_process_pressure(&self->baro, pressure);
+}
+
 void ins_update(struct instruments *self, float dt){
 	// for now, fast converge if we are not calibrated.
 	if(!ins_is_calibrated(self))
@@ -151,13 +156,12 @@ void ins_update(struct instruments *self, float dt){
 	else
 		imu_enable_fast_dcm_convergence(&self->imu, false);
 	imu_update(&self->imu, dt);
+	baro_update(&self->baro);
 }
 
 //! returns estimated altitude above sea level in cm
 uint32_t ins_get_altitude_cm(struct instruments *self){
-	(void)self;
-	// TODO: calculate altitude here as we currently do in altitude hold code
-	return 0;
+	return baro_get_altitude(&self->baro);
 }
 
 //! returns vertical speed in cm/s

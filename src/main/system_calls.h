@@ -102,8 +102,8 @@ struct system_calls_imu {
 	 * @return negative errno number on error, 0 on success
 	 */
 	int (*read_acc)(const struct system_calls_imu *self, int16_t out[3]);
-	int (*read_pressure)(const struct system_calls_imu *self, uint16_t *out);
-	int (*read_temperature)(const struct system_calls_imu *self, uint16_t *out);
+	int (*read_pressure)(const struct system_calls_imu *self, uint32_t *out);
+	int (*read_temperature)(const struct system_calls_imu *self, int16_t *out);
 };
 
 /**
@@ -219,8 +219,8 @@ struct system_calls {
 
 #define sys_gyro_read(sys, data) (sys->imu.read_gyro(&(sys)->imu, data))
 #define sys_acc_read(sys, data) (sys->imu.read_acc(&(sys)->imu, data))
-#define sys_get_pressure(sys, data) (sys->imu.read_pressure(&(sys)->imu, data))
-#define sys_get_temperature(sys, data) (sys->imu.read_temperature(&(sys)->imu, data))
+#define sys_read_pressure(sys, data) (sys->imu.read_pressure(&(sys)->imu, data))
+#define sys_read_temperature(sys, data) (sys->imu.read_temperature(&(sys)->imu, data))
 
 #define sys_motor_write(sys, id, val) (sys->pwm.write_motor(&(sys)->pwm, id, val))
 #define sys_servo_write(sys, id, val) (sys->pwm.write_servo(&(sys)->pwm, id, val))

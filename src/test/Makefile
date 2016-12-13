@@ -19,7 +19,7 @@ GTEST_DIR = ../../lib/test/gtest
 # Where to find user code.
 USER_DIR = ../main
 TEST_DIR = unit
-USER_INCLUDE_DIR = $(USER_DIR)
+USER_INCLUDE_DIR = $(USER_DIR) ../../include/
 
 OBJECT_DIR = ../../obj/test
 
@@ -525,7 +525,6 @@ $(OBJECT_DIR)/baro_bmp085_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/baro_bmp085_unittest.cc -o $@
 
 $(OBJECT_DIR)/baro_bmp085_unittest : \
-	$(OBJECT_DIR)/drivers/barometer_bmp085.o \
 	$(OBJECT_DIR)/baro_bmp085_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
@@ -733,6 +732,14 @@ $(OBJECT_DIR)/config_eeprom_unittest.o : \
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/config_eeprom_unittest.cc -o $@
 
+$(OBJECT_DIR)/beeper_unittest.o : \
+	$(TEST_DIR)/beeper_unittest.cc \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/beeper_unittest.cc -o $@
+
+
 $(OBJECT_DIR)/mock/mock_flash.o : \
 	$(TEST_DIR)/../mock/mock_flash.cc \
 	$(GTEST_HEADERS)
@@ -755,28 +762,13 @@ $(OBJECT_DIR)/config_eeprom_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
-$(OBJECT_DIR)/drivers/config_streamer.o : \
-	$(USER_DIR)/drivers/config_streamer.c \
-	$(USER_DIR)/drivers/config_streamer.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -D'FLASH_SIZE = 128' -DSTM32F10X_MD -c $(USER_DIR)/drivers/config_streamer.c -o $@
-
-$(OBJECT_DIR)/config_streamer_unittest.o : \
-	$(TEST_DIR)/config_streamer_unittest.cc \
-	$(USER_DIR)/config/config.h \
-	$(GTEST_HEADERS)
-
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/config_streamer_unittest.cc -o $@
-
-$(OBJECT_DIR)/config_streamer_unittest : \
-	$(OBJECT_DIR)/drivers/config_streamer.o \
-	$(OBJECT_DIR)/config_streamer_unittest.o \
+$(OBJECT_DIR)/beeper_unittest : \
+	$(OBJECT_DIR)/mock/mock_flash.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/beeper_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 ## test        : Build and run the Unit Tests
 ninjaflight:

@@ -19,6 +19,7 @@
 
 #include "blackbox/blackbox_fielddefs.h"
 #include "config/blackbox.h"
+#include "system_calls.h"
 
 typedef enum BlackboxState {
 	BLACKBOX_STATE_DISABLED = 0,

@@ -515,8 +515,15 @@ static void _task_mag(struct ninja_sched *sched){
 
 #ifdef BARO
 static void _task_baro(struct ninja_sched *sched){
-	(void)sched;
+	struct ninja *self = container_of(sched, struct ninja, sched);
 	// TODO: baro read
+	uint32_t pressure = 101325;
+	if(sys_read_pressure(self->system, &pressure) == 0){
+		ins_process_pressure(&self->ins, pressure);
+		uint32_t alt = ins_get_altitude_cm(&self->ins);
+		printf("alt: %d\n", alt);
+		fflush(stdout);
+	}
 	/*
 	if (sensors(SENSOR_BARO)) {
 		uint32_t newDeadline = baroUpdate();

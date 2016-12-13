@@ -20,6 +20,12 @@
 #include "../config/barometer.h"
 
 typedef enum {
+	BAROMETER_NEEDS_SAMPLES = 0,
+	BAROMETER_NEEDS_CALCULATION
+} barometerState_e;
+
+
+typedef enum {
     BARO_DEFAULT = 0,
     BARO_NONE = 1,
     BARO_BMP085 = 2,
@@ -30,16 +36,34 @@ typedef enum {
 #define BARO_SAMPLE_COUNT_MAX   48
 #define BARO_MAX BARO_BMP280
 
+#define PRESSURE_SAMPLES_MEDIAN 3
+
 struct baro {
 	int32_t BaroAlt;
 	int32_t baroTemperature;             // Use temperature for telemetry
+	uint16_t calibratingB;      // baro calibration = get new ground pressure value
+	uint32_t baroPressure;
 
+	int32_t baroGroundAltitude;
+	uint32_t baroGroundPressure;
+	uint32_t baroPressureSum;
+
+	bool baroReady;
+	int32_t barometerFilterSamples[PRESSURE_SAMPLES_MEDIAN];
+    int currentFilterSampleIndex;
+    bool medianFilterReady;
+
+	int32_t barometerSamples[BARO_SAMPLE_COUNT_MAX];
+	int currentSampleIndex;
+
+	barometerState_e state;
 	const struct config *config;
 };
 
 void baro_init(struct baro *self, const struct config *config);
 bool baro_is_calibrated(struct baro *self);
 void baro_start_calibration(struct baro *self);
-uint32_t baro_update(struct baro *self);
+void baro_process_pressure(struct baro *self, uint32_t pressure);
+void baro_update(struct baro *self);
 bool baro_is_ready(struct baro *self);
-int32_t baro_calc_altitude(struct baro *self);
+uint32_t baro_get_altitude(struct baro *self);
