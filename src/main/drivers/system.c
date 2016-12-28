@@ -117,8 +117,9 @@ static void cycleCounterInit(void)
 }
 
 // SysTick
-void SysTick_Handler(void); 
-void SysTick_Handler(void)
+//void SysTick_Handler(void); 
+//void SysTick_Handler(void)
+void vApplicationTickHook(void)
 {
     sysTickUptime++;
 }

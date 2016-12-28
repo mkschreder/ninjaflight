@@ -586,11 +586,11 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
 	int16_t raw[3] = {0, 0, 0};
-	int32_t maxgyro = 0x00007fff;
+	//int32_t maxgyro = 0x00007fff;
 	if(gyro.read) {
 		gyro.read(raw);
 		for(int c = 0; c < 3; c++)
-			output[c] = ((int32_t)raw[c] * SYSTEM_GYRO_RANGE) / maxgyro; 
+			output[c] = (int32_t)raw[c];// * SYSTEM_GYRO_RANGE) / maxgyro; 
 	}
 	return 0;
 }
@@ -600,9 +600,23 @@ static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	int16_t raw[3] = {0, 0, SYSTEM_ACC_1G};
 	if(acc.read){
 		acc.read(raw);
-		for(int c = 0; c < 3; c++)
+		for(int c = 0; c < 3; c++){
 			output[c] = ((int32_t)raw[c] * (int32_t)SYSTEM_ACC_1G) / acc.acc_1G;
+			//output[c] = raw[c]; //((int32_t)raw[c] * acc.acc_1G) / (int32_t)SYSTEM_ACC_1G;
+		}
 	}
+	return 0;
+}
+
+static int _read_pressure(const struct system_calls_imu *sys, uint32_t *pressure){
+	(void)sys;
+	*pressure = 111000;
+	return 0;
+}
+
+static int _read_temperature(const struct system_calls_imu *sys, int16_t *temp){
+	(void)sys;
+	*temp = 2500;
 	return 0;
 }
 
@@ -646,6 +660,18 @@ static void _eeprom_get_info(const struct system_calls_bdev *self, struct system
 	info->num_pages = flash_get_num_pages();
 }
 
+static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+	(void)self;
+	(void)data;
+	return size;
+}
+
+static int _read_range(const struct system_calls_range *sys, uint16_t deg, uint16_t *range){
+	(void)sys;
+	(void)deg;
+	*range = 200;
+	return 0;
+}
 
 static struct system_calls syscalls = {
 	.pwm = {
@@ -656,7 +682,9 @@ static struct system_calls syscalls = {
 	},
 	.imu = {
 		.read_gyro = _read_gyro,
-		.read_acc = _read_acc
+		.read_acc = _read_acc,
+		.read_pressure = _read_pressure,
+		.read_temperature = _read_temperature
 	},
 	.leds = {
 		.on = _led_on,
@@ -673,16 +701,26 @@ static struct system_calls syscalls = {
 		.write = _eeprom_write,
 		.erase_page = _eeprom_erase_page,
 		.get_info = _eeprom_get_info
+	},
+	.logger = {
+		.write = _logger_write
+	},
+	.range = {
+		.read_range = _read_range
 	}
-
 };
 
-int main(void) {
-	static struct ninja ninja;
-	static struct config config;
+static struct config config;
+static struct ninja ninja;
+
+#include <FreeRTOS.h>
+#include <task.h>
+
+void _main_task(void *param){
+	(void)param;
+	static volatile uint8_t done = 0;
 
 	config_reset(&config);
-
     init(&config);
 
 	ninja_init(&ninja, &syscalls, &config);
@@ -692,10 +730,17 @@ int main(void) {
 	ins_set_acc_alignment(&ninja.ins, accAlign);
 	ins_set_mag_alignment(&ninja.ins, magAlign);
 
-	while (true) {
+	while (!done) {
         ninja_heartbeat(&ninja);
         processLoopback();
     }
+}
+
+int main(void) {
+	//NVIC_PriorityGroupConfig( NVIC_PriorityGroup_4 );
+
+	xTaskCreate(_main_task, "main", 4096, NULL, 4, NULL);
+	vTaskStartScheduler();
 }
 
 void HardFault_Handler(void);
@@ -722,3 +767,12 @@ void HardFault_Handler(void)
 
     while (1);
 }
+
+void vApplicationMallocFailedHook(void){
+
+}
+
+void vApplicationStackOverflowHook(void){
+
+}
+

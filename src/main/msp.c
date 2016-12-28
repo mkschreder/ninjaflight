@@ -416,7 +416,7 @@ static void serializeDataflashSummaryReply(mspPacket_t *reply)
     sbufWriteU8(dst, flags);
     sbufWriteU32(dst, geometry->sectors);
     sbufWriteU32(dst, geometry->totalSize);
-    sbufWriteU32(dst, flashfsGetOffset()); // Effectively the current number of bytes stored on the volume
+    sbufWriteU32(dst, 1024); //flashfsGetOffset()); // Effectively the current number of bytes stored on the volume
 #else
     sbufWriteU8(dst, 0); // FlashFS is neither ready nor supported
     sbufWriteU32(dst, 0);

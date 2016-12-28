@@ -106,7 +106,8 @@ CMSIS_SRC	 = $(notdir $(wildcard $(CMSIS_DIR)/CM1/CoreSupport/*.c \
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM1/CoreSupport \
-		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x
+		   $(CMSIS_DIR)/CM1/DeviceSupport/ST/STM32F30x \
+		   $(ROOT)/src/main/freertos/Source/portable/GCC/ARM_CM4F/\
 
 ifeq ($(TARGET),$(filter $(TARGET),$(VCP_TARGETS)))
 INCLUDE_DIRS := $(INCLUDE_DIRS) \
@@ -301,16 +302,15 @@ COMMON_SRC = build_config.c \
 		   sensors/initialisation.c \
 		   sensors/instruments.c \
 		   sensors/imu.c \
-		   ../../libutype/src/cbuf.c\
+		   libutype/src/cbuf.c\
 		   $(CMSIS_SRC) \
-		   $(DEVICE_STDPERIPH_SRC)
-
-FOO=freertos/Source/croutine.c \
+		   $(DEVICE_STDPERIPH_SRC)\
+		   freertos/Source/croutine.c \
 		   freertos/Source/event_groups.c \
 		   freertos/Source/list.c \
 		   freertos/Source/tasks.c \
 		   freertos/Source/timers.c \
-			freertos/Source/portable/GCC/ARM_CM3/port.c \
+		   freertos/Source/queue.c \
 			freertos/Source/portable/MemMang/heap_3.c \
 
 HIGHEND_SRC = \
@@ -381,6 +381,7 @@ NAZE_SRC = startup_stm32f10x_md_gcc.S \
 		   drivers/timer_stm32f10x.c \
 		   drivers/flashfs.c \
 		   hardware_revision.c \
+			freertos/Source/portable/GCC/ARM_CM3/port.c \
 		   $(HIGHEND_SRC) \
 		   $(COMMON_SRC)
 
@@ -532,12 +533,12 @@ STM32F30x_COMMON_SRC = \
 		   drivers/sound_beeper_stm32f30x.c \
 		   drivers/system_stm32f30x.c \
 		   drivers/timer.c \
-		   drivers/timer_stm32f30x.c
+		   drivers/timer_stm32f30x.c \
 
 NAZE32PRO_SRC = \
+		   $(COMMON_SRC) \
 		   $(STM32F30x_COMMON_SRC) \
 		   $(HIGHEND_SRC) \
-		   $(COMMON_SRC) \
 		   $(VCP_SRC)
 
 STM32F3DISCOVERY_COMMON_SRC = \
@@ -647,6 +648,7 @@ RMDO_SRC = \
 		   $(COMMON_SRC)
 
 SPRACINGF3_SRC = \
+		   $(COMMON_SRC) \
 		   $(STM32F30x_COMMON_SRC) \
 		   drivers/accgyro_mpu.c \
 		   drivers/accgyro_mpu6050.c \
@@ -661,7 +663,7 @@ SPRACINGF3_SRC = \
 		   drivers/sonar_hcsr04.c \
 		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
-		   $(COMMON_SRC)
+			freertos/Source/portable/GCC/ARM_CM4F/port.c \
 
 SPRACINGF3EVO_SRC	 = \
 		   $(STM32F30x_COMMON_SRC) \
@@ -816,7 +818,7 @@ SITL_SRC = \
 		freertos/Source/queue.c \
 		freertos/Source/portable/GCC/POSIX/port.c \
 		freertos/Source/portable/MemMang/heap_3.c \
-		../../libutype/src/cbuf.c\
+		libutype/src/cbuf.c\
 		../../ninjasitl/src/fc_sitl.c 
 
 # Search path and source files for the ST stdperiph library
@@ -841,6 +843,8 @@ LDFLAGS += -nostartfiles \
 		   --specs=nano.specs \
 		   -lc \
 		   -static \
+		   -Wl,-u,vTaskSwitchContext \
+		   -Wl,-gc-sections \
 		   -lnosys 
 endif
 

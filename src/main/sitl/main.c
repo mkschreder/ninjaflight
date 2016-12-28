@@ -61,6 +61,9 @@
 
 #include "system_calls.h"
 
+#include <FreeRTOS.h>
+#include <task.h>
+
 #ifdef USE_HARDWARE_REVISION_DETECTION
 #include "hardware_revision.h"
 #endif
@@ -106,13 +109,40 @@ static void application_run(struct application *self){
 	_application_send_state(self);
 }
 
+static void _app_task(void *param){
+	struct application *self = (struct application*)param;
+
+	while (true) {
+		application_run(self);
+		vTaskDelay(1);
+		//usleep(900);
+    }
+}
+
+static void _io_task(void *param){
+	struct application *self = (struct application*)param;
+
+	while (true) {
+		(void)self;
+		vTaskDelay(10);
+		//usleep(900);
+    }
+
+}
+
 // main thread for the application that reads user inputs and runs the flight controller
 static void *_application_thread(void *param){
-	struct application *app = (struct application*)param;
-	while (true) {
-		application_run(app);
-		usleep(900);
-    }
+	struct application *self = (struct application*)param;
+
+	config_reset(&self->config);
+
+	ninja_init(&self->ninja, &self->syscalls, &self->config);
+
+	// simulate as closely as possible what the real system would do
+	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
+	xTaskCreate(_io_task, "io", 4096, self, 2, NULL);
+
+	vTaskStartScheduler();
 	return NULL;
 }
 
@@ -293,7 +323,7 @@ static void _dataflash_get_info(const struct system_calls_bdev *self, struct sys
 static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
 	(void)self;
 	int ret = write(dataflash_fd, data, size);
-	usleep(10000);
+	//usleep(10000);
 	if(ret < 0) return -1;
 	return ret;
 }
@@ -369,10 +399,6 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 		}
 	};
 
-	config_reset(&self->config);
-
-	ninja_init(&self->ninja, &self->syscalls, &self->config);
-
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }
 
@@ -403,33 +429,9 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_i
 }
 
 // TODO: these should be part of a struct (defined in flight controller)
-uint8_t stateFlags;
-uint16_t flightModeFlags;
-uint32_t rcModeActivationMask = 0;
-float magneticDeclination = 0;
 uint32_t gyro_sync_get_looptime(void){ return 2000; }
-
-uint8_t cliMode;
-void validateAndFixConfig(void);
-void validateAndFixConfig(void){}
-void setAccelerationTrims(flightDynamicsTrims_t *trims);
-void setAccelerationTrims(flightDynamicsTrims_t *trims){(void)trims;}
-void recalculateMagneticDeclination(void);
-void recalculateMagneticDeclination(void){}
-//void beeperSilence(void) {}
-//void beeperConfirmationBeeps(void);
-//void beeperConfirmationBeeps(void){}
-//void beeper(uint8_t type) { (void)type; }
-void failureMode(uint8_t mode){UNUSED(mode);}
 int16_t adcGetChannel(uint8_t chan) { (void)chan; return 0; }
-bool isAccelerationCalibrationComplete(void){ return true; }
-bool isGyroCalibrationComplete(void){ return true; }
 
-// for rx reception stuff
-/*bool isPPMDataBeingReceived(void){ return true; }
-bool resetPPMDataReceivedState(void){ return true; }
-bool isPWMDataBeingReceived(void){ return true; }
-*/
 serialPort_t *usbVcpOpen(uint8_t id, serialReceiveCallbackPtr callback, uint32_t baudRate, portMode_t mode, portOptions_t options){ 
 	(void)id;
 	(void) callback;
@@ -562,6 +564,12 @@ void setStripColor(const hsvColor_t *color){ (void) color; }
 
 void vApplicationStackOverflowHook(void){
 	printf("STACK OVERFLOW DETECTED!\n");
+	fflush(stdout);
+}
+
+void vApplicationMallocFailedHook(void){
+	printf("MALLOC FAILURE DETECTED\n");
+	fflush(stdout);
 }
 
 void vApplicationIdleHook(void){
@@ -583,9 +591,5 @@ void vApplicationGetTimerTaskMemory(StaticTask_t **task, StackType_t **stack, ui
 	*task = &_task;
 	*stack = _stack;
 	*size = sizeof(_stack);
-}
-
-void vApplicationMallocFailedHook(void){
-	printf("MALLOC FAILURE DETECTED\n");
 }
 

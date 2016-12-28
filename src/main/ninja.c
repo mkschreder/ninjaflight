@@ -86,8 +86,13 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 	self->system = syscalls;
 	self->config = config;
 
-	config_load(self->config, self->system);
-
+	config_reset(self->config);
+	/*
+	if(config_load(self->config, self->system) < 0){
+		config_erase(self->config, self->system);
+		config_reset(self->config);
+	}
+*/
 	rc_adj_init(&self->rc_adj, self, self->config);
 	mixer_init(&self->mixer, self->config, &syscalls->pwm);
 	ins_init(&self->ins, self->config);
@@ -727,7 +732,8 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 
 	_fsm_controller(self);
 
-	_blackbox_write(self);
+	if(USE_BLACKBOX)
+		_blackbox_write(self);
 
 	// handle emergency beeper
 	if(rc_key_state(&self->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED){
