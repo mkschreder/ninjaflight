@@ -70,7 +70,7 @@ SRC_DIR		 = $(ROOT)/src/main
 OBJECT_DIR	 = $(ROOT)/obj/main
 BIN_DIR		 = $(ROOT)/obj
 CMSIS_DIR	 = $(ROOT)/lib/main/CMSIS
-INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/include/
+INCLUDE_DIRS	 = $(SRC_DIR) $(ROOT)/include/ $(ROOT)/freertos/Source/include
 LINKER_DIR	 = $(ROOT)/src/main/target
 
 # Search path for sources
@@ -159,7 +159,7 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
-ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) -Ininjasitl/src/
+ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) -Ininjasitl/src/ -Ifreertos/Source/portable/GCC/POSIX/
 LD_SCRIPT = ./src/test/unit/parameter_group.ld
 LDFLAGS += -lgcov
 DEBUG=GDB
@@ -185,6 +185,7 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 		   $(STDPERIPH_DIR)/inc \
 		   $(CMSIS_DIR)/CM3/CoreSupport \
 		   $(CMSIS_DIR)/CM3/DeviceSupport/ST/STM32F10x \
+		   $(ROOT)/src/main/freertos/Source/portable/GCC/ARM_CM3/\
 
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
@@ -245,6 +246,7 @@ COMMON_SRC = build_config.c \
 		   config/rx.c \
 		   config/ledstrip.c \
 		   config/feature.c \
+		   common/packer.c \
 		   common/maths.c \
 		   common/quaternion.c \
 		   common/buf_writer.c \
@@ -302,6 +304,14 @@ COMMON_SRC = build_config.c \
 		   ../../libutype/src/cbuf.c\
 		   $(CMSIS_SRC) \
 		   $(DEVICE_STDPERIPH_SRC)
+
+FOO=freertos/Source/croutine.c \
+		   freertos/Source/event_groups.c \
+		   freertos/Source/list.c \
+		   freertos/Source/tasks.c \
+		   freertos/Source/timers.c \
+			freertos/Source/portable/GCC/ARM_CM3/port.c \
+			freertos/Source/portable/MemMang/heap_3.c \
 
 HIGHEND_SRC = \
 		   flight/gtune.c \
@@ -736,6 +746,7 @@ SITL_SRC = \
 		common/colorconversion.c \
 		common/encoding.c \
 		common/filter.c \
+		common/packer.c \
 		common/maths.c \
 		common/printf.c \
 		common/quaternion.c \
@@ -797,6 +808,14 @@ SITL_SRC = \
 		telemetry/telemetry.c \
 		version.c \
 		drivers/serial.c \
+		freertos/Source/croutine.c \
+		freertos/Source/event_groups.c \
+		freertos/Source/list.c \
+		freertos/Source/tasks.c \
+		freertos/Source/timers.c \
+		freertos/Source/queue.c \
+		freertos/Source/portable/GCC/POSIX/port.c \
+		freertos/Source/portable/MemMang/heap_3.c \
 		../../libutype/src/cbuf.c\
 		../../ninjasitl/src/fc_sitl.c 
 
