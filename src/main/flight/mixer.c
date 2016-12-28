@@ -874,6 +874,9 @@ finish:
 		output[MIXER_OUTPUT_SERVOS + i] = constrain(conf->middle + self->input[MIXER_INPUT_G3_RC_AUX1+chan], 1000, 2000);
 	}
 
+	memcpy(self->output, output, sizeof(self->output));
+
+	// write out the values to the system
 	for(int c = 0; c < MIXER_MAX_MOTORS; c++){
 		if(self->pwm && self->pwm->write_motor) self->pwm->write_motor(self->pwm, c, output[c]);
 	}
@@ -887,6 +890,19 @@ void mixer_enable_armed(struct mixer *self, bool on){
 	if(on) self->flags |= MIXER_FLAG_ARMED;
 	else self->flags &= ~MIXER_FLAG_ARMED;
 }
+
+//! returns computed motor value for specified motor or 0 if motor is out of range
+uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id){
+	if(id >= MIXER_MAX_MOTORS) return 0;
+	return self->output[MIXER_OUTPUT_MOTORS + id];
+}
+
+//! returns constrained servo output.
+uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id){
+	if(id >= MIXER_MAX_SERVOS) return 0;
+	return self->output[MIXER_OUTPUT_SERVOS + id];
+}
+
 /*
 static uint16_t _get_constrained_output(struct mixer *self, uint8_t id){
 	int16_t val = self->output[id];

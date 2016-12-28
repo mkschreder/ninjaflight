@@ -2,24 +2,29 @@
 
 #include <stdio.h>
 
-#include "sensors/instruments.h"
-#include "flight/mixer.h"
-#include "sensors/battery.h"
-#include "system_calls.h"
-#include "flight/anglerate.h"
-#include "ninja_sched.h"
 #include "blackbox/blackbox.h"
-#include "io/rc_adjustments.h"
+
+#include "flight/anglerate.h"
+#include "flight/altitudehold.h"
 #include "flight/failsafe.h"
+#include "flight/mixer.h"
+
+#include "io/rc_adjustments.h"
 #include "io/ledstrip.h"
 #include "io/beeper.h"
 #include "io/serial_msp.h"
-#include "msp.h"
-#include "cli.h"
-#include "sensors/gps.h"
+
 #include "rx/rc.h"
 
+#include "sensors/battery.h"
+#include "sensors/gps.h"
+#include "sensors/instruments.h"
+
+#include "cli.h"
+#include "msp.h"
 #include "common/pt.h"
+#include "system_calls.h"
+#include "ninja_sched.h"
 
 struct ninja;
 
@@ -54,6 +59,7 @@ struct ninja {
 	struct gps gps;
 	struct serial_msp serial_msp;
 	struct msp msp;
+	struct althold althold;
 
 	bool isRXDataNew;
 

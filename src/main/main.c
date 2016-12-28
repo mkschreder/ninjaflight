@@ -625,22 +625,22 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 	}
 }
 
-static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+static int _eeprom_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	return flash_read(addr, dst, size);
 }
 
-static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
+static int _eeprom_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	return flash_write(addr, data, size);
 }
 
-static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+static int _eeprom_erase_page(const struct system_calls_bdev *self, uint16_t addr){
 	(void)self;
 	return flash_erase_page(addr);
 }
 
-static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+static void _eeprom_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
 	(void)self;
 	info->page_size = flash_get_page_size();
 	info->num_pages = flash_get_num_pages();

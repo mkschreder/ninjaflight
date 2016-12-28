@@ -43,8 +43,11 @@ int32_t mock_time_micros = 0;
 bool mock_beeper_is_on = false;
 
 #define MOCK_EEPROM_MAX_SIZE 4096
+#define MOCK_LOGGER_BUF_SIZE (1024 * 2000)
 
 char mock_eeprom_data[MOCK_EEPROM_MAX_SIZE];
+char mock_logger_data[MOCK_LOGGER_BUF_SIZE];
+uint16_t mock_logger_pos = 0;
 
 void mock_system_clock_mode(mock_clock_mode_t mode){
 	if(mode == MOCK_CLOCK_MANUAL) mock_clock_manual = true;
@@ -110,13 +113,13 @@ static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	return 0;
 }
 
-static int _read_pressure(const struct system_calls_imu *self, uint16_t *out) {
+static int _read_pressure(const struct system_calls_imu *self, uint32_t *out) {
 	(void)self;
 	*out = 0;
 	return 0;
 }
 
-static int _read_temperature(const struct system_calls_imu *self, uint16_t *out){
+static int _read_temperature(const struct system_calls_imu *self, int16_t *out){
 	(void)self;
 	*out = 0;
 	return 0;
@@ -141,7 +144,7 @@ static void _beeper_on(const struct system_calls_beeper *beeper, bool on){
 	//fflush(stdout);
 }
 
-static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+static int _eeprom_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	//printf("EEPROM read from %04x, size %lu\n", addr, size);
 	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return -1;
@@ -152,7 +155,7 @@ static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint1
 	return size;
 }
 
-static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+static int _eeprom_erase_page(const struct system_calls_bdev *self, uint16_t addr){
 	(void)self;
 	// addr should be at page boundary
 	addr = (addr / mock_eeprom_page_size) * mock_eeprom_page_size;
@@ -161,7 +164,7 @@ static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t a
 	return 0;
 }
 
-static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
+static int _eeprom_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	// simulate erase
 	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return -1;
@@ -187,10 +190,17 @@ static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, 
 	return size;
 }
 
-static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+static void _eeprom_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
 	(void)self;
 	info->page_size = mock_eeprom_page_size;
 	info->num_pages = mock_eeprom_pages;
+}
+
+static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+	// TODO: simulate failure
+	memcpy(mock_logger_data + mock_logger_pos, data, size);
+	mock_logger_pos += size;
+	return size;
 }
 
 static int _read_range(const struct system_calls_range *self, uint16_t deg, uint16_t *range){
@@ -228,6 +238,9 @@ static const struct system_calls syscalls {
 		.write = _eeprom_write,
 		.erase_page = _eeprom_erase_page,
 		.get_info = _eeprom_get_info
+	},
+	.logger = {
+		.write = _logger_write
 	},
 	.range = {
 		.read_range = _read_range

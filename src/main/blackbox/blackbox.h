@@ -17,114 +17,66 @@
 
 #pragma once
 
-#include "blackbox/blackbox_fielddefs.h"
 #include "config/blackbox.h"
 #include "system_calls.h"
+#include "common/packer.h"
+#include "common/axis.h"
+#include "common/pt.h"
 
-typedef enum BlackboxState {
-	BLACKBOX_STATE_DISABLED = 0,
-	BLACKBOX_STATE_STOPPED,
-	BLACKBOX_STATE_PREPARE_LOG_FILE,
-	BLACKBOX_STATE_SEND_HEADER,
-	BLACKBOX_STATE_SEND_MAIN_FIELD_HEADER,
-	BLACKBOX_STATE_SEND_GPS_H_HEADER,
-	BLACKBOX_STATE_SEND_GPS_G_HEADER,
-	BLACKBOX_STATE_SEND_SLOW_HEADER,
-	BLACKBOX_STATE_SEND_SYSINFO,
-	BLACKBOX_STATE_PAUSED,
-	BLACKBOX_STATE_RUNNING,
-	BLACKBOX_STATE_SHUTTING_DOWN
-} BlackboxState;
+struct blackbox_frame_header {
+	uint8_t flags;
+	uint8_t data[];
+};
 
-#define BLACKBOX_FIRST_HEADER_SENDING_STATE BLACKBOX_STATE_SEND_HEADER
-#define BLACKBOX_LAST_HEADER_SENDING_STATE BLACKBOX_STATE_SEND_SYSINFO
+struct blackbox_frame {
+	struct blackbox_frame_header header;
 
-typedef struct blackboxMainState_s {
-	uint32_t time;
+	int32_t time;
 
-	int32_t axisPID_P[XYZ_AXIS_COUNT], axisPID_I[XYZ_AXIS_COUNT], axisPID_D[XYZ_AXIS_COUNT];
+	int16_t gyro[XYZ_AXIS_COUNT];
+	int16_t acc[XYZ_AXIS_COUNT];
 
-	int16_t rcCommand[4];
-	int16_t gyroADC[XYZ_AXIS_COUNT];
-	int16_t accSmooth[XYZ_AXIS_COUNT];
+	int16_t command[4];
 
-	uint16_t vbatLatest;
-	uint16_t amperageLatest;
+	uint16_t vbat;
+	uint16_t current;
 
-#ifdef BARO
-	int32_t BaroAlt;
-#endif
-	int16_t magADC[XYZ_AXIS_COUNT];
-#ifdef SONAR
-	int32_t sonarRaw;
-#endif
+	int32_t altitude;
+	int16_t mag[XYZ_AXIS_COUNT];
+	int32_t sonar_alt;
 	uint16_t rssi;
-} blackboxMainState_t;
 
-typedef struct blackboxGpsState_s {
-	int32_t GPS_home[2], GPS_coord[2];
-	uint8_t GPS_numSat;
-} blackboxGpsState_t;
+	uint32_t motor[8];
+	uint32_t servo[8];
+} __attribute__((__packed__));
 
-// This data is updated really infrequently:
-typedef struct blackboxSlowState_s {
+struct blackbox_slow_frame {
+	struct blackbox_frame_header header;
+
 	uint16_t flightModeFlags;
 	uint8_t stateFlags;
 	uint8_t failsafePhase;
 	bool rxSignalReceived;
 	bool rxFlightChannelsValid;
-} __attribute__((__packed__)) blackboxSlowState_t; // We pack this struct so that padding doesn't interfere with memcmp()
-
-
-struct blackbox_xmit_state {
-	uint32_t headerIndex;
-
-	/* Since these fields are used during different blackbox states (never simultaneously) we can
-	 * overlap them to save on RAM
-	 */
-	union {
-		int fieldIndex;
-		sys_millis_t startTime;
-	} u;
-};
+} __attribute__((__packed__));
 
 struct blackbox {
-	struct ninja *ninja;
-	
-	uint32_t blackboxIteration;
-	uint16_t blackboxPFrameIndex, blackboxIFrameIndex;
-	uint16_t blackboxSlowFrameIterationTimer;
-	bool blackboxLoggedAnyFrames;
-	struct blackbox_xmit_state xmitState;
-
-	BlackboxState blackboxState;
-	/*
-	 * We store voltages in I-frames relative to this, which was the voltage when the blackbox was activated.
-	 * This helps out since the voltage is only expected to fall from that point and we can reduce our diffs
-	 * to encode:
-	 */
-	uint16_t vbatReference;
-
-	blackboxGpsState_t gpsHistory;
-	blackboxSlowState_t slowHistory;
-
-	// Keep a history of length 2, plus a buffer for MW to store the new values into
-	blackboxMainState_t blackboxHistoryRing[3];
-
-	// These point into blackboxHistoryRing, use them to know where to store history of a given age (0, 1 or 2 generations old)
-	blackboxMainState_t* blackboxHistory[3];
-
-	bool blackboxModeActivationConditionPresent;
-
-	// Cache for FLIGHT_LOG_FIELD_CONDITION_* test results:
-	uint32_t blackboxConditionCache;
+	uint32_t iteration;
+	uint8_t *cur_frame, *prev_frame;
+	uint8_t buffers[2][sizeof(struct blackbox_frame)];
+	uint8_t delta_buffer[sizeof(struct blackbox_frame) + sizeof(struct blackbox_frame) / 2];
+	int16_t delta_size;
+	uint8_t *delta_ptr;
+	struct pt flash_writer;
+	//struct packer packer;
 
 	const struct config *config;
+	const struct system_calls *system;
 };
 
-void blackbox_init(struct blackbox *self, struct ninja *owner, const struct config * config);
+void blackbox_init(struct blackbox *self, const struct config * config, const struct system_calls *system);
 
-void blackboxLogEvent(struct blackbox *self, FlightLogEvent event, flightLogEventData_t *data);
+void blackbox_write_frame(struct blackbox *self, const struct blackbox_frame *frame);
 
 void blackbox_update(struct blackbox *self);
 void blackbox_start(struct blackbox *self);

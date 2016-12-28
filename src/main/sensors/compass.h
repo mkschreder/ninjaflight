@@ -20,8 +20,7 @@
 // TODO: remove dependency on compass 
 #include "drivers/compass.h"
 #include "../common/axis.h"
-#include "../config/sensors.h"
-#include "../config/compass.h"
+#include "../config/config.h"
 
 struct ins_mag {
 	int32_t magADC[XYZ_AXIS_COUNT];

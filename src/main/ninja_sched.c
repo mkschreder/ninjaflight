@@ -520,9 +520,7 @@ static void _task_baro(struct ninja_sched *sched){
 	uint32_t pressure = 101325;
 	if(sys_read_pressure(self->system, &pressure) == 0){
 		ins_process_pressure(&self->ins, pressure);
-		uint32_t alt = ins_get_altitude_cm(&self->ins);
-		printf("alt: %d\n", alt);
-		fflush(stdout);
+		//uint32_t alt = ins_get_altitude_cm(&self->ins);
 	}
 	/*
 	if (sensors(SENSOR_BARO)) {

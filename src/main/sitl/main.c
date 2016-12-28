@@ -206,40 +206,96 @@ static void _beeper_on(const struct system_calls_beeper *calls, bool on){
 
 #define SITL_EEPROM_PAGE_SIZE 4096
 #define SITL_EEPROM_NUM_PAGES 1
+#define SITL_DATAFLASH_PAGE_SIZE 512
+#define SITL_DATAFLASH_NUM_PAGES 4096
 
 //char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES] = {0};
-int flash_fd = -1;
+int eeprom_fd = -1;
+int dataflash_fd = -1;
 
-static int _eeprom_read(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size){
+static int _eeprom_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
 	(void)self;
 	(void)dst;
 	printf("EEPROM read from %04x, size %lu\n", addr, size);
 	/*if((addr + size) > sizeof(_flash)){
 		size = sizeof(_flash) - addr;
 	}*/
-	lseek(flash_fd, addr, SEEK_SET);
-	return read(flash_fd, dst, size);
+	lseek(eeprom_fd, addr, SEEK_SET);
+	return read(eeprom_fd, dst, size);
 }
 
-static int _eeprom_write(const struct system_calls_eeprom *self, uint16_t addr, const void *data, size_t size){
+static int _eeprom_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
 	(void)self;
 	(void)data;
 	printf("EEPROM write to %04x, size %lu\n", addr, size);
-	lseek(flash_fd, addr, SEEK_SET);
-	return write(flash_fd, data, size);
+	lseek(eeprom_fd, addr, SEEK_SET);
+	return write(eeprom_fd, data, size);
 }
 
-static int _eeprom_erase_page(const struct system_calls_eeprom *self, uint16_t addr){
+static int _eeprom_erase_page(const struct system_calls_bdev *self, uint16_t addr){
 	(void)self;
 	(void)addr;
-	// we don't use pages
-	return 0;
+	uint8_t page[SITL_EEPROM_PAGE_SIZE];
+	memset(page, 0xff, sizeof(page));
+	addr = (addr / SITL_EEPROM_PAGE_SIZE) * SITL_EEPROM_PAGE_SIZE;
+	// erase page
+	lseek(eeprom_fd, addr, SEEK_SET);
+	int ret = write(eeprom_fd, page, sizeof(page));
+	if(ret < 0) return -1;
+	return !!ret;
 }
 
-static void _eeprom_get_info(const struct system_calls_eeprom *self, struct system_eeprom_info *info){
+static void _eeprom_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
 	(void)self;
 	info->page_size = SITL_EEPROM_PAGE_SIZE;
 	info->num_pages = SITL_EEPROM_NUM_PAGES;
+}
+
+/**
+ * Read dataflash
+ */
+ /*
+static int _dataflash_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
+	(void)self;
+	(void)dst;
+	printf("DATAFLASH read from %04x, size %lu\n", addr, size);
+	lseek(dataflash_fd, addr, SEEK_SET);
+	return read(dataflash_fd, dst, size);
+}
+
+static int _dataflash_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
+	(void)self;
+	(void)data;
+	printf("DATAFLASH write to %04x, size %lu\n", addr, size);
+	lseek(dataflash_fd, addr, SEEK_SET);
+	return write(dataflash_fd, data, size);
+}
+
+static int _dataflash_erase_page(const struct system_calls_bdev *self, uint16_t addr){
+	(void)self;
+	uint8_t page[SITL_EEPROM_PAGE_SIZE];
+	memset(page, 0xff, sizeof(page));
+	addr = (addr / SITL_EEPROM_PAGE_SIZE) * SITL_EEPROM_PAGE_SIZE;
+	// erase page
+	lseek(eeprom_fd, addr, SEEK_SET);
+	int ret = write(eeprom_fd, page, sizeof(page));
+	if(ret < 0) return -1;
+	return !!ret;
+}
+
+static void _dataflash_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
+	(void)self;
+	info->page_size = SITL_DATAFLASH_PAGE_SIZE;
+	info->num_pages = SITL_DATAFLASH_NUM_PAGES;
+}
+*/
+
+static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+	(void)self;
+	int ret = write(dataflash_fd, data, size);
+	usleep(10000);
+	if(ret < 0) return -1;
+	return ret;
 }
 
 static int _read_range(const struct system_calls_range *sys, uint16_t deg, uint16_t *range){
@@ -263,8 +319,10 @@ static int _read_temperature(const struct system_calls_imu *sys, int16_t *pressu
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
-	flash_fd = open("sitl_eeprom.bin", O_RDWR | O_CREAT, 0644);
-	posix_fallocate(flash_fd, 0, SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES);
+	eeprom_fd = open("sitl_eeprom.bin", O_RDWR | O_CREAT, 0644);
+	posix_fallocate(eeprom_fd, 0, SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES);
+	dataflash_fd = open("sitl_dataflash.bin", O_RDWR | O_CREAT, 0644);
+	posix_fallocate(dataflash_fd, 0, SITL_DATAFLASH_PAGE_SIZE * SITL_DATAFLASH_NUM_PAGES);
 
 	self->sitl = server;
 
@@ -297,6 +355,15 @@ static void application_init(struct application *self, struct fc_sitl_server_int
 			.erase_page = _eeprom_erase_page,
 			.get_info = _eeprom_get_info
 		},
+		.logger = {
+			.write = _logger_write
+		},
+		/*.dataflash = {
+			.read = _dataflash_read,
+			.write = _dataflash_write,
+			.erase_page = _dataflash_erase_page,
+			.get_info = _dataflash_get_info
+		},*/
 		.range = {
 			.read_range = _read_range
 		}
@@ -492,3 +559,33 @@ void ws2811LedStripInit(void){}
 void ws2811UpdateStrip(void){}
 #include "common/color.h"
 void setStripColor(const hsvColor_t *color){ (void) color; }
+
+void vApplicationStackOverflowHook(void){
+	printf("STACK OVERFLOW DETECTED!\n");
+}
+
+void vApplicationIdleHook(void){
+
+}
+
+#include <FreeRTOS.h>
+void vApplicationGetIdleTaskMemory(StaticTask_t **task, StackType_t **stack, uint32_t *size){
+	static StaticTask_t _task;
+	static StackType_t _stack[128];
+	*task = &_task;
+	*stack = &_stack[0];
+	*size = sizeof(_stack);
+}
+
+void vApplicationGetTimerTaskMemory(StaticTask_t **task, StackType_t **stack, uint32_t *size){
+	static StaticTask_t _task;
+	static StackType_t _stack[128];
+	*task = &_task;
+	*stack = _stack;
+	*size = sizeof(_stack);
+}
+
+void vApplicationMallocFailedHook(void){
+	printf("MALLOC FAILURE DETECTED\n");
+}
+

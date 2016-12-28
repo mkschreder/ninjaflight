@@ -47,10 +47,10 @@ typedef enum {
 	RC_KEY_DISPLAY_OFF,
 	RC_KEY_DISPLAY_ON,
 	// following keys are related to range functions and do not generate repeat events
-	RC_KEY_FUNC_LEVEL,
 	RC_KEY_FUNC_ARM,			//!< arming through box range
+	RC_KEY_FUNC_LEVEL,
 	RC_KEY_FUNC_BLEND,
-	RC_KEY_FUNC_ALTSTAB,
+	RC_KEY_FUNC_ALTHOLD,
 	RC_KEY_FUNC_HEADSTAB,
 	RC_KEY_FUNC_HEADFIX,
 	RC_KEY_FUNC_CALIBRATE,

@@ -18,7 +18,7 @@
 #include <stdint.h>
 #include <math.h>
 
-// TODO: fix pid unit test
+// TODO: pid unit test
 #if 0
 extern "C" {
     #include "build_config.h"
@@ -29,12 +29,9 @@ extern "C" {
     #include "common/maths.h"
 
 	#include "config/config.h"
-    #include "config/runtime_config.h"
-    #include "config/parameter_group.h"
 	#include "config/serial.h"
 	#include "config/gps.h"
 	#include "config/navigation.h"
-    #include "config/config_unittest.h"
 	#include "config/rate_profile.h"
 
     #include "drivers/sensor.h"
@@ -82,90 +79,64 @@ static const int mwrGyroScaleDenom = 1;
 
 static const int DTermAverageCount = 4;
 
-void resetPidProfile(struct pid_config *pidProfile)
-{
-    pidProfile->pidController = PID_CONTROLLER_MWREWRITE;
+static struct config config;
 
-    pidProfile->P8[PIDROLL] = 40;
-    pidProfile->I8[PIDROLL] = 30;
-    pidProfile->D8[PIDROLL] = 10;
-    pidProfile->P8[PIDPITCH] = 40;
-    pidProfile->I8[PIDPITCH] = 30;
-    pidProfile->D8[PIDPITCH] = 10;
-    pidProfile->P8[PIDYAW] = 85;
-    pidProfile->I8[PIDYAW] = 45;
-    pidProfile->D8[PIDYAW] = 10;
-    pidProfile->P8[PIDALT] = 50;
-    pidProfile->I8[PIDALT] = 0;
-    pidProfile->D8[PIDALT] = 0;
-    pidProfile->P8[PIDPOS] = 15; // POSHOLD_P * 100;
-    pidProfile->I8[PIDPOS] = 0; // POSHOLD_I * 100;
-    pidProfile->D8[PIDPOS] = 0;
-    pidProfile->P8[PIDPOSR] = 34; // POSHOLD_RATE_P * 10;
-    pidProfile->I8[PIDPOSR] = 14; // POSHOLD_RATE_I * 100;
-    pidProfile->D8[PIDPOSR] = 53; // POSHOLD_RATE_D * 1000;
-    pidProfile->P8[PIDNAVR] = 25; // NAV_P * 10;
-    pidProfile->I8[PIDNAVR] = 33; // NAV_I * 100;
-    pidProfile->D8[PIDNAVR] = 83; // NAV_D * 1000;
-    pidProfile->P8[PIDLEVEL] = 90;
-    pidProfile->I8[PIDLEVEL] = 10;
-    pidProfile->D8[PIDLEVEL] = 100;
-    pidProfile->P8[PIDMAG] = 40;
-    pidProfile->P8[PIDVEL] = 120;
-    pidProfile->I8[PIDVEL] = 45;
-    pidProfile->D8[PIDVEL] = 1;
+void resetPidProfile(){
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
 
-    pidProfile->yaw_p_limit = YAW_P_LIMIT_MAX;
-    pidProfile->dterm_cut_hz = 0;
+    pid->pidController = PID_CONTROLLER_MWREWRITE;
+
+    pid->P8[PIDROLL] = 40;
+    pid->I8[PIDROLL] = 30;
+    pid->D8[PIDROLL] = 10;
+    pid->P8[PIDPITCH] = 40;
+    pid->I8[PIDPITCH] = 30;
+    pid->D8[PIDPITCH] = 10;
+    pid->P8[PIDYAW] = 85;
+    pid->I8[PIDYAW] = 45;
+    pid->D8[PIDYAW] = 10;
+    pid->P8[PIDALT] = 50;
+    pid->I8[PIDALT] = 0;
+    pid->D8[PIDALT] = 0;
+    pid->P8[PIDPOS] = 15; // POSHOLD_P * 100;
+    pid->I8[PIDPOS] = 0; // POSHOLD_I * 100;
+    pid->D8[PIDPOS] = 0;
+    pid->P8[PIDPOSR] = 34; // POSHOLD_RATE_P * 10;
+    pid->I8[PIDPOSR] = 14; // POSHOLD_RATE_I * 100;
+    pid->D8[PIDPOSR] = 53; // POSHOLD_RATE_D * 1000;
+    pid->P8[PIDNAVR] = 25; // NAV_P * 10;
+    pid->I8[PIDNAVR] = 33; // NAV_I * 100;
+    pid->D8[PIDNAVR] = 83; // NAV_D * 1000;
+    pid->P8[PIDLEVEL] = 90;
+    pid->I8[PIDLEVEL] = 10;
+    pid->D8[PIDLEVEL] = 100;
+    pid->P8[PIDMAG] = 40;
+    pid->P8[PIDVEL] = 120;
+    pid->I8[PIDVEL] = 45;
+    pid->D8[PIDVEL] = 1;
+
+    pid->yaw_p_limit = YAW_P_LIMIT_MAX;
+    pid->dterm_cut_hz = 0;
 }
 
-void resetRcCommands(void)
-{
-    rcCommand[ROLL] = 0;
-    rcCommand[PITCH] = 0;
-    rcCommand[YAW] = 0;
-    rcCommand[THROTTLE] = 0;
-}
-
-int16_t gyr[3];
-void resetGyroADC(void)
-{
-    gyr[ROLL] = 0;
-    gyr[PITCH] = 0;
-    gyr[YAW] = 0;
-}
-
-void resetPID(struct rate_config *rates, rollAndPitchTrims_t *trims){
+void resetPID(struct rate_config *rates){
 	(void)rates;
 	gyro.scale = 1.0f/16.4f;
 	
-	ins_init(&default_ins, 
-		boardAlignment(),
-		imuConfig(),
-		throttleCorrectionConfig(),
-		gyroConfig(),
-		compassConfig(),
-		sensorTrims(),
-		accelerometerConfig()
-	);
+	config_reset(&config);
+
+	ins_init(&default_ins, &config);
 	
 	ins_set_gyro_scale(&default_ins, gyro.scale);
 	ins_set_acc_scale(&default_ins, 512);
 
-	anglerate_init(&default_controller,
-		&default_ins,
-		&testPidProfile,
-		rates,
-		imuConfig()->max_angle_inclination,
-		trims,
-		rxConfig()
-	);
+	anglerate_init(&default_controller, &default_ins, 0, &config);
 }
 
 void pidControllerInitLuxFloatCore(void)
 {
     anglerate_set_algo(&default_controller, PID_CONTROLLER_LUX_FLOAT);
-    resetPidProfile(&testPidProfile);
+    resetPidProfile();
     anglerate_reset_angle_i(&default_controller);
     anglerate_reset_rate_i(&default_controller);
     targetLooptime = TARGET_LOOPTIME;
@@ -248,17 +219,20 @@ float calcLuxAngleRateYaw(const struct rate_config *controlRate) {
 }
 
 float calcLuxPTerm(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
-    return luxPTermScale * rateError * pidProfile->P8[axis];
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
+    return luxPTermScale * rateError * pid->P8[axis];
 }
 
 float calcLuxITermDelta(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
-    float ret = luxITermScale * rateError * dt * pidProfile->I8[axis];
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
+    float ret = luxITermScale * rateError * dt * pid->I8[axis];
     ret = constrainf(ret, -PID_MAX_I, PID_MAX_I);
     return ret;
 }
 
 float calcLuxDTerm(struct pid_config *pidProfile, flight_dynamics_index_t axis, float rateError) {
-    float ret = luxDTermScale * rateError * pidProfile->D8[axis] / dt;
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
+    float ret = luxDTermScale * rateError * pid->D8[axis] / dt;
     ret = constrainf(ret, -PID_MAX_D, PID_MAX_D);
     return ret;
 
@@ -381,6 +355,7 @@ TEST(PIDUnittest, TestPidLuxFloat)
 
 TEST(PIDUnittest, TestPidLuxFloatIntegrationForLinearFunction)
 {
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
     struct rate_config controlRate;
     const uint16_t max_angle_inclination = 500; // 50 degrees
     rollAndPitchTrims_t rollAndPitchTrims;
@@ -405,7 +380,7 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForLinearFunction)
 	ins_process_gyro(&default_ins, gyr[ROLL], gyr[PITCH], gyr[YAW]);
 	update_anglerate();
     float pidITerm = default_controller.output.axis_I[FD_ROLL]; // integral as estimated by PID
-    float actITerm = 0.5 * k * t * t * pidProfile->I8[ROLL] * luxITermScale; // actual value of integral
+    float actITerm = 0.5 * k * t * t * pid->I8[ROLL] * luxITermScale; // actual value of integral
     EXPECT_FLOAT_EQ(actITerm, pidITerm); // both are zero at this point
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
     resetRcCommands();
@@ -420,12 +395,12 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForLinearFunction)
 		ins_process_gyro(&default_ins, gyr[ROLL], gyr[PITCH], gyr[YAW]);
 		update_anglerate();
         pidITerm = default_controller.output.axis_I[FD_ROLL];
-        actITerm = 0.5 * k * t * t * pidProfile->I8[ROLL] * luxITermScale;
+        actITerm = 0.5 * k * t * t * pid->I8[ROLL] * luxITermScale;
         const float pidITermDelta = pidITerm - pidITermPrev;
         const float actITermDelta = actITerm - actITermPrev;
         const float error = fabs(actITermDelta - pidITermDelta);
         // error is limited by rectangle of height k * dt and width dt (then multiplied by pidProfile)
-        const float errorLimit = k * dt * dt * pidProfile->I8[ROLL] * luxITermScale;
+        const float errorLimit = k * dt * dt * pid->I8[ROLL] * luxITermScale;
         EXPECT_GE(errorLimit, error); // ie expect errorLimit >= error
     }
 }
@@ -456,7 +431,7 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForQuadraticFunction)
 	update_anglerate();
 
     float pidITerm = default_controller.output.axis_I[FD_ROLL]; // integral as estimated by PID
-    float actITerm = (1.0f/3.0f) * k * t * t * t * pidProfile->I8[ROLL] * luxITermScale; // actual value of integral
+    float actITerm = (1.0f/3.0f) * k * t * t * t * pid->I8[ROLL] * luxITermScale; // actual value of integral
     EXPECT_FLOAT_EQ(actITerm, pidITerm); // both are zero at this point
 
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
@@ -471,12 +446,12 @@ TEST(PIDUnittest, TestPidLuxFloatIntegrationForQuadraticFunction)
 		ins_process_gyro(&default_ins, gyr[ROLL], gyr[PITCH], gyr[YAW]);
 		update_anglerate();
         pidITerm = default_controller.output.axis_I[FD_ROLL];
-        actITerm = (1.0f/3.0f) * k * t * t * t * pidProfile->I8[ROLL] * luxITermScale;
+        actITerm = (1.0f/3.0f) * k * t * t * t * pid->I8[ROLL] * luxITermScale;
         const float pidITermDelta = pidITerm - pidITermPrev;
         const float actITermDelta = actITerm - actITermPrev;
         const float error = fabs(actITermDelta - pidITermDelta);
         // error is limited by rectangle of height k * dt and width dt (then multiplied by pidProfile)
-        const float errorLimit = k * dt * dt * pidProfile->I8[ROLL] * luxITermScale;
+        const float errorLimit = k * dt * dt * pid->I8[ROLL] * luxITermScale;
         EXPECT_GE(errorLimit, error); // ie expect errorLimit >= error
     }
 }
@@ -512,7 +487,7 @@ TEST(PIDUnittest, TestPidLuxFloatITermConstrain)
 
     // set up a very large rateError to force ITerm to be constrained
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
-    pidProfile->I8[PIDROLL] = 255;
+    pid->I8[PIDROLL] = 255;
     rcCommand[ROLL] = calcLuxRcCommandRoll(10000, &controlRate);
     rateErrorRoll = calcLuxAngleRateRoll(&controlRate);
     EXPECT_EQ(10000, rateErrorRoll);// cross check
@@ -594,7 +569,7 @@ TEST(PIDUnittest, TestPidLuxFloatDTermConstrain)
 
 void pidControllerInitMultiWiiRewriteCore(void)
 {
-    resetPidProfile(&testPidProfile);
+    resetPidProfile();
     testPidProfile.pidController = PID_CONTROLLER_MWREWRITE;
     targetLooptime = TARGET_LOOPTIME; // normalised targetLooptime for pidMultiWiiRewrite
     dt = TARGET_LOOPTIME * 0.000001f;
@@ -673,18 +648,21 @@ int32_t calcMwrAngleRateYaw(const struct rate_config *controlRate) {
 }
 
 int32_t calcMwrPTerm(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
-    return (pidProfile->P8[axis] * rateError) >> 7;
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
+    return (pid->P8[axis] * rateError) >> 7;
 }
 
 int32_t calcMwrITermDelta(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
-    int32_t ret = pidProfile->I8[axis] * (rateError * targetLooptime >> 11) >> 13;
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
+    int32_t ret = pid->I8[axis] * (rateError * targetLooptime >> 11) >> 13;
     ret = constrain(ret, -PID_MAX_I, PID_MAX_I);
     return ret;
 }
 
 int32_t calcMwrDTerm(struct pid_config *pidProfile, pid_index_t axis, int rateError) {
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
     int32_t ret = (rateError * ((uint16_t)0xFFFF / ((uint16_t)targetLooptime >> 4))) >> 5;
-    ret =  (ret * pidProfile->D8[axis]) >> 8;
+    ret =  (ret * pid->D8[axis]) >> 8;
     ret /= DTermAverageCount;
     ret = constrain(ret, -PID_MAX_D, PID_MAX_D);
     return ret;
@@ -692,8 +670,7 @@ int32_t calcMwrDTerm(struct pid_config *pidProfile, pid_index_t axis, int rateEr
 
 TEST(PIDUnittest, TestPidMultiWiiRewrite)
 {
-    struct pid_config *pidProfile = &testPidProfile;
-    resetPidProfile(pidProfile);
+	struct pid_config *pid = &config_get_profile_rw(&config)->pid;
 
     struct rate_config controlRate;
 
@@ -796,7 +773,7 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
     rxConfig_t rxConfig;
 
 
-    resetPidProfile(pidProfile);
+    resetPidProfile();
     pidControllerInitLuxFloat(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
     EXPECT_FLOAT_EQ(1.0f / 16.4f, gyro.scale);
 
@@ -815,7 +792,7 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
     float expectedDTermf = calcLuxDTerm(pidProfile, FD_ROLL, rateErrorRollf) / DTermAverageCount;
     EXPECT_FLOAT_EQ(expectedDTermf, default_controller.output.axis_D[FD_ROLL]);
 
-    resetPidProfile(pidProfile);
+    resetPidProfile();
     pidControllerInitMultiWiiRewrite(&controlRate, max_angle_inclination, &rollAndPitchTrims, &rxConfig);
 
     // set up a rateError of 200 on the roll axis
@@ -840,57 +817,5 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
 
     const float allowedDError = (float)default_controller.output.axis_D[FD_ROLL] / 100; // 1% error allowed
     EXPECT_NEAR(default_controller.output.axis_D[FD_ROLL], default_controller.output.axis_D[FD_ROLL], allowedDError);
-}
-// STUBS
-
-extern "C" {
-bool rcModeIsActive(boxId_e modeId)  { return rcModeActivationMask & (1 << modeId); }
-int16_t GPS_angle[ANGLE_INDEX_COUNT] = { 0, 0 };
-int32_t getRcStickDeflection(struct rx *rx, int32_t axis, uint16_t midrc) {return MIN(ABS(rx_get_channel(rx, axis) - midrc), 500);}
-void resetRollAndPitchTrims(rollAndPitchTrims_t *rollAndPitchTrims) {rollAndPitchTrims->values.roll = 0;rollAndPitchTrims->values.pitch = 0;};
-uint16_t flightModeFlags = 0; // acro mode
-uint8_t stateFlags = 0;
-uint8_t motorCount = 4;
-gyro_t gyro;
-//int32_t gyr[XYZ_AXIS_COUNT];
-uint8_t armingFlags = 0;
-int32_t magADC[3];
-bool motorLimitReached;
-uint32_t rcModeActivationMask;
-
-void applyDefaultLedStripConfig(void) {}
-void applyDefaultColors(void) {}
-void beeperConfirmationBeeps(uint8_t) {}
-void useRxConfig(rxConfig_t *) {}
-void useRcControlsConfig(modeActivationCondition_t *) {}
-void useFailsafeConfig(void) {}
-void suspendRxSignal(void) {}
-void setAccelerationTrims(flightDynamicsTrims_t *) {}
-void resumeRxSignal(void) {}
-void resetAllRxChannelRangeConfigurations(rxChannelRangeConfiguration_t *) {}
-void resetAdjustmentStates(void) {}
-void pidSetController(pid_controller_type_t) {}
-void parseRcChannels(const char *, rxConfig_t *) {}
-#ifdef USE_SERVOS
-void mixerUseConfigs(struct servo_config *) {}
-#else
-void mixerUseConfigs(void) {}
-#endif
-void failsafeReset(void){}
-bool isSerialConfigValid(serialConfig_t *) {return true;}
-void imu_configure(struct imu*,struct imu_config *, struct accelerometer_config *, struct throttle_correction_config *,float ,uint16_t) {}
-void gpsUseProfile(gpsProfile_t *) {}
-void gpsUsePIDs(struct pid_config *) {}
-void generateYawCurve(struct rate_config *) {}
-void generatePitchRollCurve(struct rate_config *) {}
-void generateThrottleCurve(struct rate_config *) {}
-void setControlRateProfile(uint8_t) {}
-void resetControlRateConfig(struct rate_config *) {}
-void activateControlRateConfig() {}
-
-void recalculateMagneticDeclination(void) {}
-
-void pgReset_serialConfig(serialConfig_t *) {}
-
 }
 #endif

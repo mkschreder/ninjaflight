@@ -145,38 +145,47 @@ struct system_calls_time {
 /**
  * Onboard eeprom information structure
  */
-struct system_eeprom_info {
+struct system_bdev_info {
 	uint16_t page_size;
 	uint16_t num_pages;
 };
 
 /**
- * Interface to onboard config storage eeprom. Assumption is made that there is
- * only one config storage per aircraft instance. If a more advanced config
- * storage interface is desired, this system interface can be changed. An
- * eeprom is typically a paged device and for sake of being compatible with
- * wide variety of different paged devices (including flash) the interface
- * below is used to access the eeprom.
+ * Generic interface to a paged/block memory device used to represent
+ * eeprom/flash/file. We use this interface for both the onboard configuration
+ * eeprom and for the dataflash that is available on some hardware (for saving
+ * logs).
  */
-struct system_calls_eeprom {
+struct system_calls_bdev {
 	/**
 	 * Reads a block of memory up to a page boundary. Returns number of bytes
 	 * read upon success and negative number upon error.
 	 */
-	int (*read)(const struct system_calls_eeprom *self, void *dst, uint16_t addr, size_t size);
+	int (*read)(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size);
 	/**
-	 * Writes data to the eeprom up to a page boundary. Returns number of bytes
+	 * Writes data to the memory up to a page boundary. Returns number of bytes
 	 * written or a negative number upon error.
 	 */
-	int (*write)(const struct system_calls_eeprom *self, uint16_t addr, const void *src, size_t size);
+	int (*write)(const struct system_calls_bdev *self, uint16_t addr, const void *src, size_t size);
 	/**
-	 * Erases a page of the eeprom. Address should be first address of the page.
+	 * Erases a page of the memory. Address should be first address of the page.
 	 */
-	int (*erase_page)(const struct system_calls_eeprom *self, uint16_t addr);
+	int (*erase_page)(const struct system_calls_bdev *self, uint16_t addr);
 	/**
-	 * Returns information about the onboard eeprom such as page size and number of pages.
+	 * Returns information about the memory device such as page size and number of pages.
 	 */
-	void (*get_info)(const struct system_calls_eeprom *self, struct system_eeprom_info *info);
+	void (*get_info)(const struct system_calls_bdev *self, struct system_bdev_info *info);
+};
+
+/**
+ * A logger interface that accepts delta frames
+ */
+struct system_calls_logger {
+	/**
+	 * Write a block of data to the logger device. If data can not be written
+	 * in full then we return number of bytes written.
+	 */
+	int16_t (*write)(const struct system_calls_logger *self, const void *src, int16_t size);
 };
 
 /**
@@ -203,7 +212,9 @@ struct system_calls {
 	struct system_calls_leds leds;
 	struct system_calls_beeper beeper;
 	struct system_calls_time time;
-	struct system_calls_eeprom eeprom;
+	struct system_calls_bdev eeprom; //! configuration eeprom
+	struct system_calls_logger logger;
+	//struct system_calls_bdev dataflash; //! dataflash eeprom/flash/whatever
 	struct system_calls_range range;
 };
 
@@ -229,6 +240,19 @@ struct system_calls {
 #define sys_eeprom_read(sys, dst, addr, size) (sys->eeprom.read(&(sys)->eeprom, dst, addr, size))
 #define sys_eeprom_get_info(sys, info) (sys->eeprom.get_info(&(sys)->eeprom, info))
 #define sys_eeprom_erase_page(sys, addr) (sys->eeprom.erase_page(&(sys)->eeprom, addr))
+
+#define sys_logger_write(sys, data, size) (sys->logger.write(&(sys)->logger, data, size))
+
+#define sys_dataflash_write(sys, addr, src, size) (sys->dataflash.write(&(sys)->dataflash, addr, src, size))
+#define sys_dataflash_read(sys, dst, addr, size) (sys->dataflash.read(&(sys)->dataflash, dst, addr, size))
+#define sys_dataflash_get_info(sys, info) (sys->dataflash.get_info(&(sys)->dataflash, info))
+#define sys_dataflash_erase_page(sys, addr) (sys->dataflash.erase_page(&(sys)->dataflash, addr))
+
+// block device functions
+#define sys_bdev_write(bdev, addr, src, size) (bdev->write(bdev, addr, src, size))
+#define sys_bdev_read(bdev, dst, addr, size) (bdev->read(bdev, dst, addr, size))
+#define sys_bdev_get_info(bdev, info) (bdev->get_info(bdev, info))
+#define sys_bdev_erase_page(bdev, addr) (bdev->erase_page(bdev, addr))
 
 #define sys_range_read(sys, deg, dst) (sys->range.read_range(&(sys)->range, deg, dst))
 

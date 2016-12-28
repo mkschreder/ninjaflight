@@ -50,6 +50,25 @@
 
 #include <string.h>
 
+void althold_init(struct althold *self, struct instruments *ins, const struct config *config){
+	memset(self, 0, sizeof(struct althold));
+	self->ins = ins;
+	self->config = config;
+}
+
+void althold_input_throttle(struct althold *self, int32_t throttle){
+	self->throttle = throttle;
+}
+
+void althold_update(struct althold *self){
+	uint32_t alt = ins_get_altitude_cm(self->ins);
+	(void)alt;
+}
+
+int32_t althold_get_throttle(struct althold *self){
+	return self->output;
+}
+
 // TODO: althold
 #if 0
 // 40hz update rate (20hz LPF on acc)

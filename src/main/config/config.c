@@ -675,7 +675,7 @@ static bool config_store_valid(const struct config_store *self){
 static int _load_deltas(struct config_store *store, const struct system_calls *system){
 	uint16_t *ptr = (uint16_t*)store;
 
-	struct system_eeprom_info info;
+	struct system_bdev_info info;
 	sys_eeprom_get_info(system, &info);
 
 	uint32_t eeprom_size = MIN(info.page_size * info.num_pages, CONFIG_EEPROM_SIZE);
@@ -738,7 +738,7 @@ int config_save(const struct config *self, const struct system_calls *system){
 	config_store_update_checksum(&new_store);
 
 	// get the eeprom layout
-	struct system_eeprom_info info;
+	struct system_bdev_info info;
 	sys_eeprom_get_info(system, &info);
 
 	// store the new delta

@@ -180,7 +180,7 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 #endif
 
 	if(USE_BLACKBOX)
-		blackbox_init(&self->blackbox, self, self->config);
+		blackbox_init(&self->blackbox, self->config, self->system);
 
 	sys_led_on(self->system, 1);
 	sys_led_off(self->system, 0);
@@ -408,15 +408,22 @@ static void _run_control_loop(struct ninja *self){
 	} else {
 		anglerate_set_level_percent(&self->ctrl, 0, 0);
 	}
-	anglerate_set_level_percent(&self->ctrl, 100, 100);
-	//_process_tilt_controls(self);
 
 	int16_t roll = rc_get_command(&self->rc, ROLL);
 	int16_t pitch =  rc_get_command(&self->rc, PITCH);
 	int16_t yaw = -rc_get_command(&self->rc, YAW);
+	int16_t throttle = rc_get_command(&self->rc, THROTTLE);
 
 	// prevent spinup when just armed
-	if(rc_get_command(&self->rc, THROTTLE) < -480) yaw = 0;
+	// TODO: 3d mode needs some thought
+	if(throttle < -480) yaw = 0;
+
+	if (rc_key_state(&self->rc, RC_KEY_FUNC_ALTHOLD) == RC_KEY_PRESSED) {
+		althold_input_throttle(&self->althold, throttle);
+		althold_update(&self->althold);
+		throttle = althold_get_throttle(&self->althold);
+	}
+	//_process_tilt_controls(self);
 /*
 	float combined = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&self->ins)));
     float tmpCosine = cos_approx(combined);
@@ -649,6 +656,59 @@ static PT_THREAD(_fsm_controller(struct ninja *self)){
 	PT_END(&self->state_ctrl);
 }
 
+static void _blackbox_write(struct ninja *self){
+	struct blackbox_frame frame = {
+		.time = sys_millis(self->system),
+		.command = {
+			rc_get_command(&self->rc, ROLL),
+			rc_get_command(&self->rc, PITCH),
+			rc_get_command(&self->rc, YAW),
+			rc_get_command(&self->rc, THROTTLE)
+		},
+		.gyro = {
+			ins_get_gyro_x(&self->ins),
+			ins_get_gyro_y(&self->ins),
+			ins_get_gyro_z(&self->ins)
+		},
+		.acc = {
+			ins_get_acc_x(&self->ins),
+			ins_get_acc_y(&self->ins),
+			ins_get_acc_z(&self->ins)
+		},
+		.vbat = 0,
+		.current = 0,
+		.altitude = 0,
+		.mag = {
+			ins_get_mag_x(&self->ins),
+			ins_get_mag_y(&self->ins),
+			ins_get_mag_z(&self->ins)
+		},
+		.sonar_alt = 0,
+		.rssi = 0,
+		.motor = {
+			mixer_get_motor_value(&self->mixer, 0),
+			mixer_get_motor_value(&self->mixer, 1),
+			mixer_get_motor_value(&self->mixer, 2),
+			mixer_get_motor_value(&self->mixer, 3),
+			mixer_get_motor_value(&self->mixer, 4),
+			mixer_get_motor_value(&self->mixer, 5),
+			mixer_get_motor_value(&self->mixer, 6),
+			mixer_get_motor_value(&self->mixer, 7)
+		},
+		.servo = {
+			mixer_get_servo_value(&self->mixer, 0),
+			mixer_get_servo_value(&self->mixer, 1),
+			mixer_get_servo_value(&self->mixer, 2),
+			mixer_get_servo_value(&self->mixer, 3),
+			mixer_get_servo_value(&self->mixer, 4),
+			mixer_get_servo_value(&self->mixer, 5),
+			mixer_get_servo_value(&self->mixer, 6),
+			mixer_get_servo_value(&self->mixer, 7)
+		}
+	};
+	blackbox_write_frame(&self->blackbox, &frame);
+}
+
 void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	int16_t gyroRaw[3];
 	if(sys_gyro_read(self->system, gyroRaw) < 0){
@@ -666,6 +726,8 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	_fsm_arming(self);
 
 	_fsm_controller(self);
+
+	_blackbox_write(self);
 
 	// handle emergency beeper
 	if(rc_key_state(&self->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED){

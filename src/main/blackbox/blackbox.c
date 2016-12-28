@@ -1,5 +1,7 @@
 /*
- * This file is part of Ninjaflight.
+ * New blackbox logger implementation for Ninjaflight
+ *
+ * Copyright (c) 2016 Martin Schröder <mkschreder.uk@gmail.com>
  *
  * Ninjaflight is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +17,158 @@
  * along with Ninjaflight.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+
+#include <platform.h>
+#include "config/config.h"
+
+#include "common/packer.h"
+#include "common/pt.h"
+
+#include "blackbox.h"
+
+#define STATIC_ASSERT(COND,MSG) typedef char static_assertion_##MSG[(COND)?1:-1]
+
+void blackbox_init(struct blackbox *self, const struct config * config, const struct system_calls *system){
+	memset(self, 0, sizeof(*self));
+	self->cur_frame = self->buffers[0];
+	self->prev_frame = self->buffers[1];
+	self->config = config;
+	self->system = system;
+	PT_INIT(&self->flash_writer);
+}
+static PT_THREAD(_blackbox_stream_writer(struct blackbox *self)){
+	PT_BEGIN(&self->flash_writer);
+
+	while(true){
+		PT_WAIT_UNTIL(&self->flash_writer, self->delta_ptr != NULL);
+		int ret = sys_logger_write(self->system, self->delta_ptr, self->delta_size);
+		if(ret > 0){
+			self->delta_ptr += ret;
+			self->delta_size -= ret;
+		}
+		if(self->delta_size == 0){
+			self->delta_ptr = NULL;
+		}
+	}
+
+	PT_END(&self->flash_writer);
+}
+
+void blackbox_write_frame(struct blackbox *self, const struct blackbox_frame *frame){
+	// if previous frame still has not been written then we can not continue
+	_blackbox_stream_writer(self);
+
+	if(self->delta_ptr != NULL) return;
+
+	// TODO: pack
+	memcpy(self->cur_frame, frame, sizeof(*frame));
+
+	int16_t size = delta_encode(self->prev_frame, self->cur_frame, sizeof(*frame), self->delta_buffer, sizeof(self->delta_buffer));
+
+	if(size > 0) {
+		self->delta_size = size;
+		self->delta_ptr = self->delta_buffer;
+	}
+
+	// swap write buffers
+	uint8_t *tmp = self->prev_frame;
+	self->prev_frame = self->cur_frame;
+	self->cur_frame = tmp;
+
+	static uint32_t bytes = 0;
+	static sys_millis_t timeout = 0;
+	bytes+=size;
+	sys_millis_t time = sys_millis(self->system);
+	if(timeout < time){
+		printf("blackbox %.2fKB/s\n", (double)bytes / 1000);
+		bytes = 0;
+		timeout = time+1000;
+	}
+#if 0
+	static uint32_t bytes = 0;
+	static uint32_t bytes_rle = 0;
+	static uint32_t bytes_full = 0;
+	static uint32_t bytes_delta = 0;
+	static sys_millis_t timeout = 0;
+	static struct blackbox_frame prev_frame;
+	sys_millis_t time = sys_millis(self->system);
+	if(timeout < time){
+		printf("blackbox %.2fKb/s, rle %.2fKb/s, delta %.2fKb/s, full %.2fKb/s\n", (double)bytes/1000, (double)bytes_rle/1000, (double)bytes_delta/1000, (double)bytes_full/1000);
+		bytes = 0;
+		bytes_rle = 0;
+		bytes_full = 0;
+		bytes_delta = 0;
+		timeout = time+1000;
+	}
+	bytes+= sizeof(*frame);
+
+	uint8_t bc = 0;
+	memcpy(self->history[0], frame, sizeof(*frame));
+	/*
+	printf("D");
+	for(uint8_t c = 0; c < bc; c++){
+		printf("%02x", self->buffer[c] & 0xff);
+	}
+	printf("\n");
+	*/
+	bytes_delta += bc;
+	packer_reset(&self->packer);
+
+	/*
+	printf("F");
+	for(uint8_t c = 0; c < bc; c++){
+		printf("%02x", self->buffer[c] & 0xff);
+	}
+	printf("\n");
+	*/
+	bytes_full += bc;
+	packer_reset(&self->packer);
+
+	memcpy(self->history[0], frame, sizeof(*frame));
+		int8_t *ptr = (int8_t*)(void*)frame;
+	int8_t *prev = (int8_t*)(void*)&prev_frame;
+	for(size_t c = 0; c < sizeof(*frame); c++){
+		//ptr[c] = rand();
+	}
+
+	int8_t delta[sizeof(*frame)];
+	static int8_t pdelta[sizeof(*frame)];
+	for(size_t c = 0; c < sizeof(*frame); c++){
+		//delta[c] = *(ptr + c) ^ *(prev + c); //((*(ptr + c) & 0xff) - (*(prev + c) & 0xff));
+		//int8_t pd = delta[c];
+		//delta[c] = ((*(ptr + c) & 0xff) - (*(prev + c) & 0xff));
+		int8_t dd = ptr[c] - prev[c];
+		delta[c] = dd - pdelta[c];
+		pdelta[c] = dd;
+	}
+
+	int8_t buf[sizeof(*frame) * 2];
+	//uint8_t size = rle_encode(delta, sizeof(*frame), buf, sizeof(buf));
+	struct packer pack;
+	packer_init(&pack, buf, sizeof(buf));
+	uint8_t size = pack_blob(&pack, delta, sizeof(*frame));
+	bytes_rle += size;
+	for(uint8_t c = 0; c < size; c++){
+		//printf("%02x", buf[c] & 0xff);
+	}
+	//printf("\n");
+
+	for(size_t c = 0; c < sizeof(*frame); c++){
+		//printf("%02x", delta[c] & 0xff);
+	}
+	//printf("\n");
+
+	memcpy(&prev_frame, frame, sizeof(*frame));
+#endif
+}
+
+bool blackbox_is_running(struct blackbox *self){
+	(void)self;
+	return true;
+}
 
 #if 0
 #include <platform.h>
@@ -26,6 +178,8 @@
 #include "common/axis.h"
 #include "common/encoding.h"
 #include "common/utils.h"
+
+#include "config/config.h"
 
 #include "flight/rate_profile.h"
 
@@ -48,7 +202,6 @@
 #include "config/config.h"
 #include "config/feature.h"
 #include "config/profile.h"
-#include "config/config_reset.h"
 
 #include "../ninja.h"
 
@@ -260,7 +413,7 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0:
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_1:
 		case FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_2:
-			return config_get_current_profile(self->config)->pid.D8[condition - FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0] != 0;
+			return config_get_profile(self->config)->pid.D8[condition - FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0] != 0;
 
 		case FLIGHT_LOG_FIELD_CONDITION_MAG:
 			if(USE_MAG)
@@ -275,20 +428,23 @@ static bool testBlackboxConditionUncached(struct blackbox *self, FlightLogFieldC
 #endif
 
 		case FLIGHT_LOG_FIELD_CONDITION_VBAT:
-			return feature(FEATURE_VBAT);
+			//return feature(FEATURE_VBAT);
+			return false;
 
 		case FLIGHT_LOG_FIELD_CONDITION_AMPERAGE_ADC:
-			return feature(FEATURE_CURRENT_METER) && self->config->bat.currentMeterType == CURRENT_SENSOR_ADC;
+			//return feature(FEATURE_CURRENT_METER) && self->config->bat.currentMeterType == CURRENT_SENSOR_ADC;
+			return false;
 
 		case FLIGHT_LOG_FIELD_CONDITION_SONAR:
 #ifdef SONAR
-			return feature(FEATURE_SONAR);
+			//return feature(FEATURE_SONAR);
+			return false;
 #else
 			return false;
 #endif
 
 		case FLIGHT_LOG_FIELD_CONDITION_RSSI:
-			return self->config->rx.rssi_channel > 0 || feature(FEATURE_RSSI_ADC);
+			return self->config->rx.rssi_channel > 0; // || feature(FEATURE_RSSI_ADC);
 
 		case FLIGHT_LOG_FIELD_CONDITION_NOT_LOGGING_EVERY_FRAME:
 			return self->config->blackbox.rate_num < self->config->blackbox.rate_denom;
@@ -326,7 +482,7 @@ static void blackboxSetState(struct blackbox *self, BlackboxState newState)
 			self->blackboxLoggedAnyFrames = false;
 		break;
 		case BLACKBOX_STATE_SEND_HEADER:
-			self->blackboxHeaderBudget = 0;
+			//self->blackboxHeaderBudget = 0;
 			self->xmitState.headerIndex = 0;
 			self->xmitState.u.startTime = sys_millis(self->ninja->system);
 		break;
@@ -355,34 +511,33 @@ static void blackboxSetState(struct blackbox *self, BlackboxState newState)
 	self->blackboxState = newState;
 }
 
-static void writeIntraframe(struct blackbox *self)
-{
-	blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
+static void writeIntraframe(struct blackbox *self){
+	struct blackbox_frame *cf = history[0];
 	int x;
 
 	blackboxWrite(self, 'I');
 
 	blackboxWriteUnsignedVB(blackboxIteration);
-	blackboxWriteUnsignedVB(blackboxCurrent->time);
+	blackboxWriteUnsignedVB(cf->time);
 
-	blackboxWriteSignedVBArray(blackboxCurrent->axisPID_P, XYZ_AXIS_COUNT);
-	blackboxWriteSignedVBArray(blackboxCurrent->axisPID_I, XYZ_AXIS_COUNT);
+	blackboxWriteSignedVBArray(cf->axisPID_P, XYZ_AXIS_COUNT);
+	blackboxWriteSignedVBArray(cf->axisPID_I, XYZ_AXIS_COUNT);
 
 	// Don't bother writing the current D term if the corresponding PID setting is zero
 	for (x = 0; x < XYZ_AXIS_COUNT; x++) {
 		if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0 + x)) {
-			blackboxWriteSignedVB(blackboxCurrent->axisPID_D[x]);
+			blackboxWriteSignedVB(cf->axisPID_D[x]);
 		}
 	}
 
 	// Write roll, pitch and yaw first:
-	blackboxWriteSigned16VBArray(blackboxCurrent->rcCommand, 3);
+	blackboxWriteSigned16VBArray(cf->rcCommand, 3);
 
 	/*
 	 * Write the throttle separately from the rest of the RC data so we can apply a predictor to it.
 	 * Throttle lies in range [minthrottle..maxthrottle]:
 	 */
-	blackboxWriteUnsignedVB(blackboxCurrent->rcCommand[THROTTLE] - self->config->pwm_out.minthrottle);
+	blackboxWriteUnsignedVB(cf->rcCommand[THROTTLE] - self->config->pwm_out.minthrottle);
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_VBAT)) {
 		/*
@@ -391,67 +546,67 @@ static void writeIntraframe(struct blackbox *self)
 		 *
 		 * Write 14 bits even if the number is negative (which would otherwise result in 32 bits)
 		 */
-		blackboxWriteUnsignedVB((vbatReference - blackboxCurrent->vbatLatest) & 0x3FFF);
+		blackboxWriteUnsignedVB((vbatReference - cf->vbatLatest) & 0x3FFF);
 	}
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_AMPERAGE_ADC)) {
 		// 12bit value directly from ADC
-		blackboxWriteUnsignedVB(blackboxCurrent->amperageLatest);
+		blackboxWriteUnsignedVB(cf->amperageLatest);
 	}
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
-		blackboxWriteSigned16VBArray(blackboxCurrent->magADC, XYZ_AXIS_COUNT);
+		blackboxWriteSigned16VBArray(cf->magADC, XYZ_AXIS_COUNT);
 	}
 
 #ifdef BARO
 		if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_BARO)) {
-			blackboxWriteSignedVB(blackboxCurrent->BaroAlt);
+			blackboxWriteSignedVB(cf->BaroAlt);
 		}
 #endif
 
 #ifdef SONAR
 		if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_SONAR)) {
-			blackboxWriteSignedVB(blackboxCurrent->sonarRaw);
+			blackboxWriteSignedVB(cf->sonarRaw);
 		}
 #endif
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_RSSI)) {
-		blackboxWriteUnsignedVB(blackboxCurrent->rssi);
+		blackboxWriteUnsignedVB(cf->rssi);
 	}
 
-	blackboxWriteSigned16VBArray(blackboxCurrent->gyroADC, XYZ_AXIS_COUNT);
-	blackboxWriteSigned16VBArray(blackboxCurrent->accSmooth, XYZ_AXIS_COUNT);
+	blackboxWriteSigned16VBArray(cf->gyroADC, XYZ_AXIS_COUNT);
+	blackboxWriteSigned16VBArray(cf->accSmooth, XYZ_AXIS_COUNT);
 
 	//Motors can be below minthrottle when disarmed, but that doesn't happen much
-	blackboxWriteUnsignedVB(blackboxCurrent->motor[0] - self->config->pwm_out.minthrottle);
+	blackboxWriteUnsignedVB(cf->motor[0] - self->config->pwm_out.minthrottle);
 
 	//Motors tend to be similar to each other so use the first motor's value as a predictor of the others
 	for (x = 1; x < mixer_get_motor_count(&self->ninja->mixer); x++) {
-		blackboxWriteSignedVB(blackboxCurrent->motor[x] - blackboxCurrent->motor[0]);
+		blackboxWriteSignedVB(cf->motor[x] - cf->motor[0]);
 	}
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_TRICOPTER)) {
 		//Assume the tail spends most of its time around the center
-		blackboxWriteSignedVB(blackboxCurrent->servo[5] - 1500);
+		blackboxWriteSignedVB(cf->servo[5] - 1500);
 	}
 
 	//Rotate our history buffers:
 
 	//The current state becomes the new "before" state
-	blackboxHistory[1] = blackboxHistory[0];
+	history[1] = history[0];
 	//And since we have no other history, we also use it for the "before, before" state
-	blackboxHistory[2] = blackboxHistory[0];
+	history[2] = history[0];
 	//And advance the current state over to a blank space ready to be filled
-	blackboxHistory[0] = ((blackboxHistory[0] - blackboxHistoryRing + 1) % 3) + blackboxHistoryRing;
+	history[0] = ((history[0] - historyRing + 1) % 3) + historyRing;
 
 	blackboxLoggedAnyFrames = true;
 }
 
 static void blackboxWriteMainStateArrayUsingAveragePredictor(int arrOffsetInHistory, int count)
 {
-	int16_t *curr  = (int16_t*) ((char*) (blackboxHistory[0]) + arrOffsetInHistory);
-	int16_t *prev1 = (int16_t*) ((char*) (blackboxHistory[1]) + arrOffsetInHistory);
-	int16_t *prev2 = (int16_t*) ((char*) (blackboxHistory[2]) + arrOffsetInHistory);
+	int16_t *curr  = (int16_t*) ((char*) (history[0]) + arrOffsetInHistory);
+	int16_t *prev1 = (int16_t*) ((char*) (history[1]) + arrOffsetInHistory);
+	int16_t *prev2 = (int16_t*) ((char*) (history[2]) + arrOffsetInHistory);
 
 	for (int i = 0; i < count; i++) {
 		// Predictor is the average of the previous two history states
@@ -461,13 +616,12 @@ static void blackboxWriteMainStateArrayUsingAveragePredictor(int arrOffsetInHist
 	}
 }
 
-static void writeInterframe(struct blackbox *self)
-{
+static void writeInterframe(struct blackbox *self){
 	int x;
 	int32_t deltas[8];
 
-	blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
-	blackboxMainState_t *blackboxLast = blackboxHistory[1];
+	struct blackbox_frame *cf = history[0];
+	struct blackbox_frame *blackboxLast = history[1];
 
 	blackboxWrite(self, 'P');
 
@@ -477,16 +631,16 @@ static void writeInterframe(struct blackbox *self)
 	 * Since the difference between the difference between successive times will be nearly zero (due to consistent
 	 * looptime spacing), use second-order differences.
 	 */
-	blackboxWriteSignedVB((int32_t) (blackboxHistory[0]->time - 2 * blackboxHistory[1]->time + blackboxHistory[2]->time));
+	blackboxWriteSignedVB((int32_t) (history[0]->time - 2 * history[1]->time + history[2]->time));
 
-	arraySubInt32(deltas, blackboxCurrent->axisPID_P, blackboxLast->axisPID_P, XYZ_AXIS_COUNT);
+	arraySubInt32(deltas, cf->axisPID_P, blackboxLast->axisPID_P, XYZ_AXIS_COUNT);
 	blackboxWriteSignedVBArray(deltas, XYZ_AXIS_COUNT);
 
 	/* 
 	 * The PID I field changes very slowly, most of the time +-2, so use an encoding
 	 * that can pack all three fields into one byte in that situation.
 	 */
-	arraySubInt32(deltas, blackboxCurrent->axisPID_I, blackboxLast->axisPID_I, XYZ_AXIS_COUNT);
+	arraySubInt32(deltas, cf->axisPID_I, blackboxLast->axisPID_I, XYZ_AXIS_COUNT);
 	blackboxWriteTag2_3S32(deltas);
 	
 	/*
@@ -495,7 +649,7 @@ static void writeInterframe(struct blackbox *self)
 	 */
 	for (x = 0; x < XYZ_AXIS_COUNT; x++) {
 		if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_NONZERO_PID_D_0 + x)) {
-			blackboxWriteSignedVB(blackboxCurrent->axisPID_D[x] - blackboxLast->axisPID_D[x]);
+			blackboxWriteSignedVB(cf->axisPID_D[x] - blackboxLast->axisPID_D[x]);
 		}
 	}
 
@@ -504,7 +658,7 @@ static void writeInterframe(struct blackbox *self)
 	 * can pack multiple values per byte:
 	 */
 	for (x = 0; x < 4; x++) {
-		deltas[x] = blackboxCurrent->rcCommand[x] - blackboxLast->rcCommand[x];
+		deltas[x] = cf->rcCommand[x] - blackboxLast->rcCommand[x];
 	}
 
 	blackboxWriteTag8_4S16(deltas);
@@ -513,50 +667,50 @@ static void writeInterframe(struct blackbox *self)
 	int optionalFieldCount = 0;
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_VBAT)) {
-		deltas[optionalFieldCount++] = (int32_t) blackboxCurrent->vbatLatest - blackboxLast->vbatLatest;
+		deltas[optionalFieldCount++] = (int32_t) cf->vbatLatest - blackboxLast->vbatLatest;
 	}
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_AMPERAGE_ADC)) {
-		deltas[optionalFieldCount++] = (int32_t) blackboxCurrent->amperageLatest - blackboxLast->amperageLatest;
+		deltas[optionalFieldCount++] = (int32_t) cf->amperageLatest - blackboxLast->amperageLatest;
 	}
 
 	if (USE_MAG && testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_MAG)) {
 		for (x = 0; x < XYZ_AXIS_COUNT; x++) {
-			deltas[optionalFieldCount++] = blackboxCurrent->magADC[x] - blackboxLast->magADC[x];
+			deltas[optionalFieldCount++] = cf->magADC[x] - blackboxLast->magADC[x];
 		}
 	}
 
 #ifdef BARO
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_BARO)) {
-		deltas[optionalFieldCount++] = blackboxCurrent->BaroAlt - blackboxLast->BaroAlt;
+		deltas[optionalFieldCount++] = cf->BaroAlt - blackboxLast->BaroAlt;
 	}
 #endif
 
 #ifdef SONAR
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_SONAR)) {
-		deltas[optionalFieldCount++] = blackboxCurrent->sonarRaw - blackboxLast->sonarRaw;
+		deltas[optionalFieldCount++] = cf->sonarRaw - blackboxLast->sonarRaw;
 	}
 #endif
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_RSSI)) {
-		deltas[optionalFieldCount++] = (int32_t) blackboxCurrent->rssi - blackboxLast->rssi;
+		deltas[optionalFieldCount++] = (int32_t) cf->rssi - blackboxLast->rssi;
 	}
 
 	blackboxWriteTag8_8SVB(deltas, optionalFieldCount);
 
 	//Since gyros, accs and motors are noisy, base their predictions on the average of the history:
-	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, gyroADC),   XYZ_AXIS_COUNT);
-	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, accSmooth), XYZ_AXIS_COUNT);
-	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(blackboxMainState_t, motor),	 mixer_get_motor_count(&self->ninja->mixer));
+	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(struct blackbox_frame, gyroADC),   XYZ_AXIS_COUNT);
+	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(struct blackbox_frame, accSmooth), XYZ_AXIS_COUNT);
+	blackboxWriteMainStateArrayUsingAveragePredictor(offsetof(struct blackbox_frame, motor),	 mixer_get_motor_count(&self->ninja->mixer));
 
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_TRICOPTER)) {
-		blackboxWriteSignedVB(blackboxCurrent->servo[5] - blackboxLast->servo[5]);
+		blackboxWriteSignedVB(cf->servo[5] - blackboxLast->servo[5]);
 	}
 
 	//Rotate our history buffers
-	blackboxHistory[2] = blackboxHistory[1];
-	blackboxHistory[1] = blackboxHistory[0];
-	blackboxHistory[0] = ((blackboxHistory[0] - blackboxHistoryRing + 1) % 3) + blackboxHistoryRing;
+	history[2] = history[1];
+	history[1] = history[0];
+	history[0] = ((history[0] - historyRing + 1) % 3) + historyRing;
 
 	blackboxLoggedAnyFrames = true;
 }
@@ -640,13 +794,13 @@ void blackbox_start(struct blackbox *self)
 
 		memset(&gpsHistory, 0, sizeof(gpsHistory));
 
-		blackboxHistory[0] = &blackboxHistoryRing[0];
-		blackboxHistory[1] = &blackboxHistoryRing[1];
-		blackboxHistory[2] = &blackboxHistoryRing[2];
+		history[0] = &historyRing[0];
+		history[1] = &historyRing[1];
+		history[2] = &historyRing[2];
 
 		vbatReference = battery_get_voltage(&self->ninja->bat);
 
-		//No need to clear the content of blackboxHistoryRing since our first frame will be an intra which overwrites it
+		//No need to clear the content of historyRing since our first frame will be an intra which overwrites it
 
 		/*
 		 * We use conditional tests to decide whether or not certain fields should be logged. Since our headers
@@ -729,7 +883,7 @@ static void writeGPSFrame(struct blackbox *self)
 	 */
 	if (testBlackboxCondition(FLIGHT_LOG_FIELD_CONDITION_NOT_LOGGING_EVERY_FRAME)) {
 		// Predict the time of the last frame in the main log
-		blackboxWriteUnsignedVB(sys_micros(self->ninja->system) - blackboxHistory[1]->time);
+		blackboxWriteUnsignedVB(sys_micros(self->ninja->system) - history[1]->time);
 	}
 
 	blackboxWriteUnsignedVB(gps->GPS_numSat);
@@ -748,68 +902,40 @@ static void writeGPSFrame(struct blackbox *self)
 /**
  * Fill the current state of the blackbox using values read from the flight controller
  */
-static void loadMainState(struct blackbox *self)
-{
-	blackboxMainState_t *blackboxCurrent = blackboxHistory[0];
+static void (struct blackbox *self){
+	struct blackbox_frame *cf = self->history[0];
 	int i;
 
-	blackboxCurrent->time = sys_micros(self->ninja->system);
-
-	/* TODO: this kind of thing should be solved differently. If debugging is needed then debug other values, not intermediate calculations.
-	const struct pid_controller_output *out = anglerate_get_output_ptr(&self->ninja->ctrl); 
-	for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-		blackboxCurrent->axisPID_P[i] = out->axis_P[i];
-	}
-	for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-		blackboxCurrent->axisPID_I[i] = out->axis_I[i];
-	}
-	for (i = 0; i < XYZ_AXIS_COUNT; i++) {
-		blackboxCurrent->axisPID_D[i] = out->axis_D[i];
-	}
-	*/
+	cf->time = sys_micros(self->ninja->system);
 
 	for (i = 0; i < 4; i++) {
-		blackboxCurrent->rcCommand[i] = rc_get_command(&self->ninja->rc, i);
+		cf->command[i] = rc_get_command(&self->ninja->rc, i);
 	}
 
-	blackboxCurrent->gyroADC[X] = ins_get_gyro_x(&self->ninja->ins);
-	blackboxCurrent->gyroADC[Y] = ins_get_gyro_y(&self->ninja->ins);
-	blackboxCurrent->gyroADC[Z] = ins_get_gyro_z(&self->ninja->ins);
+	cf->gyro[X] = ins_get_gyro_x(&self->ninja->ins);
+	cf->gyro[Y] = ins_get_gyro_y(&self->ninja->ins);
+	cf->gyro[Z] = ins_get_gyro_z(&self->ninja->ins);
 
-	blackboxCurrent->accSmooth[X] = ins_get_acc_x(&self->ninja->ins);
-	blackboxCurrent->accSmooth[Y] = ins_get_acc_y(&self->ninja->ins);
-	blackboxCurrent->accSmooth[Z] = ins_get_acc_z(&self->ninja->ins);
+	cf->acc[X] = ins_get_acc_x(&self->ninja->ins);
+	cf->acc[Y] = ins_get_acc_y(&self->ninja->ins);
+	cf->acc[Z] = ins_get_acc_z(&self->ninja->ins);
 
 	for (i = 0; i < mixer_get_motor_count(&self->ninja->mixer); i++) {
 		// TODO: pwm direct input
-		//blackboxCurrent->motor[i] = mixer_get_motor_value(&self->ninja->mixer, i);
+		//cf->motor[i] = mixer_get_motor_value(&self->ninja->mixer, i);
 	}
 
-	blackboxCurrent->vbatLatest = battery_get_voltage(&self->ninja->bat);
-	blackboxCurrent->amperageLatest = battery_get_current(&self->ninja->bat);
+	cf->vbat = battery_get_voltage(&self->ninja->bat);
+	cf->current = battery_get_current(&self->ninja->bat);
 
 	if(USE_MAG){
-		blackboxCurrent->magADC[X] = ins_get_mag_x(&self->ninja->ins);
-		blackboxCurrent->magADC[Y] = ins_get_mag_y(&self->ninja->ins);
-		blackboxCurrent->magADC[Z] = ins_get_mag_z(&self->ninja->ins);
+		cf->mag[X] = ins_get_mag_x(&self->ninja->ins);
+		cf->mag[Y] = ins_get_mag_y(&self->ninja->ins);
+		cf->mag[Z] = ins_get_mag_z(&self->ninja->ins);
 	}
 
-#ifdef BARO
-	blackboxCurrent->BaroAlt = BaroAlt;
-#endif
-
-#ifdef SONAR
-	// Store the raw sonar value without applying tilt correction
-	blackboxCurrent->sonarRaw = sonar_read(&default_sonar);
-#endif
-
-	blackboxCurrent->rssi = rx_get_rssi(&self->ninja->rx);
-
-#ifdef USE_SERVOS
-	//Tail servo for tricopters
-	// TODO: direct servo values
-	//blackboxCurrent->servo[5] = mixer_get_servo_value(&self->ninja->mixer, 5);
-#endif
+	cf->altitude = 0;
+	cf->rssi = rx_get_rssi(&self->ninja->rx);
 }
 
 /**
@@ -863,7 +989,7 @@ static bool sendFieldDefinition(struct blackbox *self, char mainFrameChar, char 
 			return true; // Try again later
 		}
 
-		self->blackboxHeaderBudget -= blackboxPrintf("H Field %c %s:", xmitState.headerIndex >= BLACKBOX_SIMPLE_FIELD_HEADER_COUNT ? deltaFrameChar : mainFrameChar, blackboxFieldHeaderNames[xmitState.headerIndex]);
+		//self->blackboxHeaderBudget -= blackboxPrintf("H Field %c %s:", xmitState.headerIndex >= BLACKBOX_SIMPLE_FIELD_HEADER_COUNT ? deltaFrameChar : mainFrameChar, blackboxFieldHeaderNames[xmitState.headerIndex]);
 
 		xmitState.u.fieldIndex++;
 		needComma = false;
@@ -894,7 +1020,7 @@ static bool sendFieldDefinition(struct blackbox *self, char mainFrameChar, char 
 				return true;
 			}
 
-			self->blackboxHeaderBudget -= bytesToWrite;
+			//self->blackboxHeaderBudget -= bytesToWrite;
 
 			if (needComma) {
 				blackboxWrite(self, ',');
@@ -919,7 +1045,7 @@ static bool sendFieldDefinition(struct blackbox *self, char mainFrameChar, char 
 
 	// Did we complete this line?
 	if (xmitState.u.fieldIndex == fieldCount && blackboxDeviceReserveBufferSpace(1) == BLACKBOX_RESERVE_SUCCESS) {
-		self-<blackboxHeaderBudget--;
+		//self->blackboxHeaderBudget--;
 		blackboxWrite(self, '\n');
 		xmitState.headerIndex++;
 		xmitState.u.fieldIndex = -1;
@@ -986,9 +1112,9 @@ static bool blackboxWriteSysinfo(struct blackbox *self){
 		break;
 		case 13:
 			//Note: Log even if this is a virtual current meter, since the virtual meter uses these parameters too:
-			if (feature(FEATURE_CURRENT_METER)) {
+			//if (feature(FEATURE_CURRENT_METER)) {
 				blackboxPrintfHeaderLine("currentMeter:%d,%d", self->config->bat.currentMeterOffset, self->config->bat.currentMeterScale);
-			}
+			//}
 		break;
 		default:
 			return true;
@@ -1117,7 +1243,8 @@ static void blackboxLogIteration(struct blackbox *self)
 			loadMainState(self);
 			writeInterframe(self);
 		}
-#ifdef GPS
+#if 0
+		// TODO: blackbox gps
 		if (feature(FEATURE_GPS)) {
 			/*
 			 * If the GPS home point has been updated, or every 128 intraframes (~10 seconds), write the
@@ -1173,7 +1300,7 @@ void blackbox_update(struct blackbox *self)
 				if (blackboxDeviceReserveBufferSpace(BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION) == BLACKBOX_RESERVE_SUCCESS) {
 					for (i = 0; i < BLACKBOX_TARGET_HEADER_BUDGET_PER_ITERATION && blackboxHeader[xmitState.headerIndex] != '\0'; i++, xmitState.headerIndex++) {
 						blackboxWrite(blackboxHeader[xmitState.headerIndex]);
-						self->blackboxHeaderBudget--;
+						//self->blackboxHeaderBudget--;
 					}
 
 					if (blackboxHeader[xmitState.headerIndex] == '\0') {
@@ -1186,9 +1313,9 @@ void blackbox_update(struct blackbox *self)
 			//On entry of this state, xmitState.headerIndex is 0 and xmitState.u.fieldIndex is -1
 			if (!sendFieldDefinition('I', 'P', blackboxMainFields, blackboxMainFields + 1, ARRAY_LENGTH(blackboxMainFields),
 					&blackboxMainFields[0].condition, &blackboxMainFields[1].condition)) {
-				if (feature(FEATURE_GPS)) {
-					blackboxSetState(self, BLACKBOX_STATE_SEND_GPS_H_HEADER);
-				} else
+				//if (feature(FEATURE_GPS)) {
+				//	blackboxSetState(self, BLACKBOX_STATE_SEND_GPS_H_HEADER);
+				//} else
 					blackboxSetState(self, BLACKBOX_STATE_SEND_SLOW_HEADER);
 			}
 		break;

@@ -37,6 +37,8 @@ COMMON_FLAGS = \
 	-O0 \
 	-DUNIT_TEST \
 	-isystem $(GTEST_DIR)/inc \
+	-I$(USER_DIR)/../freertos/Source/portable/GCC/POSIX/ \
+	-I$(USER_DIR)/../freertos/Source/include \
 	-MMD -MP
 
 # Flags passed to the C compiler.
@@ -167,10 +169,6 @@ $(OBJECT_DIR)/common_filter_unittest : \
 
 	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
 
-$(OBJECT_DIR)/common/encoding.o : $(USER_DIR)/common/encoding.c $(USER_DIR)/common/encoding.h $(GTEST_HEADERS)
-	@mkdir -p $(dir $@)
-	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/common/encoding.c -o $@
-
 $(OBJECT_DIR)/encoding_unittest.o : \
 	$(TEST_DIR)/encoding_unittest.cc \
 	$(USER_DIR)/common/encoding.h \
@@ -180,11 +178,10 @@ $(OBJECT_DIR)/encoding_unittest.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/encoding_unittest.cc -o $@
 
 $(OBJECT_DIR)/encoding_unittest : \
-	$(OBJECT_DIR)/common/encoding.o \
 	$(OBJECT_DIR)/encoding_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
-	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@
+	$(CXX) $(CXX_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
 
 $(OBJECT_DIR)/common/typeconversion.o : \
 	$(USER_DIR)/common/typeconversion.c \
@@ -739,6 +736,13 @@ $(OBJECT_DIR)/beeper_unittest.o : \
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/beeper_unittest.cc -o $@
 
+$(OBJECT_DIR)/tasks_unittest.o : \
+	$(TEST_DIR)/tasks_unittest.cc \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/tasks_unittest.cc -o $@
+
 
 $(OBJECT_DIR)/mock/mock_flash.o : \
 	$(TEST_DIR)/../mock/mock_flash.cc \
@@ -748,6 +752,7 @@ $(OBJECT_DIR)/mock/mock_flash.o : \
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/../mock/mock_flash.cc -o $@
 
 $(OBJECT_DIR)/mock/mock_system.o : \
+	$(USER_DIR)/system_calls.h \
 	$(TEST_DIR)/../mock/mock_system.cc \
 	$(GTEST_HEADERS)
 
@@ -766,6 +771,14 @@ $(OBJECT_DIR)/beeper_unittest : \
 	$(OBJECT_DIR)/mock/mock_flash.o \
 	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/beeper_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
+$(OBJECT_DIR)/tasks_unittest : \
+	$(OBJECT_DIR)/mock/mock_flash.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/tasks_unittest.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)

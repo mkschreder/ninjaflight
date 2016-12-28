@@ -36,18 +36,14 @@ struct althold {
 
     uint8_t isAltHoldChanged;
 
-	int16_t throttle; //!< output throttle difference
+	int16_t throttle; //!< input throttle
+	int16_t output; //!< output throttle difference
 
 	struct instruments *ins;
-	struct rx *rx;
 	const struct config *config;
 };
 
-void althold_init(struct althold *self, struct instruments *ins, struct rx *rx, const struct config *config);
-
-void althold_calc_altitude(struct althold *self, uint32_t currentTime);
-
-void althold_apply(struct althold *self);
+void althold_init(struct althold *self, struct instruments *ins, const struct config *config);
+void althold_input_throttle(struct althold *self, int32_t throttle);
 void althold_update(struct althold *self);
-
-int32_t althold_get_est_altitude(struct althold *self);
+int32_t althold_get_throttle(struct althold *self);

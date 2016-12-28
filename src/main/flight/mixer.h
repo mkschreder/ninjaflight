@@ -78,6 +78,8 @@ struct mixer {
 
 	biquad_t servoFilterState[MAX_SUPPORTED_SERVOS];
 
+	int16_t output[MIXER_OUTPUT_COUNT];
+
 	// TODO: mixer should not need so many configs. Need to factor out control logic out of the mixer!
 	const struct config *config;
 
@@ -101,13 +103,13 @@ bool mixer_motor_limit_reached(struct mixer *self);
 
 //! sets throttle range of the mixer (can be used to set 3d throttle range too)
 void mixer_set_throttle_range(struct mixer *self, int16_t mid, int16_t min, int16_t max);
-/*
+
 //! returns a value of specified servo channel (id 0 is the first servo)
 uint16_t mixer_get_servo_value(struct mixer *self, uint8_t id);
 
 //! returns a value of specified motor channel (id 0 is the first motor)
 uint16_t mixer_get_motor_value(struct mixer *self, uint8_t id);
-*/
+
 //! returns total number of motors that are being actively mixed by the mixer as part of current profile
 uint8_t mixer_get_motor_count(struct mixer *self);
 
