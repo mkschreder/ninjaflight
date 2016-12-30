@@ -270,6 +270,29 @@ TEST_F(PackerTest, DeltaDecode){
 	}
 }
 
+/**
+ * Test decoding two deltas in a row
+ */
+TEST_F(PackerTest, DeltaDecodeTwice){
+	uint8_t delta[] = { 0x01, 0x03, 0x02, 0x44, 0x03, 0xaa, 0xbb, 0x01, 0x03, 0x02, 0x45, 0x03, 0xaa, 0xbc };
+	uint8_t expect[10];
+	uint8_t output[10];
+	memset(expect, 0, sizeof(expect));
+	memset(output, 0, sizeof(output));
+	expect[1] = 0x45;
+	expect[8] = 0xaa;
+	expect[9] = 0xbc;
+
+	int16_t pos = delta_decode(delta, output, sizeof(output));
+	EXPECT_EQ(7, pos);
+	pos = delta_decode(delta + pos, output, sizeof(output));
+	EXPECT_EQ(7, pos);
+	for(size_t c = 0; c < sizeof(output); c++){
+		EXPECT_EQ(expect[c], output[c]);
+	}
+}
+
+
 
 /**
  * Test different size buffers using the delta packer

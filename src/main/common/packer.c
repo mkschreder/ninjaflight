@@ -116,6 +116,9 @@ static int16_t _delta_encode_block(const void *_prev_state, const void *_cur_sta
 	return output - (uint8_t*)_output;
 }
 
+/**
+ * Decodes a delta block and returns the number of characters consumed from the input buffer
+ */
 int16_t _delta_decode_block(const void *_delta, void *_output, size_t out_size, size_t block_size){
 	const uint8_t *delta = (const uint8_t*)_delta;
 	const uint8_t *header = delta++;

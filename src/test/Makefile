@@ -37,8 +37,8 @@ COMMON_FLAGS = \
 	-O0 \
 	-DUNIT_TEST \
 	-isystem $(GTEST_DIR)/inc \
-	-I$(USER_DIR)/../freertos/Source/portable/GCC/POSIX/ \
-	-I$(USER_DIR)/../freertos/Source/include \
+	-I$(USER_DIR)/freertos/Source/portable/GCC/POSIX/ \
+	-I$(USER_DIR)/freertos/Source/include \
 	-MMD -MP
 
 # Flags passed to the C compiler.
