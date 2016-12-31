@@ -341,11 +341,11 @@ static int _read_pressure(const struct system_calls_imu *sys, uint32_t *pressure
 	return cl->read_pressure(cl, pressure);
 }
 
-static int _read_temperature(const struct system_calls_imu *sys, int16_t *pressure){
+static int _read_temperature(const struct system_calls_imu *sys, int16_t *temp){
 	struct application *self = container_of(container_of(sys, struct system_calls, imu), struct application, syscalls);
 	struct fc_sitl_client_interface *cl = self->sitl->client;
 
-	return cl->read_temperature(cl, pressure);
+	return cl->read_temperature(cl, temp);
 }
 
 static void application_init(struct application *self, struct fc_sitl_server_interface *server){
@@ -573,6 +573,10 @@ void vApplicationMallocFailedHook(void){
 }
 
 void vApplicationIdleHook(void){
+
+}
+
+void vApplicationTickHook(void){
 
 }
 

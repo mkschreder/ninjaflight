@@ -2752,6 +2752,8 @@ static void cliStatus(struct cli *self, char *cmdline)
 }
 
 #ifndef SKIP_TASK_STATISTICS
+#include <FreeRTOS.h>
+#include <task.h>
 static void cliTasks(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
@@ -2759,6 +2761,7 @@ static void cliTasks(struct cli *self, char *cmdline)
     cfTaskId_e taskId;
     cfTaskInfo_t taskInfo;
 
+	cliPrintf(self, "current time: %u\r\n", sys_micros(self->system));
     cliPrintf(self, "Task list          max/us  avg/us rate/hz maxload avgload     total/ms\r\n");
     for (taskId = 0; taskId < TASK_COUNT; taskId++) {
         ninja_sched_get_task_info(&self->ninja->sched, taskId, &taskInfo);
@@ -2771,6 +2774,21 @@ static void cliTasks(struct cli *self, char *cmdline)
                     taskFrequency, maxLoad/10, maxLoad%10, averageLoad/10, averageLoad%10, taskInfo.totalExecutionTime / 1000);
         }
     }
+	// realtime tasks
+	TaskStatus_t status[10]; // 10 is just arbitrary.
+	uint32_t total_time;
+	int16_t ret = uxTaskGetSystemState(status, sizeof(status)/sizeof(status[0]), &total_time);
+	cliPrintf(self, "== realtime tasks\r\n");
+	cliPrintf(self, "time: %lu\r\n", total_time);
+	cliPrintf(self, "%-8s %-8s\r\n", "name", "stack");
+	if(ret > 0){
+		for(int c = 0; c < ret; c++){
+			TaskStatus_t *stat = &status[c];
+			cliPrintf(self, "%-8s %-8d\r\n", stat->pcTaskName, stat->usStackHighWaterMark);
+		}
+	} else {
+		cliPrintf(self, "(none)\n");
+	}
 }
 #endif
 
