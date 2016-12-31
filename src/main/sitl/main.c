@@ -71,42 +71,20 @@
 #include "sitl.h"
 #include "ninja.h"
 
-#include <unistd.h>
-#include <time.h>
-// since _XOPEN_SOURCE (or posix 2008) usleep is deprecated and nanosleep should be used instead.
-#if _XOPEN_SOURCE > 500
-int usleep(uint32_t us){
-	struct timespec req = {
-		.tv_sec = (__time_t)(us / 1000000UL),
-		.tv_nsec = (__time_t)((us % 1000000UL) * 1000)
-	};
-	struct timespec rem;
-	return nanosleep(&req, &rem);
-}
-#endif
-
 struct application {
 	struct ninja ninja;
 	struct config config;
 
-	struct fc_sitl_server_interface *sitl;
+	// this is provided by the sitl
+	struct system_calls *system;
+	//struct fc_sitl_server_interface *sitl;
 	pthread_t thread;
 
-	struct system_calls syscalls;
+	//struct system_calls syscalls;
 };
 
-static void _application_send_state(struct application *self){
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	cl->write_euler_angles(cl, ins_get_roll_dd(&self->ninja.ins), ins_get_pitch_dd(&self->ninja.ins), ins_get_yaw_dd(&self->ninja.ins));
-}
-
-static void _application_fc_run(struct application *self){
-	ninja_heartbeat(&self->ninja);
-}
-
 static void application_run(struct application *self){
-	_application_fc_run(self);
-	_application_send_state(self);
+	ninja_heartbeat(&self->ninja);
 }
 
 static void _app_task(void *param){
@@ -124,6 +102,7 @@ static void _io_task(void *param){
 
 	while (true) {
 		(void)self;
+		// FIXME: call io main loop from this task
 		vTaskDelay(10);
 		//usleep(900);
     }
@@ -136,7 +115,7 @@ static void *_application_thread(void *param){
 
 	config_reset(&self->config);
 
-	ninja_init(&self->ninja, &self->syscalls, &self->config);
+	ninja_init(&self->ninja, self->system, &self->config);
 
 	// simulate as closely as possible what the real system would do
 	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
@@ -146,259 +125,8 @@ static void *_application_thread(void *param){
 	return NULL;
 }
 
-#include <string.h>
-static int32_t _micros(const struct system_calls_time *time){
-	(void)time;
-	struct timespec ts;
-	static struct timespec start_ts = {0, 0};
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	if(start_ts.tv_sec == 0) memcpy(&start_ts, &ts, sizeof(start_ts));
-	int32_t t = (ts.tv_sec - start_ts.tv_sec) * 1000000 + ts.tv_nsec / 1000;
-	//printf("read time: %d\n", t);
-	return t;
-}
-
-static void _write_motor(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
-	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	cl->write_pwm(cl, id, value);
-}
-
-static void _write_servo(const struct system_calls_pwm *pwm, uint8_t id, uint16_t value){
-	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	cl->write_pwm(cl, 8 + id, value);
-}
-
-static uint16_t _read_pwm(const struct system_calls_pwm *pwm, uint8_t id){
-	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	return cl->read_rc(cl, id);
-}
-
-static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
-	struct application *self = container_of(container_of(pwm, struct system_calls, pwm), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	return cl->read_rc(cl, id);
-}
-
-static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
-	struct application *self = container_of(container_of(imu, struct system_calls, imu), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	float gyr[3];
-	cl->read_gyro(cl, gyr);
-
-	static const float scale = 3.14f * SYSTEM_GYRO_RANGE / 180;
-	int16_t maxrange = 0x7fff;
-	// scale gyro to int16 range. 35.0f is 2000 deg/s max gyro range in radians.
-	// incoming gyro data from sim is in rad/s
-	output[0] = constrainf(gyr[0] / scale, -1.0f, 1.0f) * maxrange;
-	output[1] = constrainf(gyr[1] / scale, -1.0f, 1.0f) * maxrange;
-	output[2] = constrainf(gyr[2] / scale, -1.0f, 1.0f) * maxrange;
-
-	return 0;
-}
-
-static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
-	struct application *self = container_of(container_of(imu, struct system_calls, imu), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	float accel[3];
-
-	cl->read_accel(cl, accel);
-
-	// accelerometer is scaled to 512 (acc_1G)
-	output[0] = (accel[0] / 9.82f) * SYSTEM_ACC_1G;
-	output[1] = (accel[1] / 9.82f) * SYSTEM_ACC_1G;
-	output[2] = (accel[2] / 9.82f) * SYSTEM_ACC_1G;
-
-	return 0;
-}
-
-static void _led_on(const struct system_calls_leds *leds, uint8_t id, bool on){
-	struct application *self = container_of(container_of(leds, struct system_calls, leds), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-
-	cl->led_on(cl, id, on);
-}
-
-static void _led_toggle(const struct system_calls_leds *leds, uint8_t id){
-	struct application *self = container_of(container_of(leds, struct system_calls, leds), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-
-	cl->led_toggle(cl, id);
-}
-
-static void _beeper_on(const struct system_calls_beeper *calls, bool on){
-	struct application *self = container_of(container_of(calls, struct system_calls, beeper), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	cl->beeper(cl, on);
-}
-
-#define SITL_EEPROM_PAGE_SIZE 4096
-#define SITL_EEPROM_NUM_PAGES 1
-#define SITL_DATAFLASH_PAGE_SIZE 512
-#define SITL_DATAFLASH_NUM_PAGES 4096
-
-//char _flash[SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES] = {0};
-int eeprom_fd = -1;
-int dataflash_fd = -1;
-
-static int _eeprom_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
-	(void)self;
-	(void)dst;
-	printf("EEPROM read from %04x, size %lu\n", addr, size);
-	/*if((addr + size) > sizeof(_flash)){
-		size = sizeof(_flash) - addr;
-	}*/
-	lseek(eeprom_fd, addr, SEEK_SET);
-	return read(eeprom_fd, dst, size);
-}
-
-static int _eeprom_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
-	(void)self;
-	(void)data;
-	printf("EEPROM write to %04x, size %lu\n", addr, size);
-	lseek(eeprom_fd, addr, SEEK_SET);
-	return write(eeprom_fd, data, size);
-}
-
-static int _eeprom_erase_page(const struct system_calls_bdev *self, uint16_t addr){
-	(void)self;
-	(void)addr;
-	uint8_t page[SITL_EEPROM_PAGE_SIZE];
-	memset(page, 0xff, sizeof(page));
-	addr = (addr / SITL_EEPROM_PAGE_SIZE) * SITL_EEPROM_PAGE_SIZE;
-	// erase page
-	lseek(eeprom_fd, addr, SEEK_SET);
-	int ret = write(eeprom_fd, page, sizeof(page));
-	if(ret < 0) return -1;
-	return !!ret;
-}
-
-static void _eeprom_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
-	(void)self;
-	info->page_size = SITL_EEPROM_PAGE_SIZE;
-	info->num_pages = SITL_EEPROM_NUM_PAGES;
-}
-
-/**
- * Read dataflash
- */
- /*
-static int _dataflash_read(const struct system_calls_bdev *self, void *dst, uint16_t addr, size_t size){
-	(void)self;
-	(void)dst;
-	printf("DATAFLASH read from %04x, size %lu\n", addr, size);
-	lseek(dataflash_fd, addr, SEEK_SET);
-	return read(dataflash_fd, dst, size);
-}
-
-static int _dataflash_write(const struct system_calls_bdev *self, uint16_t addr, const void *data, size_t size){
-	(void)self;
-	(void)data;
-	printf("DATAFLASH write to %04x, size %lu\n", addr, size);
-	lseek(dataflash_fd, addr, SEEK_SET);
-	return write(dataflash_fd, data, size);
-}
-
-static int _dataflash_erase_page(const struct system_calls_bdev *self, uint16_t addr){
-	(void)self;
-	uint8_t page[SITL_EEPROM_PAGE_SIZE];
-	memset(page, 0xff, sizeof(page));
-	addr = (addr / SITL_EEPROM_PAGE_SIZE) * SITL_EEPROM_PAGE_SIZE;
-	// erase page
-	lseek(eeprom_fd, addr, SEEK_SET);
-	int ret = write(eeprom_fd, page, sizeof(page));
-	if(ret < 0) return -1;
-	return !!ret;
-}
-
-static void _dataflash_get_info(const struct system_calls_bdev *self, struct system_bdev_info *info){
-	(void)self;
-	info->page_size = SITL_DATAFLASH_PAGE_SIZE;
-	info->num_pages = SITL_DATAFLASH_NUM_PAGES;
-}
-*/
-
-static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
-	(void)self;
-	int ret = write(dataflash_fd, data, size);
-	//usleep(10000);
-	if(ret < 0) return -1;
-	return ret;
-}
-
-static int _read_range(const struct system_calls_range *sys, uint16_t deg, uint16_t *range){
-	struct application *self = container_of(container_of(sys, struct system_calls, range), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-	return cl->read_range(cl, deg, range);
-}
-
-static int _read_pressure(const struct system_calls_imu *sys, uint32_t *pressure){
-	struct application *self = container_of(container_of(sys, struct system_calls, imu), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-
-	return cl->read_pressure(cl, pressure);
-}
-
-static int _read_temperature(const struct system_calls_imu *sys, int16_t *temp){
-	struct application *self = container_of(container_of(sys, struct system_calls, imu), struct application, syscalls);
-	struct fc_sitl_client_interface *cl = self->sitl->client;
-
-	return cl->read_temperature(cl, temp);
-}
-
-static void application_init(struct application *self, struct fc_sitl_server_interface *server){
-	eeprom_fd = open("sitl_eeprom.bin", O_RDWR | O_CREAT, 0644);
-	posix_fallocate(eeprom_fd, 0, SITL_EEPROM_PAGE_SIZE * SITL_EEPROM_NUM_PAGES);
-	dataflash_fd = open("sitl_dataflash.bin", O_RDWR | O_CREAT, 0644);
-	posix_fallocate(dataflash_fd, 0, SITL_DATAFLASH_PAGE_SIZE * SITL_DATAFLASH_NUM_PAGES);
-
-	self->sitl = server;
-
-	self->syscalls = (struct system_calls){
-		.pwm = {
-			.write_motor = _write_motor,
-			.write_servo = _write_servo,
-			.read_ppm = _read_ppm,
-			.read_pwm = _read_pwm
-		},
-		.imu = {
-			.read_gyro = _read_gyro,
-			.read_acc = _read_acc,
-			.read_pressure = _read_pressure,
-			.read_temperature = _read_temperature
-		},
-		.leds = {
-			.on = _led_on,
-			.toggle = _led_toggle
-		},
-		.beeper = {
-			.on = _beeper_on
-		},
-		.time = {
-			.micros = _micros
-		},
-		.eeprom = {
-			.read = _eeprom_read,
-			.write = _eeprom_write,
-			.erase_page = _eeprom_erase_page,
-			.get_info = _eeprom_get_info
-		},
-		.logger = {
-			.write = _logger_write
-		},
-		/*.dataflash = {
-			.read = _dataflash_read,
-			.write = _dataflash_write,
-			.erase_page = _dataflash_erase_page,
-			.get_info = _dataflash_get_info
-		},*/
-		.range = {
-			.read_range = _read_range
-		}
-	};
-
+static void application_init(struct application *self, struct system_calls *system){
+	self->system = system;
 	pthread_create(&self->thread, NULL, _application_thread, self);
 }
 
@@ -413,18 +141,15 @@ struct sitl_serial_port {
 
 // shared library entry point used by client to instantiate a flight controller
 // client is allocated by the client and passed to us as a pointer so we safe it within the server object
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl);
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct fc_sitl_client_interface *cl){
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct system_calls *cl);
+struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct system_calls *cl){
 	UNUSED(cl);
-
-	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
-
-	// save client interface pointer so we can send pwm to it and read rc inputs
-	server->client = cl;
 
 	// start a flight controller application for this client
 	struct application *app = malloc(sizeof(struct application));
-	application_init(app, server);
+	application_init(app, cl);
+
+	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
 	return server;
 }
 
