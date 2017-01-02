@@ -160,7 +160,7 @@ static void ninja_validate_config(struct ninja *self){
 void ninja_config_load(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-	config_load(self->config, self->system);
+	config_load(self->config_store, self->system);
 
     //pgActivateProfile(getCurrentProfile());
 

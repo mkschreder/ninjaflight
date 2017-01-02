@@ -73,7 +73,7 @@
 
 struct application {
 	struct ninja ninja;
-	struct config config;
+	struct config_store config;
 
 	// this is provided by the sitl
 	struct system_calls *system;
@@ -83,16 +83,12 @@ struct application {
 	//struct system_calls syscalls;
 };
 
-static void application_run(struct application *self){
-	ninja_heartbeat(&self->ninja);
-}
-
 static void _app_task(void *param){
 	struct application *self = (struct application*)param;
 
 	while (true) {
-		application_run(self);
-		vTaskDelay(1);
+		ninja_heartbeat(&self->ninja);
+		//vTaskDelay(1);
 		//usleep(900);
     }
 }
@@ -113,13 +109,13 @@ static void _io_task(void *param){
 static void *_application_thread(void *param){
 	struct application *self = (struct application*)param;
 
-	config_reset(&self->config);
+	config_load(&self->config, self->system);
 
 	ninja_init(&self->ninja, self->system, &self->config);
 
 	// simulate as closely as possible what the real system would do
 	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
-	xTaskCreate(_io_task, "io", 4096, self, 2, NULL);
+	xTaskCreate(_io_task, "io", 4096, self, 4, NULL);
 
 	vTaskStartScheduler();
 	return NULL;
@@ -149,8 +145,9 @@ struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct system_calls *cl
 	struct application *app = malloc(sizeof(struct application));
 	application_init(app, cl);
 
-	struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
-	return server;
+	//struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
+	//return server;
+	return NULL;
 }
 
 // TODO: these should be part of a struct (defined in flight controller)
@@ -290,11 +287,15 @@ void setStripColor(const hsvColor_t *color){ (void) color; }
 void vApplicationStackOverflowHook(void){
 	printf("STACK OVERFLOW DETECTED!\n");
 	fflush(stdout);
+	void (*ptr)() = NULL;
+	ptr(); // crash
 }
 
 void vApplicationMallocFailedHook(void){
 	printf("MALLOC FAILURE DETECTED\n");
 	fflush(stdout);
+	void (*ptr)() = NULL;
+	ptr(); // crash
 }
 
 void vApplicationIdleHook(void){

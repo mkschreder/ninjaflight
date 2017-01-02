@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 // this file is part of ninjasitl and contains the sitl interface. You need to get ninjasitl to get this file.
-#include "fc_sitl.h"
+//#include "fc_sitl.h"
 
 typedef enum {
 	SITL_FRAME_UNKNOWN = 0,
