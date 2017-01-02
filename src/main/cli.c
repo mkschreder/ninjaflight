@@ -2438,7 +2438,7 @@ static void cliSave(struct cli *self, char *cmdline)
     UNUSED(cmdline);
 
     cliPrint(self, "Saving");
-    config_save(self->config, self->system);
+	ninja_config_save(self->ninja);
     cliReboot(self);
 }
 
@@ -2447,7 +2447,7 @@ static void cliDefaults(struct cli *self, char *cmdline)
     UNUSED(cmdline);
 
     cliPrint(self, "Resetting to defaults");
-    config_reset(self->config);
+	ninja_config_reset(self->ninja);
     cliReboot(self);
 }
 
@@ -2775,16 +2775,18 @@ static void cliTasks(struct cli *self, char *cmdline)
         }
     }
 	// realtime tasks
-	TaskStatus_t status[10]; // 10 is just arbitrary.
+	TaskStatus_t status[4]; // 4 is just arbitrary.
 	uint32_t total_time;
 	int16_t ret = uxTaskGetSystemState(status, sizeof(status)/sizeof(status[0]), &total_time);
 	cliPrintf(self, "== realtime tasks\r\n");
 	cliPrintf(self, "time: %lu\r\n", total_time);
-	cliPrintf(self, "%-8s %-8s\r\n", "name", "stack");
+	cliPrintf(self, "heap: %lu free of %lu bytes\r\n", xPortGetFreeHeapSize(), configTOTAL_HEAP_SIZE);
+	cliPrintf(self, "%17s %8s\r\n", "name", "stack");
 	if(ret > 0){
 		for(int c = 0; c < ret; c++){
 			TaskStatus_t *stat = &status[c];
-			cliPrintf(self, "%-8s %-8d\r\n", stat->pcTaskName, stat->usStackHighWaterMark);
+            cliPrintf(self, "%2d - %12s  %6d\r\n",
+					c, stat->pcTaskName, stat->usStackHighWaterMark);
 		}
 	} else {
 		cliPrintf(self, "(none)\n");
@@ -2921,10 +2923,10 @@ bool cli_is_active(struct cli *self){
 	return self->cliMode;
 }
 
-void cli_init(struct cli *self, struct ninja *ninja, struct config *config, const struct system_calls *system){
+void cli_init(struct cli *self, struct ninja *ninja, struct config *cfg, const struct system_calls *system){
 	memset(self, 0, sizeof(struct cli));
 	self->ninja = ninja;
-	self->config = config;
+	self->config = cfg;
 	self->system = system;
 }
 
