@@ -123,7 +123,7 @@ endif
 
 LD_SCRIPT	 = $(LINKER_DIR)/stm32_flash_f303_$(FLASH_SIZE)k.ld
 
-ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
+ARCH_FLAGS	 = -mthumb -mcpu=cortex-m4 -mno-unaligned-access -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -Wdouble-promotion
 DEVICE_FLAGS = -DSTM32F303xC -DSTM32F303
 TARGET_FLAGS = -D$(TARGET)
 
@@ -160,7 +160,7 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
-ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 $(COVERAGE_FLAGS) -Ininjasitl/src/ -Ifreertos/Source/portable/GCC/POSIX/
+ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 -DSITL $(COVERAGE_FLAGS) -Ifreertos/Source/portable/GCC/POSIX/
 LD_SCRIPT = ./src/test/unit/parameter_group.ld
 LDFLAGS += -lgcov
 DEBUG=GDB
@@ -311,7 +311,7 @@ COMMON_SRC = build_config.c \
 		   freertos/Source/tasks.c \
 		   freertos/Source/timers.c \
 		   freertos/Source/queue.c \
-			freertos/Source/portable/MemMang/heap_3.c \
+			freertos/Source/portable/MemMang/heap_2.c \
 
 HIGHEND_SRC = \
 		   flight/gtune.c \
@@ -817,7 +817,7 @@ SITL_SRC = \
 		freertos/Source/timers.c \
 		freertos/Source/queue.c \
 		freertos/Source/portable/GCC/POSIX/port.c \
-		freertos/Source/portable/MemMang/heap_3.c \
+		freertos/Source/portable/MemMang/heap_2.c \
 		libutype/src/cbuf.c\
 		../../ninjasitl/src/fc_sitl.c 
 
@@ -859,7 +859,13 @@ else
 OPTIMIZE	 = -Os
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
+
+ifeq ($(STACK_USAGE),1)
+WARN_FLAGS		+= -Wstack-usage=100 -fstack-usage
+else
+# I have not found a way to suppress -fstack-usage for asm functions so -Werror effectively ensures we can not compile when we use -fstack-usage
 WARN_FLAGS      += -Werror
+endif
 
 DEBUG_FLAGS	 = -ggdb3 -DDEBUG
 
@@ -880,6 +886,7 @@ CFLAGS		 = $(ARCH_FLAGS) \
            -Wmissing-field-initializers \
            -Wmissing-include-dirs \
            -Wmissing-include-dirs \
+           -Wunreachable-code \
            -Wno-error=nested-externs \
            -Wno-error=cast-align \
            -Wno-error=cast-qual \
