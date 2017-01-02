@@ -100,6 +100,9 @@
 #include "hardware_revision.h"
 #endif
 
+#include <FreeRTOS.h>
+#include <task.h>
+
 #include "ninjaflight.h"
 
 // TODO: refactor this to use proper timeouts
@@ -201,11 +204,8 @@ static void buttonsHandleColdBootButtonPresses(void)
 
 //static const struct system_calls system_calls = {0};
 
-static void init(const struct config *config)
-{
-    drv_pwm_config_t pwm_params;
-
-    printfSupportInit();
+static void pre_init(const struct config *config){
+	printfSupportInit();
 
     //initEEPROM();
 
@@ -243,8 +243,13 @@ static void init(const struct config *config)
 #else
     led_init(false);
 #endif
+}
 
-	if(USE_BEEPER){
+static void init(const struct config *config)
+{
+    drv_pwm_config_t pwm_params;
+
+    if(USE_BEEPER){
 		beeperConfig_t beeperConfig = {
 			.gpioPeripheral = BEEP_PERIPHERAL,
 			.gpioPin = BEEP_PIN,
@@ -710,18 +715,15 @@ static struct system_calls syscalls = {
 	}
 };
 
-static struct config config;
+struct config_store config;
 static struct ninja ninja;
 
-#include <FreeRTOS.h>
-#include <task.h>
-
+void HardFault_Handler(void);
 void _main_task(void *param){
 	(void)param;
 	static volatile uint8_t done = 0;
 
-	config_reset(&config);
-    init(&config);
+    init(&config.data);
 
 	ninja_init(&ninja, &syscalls, &config);
 
@@ -735,15 +737,30 @@ void _main_task(void *param){
         processLoopback();
     }
 }
+/*
+void _led_blink(void *ptr){
+	(void)ptr;
+	led_on(0);
+	led_on(1);
 
+    while (1){
+		led_toggle(1);
+		led_toggle(0);
+		vTaskDelay(500);
+	}
+}
+*/
 int main(void) {
-	//NVIC_PriorityGroupConfig( NVIC_PriorityGroup_4 );
+	// config is loaded first so it should only access flash functions
+	config_load(&config, &syscalls);
 
-	xTaskCreate(_main_task, "main", 4096, NULL, 4, NULL);
+	pre_init(&config.data);
+
+	//xTaskCreate(_led_blink, "blnk", 512 / sizeof(StackType_t), NULL, 1, NULL);
+	xTaskCreate(_main_task, "main", 5096 / sizeof(StackType_t), NULL, 1, NULL);
 	vTaskStartScheduler();
 }
 
-void HardFault_Handler(void);
 void HardFault_Handler(void)
 {
     // fall out of the sky
@@ -764,15 +781,22 @@ void HardFault_Handler(void)
         transponderIrDisable();
     }
 #endif
-
-    while (1);
+	led_on(0);
+	led_on(1);
+	while(1){}
 }
 
 void vApplicationMallocFailedHook(void){
-
+	// TODO: add indicator
+	led_on(0);
+	led_on(1);
+	while(1){}
 }
 
 void vApplicationStackOverflowHook(void){
-
+	// TODO: add indicator
+	led_on(0);
+	led_on(1);
+	while(1){}
 }
 
