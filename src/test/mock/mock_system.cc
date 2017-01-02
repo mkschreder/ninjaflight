@@ -197,6 +197,7 @@ static void _eeprom_get_info(const struct system_calls_bdev *self, struct system
 }
 
 static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+	(void)self;
 	// TODO: simulate failure
 	memcpy(mock_logger_data + mock_logger_pos, data, size);
 	mock_logger_pos += size;
@@ -210,7 +211,9 @@ static int _read_range(const struct system_calls_range *self, uint16_t deg, uint
 	return 0;
 }
 
-static const struct system_calls syscalls {
+// non const. Explicitly allow changing this by unit tests. 
+
+static struct system_calls syscalls = {
 	.pwm = {
 		.write_motor = _write_motor,
 		.write_servo = _write_servo,
@@ -247,7 +250,7 @@ static const struct system_calls syscalls {
 	}
 };
 
-const struct system_calls *mock_syscalls(){
+struct system_calls *mock_syscalls(){
 	return &syscalls;
 }
 

@@ -25,6 +25,7 @@
 #include "common/pt.h"
 #include "system_calls.h"
 #include "ninja_sched.h"
+#include "ninja_config.h"
 
 struct ninja;
 
@@ -100,10 +101,11 @@ struct ninja {
 	const struct system_calls *system;
 
 	//! pointer to current configuration
+	struct config_store *config_store;
 	struct config *config;
 };
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config *config);
+void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config_store *config);
 
 void ninja_arm(struct ninja *self);
 void ninja_disarm(struct ninja *self);

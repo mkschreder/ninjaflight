@@ -202,7 +202,7 @@ void ninja_config_load(struct ninja *self){
 void ninja_config_save(struct ninja *self){
     rx_suspend_signal(&self->rx);
 
-	if(config_save(self->config, self->system) < 0){
+	if(config_save(self->config_store, self->system) < 0){
 		// handle fail
 	}
 
@@ -211,7 +211,7 @@ void ninja_config_save(struct ninja *self){
 
 void ninja_config_reset(struct ninja *self){
 	(void)self;
-	config_reset(self->config);
+	config_reset(self->config_store);
 
     featureClearAll(self->config);
 

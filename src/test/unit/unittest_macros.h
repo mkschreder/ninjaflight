@@ -44,7 +44,7 @@ extern int32_t mock_time_micros;
 extern bool mock_beeper_is_on;
 
 struct system_calls;
-const struct system_calls *mock_syscalls();
+struct system_calls *mock_syscalls();
 void mock_system_reset();
 void mock_eeprom_erase();
 

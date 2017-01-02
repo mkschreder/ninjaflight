@@ -24,6 +24,9 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
+//uint8_t flash_data[8192] __attribute__((aligned(1024)));
+//uint8_t *__config_start = flash_data;
+//uint8_t *__config_end = flash_data + sizeof(flash_data);
 uint8_t __config_start[8192] __attribute__((aligned(1024)));
 uint8_t __config_end[1]; // TODO
 
@@ -46,19 +49,20 @@ struct MockFlash
     }
     int64_t toOffset(uint32_t address) const
     {
+		//return address;
         int32_t offset = address - (uint32_t)(uintptr_t)__config_start;
         return offset;
     }
     bool inBounds(uint32_t address, int count) const
     {
         auto offset = toOffset(address);
-        return offset >= 0 && (offset + count) < Capacity;
+        return offset >= 0 && (offset + count) <= Capacity;
     }
 
     FLASH_Status erase(uint32_t address)
     {
         EXPECT_TRUE(unlocked);
-        EXPECT_EQ(0, address % PageSize);
+        EXPECT_EQ(0, toOffset(address) % PageSize);
         EXPECT_TRUE(inBounds(address, PageSize));
         memset(data() + toOffset(address), 0xFF, PageSize);
         erases++;
@@ -68,11 +72,12 @@ struct MockFlash
 
     FLASH_Status program(uint32_t address, uint32_t value)
     {
-        EXPECT_TRUE(unlocked);
-        EXPECT_EQ(0, address % sizeof(value));
-        EXPECT_TRUE(inBounds(address, sizeof(value)));
-
+		//printf("flash write %08x: %08x\n", address, value);
         auto offset = toOffset(address);
+
+        EXPECT_TRUE(unlocked);
+        EXPECT_EQ(0, offset % sizeof(value));
+        EXPECT_TRUE(inBounds(address, sizeof(value)));
 
         for (uint i = 0; i < sizeof(value); i++) {
             data()[offset + i] = (uint8_t)value;

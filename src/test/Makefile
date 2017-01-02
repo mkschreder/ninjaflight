@@ -410,6 +410,15 @@ $(OBJECT_DIR)/drivers/light_ws2811strip.o : \
 	@mkdir -p $(dir $@)
 	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/drivers/light_ws2811strip.c -o $@
 
+$(OBJECT_DIR)/drivers/config_flash.o : \
+	$(USER_DIR)/drivers/config_flash.c \
+	$(USER_DIR)/drivers/config_flash.h \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CC) $(C_FLAGS) $(TEST_CFLAGS) -c $(USER_DIR)/drivers/config_flash.c -o $@
+
+
 $(OBJECT_DIR)/ws2811_unittest.o : \
 	$(TEST_DIR)/ws2811_unittest.cc \
 	$(USER_DIR)/drivers/light_ws2811strip.h \
@@ -763,6 +772,7 @@ $(OBJECT_DIR)/config_eeprom_unittest : \
 	$(OBJECT_DIR)/mock/mock_flash.o \
 	$(OBJECT_DIR)/mock/mock_system.o \
 	$(OBJECT_DIR)/config_eeprom_unittest.o \
+	$(OBJECT_DIR)/drivers/config_flash.o \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)

@@ -60,6 +60,7 @@
 #include "ninjaflight.h"
 #include "ninja.h"
 #include "ninja_sched.h"
+#include "ninja_config.h"
 
 static void _rc_key_state_change(struct rc_event_listener *evl, rc_key_t key, rc_key_state_t state){
 	struct ninja *self = container_of(evl, struct ninja, rc_evl);
@@ -80,19 +81,13 @@ static void _output_motors_disarmed(struct ninja *self){
 	}
 }
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config *config){
+void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config_store *config){
 	memset(self, 0, sizeof(struct ninja));
 
 	self->system = syscalls;
-	self->config = config;
+	self->config = &config->data;
+	self->config_store = config;
 
-	config_reset(self->config);
-	/*
-	if(config_load(self->config, self->system) < 0){
-		config_erase(self->config, self->system);
-		config_reset(self->config);
-	}
-*/
 	rc_adj_init(&self->rc_adj, self, self->config);
 	mixer_init(&self->mixer, self->config, &syscalls->pwm);
 	ins_init(&self->ins, self->config);
@@ -650,8 +645,7 @@ static PT_THREAD(_fsm_controller(struct ninja *self)){
 				}
 
 				if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){
-					// TODO
-					//ninja_config_save(self);
+					ninja_config_save(self);
 				}
 			}
 			// we must remember to yield, otherwise we will lock up
