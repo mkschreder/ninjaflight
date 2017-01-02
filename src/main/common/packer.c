@@ -246,50 +246,6 @@ uint8_t pack_s16_array(struct packer *self, const int16_t *array, uint8_t count)
 	return res;
 }
 
-uint8_t pack_8u8(struct packer *self, const uint8_t *bytes, uint8_t size){
-	uint8_t res = 0;
-	uint8_t nz = 0;
-	if(size > 8) size = 8;
-	for(uint8_t c = 0; c < size; c++){
-		if(bytes[c])
-			nz |= (1 << c);
-	}
-	res += pack_byte(self, nz);
-	for(uint8_t c = 0; c < size; c++)
-		if(bytes[c])
-			res += pack_byte(self, bytes[c]);
-	return res;
-}
-
-uint8_t pack_blob(struct packer *self, const void *_in, uint8_t insize){
-	struct packer pack;
-	uint8_t buffer[0xff];
-	uint8_t *in = (uint8_t*)_in;
-	uint8_t res = 0;
-	const uint8_t MAXINPUT = 8 * 24;
-	if(insize > MAXINPUT) insize = MAXINPUT;
-	packer_init(&pack, buffer, sizeof(buffer));
-	for(unsigned c = 0; c < insize; c+=8){
-		uint8_t len = ((insize - c) > 8)?8:(insize - c);
-		res += pack_8u8(&pack, in + c, len);
-	}
-	insize = res;
-	res = 0;
-	for(unsigned c = 0; c < insize; c+=8){
-		uint8_t len = ((insize - c) > 8)?8:(insize - c);
-		res += pack_8u8(self, buffer + c, len);
-	}
-	return res;
-}
-
-uint8_t pack_8s16(struct packer *self, const int16_t *values){
-	// pack as two 8u8 spans
-	uint8_t res = 0;
-	res += pack_8u8(self, (const uint8_t*)values, 8);
-	res += pack_8u8(self, (const uint8_t*)(values + 4), 8);
-	return res;
-}
-
 /**
  * Write a 2 bit tag followed by 3 signed fields of 2, 4, 6 or 32 bits
  */
