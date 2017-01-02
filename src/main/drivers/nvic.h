@@ -1,7 +1,8 @@
 
 #pragma once
 
-#define NVIC_PRIORITY_GROUPING NVIC_PriorityGroup_2
+//#define NVIC_PRIORITY_GROUPING NVIC_PriorityGroup_2
+#define NVIC_PRIORITY_GROUPING NVIC_PriorityGroup_4
 
 // can't use 0
 #define NVIC_PRIO_MAX                      NVIC_BUILD_PRIORITY(0, 1)
