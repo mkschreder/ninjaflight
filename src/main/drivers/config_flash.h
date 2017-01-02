@@ -21,8 +21,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-int flash_write(uintptr_t base, const void *data, size_t size);
-int flash_read(uintptr_t base, void *data, size_t size);
-int flash_erase_page(uintptr_t base);
+int flash_write(uint32_t base, const void *data, size_t size);
+int flash_read(uint32_t base, void *data, size_t size);
+int flash_erase_page(uint32_t base);
 size_t flash_get_page_size(void);
 size_t flash_get_num_pages(void);

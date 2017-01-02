@@ -22,8 +22,8 @@
 #include <string.h>
 #include <errno.h>
 
-extern uint8_t *__config_start;
-extern uint8_t *__config_end;
+extern uint8_t __config_start;
+extern uint8_t __config_end;
 
 #if !defined(FLASH_PAGE_SIZE)
 # if defined(STM32F303xC)
@@ -39,7 +39,7 @@ extern uint8_t *__config_end;
 # endif
 #endif
 
-#define CONFIG_FLASH_SIZE (__config_end - __config_start)
+#define CONFIG_FLASH_SIZE (uint32_t)((uint8_t*)&__config_end - (uint8_t*)&__config_start)
 
 void _clear_flags(void){
 #if defined(STM32F303)
@@ -53,16 +53,17 @@ void _clear_flags(void){
 #endif
 }
 
-int flash_write(uintptr_t base, const void *data, size_t size){
-	// refuse to write unaligned data
-	if((void*)base >= (void*)(__config_start + CONFIG_FLASH_SIZE)) return -EINVAL;
-	if((void*)(base + size) >= (void*)__config_end)
-		size = (size_t)(__config_end - base);
+int flash_write(uint32_t base, const void *data, size_t size){
+	if(base >= CONFIG_FLASH_SIZE) return -EINVAL;
+	if((size & 0x03) != 0) return -EFAULT;
 
 	FLASH_Unlock();
+
+	_clear_flags();
+
 	for(size_t c = 0; c < size >> 2; c++){
 		uint32_t value = ((uint32_t*)data)[c];
-		if(FLASH_ProgramWord(base + (c << 2), value) != FLASH_COMPLETE){
+		if(FLASH_ProgramWord(((uintptr_t)&__config_start) + base + (c << 2), value) != FLASH_COMPLETE){
 			FLASH_Lock();
 			return c << 2;
 		}
@@ -71,11 +72,14 @@ int flash_write(uintptr_t base, const void *data, size_t size){
 	return size;
 }
 
-int flash_erase_page(uintptr_t base){
-	if((base % FLASH_PAGE_SIZE != 0) || (void*)base >= (void*)(__config_start + CONFIG_FLASH_SIZE)) return -EINVAL;
+int flash_erase_page(uint32_t base){
+	if((base % FLASH_PAGE_SIZE != 0) || base >= CONFIG_FLASH_SIZE) return -EINVAL;
 
 	FLASH_Unlock();
-	if(FLASH_ErasePage(base) != FLASH_COMPLETE){
+
+	_clear_flags();
+
+	if(FLASH_ErasePage(((uintptr_t)&__config_start) + base) != FLASH_COMPLETE){
 		FLASH_Lock();
 		return -EIO;
 	}
@@ -83,11 +87,10 @@ int flash_erase_page(uintptr_t base){
 	return 0;
 }
 
-int flash_read(uintptr_t base, void *data, size_t size){
-	if((void*)base >= (void*)(__config_start + CONFIG_FLASH_SIZE)) return -EINVAL;
-	if((void*)(base + size) >= (void*)__config_end)
-		size = (size_t)(__config_end - base);
-	memcpy(data, (void*)base, size);
+int flash_read(uint32_t base, void *data, size_t size){
+	uint8_t *start = (uint8_t*)&__config_start;
+	if(base >= (uintptr_t)CONFIG_FLASH_SIZE) return -EINVAL;
+	memcpy(data, start + base, size);
 	return size;
 }
 
@@ -96,6 +99,6 @@ size_t flash_get_page_size(void){
 }
 
 size_t flash_get_num_pages(void){
-	return CONFIG_FLASH_SIZE;
+	return CONFIG_FLASH_SIZE / FLASH_PAGE_SIZE;
 }
 
