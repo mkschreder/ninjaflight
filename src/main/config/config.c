@@ -51,6 +51,8 @@
 #include "common/axis.h"
 #include "common/maths.h"
 #include "common/utils.h"
+#include "drivers/light_led.h"
+#include "drivers/system.h"
 
 #include "config.h"
 #include "feature.h"
@@ -582,7 +584,8 @@ static void _reset_profile(struct config_profile *self){
 	}
 }
 
-void config_reset(struct config *self){
+void config_reset(struct config_store *store){
+	struct config *self = &store->data;
 	memcpy(self, &_default_config, sizeof(struct config));
 	for(int c = 0; c < MAX_CONTROL_RATE_PROFILE_COUNT; c++){
 		_reset_rate_profile(&self->rate.profile[c]);
@@ -694,6 +697,7 @@ static int _load_deltas(struct config_store *store, const struct system_calls *s
 
 		if(sys_eeprom_read(system, &delta, start, sizeof(struct eeprom_delta)) != sizeof(struct eeprom_delta))
 			return -EIO;
+
 		// all addresses will have first bit explicitly set
 		// on a flash eeprom this will be done by design of the flash, on a normal eeprom this will ensure that we stop when we reach erased area with only zeros
 		if(!(delta.addr & 0x8000)) // is an invalid address?
@@ -719,23 +723,19 @@ static int _load_deltas(struct config_store *store, const struct system_calls *s
  * almost used up when it is called
  * @param self config which is to be saved to eeprom
  */
-int config_save(const struct config *self, const struct system_calls *system){
+int config_save(struct config_store *self, const struct system_calls *system){
 	struct config_store eeprom_store;
-	struct config_store new_store;
 
 	memset(&eeprom_store, 0, sizeof(eeprom_store));
-	memset(&new_store, 0, sizeof(new_store));
 
 	// start with a default config and load current deltas over it
-	config_reset(&eeprom_store.data);
+	config_reset(&eeprom_store);
 	int start = _load_deltas(&eeprom_store, system);
 	if(start < 0){
 		return -EIO;
 	}
 
-	// create a new store with our config data
-	memcpy(&new_store.data, self, sizeof(new_store.data));
-	config_store_update_checksum(&new_store);
+	config_store_update_checksum(self);
 
 	// get the eeprom layout
 	struct system_bdev_info info;
@@ -746,7 +746,7 @@ int config_save(const struct config *self, const struct system_calls *system){
 	bool fail = false;
 	do {
 		uint16_t *stored = (uint16_t*)&eeprom_store;
-		uint16_t *cur = (uint16_t*)&new_store;
+		uint16_t *cur = (uint16_t*)self;
 		fail = false;
 		for(unsigned c = 0; c < (sizeof(struct config_store) / sizeof(uint16_t)); c++){
 			if(cur[c] != stored[c]) {
@@ -759,7 +759,9 @@ int config_save(const struct config *self, const struct system_calls *system){
 				if((uint16_t)(info.page_size - page_pos) < sizeof(struct eeprom_delta)) start += info.page_size - page_pos;
 				// erase pages as we go
 				if(page_pos == 0) sys_eeprom_erase_page(system, start);
-				if(sys_eeprom_write(system, start, &delta, sizeof(delta)) != sizeof(struct eeprom_delta)){
+				int ret = sys_eeprom_write(system, start, &delta, sizeof(delta));
+				if(ret < 0) return ret;
+				if(ret != sizeof(struct eeprom_delta)){
 					// this is used to catch a write past end of eeprom etc
 					// in this case a crude solution is to just restart from the beginning a few times before giving up
 					retry_count++;
@@ -777,10 +779,10 @@ int config_save(const struct config *self, const struct system_calls *system){
 	return 0;
 }
 
-bool config_fixup(struct config *config){
-	uint32_t checksum = crc16(config, sizeof(struct config));
-	_fixup_blackbox_config(config);
-	return checksum != crc16(config, sizeof(struct config));
+bool config_fixup(struct config_store *config){
+	uint32_t checksum = crc16(&config->data, sizeof(struct config));
+	_fixup_blackbox_config(&config->data);
+	return checksum != crc16(&config->data, sizeof(struct config));
 }
 
 /**
@@ -796,19 +798,31 @@ bool config_fixup(struct config *config){
  * to config_load. If data can not be loaded then config_load will return an
  * error.
  */
-int config_load(struct config *self, const struct system_calls *system){
+int config_load(struct config_store *self, const struct system_calls *system){
 	(void)system;
-	struct config_store store;
-	memset(&store, 0, sizeof(store));
+	(void)self;
+	memset(self, 0, sizeof(struct config_store));
 
-	config_reset(&store.data);
-	if(_load_deltas(&store, system) < 0)
+	config_reset(self);
+
+	if(_load_deltas(self, system) < 0){
+		config_reset(self);
 		return -EIO;
-	if(!config_store_valid(&store)){
+	}
+	if(!config_store_valid(self)){
+		config_reset(self);
 		return -EINVAL;
 	}
-	memcpy(self, &store.data, sizeof(struct config));
 	return 0;
+}
+
+void config_erase(struct config_store *self, const struct system_calls *system){
+	(void)self;
+	struct system_bdev_info info;
+	sys_eeprom_get_info(system, &info);
+	for(uint32_t c = 0; c < info.num_pages; c++){
+		sys_eeprom_erase_page(system, info.page_size * c);
+	}
 }
 
 #if 0

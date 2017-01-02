@@ -122,9 +122,10 @@ struct config_profile *config_get_profile_rw(struct config *self);
 struct rate_profile const * config_get_rate_profile(const struct config * const self);
 struct rate_profile *config_get_rate_profile_rw(struct config *self);
 
-int config_save(const struct config *self, const struct system_calls *system);
-int config_load(struct config *self, const struct system_calls *system);
-void config_reset(struct config *self);
-bool config_fixup(struct config *config);
+int config_save(struct config_store *self, const struct system_calls *system);
+int config_load(struct config_store *self, const struct system_calls *system);
+void config_reset(struct config_store *self);
+bool config_fixup(struct config_store *config);
+void config_erase(struct config_store *self, const struct system_calls *system);
 
 /** @} */
