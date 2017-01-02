@@ -137,17 +137,16 @@ struct sitl_serial_port {
 
 // shared library entry point used by client to instantiate a flight controller
 // client is allocated by the client and passed to us as a pointer so we safe it within the server object
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct system_calls *cl);
-struct fc_sitl_server_interface *fc_sitl_create_aircraft(struct system_calls *cl){
+void *fc_sitl_create_aircraft(struct system_calls *cl);
+void *fc_sitl_create_aircraft(struct system_calls *cl){
 	UNUSED(cl);
 
 	// start a flight controller application for this client
 	struct application *app = malloc(sizeof(struct application));
 	application_init(app, cl);
 
-	//struct fc_sitl_server_interface *server = calloc(1, sizeof(struct fc_sitl_server_interface));
-	//return server;
-	return NULL;
+	// return app as handle to our sitl for now
+	return app;
 }
 
 // TODO: these should be part of a struct (defined in flight controller)
