@@ -45,7 +45,6 @@
 #include "drivers/bus_spi.h"
 #include "drivers/accgyro_spi_mpu6000.h"
 #include "drivers/accgyro_spi_mpu6500.h"
-#include "drivers/gyro_sync.h"
 
 #include "drivers/barometer.h"
 #include "drivers/barometer_bmp085.h"
@@ -730,7 +729,7 @@ bool sensorsAutodetect(const struct config *config)
         acc.init(&acc);
     }
     // this is safe because either mpu6050 or mpu3050 or lg3d20 sets it, and in case of fail, we never get here.
-    gyro.init(config->gyro.gyro_lpf);
+    gyro.init(config->gyro.gyro_lpf, config->imu.gyro_sample_div);
 
 	if(USE_MAG){
 		detectMag(config->sensors.selection.mag_hardware);

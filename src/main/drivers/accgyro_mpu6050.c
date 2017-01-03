@@ -31,7 +31,6 @@
 #include "gpio.h"
 #include "exti.h"
 #include "bus_i2c.h"
-#include "gyro_sync.h"
 
 #include "sensor.h"
 #include "accgyro.h"
@@ -52,7 +51,7 @@ extern uint8_t mpuLowPassFilter;
 #define MPU6050_SMPLRT_DIV      0       // 8000Hz
 
 static void mpu6050AccInit(acc_t *acc);
-static void mpu6050GyroInit(uint8_t lpf);
+static void mpu6050GyroInit(uint8_t lpf, uint8_t div);
 
 bool mpu6050AccDetect(acc_t *accel)
 {
@@ -74,6 +73,7 @@ bool mpu6050GyroDetect(gyro_t *gyr)
     }
     gyr->init = mpu6050GyroInit;
     gyr->read = mpuGyroRead;
+	gyr->sync = mpu_sync;
     gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
@@ -98,7 +98,7 @@ static void mpu6050AccInit(acc_t *accel)
     }
 }
 
-static void mpu6050GyroInit(uint8_t lpf)
+static void mpu6050GyroInit(uint8_t lpf, uint8_t rate_div)
 {
     bool ack;
 
@@ -107,7 +107,7 @@ static void mpu6050GyroInit(uint8_t lpf)
     ack = mpuConfiguration.write(MPU_RA_PWR_MGMT_1, 0x80);      //PWR_MGMT_1    -- DEVICE_RESET 1
     usleep(100000);
     ack = mpuConfiguration.write(MPU_RA_PWR_MGMT_1, 0x03); //PWR_MGMT_1    -- SLEEP 0; CYCLE 0; TEMP_DIS 0; CLKSEL 3 (PLL with Z Gyro reference)
-    ack = mpuConfiguration.write(MPU_RA_SMPLRT_DIV, gyroMPU6xxxCalculateDivider()); //SMPLRT_DIV    -- SMPLRT_DIV = 0  Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
+    ack = mpuConfiguration.write(MPU_RA_SMPLRT_DIV, rate_div); //SMPLRT_DIV    -- SMPLRT_DIV = 0  Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
     usleep(15000); //PLL Settling time when changing CLKSEL is max 10ms.  Use 15ms to be sure 
     ack = mpuConfiguration.write(MPU_RA_CONFIG, lpf); //CONFIG        -- EXT_SYNC_SET 0 (disable input pin for data sync) ; default DLPF_CFG = 0 => ACC bandwidth = 260Hz  GYRO bandwidth = 256Hz)
     ack = mpuConfiguration.write(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);   //GYRO_CONFIG   -- FS_SEL = 3: Full scale set to 2000 deg/sec

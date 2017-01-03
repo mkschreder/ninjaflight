@@ -486,8 +486,7 @@ const clivalue_t valueTable[] = {
     { "i2c_highspeed",              VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } ,		CPATH(system.i2c_highspeed)},
 
     { "looptime",                   VAR_UINT16 | MASTER_VALUE, .config.minmax = {0, 9000},								CPATH(imu.looptime)},
-    { "gyro_sync",                  VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } ,		CPATH(imu.gyroSync)},
-    { "gyro_sync_denom",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 1,  32 } ,							CPATH(imu.gyroSyncDenominator)},
+    { "gyro_sample_div",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 1,  32 } ,							CPATH(imu.gyro_sample_div)},
 	{ "small_angle",                VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  180 } ,							CPATH(imu.small_angle)},
     { "max_angle_inclination",      VAR_UINT16 | MASTER_VALUE, .config.minmax = { 100,  900 } ,							CPATH(imu.max_angle_inclination) },
 	{ "imu_dcm_kp",                 VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  20000 } ,							CPATH(imu.dcm_kp)},
@@ -2754,6 +2753,7 @@ static void cliStatus(struct cli *self, char *cmdline)
 #ifndef SKIP_TASK_STATISTICS
 #include <FreeRTOS.h>
 #include <task.h>
+
 static void cliTasks(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);

@@ -24,8 +24,7 @@
 struct imu_config {
     // IMU configuration
     uint16_t looptime;                      // imu loop time in us
-    uint8_t gyroSync;                       // Enable interrupt based loop
-    uint8_t gyroSyncDenominator;            // Gyro sync Denominator
+    uint8_t gyro_sample_div;				// Gyro sample rate divider (0 = 8khz, 8 = 1khz etc)
     uint16_t dcm_kp;                        // DCM filter proportional gain ( x 10000)
     uint16_t dcm_ki;                        // DCM filter integral gain ( x 10000)
     uint8_t small_angle;                    // Angle used for mag hold threshold.

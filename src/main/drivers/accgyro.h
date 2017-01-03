@@ -19,6 +19,9 @@
 
 #include "sensor.h"
 
+// standard gyro rate on which all dividers are based (8khz)
+#define GYRO_STANDARD_RATE 8000
+
 typedef enum {
     GYRO_NONE = 0,
     GYRO_DEFAULT,
@@ -52,6 +55,7 @@ typedef struct gyro_s {
     sensorReadFuncPtr read;                                 // read 3 axis data function
     sensorReadFuncPtr temperature;                          // read temperature if available
     sensorIsDataReadyFuncPtr isDataReady;                   // check if sensor has new readings
+	void (*sync)(void);
     float scale;                                            // scalefactor
 } gyro_t;
 

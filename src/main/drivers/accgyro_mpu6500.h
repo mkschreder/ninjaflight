@@ -24,6 +24,7 @@
 
 bool mpu6500AccDetect(acc_t *acc);
 bool mpu6500GyroDetect(gyro_t *gyro);
-
 void mpu6500AccInit(acc_t *acc);
-void mpu6500GyroInit(uint8_t lpf);
+void mpu6500GyroInit(uint8_t lpf, uint8_t div);
+
+

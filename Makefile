@@ -273,7 +273,6 @@ COMMON_SRC = build_config.c \
 		   drivers/sound_beeper.c \
 		   drivers/system.c \
 		   drivers/dma.c \
-		   drivers/gyro_sync.c \
 		   io/beeper.c \
 		   io/rc_adjustments.c \
 		   io/serial.c \

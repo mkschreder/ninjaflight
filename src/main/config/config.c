@@ -461,8 +461,7 @@ static const struct config _default_config = {
 	},
 	.imu = {
 		.looptime = 2000,
-		.gyroSync = 1,
-		.gyroSyncDenominator = 1,
+		.gyro_sample_div = 7,
 		.dcm_kp = 2500,                // 1.0 * 10000
 		.dcm_ki = 0,
 		.small_angle = 25,

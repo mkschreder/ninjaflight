@@ -54,7 +54,7 @@
 #define L3G4200D_DLPF_78HZ       0x80
 #define L3G4200D_DLPF_93HZ       0xC0
 
-static void l3g4200dInit(uint8_t lpf);
+static void l3g4200dInit(uint8_t lpf, uint8_t div);
 static bool l3g4200dRead(int16_t *gyroADC);
 
 bool l3g4200dDetect(gyro_t *gyr)
@@ -76,8 +76,9 @@ bool l3g4200dDetect(gyro_t *gyr)
     return true;
 }
 
-static void l3g4200dInit(uint8_t lpf)
+static void l3g4200dInit(uint8_t lpf, uint8_t div)
 {
+	(void)div;
     bool ack;
 
     uint8_t mpuLowPassFilter = L3G4200D_DLPF_32HZ;

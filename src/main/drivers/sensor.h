@@ -22,6 +22,6 @@ typedef bool (*sensorReadFuncPtr)(int16_t *data);           // sensor read proto
 
 struct acc_s;
 typedef void (*sensorAccInitFuncPtr)(struct acc_s *acc);                    // sensor init prototype
-typedef void (*sensorGyroInitFuncPtr)(uint8_t lpf);         // gyro sensor init prototype
+typedef void (*sensorGyroInitFuncPtr)(uint8_t lpf, uint8_t div);         // gyro sensor init prototype
 typedef bool (*sensorIsDataReadyFuncPtr)(void);             // sensor data ready prototype
 

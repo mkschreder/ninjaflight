@@ -28,7 +28,6 @@
 #include "system.h"
 #include "exti.h"
 #include "gpio.h"
-#include "gyro_sync.h"
 
 #include "sensor.h"
 #include "accgyro.h"
@@ -55,6 +54,7 @@ bool mpu6500GyroDetect(gyro_t *gyr)
 
     gyr->init = mpu6500GyroInit;
     gyr->read = mpuGyroRead;
+	gyr->sync = mpu_sync;
     gyr->isDataReady = mpuIsDataReady;
 
     // 16.4 dps/lsb scalefactor
@@ -70,7 +70,7 @@ void mpu6500AccInit(acc_t *accel)
     accel->acc_1G = 512 * 8;
 }
 
-void mpu6500GyroInit(uint8_t lpf)
+void mpu6500GyroInit(uint8_t lpf, uint8_t div)
 {
     mpuIntExtiInit();
 
@@ -84,7 +84,7 @@ void mpu6500GyroInit(uint8_t lpf)
     mpuConfiguration.write(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);
     mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
     mpuConfiguration.write(MPU_RA_CONFIG, lpf);
-    mpuConfiguration.write(MPU_RA_SMPLRT_DIV, gyroMPU6xxxCalculateDivider()); // Get Divider
+    mpuConfiguration.write(MPU_RA_SMPLRT_DIV, div); // Get Divider
 
     // Data ready interrupt configuration
 #ifdef USE_MPU9250_MAG

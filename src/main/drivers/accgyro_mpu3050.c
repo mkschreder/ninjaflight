@@ -30,7 +30,6 @@
 #include "accgyro.h"
 #include "accgyro_mpu.h"
 #include "accgyro_mpu3050.h"
-#include "gyro_sync.h"
 
 // MPU3050, Standard address 0x68
 #define MPU3050_ADDRESS         0x68
@@ -47,7 +46,7 @@
 #define MPU3050_USER_RESET      0x01
 #define MPU3050_CLK_SEL_PLL_GX  0x01
 
-static void mpu3050Init(uint8_t lpf);
+static void mpu3050Init(uint8_t lpf, uint8_t div);
 static bool mpu3050ReadTemp(int16_t *tempData);
 
 bool mpu3050Detect(gyro_t *gyr)
@@ -57,6 +56,7 @@ bool mpu3050Detect(gyro_t *gyr)
     }
     gyr->init = mpu3050Init;
     gyr->read = mpuGyroRead;
+	gyr->sync = mpu_sync;
     gyr->temperature = mpu3050ReadTemp;
     gyr->isDataReady = mpuIsDataReady;
 
@@ -66,13 +66,13 @@ bool mpu3050Detect(gyro_t *gyr)
     return true;
 }
 
-static void mpu3050Init(uint8_t lpf)
+static void mpu3050Init(uint8_t lpf, uint8_t div)
 {
     bool ack;
 
     usleep(25000); // datasheet page 13 says 20ms. other stuff could have been running meanwhile. but we'll be safe
 
-    ack = mpuConfiguration.write(MPU3050_SMPLRT_DIV, 0);
+    ack = mpuConfiguration.write(MPU3050_SMPLRT_DIV, div);
     if (!ack)
         failureMode(FAILURE_ACC_INIT);
 

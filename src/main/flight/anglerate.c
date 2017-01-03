@@ -30,8 +30,6 @@
 #include "common/maths.h"
 #include "common/filter.h"
 
-#include "drivers/gyro_sync.h"
-
 #include "sensors/acceleration.h"
 #include "sensors/gyro.h"
 
@@ -50,7 +48,8 @@ static void _anglerate_delta_state_update(struct anglerate *self) {
 	const struct pid_config *pid = &config_get_profile(self->config)->pid;
 	if (!self->_delta_state_set && pid->dterm_cut_hz) {
 		for (int axis = 0; axis < 3; axis++) {
-			BiQuadNewLpf(pid->dterm_cut_hz, &self->deltaFilterState[axis], gyro_sync_get_looptime());
+			uint8_t sample_div = constrain(self->config->imu.gyro_sample_div, 1, 255);
+			BiQuadNewLpf(pid->dterm_cut_hz, &self->deltaFilterState[axis], GYRO_STANDARD_RATE / sample_div);
 		}
 		self->_delta_state_set = true;
 	}

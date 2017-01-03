@@ -83,12 +83,14 @@ static void ninja_validate_config(struct ninja *self){
         self->config->mixer.pid_at_min_throttle = 0;
     }
 
-
 #ifdef STM32F10X
     // avoid overloading the CPU on F1 targets when using gyro sync and GPS.
+	// TODO: instead limit sample divider (need to check timing)
+	/*
     if (self->config->imu.gyroSync && self->config->imu.gyroSyncDenominator < 2 && feature(self->config, FEATURE_GPS)) {
         self->config->imu.gyroSyncDenominator = 2;
     }
+	*/
 #endif
 
 /*

@@ -120,6 +120,7 @@
 
 // RF = Register Flag
 #define MPU_RF_DATA_RDY_EN (1 << 0)
+#define MPU_DEFAULT_SAMPLE_DIV 8
 
 typedef bool (*mpuReadRegisterFunc)(uint8_t reg, uint8_t length, uint8_t* data);
 typedef bool (*mpuWriteRegisterFunc)(uint8_t reg, uint8_t data);
@@ -190,3 +191,5 @@ bool mpuAccRead(int16_t *accData);
 bool mpuGyroRead(int16_t *gyroADC);
 mpuDetectionResult_t *detectMpu(const extiConfig_t *configToUse);
 bool mpuIsDataReady(void);
+unsigned long mpu_get_irq_count(void);
+void mpu_sync(void);

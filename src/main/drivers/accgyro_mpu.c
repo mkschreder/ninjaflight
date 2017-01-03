@@ -32,7 +32,6 @@
 #include "gpio.h"
 #include "exti.h"
 #include "bus_i2c.h"
-#include "gyro_sync.h"
 
 #include "sensor.h"
 #include "accgyro.h"
@@ -181,6 +180,11 @@ static void mpu6050FindRevision(void)
     }
 }
 
+#include <FreeRTOS.h>
+#include <semphr.h>
+
+static SemaphoreHandle_t _sem_gyro = NULL;
+
 void MPU_DATA_READY_EXTI_Handler(void); 
 void MPU_DATA_READY_EXTI_Handler(void){
     if (EXTI_GetITStatus(mpuIntExtiConfig->exti_line) == RESET) {
@@ -191,24 +195,22 @@ void MPU_DATA_READY_EXTI_Handler(void){
 
     mpuDataReady = true;
 
-#ifdef DEBUG_MPU_DATA_READY_INTERRUPT
-    // Measure the delta in micro seconds between calls to the interrupt handler
-    static uint32_t lastCalledAt = 0;
-    static int32_t callDelta = 0;
+	BaseType_t woken = pdFALSE;
+	xSemaphoreGiveFromISR(_sem_gyro, &woken);
 
-    uint32_t now = micros();
-    callDelta = now - lastCalledAt;
+	portYIELD_FROM_ISR(woken);
+}
 
-    //UNUSED(callDelta);
-    debug[0] = callDelta;
-
-    lastCalledAt = now;
-#endif
+void mpu_sync(void){
+	// timeout is set to 20 ticks. We should get an update during that time. If not then we should return.
+	xSemaphoreTake(_sem_gyro, 20);
 }
 
 void configureMPUDataReadyInterruptHandling(void)
 {
 #ifdef USE_MPU_DATA_READY_SIGNAL
+
+	_sem_gyro = xSemaphoreCreateBinary();
 
 #ifdef STM32F10X
     // enable AFIO for EXTI support
