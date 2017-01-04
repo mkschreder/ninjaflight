@@ -52,29 +52,35 @@ static __attribute__((unused)) void _task(void *param){
 	self->next_acc_read_time = last_t + ACC_READ_TIMEOUT;
 
 	vTaskDelay(30);
-	mpu_set_rate();
 
 	while(true){
+		// this function will put this thread to sleep until the gyro interrupt fires.
+		// It is important that the gyro interrupt is both configured and fires on each gyro sample
+		// If it does not work and we do not sleep here then this thread will consume all cpu cycles and we will
+		// likely waste a lot of cycles reading gyro when we don't have to.
 		sys_gyro_sync(self->system);
 
 		sys_micros_t t = sys_micros(self->system);
 
-		float dt = (t - last_t) * 1e-6f;
-	
+		// this is dt used for the gyro updates to the dcm.
+		// It is extremely important that we use gyro sample rate and not our loop rate
+		// doing it any other way will introduce small errors. Why let them be there if we can eliminate them?
+		float dt = GYRO_RATE_DT;
+
 		// read acc
 		if(t > self->next_acc_read_time){
 			if (sys_acc_read(self->system, _acc) == 0) {
 				ins_process_acc(&self->ins, _acc[0], _acc[1], _acc[2]);
 			}
 			self->next_acc_read_time = t + ACC_READ_TIMEOUT;
-		} else {
-			// read gyro
-			if(sys_gyro_read(self->system, _gyro) == 0){
-				ins_process_gyro(&self->ins, _gyro[0], _gyro[1], _gyro[2]);
-				ins_update(&self->ins, dt);
-			}
 		}
-		
+
+		// read gyro (this MUST be done each time interrupt fires because dcm calculations rely on the GYRO update rate, NOT looptime)
+		if(sys_gyro_read(self->system, _gyro) == 0){
+			ins_process_gyro(&self->ins, _gyro[0], _gyro[1], _gyro[2]);
+			ins_update(&self->ins, dt);
+		}
+
 		// read user command
 		if(self->in_queue){
 			struct fastloop_input in;
@@ -118,18 +124,11 @@ static __attribute__((unused)) void _task(void *param){
 			xQueueOverwrite(self->out_queue, &out);
 		}
 
-		// TODO: flight modes
-		//if (FLIGHT_MODE(PASSTHRU_MODE)) {
-			// Direct passthru from RX
-			//mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
-			//mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
-			//mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
-		//} else {
-			// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
-		//}
+		// TODO: passthrough mode
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
+		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
+
 		mixer_update(&self->mixer);
 
 		fastloop_time = sys_micros(self->system) - t;
@@ -148,11 +147,11 @@ void fastloop_init(struct fastloop *self, const struct system_calls *system, con
 
 	self->in_queue = xQueueCreate(1, sizeof(struct fastloop_input));
 	self->out_queue = xQueueCreate(1, sizeof(struct fastloop_output));
-	
+
 	// TODO: sensor scale and alignment should be completely handled by the driver!
-	ins_set_gyro_alignment(&self->ins, gyroAlign);
-	ins_set_acc_alignment(&self->ins, accAlign);
-	ins_set_mag_alignment(&self->ins, magAlign);
+	ins_set_gyro_alignment(&self->ins, config->sensors.alignment.gyro_align);
+	ins_set_acc_alignment(&self->ins, config->sensors.alignment.acc_align);
+	ins_set_mag_alignment(&self->ins, config->sensors.alignment.mag_align);
 
 	mixer_init(&self->mixer, self->config, &system->pwm);
 	ins_init(&self->ins, self->config);
