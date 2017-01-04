@@ -95,7 +95,7 @@
 	#include <stdio.h>
 	#define traceMALLOC(ret, siz) printf("MALLOC: %p %lu\n", ret, siz)
 #else
-	#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 8 * 1024 ) )
+	#define configTOTAL_HEAP_SIZE			( ( size_t ) ( 6900 ) )
 #endif
 
 #define configMAX_TASK_NAME_LEN			( 10 )
@@ -167,7 +167,7 @@ to exclude the API function. */
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 1 (highest maskable) to 0 (highest non-maskable). */
 #define configKERNEL_INTERRUPT_PRIORITY 		15 << 4	/* equivalent to NVIC priority 15 */
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	 3 << 4	/* equivalent to NVIC priority  3 */
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	 1 << 4	/* equivalent to NVIC priority  1 */
 
 /* This is the value being used as per the ST library which permits 16
 priority values, 0 to 15.  This must correspond to the
