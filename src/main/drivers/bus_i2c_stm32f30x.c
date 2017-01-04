@@ -27,6 +27,7 @@
 #include "system.h"
 
 #include "bus_i2c.h"
+#include "nvic.h"
 
 #ifndef SOFT_I2C
 
@@ -87,6 +88,7 @@ static void i2cInitPort(I2C_TypeDef *dev)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     I2C_InitTypeDef I2C_InitStructure;
+	int irq_ev = 0, irq_er = 0;
 
     if (dev == I2C1) {
         RCC_AHBPeriphClockCmd(I2C1_SCL_CLK_SOURCE | I2C1_SDA_CLK_SOURCE, ENABLE);
@@ -114,28 +116,9 @@ static void i2cInitPort(I2C_TypeDef *dev)
         GPIO_InitStructure.GPIO_Pin = I2C1_SDA_PIN;
         GPIO_Init(I2C1_SDA_GPIO, &GPIO_InitStructure);
 
-        I2C_StructInit(&I2C_InitStructure);
-
-        I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-        I2C_InitStructure.I2C_AnalogFilter = I2C_AnalogFilter_Enable;
-        I2C_InitStructure.I2C_DigitalFilter = 0x00;
-        I2C_InitStructure.I2C_OwnAddress1 = 0x00;
-        I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
-        I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-        if (i2cOverClock) {
-            I2C_InitStructure.I2C_Timing = 0x00500E30; // 1000 Khz, 72Mhz Clock, Analog Filter Delay ON, Setup 40, Hold 4.
-        } else {
-            I2C_InitStructure.I2C_Timing = 0x00E0257A; // 400 Khz, 72Mhz Clock, Analog Filter Delay ON, Rise 100, Fall 10
-        }
-        //I2C_InitStructure.I2C_Timing              = 0x8000050B;
-
-
-        I2C_Init(I2C1, &I2C_InitStructure);
-
-        I2C_Cmd(I2C1, ENABLE);
-    }
-
-    if (dev == I2C2) {
+		irq_ev = I2C1_EV_IRQn;
+		irq_er = I2C1_EV_IRQn;
+	} else if (dev == I2C2) {
         RCC_AHBPeriphClockCmd(I2C2_SCL_CLK_SOURCE | I2C2_SDA_CLK_SOURCE, ENABLE);
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
         RCC_I2CCLKConfig(RCC_I2C2CLK_SYSCLK);
@@ -160,32 +143,80 @@ static void i2cInitPort(I2C_TypeDef *dev)
         GPIO_InitStructure.GPIO_Pin = I2C2_SDA_PIN;
         GPIO_Init(I2C2_SDA_GPIO, &GPIO_InitStructure);
 
-        I2C_StructInit(&I2C_InitStructure);
+		irq_ev = I2C2_EV_IRQn;
+		irq_er = I2C2_EV_IRQn;
+	} else {
+		return;
+	}
 
-        I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-        I2C_InitStructure.I2C_AnalogFilter = I2C_AnalogFilter_Enable;
-        I2C_InitStructure.I2C_DigitalFilter = 0x00;
-        I2C_InitStructure.I2C_OwnAddress1 = 0x00;
-        I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
-        I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+    I2C_StructInit(&I2C_InitStructure);
 
-        // FIXME timing is board specific
-        //I2C_InitStructure.I2C_Timing = 0x00310309; // //400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09 - value from TauLabs/Sparky
-        // ^ when using this setting and after a few seconds of a scope probe being attached to the I2C bus it was observed that the bus enters
-        // a busy state and does not recover.
+	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+	I2C_InitStructure.I2C_AnalogFilter = I2C_AnalogFilter_Enable;
+	I2C_InitStructure.I2C_DigitalFilter = 0x00;
+	I2C_InitStructure.I2C_OwnAddress1 = 0x00;
+	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+	if (i2cOverClock) {
+		I2C_InitStructure.I2C_Timing = 0x00500E30; // 1000 Khz, 72Mhz Clock, Analog Filter Delay ON, Setup 40, Hold 4.
+	} else {
+		I2C_InitStructure.I2C_Timing = 0x00E0257A; // 400 Khz, 72Mhz Clock, Analog Filter Delay ON, Rise 100, Fall 10
+	}
+	//I2C_InitStructure.I2C_Timing              = 0x8000050B;
+	I2C_Init(dev, &I2C_InitStructure);
 
-        if (i2cOverClock) {
-            I2C_InitStructure.I2C_Timing = 0x00500E30; // 1000 Khz, 72Mhz Clock, Analog Filter Delay ON, Setup 40, Hold 4.
-        } else {
-            I2C_InitStructure.I2C_Timing = 0x00E0257A; // 400 Khz, 72Mhz Clock, Analog Filter Delay ON, Rise 100, Fall 10
-        }
+	I2C_Cmd(dev, ENABLE);
 
-        //I2C_InitStructure.I2C_Timing              = 0x8000050B;
+    NVIC_InitTypeDef nvic;
+	// I2C ER Interrupt
+	nvic.NVIC_IRQChannel = irq_er;
+	nvic.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_I2C_ER);
+	nvic.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_I2C_ER);
+	nvic.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvic);
 
-        I2C_Init(I2C2, &I2C_InitStructure);
+	// I2C EV Interrupt
+	nvic.NVIC_IRQChannel = irq_ev;
+	nvic.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_I2C_EV);
+	nvic.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_I2C_EV);
+	NVIC_Init(&nvic);
+}
 
-        I2C_Cmd(I2C2, ENABLE);
-    }
+static void i2c_er_handler(void){
+
+}
+
+static void i2c_ev_handler(void){
+
+}
+
+void I2C1_ER_IRQHandler(void); 
+void I2C1_EV_IRQHandler(void); 
+void I2C2_ER_IRQHandler(void);
+void I2C2_EV_IRQHandler(void); 
+
+void I2C1_ER_IRQHandler(void)
+{
+    i2c_er_handler();
+}
+
+void I2C1_EV_IRQHandler(void)
+{
+    i2c_ev_handler();
+}
+
+void I2C2_ER_IRQHandler(void)
+{
+    i2c_er_handler();
+}
+
+void I2C2_EV_IRQHandler(void)
+{
+    i2c_ev_handler();
+}
+
+void i2c_init(void){
+	i2cInit(I2C_DEVICE);
 }
 
 void i2cInit(I2CDevice index)
