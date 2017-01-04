@@ -261,6 +261,7 @@ COMMON_SRC = build_config.c \
 			ninja_config.c \
 			ninja_sched.c \
 			ninjaflight.c \
+			fastloop.c \
 			cli.c \
 		   msp.c \
 		   flight/altitudehold.c \
@@ -776,6 +777,7 @@ SITL_SRC = \
 		io/transponder_ir.c \
 		msp.c \
 		ninja.c \
+		fastloop.c \
 		ninja_config.c \
 		ninjaflight.c \
 		ninja_sched.c \
