@@ -62,7 +62,6 @@
 #include "drivers/sdcard.h"
 #include "drivers/usb_io.h"
 #include "drivers/transponder_ir.h"
-#include "drivers/gyro_sync.h"
 #include "drivers/flashfs.h"
 #include "drivers/asyncfatfs/asyncfatfs.h"
 
@@ -101,6 +100,7 @@
 #endif
 
 #include <FreeRTOS.h>
+#include <semphr.h>
 #include <task.h>
 
 #include "ninjaflight.h"
@@ -416,20 +416,21 @@ static void init(const struct config *config)
 
 
 #ifdef USE_I2C
+	// TODO: wtf is all this shit?
 #if defined(NAZE)
     if (hardwareRevision != NAZE32_SP) {
-        i2cInit(I2C_DEVICE);
+        i2c_init();
     } else {
         if (!doesConfigurationUsePort(&config->serial, SERIAL_PORT_UART3)) {
-            i2cInit(I2C_DEVICE);
+        	i2c_init();
         }
     }
 #elif defined(CC3D)
     if (!doesConfigurationUsePort(&config->serial, SERIAL_PORT_UART3)) {
-        i2cInit(I2C_DEVICE);
+		i2c_init();
     }
 #else
-    i2cInit(I2C_DEVICE);
+	i2c_init();
 #endif
 #endif
 
@@ -456,8 +457,6 @@ static void init(const struct config *config)
         displayInit();
     }
 #endif
-
-    gyroSetSampleRate(config->imu.looptime, config->gyro.gyro_lpf, config->imu.gyroSync, config->imu.gyroSyncDenominator);   // Set gyro sampling rate divider before initialization
 
     if (!sensorsAutodetect(config)) {
         // if gyro was not detected due to whatever reason, we give up now.
@@ -565,6 +564,7 @@ void processLoopback(void) {
 
 static sys_micros_t _micros(const struct system_calls_time *time){
 	(void)time;
+	// micros is pretty much thread safe.
 	return micros();
 }
 
@@ -588,27 +588,23 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 	return ppmRead(id);
 }
 
+static void _gyro_sync(const struct system_calls_imu *imu){
+	(void)imu;
+	gyro.sync();
+}
+
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	int16_t raw[3] = {0, 0, 0};
-	//int32_t maxgyro = 0x00007fff;
 	if(gyro.read) {
-		gyro.read(raw);
-		for(int c = 0; c < 3; c++)
-			output[c] = (int32_t)raw[c];// * SYSTEM_GYRO_RANGE) / maxgyro; 
+		gyro.read(output);
 	}
 	return 0;
 }
 
 static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
-	int16_t raw[3] = {0, 0, SYSTEM_ACC_1G};
 	if(acc.read){
-		acc.read(raw);
-		for(int c = 0; c < 3; c++){
-			output[c] = ((int32_t)raw[c] * (int32_t)SYSTEM_ACC_1G) / acc.acc_1G;
-			//output[c] = raw[c]; //((int32_t)raw[c] * acc.acc_1G) / (int32_t)SYSTEM_ACC_1G;
-		}
+		acc.read(output);
 	}
 	return 0;
 }
@@ -686,6 +682,7 @@ static struct system_calls syscalls = {
 		.read_pwm = _read_pwm
 	},
 	.imu = {
+		.gyro_sync = _gyro_sync,
 		.read_gyro = _read_gyro,
 		.read_acc = _read_acc,
 		.read_pressure = _read_pressure,
@@ -717,6 +714,7 @@ static struct system_calls syscalls = {
 
 struct config_store config;
 static struct ninja ninja;
+static struct fastloop fastloop;
 
 void HardFault_Handler(void);
 void _main_task(void *param){
@@ -725,19 +723,17 @@ void _main_task(void *param){
 
     init(&config.data);
 
-	ninja_init(&ninja, &syscalls, &config);
+	fastloop_init(&fastloop, &syscalls, &config.data);
+	ninja_init(&ninja, &fastloop, &syscalls, &config);
 
-	// TODO: sensor scale and alignment should be completely handled by the driver!
-	ins_set_gyro_alignment(&ninja.ins, gyroAlign);
-	ins_set_acc_alignment(&ninja.ins, accAlign);
-	ins_set_mag_alignment(&ninja.ins, magAlign);
+	fastloop_start(&fastloop);
 
 	while (!done) {
         ninja_heartbeat(&ninja);
         processLoopback();
     }
 }
-/*
+
 void _led_blink(void *ptr){
 	(void)ptr;
 	led_on(0);
@@ -749,15 +745,16 @@ void _led_blink(void *ptr){
 		vTaskDelay(500);
 	}
 }
-*/
+
 int main(void) {
+	memset(&gyro, 0, sizeof(gyro));
 	// config is loaded first so it should only access flash functions
 	config_load(&config, &syscalls);
 
 	pre_init(&config.data);
 
-	//xTaskCreate(_led_blink, "blnk", 512 / sizeof(StackType_t), NULL, 1, NULL);
-	xTaskCreate(_main_task, "main", 5096 / sizeof(StackType_t), NULL, 1, NULL);
+	xTaskCreate(_led_blink, "blnk", 420 / sizeof(StackType_t), NULL, 1, NULL);
+	xTaskCreate(_main_task, "main", 2296 / sizeof(StackType_t), NULL, 1, NULL);
 	vTaskStartScheduler();
 }
 

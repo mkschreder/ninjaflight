@@ -48,91 +48,108 @@ static __attribute__((unused)) void _task(void *param){
 	int16_t _acc[3];
 	int16_t _gyro[3];
 
-	sys_micros_t last_t = sys_micros(self->system);
-	self->next_acc_read_time = last_t + ACC_READ_TIMEOUT;
+	sys_micros_t loop_time = 0;
+	self->next_acc_read_time = sys_micros(self->system) + ACC_READ_TIMEOUT;
 
 	vTaskDelay(30);
 
+	uint8_t dt_mul = 1; // this is used for accounting for skipped beats.
+
 	while(true){
+		// this is for calculating full update time
+		sys_micros_t t_start = sys_micros(self->system);
 		// this function will put this thread to sleep until the gyro interrupt fires.
 		// It is important that the gyro interrupt is both configured and fires on each gyro sample
 		// If it does not work and we do not sleep here then this thread will consume all cpu cycles and we will
 		// likely waste a lot of cycles reading gyro when we don't have to.
 		sys_gyro_sync(self->system);
 
+		// record time when we start handling the interrupt
 		sys_micros_t t = sys_micros(self->system);
 
-		// this is dt used for the gyro updates to the dcm.
-		// It is extremely important that we use gyro sample rate and not our loop rate
-		// doing it any other way will introduce small errors. Why let them be there if we can eliminate them?
-		float dt = GYRO_RATE_DT;
-
-		// read acc
+		// below are two distinct code paths that interleave with eachother at each gyro interrupt
+		// - whenever it is time to update the acc (at 1khz) we do just that and
+		// then yield. This allows other tasks to run. We can not achieve 8k
+		// update on an spracingf3 due to i2c clock constraint that takes
+		// ~140us to do the 6 value transaction from each sensor. But we can do
+		// 4k just fine - EVEN without interrupt driven i2c.
+		// - Second path is taken whenever it is time to update the gyro. It
+		// runs the whole closed loop and outputs an update to the motors.
 		if(t > self->next_acc_read_time){
+			dt_mul++;
 			if (sys_acc_read(self->system, _acc) == 0) {
 				ins_process_acc(&self->ins, _acc[0], _acc[1], _acc[2]);
 			}
 			self->next_acc_read_time = t + ACC_READ_TIMEOUT;
-		}
 
-		// read gyro (this MUST be done each time interrupt fires because dcm calculations rely on the GYRO update rate, NOT looptime)
-		if(sys_gyro_read(self->system, _gyro) == 0){
-			ins_process_gyro(&self->ins, _gyro[0], _gyro[1], _gyro[2]);
-			ins_update(&self->ins, dt);
-		}
-
-		// read user command
-		if(self->in_queue){
-			struct fastloop_input in;
-			memset(&in, 0, sizeof(in));
-			if(xQueuePeek(self->in_queue, &in, 0)){
-				anglerate_set_level_percent(&self->ctrl, in.level_pc[0], in.level_pc[1]);
-				anglerate_input_user(&self->ctrl, in.roll, in.pitch, in.yaw);
-				mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, in.throttle);
-				// center the RC input value around the RC middle value
-				// by subtracting the RC middle value from the RC input value, we get:
-				// data - middle = input
-				// 2000 - 1500 = +500
-				// 1500 - 1500 = 0
-				// 1000 - 1500 = -500
-				for(int c = 0; c < 8; c++){
-					mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC, in.rc[c]);
+			// read user command
+			if(self->in_queue){
+				struct fastloop_input in;
+				memset(&in, 0, sizeof(in));
+				if(xQueuePeek(self->in_queue, &in, 0)){
+					anglerate_set_level_percent(&self->ctrl, in.level_pc[0], in.level_pc[1]);
+					anglerate_input_user(&self->ctrl, in.roll, in.pitch, in.yaw);
+					mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, in.throttle);
+					// center the RC input value around the RC middle value
+					// by subtracting the RC middle value from the RC input value, we get:
+					// data - middle = input
+					// 2000 - 1500 = +500
+					// 1500 - 1500 = 0
+					// 1000 - 1500 = -500
+					for(int c = 0; c < 8; c++){
+						mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC, in.rc[c]);
+					}
 				}
 			}
+		} else {
+			// this is dt used for the gyro updates to the dcm.
+			// It is extremely important that we use gyro sample rate and not our loop rate
+			// doing it any other way will introduce small errors. Why let them be there if we can eliminate them?
+			// also account for loops we skip when reading the acc
+			float dt = GYRO_RATE_DT;// * dt_mul;
+			dt_mul = 1;
+
+			// read gyro (this MUST be done each time interrupt fires because dcm calculations rely on the GYRO update rate, NOT looptime)
+			if(sys_gyro_read(self->system, _gyro) == 0){
+				ins_process_gyro(&self->ins, _gyro[0], _gyro[1], _gyro[2]);
+				ins_update(&self->ins, dt);
+			}
+
+			anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
+			anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
+			anglerate_update(&self->ctrl, dt);
+
+			mixer_set_throttle_range(&self->mixer, 1500, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
+
+			// make data available to other applications
+			if(self->out_queue){
+				struct fastloop_output out;
+				out.loop_time = loop_time;
+				out.gyr[0] = ins_get_gyro_x(&self->ins);
+				out.gyr[1] = ins_get_gyro_y(&self->ins);
+				out.gyr[2] = ins_get_gyro_z(&self->ins);
+				out.acc[0] = ins_get_acc_x(&self->ins);
+				out.acc[1] = ins_get_acc_y(&self->ins);
+				out.acc[2] = ins_get_acc_z(&self->ins);
+				out.roll = ins_get_roll_dd(&self->ins);
+				out.pitch = ins_get_pitch_dd(&self->ins);
+				out.yaw = ins_get_yaw_dd(&self->ins);
+
+				xQueueOverwrite(self->out_queue, &out);
+			}
+
+			// TODO: passthrough mode
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
+
+			mixer_update(&self->mixer);
+
+			// store the time
+			sys_micros_t t_end = sys_micros(self->system);
+			//self->code_time = t_end - t;
+			loop_time = t_end - t_start;
 		}
-
-		anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
-		anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
-		anglerate_update(&self->ctrl, dt);
-
-		mixer_set_throttle_range(&self->mixer, 1500, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
-
-		// write output queue
-		if(self->out_queue){
-			struct fastloop_output out;
-			out.loop_time = t - last_t;
-			out.gyr[0] = ins_get_gyro_x(&self->ins);
-			out.gyr[1] = ins_get_gyro_y(&self->ins);
-			out.gyr[2] = ins_get_gyro_z(&self->ins);
-			out.acc[0] = ins_get_acc_x(&self->ins);
-			out.acc[1] = ins_get_acc_y(&self->ins);
-			out.acc[2] = ins_get_acc_z(&self->ins);
-			out.roll = ins_get_roll_dd(&self->ins);
-			out.pitch = ins_get_pitch_dd(&self->ins);
-			out.yaw = ins_get_yaw_dd(&self->ins);
-
-			xQueueOverwrite(self->out_queue, &out);
-		}
-
-		// TODO: passthrough mode
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
-
-		mixer_update(&self->mixer);
-
-		fastloop_time = sys_micros(self->system) - t;
-		last_t = t;
 	}
 }
 
