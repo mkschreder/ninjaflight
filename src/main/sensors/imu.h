@@ -72,8 +72,8 @@ struct imu {
 	// this is yaw that we are currently inputing from gps or some other source
 	int16_t yaw;
 
-	float gyroScale;
-	int16_t acc_1G;
+	//float gyroScale;
+	//int16_t acc_1G;
 
 	const struct config *config;
 };
@@ -96,14 +96,14 @@ bool imu_is_leveled(struct imu *self, uint8_t max_angle);
 void imu_get_attitude_dd(struct imu *self, union attitude_euler_angles *att);
 void imu_get_raw_accel(struct imu *self, union imu_accel_reading *acc);
 
-void imu_set_acc_scale(struct imu *self, int16_t acc_1G);
-void imu_set_gyro_scale(struct imu *self, float gyro_scale);
+//void imu_set_acc_scale(struct imu *self, int16_t acc_1G);
+//void imu_set_gyro_scale(struct imu *self, float gyro_scale);
 
 // TODO: replace with get_angular_velocity once we have refactored pids to use radians/s
-void imu_get_gyro(struct imu *self, int16_t gyro[3]);
+//void imu_get_gyro(struct imu *self, int16_t gyro[3]);
 
 // TODO: this needs to be removed since it is only used in anglerate controller. Leaving for now since don't want to make too many changes.
-float imu_get_gyro_scale(struct imu *self);
+//float imu_get_gyro_scale(struct imu *self);
 
 // helper functions to extract a specific component from the attitude
 int16_t imu_get_roll_dd(struct imu *self);

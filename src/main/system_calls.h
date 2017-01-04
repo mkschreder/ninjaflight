@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 typedef int32_t sys_millis_t;
@@ -31,14 +32,127 @@ typedef int32_t sys_micros_t;
  */
 #define SYSTEM_GYRO_RANGE 2000
 /**
- * standard value for accelerometer readings that represents 1G. Drivers should use this value to scale accelerometer readings into this range.
+ * Specifies how many g is full range of accelerometer
  */
-#define SYSTEM_ACC_1G 1000
+#define SYSTEM_ACCEL_RANGE 2
+
+#define SYSTEM_ACCEL_1G (0x7fff / SYSTEM_ACCEL_RANGE)
+
 /**
  * Helper macro for multiplier to convert gyro reading into deg/s
  */
 #define SYSTEM_GYRO_SCALE ((float)SYSTEM_GYRO_RANGE / (int16_t)0x7fff)
 
+/**
+ * Helper macro that converts raw accel reading into m/s2
+ */
+#define SYSTEM_ACCEL_SCALE (((float)SYSTEM_ACCEL_RANGE * 9.82f) / (int16_t)0x7fff)
+
+#if 0
+typedef enum {
+	STIME,
+	SPWMMO,			// motor out
+	SPWMSO,			// servo out
+	SPWMRI,
+	SPPMRI,
+	SSGYR,
+	SSACC,
+	SSPRE,
+	SSTMP,
+	SLEDO,
+	SLEDT,
+	SBPR,
+	SEEPR,
+	SLOG
+} sys_reg_t;
+
+struct sys_pwm_args {
+	uint8_t id;
+	uint16_t value;
+};
+
+struct system_calls {
+	/**
+	 * A generic read call that copies data from the system thread into the
+	 * caller thread. Type of data is specified by the register to read.
+	 */
+	int (*read)(sys_reg_t reg, void *data, size_t data_size);
+	/**
+	 * A generic write call that writes data to a system device.
+	 */
+	int (*write)(sys_reg_t reg, const void *data, size_t data_size);
+};
+
+/**
+ * @param self instance of the system calls interface
+ * @param id motor id (typically in range 0 - 7)
+ * @param value pwm value (typically in range 1000-2000 but can be slightly more or less)
+ *
+ * Writes a motor value to a motor output with given id. If id is out of
+ * range then values should be ignored. Motor outputs are typically
+ * separate from servo outputs and run at 490hz instead of 50hz update
+ * rate.
+ */
+void sys_pwm_motor_out(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
+/**
+ * @param self instance of the system calls interface
+ * @param id servo id (typically in range 0 - 7)
+ * @param value pwm value (typically in range 1000-2000 but can be slightly more or less)
+ *
+ * Writes a servo value to the given output. If output id is out of range
+ * then value should be ignored.
+ **/
+void sys_pwm_servo_out(const struct system_calls_pwm *self, uint8_t id, uint16_t value);
+/**
+ * @param chan pwm channel to read
+ * @return pwm value of the given channel. If channel is out of range then
+ * 0 should be returned.
+ */
+uint16_t sys_pwm_rc_in(const struct system_calls_pwm *self, uint8_t chan);
+/**
+ * @param chan ppm channel to read
+ * @return ppm value of the given channel. If channel is out of range then
+ * 0 should be returned.
+ */
+uint16_t sys_ppm_rc_in(const struct system_calls_pwm *self, uint8_t chan);
+/**
+ * Reads gyro rotational rate as a 16 bit integer. Full range (+-2^15) is
+ * expected to equal SYSTEM_GYRO_PRECISION degrees per second.
+ *
+ * @param out array of three
+ * components where gyro data will be written.
+ * @return negative errno number on error, 0 on success
+ */
+int sys_gyro_read(const struct system_calls_imu *self, int16_t out[3]);
+/**
+ * Reads acceleration currently excerting force on the object (in
+ * stationary position it should be -g: ie in the opposite direction from
+ * gravity). Units are such that SYSTEM_ACC_1G corresponds to 1G.
+ *
+ * @param out array of three components where gyro data will be
+ * written.
+ * @return negative errno number on error, 0 on success
+ */
+int sys_acc_read(const struct system_calls_imu *self, int16_t out[3]);
+int sys_pressure_read(const struct system_calls_imu *self, uint32_t *out);
+int sys_temp_read(const struct system_calls_imu *self, int16_t *out);
+
+/**
+ * Turns a led on or off. If led is out of range then this function should ignore the command.
+ */
+void sys_led_on(const struct system_calls_leds *self, uint8_t led, bool on);
+/**
+ * Toggles a led. If led id is out of range then this function should ignore the command.
+ */
+void sys_led_toggle(const struct system_calls_leds *self, uint8_t led);
+
+/**
+ * Turns the internal beeper on or off.
+ */
+void sys_beeper_on(const struct system_calls_beeper *self, bool on);
+
+sys_micros_t sys_micros(const struct system_calls_time *self);
+#endif
 /**
  * @brief pwm related system calls
  *
@@ -83,6 +197,7 @@ struct system_calls_pwm {
  * System calls responsible for reading sensor information.
  */
 struct system_calls_imu {
+	void (*gyro_sync)(const struct system_calls_imu *self);
 	/**
 	 * Reads gyro rotational rate as a 16 bit integer. Full range (+-2^15) is
 	 * expected to equal SYSTEM_GYRO_PRECISION degrees per second.
@@ -225,9 +340,10 @@ struct system_calls {
 #define sys_beeper_on(sys) sys->beeper.on(&(sys)->beeper, true)
 #define sys_beeper_off(sys) sys->beeper.on(&(sys)->beeper, false)
 
-#define sys_millis(sys) (sys->time.micros(&(sys)->time) / 1000)
-#define sys_micros(sys) (sys->time.micros(&(sys)->time))
+#define sys_millis(sys) ((sys)->time.micros(&(sys)->time) / 1000)
+#define sys_micros(sys) ((sys)->time.micros(&(sys)->time))
 
+#define sys_gyro_sync(sys) ((sys)->imu.gyro_sync(&(sys)->imu))
 #define sys_gyro_read(sys, data) (sys->imu.read_gyro(&(sys)->imu, data))
 #define sys_acc_read(sys, data) (sys->imu.read_acc(&(sys)->imu, data))
 #define sys_read_pressure(sys, data) (sys->imu.read_pressure(&(sys)->imu, data))

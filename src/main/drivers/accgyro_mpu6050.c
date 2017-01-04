@@ -113,8 +113,8 @@ static void mpu6050GyroInit(uint8_t lpf, uint8_t rate_div)
     ack = mpuConfiguration.write(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);   //GYRO_CONFIG   -- FS_SEL = 3: Full scale set to 2000 deg/sec
 
     // ACC Init stuff.
-    // Accel scale 8g (4096 LSB/g)
-    ack = mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+    // Accel scale 2g
+    ack = mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_2G << 3);
 
     ack = mpuConfiguration.write(MPU_RA_INT_PIN_CFG,
             0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); // INT_PIN_CFG   -- INT_LEVEL_HIGH, INT_OPEN_DIS, LATCH_INT_DIS, INT_RD_CLEAR_DIS, FSYNC_INT_LEVEL_HIGH, FSYNC_INT_DIS, I2C_BYPASS_EN, CLOCK_DIS

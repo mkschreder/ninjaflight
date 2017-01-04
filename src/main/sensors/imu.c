@@ -107,8 +107,7 @@ void imu_init(struct imu *self, const struct config *config){
 	memset(self, 0, sizeof(struct imu));
 
 	self->config = config;
-	self->accVelScale = (9.80665f / SYSTEM_ACC_1G) * 100.0f; // acc vel scaled to cm/s
-	self->gyroScale = SYSTEM_GYRO_SCALE * (M_PIf / 180.0f);  // gyro output scaled to rad per second
+	self->accVelScale = (9.80665f / SYSTEM_ACCEL_1G) * 100.0f; // acc vel scaled to cm/s
 
 	imu_reset(self);
 }
@@ -158,7 +157,7 @@ static void _imu_update_acceleration(struct imu *self, float dT){
 			accel_ned.V.Z -= self->acc_1G;
 	} else {
 	#endif
-		accel_ned.V.Z -= self->acc_1G;
+		//accel_ned.V.Z -= self->acc_1G;
 	//}
 
 	const struct accelerometer_config *ac = &config_get_profile(self->config)->acc;
@@ -184,20 +183,16 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float ax, ay, az;
 	float mx, my, mz;
 
-	if(self->gyroScale > 0){
-		gx = self->gyroScale * self->gyro[X];
-		gy = self->gyroScale * self->gyro[Y];
-		gz = self->gyroScale * self->gyro[Z];
-	} else {
-		gx = self->gyro[X];
-		gy = self->gyro[Y];
-		gz = self->gyro[Z];
-	}
+	static const float gyr_to_rad = SYSTEM_GYRO_SCALE * (M_PIf / 180.0f);  // gyro output scaled to rad per second
+
+	gx = gyr_to_rad * self->gyro[X];
+	gy = gyr_to_rad * self->gyro[Y];
+	gz = gyr_to_rad * self->gyro[Z];
 
 	// we scale here to keep precision when later squaring scale can be any number
-	ax = self->accSmooth[X] * 0.001f;
-	ay = self->accSmooth[Y] * 0.001f;
-	az = self->accSmooth[Z] * 0.001f;
+	ax = SYSTEM_ACCEL_SCALE * self->accSmooth[X];
+	ay = SYSTEM_ACCEL_SCALE * self->accSmooth[Y];
+	az = SYSTEM_ACCEL_SCALE * self->accSmooth[Z];
 
 	mx = self->mag[X];
 	my = self->mag[Y];
@@ -356,7 +351,7 @@ void imu_update(struct imu *self, float dt){
 		useYaw, rawYawError);
 
 	// reset yaw after we are done because we only use it if latest value has been provided
-	self->flags &= ~IMU_FLAG_USE_YAW;
+	self->flags &= ~(IMU_FLAG_USE_ACC | IMU_FLAG_USE_MAG | IMU_FLAG_USE_YAW);
 
 	// updates attitude from dcm
 	_imu_update_euler_angles(self);
@@ -425,15 +420,13 @@ void imu_get_gyro(struct imu *self, int16_t gyr[3]){
 	gyr[2] = self->gyro[2];
 }
 
-float imu_get_gyro_scale(struct imu *self){
-	return self->gyroScale;
-}
-
+/**
 void imu_get_raw_accel(struct imu *self, union imu_accel_reading *accel){
 	accel->values.x = self->accSmooth[X];
 	accel->values.y = self->accSmooth[Y];
 	accel->values.z = self->accSmooth[Z];
 }
+*/
 
 int16_t imu_get_roll_dd(struct imu *self){
 	return self->attitude.values.roll;

@@ -112,13 +112,14 @@ static bool _acc_magnitude_in_cent_g(struct instruments *self, int32_t raw[3], u
     int32_t axis;
     int32_t accMagnitude = 0;
 
+	// scale the values a little so that they will not overflow
     for (axis = 0; axis < 3; axis++) {
-        accMagnitude += (int32_t)raw[axis] * raw[axis];
+        accMagnitude += (int32_t)(raw[axis] >> 3) * (raw[axis] >> 3); 
     }
 
 	if(accMagnitude == 0) return false;
 
-    accMagnitude = accMagnitude * 100 / (sq((int32_t)SYSTEM_ACC_1G));
+    accMagnitude = accMagnitude * 100 / (sq((int32_t)SYSTEM_ACCEL_1G >> 3));
 
     // Accept accel readings only in range 0.90g - 1.10g
     return (min_cent < accMagnitude) && (accMagnitude < max_cent);

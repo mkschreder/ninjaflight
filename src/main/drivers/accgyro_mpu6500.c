@@ -82,7 +82,7 @@ void mpu6500GyroInit(uint8_t lpf, uint8_t div)
     usleep(100000);
     mpuConfiguration.write(MPU_RA_PWR_MGMT_1, INV_CLK_PLL);
     mpuConfiguration.write(MPU_RA_GYRO_CONFIG, INV_FSR_2000DPS << 3);
-    mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_8G << 3);
+    mpuConfiguration.write(MPU_RA_ACCEL_CONFIG, INV_FSR_2G << 3);
     mpuConfiguration.write(MPU_RA_CONFIG, lpf);
     mpuConfiguration.write(MPU_RA_SMPLRT_DIV, div); // Get Divider
 

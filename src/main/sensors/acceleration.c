@@ -58,7 +58,7 @@ void ins_acc_init(struct ins_acc *self, const struct sensor_trims_config *trims,
 
 	self->accADC[X] = 0;
 	self->accADC[Y] = 0;
-	self->accADC[Z] = SYSTEM_ACC_1G;
+	self->accADC[Z] = SYSTEM_ACCEL_1G;
 
 }
 
@@ -126,7 +126,7 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 			// TODO: save sensor trims
 			self->trims.accZero.raw[X] = self->a[X] / CALIBRATING_ACC_CYCLES;
 			self->trims.accZero.raw[Y] = self->a[Y] / CALIBRATING_ACC_CYCLES;
-			self->trims.accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - SYSTEM_ACC_1G;
+			self->trims.accZero.raw[Z] = self->a[Z] / CALIBRATING_ACC_CYCLES - SYSTEM_ACCEL_1G;
 			//trims->values.roll = 0;
 			//trims->values.pitch = 0;
 		}
@@ -134,7 +134,7 @@ void ins_acc_process_sample(struct ins_acc *self, int32_t x, int32_t y, int32_t 
 
 		self->accADC[X] = 0;
 		self->accADC[Y] = 0;
-		self->accADC[Z] = SYSTEM_ACC_1G;
+		self->accADC[Z] = SYSTEM_ACCEL_1G;
 	} else {
 		self->accADC[X] = x - self->trims.accZero.raw[X];
 		self->accADC[Y] = y - self->trims.accZero.raw[Y];
