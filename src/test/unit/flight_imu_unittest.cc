@@ -55,9 +55,9 @@ extern "C" {
 
 void input_imu_accel(struct imu *self, int16_t x, int16_t y, int16_t z){
 	imu_reset(self);
-	imu_input_accelerometer(self, x, y, z);
-	imu_input_gyro(self, 0, 0, 0);
 	for(unsigned int c = 0; c < 20000UL; c++){
+		imu_input_accelerometer(self, x, y, z);
+		imu_input_gyro(self, 0, 0, 0);
 		imu_update(self, 0.02);
 	}
 }
@@ -69,16 +69,15 @@ protected:
 
 		config_reset(&config);
 
-		config.imu.dcm_kp = 500;
-		config.imu.looptime = 2000;
-		config.imu.gyroSync = 1;
-		config.imu.gyroSyncDenominator = 1;
-		config.imu.small_angle = 25;
-		config.imu.max_angle_inclination = 500;
+		config.data.imu.dcm_kp = 2500;
+		config.data.imu.looptime = 2000;
+		config.data.imu.small_angle = 25;
+		config.data.imu.max_angle_inclination = 500;
+		config_get_profile_rw(&config.data)->acc.acc_cut_hz = 0;
 
-		imu_init(&imu, &config);
+		imu_init(&imu, &config.data);
     }
-	struct config config;
+	struct config_store config;
 	struct imu imu;
 };
 
@@ -90,11 +89,11 @@ protected:
  */
 
 TEST_F(FlightImuTest, TestImuLevel){
-	input_imu_accel(&imu, 0, 0, 1024);
+	input_imu_accel(&imu, 0, 0, SYSTEM_ACCEL_1G);
 	EXPECT_TRUE(imu_is_leveled(&imu, 10));
-	input_imu_accel(&imu, 724, 0, 724);
+	input_imu_accel(&imu, cos(M_PI/4) * SYSTEM_ACCEL_1G, 0, cos(M_PI/4) * SYSTEM_ACCEL_1G);
 	EXPECT_FALSE(imu_is_leveled(&imu, 10));
-	input_imu_accel(&imu, 0, 0, 1024);
+	input_imu_accel(&imu, 0, 0, SYSTEM_ACCEL_1G);
 	EXPECT_TRUE(imu_is_leveled(&imu, 10));
 }
 
@@ -110,18 +109,18 @@ TEST_F(FlightImuTest, TestEulerAngleCalculation){
 	// rotations are positive clockwise and negative ccw when looking down an axis
 
 	// so when it is leveled it gives reading perpendecular to g which is positive z
-    input_imu_accel(&imu, 0, 0, 1024);
+    input_imu_accel(&imu, 0, 0, SYSTEM_ACCEL_1G);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&imu), 0);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&imu), 0);
 
 	// when it is tilted nose up it will give reading along positive x since gravity is along negative x
-    input_imu_accel(&imu, 1024, 0, 0);
+    input_imu_accel(&imu, SYSTEM_ACCEL_1G, 0, 0);
     EXPECT_FLOAT_EQ(imu_get_roll_dd(&imu), 0);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&imu), -900);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&imu), 0);
 
 	// since y is to the left, rotating cw 90 deg around x will give acceleration pointing upwards and gravity in -y direction
-    input_imu_accel(&imu, 0, 1024, 0);
+    input_imu_accel(&imu, 0, SYSTEM_ACCEL_1G, 0);
     EXPECT_FLOAT_EQ(imu_get_roll_dd(&imu), 900);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&imu), 0);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&imu), 0);
@@ -138,10 +137,8 @@ TEST_F(FlightImuTest, TestEulerAngleCalculation){
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&imu), 0);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&imu), 0);
 
-	// this one is a pretty weird test. It does not really work because it involves yaw which we can not estimate using only the accelerometer
-	// TODO: this needs more investigation (for now things seem to work though)
     input_imu_accel(&imu, 724, 724, 0);
-    EXPECT_FLOAT_EQ(imu_get_roll_dd(&imu), 843);
+    EXPECT_FLOAT_EQ(imu_get_roll_dd(&imu), 900);
     EXPECT_FLOAT_EQ(imu_get_pitch_dd(&imu), -450);
     EXPECT_FLOAT_EQ(imu_get_yaw_dd(&imu), 450);
 }

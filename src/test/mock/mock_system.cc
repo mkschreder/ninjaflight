@@ -97,8 +97,9 @@ static int32_t _micros(const struct system_calls_time *time){
 	return t;
 }
 
-static void _gyro_sync(const struct system_calls_imu *imu){
+static int _gyro_sync(const struct system_calls_imu *imu){
 	(void)imu;
+	return -1;
 }
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
@@ -174,8 +175,7 @@ static int _eeprom_write(const struct system_calls_bdev *self, uint16_t addr, co
 	if(addr >= (mock_eeprom_pages * mock_eeprom_page_size)) return -1;
 	if((size + addr) > (uint32_t)(mock_eeprom_pages * mock_eeprom_page_size))
 		size = (mock_eeprom_pages * mock_eeprom_page_size) - addr;
-		/*
-	printf("EEPROM write to %04x (%d), size %lu: ", addr, addr, size);
+	/*printf("EEPROM write to %04x (%d), size %lu: ", addr, addr, size);
 	for(size_t c = 0; c < size; c++) printf("%02x ", (int)((char*)data)[c] & 0xff);
 	printf("\n");
 	*/

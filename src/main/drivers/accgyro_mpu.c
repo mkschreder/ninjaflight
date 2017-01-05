@@ -205,10 +205,10 @@ void MPU_DATA_READY_EXTI_Handler(void){
 	portYIELD_FROM_ISR(woken);
 }
 
-void mpu_sync(void){
+int mpu_sync(void){
 	// timeout is set to 20 ticks. We should get an update during that time. If not then we should return.
-	if(_sem_gyro) xSemaphoreTake(_sem_gyro, 20);
-	else vTaskDelay(20);
+	if(_sem_gyro && xSemaphoreTake(_sem_gyro, 20)) return 0;
+	return -1;
 }
 
 void configureMPUDataReadyInterruptHandling(void)

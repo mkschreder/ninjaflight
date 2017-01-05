@@ -29,7 +29,6 @@
 #include "debug.h"
 
 #include "common/axis.h"
-#include "common/filter.h"
 #include "common/quaternion.h"
 
 #include "config/config.h"
@@ -100,7 +99,7 @@ void imu_reset(struct imu *self){
 	_imu_update_dcm(self);
 
 	// reset the sensor flags (these will then be set as new samples arrive!)
-	self->flags &= ~(IMU_FLAG_USE_ACC | IMU_FLAG_USE_MAG);
+	self->flags &= ~(IMU_FLAG_USE_ACC | IMU_FLAG_USE_MAG | IMU_FLAG_USE_YAW);
 }
 
 void imu_init(struct imu *self, const struct config *config){
@@ -271,7 +270,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float p_gain = (self->flags & IMU_FLAG_DCM_CONVERGE_FASTER)?10.0f:1.0f;
 
 	// Calculate kP gain. If we are acquiring initial attitude (not armed and within 20 sec from powerup) scale the kP to converge faster
-	float dcmKpGain = (self->config->imu.dcm_kp / 10000.0f) * p_gain * 40;
+	float dcmKpGain = (self->config->imu.dcm_kp / 10000.0f) * p_gain;
 
 	// Apply proportional and integral feedback
 	gx += dcmKpGain * ex + integralFBx;
@@ -297,9 +296,10 @@ static void _imu_update_euler_angles(struct imu *self){
 	float py = self->rMat[2][1];
 	float pz = self->rMat[2][2];
 
+	// TODO: fix the magnetic declination
+
 	self->attitude.values.roll = lrintf(atan2_approx(py, pz) * (1800.0f / M_PIf));
 	self->attitude.values.pitch = lrintf(((0.5f * M_PIf) - acos_approx(-px)) * (1800.0f / M_PIf));
-	// TODO: fix the magnetic declination
 	self->attitude.values.yaw = lrintf((-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + self->magneticDeclination));
 
 	// yaw range is 0 to 3600
@@ -321,7 +321,6 @@ static bool _imu_mag_healthy(struct imu *self){
 }
 
 void imu_update(struct imu *self, float dt){
-	static filterStatePt1_t accLPFState[3];
 	float rawYawError = 0;
 	int32_t axis;
 
@@ -330,7 +329,7 @@ void imu_update(struct imu *self, float dt){
 	const struct accelerometer_config *ac = &config_get_profile(self->config)->acc;
 	for (axis = 0; axis < 3; axis++) {
 		if (ac->acc_cut_hz > 0) {
-			self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &accLPFState[axis], ac->acc_cut_hz, dt);
+			self->accSmooth[axis] = filterApplyPt1(self->acc[axis], &self->accLPFState[axis], ac->acc_cut_hz, dt);
 		} else {
 			self->accSmooth[axis] = self->acc[axis];
 		}

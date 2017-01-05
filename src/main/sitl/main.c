@@ -90,8 +90,6 @@ static void _app_task(void *param){
 
 	while (true) {
 		ninja_heartbeat(&self->ninja);
-		//vTaskDelay(1);
-		//usleep(900);
     }
 }
 
@@ -119,6 +117,8 @@ static void *_application_thread(void *param){
 	fastloop_init(&self->fastloop, self->system, &self->config.data);
 	ninja_init(&self->ninja, &self->fastloop, self->system, &self->config);
 
+	fastloop_start(&self->fastloop);
+
 	// simulate as closely as possible what the real system would do
 	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
 	xTaskCreate(_io_task, "io", 4096, self, 2, NULL);
@@ -132,9 +132,9 @@ static void *_application_thread(void *param){
 static void application_init(struct application *self, struct system_calls *system){
 	self->system = system;
 	pthread_create(&self->thread, NULL, _application_thread, self);
-	struct sched_param param;
-	param.sched_priority = sched_get_priority_max(SCHED_FIFO);
-	pthread_setschedparam(self->thread, SCHED_FIFO, &param);
+	//struct sched_param param;
+	//param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	//pthread_setschedparam(self->thread, SCHED_FIFO, &param);
 }
 
 #include <fcntl.h>

@@ -22,6 +22,7 @@
 #include "common/axis.h"
 #include "common/maths.h"
 #include "common/quaternion.h"
+#include "common/filter.h"
 #include "../config/imu.h"
 
 union imu_accel_reading {
@@ -63,6 +64,8 @@ struct imu {
 	quat_t q;
 
 	float rMat[3][3];
+
+	filterStatePt1_t accLPFState[3];
 
 	union attitude_euler_angles attitude;     // absolute angle inclination in multiple of 0.1 degree    180 deg = 1800
 

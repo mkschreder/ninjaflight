@@ -35,7 +35,6 @@ extern "C" {
     #include "drivers/sensor.h"
     #include "drivers/accgyro.h"
     #include "drivers/pwm_mapping.h"
-    #include "drivers/gyro_sync.h"
 
     #include "sensors/acceleration.h"
 
@@ -125,15 +124,15 @@ protected:
     }
 
 	void _init_mixer_defaults(mixer_mode_t mode){
-		config.mixer.mixerMode = mode;
+		config.data.mixer.mixerMode = mode;
 		for(int c = 0; c < 8; c++){
-			struct servo_config *conf = &config_get_profile_rw(&config)->servos.servoConf[c];
+			struct servo_config *conf = &config_get_profile_rw(&config.data)->servos.servoConf[c];
 			conf->middle = 1500;
 			conf->rate = 100;
 			conf->min = 1000;
 			conf->max = 2000;
 		}
-		mixer_init(&mixer, &config, &mock_syscalls()->pwm);
+		mixer_init(&mixer, &config.data, &mock_syscalls()->pwm);
 		mixer_enable_armed(&mixer, true);
 	}
 
@@ -144,7 +143,7 @@ protected:
 
 protected:
 	struct mixer mixer;
-	struct config config;
+	struct config_store config;
 };
 
 /**
@@ -159,10 +158,10 @@ protected:
 TEST_F(MixerBasicTest, TestMixerArmed){
 	testedModes = 0;
 	// test mixer armed in normal mode
-	config.rx.mincheck = 1010;
-	config.pwm_out.mincommand = 1010;
-	config.pwm_out.minthrottle = 1020;
-	config.pwm_out.maxthrottle = 2000;
+	config.data.rx.mincheck = 1010;
+	config.data.pwm_out.mincommand = 1010;
+	config.data.pwm_out.minthrottle = 1020;
+	config.data.pwm_out.maxthrottle = 2000;
 
 	_init_mixer_defaults(MIXER_QUADX);
 
@@ -181,11 +180,11 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 
 	// check that all motor outputs have been set to mincommand
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(config.pwm_out.mincommand, mock_motor_pwm[c]);
+		EXPECT_EQ(config.data.pwm_out.mincommand, mock_motor_pwm[c]);
 	}
 	// check that servo outputs have been centered
 	for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
-		EXPECT_EQ(config.rx.midrc, mock_servo_pwm[c]);
+		EXPECT_EQ(config.data.rx.midrc, mock_servo_pwm[c]);
 	}
 
 	// try arming (should change them to minthrottle)
@@ -194,17 +193,17 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 
 	// check that mixer outputs have been changed to minthrottle
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[c]);
+		EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[c]);
 	}
 
 	// enable motor stop
 	//mixer_enable_motor_stop(&mixer, true);
-	mixer_set_throttle_range(&mixer, 1500, config.pwm_out.mincommand, config.pwm_out.maxthrottle);
+	mixer_set_throttle_range(&mixer, 1500, config.data.pwm_out.mincommand, config.data.pwm_out.maxthrottle);
 	mixer_update(&mixer);
 
 	// verify that mixer outputs have been set to mincommand since motorstop should set them to that
 	for(int c = 0; c < mixer_get_motor_count(&mixer); c++){
-		EXPECT_EQ(config.pwm_out.mincommand, mock_motor_pwm[c]);
+		EXPECT_EQ(config.data.pwm_out.mincommand, mock_motor_pwm[c]);
 	}
 }
 
@@ -247,7 +246,7 @@ TEST_F(MixerBasicTest, Test3dThrottleRange){
  * motors and should keep servos at midpoint.
  */
 TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
-	config.pwm_out.mincommand = 1000;
+	config.data.pwm_out.mincommand = 1000;
 
 	_init_mixer_defaults(MIXER_QUADX);
 
@@ -274,7 +273,7 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
     }
 	// check that servo outputs have been centered
 	for(int c = 0; c < mixer_get_servo_count(&mixer); c++){
-		EXPECT_EQ(config.rx.midrc, mock_servo_pwm[c]);
+		EXPECT_EQ(config.data.rx.midrc, mock_servo_pwm[c]);
 	}
 }
 
@@ -312,7 +311,7 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 
 	EXPECT_EQ(1600, mock_servo_pwm[0]);
 	EXPECT_EQ(1400, mock_servo_pwm[1]);
-	EXPECT_EQ(config.pwm_out.mincommand, mock_servo_pwm[2]);
+	EXPECT_EQ(config.data.pwm_out.mincommand, mock_servo_pwm[2]);
 }
 
 /**
@@ -327,11 +326,11 @@ TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
  */
 TEST_F(MixerBasicTest, TestMixerExtremes){
 	// set up some config defaults
-	config.rx.mincheck = 1010;
-	config.rx.midrc = 1500;
-	config.pwm_out.mincommand = 1000;
-	config.pwm_out.minthrottle = 1100;
-	config.pwm_out.maxthrottle = 1850;
+	config.data.rx.mincheck = 1010;
+	config.data.rx.midrc = 1500;
+	config.data.pwm_out.mincommand = 1000;
+	config.data.pwm_out.minthrottle = 1100;
+	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
 
@@ -346,10 +345,10 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	mixer_update(&mixer);
 
 	// expect minthrottle on motors
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[0]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[1]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[2]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[3]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[0]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[1]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[2]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[3]);
 
 	// input some throttle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -200);
@@ -410,28 +409,28 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
  */
 TEST_F(MixerBasicTest, TestMixerUnusedMotorsAtMin){
 	// set up some config defaults
-	config.rx.mincheck = 1010;
-	config.rx.midrc = 1500;
-	config.pwm_out.mincommand = 1010;
-	config.pwm_out.minthrottle = 1050;
-	config.pwm_out.maxthrottle = 1850;
+	config.data.rx.mincheck = 1010;
+	config.data.rx.midrc = 1500;
+	config.data.pwm_out.mincommand = 1010;
+	config.data.pwm_out.minthrottle = 1050;
+	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
 
 	mixer_update(&mixer);
 
 	for(int c = mixer_get_motor_count(&mixer); c < MIXER_MAX_MOTORS; c++){
-		EXPECT_EQ(config.pwm_out.mincommand, mock_motor_pwm[c]);
+		EXPECT_EQ(config.data.pwm_out.mincommand, mock_motor_pwm[c]);
 	}
 }
 
 TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	// set up some config defaults
-	config.rx.mincheck = 1010;
-	config.rx.midrc = 1500;
-	config.pwm_out.mincommand = 1000;
-	config.pwm_out.minthrottle = 1050;
-	config.pwm_out.maxthrottle = 1850;
+	config.data.rx.mincheck = 1010;
+	config.data.rx.midrc = 1500;
+	config.data.pwm_out.mincommand = 1000;
+	config.data.pwm_out.minthrottle = 1050;
+	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
 
@@ -446,10 +445,10 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	mixer_update(&mixer);
 
 	// motor stop is off so we expect minthrottle
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[0]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[1]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[2]);
-	EXPECT_EQ(config.pwm_out.minthrottle, mock_motor_pwm[3]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[0]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[1]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[2]);
+	EXPECT_EQ(config.data.pwm_out.minthrottle, mock_motor_pwm[3]);
 
 	// input some throttle
 	mixer_input_command(&mixer, MIXER_INPUT_G0_THROTTLE, -400);
@@ -495,11 +494,11 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 
 TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	// set up some config defaults
-	config.rx.mincheck = 1010;
-	config.rx.midrc = 1500;
-	config.pwm_out.mincommand = 1000;
-	config.pwm_out.minthrottle = 1050;
-	config.pwm_out.maxthrottle = 1850;
+	config.data.rx.mincheck = 1010;
+	config.data.rx.midrc = 1500;
+	config.data.pwm_out.mincommand = 1000;
+	config.data.pwm_out.minthrottle = 1050;
+	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_AIRPLANE);
 
@@ -553,9 +552,9 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 
 TEST_F(MixerBasicTest, TestQuadMotors)
 {
-	config.pwm_out.mincommand = 1000;
-	config.pwm_out.minthrottle = 1000;
-	config.pwm_out.maxthrottle = 2000;
+	config.data.pwm_out.mincommand = 1000;
+	config.data.pwm_out.minthrottle = 1000;
+	config.data.pwm_out.maxthrottle = 2000;
 
     _init_mixer_defaults(MIXER_QUADX);
 
@@ -583,12 +582,12 @@ TEST_F(MixerBasicTest, TestInvalidConfig){
 	memset(&config, 0xff, sizeof(struct config));
 
 	// use quadx
-	config.mixer.mixerMode = MIXER_QUADX;
+	config.data.mixer.mixerMode = MIXER_QUADX;
 
 	// need to set this 
-	config.pwm_out.mincommand = 1000;
+	config.data.pwm_out.mincommand = 1000;
 
-	mixer_init(&mixer, &config, &mock_syscalls()->pwm);
+	mixer_init(&mixer, &config.data, &mock_syscalls()->pwm);
 	mixer_enable_armed(&mixer, true);
 
     // when

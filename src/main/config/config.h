@@ -113,7 +113,7 @@ struct config {
 struct config_store {
 	struct config data;
 	uint16_t	crc;
-} __attribute__((aligned(4)));
+} __attribute__((aligned(2)));
 
 struct system_calls;
 

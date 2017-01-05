@@ -41,9 +41,7 @@
 
 #define ACC_READ_TIMEOUT 2000
 
-uint32_t fastloop_time = 0;
-void mpu_set_rate(void);
-static __attribute__((unused)) void _task(void *param){
+static void _task(void *param){
 	struct fastloop *self = (struct fastloop*)param;
 	int16_t _acc[3];
 	int16_t _gyro[3];
@@ -60,7 +58,9 @@ static __attribute__((unused)) void _task(void *param){
 		// It is important that the gyro interrupt is both configured and fires on each gyro sample
 		// If it does not work and we do not sleep here then this thread will consume all cpu cycles and we will
 		// likely waste a lot of cycles reading gyro when we don't have to.
-		sys_gyro_sync(self->system);
+		if(sys_gyro_sync(self->system) < 0){
+			vTaskDelay(1); // if gyro sync is not supported, introduce artificial delay
+		}
 
 		// record time when we start handling the interrupt
 		sys_micros_t t = sys_micros(self->system);

@@ -58,14 +58,14 @@ protected:
 
 		config_reset(&config);
 
-		rx_init(&rx, mock_syscalls(), &config);
+		rx_init(&rx, mock_syscalls(), &config.data);
 		rx_set_type(&rx, RX_PPM);
-		rx_config_set_mapping(&config.rx, "AERT1234");
-		rc_init(&rc, &rx, NULL, &config);
+		rx_config_set_mapping(&config.data.rx, "AERT1234");
+		rc_init(&rc, &rx, NULL, &config.data);
 
 		// we use auto mode by default
 		for(int c = 0; c < RX_MAX_SUPPORTED_RC_CHANNELS; c++){
-			config.rx_output.failsafe[c].mode = RX_FAILSAFE_MODE_AUTO;
+			config.data.rx_output.failsafe[c].mode = RX_FAILSAFE_MODE_AUTO;
 		}
     }
 	void rc_run(uint32_t ms){
@@ -78,7 +78,7 @@ protected:
 	}
 	struct rx rx;
 	struct rc rc;
-	struct config config;
+	struct config_store config;
 };
 
 /**

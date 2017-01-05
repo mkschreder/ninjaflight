@@ -53,22 +53,25 @@ extern "C" {
 #include "unittest_macros.h"
 #include "gtest/gtest.h"
 
-static struct config config;
+static struct config_store config;
+
+#define ACC_45DEG (cos(M_PI/4) * SYSTEM_ACCEL_1G)
 
 void input_accel(struct instruments *self, int16_t x, int16_t y, int16_t z){
 	ins_reset_imu(self);
-	ins_process_acc(self, x, y, z);
-	ins_process_gyro(self, 0, 0, 0);
-	for(unsigned int c = 0; c < 1000UL; c++){
-		ins_update(self, 0.05);
+	for(unsigned int c = 0; c < 4000UL; c++){
+		ins_process_acc(self, x, y, z);
+		ins_process_gyro(self, 0, 0, 0);
+		ins_update(self, 0.02);
 	}
 }
 
 void input_mag(struct instruments *self, int16_t x, int16_t y, int16_t z){
 	ins_reset_imu(self);
-	ins_process_mag(self, x, y, z);
-	ins_process_gyro(self, 0, 0, 0);
-	for(unsigned int c = 0; c < 1000UL; c++){
+
+	for(unsigned int c = 0; c < 4000UL; c++){
+		ins_process_gyro(self, 0, 0, 0);
+		ins_process_mag(self, x, y, z);
 		ins_update(self, 0.05);
 	}
 }
@@ -86,40 +89,40 @@ void input_gyro(struct instruments *self, int16_t x, int16_t y, int16_t z, unsig
 }
 
 void reset_trims(void){
-	config_get_profile_rw(&config)->acc.trims.raw[0] = 0;
-	config_get_profile_rw(&config)->acc.trims.raw[1] = 0;
-	config_get_profile_rw(&config)->acc.trims.raw[2] = 0;
-	config.sensors.trims.accZero.raw[0] = 0;
-	config.sensors.trims.accZero.raw[1] = 0;
-	config.sensors.trims.accZero.raw[2] = 0;
+	config_get_profile_rw(&config.data)->acc.trims.raw[0] = 0;
+	config_get_profile_rw(&config.data)->acc.trims.raw[1] = 0;
+	config_get_profile_rw(&config.data)->acc.trims.raw[2] = 0;
+	config.data.sensors.trims.accZero.raw[0] = 0;
+	config.data.sensors.trims.accZero.raw[1] = 0;
+	config.data.sensors.trims.accZero.raw[2] = 0;
 }
 
 TEST(InsUnitTest, TestAccCalibration){
 	struct instruments ins; 
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
+	config_reset(&config);
+
+	config.data.imu.dcm_kp = 2500;
+    config.data.imu.looptime = 2000;
+    config.data.imu.small_angle = 25;
+    config.data.imu.max_angle_inclination = 500;
 
 	// set zero such that we are tilten in roll 10 deg
 	int16_t zx = 0;
-	int16_t zy = sin(10 * RAD) * SYSTEM_ACC_1G;
-	int16_t zz = cos(10 * RAD) * SYSTEM_ACC_1G;
+	int16_t zy = sin(10 * RAD) * SYSTEM_ACCEL_1G;
+	int16_t zz = cos(10 * RAD) * SYSTEM_ACCEL_1G;
 
-	ins_init(&ins, &config);
+	ins_init(&ins, &config.data);
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACCEL_1G, ins_get_acc_z(&ins));
 
 	ins_reset_imu(&ins);
 	ins_start_acc_calibration(&ins);
 	EXPECT_EQ(false, ins_is_calibrated(&ins));
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, zx, zy, zz + SYSTEM_ACC_1G);
+		ins_process_acc(&ins, zx, zy, zz + SYSTEM_ACCEL_1G);
 		ins_process_gyro(&ins, 0, 0, 0);
 		ins_update(&ins, 0.001);
 	}
@@ -127,12 +130,12 @@ TEST(InsUnitTest, TestAccCalibration){
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACCEL_1G, ins_get_acc_z(&ins));
 
 	// test a few variations of the acceleration vector to make sure we get correct results
-	input_accel(&ins, zx + SYSTEM_ACC_1G, zy, zz);
+	input_accel(&ins, zx + SYSTEM_ACCEL_1G, zy, zz);
 
-	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_x(&ins));
+	EXPECT_EQ(SYSTEM_ACCEL_1G, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
 	EXPECT_EQ(0, ins_get_acc_z(&ins));
 
@@ -140,7 +143,7 @@ TEST(InsUnitTest, TestAccCalibration){
     EXPECT_EQ(-900, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-	int16_t tv = sin(45.0f * RAD) * SYSTEM_ACC_1G;
+	int16_t tv = sin(45.0f * RAD) * SYSTEM_ACCEL_1G;
     input_accel(&ins, zx + tv, zy, zz + tv);
 
 	EXPECT_EQ(tv, ins_get_acc_x(&ins));
@@ -161,11 +164,11 @@ TEST(InsUnitTest, TestAccCalibration){
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, zx, zy + 724, zz + 724);
+    input_accel(&ins, zx, zy + cos(M_PI/4) * SYSTEM_ACCEL_1G, zz + cos(M_PI/4) * SYSTEM_ACCEL_1G);
 
     EXPECT_EQ(0, ins_get_acc_x(&ins));
-    EXPECT_EQ(724, ins_get_acc_y(&ins));
-    EXPECT_EQ(724, ins_get_acc_z(&ins));
+    EXPECT_EQ((int16_t)(cos(M_PI/4) * SYSTEM_ACCEL_1G), ins_get_acc_y(&ins));
+    EXPECT_EQ((int16_t)(cos(M_PI/4) * SYSTEM_ACCEL_1G), ins_get_acc_z(&ins));
 
 	// this is now 45 deg since we have standardized acc_1G
     EXPECT_EQ(450, ins_get_roll_dd(&ins));
@@ -179,35 +182,36 @@ TEST(InsUnitTest, TestAccCalibration){
 TEST(InsUnitTest, TestGyroCalibration){
 	struct instruments ins; 
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
+	config_reset(&config);
+	config.data.imu.dcm_kp = 2500;
+    config.data.imu.looptime = 2000;
+    config.data.imu.small_angle = 25;
+    config.data.imu.max_angle_inclination = 500;
 
-	ins_init(&ins, &config);
+	ins_init(&ins, &config.data);
 
 	EXPECT_EQ(0, ins_get_acc_x(&ins));
 	EXPECT_EQ(0, ins_get_acc_y(&ins));
-	EXPECT_EQ(SYSTEM_ACC_1G, ins_get_acc_z(&ins));
+	EXPECT_EQ(SYSTEM_ACCEL_1G, ins_get_acc_z(&ins));
 
 	ins_reset_imu(&ins);
 	ins_start_gyro_calibration(&ins);
 	EXPECT_EQ(false, ins_is_calibrated(&ins));
 
 	// a rand noise will generate gyroZero of around ns/2
-	int16_t ns = 300;
+	int16_t ns = 600;
 	const int16_t gyro_noise_err = 4; // allow for a little error room since we are using pseudorandom numbers
 
 	// first try calibrating while moving.
 	// set move threshold deviation to 50 ( with ns = 300 the deviation will be around 90)
-	config.gyro.move_threshold = 50;
+	config.data.gyro.move_threshold = 50;
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, 0, 0, SYSTEM_ACC_1G);
+		ins_process_acc(&ins, 0, 0, SYSTEM_ACCEL_1G);
 		ins_process_gyro(&ins, rand() % ns, rand() % ns, rand() % ns);
 		ins_update(&ins, 0.001);
 	}
+
+	printf("gyro move threshold: %d, deviation: %f\n", config.data.gyro.move_threshold, devStandardDeviation(&ins.gyro.var[0]));
 	// expect calibration failed
 	EXPECT_EQ(false, ins_is_calibrated(&ins));
 
@@ -216,13 +220,13 @@ TEST(InsUnitTest, TestGyroCalibration){
 	// now set ns to 100 and recalibrate (now deviation will be around 30)
 	ns = 100;
 	for(int c = 0; c < 1000; c++){
-		ins_process_acc(&ins, 0, 0, SYSTEM_ACC_1G);
+		ins_process_acc(&ins, 0, 0, SYSTEM_ACCEL_1G);
 		ins_process_gyro(&ins, rand() % ns, rand() % ns, rand() % ns);
 		ins_update(&ins, 0.001);
 	}
 	EXPECT_EQ(true, ins_is_calibrated(&ins));
 
-	printf("gyro move threshold: %d, deviation: %f\n", config.gyro.move_threshold, devStandardDeviation(&ins.gyro.var[0]));
+	printf("gyro move threshold: %d, deviation: %f\n", config.data.gyro.move_threshold, devStandardDeviation(&ins.gyro.var[0]));
 	printf("gyro noise offset: %d %d %d\n", ins.gyro.gyroZero[0], ins.gyro.gyroZero[1], ins.gyro.gyroZero[2]);
 
 	EXPECT_EQ(true, ABS(ins.gyro.gyroZero[0] - (ns / 2)) < gyro_noise_err);
@@ -240,17 +244,16 @@ TEST(InsUnitTest, TestGyroIntegration){
 	// error margin for gyro integration: 0.2 deg
 	const int margin = 2;
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
+	config_reset(&config);
+	config.data.imu.dcm_kp = 2500;
+    config.data.imu.looptime = 2000;
+    config.data.imu.small_angle = 25;
+    config.data.imu.max_angle_inclination = 500;
 
 	// this is just so we get it initialized during init and we then actually disable it
-	config.gyro.soft_gyro_lpf_hz = 500;
+	config.data.gyro.soft_gyro_lpf_hz = 500;
 
-	ins_init(&ins, &config);
+	ins_init(&ins, &config.data);
 
 	// simulate calibration
 	ins_reset_imu(&ins);
@@ -325,14 +328,13 @@ TEST(InsUnitTest, TestGyroIntegration){
 TEST(InsUnitTest, TestEulerAngleCalculation){
 	struct instruments ins; 
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
+	config_reset(&config);
+	config.data.imu.dcm_kp = 2500;
+    config.data.imu.looptime = 2000;
+    config.data.imu.small_angle = 25;
+    config.data.imu.max_angle_inclination = 500;
 
-	ins_init(&ins, &config);
+	ins_init(&ins, &config.data);
 
 	// simulate calibration
 	for(int c = 0; c < 1000; c++){
@@ -340,37 +342,44 @@ TEST(InsUnitTest, TestEulerAngleCalculation){
 	}
 	EXPECT_EQ(true, ins_is_calibrated(&ins));
 
-    input_accel(&ins, 0, 0, 1024);
+    input_accel(&ins, 0, 0, SYSTEM_ACCEL_1G);
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, 1024, 0, 0);
+    input_accel(&ins, SYSTEM_ACCEL_1G, 0, 0);
 	printf("acc: %d %d %d\n", ins_get_acc_x(&ins), ins_get_acc_y(&ins), ins_get_acc_z(&ins));
     EXPECT_EQ(0, ins_get_roll_dd(&ins));
     EXPECT_EQ(-900, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, 724, 0, 724);
+    input_accel(&ins, ACC_45DEG, 0, ACC_45DEG);
     EXPECT_EQ(0, ins_get_roll_dd(&ins));
     EXPECT_EQ(-450, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, 0, 724, 724);
+    input_accel(&ins, 0, ACC_45DEG, ACC_45DEG);
     EXPECT_EQ(450, ins_get_roll_dd(&ins));
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, 724, 724, 0);
-    EXPECT_EQ(843, ins_get_roll_dd(&ins));
-    EXPECT_EQ(-450, ins_get_pitch_dd(&ins));
-    EXPECT_EQ(450, ins_get_yaw_dd(&ins));
-
-    input_accel(&ins, 0, 1024, 0);
+    input_accel(&ins, 0, SYSTEM_ACCEL_1G, 0);
     EXPECT_EQ(900, ins_get_roll_dd(&ins));
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
+    EXPECT_EQ(0, ins_get_yaw_dd(&ins)); 
+
+    input_accel(&ins, ACC_45DEG, ACC_45DEG, 0);
+    EXPECT_EQ(900, ins_get_roll_dd(&ins));
+    EXPECT_EQ(-450, ins_get_pitch_dd(&ins));
+    EXPECT_EQ(449, ins_get_yaw_dd(&ins)); // << note the approximation error from the euler calculator
+
+	// pointing straight down
+    input_accel(&ins, SYSTEM_ACCEL_1G, 0, 0);
+    EXPECT_EQ(1, ins_get_roll_dd(&ins)); // << subject to approximation error
+    EXPECT_EQ(-900, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
 
-    input_accel(&ins, 1024, 0, 0);
+	// and straight up
+    input_accel(&ins, SYSTEM_ACCEL_1G, 0, 0);
     EXPECT_EQ(0, ins_get_roll_dd(&ins));
     EXPECT_EQ(-900, ins_get_pitch_dd(&ins));
     EXPECT_EQ(0, ins_get_yaw_dd(&ins));
@@ -379,39 +388,42 @@ TEST(InsUnitTest, TestEulerAngleCalculation){
 TEST(InsUnitTest, TestMagYawAngleCalculation){
 	struct instruments ins;
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
+	config_reset(&config);
+	config.data.imu.dcm_kp = 2500;
+    config.data.imu.looptime = 2000;
+    config.data.imu.small_angle = 25;
+    config.data.imu.max_angle_inclination = 500;
 
 	reset_trims();
 
-	ins_init(&ins, &config);
+	ins_init(&ins, &config.data);
 
 	// simulate calibration
 	int16_t zx = 124, zy = -150, zz = 34;
 	ins_start_mag_calibration(&ins);
 	for(int c = 0; c < 1000; c++){
-		input_mag(&ins,
+		ins_process_gyro(&ins, 0, 0, 0);
+		ins_process_mag(&ins, 
 			zx + (rand() % 2048 - 1024),
 			zy + (rand() % 2048 - 1024),
 			zz + (rand() % 2048 - 1024)
 		);
+		ins_update(&ins, 0.05);
 	}
 
-	ins_mag_save_trims(&ins.mag, &config);
+	EXPECT_TRUE(ins_is_calibrated(&ins));
+
+	ins_mag_save_trims(&ins.mag, &config.data);
 
 	int thr = 10; // give a little error room because we use random numbers (less error is achieved if calibration cycles count is increased in compass.c)
 	// mag biases should be the zero points
-	printf("mag bias: %d %d %d\n", config.sensors.trims.magZero.raw[0], config.sensors.trims.magZero.raw[1], config.sensors.trims.magZero.raw[2]);
+	printf("mag bias: %d %d %d\n", config.data.sensors.trims.magZero.raw[0], config.data.sensors.trims.magZero.raw[1], config.data.sensors.trims.magZero.raw[2]);
 	printf("mag min: %d %d %d\n", ins.mag.mag_min[0], ins.mag.mag_min[1], ins.mag.mag_min[2]);
 	printf("mag max: %d %d %d\n", ins.mag.mag_max[0], ins.mag.mag_max[1], ins.mag.mag_max[2]);
 
-	EXPECT_EQ(true, ABS(config.sensors.trims.magZero.raw[0] - zx) < thr);
-	EXPECT_EQ(true, ABS(config.sensors.trims.magZero.raw[1] - zy) < thr);
-	EXPECT_EQ(true, ABS(config.sensors.trims.magZero.raw[2] - zz) < thr);
+	EXPECT_EQ(true, ABS(config.data.sensors.trims.magZero.raw[0] - zx) < thr);
+	EXPECT_EQ(true, ABS(config.data.sensors.trims.magZero.raw[1] - zy) < thr);
+	EXPECT_EQ(true, ABS(config.data.sensors.trims.magZero.raw[2] - zz) < thr);
 
 	EXPECT_EQ(true, ins_is_calibrated(&ins));
 
@@ -435,8 +447,8 @@ TEST(InsUnitTest, TestMagYawAngleCalculation){
     EXPECT_EQ(0, ins_get_pitch_dd(&ins));
     EXPECT_EQ(true, ABS(ins_get_yaw_dd(&ins) - 3150) < thr);
 
-	config.sensors.trims.magZero.raw[0] = 0;
-	config.sensors.trims.magZero.raw[1] = 0;
-	config.sensors.trims.magZero.raw[2] = 0;
+	config.data.sensors.trims.magZero.raw[0] = 0;
+	config.data.sensors.trims.magZero.raw[1] = 0;
+	config.data.sensors.trims.magZero.raw[2] = 0;
 }
 

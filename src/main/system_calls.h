@@ -197,7 +197,11 @@ struct system_calls_pwm {
  * System calls responsible for reading sensor information.
  */
 struct system_calls_imu {
-	void (*gyro_sync)(const struct system_calls_imu *self);
+	/**
+	 * This function should sleep on the gyro interrupt. If this functionality
+	 * is not supported by the system the function should return -1.
+	 */
+	int (*gyro_sync)(const struct system_calls_imu *self);
 	/**
 	 * Reads gyro rotational rate as a 16 bit integer. Full range (+-2^15) is
 	 * expected to equal SYSTEM_GYRO_PRECISION degrees per second.

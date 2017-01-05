@@ -50,6 +50,9 @@ extern "C" {
     #include "flight/anglerate.h"
 
 	#include "ninja.h"
+
+	#include <FreeRTOS.h>
+	#include <task.h>
 }
 
 #include "unittest_macros.h"
@@ -66,27 +69,20 @@ extern "C" {
  * controller in full. Each requirement is always backed by a unit test.
  */
 
-static struct config config;
+static struct config_store config;
 
 void reset_env(void){
 	config_reset(&config);
 
-	config.imu.dcm_kp = 2500;
-    config.imu.looptime = 2000;
-    config.imu.gyroSync = 1;
-    config.imu.gyroSyncDenominator = 1;
-    config.imu.small_angle = 25;
-    config.imu.max_angle_inclination = 500;
-
-	config.rx.mincheck = 1010;
+	config.data.rx.mincheck = 1010;
 
 	// default frame config
-	config.mixer.mixerMode = MIXER_QUADX;
+	config.data.mixer.mixerMode = MIXER_QUADX;
 
 	// mixer and motors output
-	config.pwm_out.mincommand = 1010;
-	config.pwm_out.minthrottle = 1020;
-	config.pwm_out.maxthrottle = 2000;
+	config.data.pwm_out.mincommand = 1010;
+	config.data.pwm_out.minthrottle = 1020;
+	config.data.pwm_out.maxthrottle = 2000;
 }
 
 void run_loop(struct ninja *self, uint32_t ms){
@@ -110,13 +106,23 @@ TEST(InsUnitTest, ArmingTest){
 
 	reset_env();
 
-	ninja_init(&ninja, mock_syscalls(), &config);
+/*
+	struct fastloop fastloop;
+	fastloop_init(&fastloop, mock_syscalls(), &config.data);
+	fastloop_start(&fastloop);
+
+	ninja_init(&ninja, &fastloop, mock_syscalls(), &config);
 
 	run_loop(&ninja, 100);
-	
+
+	//fastloop_stop(&fastloop);
+	vTaskStartScheduler();
+	vTaskEndScheduler();
+
 	cfTaskInfo_t info;
 	ninja_sched_get_task_info(&ninja.sched, TASK_GYROPID, &info);
 	printf("%s: %d%%\n", info.taskName, info.latestDeltaTime);
+*/
 	// double check that all motors are at mincommand (we are disarmed)
 	/*
 	EXPECT_EQ(motorAndServoConfig()->mincommand, mock_motor_pwm[0]);

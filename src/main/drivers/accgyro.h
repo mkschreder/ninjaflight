@@ -56,7 +56,7 @@ typedef struct gyro_s {
     sensorReadFuncPtr read;                                 // read 3 axis data function
     sensorReadFuncPtr temperature;                          // read temperature if available
     sensorIsDataReadyFuncPtr isDataReady;                   // check if sensor has new readings
-	void (*sync)(void);
+	int (*sync)(void);
     float scale;                                            // scalefactor
 } gyro_t;
 

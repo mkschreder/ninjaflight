@@ -145,18 +145,18 @@ TEST_F(ConfigTest, TestConfigCoverage){
 	for(unsigned int c = 0; c < sizeof(magic); c++){
 		printf("testing magic %02x\n", magic[c]);
 		// fill config with magic values
-		memset(&config, magic[c], sizeof(config));
+		memset(&config.data, magic[c], sizeof(config.data));
 		// reset
 		config_reset(&config);
 		// check
-		for(unsigned int j = 0; j < sizeof(config); j++){
+		for(unsigned int j = 0; j < sizeof(config.data); j++){
 			if(buf[j] != magic[c]){
 				good[j] = 1;
 			}
 		}
 	}
 	int failed = 0;
-	for(unsigned int j = 0; j < sizeof(config); j++){
+	for(unsigned int j = 0; j < sizeof(config.data); j++){
 		if(!good[j]){
 			failed = 1;
 			break;
@@ -166,7 +166,7 @@ TEST_F(ConfigTest, TestConfigCoverage){
 		printf("Not all values in the config have preset defaults:\n");
 		printf("0x%04x: ", (int)0);
 		int fail = 0;
-		for(unsigned int j = 0; j < sizeof(config); j++){
+		for(unsigned int j = 0; j < sizeof(config.data); j++){
 			if(!good[j]){
 				printf("%02x", buf[j]);
 				fail++;

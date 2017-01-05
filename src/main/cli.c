@@ -2793,7 +2793,6 @@ static void cliTasks(struct cli *self, char *cmdline)
 	} else {
 		cliPrintf(self, "(none)\n");
 	}
-	cliPrintf(self, "fasttime: %d\n", fastloop_time);
 }
 #endif
 

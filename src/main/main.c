@@ -588,9 +588,9 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 	return ppmRead(id);
 }
 
-static void _gyro_sync(const struct system_calls_imu *imu){
+static int _gyro_sync(const struct system_calls_imu *imu){
 	(void)imu;
-	gyro.sync();
+	return gyro.sync();
 }
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
