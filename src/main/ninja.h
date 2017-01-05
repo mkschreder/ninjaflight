@@ -26,6 +26,7 @@
 #include "system_calls.h"
 #include "ninja_sched.h"
 #include "ninja_config.h"
+#include "fastloop.h"
 
 struct ninja;
 
@@ -44,9 +45,6 @@ struct ninja_rc_input {
 
 struct ninja_state;
 struct ninja {
-	struct instruments ins;
-	struct mixer mixer;
-	struct anglerate ctrl;
 	struct battery bat;
 	struct blackbox blackbox;
 	struct rc rc;
@@ -73,9 +71,10 @@ struct ninja {
 	uint32_t disarmAt;     // Time of automatic disarm when "Don't spin the motors when armed" is enabled and auto_disarm_delay is nonzero
 
 	uint16_t filteredCycleTime;
-	uint16_t cycleTime;
 
 	struct ninja_rc_input rc_input;
+
+	struct fastloop_output fout;
 
 	struct pt	state_ctrl;
 
@@ -86,12 +85,13 @@ struct ninja {
 	bool is_armed;
 	uint32_t sensors;
 
-	sys_micros_t loop_time;
+	struct fastloop *fastloop;
+	//sys_micros_t loop_time;
 
 	struct ninja_sched sched;
 
 	//! this is used for directly controlling motors while we are disarmed (from gcs)
-	uint16_t direct_outputs[MIXER_OUTPUT_COUNT];
+	//uint16_t direct_outputs[MIXER_OUTPUT_COUNT];
 
 	//uint8_t armingFlags;
 	//uint8_t stateFlags;
@@ -105,7 +105,7 @@ struct ninja {
 	struct config *config;
 };
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config_store *config);
+void ninja_init(struct ninja *self, struct fastloop *fl, const struct system_calls *syscalls, struct config_store *config);
 
 void ninja_arm(struct ninja *self);
 void ninja_disarm(struct ninja *self);
@@ -118,4 +118,3 @@ void ninja_input_rc(struct ninja *self, const struct ninja_rc_input *rc);
 void ninja_input_gyro(struct ninja *self, int32_t x, int32_t y, int32_t z);
 void ninja_input_acc(struct ninja *self, int32_t x, int32_t y, int32_t z);
 
-void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us);

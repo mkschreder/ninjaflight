@@ -271,7 +271,7 @@ static void _imu_mahony_update(struct imu *self, float dt, bool useAcc, bool use
 	float p_gain = (self->flags & IMU_FLAG_DCM_CONVERGE_FASTER)?10.0f:1.0f;
 
 	// Calculate kP gain. If we are acquiring initial attitude (not armed and within 20 sec from powerup) scale the kP to converge faster
-	float dcmKpGain = (self->config->imu.dcm_kp / 10000.0f) * p_gain;
+	float dcmKpGain = (self->config->imu.dcm_kp / 10000.0f) * p_gain * 40;
 
 	// Apply proportional and integral feedback
 	gx += dcmKpGain * ex + integralFBx;

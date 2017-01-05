@@ -97,6 +97,10 @@ static int32_t _micros(const struct system_calls_time *time){
 	return t;
 }
 
+static void _gyro_sync(const struct system_calls_imu *imu){
+	(void)imu;
+}
+
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
 	(void)output;
@@ -221,6 +225,7 @@ static struct system_calls syscalls = {
 		.read_ppm = _read_ppm
 	},
 	.imu = {
+		.gyro_sync = _gyro_sync,
 		.read_gyro = _read_gyro,
 		.read_acc = _read_acc,
 		.read_pressure = _read_pressure,

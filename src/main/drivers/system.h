@@ -32,8 +32,8 @@ int usleep(uint32_t us);
 #endif
 #endif
 
-uint32_t micros(void);
-uint32_t millis(void);
+int32_t micros(void);
+int32_t millis(void);
 
 // failure
 void failureMode(uint8_t mode);

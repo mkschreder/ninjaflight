@@ -117,7 +117,7 @@ static void updateGtuneState(void)
     }
 }
 #endif
-
+/*
 bool ninja_is_calibrating(struct ninja *self){
 	return ins_is_calibrated(&self->ins);
 }
@@ -132,7 +132,7 @@ void ninja_calibrate_mag(struct ninja *self){
 	ins_start_mag_calibration(&self->ins);
 	calibrating = 1;
 }
-
+*/
 #if 0
 static void updateLEDs(void)
 {

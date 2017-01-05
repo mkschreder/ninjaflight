@@ -75,7 +75,7 @@ static int suart_getc(void)
     uint32_t btime;
     uint32_t start_time;
 
-    uint32_t wait_time = micros() + START_BIT_TIMEOUT;
+    int32_t wait_time = micros() + START_BIT_TIMEOUT;
     while (ESC_IS_HI) {
         // check for startbit begin
         if (micros() >= wait_time) {

@@ -486,7 +486,7 @@ const clivalue_t valueTable[] = {
     { "i2c_highspeed",              VAR_UINT8  | MASTER_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_OFF_ON } ,		CPATH(system.i2c_highspeed)},
 
     { "looptime",                   VAR_UINT16 | MASTER_VALUE, .config.minmax = {0, 9000},								CPATH(imu.looptime)},
-    { "gyro_sample_div",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 1,  32 } ,							CPATH(imu.gyro_sample_div)},
+    { "gyro_sample_div",            VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  32 } ,							CPATH(imu.gyro_sample_div)},
 	{ "small_angle",                VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  180 } ,							CPATH(imu.small_angle)},
     { "max_angle_inclination",      VAR_UINT16 | MASTER_VALUE, .config.minmax = { 100,  900 } ,							CPATH(imu.max_angle_inclination) },
 	{ "imu_dcm_kp",                 VAR_UINT16 | MASTER_VALUE, .config.minmax = { 0,  20000 } ,							CPATH(imu.dcm_kp)},
@@ -2342,7 +2342,7 @@ static void cliMotor(struct cli *self, char *cmdline)
             cliShowArgumentRangeError(self, "value", 1000, 2000);
             return;
         } else {
-			mixer_input_command(&self->ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
+			//mixer_input_command(&self->ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + index,  motor_value);
         }
     }
 
@@ -2480,7 +2480,7 @@ static void* cliVarPtr(struct cli *self, const clivalue_t *var)
 
     switch (var->type & VALUE_SECTION_MASK) {
         case MASTER_VALUE:
-            return ((uint8_t*)&self->config) + var->offset;
+            return ((uint8_t*)self->config) + var->offset;
         case CONTROL_RATE_VALUE:
             return ((uint8_t*)config_get_rate_profile(self->config)) + var->offset;
         case PROFILE_VALUE:
@@ -2754,6 +2754,8 @@ static void cliStatus(struct cli *self, char *cmdline)
 #include <FreeRTOS.h>
 #include <task.h>
 
+extern uint32_t fastloop_time;
+extern uint32_t mpu_irq_count;
 static void cliTasks(struct cli *self, char *cmdline)
 {
     UNUSED(cmdline);
@@ -2775,7 +2777,7 @@ static void cliTasks(struct cli *self, char *cmdline)
         }
     }
 	// realtime tasks
-	TaskStatus_t status[4]; // 4 is just arbitrary.
+	TaskStatus_t status[5]; // 4 is just arbitrary.
 	uint32_t total_time;
 	int16_t ret = uxTaskGetSystemState(status, sizeof(status)/sizeof(status[0]), &total_time);
 	cliPrintf(self, "== realtime tasks\r\n");
@@ -2791,6 +2793,7 @@ static void cliTasks(struct cli *self, char *cmdline)
 	} else {
 		cliPrintf(self, "(none)\n");
 	}
+	cliPrintf(self, "fasttime: %d\n", fastloop_time);
 }
 #endif
 

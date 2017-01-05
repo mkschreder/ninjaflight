@@ -689,7 +689,7 @@ retry:
     detectedSensors[SENSOR_INDEX_MAG] = magHardware;
     //sensorsSet(SENSOR_MAG);
 }
-
+/*
 static void reconfigureAlignment(const struct sensor_alignment_config *sensorAlignmentConfig)
 {
     if (sensorAlignmentConfig->gyro_align != ALIGN_DEFAULT) {
@@ -702,7 +702,7 @@ static void reconfigureAlignment(const struct sensor_alignment_config *sensorAli
         magAlign = sensorAlignmentConfig->mag_align;
     }
 }
-
+*/
 bool sensorsAutodetect(const struct config *config)
 {
     memset(&acc, 0, sizeof(acc));
@@ -734,8 +734,6 @@ bool sensorsAutodetect(const struct config *config)
 	if(USE_MAG){
 		detectMag(config->sensors.selection.mag_hardware);
 	}
-
-    reconfigureAlignment(&config->sensors.alignment);
 
     return true;
 }

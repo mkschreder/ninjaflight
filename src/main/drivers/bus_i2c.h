@@ -27,6 +27,8 @@ typedef enum I2CDevice {
     I2CDEV_MAX = I2CDEV_2,
 } I2CDevice;
 
+//void i2cInit(I2CDevice index);
+void i2c_init(void);
 void i2cInit(I2CDevice index);
 bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data);
 bool i2cWrite(uint8_t addr_, uint8_t reg, uint8_t data);

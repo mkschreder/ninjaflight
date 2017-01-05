@@ -31,6 +31,11 @@
 
 #ifndef SOFT_I2C
 
+#include <FreeRTOS.h>
+#include <semphr.h>
+
+static SemaphoreHandle_t _i2c_lock = NULL;
+
 // Copy of peripheral address for IRQ routines
 static I2C_TypeDef *I2Cx = NULL;
 // Copy of device index for reinit, etc purposes
@@ -141,11 +146,16 @@ bool i2cWriteBuffer(uint8_t addr_, uint8_t reg_, uint8_t len_, uint8_t *data)
         I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
     }
 
+	if(xSemaphoreTake(_i2c_lock, I2C_DEFAULT_TIMEOUT) == 0){
+		return i2cHandleHardwareFailure();
+	}
+	/*
     timeout = I2C_DEFAULT_TIMEOUT;
     while (busy && --timeout > 0) { ; }
     if (timeout == 0) {
         return i2cHandleHardwareFailure();
     }
+	*/
 
     return !error;
 }
@@ -182,11 +192,15 @@ bool i2cRead(uint8_t addr_, uint8_t reg_, uint8_t len, uint8_t* buf)
         I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, ENABLE);            // allow the interrupts to fire off again
     }
 
+	if(xSemaphoreTake(_i2c_lock, I2C_DEFAULT_TIMEOUT) == 0){
+		return i2cHandleHardwareFailure();
+	}
+/*
     timeout = I2C_DEFAULT_TIMEOUT;
     while (busy && --timeout > 0) { ; }
     if (timeout == 0)
         return i2cHandleHardwareFailure();
-
+*/
     return !error;
 }
 
@@ -218,6 +232,10 @@ static void i2c_er_handler(void)
     }
     I2Cx->SR1 = (uint16_t)(I2Cx->SR1 & ~0x0F00);                                               // reset all the error bits to clear the interrupt
     busy = 0;
+
+	BaseType_t wake = 0;
+	xSemaphoreGiveFromISR(_i2c_lock, &wake);
+	portYIELD_FROM_ISR(wake);
 }
 
 void i2c_ev_handler(void)
@@ -313,12 +331,21 @@ void i2c_ev_handler(void)
                 I2C_ITConfig(I2Cx, I2C_IT_BUF, DISABLE);                // disable TXE to allow the buffer to flush
         }
     }
+
+	BaseType_t wake = 0;
     if (index == bytes + 1) {                                           // we have completed the current job
         subaddress_sent = 0;                                            // reset this here
         if (final_stop)                                                 // If there is a final stop and no more jobs, bus is inactive, disable interrupts to prevent BTF
             I2C_ITConfig(I2Cx, I2C_IT_EVT | I2C_IT_ERR, DISABLE);       // Disable EVT and ERR interrupts while bus inactive
         busy = 0;
+		xSemaphoreGiveFromISR(_i2c_lock, &wake);
     }
+	portYIELD_FROM_ISR(wake);
+}
+
+void i2c_init(void){
+	_i2c_lock = xSemaphoreCreateBinary();
+	i2cInit(I2C_DEVICE);
 }
 
 void i2cInit(I2CDevice index)

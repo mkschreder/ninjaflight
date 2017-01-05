@@ -521,7 +521,7 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
 
         case MSP_STATUS_EX:
         case MSP_STATUS:
-            sbufWriteU16(dst, self->ninja->cycleTime);
+            sbufWriteU16(dst, self->ninja->fout.loop_time);
 #ifdef USE_I2C
             sbufWriteU16(dst, i2cGetErrorCounter());
 #else
@@ -541,24 +541,24 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
             break;
 
         case MSP_RAW_IMU: {
-            // Hack scale due to choice of units for sensor data in multiwii
-            unsigned scale_shift = (SYSTEM_ACC_1G > 1024) ? 3 : 0;
-			sbufWriteU16(dst, ins_get_acc_x(&self->ninja->ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_y(&self->ninja->ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_acc_z(&self->ninja->ins) >> scale_shift);
-			sbufWriteU16(dst, ins_get_gyro_x(&self->ninja->ins));
-			sbufWriteU16(dst, ins_get_gyro_y(&self->ninja->ins));
-			sbufWriteU16(dst, ins_get_gyro_z(&self->ninja->ins));
-            sbufWriteU16(dst, ins_get_mag_x(&self->ninja->ins));
-            sbufWriteU16(dst, ins_get_mag_y(&self->ninja->ins));
-            sbufWriteU16(dst, ins_get_mag_z(&self->ninja->ins));
+			// convert accel to values where 512 is 1g
+			float acc_scale = 1.0f / (SYSTEM_ACCEL_RANGE << 4);
+			sbufWriteU16(dst, self->ninja->fout.acc[0] * acc_scale);
+			sbufWriteU16(dst, self->ninja->fout.acc[1] * acc_scale);
+			sbufWriteU16(dst, self->ninja->fout.acc[2] * acc_scale);
+			sbufWriteU16(dst, self->ninja->fout.gyr[0]);
+			sbufWriteU16(dst, self->ninja->fout.gyr[1]);
+			sbufWriteU16(dst, self->ninja->fout.gyr[2]);
+            sbufWriteU16(dst, self->ninja->fout.mag[0]);
+            sbufWriteU16(dst, self->ninja->fout.mag[1]);
+            sbufWriteU16(dst, self->ninja->fout.mag[2]);
             break;
         }
 
 #ifdef USE_SERVOS
         case MSP_SERVO:
 			for(int c = 0; c < MIXER_MAX_SERVOS; c++){
-				sbufWriteU16(dst, self->ninja->direct_outputs[MIXER_OUTPUT_SERVOS + c]);
+				sbufWriteU16(dst, 0); //self->ninja->direct_outputs[MIXER_OUTPUT_SERVOS + c]);
 			}
             break;
 
@@ -604,14 +604,14 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
             break;
 
         case MSP_ATTITUDE:
-            sbufWriteU16(dst, ins_get_roll_dd(&self->ninja->ins));
-            sbufWriteU16(dst, ins_get_pitch_dd(&self->ninja->ins));
-            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(ins_get_yaw_dd(&self->ninja->ins)));
+            sbufWriteU16(dst, self->ninja->fout.roll);
+            sbufWriteU16(dst, self->ninja->fout.pitch);
+            sbufWriteU16(dst, DECIDEGREES_TO_DEGREES(self->ninja->fout.yaw));
             break;
 
         case MSP_ALTITUDE:
-            sbufWriteU32(dst, ins_get_altitude_cm(&self->ninja->ins));
-            sbufWriteU16(dst, ins_get_vertical_speed_cms(&self->ninja->ins)); // vario
+            sbufWriteU32(dst, 0); //ins_get_altitude_cm(&self->ninja->ins));
+            sbufWriteU16(dst, 0); //ins_get_vertical_speed_cms(&self->ninja->ins)); // vario
             break;
 
         case MSP_SONAR_ALTITUDE:
@@ -1148,7 +1148,8 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
         case MSP_SET_MOTOR:
             for (int i = 0; i < MIXER_MAX_MOTORS; i++) {
                 const int16_t value = sbufReadU16(src);
-				mixer_input_command(&self->ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
+				(void)value;
+				//mixer_input_command(&self->ninja->mixer, MIXER_INPUT_GROUP_MOTOR_PASSTHROUGH + i, value - 1500);
             }
             break;
 
@@ -1223,13 +1224,13 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
             break;
 
         case MSP_ACC_CALIBRATION:
-            if (!ninja_is_armed(self->ninja))
-				ninja_calibrate_acc(self->ninja);
+            //if (!ninja_is_armed(self->ninja))
+			//	ninja_calibrate_acc(self->ninja);
             break;
 
         case MSP_MAG_CALIBRATION:
-            if (!ninja_is_armed(self->ninja))
-				ninja_calibrate_mag(self->ninja);
+            //if (!ninja_is_armed(self->ninja))
+			//	ninja_calibrate_mag(self->ninja);
             break;
 
         case MSP_EEPROM_WRITE:

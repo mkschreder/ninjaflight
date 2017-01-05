@@ -182,9 +182,11 @@ static void mpu6050FindRevision(void)
 
 #include <FreeRTOS.h>
 #include <semphr.h>
+#include <task.h>
 
 static SemaphoreHandle_t _sem_gyro = NULL;
 
+uint32_t mpu_irq_count = 0;
 void MPU_DATA_READY_EXTI_Handler(void); 
 void MPU_DATA_READY_EXTI_Handler(void){
     if (EXTI_GetITStatus(mpuIntExtiConfig->exti_line) == RESET) {
@@ -195,15 +197,18 @@ void MPU_DATA_READY_EXTI_Handler(void){
 
     mpuDataReady = true;
 
+	mpu_irq_count++;
+
 	BaseType_t woken = pdFALSE;
-	xSemaphoreGiveFromISR(_sem_gyro, &woken);
+	if(_sem_gyro) xSemaphoreGiveFromISR(_sem_gyro, &woken);
 
 	portYIELD_FROM_ISR(woken);
 }
 
 void mpu_sync(void){
 	// timeout is set to 20 ticks. We should get an update during that time. If not then we should return.
-	xSemaphoreTake(_sem_gyro, 20);
+	if(_sem_gyro) xSemaphoreTake(_sem_gyro, 20);
+	else vTaskDelay(20);
 }
 
 void configureMPUDataReadyInterruptHandling(void)

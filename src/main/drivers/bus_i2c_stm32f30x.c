@@ -182,14 +182,30 @@ static void i2cInitPort(I2C_TypeDef *dev)
 	NVIC_Init(&nvic);
 }
 
-static void i2c_er_handler(void){
+static void i2c_er_handler(void)
+{
+	if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_BERR)){
+		// bus error
 
+	} else if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_ARLO)){
+		// arbitration lost
+	} else if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_OVR)){
+		// overrun
+	} else if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_PECERR)){
+		// packet error checking error
+	} else if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_TIMEOUT)){
+		// SMBus timeout
+	} else if(I2C_GetFlagStatus(I2Cx, I2C_FLAG_ALERT)){
+		// SMBus alert
+	} else {
+		return;
+	}
 }
 
-static void i2c_ev_handler(void){
+void i2c_ev_handler(void)
+{
 
 }
-
 void I2C1_ER_IRQHandler(void); 
 void I2C1_EV_IRQHandler(void); 
 void I2C2_ER_IRQHandler(void);
@@ -214,6 +230,7 @@ void I2C2_EV_IRQHandler(void)
 {
     i2c_ev_handler();
 }
+
 
 void i2c_init(void){
 	i2cInit(I2C_DEVICE);

@@ -397,7 +397,7 @@ static const struct config _default_config = {
 		.profile_id = 0
 	},
 	.gyro = {
-		.gyro_lpf = 1,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
+		.gyro_lpf = 0,                 // supported by all gyro drivers now. In case of ST gyro, will default to 32Hz instead
 		.soft_gyro_lpf_hz = 60,        // Software based lpf filter for gyro
 		.move_threshold = 32,
 	},
@@ -461,7 +461,7 @@ static const struct config _default_config = {
 	},
 	.imu = {
 		.looptime = 2000,
-		.gyro_sample_div = 7,
+		.gyro_sample_div = 2,
 		.dcm_kp = 2500,                // 1.0 * 10000
 		.dcm_ki = 0,
 		.small_angle = 25,

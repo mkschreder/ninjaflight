@@ -338,9 +338,9 @@ static void _task_system(struct ninja_sched *self){
 	self->realtimeGuardInterval = constrain(maxNonRealtimeTaskTime, REALTIME_GUARD_INTERVAL_MIN, REALTIME_GUARD_INTERVAL_MAX) + REALTIME_GUARD_INTERVAL_MARGIN;
 }
 
+#if 0
 // TODO: create a pid task state with this kind of things
 static filterStatePt1_t filteredCycleTimeState;
-
 static void _task_gyro(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	self->cycleTime = ninja_sched_get_task_dt(sched, TASK_SELF);
@@ -370,29 +370,7 @@ static void _task_gyro(struct ninja_sched *sched){
 	*/
 	ninja_run_pid_loop(self, self->cycleTime);
 }
-
-static void _task_acc(struct ninja_sched *sched){
-	struct ninja *self = container_of(sched, struct ninja, sched);
-	int16_t accADCRaw[3];
-	if (sys_acc_read(self->system, accADCRaw) < 0) {
-		self->sensors &= ~NINJA_SENSOR_ACC;
-		return;
-	}
-	self->sensors |= NINJA_SENSOR_ACC;
-	ins_process_acc(&self->ins, accADCRaw[0], accADCRaw[1], accADCRaw[2]);
-}
-
-static void _task_serial(struct ninja_sched *sched){
-	struct ninja *self = container_of(sched, struct ninja, sched);
-
-    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
-    if (cli_is_active(&self->cli)) {
-        cli_update(&self->cli);
-        return;
-    }
-
-    serial_msp_process(&self->serial_msp, self);
-}
+#endif
 
 static void _task_beeper(struct ninja_sched *sched){
 	if(USE_BEEPER){
@@ -519,7 +497,7 @@ static void _task_baro(struct ninja_sched *sched){
 	// TODO: baro read
 	uint32_t pressure = 101325;
 	if(sys_read_pressure(self->system, &pressure) == 0){
-		ins_process_pressure(&self->ins, pressure);
+		//ins_process_pressure(&self->ins, pressure);
 		//uint32_t alt = ins_get_altitude_cm(&self->ins);
 	}
 	/*
@@ -602,15 +580,15 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 		.desiredPeriod = 1000000 / 10,		  // 10 Hz, every 100 ms
 		.staticPriority = TASK_PRIORITY_HIGH,
 	},
-	
 	// TODO: sort out the problem of system load being too high when testing
+/*
 	[TASK_GYROPID] = {
 		.taskName = "GYRO/PID",
 		.taskFunc = _task_gyro,
 #ifdef SITL
 		.desiredPeriod = 3500,				  // every 1 ms
 #else
-		.desiredPeriod = 1000,
+		.desiredPeriod = 10000,
 #endif
 		.staticPriority = TASK_PRIORITY_REALTIME,
 	},
@@ -621,18 +599,11 @@ static cfTask_t cfTasks[TASK_COUNT] = {
 #ifdef SITL
 		.desiredPeriod = 3500,				  // every 1 ms
 #else
-		.desiredPeriod = 1000,
+		.desiredPeriod = 10000,
 #endif
 		.staticPriority = TASK_PRIORITY_MEDIUM,
 	},
-
-	[TASK_SERIAL] = {
-		.taskName = "SERIAL",
-		.taskFunc = _task_serial,
-		.desiredPeriod = 1000000 / 100,		 // 100 Hz should be enough to flush up to 115 bytes @ 115200 baud
-		.staticPriority = TASK_PRIORITY_LOW,
-	},
-
+*/
 	[TASK_BEEPER] = {
 		.taskName = "BEEPER",
 		.taskFunc = _task_beeper,

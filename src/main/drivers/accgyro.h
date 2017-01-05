@@ -21,6 +21,7 @@
 
 // standard gyro rate on which all dividers are based (8khz)
 #define GYRO_STANDARD_RATE 8000
+#define GYRO_RATE_DT (1.0f / (float)(GYRO_STANDARD_RATE / (self->config->imu.gyro_sample_div + 1)))
 
 typedef enum {
     GYRO_NONE = 0,

@@ -28,7 +28,6 @@
 #include "drivers/accgyro.h"
 #include "drivers/compass.h"
 #include "drivers/inverter.h"
-#include "drivers/gyro_sync.h"
 
 #include "rx/rx.h"
 #include "rx/spektrum.h"
@@ -70,10 +69,13 @@
 
 #include "sitl.h"
 #include "ninja.h"
+#include "fastloop.h"
 
 struct application {
 	struct ninja ninja;
 	struct config_store config;
+
+	struct fastloop fastloop;
 
 	// this is provided by the sitl
 	struct system_calls *system;
@@ -99,7 +101,7 @@ static void _io_task(void *param){
 	while (true) {
 		(void)self;
 		// FIXME: call io main loop from this task
-		vTaskDelay(10);
+		vTaskDelay(500);
 		//usleep(900);
     }
 
@@ -108,22 +110,31 @@ static void _io_task(void *param){
 // main thread for the application that reads user inputs and runs the flight controller
 static void *_application_thread(void *param){
 	struct application *self = (struct application*)param;
+	
+	int ret = 0;
+	if((ret = config_load(&self->config, self->system)) < 0){
+		printf("ERROR loading config (%d)\n", ret);
+	}
 
-	config_load(&self->config, self->system);
-
-	ninja_init(&self->ninja, self->system, &self->config);
+	fastloop_init(&self->fastloop, self->system, &self->config.data);
+	ninja_init(&self->ninja, &self->fastloop, self->system, &self->config);
 
 	// simulate as closely as possible what the real system would do
 	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
-	xTaskCreate(_io_task, "io", 4096, self, 4, NULL);
+	xTaskCreate(_io_task, "io", 4096, self, 2, NULL);
 
 	vTaskStartScheduler();
 	return NULL;
 }
 
+#include <sched.h>
+
 static void application_init(struct application *self, struct system_calls *system){
 	self->system = system;
 	pthread_create(&self->thread, NULL, _application_thread, self);
+	struct sched_param param;
+	param.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	pthread_setschedparam(self->thread, SCHED_FIFO, &param);
 }
 
 #include <fcntl.h>

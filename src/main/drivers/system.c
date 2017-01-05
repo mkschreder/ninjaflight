@@ -105,7 +105,7 @@ void EXTI9_5_IRQHandler(void)
 // cycles per microsecond
 static uint32_t usTicks = 0;
 // current uptime for 1kHz systick timer. will rollover after 49 days. hopefully we won't care.
-static volatile uint32_t sysTickUptime = 0;
+static volatile int32_t sysTickUptime = 0;
 // cached value of RCC->CSR
 uint32_t cachedRccCsrValue;
 
@@ -125,9 +125,8 @@ void vApplicationTickHook(void)
 }
 
 // Return system uptime in microseconds (rollover in 70minutes)
-uint32_t micros(void)
-{
-    register uint32_t ms, cycle_cnt;
+int32_t micros(void){
+    register int32_t ms, cycle_cnt;
     do {
         ms = sysTickUptime;
         cycle_cnt = SysTick->VAL;
@@ -142,7 +141,7 @@ uint32_t micros(void)
 }
 
 // Return system uptime in milliseconds (rollover in 49 days)
-uint32_t millis(void)
+int32_t millis(void)
 {
     return sysTickUptime;
 }

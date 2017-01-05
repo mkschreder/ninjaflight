@@ -81,21 +81,16 @@ static void _output_motors_disarmed(struct ninja *self){
 	}
 }
 
-void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct config_store *config){
+void ninja_init(struct ninja *self, struct fastloop *fl, const struct system_calls *syscalls, struct config_store *config){
 	memset(self, 0, sizeof(struct ninja));
 
 	self->system = syscalls;
 	self->config = &config->data;
+	self->fastloop = fl;
 	self->config_store = config;
 
 	rc_adj_init(&self->rc_adj, self, self->config);
-	mixer_init(&self->mixer, self->config, &syscalls->pwm);
-	ins_init(&self->ins, self->config);
-	anglerate_init(&self->ctrl, &self->ins, self->config);
-
 	beeper_init(&self->beeper, self->system);
-
-	anglerate_set_algo(&self->ctrl, config_get_profile(self->config)->pid.pidController);
 
 	battery_init(&self->bat, &self->config->bat);
 	rx_init(&self->rx, self->system, self->config);
@@ -204,14 +199,15 @@ void ninja_init(struct ninja *self, const struct system_calls *syscalls, struct 
 
 void ninja_arm(struct ninja *self){
 	self->is_armed = true;
-	mixer_enable_armed(&self->mixer, true);
+	// TODO: arm / disarm
+	//mixer_enable_armed(&self->mixer, true);
 	//beep to indicate arming
 	beeper_start(&self->beeper, BEEPER_ARMING);
 }
 
 void ninja_disarm(struct ninja *self){
 	(void)self;
-	mixer_enable_armed(&self->mixer, false);
+	//mixer_enable_armed(&self->mixer, false);
 	beeper_start(&self->beeper, BEEPER_DISARMING);	  // emit disarm tone
 	self->is_armed = false;
 }
@@ -375,27 +371,27 @@ static void _update_beeper(struct ninja *self){
 #endif
 
 bool _prearm_checks_ok(struct ninja *self){
+	(void)self;
 	// we can only arm if we are calibrated
-	if(!ins_is_calibrated(&self->ins)) return false;
+	//if(!ins_is_calibrated(&self->ins)) return false;
 	return true;
 }
 
 bool _disarm_checks_ok(struct ninja *self){
 	// we don't want to allow disarming if quad is moving
-	if(ABS(ins_get_gyro_x(&self->ins)) > 100 || ABS(ins_get_gyro_y(&self->ins)) > 100 || ABS(ins_get_gyro_z(&self->ins))) return false;
+	if(ABS(self->fout.w[0]) > 100 || ABS(self->fout.w[1]) > 100 || ABS(self->fout.w[2])) return false;
 	return true;
 }
 
 static void _run_control_loop(struct ninja *self){
 	//struct ns_armed *state = container_of(_state, struct ns_armed, state);
-	sys_micros_t dt_us = self->loop_time;
-
 	// TODO: set pid algo when config is applied
 	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
-	anglerate_set_algo(&self->ctrl, PID_CONTROLLER_LUX_FLOAT);
+	struct fastloop_input ctrl;
 
 	if (rc_key_state(&self->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) {
-		anglerate_set_level_percent(&self->ctrl, 100, 100);
+		ctrl.level_pc[0] = 100;
+		ctrl.level_pc[1] = 100;
 	} else if(rc_key_state(&self->rc, RC_KEY_FUNC_BLEND) == RC_KEY_PRESSED){
 		int16_t hp_roll = 100-ABS(rx_get_channel(&self->rx, ROLL) - 1500) / 5;
 		int16_t hp_pitch = 100-ABS(rx_get_channel(&self->rx, PITCH) - 1500) / 5;
@@ -404,25 +400,31 @@ static void _run_control_loop(struct ninja *self){
 		int16_t strength = MIN(hp_roll, hp_pitch);
 		if((strength) < 90) strength = 0;
 		else strength = 100;
-		anglerate_set_level_percent(&self->ctrl, strength, strength);
+		ctrl.level_pc[0] = strength;
+		ctrl.level_pc[1] = strength;
 	} else {
-		anglerate_set_level_percent(&self->ctrl, 0, 0);
+		ctrl.level_pc[0] = 0;
+		ctrl.level_pc[1] = 0;
 	}
 
-	int16_t roll = rc_get_command(&self->rc, ROLL);
-	int16_t pitch =  rc_get_command(&self->rc, PITCH);
-	int16_t yaw = -rc_get_command(&self->rc, YAW);
-	int16_t throttle = rc_get_command(&self->rc, THROTTLE);
+	ctrl.roll = rc_get_command(&self->rc, ROLL);
+	ctrl.pitch =  rc_get_command(&self->rc, PITCH);
+	ctrl.yaw = -rc_get_command(&self->rc, YAW);
+	ctrl.throttle = rc_get_command(&self->rc, THROTTLE);
 
 	// prevent spinup when just armed
 	// TODO: 3d mode needs some thought
-	if(throttle < -480) yaw = 0;
+	if(ctrl.throttle < -480) ctrl.yaw = 0;
 
 	if (rc_key_state(&self->rc, RC_KEY_FUNC_ALTHOLD) == RC_KEY_PRESSED) {
-		althold_input_throttle(&self->althold, throttle);
+		althold_input_throttle(&self->althold, ctrl.throttle);
 		althold_update(&self->althold);
-		throttle = althold_get_throttle(&self->althold);
+		ctrl.throttle = althold_get_throttle(&self->althold);
 	}
+
+	for(int c = 0; c < 8; c++)
+		ctrl.rc[c] = rx_get_channel(&self->rx, c) - self->config->rx.midrc;
+
 	//_process_tilt_controls(self);
 /*
 	float combined = degreesToRadians(DECIDEGREES_TO_DEGREES(ins_get_pitch_dd(&self->ins)));
@@ -449,45 +451,9 @@ static void _run_control_loop(struct ninja *self){
 	*/
 	//printf("range: %d %d %d %d %d\n", a, b, c, d, pitch);
 
-	anglerate_input_user(&self->ctrl, roll, pitch, yaw);
-	anglerate_input_body_rates(&self->ctrl, ins_get_gyro_x(&self->ins), ins_get_gyro_y(&self->ins), ins_get_gyro_z(&self->ins));
-	anglerate_input_body_angles(&self->ctrl, ins_get_roll_dd(&self->ins), ins_get_pitch_dd(&self->ins), ins_get_yaw_dd(&self->ins));
-	anglerate_update(&self->ctrl, dt_us * 1e-6f);
+	fastloop_write_controls(self->fastloop, &ctrl);
 
-	mixer_set_throttle_range(&self->mixer, 1500, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, rc_get_command(&self->rc, THROTTLE));
-
-	// TODO: flight modes
-	//if (FLIGHT_MODE(PASSTHRU_MODE)) {
-		// Direct passthru from RX
-		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, rcCommand[ROLL]);
-		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, rcCommand[PITCH]);
-		//mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, rcCommand[YAW]);
-	//} else {
-		// Assisted modes (gyro only or gyro+acc according to AUX configuration in Gui
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
-		mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
-	//}
-
-	//printf("out: %d %d %d\n", anglerate_get_roll(&self->ctrl), anglerate_get_pitch(&self->ctrl), anglerate_get_yaw(&self->ctrl));
-	// center the RC input value around the RC middle value
-	// by subtracting the RC middle value from the RC input value, we get:
-	// data - middle = input
-	// 2000 - 1500 = +500
-	// 1500 - 1500 = 0
-	// 1000 - 1500 = -500
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_ROLL, rx_get_channel(&self->rx, ROLL) - self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_PITCH, rx_get_channel(&self->rx, PITCH)	- self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_YAW, rx_get_channel(&self->rx, YAW)	  - self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_THROTTLE, rx_get_channel(&self->rx, THROTTLE) - self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX1, rx_get_channel(&self->rx, AUX1)	 - self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX2, rx_get_channel(&self->rx, AUX2)	 - self->config->rx.midrc);
-	mixer_input_command(&self->mixer, MIXER_INPUT_G3_RC_AUX3, rx_get_channel(&self->rx, AUX3)	 - self->config->rx.midrc);
-
-	mixer_update(&self->mixer);
-
-	//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
+		//self->disarmAt = millis() + armingConfig()->auto_disarm_delay * 1000;   // start disarm timeout, will be extended when throttle is nonzero
 }
 
 /**
@@ -592,70 +558,9 @@ wait_for_disarm:
 	PT_END(&self->state_arming);
 }
 
-static PT_THREAD(_fsm_controller(struct ninja *self)){
-	PT_BEGIN(&self->state_ctrl);
-	while(true){
-		// controller starts off by waiting until all sensors are calibrated
-		PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
-		// while armed we run the controller at each tick
-		while(true){
-			if(self->is_armed) {
-				_run_control_loop(self);
-
-				// these inputs are valid for armed mode
-				if(rc_key_state(&self->rc, RC_KEY_ACC_INFLIGHT_CALIB) == RC_KEY_PRESSED){
-					// TODO: handle inflight calibration
-				}
-			} else {
-				_output_motors_disarmed(self);
-
-				// these inputs will only be allowed when we are disarmed
-				if(rc_key_state(&self->rc, RC_KEY_GYROCAL) == RC_KEY_PRESSED){
-					// TODO: maybe also handle baro calibration here
-					ins_start_gyro_calibration(&self->ins);
-					// wait until gyro has been calibrated
-					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
-				}
-
-				if(rc_key_state(&self->rc, RC_KEY_ACCCAL) == RC_KEY_PRESSED){
-					ins_start_acc_calibration(&self->ins);
-					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
-				}
-
-				if(rc_key_state(&self->rc, RC_KEY_MAGCAL) == RC_KEY_PRESSED){
-					// TODO: mag calibration involves multiple states which we need to code
-					ins_start_mag_calibration(&self->ins);
-					PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
-				}
-
-				if(rc_key_state(&self->rc, RC_KEY_PROFILE1) == RC_KEY_PRESSED){
-					// TODO
-					//ninja_config_change_profile(self, 0);
-					beeper_write(&self->beeper, "E");
-				}
-				if(rc_key_state(&self->rc, RC_KEY_PROFILE2) == RC_KEY_PRESSED){
-					// TODO
-					//ninja_config_change_profile(self, 1);
-					beeper_write(&self->beeper, "I");
-				}
-				if(rc_key_state(&self->rc, RC_KEY_PROFILE3) == RC_KEY_PRESSED){
-					// TODO
-					//ninja_config_change_profile(self, 2);
-					beeper_write(&self->beeper, "S");
-				}
-
-				if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){
-					ninja_config_save(self);
-				}
-			}
-			// we must remember to yield, otherwise we will lock up
-			PT_YIELD(&self->state_ctrl);
-		}
-	}
-	PT_END(&self->state_ctrl);
-}
-
 static void _blackbox_write(struct ninja *self){
+	(void)self;
+/*
 	struct blackbox_frame frame = {
 		.time = sys_millis(self->system),
 		.command = {
@@ -706,26 +611,64 @@ static void _blackbox_write(struct ninja *self){
 		}
 	};
 	blackbox_write_frame(&self->blackbox, &frame);
+	*/
 }
 
-void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
-	int16_t gyroRaw[3];
-	if(sys_gyro_read(self->system, gyroRaw) < 0){
-		self->sensors &= ~NINJA_SENSOR_GYRO;
-		return;
-	}
-	self->sensors |= NINJA_SENSOR_GYRO;
-
-	self->loop_time = dt_us;
-
-	ins_process_gyro(&self->ins, gyroRaw[0], gyroRaw[1], gyroRaw[2]);
-	ins_update(&self->ins, dt_us * 1e-6f);
+void ninja_heartbeat(struct ninja *self){
+	self->sensors |= NINJA_SENSOR_GYRO | NINJA_SENSOR_ACC;
 
 	// handle arming/disarming
 	_fsm_arming(self);
 
-	_fsm_controller(self);
+	if(self->is_armed) {
+		_run_control_loop(self);
 
+		// these inputs are valid for armed mode
+		if(rc_key_state(&self->rc, RC_KEY_ACC_INFLIGHT_CALIB) == RC_KEY_PRESSED){
+			// TODO: handle inflight calibration
+		}
+	} else {
+		_output_motors_disarmed(self);
+
+		// these inputs will only be allowed when we are disarmed
+		if(rc_key_state(&self->rc, RC_KEY_GYROCAL) == RC_KEY_PRESSED){
+			// TODO: maybe also handle baro calibration here
+			//ins_start_gyro_calibration(&self->ins);
+			// wait until gyro has been calibrated
+			//PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+		}
+
+		if(rc_key_state(&self->rc, RC_KEY_ACCCAL) == RC_KEY_PRESSED){
+			//ins_start_acc_calibration(&self->ins);
+			//PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+		}
+
+		if(rc_key_state(&self->rc, RC_KEY_MAGCAL) == RC_KEY_PRESSED){
+			// TODO: mag calibration involves multiple states which we need to code
+			//ins_start_mag_calibration(&self->ins);
+			//PT_WAIT_UNTIL(&self->state_ctrl, ins_is_calibrated(&self->ins));
+		}
+
+		if(rc_key_state(&self->rc, RC_KEY_PROFILE1) == RC_KEY_PRESSED){
+			// TODO
+			//ninja_config_change_profile(self, 0);
+			beeper_write(&self->beeper, "E");
+		}
+		if(rc_key_state(&self->rc, RC_KEY_PROFILE2) == RC_KEY_PRESSED){
+			// TODO
+			//ninja_config_change_profile(self, 1);
+			beeper_write(&self->beeper, "I");
+		}
+		if(rc_key_state(&self->rc, RC_KEY_PROFILE3) == RC_KEY_PRESSED){
+			// TODO
+			//ninja_config_change_profile(self, 2);
+			beeper_write(&self->beeper, "S");
+		}
+
+		if(rc_key_state(&self->rc, RC_KEY_SAVE) == RC_KEY_PRESSED){
+			ninja_config_save(self);
+		}
+	}
 	if(USE_BLACKBOX)
 		_blackbox_write(self);
 
@@ -733,12 +676,16 @@ void ninja_run_pid_loop(struct ninja *self, uint32_t dt_us){
 	if(rc_key_state(&self->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED){
 		beeper_start(&self->beeper, BEEPER_RX_SET);
 	}
-}
 
-/**
- * @callgraph
- */
-void ninja_heartbeat(struct ninja *self){
+	fastloop_read_outputs(self->fastloop, &self->fout);
+
+    // in cli mode, all serial stuff goes to here. enter cli mode by sending #
+    if (cli_is_active(&self->cli)) {
+        cli_update(&self->cli);
+    } else {
+		serial_msp_process(&self->serial_msp, self);
+	}
+
 	ninja_sched_run(&self->sched);
 }
 
