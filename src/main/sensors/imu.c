@@ -296,12 +296,11 @@ static void _imu_update_euler_angles(struct imu *self){
 	float px = self->rMat[2][0];
 	float py = self->rMat[2][1];
 	float pz = self->rMat[2][2];
-	float sign_z = (pz > 0) - (pz < 0);
 
-	self->attitude.values.roll = lrintf(atan2_approx(py, sign_z * sqrtf(pz * pz + 0.01f * px * px)) * (1800.0f / M_PIf));
-	self->attitude.values.pitch = lrintf(atan2_approx(-px, sqrtf(py * py + pz * pz)) * (1800.0f / M_PIf));
+	self->attitude.values.roll = lrintf(atan2_approx(py, pz) * (1800.0f / M_PIf));
+	self->attitude.values.pitch = lrintf(((0.5f * M_PIf) - acos_approx(-px)) * (1800.0f / M_PIf));
 	// TODO: fix the magnetic declination
-	self->attitude.values.yaw = lrintf(-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf));// + self->magneticDeclination);
+	self->attitude.values.yaw = lrintf((-atan2_approx(self->rMat[1][0], self->rMat[0][0]) * (1800.0f / M_PIf) + self->magneticDeclination));
 
 	// yaw range is 0 to 3600
 	if (self->attitude.values.yaw < 0)

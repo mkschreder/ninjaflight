@@ -51,9 +51,7 @@ static __attribute__((unused)) void _task(void *param){
 	sys_micros_t loop_time = 0;
 	self->next_acc_read_time = sys_micros(self->system) + ACC_READ_TIMEOUT;
 
-	vTaskDelay(30);
-
-	uint8_t dt_mul = 1; // this is used for accounting for skipped beats.
+	uint8_t dt_mul = 1; // this is used for accounting for skipped beats when we do not do a dcm update.
 
 	while(true){
 		// this is for calculating full update time
@@ -97,7 +95,7 @@ static __attribute__((unused)) void _task(void *param){
 					// 1500 - 1500 = 0
 					// 1000 - 1500 = -500
 					for(int c = 0; c < 8; c++){
-						mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC, in.rc[c]);
+						mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC + c, in.rc[c]);
 					}
 				}
 			}
@@ -106,7 +104,7 @@ static __attribute__((unused)) void _task(void *param){
 			// It is extremely important that we use gyro sample rate and not our loop rate
 			// doing it any other way will introduce small errors. Why let them be there if we can eliminate them?
 			// also account for loops we skip when reading the acc
-			float dt = GYRO_RATE_DT;// * dt_mul;
+			float dt = GYRO_RATE_DT * dt_mul;
 			dt_mul = 1;
 
 			// read gyro (this MUST be done each time interrupt fires because dcm calculations rely on the GYRO update rate, NOT looptime)
@@ -145,10 +143,8 @@ static __attribute__((unused)) void _task(void *param){
 
 			mixer_update(&self->mixer);
 
-			// store the time
-			sys_micros_t t_end = sys_micros(self->system);
-			//self->code_time = t_end - t;
-			loop_time = t_end - t_start;
+			// store the looptime
+			loop_time = sys_micros(self->system) - t_start;
 		}
 	}
 }
