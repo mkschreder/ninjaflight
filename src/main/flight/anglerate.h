@@ -54,9 +54,6 @@ struct anglerate {
 
 	biquad_t deltaFilterState[3];
 
-	// update outputs based on current attitude information
-	void (*update)(struct anglerate *self, float dT);
-
 	int16_t body_rates[3];
 	int16_t body_angles[3];
 	int16_t user[3]; //!< user input command
@@ -92,7 +89,6 @@ struct anglerate {
 void anglerate_init(struct anglerate *self,
 	struct instruments *ins,
 	const struct config * config);
-void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type);
 void anglerate_reset_angle_i(struct anglerate *self);
 void anglerate_reset_rate_i(struct anglerate *self);
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self);

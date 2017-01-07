@@ -55,112 +55,12 @@ static void _anglerate_delta_state_update(struct anglerate *self) {
 	}
 }
 
-static int16_t _multiwii_rewrite_calc_axis(struct anglerate *self, int axis, int32_t gyroRate, int32_t angleRate, uint32_t dt_us)
-{
-	const int32_t rateError = angleRate - gyroRate;
-	const struct pid_config *pid = &config_get_profile(self->config)->pid;
-
-	// dt_us must be at least 16 to avoid division by zero
-	dt_us = constrain(dt_us, 100, 1000000);
-
-	// -----calculate P component
-	int32_t PTerm = (rateError * pid->P8[axis] * self->PIDweight[axis] / 100) >> 7;
-	// Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
-	if (axis == YAW && pid->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
-		PTerm = constrain(PTerm, -pid->yaw_p_limit, pid->yaw_p_limit);
-	}
-
-	// -----calculate I component
-	// There should be no division before accumulating the error to integrator, because the precision would be reduced.
-	// Precision is critical, as I prevents from long-time drift. Thus, 32 bits integrator (Q19.13 format) is used.
-	// Time correction (to avoid different I scaling for different builds based on average cycle time)
-	// is normalized to cycle time = 2048 (2^11).
-	// TODO: why is loop time cast from 32 bit to 16 bit??
-	int32_t ITerm = self->lastITerm[axis] + ((rateError * dt_us) >> 11) * pid->I8[axis];
-	// limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
-	// I coefficient (I8) moved before integration to make limiting independent from PID settings
-	ITerm = constrain(ITerm, (int32_t)(-PID_MAX_I << 13), (int32_t)(PID_MAX_I << 13));
-	// Anti windup protection
-	// TODO: state here is defined in runtime_config.h, which is nonsense. Move it into this module when done refactoring.
-	if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
-		ITerm = constrain(ITerm, -self->ITermLimit[axis], self->ITermLimit[axis]);
-	} else {
-		self->ITermLimit[axis] = ABS(ITerm);
-	}
-	self->lastITerm[axis] = ITerm;
-	ITerm = ITerm >> 13; // take integer part of Q19.13 value
-
-	// -----calculate D component
-	int32_t DTerm = 0;
-	if(pid->D8[axis] != 0) {
-		// delta calculated from measurement
-		int32_t delta = -(gyroRate - self->lastRateForDelta[axis]);
-		self->lastRateForDelta[axis] = gyroRate;
-		// Divide delta by targetLooptime to get differential (ie dr/dt)
-		delta = (delta * ((uint16_t)0xFFFF / (dt_us >> 4))) >> 5;
-		if (pid->dterm_cut_hz) {
-			// DTerm delta low pass filter
-			delta = lrintf(applyBiQuadFilter((float)delta, &self->deltaFilterState[axis]));
-		} else {
-			// When DTerm low pass filter disabled apply moving average to reduce noise
-			delta = filterApplyAverage(delta, DTERM_AVERAGE_COUNT, self->deltaStatei[axis]);
-		}
-		DTerm = (delta * pid->D8[axis] * self->PIDweight[axis] / 100) >> 8;
-		DTerm = constrain(DTerm, -PID_MAX_D, PID_MAX_D);
-	}
-
-	self->output.axis_P[axis] = PTerm;
-	self->output.axis_I[axis] = ITerm;
-	self->output.axis_D[axis] = DTerm;
-	// -----calculate total PID output
-	return PTerm + ITerm + DTerm;
-}
-
-static void _multiwii_rewrite_update(struct anglerate *self, float dt) {
-	UNUSED(dt); // TODO: maybe we should use dt?
-
-	const struct rate_profile *rp = config_get_rate_profile(self->config);
-	const struct config_profile *profile = config_get_profile(self->config);
-	const struct pid_config *pid = &profile->pid;
-
-	_anglerate_delta_state_update(self);
-
-	// ----------PID controller----------
-	for (int axis = 0; axis < 3; axis++) {
-		const uint8_t rate = rp->rates[axis];
-
-		// -----Get the desired angle rate depending on flight mode
-		int32_t angleRate;
-		if (axis == FD_YAW) {
-			// YAW is always gyro-controlled (MAG correction is applied to user input)
-			angleRate = (((int32_t)(rate + 27) * self->user[YAW]) >> 5);
-		} else {
-			// control is GYRO based for ACRO and HORIZON - direct sticks control is applied to rate PID
-			angleRate = ((int32_t)(rate + 27) * self->user[axis]) >> 4;
-
-			if(self->level_percent[axis] > 0){
-				// calculate error angle and limit the angle to the max inclination
-				// multiplication of user commands corresponds to changing the sticks scaling here
-				const int32_t errorAngle = constrain(2 * self->user[axis], -((int)self->config->imu.max_angle_inclination), self->config->imu.max_angle_inclination)
-						- self->body_angles[axis] + profile->acc.trims.raw[axis];
-				// blend in the angle based on level of blending
-				angleRate += (errorAngle * pid->P8[PIDLEVEL] * (uint16_t)self->level_percent[axis] / 100) >> 4;
-			}
-		}
-
-		// --------low-level gyro-based PID. ----------
-		const int32_t gyroRate = self->body_rates[axis] / 4;
-		self->output.axis[axis] = _multiwii_rewrite_calc_axis(self, axis, gyroRate, angleRate, dt * 1e6f);
-	}
-}
-
 // constants to scale pidLuxFloat so output is same as pidMultiWiiRewrite
-static const float luxPTermScale = 1.0f / 128;
-static const float luxITermScale = 1000000.0f / 0x1000000;
-static const float luxDTermScale = (0.000001f * (float)0xFFFF) / 512;
-static const float luxGyroScale = 16.4f / 4; // the 16.4 is needed because mwrewrite does not scale according to the gyro model gyro.scale
+static const float luxPTermScale = 1.0f / 64;
+static const float luxITermScale = 1.0f / 16.777216f;
+static const float luxDTermScale = 0.000128f;
 
-static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroRate, float angleRate, float dT){
+static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyroRate, float angleRate, float dT){
 	const float rateError = angleRate - gyroRate;
 
 	const struct config_profile *profile = config_get_profile(self->config);
@@ -216,7 +116,7 @@ static int16_t _luxfloat_calc_axis(struct anglerate *self, int axis, float gyroR
 	return lrintf(PTerm + ITerm + DTerm);
 }
 
-static void _luxfloat_update(struct anglerate *self, float dT){
+void anglerate_update(struct anglerate *self, float dT){
 	_anglerate_delta_state_update(self);
 
 	const struct rate_profile *rp = config_get_rate_profile(self->config);
@@ -247,10 +147,9 @@ static void _luxfloat_update(struct anglerate *self, float dT){
 		}
 
 		// --------low-level gyro-based PID. ----------
-		// TODO: refactor this so that we always have gyro scaled to rad/s
-		const float gyroRate = luxGyroScale * self->body_rates[axis] * (1.0f / 16.4f); // * (imu_get_gyro_scale(self->imu) / RAD); TODO: make sure that we are not dependent on gyro scale
-		self->output.axis[axis] = _luxfloat_calc_axis(self, axis, gyroRate, angleRate, dT);
-		//output->axis[axis] = constrain(output->axis[axis], -PID_LUX_FLOAT_MAX_PID, PID_LUX_FLOAT_MAX_PID);
+		// gyro rates converted into deg/s
+		const float gyroRate = self->body_rates[axis] * SYSTEM_GYRO_SCALE;
+		self->output.axis[axis] = _anglerate_calc_axis(self, axis, gyroRate, angleRate, dT);
 	}
 }
 
@@ -258,27 +157,11 @@ void anglerate_init(struct anglerate *self,
 	struct instruments *ins, const struct config const *config){
 	memset(self, 0, sizeof(struct anglerate));
 	self->ins = ins;
-	self->update = _multiwii_rewrite_update;
 	for(int c = 0; c < 3; c++) {
 		self->pidScale[c] = 100;
 		self->PIDweight[c] = 100;
 	}
 	self->config = config;
-}
-
-void anglerate_set_algo(struct anglerate *self, pid_controller_type_t type){
-	switch (type) {
-		default:
-		case PID_CONTROLLER_MW23: // we no longer support the old mw23 controller
-		case PID_CONTROLLER_MWREWRITE:
-			self->update = _multiwii_rewrite_update;
-			break;
-		case PID_CONTROLLER_LUX_FLOAT:
-			self->update = _luxfloat_update;
-			break;
-		case PID_COUNT:
-			break;
-	}
 }
 
 void anglerate_reset_angle_i(struct anglerate *self){
@@ -293,10 +176,6 @@ void anglerate_reset_rate_i(struct anglerate *self) {
 
 const struct pid_controller_output *anglerate_get_output_ptr(struct anglerate *self){
 	return &self->output;
-}
-
-void anglerate_update(struct anglerate *self, float dt){
-	self->update(self, dt);
 }
 
 void anglerate_enable_plimit(struct anglerate *self, bool on){
