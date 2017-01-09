@@ -752,6 +752,19 @@ $(OBJECT_DIR)/tasks_unittest.o : \
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/tasks_unittest.cc -o $@
 
+$(OBJECT_DIR)/ulink_unittest.o : \
+	$(TEST_DIR)/tasks_unittest.cc \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/ulink_unittest.cc -o $@
+
+$(OBJECT_DIR)/fastloop_unittest.o : \
+	$(TEST_DIR)/fastloop_unittest.cc \
+	$(GTEST_HEADERS)
+
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXX_FLAGS) $(TEST_CFLAGS) -c $(TEST_DIR)/fastloop_unittest.cc -o $@
 
 $(OBJECT_DIR)/mock/mock_flash.o : \
 	$(TEST_DIR)/../mock/mock_flash.cc \
@@ -792,6 +805,23 @@ $(OBJECT_DIR)/tasks_unittest : \
 	$(OBJECT_DIR)/gtest_main.a
 
 	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
+$(OBJECT_DIR)/ulink_unittest : \
+	$(OBJECT_DIR)/mock/mock_flash.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/ulink_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
+$(OBJECT_DIR)/fastloop_unittest : \
+	$(OBJECT_DIR)/mock/mock_flash.o \
+	$(OBJECT_DIR)/mock/mock_system.o \
+	$(OBJECT_DIR)/fastloop_unittest.o \
+	$(OBJECT_DIR)/gtest_main.a
+
+	$(CXX) $(CXX_FLAGS) $(PG_FLAGS) $^ -o $(OBJECT_DIR)/$@ $(LDFLAGS)
+
 
 ## test        : Build and run the Unit Tests
 ninjaflight:

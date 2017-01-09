@@ -114,7 +114,7 @@ static int _read_acc(const struct system_calls_imu *imu, int16_t output[3]){
 	(void)imu;
 	(void)output;
 	//printf("read acc\n");
-	memcpy(output, mock_acc, sizeof(mock_gyro));
+	memcpy(output, mock_acc, sizeof(mock_acc));
 	return 0;
 }
 

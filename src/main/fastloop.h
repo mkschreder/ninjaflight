@@ -26,10 +26,12 @@
 #include <FreeRTOS.h>
 #include <queue.h>
 
+#define FLARM (1 << 0)
+
 struct fastloop_input {
+	uint8_t mode;
 	int8_t level_pc[2];
 	int16_t roll, pitch, yaw, throttle;
-	int16_t tilt[2];
 	int16_t rc[8];
 };
 

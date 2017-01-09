@@ -87,6 +87,16 @@ static void _task(void *param){
 				if(xQueuePeek(self->in_queue, &in, 0)){
 					anglerate_set_level_percent(&self->ctrl, in.level_pc[0], in.level_pc[1]);
 					anglerate_input_user(&self->ctrl, in.roll, in.pitch, in.yaw);
+
+					// soften pids if throttle is near zero
+					if(in.throttle < self->config->rx.mincheck){
+						anglerate_set_pid_axis_weight(&self->ctrl, FD_ROLL, 50);
+						anglerate_set_pid_axis_weight(&self->ctrl, FD_PITCH, 50);
+					} else {
+						anglerate_set_pid_axis_weight(&self->ctrl, FD_ROLL, 100);
+						anglerate_set_pid_axis_weight(&self->ctrl, FD_PITCH, 100);
+					}
+
 					mixer_input_command(&self->mixer, MIXER_INPUT_G0_THROTTLE, in.throttle);
 					// center the RC input value around the RC middle value
 					// by subtracting the RC middle value from the RC input value, we get:
@@ -96,6 +106,12 @@ static void _task(void *param){
 					// 1000 - 1500 = -500
 					for(int c = 0; c < 8; c++){
 						mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC + c, in.rc[c]);
+					}
+
+					if(in.mode & FLARM){
+						mixer_enable_armed(&self->mixer, true);
+					} else {
+						mixer_enable_armed(&self->mixer, false);
 					}
 				}
 			}
@@ -169,8 +185,6 @@ void fastloop_init(struct fastloop *self, const struct system_calls *system, con
 	mixer_init(&self->mixer, self->config, &system->pwm);
 	ins_init(&self->ins, self->config);
 	anglerate_init(&self->ctrl, &self->ins, self->config);
-
-	anglerate_set_algo(&self->ctrl, config_get_profile(self->config)->pid.pidController);
 }
 
 void fastloop_write_controls(struct fastloop *self, const struct fastloop_input *in){

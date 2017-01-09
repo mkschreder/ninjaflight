@@ -82,7 +82,7 @@ struct anglerate {
 	const struct config * config;
 };
 
-#define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
+//#define IS_PID_CONTROLLER_FP_BASED(pidController) (pidController == PID_CONTROLLER_LUX_FLOAT)
 //float pidScaleITermToRcInput(int axis);
 //void pidFilterIsSetCheck(const struct pid_config *pidProfile);
 
