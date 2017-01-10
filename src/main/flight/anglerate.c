@@ -41,8 +41,9 @@
 #include "mixer.h"
 #include "gtune.h"
 
-#define ANGLERATE_FLAG_ANTIWINDUP (1 << 0)
-#define ANGLERATE_FLAG_PLIMIT (1 << 0)
+#define ANGLERATE_FLAG_ANTIWINDUP	(1 << 0)
+#define ANGLERATE_FLAG_PLIMIT		(1 << 1)
+#define ANGLERATE_FLAG_OPENLOOP		(1 << 2)
 
 static void _anglerate_delta_state_update(struct anglerate *self) {
 	const struct pid_config *pid = &config_get_profile(self->config)->pid;
@@ -56,29 +57,40 @@ static void _anglerate_delta_state_update(struct anglerate *self) {
 }
 
 // constants to scale pidLuxFloat so output is same as pidMultiWiiRewrite
-static const float luxPTermScale = 1.0f / 64;
-static const float luxITermScale = 1.0f / 16.777216f;
-static const float luxDTermScale = 0.000128f;
+static const float luxPTermScale = 1.0f; //1.0f / 64;
+static const float luxITermScale = 1.0f; //1.0f / 16.777216f;
+static const float luxDTermScale = 1.0f; //0.000128f;
 
-static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyroRate, float angleRate, float dT){
-	const float rateError = angleRate - gyroRate;
-
+static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, const float gyroRate, const float rateError, float dT){
 	const struct config_profile *profile = config_get_profile(self->config);
 	const struct pid_config *pid = &profile->pid;
 
+	float ku = pid->P8[axis] * 0.1f;
+	float tu = pid->I8[axis] * 0.01f;
+	float kp = 0.6f * ku;
+	float ki = 0; // for rate we use a PD controller. //(1.2f * ku) / tu;
+	float kd = (0.6f * ku * tu) / 8;
+
 	// -----calculate P component
-	float PTerm = luxPTermScale * rateError * pid->P8[axis] * self->PIDweight[axis] / 100;
+	float PTerm = rateError * kp * self->PIDweight[axis] / 100;
 
 	// Constrain YAW by yaw_p_limit value if not servo driven, in that case servolimits apply
+	/*
 	if (axis == YAW && pid->yaw_p_limit && (self->flags & ANGLERATE_FLAG_PLIMIT)) {
 		PTerm = constrainf(PTerm, -pid->yaw_p_limit, pid->yaw_p_limit);
 	}
+	*/
 
 	// -----calculate I component
-	float ITerm = self->lastITermf[axis] + luxITermScale * rateError * dT * pid->I8[axis];
+	float ITerm = self->lastITermf[axis] + luxITermScale * rateError * dT * ki;
+	// generic antiwindup
+	if(ITerm < -PID_MAX_I || ITerm > PID_MAX_I)
+		ITerm = ITerm - self->output.axis_I[axis];
+	ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
+	self->lastITermf[axis] = ITerm;
+	/*
 	// limit maximum integrator value to prevent WindUp - accumulating extreme values when system is saturated.
 	// I coefficient (I8) moved before integration to make limiting independent from PID settings
-	ITerm = constrainf(ITerm, -PID_MAX_I, PID_MAX_I);
 	// Anti windup protection
 	if (self->flags & ANGLERATE_FLAG_ANTIWINDUP) {
 		ITerm = constrainf(ITerm, -self->ITermLimitf[axis], self->ITermLimitf[axis]);
@@ -86,10 +98,11 @@ static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyro
 		self->ITermLimitf[axis] = ABS(ITerm);
 	}
 	self->lastITermf[axis] = ITerm;
+	*/
 
 	// -----calculate D component
 	float DTerm;
-	if (pid->D8[axis] == 0) {
+	if (kd < 1e-6f) {
 		// optimisation for when D8 is zero, often used by YAW axis
 		DTerm = 0;
 	} else {
@@ -98,6 +111,7 @@ static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyro
 		self->lastRateForDelta[axis] = gyroRate;
 		// Divide delta by dT to get differential (ie dr/dt)
 		delta *= (1.0f / dT);
+		/*
 		if (pid->dterm_cut_hz) {
 			// DTerm delta low pass filter
 			delta = applyBiQuadFilter(delta, &self->deltaFilterState[axis]);
@@ -105,7 +119,8 @@ static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyro
 			// When DTerm low pass filter disabled apply moving average to reduce noise
 			delta = filterApplyAveragef(delta, DTERM_AVERAGE_COUNT, self->deltaStatef[axis]);
 		}
-		DTerm = luxDTermScale * delta * pid->D8[axis] * self->PIDweight[axis] / 100;
+		*/
+		DTerm = delta * kd * self->PIDweight[axis] / 100;
 		DTerm = constrainf(DTerm, -PID_MAX_D, PID_MAX_D);
 	}
 
@@ -117,6 +132,13 @@ static int16_t _anglerate_calc_axis(struct anglerate *self, int axis, float gyro
 }
 
 void anglerate_update(struct anglerate *self, float dT){
+	if(self->flags & ANGLERATE_FLAG_OPENLOOP) {
+		for(int c = 0; c < 3; c++){
+			self->output.axis[c] = self->user[c];
+		}
+		return;
+	}
+
 	_anglerate_delta_state_update(self);
 
 	const struct rate_profile *rp = config_get_rate_profile(self->config);
@@ -140,16 +162,33 @@ void anglerate_update(struct anglerate *self, float dT){
 			if(self->level_percent[axis] > 0){
 				// calculate error angle and limit the angle to the max inclination
 				// multiplication of user input corresponds to changing the sticks scaling here
-				const float errorAngle = constrain(2 * self->user[axis], -((int)self->config->imu.max_angle_inclination), self->config->imu.max_angle_inclination)
+				const float maxangle = self->config->imu.max_angle_inclination;
+				const float errorAngle = constrain(self->user[axis], -((int)maxangle), maxangle)
 						- self->body_angles[axis] + profile->acc.trims.raw[axis];
-				angleRate += errorAngle * pid->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f;
+				
+				float ku = pid->P8[PIDLEVEL] * 0.1f;
+				float tu = pid->I8[PIDLEVEL] * 0.1f;
+				float kp = 0.6f * ku;
+				float ki = (1.2f * ku) / tu;
+				float kd = (0.6f * ku * tu) / 8;
+
+				self->angle_I[axis] = constrainf(self->angle_I[axis] + errorAngle * dT, -256, 256);
+				float ITerm = self->angle_I[axis];
+				if(ITerm < -PID_MAX_I || ITerm > PID_MAX_I)
+					ITerm = ITerm - self->angle_I[axis];
+
+				float DTerm = (self->body_angles[axis] - self->angle_E[axis]);
+				self->angle_E[axis] = self->body_angles[axis];
+
+				angleRate = errorAngle * kp + ITerm * ki + DTerm * kd;
+				//angleRate += errorAngle * pid->P8[PIDLEVEL] * ((float)self->level_percent[axis] / 100.0f) / 16.0f + ITerm + DTerm;
 			}
 		}
 
 		// --------low-level gyro-based PID. ----------
 		// gyro rates converted into deg/s
 		const float gyroRate = self->body_rates[axis] * SYSTEM_GYRO_SCALE;
-		self->output.axis[axis] = _anglerate_calc_axis(self, axis, gyroRate, angleRate, dT);
+		self->output.axis[axis] = constrain(_anglerate_calc_axis(self, axis, gyroRate, angleRate - gyroRate, dT), -500, 500);
 	}
 }
 
@@ -170,7 +209,6 @@ void anglerate_reset_angle_i(struct anglerate *self){
 }
 
 void anglerate_reset_rate_i(struct anglerate *self) {
-	memset(self->lastITerm, 0, sizeof(self->lastITerm));
 	memset(self->lastITermf, 0, sizeof(self->lastITermf));
 }
 
@@ -186,6 +224,11 @@ void anglerate_enable_plimit(struct anglerate *self, bool on){
 void anglerate_enable_antiwindup(struct anglerate *self, bool on){
 	if(on) self->flags |= ANGLERATE_FLAG_ANTIWINDUP;
 	else self->flags &= ~ANGLERATE_FLAG_ANTIWINDUP;
+}
+
+void anglerate_set_openloop(struct anglerate *self, bool on){
+	if(on) self->flags |= ANGLERATE_FLAG_OPENLOOP;
+	else self->flags &= ~ANGLERATE_FLAG_OPENLOOP;
 }
 
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale){

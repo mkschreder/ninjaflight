@@ -19,7 +19,6 @@
 #include <math.h>
 
 // TODO: pid unit test
-#if 0
 extern "C" {
     #include "build_config.h"
     #include "debug.h"
@@ -818,4 +817,3 @@ TEST(PIDUnittest, TestPidMultiWiiRewritePidLuxFloatEquivalence)
     const float allowedDError = (float)default_controller.output.axis_D[FD_ROLL] / 100; // 1% error allowed
     EXPECT_NEAR(default_controller.output.axis_D[FD_ROLL], default_controller.output.axis_D[FD_ROLL], allowedDError);
 }
-#endif

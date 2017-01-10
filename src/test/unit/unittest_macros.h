@@ -29,6 +29,9 @@
 
 #include "rx/rx.h"
 
+#define MOCK_EEPROM_MAX_SIZE 4096
+#define MOCK_LOGGER_BUF_SIZE (1024 * 2000)
+
 extern uint16_t mock_motor_pwm[8];
 extern uint16_t mock_servo_pwm[8];
 extern uint16_t mock_rc_pwm[RX_MAX_SUPPORTED_RC_CHANNELS];
@@ -42,6 +45,9 @@ extern uint8_t mock_eeprom_erase_byte;
 extern char mock_eeprom_data[];
 extern int32_t mock_time_micros;
 extern bool mock_beeper_is_on;
+
+extern char mock_logger_data[MOCK_LOGGER_BUF_SIZE];
+extern uint16_t mock_logger_pos;
 
 struct system_calls;
 struct system_calls *mock_syscalls();

@@ -26,7 +26,8 @@
 #include <FreeRTOS.h>
 #include <queue.h>
 
-#define FLARM (1 << 0)
+#define FL_ARMED	(1 << 0)
+#define FL_OPEN		(1 << 1)
 
 struct fastloop_input {
 	uint8_t mode;
@@ -42,6 +43,8 @@ struct fastloop_output {
 	int16_t acc[3];
 	int16_t mag[3];
 	int16_t roll, pitch, yaw;
+	int16_t motors[8];
+	int16_t servos[8];
 };
 
 struct fastloop {

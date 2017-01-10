@@ -42,9 +42,6 @@ static bool mock_clock_manual = false;
 int32_t mock_time_micros = 0;
 bool mock_beeper_is_on = false;
 
-#define MOCK_EEPROM_MAX_SIZE 4096
-#define MOCK_LOGGER_BUF_SIZE (1024 * 2000)
-
 char mock_eeprom_data[MOCK_EEPROM_MAX_SIZE];
 char mock_logger_data[MOCK_LOGGER_BUF_SIZE];
 uint16_t mock_logger_pos = 0;
@@ -200,7 +197,7 @@ static void _eeprom_get_info(const struct system_calls_bdev *self, struct system
 	info->num_pages = mock_eeprom_pages;
 }
 
-static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+static int16_t _logger_write(const struct system_calls_logger *self, const void *data, size_t size){
 	(void)self;
 	// TODO: simulate failure
 	memcpy(mock_logger_data + mock_logger_pos, data, size);

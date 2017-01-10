@@ -75,8 +75,6 @@
 #include "flight/navigation.h"
 #include "flight/altitudehold.h"
 
-#include "blackbox/blackbox.h"
-
 #include "ninja_config.h"
 #include "ninjaflight.h"
 
@@ -667,7 +665,7 @@ static int processOutCommand(struct msp *self, mspPacket_t *cmd, mspPacket_t *re
             break;
 
         case MSP_PID_CONTROLLER:
-            sbufWriteU8(dst, config_get_profile(self->config)->pid.pidController);
+            sbufWriteU8(dst, 0);
             break;
 
         case MSP_MODE_RANGES:
@@ -1046,7 +1044,8 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
             break;
 
         case MSP_SET_PID_CONTROLLER:
-            config_get_profile_rw(self->config)->pid.pidController = sbufReadU8(src);
+			sbufReadU8(src);
+            //config_get_profile_rw(self->config)->pid.pidController = sbufReadU8(src);
             break;
 
         case MSP_SET_PID: {
@@ -1239,8 +1238,6 @@ static int processInCommand(struct msp *self, mspPacket_t *cmd){
 
         case MSP_SET_BLACKBOX_CONFIG:
 			if(USE_BLACKBOX){
-				if (!blackbox_is_running(&self->ninja->blackbox))
-					return -1;
 				self->config->blackbox.device = sbufReadU8(src);
 				self->config->blackbox.rate_num = sbufReadU8(src);
 				self->config->blackbox.rate_denom = sbufReadU8(src);

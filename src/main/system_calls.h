@@ -304,7 +304,7 @@ struct system_calls_logger {
 	 * Write a block of data to the logger device. If data can not be written
 	 * in full then we return number of bytes written.
 	 */
-	int16_t (*write)(const struct system_calls_logger *self, const void *src, int16_t size);
+	int16_t (*write)(const struct system_calls_logger *self, const void *src, size_t size);
 };
 
 /**

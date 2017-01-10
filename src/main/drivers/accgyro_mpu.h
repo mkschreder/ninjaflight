@@ -192,4 +192,4 @@ bool mpuGyroRead(int16_t *gyroADC);
 mpuDetectionResult_t *detectMpu(const extiConfig_t *configToUse);
 bool mpuIsDataReady(void);
 unsigned long mpu_get_irq_count(void);
-void mpu_sync(void);
+int mpu_sync(void);

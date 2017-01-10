@@ -48,7 +48,6 @@
 #include "sensors/initialisation.h"
 
 #include "telemetry/telemetry.h"
-#include "blackbox/blackbox.h"
 
 #include "flight/anglerate.h"
 #include "flight/mixer.h"
@@ -70,6 +69,7 @@
 #include "sitl.h"
 #include "ninja.h"
 #include "fastloop.h"
+#include "blackbox.h"
 
 struct application {
 	struct ninja ninja;
@@ -90,6 +90,7 @@ static void _app_task(void *param){
 
 	while (true) {
 		ninja_heartbeat(&self->ninja);
+		vTaskDelay(5);
     }
 }
 
@@ -114,13 +115,16 @@ static void *_application_thread(void *param){
 		printf("ERROR loading config (%d)\n", ret);
 	}
 
+	// default sitl smaple rate (1000 looptime)
+	self->config.data.imu.gyro_sample_div = 8;
+
 	fastloop_init(&self->fastloop, self->system, &self->config.data);
 	ninja_init(&self->ninja, &self->fastloop, self->system, &self->config);
 
 	fastloop_start(&self->fastloop);
 
 	// simulate as closely as possible what the real system would do
-	xTaskCreate(_app_task, "app", 4096, self, 4, NULL);
+	xTaskCreate(_app_task, "app", 4096, self, 3, NULL);
 	xTaskCreate(_io_task, "io", 4096, self, 2, NULL);
 
 	vTaskStartScheduler();

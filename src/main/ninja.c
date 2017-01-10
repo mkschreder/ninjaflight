@@ -84,6 +84,8 @@ static void _output_motors_disarmed(struct ninja *self){
 void ninja_init(struct ninja *self, struct fastloop *fl, const struct system_calls *syscalls, struct config_store *config){
 	memset(self, 0, sizeof(struct ninja));
 
+	PT_INIT(&self->pt_tune);
+
 	self->system = syscalls;
 	self->config = &config->data;
 	self->fastloop = fl;
@@ -174,8 +176,12 @@ void ninja_init(struct ninja *self, struct fastloop *fl, const struct system_cal
     }
 #endif
 
-	if(USE_BLACKBOX)
+	self->out_queue = xQueueCreate(1, sizeof(struct ninja_state));
+
+	if(USE_BLACKBOX) {
 		blackbox_init(&self->blackbox, self->config, self->system);
+		blackbox_start(&self->blackbox);
+	}
 
 	sys_led_on(self->system, 1);
 	sys_led_off(self->system, 0);
@@ -210,6 +216,10 @@ void ninja_disarm(struct ninja *self){
 	//mixer_enable_armed(&self->mixer, false);
 	beeper_start(&self->beeper, BEEPER_DISARMING);	  // emit disarm tone
 	self->is_armed = false;
+}
+
+void ninja_read_state(struct ninja *self, struct ninja_state *state){
+	xQueuePeek(self->out_queue, state, 0);
 }
 
 	/*
@@ -383,11 +393,33 @@ bool _disarm_checks_ok(struct ninja *self){
 	return true;
 }
 
+PT_THREAD(_fsm_tuning(struct ninja *self, struct fastloop_input *ctrl)){
+	(void)self;
+	(void)ctrl;
+	PT_BEGIN(&self->pt_tune);
+	self->tune_timeout = sys_micros(self->system) + 2000000UL;
+	while(true){
+		// wait until the quad has been stable for a while
+		self->tune_timeout = sys_micros(self->system) + 2000000UL;
+		PT_WAIT_UNTIL(&self->pt_tune, sys_micros(self->system) > self->tune_timeout);
+		self->tune_state = 1;
+		self->tune_timeout = sys_micros(self->system) + 100000UL;
+		PT_WAIT_UNTIL(&self->pt_tune, sys_micros(self->system) > self->tune_timeout);
+		self->tune_state = 0;
+		// deliver a step control in open loop for a short period of time
+		// record Tc and Wc
+		// revert to stabilized control again
+	}
+	PT_END(&self->pt_tune);
+	return 0;
+}
+
 static void _run_control_loop(struct ninja *self){
 	//struct ns_armed *state = container_of(_state, struct ns_armed, state);
 	// TODO: set pid algo when config is applied
 	//anglerate_set_algo(&self->ctrl, pidProfile()->pidController);
 	struct fastloop_input ctrl;
+	memset(&ctrl, 0, sizeof(ctrl));
 
 	if (rc_key_state(&self->rc, RC_KEY_FUNC_LEVEL) == RC_KEY_PRESSED) {
 		ctrl.level_pc[0] = 100;
@@ -407,6 +439,14 @@ static void _run_control_loop(struct ninja *self){
 		ctrl.level_pc[1] = 0;
 	}
 
+	//_fsm_tuning(self, &ctrl);
+	if(self->tune_state == 1){
+		ctrl.level_pc[0] = 0;
+		ctrl.level_pc[1] = 0;
+		ctrl.roll = -500;
+		ctrl.mode |= FL_OPEN;
+	} else {
+
 	ctrl.roll = rc_get_command(&self->rc, ROLL);
 	ctrl.pitch =  rc_get_command(&self->rc, PITCH);
 	ctrl.yaw = -rc_get_command(&self->rc, YAW);
@@ -415,6 +455,7 @@ static void _run_control_loop(struct ninja *self){
 	// prevent spinup when just armed
 	// TODO: 3d mode needs some thought
 	if(ctrl.throttle < -480) ctrl.yaw = 0;
+}
 
 	if (rc_key_state(&self->rc, RC_KEY_FUNC_ALTHOLD) == RC_KEY_PRESSED) {
 		althold_input_throttle(&self->althold, ctrl.throttle);
@@ -424,6 +465,9 @@ static void _run_control_loop(struct ninja *self){
 
 	for(int c = 0; c < 8; c++)
 		ctrl.rc[c] = rx_get_channel(&self->rx, c) - self->config->rx.midrc;
+
+	if(self->is_armed)
+		ctrl.mode |= FL_ARMED;
 
 	//_process_tilt_controls(self);
 /*
@@ -558,9 +602,7 @@ wait_for_disarm:
 	PT_END(&self->state_arming);
 }
 
-static void _blackbox_write(struct ninja *self){
-	(void)self;
-/*
+static void __attribute__((unused)) _blackbox_write(struct ninja *self){
 	struct blackbox_frame frame = {
 		.time = sys_millis(self->system),
 		.command = {
@@ -569,49 +611,28 @@ static void _blackbox_write(struct ninja *self){
 			rc_get_command(&self->rc, YAW),
 			rc_get_command(&self->rc, THROTTLE)
 		},
-		.gyro = {
-			ins_get_gyro_x(&self->ins),
-			ins_get_gyro_y(&self->ins),
-			ins_get_gyro_z(&self->ins)
+		.gyr = {
+			self->fout.gyr[0],
+			self->fout.gyr[1],
+			self->fout.gyr[2]
 		},
 		.acc = {
-			ins_get_acc_x(&self->ins),
-			ins_get_acc_y(&self->ins),
-			ins_get_acc_z(&self->ins)
+			self->fout.acc[0],
+			self->fout.acc[1],
+			self->fout.acc[2]
 		},
 		.vbat = 0,
 		.current = 0,
 		.altitude = 0,
 		.mag = {
-			ins_get_mag_x(&self->ins),
-			ins_get_mag_y(&self->ins),
-			ins_get_mag_z(&self->ins)
+			0,
+			0,
+			0
 		},
 		.sonar_alt = 0,
-		.rssi = 0,
-		.motor = {
-			mixer_get_motor_value(&self->mixer, 0),
-			mixer_get_motor_value(&self->mixer, 1),
-			mixer_get_motor_value(&self->mixer, 2),
-			mixer_get_motor_value(&self->mixer, 3),
-			mixer_get_motor_value(&self->mixer, 4),
-			mixer_get_motor_value(&self->mixer, 5),
-			mixer_get_motor_value(&self->mixer, 6),
-			mixer_get_motor_value(&self->mixer, 7)
-		},
-		.servo = {
-			mixer_get_servo_value(&self->mixer, 0),
-			mixer_get_servo_value(&self->mixer, 1),
-			mixer_get_servo_value(&self->mixer, 2),
-			mixer_get_servo_value(&self->mixer, 3),
-			mixer_get_servo_value(&self->mixer, 4),
-			mixer_get_servo_value(&self->mixer, 5),
-			mixer_get_servo_value(&self->mixer, 6),
-			mixer_get_servo_value(&self->mixer, 7)
-		}
+		.rssi = 0
 	};
-	blackbox_write_frame(&self->blackbox, &frame);
-	*/
+	blackbox_write(&self->blackbox, &frame);
 }
 
 void ninja_heartbeat(struct ninja *self){
@@ -669,6 +690,7 @@ void ninja_heartbeat(struct ninja *self){
 			ninja_config_save(self);
 		}
 	}
+
 	if(USE_BLACKBOX)
 		_blackbox_write(self);
 
@@ -685,6 +707,10 @@ void ninja_heartbeat(struct ninja *self){
     } else {
 		serial_msp_process(&self->serial_msp, self);
 	}
+
+	struct ninja_state state;
+	memcpy(&state.fastloop, &self->fout, sizeof(state.fastloop));
+	xQueueOverwrite(self->out_queue, &state);
 
 	ninja_sched_run(&self->sched);
 }

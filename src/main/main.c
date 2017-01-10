@@ -85,7 +85,6 @@
 #include "sensors/instruments.h"
 
 #include "telemetry/telemetry.h"
-#include "blackbox/blackbox.h"
 
 #include "flight/anglerate.h"
 #include "flight/mixer.h"

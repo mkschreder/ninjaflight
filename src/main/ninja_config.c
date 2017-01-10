@@ -35,7 +35,6 @@
 #include "rx/msp.h"
 
 #include "telemetry/telemetry.h"
-#include "blackbox/blackbox.h"
 
 #include "flight/rate_profile.h"
 #include "flight/mixer.h"

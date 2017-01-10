@@ -92,8 +92,6 @@
 #include "sensors/compass.h"
 #include "sensors/barometer.h"
 
-#include "blackbox/blackbox.h"
-
 #include "flight/anglerate.h"
 #include "flight/gtune.h"
 #include "flight/mixer.h"
@@ -645,8 +643,6 @@ const clivalue_t valueTable[] = {
 
     { "mag_hardware",               VAR_UINT8  | MASTER_VALUE, .config.minmax = { 0,  MAG_MAX } ,							CPATH(sensors.selection.mag_hardware)},
     { "mag_declination",            VAR_INT16  | PROFILE_VALUE, .config.minmax = { -18000,  18000 } ,						PPATH(mag.mag_declination)},
-
-    { "pid_controller",             VAR_UINT8  | PROFILE_VALUE | MODE_LOOKUP, .config.lookup = { TABLE_PID_CONTROLLER } ,	PPATH(pid.pidController)},
 
     { "p_pitch",                    VAR_UINT8  | PROFILE_VALUE, .config.minmax = { PID_MIN,  PID_MAX } ,					PPATH(pid.P8[FD_PITCH])},
     { "i_pitch",                    VAR_UINT8  | PROFILE_VALUE, .config.minmax = { PID_MIN,  PID_MAX } ,					PPATH(pid.I8[FD_PITCH])},

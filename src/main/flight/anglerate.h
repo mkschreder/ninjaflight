@@ -49,8 +49,10 @@ struct anglerate {
 	// PIDweight is a scale factor for PIDs which is derived from the throttle and TPA setting, and 100 = 100% scale means no PID reduction
 	uint8_t PIDweight[3];
 
-	int32_t lastITerm[3], ITermLimit[3];
+	//int32_t lastITerm[3], ITermLimit[3];
 	float lastITermf[3], ITermLimitf[3];
+	float angle_I[3];
+	float angle_E[3];
 
 	biquad_t deltaFilterState[3];
 
@@ -105,6 +107,7 @@ void anglerate_update(struct anglerate *self, float dT);
 
 void anglerate_enable_antiwindup(struct anglerate *self, bool on);
 void anglerate_enable_plimit(struct anglerate *self, bool on);
+void anglerate_set_openloop(struct anglerate *self, bool on);
 
 // TODO: unify pid scaling so we have just one call for all pid controllers (axis scale is only used in mw23)
 void anglerate_set_pid_axis_scale(struct anglerate *self, uint8_t axis, int32_t scale);

@@ -39,7 +39,11 @@
 
 #include "fastloop.h"
 
+#ifdef SITL
+#define ACC_READ_TIMEOUT 20000
+#else
 #define ACC_READ_TIMEOUT 2000
+#endif
 
 static void _task(void *param){
 	struct fastloop *self = (struct fastloop*)param;
@@ -59,7 +63,11 @@ static void _task(void *param){
 		// If it does not work and we do not sleep here then this thread will consume all cpu cycles and we will
 		// likely waste a lot of cycles reading gyro when we don't have to.
 		if(sys_gyro_sync(self->system) < 0){
+#ifdef SITL
+			vTaskDelay(3); // if gyro sync is not supported, introduce artificial delay
+#else
 			vTaskDelay(1); // if gyro sync is not supported, introduce artificial delay
+#endif
 		}
 
 		// record time when we start handling the interrupt
@@ -88,6 +96,12 @@ static void _task(void *param){
 					anglerate_set_level_percent(&self->ctrl, in.level_pc[0], in.level_pc[1]);
 					anglerate_input_user(&self->ctrl, in.roll, in.pitch, in.yaw);
 
+					// put pid into open loop if requested
+					if(in.mode & FL_OPEN){
+						anglerate_set_openloop(&self->ctrl, true);
+					} else {
+						anglerate_set_openloop(&self->ctrl, false);
+					}
 					// soften pids if throttle is near zero
 					if(in.throttle < self->config->rx.mincheck){
 						anglerate_set_pid_axis_weight(&self->ctrl, FD_ROLL, 50);
@@ -108,7 +122,7 @@ static void _task(void *param){
 						mixer_input_command(&self->mixer, MIXER_INPUT_GROUP_RC + c, in.rc[c]);
 					}
 
-					if(in.mode & FLARM){
+					if(in.mode & FL_ARMED){
 						mixer_enable_armed(&self->mixer, true);
 					} else {
 						mixer_enable_armed(&self->mixer, false);
