@@ -36,6 +36,8 @@ FLASH_SIZE ?=
 
 FORKNAME			 = ninjaflight
 
+SITL_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 -DSITL -Ifreertos/Source/portable/GCC/POSIX/
+
 64K_TARGETS  = CJMCU
 128K_TARGETS = ALIENFLIGHTF1 CC3D NAZE OLIMEXINO RMDO
 256K_TARGETS = ALIENFLIGHTF3 CHEBUZZF3 COLIBRI_RACE EUSTM32F103RC IRCFUSIONF3 LUX_RACE MOTOLAB NAZE32PRO PORT103R SPARKY SPRACINGF3 SPRACINGF3EVO SPRACINGF3MINI STM32F3DISCOVERY
@@ -160,7 +162,10 @@ DEVICE_FLAGS = -DSTM32F10X_HD -DSTM32F10X
 DEVICE_STDPERIPH_SRC = $(STDPERIPH_SRC)
 
 else ifeq ($(TARGET),SITL)
-ARCH_FLAGS = -fPIC -D_XOPEN_SOURCE=2016 -DSITL $(COVERAGE_FLAGS) -Ifreertos/Source/portable/GCC/POSIX/
+ARCH_FLAGS = $(SITL_FLAGS)
+ifeq ($(PROFILE),1)
+ARCH_FLAGS += $(COVERAGE_FLAGS)
+endif
 LD_SCRIPT = ./src/test/unit/parameter_group.ld
 LDFLAGS += -lgcov
 DEBUG=GDB
@@ -329,7 +334,7 @@ HIGHEND_SRC = \
 		   sensors/gps.c \
 		   sensors/sonar.c \
 		   sensors/barometer.c \
-		   blackbox/blackbox.c \
+		   blackbox.c \
 		   blackbox/blackbox_io.c
 
 VCP_SRC = \
@@ -478,7 +483,7 @@ CJMCU_SRC = \
 		   drivers/timer_stm32f10x.c \
 		   hardware_revision.c \
 		   flight/gtune.c \
-		   blackbox/blackbox.c \
+		   blackbox.c \
 		   blackbox/blackbox_io.c \
 		   $(COMMON_SRC)
 
@@ -740,7 +745,7 @@ IRCFUSIONF3_SRC = \
 		   $(COMMON_SRC)
 
 SITL_SRC = \
-		blackbox/blackbox.c \
+		blackbox.c \
 		blackbox/blackbox_io.c \
 		build_config.c \
 		cli.c \
@@ -754,6 +759,7 @@ SITL_SRC = \
 		common/quaternion.c \
 		common/streambuf.c \
 		common/typeconversion.c \
+		common/ulink.c \
 		config/config.c \
 		config/rx.c \
 		config/ledstrip.c \
@@ -803,6 +809,7 @@ SITL_SRC = \
 		sensors/instruments.c \
 		sensors/sonar.c \
 		sitl/main.c \
+		sitl/sys_pqueue.c \
 		telemetry/frsky.c \
 		telemetry/hott.c \
 		telemetry/ltm.c \
@@ -857,7 +864,7 @@ ifeq ($(DEBUG),GDB)
 OPTIMIZE	 = -O0
 LTO_FLAGS	 = $(OPTIMIZE)
 else
-OPTIMIZE	 = -Os
+OPTIMIZE	 = -O2
 LTO_FLAGS	 =  -flto -fuse-linker-plugin $(OPTIMIZE)
 endif
 
@@ -950,11 +957,11 @@ TARGET_BIN	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).bin
 TARGET_HEX	 = $(BIN_DIR)/$(FORKNAME)_$(TARGET).hex
 TARGET_ELF	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).elf
 TARGET_SITL	 = lib$(FORKNAME).so
+TARGET_NATIVE = ninjaflight
 TARGET_SITL_LIB	 = lib$(FORKNAME).a
 TARGET_OBJS	 = $(addsuffix .o,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_DEPS	 = $(addsuffix .d,$(addprefix $(OBJECT_DIR)/$(TARGET)/,$(basename $($(TARGET)_SRC))))
 TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
-
 
 ## Default make goal:
 ## hex         : Make filetype hex only
@@ -963,7 +970,7 @@ TARGET_MAP	 = $(OBJECT_DIR)/$(FORKNAME)_$(TARGET).map
 ## Optional make goals:
 ## all         : Make all filetypes, binary and hex
 ifeq ($(TARGET),SITL)
-all: ninjasitl $(TARGET_SITL_LIB) $(TARGET_SITL)
+all: ninjasitl $(TARGET_SITL_LIB) $(TARGET_SITL) $(TARGET_NATIVE)
 else
 all: hex bin
 endif 
@@ -1087,6 +1094,13 @@ $(TARGET_SITL): $(TARGET_OBJS)
 	cp $(TARGET_SITL) ninjasitl/fc_ninjaflight.so
 	$(SIZE) $(TARGET_SITL)
 
+bbdump: src/main/bb_dump.c
+	make TARGET=SITL
+	gcc -std=gnu99 -Isrc/main -Isrc/main/target/SITL -I./include  -D_XOPEN_SOURCE=2016 -DSITL -Isrc/main/freertos/Source/include -Isrc/main/freertos/Source/portable/GCC/POSIX/ -o $@ src/main/bb_dump.c -L. -lninjaflight
+
+$(TARGET_NATIVE): sitl.o
+	$(CC) -Wl,--no-undefined -o $@ $^ $(LDFLAGS) -ldl -lpthread
+	
 $(TARGET_ELF):  $(TARGET_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 	$(SIZE) $(TARGET_ELF)

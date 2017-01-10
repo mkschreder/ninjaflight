@@ -33,8 +33,12 @@ struct blackbox_frame {
 
 	int32_t time;
 
-	int16_t gyro[XYZ_AXIS_COUNT];
-	int16_t acc[XYZ_AXIS_COUNT];
+	int16_t gyr[3];
+	int16_t acc[3];
+	int16_t mag[3];
+	int16_t roll, pitch, yaw;
+	int16_t motors[8];
+	int16_t servos[8];
 
 	int16_t command[4];
 
@@ -42,44 +46,22 @@ struct blackbox_frame {
 	uint16_t current;
 
 	int32_t altitude;
-	int16_t mag[XYZ_AXIS_COUNT];
 	int32_t sonar_alt;
 	uint16_t rssi;
-
-	uint32_t motor[8];
-	uint32_t servo[8];
-} __attribute__((__packed__));
-
-struct blackbox_slow_frame {
-	struct blackbox_frame_header header;
-
-	uint16_t flightModeFlags;
-	uint8_t stateFlags;
-	uint8_t failsafePhase;
-	bool rxSignalReceived;
-	bool rxFlightChannelsValid;
 } __attribute__((__packed__));
 
 struct blackbox {
-	uint32_t iteration;
 	uint8_t *cur_frame, *prev_frame;
 	uint8_t buffers[2][sizeof(struct blackbox_frame)];
 	uint8_t delta_buffer[sizeof(struct blackbox_frame) + sizeof(struct blackbox_frame) / 2];
-	int16_t delta_size;
-	uint8_t *delta_ptr;
-	struct pt flash_writer;
-	//struct packer packer;
 
+	QueueHandle_t state_queue;
 	const struct config *config;
 	const struct system_calls *system;
 };
 
 void blackbox_init(struct blackbox *self, const struct config * config, const struct system_calls *system);
-
-void blackbox_write_frame(struct blackbox *self, const struct blackbox_frame *frame);
-
-void blackbox_update(struct blackbox *self);
 void blackbox_start(struct blackbox *self);
-void blackbox_stop(struct blackbox *self);
-
-bool blackbox_is_running(struct blackbox *self);
+void blackbox_write(struct blackbox *self, const struct blackbox_frame *frame);
+void blackbox_flush(struct blackbox *self);
+int blackbox_parse(const void *data, size_t size, struct blackbox_frame *out, size_t *consumed);

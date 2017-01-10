@@ -229,7 +229,7 @@ static void print_array(const char *name, const void *_arr, size_t size){
 }
 
 TEST_F(PackerTest, DeltaEncode){
-	uint8_t prev_state[16], cur_state[sizeof(prev_state)];
+	uint8_t prev_state[83], cur_state[sizeof(prev_state)];
 	uint8_t output[sizeof(prev_state) * 2];
 	memset(prev_state, 0, sizeof(prev_state));
 	memset(cur_state, 0, sizeof(cur_state));

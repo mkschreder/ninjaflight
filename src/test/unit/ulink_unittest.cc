@@ -51,6 +51,13 @@ TEST(UlinkTest, UlinkBasicTest){
 	const char *data1 = "\x01\x00\x7d\x7e"; 
 	const char *data2 = "\x7e\x7e\x01\x02"; 
 
+	// zero length should generate just the checksum bytes and a frame separator
+	ulink_pack_data(in_buffer, 0, &tx_frame);
+	EXPECT_EQ(3, ulink_frame_size(&tx_frame));
+	EXPECT_EQ(0, tx_frame.buf[0]);
+	EXPECT_EQ(0, tx_frame.buf[1]);
+	EXPECT_EQ(0x7e, tx_frame.buf[2]);
+
 	// pack two packets into a transmit buffer, test that it comes out as we expect and then try to parse out the data. 
 	memcpy(in_buffer, data1, 4); 	
 	EXPECT_EQ(ulink_pack_data(in_buffer, 4, &tx_frame), 4); 
