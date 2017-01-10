@@ -176,8 +176,6 @@ void ninja_init(struct ninja *self, struct fastloop *fl, const struct system_cal
     }
 #endif
 
-	self->out_queue = xQueueCreate(1, sizeof(struct ninja_state));
-
 	if(USE_BLACKBOX) {
 		blackbox_init(&self->blackbox, self->config, self->system);
 		blackbox_start(&self->blackbox);
@@ -216,10 +214,6 @@ void ninja_disarm(struct ninja *self){
 	//mixer_enable_armed(&self->mixer, false);
 	beeper_start(&self->beeper, BEEPER_DISARMING);	  // emit disarm tone
 	self->is_armed = false;
-}
-
-void ninja_read_state(struct ninja *self, struct ninja_state *state){
-	xQueuePeek(self->out_queue, state, 0);
 }
 
 	/*
@@ -629,9 +623,18 @@ static void __attribute__((unused)) _blackbox_write(struct ninja *self){
 			0,
 			0
 		},
+		.motors = {0},
+		.servos = {0},
 		.sonar_alt = 0,
 		.rssi = 0
 	};
+
+	for(int c = 0; c < 8; c++){
+		frame.motors[c] = self->fout.motors[c];
+		frame.servos[c] = self->fout.servos[c];
+	}
+
+	if(frame.motors[0] == 0){printf("zero motor at %d\n", frame.time); }
 	blackbox_write(&self->blackbox, &frame);
 }
 
@@ -691,9 +694,6 @@ void ninja_heartbeat(struct ninja *self){
 		}
 	}
 
-	if(USE_BLACKBOX)
-		_blackbox_write(self);
-
 	// handle emergency beeper
 	if(rc_key_state(&self->rc, RC_KEY_FUNC_BEEPER) == RC_KEY_PRESSED){
 		beeper_start(&self->beeper, BEEPER_RX_SET);
@@ -701,16 +701,15 @@ void ninja_heartbeat(struct ninja *self){
 
 	fastloop_read_outputs(self->fastloop, &self->fout);
 
+	if(USE_BLACKBOX)
+		_blackbox_write(self);
+
     // in cli mode, all serial stuff goes to here. enter cli mode by sending #
     if (cli_is_active(&self->cli)) {
         cli_update(&self->cli);
     } else {
 		serial_msp_process(&self->serial_msp, self);
 	}
-
-	struct ninja_state state;
-	memcpy(&state.fastloop, &self->fout, sizeof(state.fastloop));
-	xQueueOverwrite(self->out_queue, &state);
 
 	ninja_sched_run(&self->sched);
 }

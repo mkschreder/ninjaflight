@@ -27,14 +27,21 @@ int main(int argc, char **argv){
 	struct blackbox_frame frame;
 	memset(&frame, 0, sizeof(frame));
 
-	printf("time = []\n");
-	printf("rc_roll = []\n");
-	printf("rc_pitch = []\n");
-	printf("rc_yaw = []\n");
-	printf("rc_throttle = []\n");
-	printf("gyr_x = []\n");
-	printf("gyr_y = []\n");
-	printf("gyr_z = []\n");
+	printf("time = [];\n");
+	printf("rc_roll = [];\n");
+	printf("rc_pitch = [];\n");
+	printf("rc_yaw = [];\n");
+	printf("rc_throttle = [];\n");
+	printf("gyr_x = [];\n");
+	printf("gyr_y = [];\n");
+	printf("gyr_z = [];\n");
+	printf("acc_x = [];\n");
+	printf("acc_y = [];\n");
+	printf("acc_z = [];\n");
+	for(int c = 0; c < 8; c++){
+		printf("motor_%d = [];\n", c);
+		printf("servo_%d = [];\n", c);
+	}
 	while((rd = read(fd, buffer, sizeof(buffer))) > 0){
 		size_t total = 0;
 		while(total < rd){
@@ -47,27 +54,49 @@ int main(int argc, char **argv){
 			printf("rc_pitch = [rc_pitch %d];\n", frame.command[1]);
 			printf("rc_yaw = [rc_yaw %d];\n", frame.command[2]);
 			printf("rc_throttle = [rc_throttle %d];\n", frame.command[3]);
-			printf("gyr_x = [gyr_x %d];\n", frame.gyr[0]);
-			printf("gyr_y = [gyr_y %d];\n", frame.gyr[1]);
-			printf("gyr_z = [gyr_z %d];\n", frame.gyr[2]);
-			/*
-			printf("%d: rc[%d %d %d %d], gyr [%d %d %d], acc[%d %d %d]\n", 
-				frame.time,
-				frame.command[0],
-				frame.command[1],
-				frame.command[2],
-				frame.command[3],
-				frame.gyr[0],
-				frame.gyr[1],
-				frame.gyr[2],
-				frame.acc[0],
-				frame.acc[1],
-				frame.acc[2]);
-			*/
+			printf("gyr_x = [gyr_x %d];\n", frame.gyr[0] >> 4);
+			printf("gyr_y = [gyr_y %d];\n", frame.gyr[1] >> 4);
+			printf("gyr_z = [gyr_z %d];\n", frame.gyr[2] >> 4);
+			printf("acc_x = [acc_x %d];\n", frame.acc[0] >> 4);
+			printf("acc_y = [acc_y %d];\n", frame.acc[1] >> 4);
+			printf("acc_z = [acc_z %d];\n", frame.acc[2] >> 4);
+			for(int c = 0; c < 8; c++){
+				printf("motor_%d = [motor_%d %d];\n", c, c, frame.motors[c]);
+				printf("servo_%d = [servo_%d %d];\n", c, c, frame.servos[c]);
+			}
 		}
 	}
+	printf("plot(time, gyr_x, time, gyr_y, time, gyr_z, "
+		"time, acc_x, time, acc_y, time, acc_z,");
+	for(int c = 0; c < 8; c++){
+		printf("time, motor_%d, ", c);
+		printf("time, servo_%d, ", c);
+	}
+	printf("time, acc_x, time, acc_y, time, acc_z,"
+		"time, rc_roll, time, rc_pitch, time, rc_yaw, time, rc_throttle);\n");
+	printf("print -dpng plot_all.png\n");
 	printf("plot(time, gyr_x, time, gyr_y, time, gyr_z);\n");
 	printf("print -dpng plot_gyro.png\n");
+
+	printf("plot(");
+	for(int c = 0; c < 8; c++){
+		printf("time, motor_%d", c);
+		if(c != 7) printf(",");
+	}
+	printf(");\n");
+	printf("print -dpng plot_motor.png\n");
+
+	printf("plot(");
+	for(int c = 0; c < 8; c++){
+		printf("time, servo_%d", c);
+		if(c != 7) printf(",");
+	}
+	printf(");\n");
+	printf("print -dpng plot_servo.png\n");
+
+	printf("plot(time, acc_x, time, acc_y, time, acc_z);\n");
+	printf("plot(time, acc_x, time, acc_y, time, acc_z);\n");
+	printf("print -dpng plot_acc.png\n");
 	printf("plot(time, rc_roll, time, rc_pitch, time, rc_yaw, time, rc_throttle);\n");
 	printf("print -dpng plot_rc.png\n");
 	printf("input(\"press any key\")");

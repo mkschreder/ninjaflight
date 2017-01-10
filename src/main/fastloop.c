@@ -149,6 +149,13 @@ static void _task(void *param){
 
 			mixer_set_throttle_range(&self->mixer, 1500, self->config->pwm_out.minthrottle, self->config->pwm_out.maxthrottle);
 
+			// TODO: passthrough mode
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
+			mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
+
+			mixer_update(&self->mixer);
+
 			// make data available to other applications
 			if(self->out_queue){
 				struct fastloop_output out;
@@ -162,16 +169,12 @@ static void _task(void *param){
 				out.roll = ins_get_roll_dd(&self->ins);
 				out.pitch = ins_get_pitch_dd(&self->ins);
 				out.yaw = ins_get_yaw_dd(&self->ins);
-
+				for(int c = 0; c < 8; c++){
+					out.motors[c] = mixer_get_motor_value(&self->mixer, c);
+					out.servos[c] = mixer_get_servo_value(&self->mixer, c);
+				}
 				xQueueOverwrite(self->out_queue, &out);
 			}
-
-			// TODO: passthrough mode
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_ROLL, anglerate_get_roll(&self->ctrl));
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_PITCH, anglerate_get_pitch(&self->ctrl));
-			mixer_input_command(&self->mixer, MIXER_INPUT_G0_YAW, -anglerate_get_yaw(&self->ctrl));
-
-			mixer_update(&self->mixer);
 
 			// store the looptime
 			loop_time = sys_micros(self->system) - t_start;
@@ -206,7 +209,7 @@ void fastloop_write_controls(struct fastloop *self, const struct fastloop_input 
 }
 
 void fastloop_read_outputs(struct fastloop *self, struct fastloop_output *out){
-	if(self->out_queue) xQueuePeek(self->out_queue, out, 10);
+	if(self->out_queue) xQueuePeek(self->out_queue, out, 5000);
 }
 
 void fastloop_start(struct fastloop *self){

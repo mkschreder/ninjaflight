@@ -133,7 +133,6 @@ protected:
 			conf->max = 2000;
 		}
 		mixer_init(&mixer, &config.data, &mock_syscalls()->pwm);
-		mixer_enable_armed(&mixer, true);
 	}
 
 	virtual void TearDown(){
@@ -164,6 +163,17 @@ TEST_F(MixerBasicTest, TestMixerArmed){
 	config.data.pwm_out.maxthrottle = 2000;
 
 	_init_mixer_defaults(MIXER_QUADX);
+
+	mixer_update(&mixer);
+
+	// double check that all of our outputs are at expected levels right after a reset
+	for(int c = 0; c < 8; c++){
+		printf("motor/servo %d\n", c);
+		EXPECT_EQ(config.data.pwm_out.mincommand, mock_motor_pwm[c]);
+		EXPECT_EQ(1500, mock_servo_pwm[c]);
+	}
+
+	mixer_enable_armed(&mixer, true);
 
 	resetRX();
 
@@ -216,6 +226,7 @@ TEST_F(MixerBasicTest, TestMixerArmed){
  */
 TEST_F(MixerBasicTest, Test3dThrottleRange){
 	_init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
 	mixer_set_throttle_range(&mixer, 1250, 1050, 1450);
 
@@ -249,6 +260,7 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
 	config.data.pwm_out.mincommand = 1000;
 
 	_init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
 	// this is used in the passthrough so must be set to known values
 	mixer_set_throttle_range(&default_mixer, 1500, 1000, 2000);
@@ -289,6 +301,7 @@ TEST_F(MixerBasicTest, TestMotorPassthroughWhenDisarmed){
  */
 TEST_F(MixerBasicTest, TestForwardAuxChannelsToServosWithNoServos){
 	_init_mixer_defaults(MIXER_QUADP);
+	mixer_enable_armed(&mixer, true);
 
 	// center all servos
 	mixer_input_command(&mixer, MIXER_INPUT_G3_RC_AUX1, 0);
@@ -333,6 +346,7 @@ TEST_F(MixerBasicTest, TestMixerExtremes){
 	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
 	// we have 4 motors and 0 managed servos
 	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
@@ -416,6 +430,7 @@ TEST_F(MixerBasicTest, TestMixerUnusedMotorsAtMin){
 	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
 	mixer_update(&mixer);
 
@@ -433,6 +448,7 @@ TEST_F(MixerBasicTest, TestMixerModeQuadX){
 	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
 	// we have 4 motors and 0 managed servos
 	EXPECT_EQ(4, mixer_get_motor_count(&mixer));
@@ -501,6 +517,7 @@ TEST_F(MixerBasicTest, TestMixerModeAirplane){
 	config.data.pwm_out.maxthrottle = 1850;
 
 	_init_mixer_defaults(MIXER_AIRPLANE);
+	mixer_enable_armed(&mixer, true);
 
 	// we have 4 motors and 0 managed servos
 	EXPECT_EQ(1, mixer_get_motor_count(&mixer));
@@ -557,6 +574,7 @@ TEST_F(MixerBasicTest, TestQuadMotors)
 	config.data.pwm_out.maxthrottle = 2000;
 
     _init_mixer_defaults(MIXER_QUADX);
+	mixer_enable_armed(&mixer, true);
 
     // when
     mixer_update(&mixer);

@@ -25,6 +25,7 @@
 #include "ninja_sched.h"
 #include "ninja_config.h"
 #include "fastloop.h"
+#include "blackbox.h"
 
 struct ninja;
 
@@ -40,13 +41,6 @@ typedef enum {
 struct ninja_rc_input {
 	int16_t raw[8];
 };
-
-struct ninja_state {
-	uint8_t status;
-	struct fastloop_output fastloop;
-};
-
-#include "blackbox.h"
 
 struct ninja {
 	struct battery bat;
@@ -90,8 +84,6 @@ struct ninja {
 	sys_millis_t arming_delay;
 	sys_millis_t disarm_timeout;
 
-	QueueHandle_t out_queue;
-
 	bool is_armed;
 	uint32_t sensors;
 
@@ -128,4 +120,3 @@ void ninja_input_rc(struct ninja *self, const struct ninja_rc_input *rc);
 void ninja_input_gyro(struct ninja *self, int32_t x, int32_t y, int32_t z);
 void ninja_input_acc(struct ninja *self, int32_t x, int32_t y, int32_t z);
 
-void ninja_read_state(struct ninja *self, struct ninja_state *state);
