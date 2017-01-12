@@ -337,36 +337,36 @@ struct system_calls {
 	struct system_calls_range range;
 };
 
-#define sys_led_on(sys, id) sys->leds.on(&(sys)->leds, id, true)
-#define sys_led_off(sys, id) sys->leds.on(&(sys)->leds, id, false)
-#define sys_led_toggle(sys, id) sys->leds.toggle(&(sys)->leds, id)
+#define sys_led_on(sys, id) (sys)->leds.on(&(sys)->leds, id, true)
+#define sys_led_off(sys, id) (sys)->leds.on(&(sys)->leds, id, false)
+#define sys_led_toggle(sys, id) (sys)->leds.toggle(&(sys)->leds, id)
 
-#define sys_beeper_on(sys) sys->beeper.on(&(sys)->beeper, true)
-#define sys_beeper_off(sys) sys->beeper.on(&(sys)->beeper, false)
+#define sys_beeper_on(sys) (sys)->beeper.on(&(sys)->beeper, true)
+#define sys_beeper_off(sys) (sys)->beeper.on(&(sys)->beeper, false)
 
 #define sys_millis(sys) ((sys)->time.micros(&(sys)->time) / 1000)
 #define sys_micros(sys) ((sys)->time.micros(&(sys)->time))
 
 #define sys_gyro_sync(sys) ((sys)->imu.gyro_sync(&(sys)->imu))
-#define sys_gyro_read(sys, data) (sys->imu.read_gyro(&(sys)->imu, data))
-#define sys_acc_read(sys, data) (sys->imu.read_acc(&(sys)->imu, data))
-#define sys_read_pressure(sys, data) (sys->imu.read_pressure(&(sys)->imu, data))
-#define sys_read_temperature(sys, data) (sys->imu.read_temperature(&(sys)->imu, data))
+#define sys_gyro_read(sys, data) (sys)->imu.read_gyro(&(sys)->imu, data)
+#define sys_acc_read(sys, data) (sys)->imu.read_acc(&(sys)->imu, data)
+#define sys_read_pressure(sys, data) (sys)->imu.read_pressure(&(sys)->imu, data)
+#define sys_read_temperature(sys, data) (sys)->imu.read_temperature(&(sys)->imu, data)
 
-#define sys_motor_write(sys, id, val) (sys->pwm.write_motor(&(sys)->pwm, id, val))
-#define sys_servo_write(sys, id, val) (sys->pwm.write_servo(&(sys)->pwm, id, val))
+#define sys_motor_write(sys, id, val) (sys)->pwm.write_motor(&(sys)->pwm, id, val)
+#define sys_servo_write(sys, id, val) (sys)->pwm.write_servo(&(sys)->pwm, id, val)
 
-#define sys_eeprom_write(sys, addr, src, size) (sys->eeprom.write(&(sys)->eeprom, addr, src, size))
-#define sys_eeprom_read(sys, dst, addr, size) (sys->eeprom.read(&(sys)->eeprom, dst, addr, size))
-#define sys_eeprom_get_info(sys, info) (sys->eeprom.get_info(&(sys)->eeprom, info))
-#define sys_eeprom_erase_page(sys, addr) (sys->eeprom.erase_page(&(sys)->eeprom, addr))
+#define sys_eeprom_write(sys, addr, src, size) (sys)->eeprom.write(&(sys)->eeprom, addr, src, size)
+#define sys_eeprom_read(sys, dst, addr, size) (sys)->eeprom.read(&(sys)->eeprom, dst, addr, size)
+#define sys_eeprom_get_info(sys, info) (sys)->eeprom.get_info(&(sys)->eeprom, info)
+#define sys_eeprom_erase_page(sys, addr) (sys)->eeprom.erase_page(&(sys)->eeprom, addr)
 
-#define sys_logger_write(sys, data, size) (sys->logger.write(&(sys)->logger, data, size))
+#define sys_logger_write(sys, data, size) (sys)->logger.write(&(sys)->logger, data, size)
 
-#define sys_dataflash_write(sys, addr, src, size) (sys->dataflash.write(&(sys)->dataflash, addr, src, size))
-#define sys_dataflash_read(sys, dst, addr, size) (sys->dataflash.read(&(sys)->dataflash, dst, addr, size))
-#define sys_dataflash_get_info(sys, info) (sys->dataflash.get_info(&(sys)->dataflash, info))
-#define sys_dataflash_erase_page(sys, addr) (sys->dataflash.erase_page(&(sys)->dataflash, addr))
+#define sys_dataflash_write(sys, addr, src, size) (sys)->dataflash.write(&(sys)->dataflash, addr, src, size)
+#define sys_dataflash_read(sys, dst, addr, size) (sys)->dataflash.read(&(sys)->dataflash, dst, addr, size)
+#define sys_dataflash_get_info(sys, info) (sys)->dataflash.get_info(&(sys)->dataflash, info)
+#define sys_dataflash_erase_page(sys, addr) (sys)->dataflash.erase_page(&(sys)->dataflash, addr)
 
 // block device functions
 #define sys_bdev_write(bdev, addr, src, size) (bdev->write(bdev, addr, src, size))

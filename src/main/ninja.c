@@ -634,7 +634,6 @@ static void __attribute__((unused)) _blackbox_write(struct ninja *self){
 		frame.servos[c] = self->fout.servos[c];
 	}
 
-	if(frame.motors[0] == 0){printf("zero motor at %d\n", frame.time); }
 	blackbox_write(&self->blackbox, &frame);
 }
 
@@ -701,8 +700,9 @@ void ninja_heartbeat(struct ninja *self){
 
 	fastloop_read_outputs(self->fastloop, &self->fout);
 
-	if(USE_BLACKBOX)
+	if(USE_BLACKBOX && self->is_armed){
 		_blackbox_write(self);
+	}
 
     // in cli mode, all serial stuff goes to here. enter cli mode by sending #
     if (cli_is_active(&self->cli)) {

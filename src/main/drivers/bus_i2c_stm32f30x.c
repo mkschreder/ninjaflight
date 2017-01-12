@@ -61,6 +61,7 @@ static uint32_t i2cTimeout;
 static volatile uint16_t i2c1ErrorCount = 0;
 static volatile uint16_t i2c2ErrorCount = 0;
 
+static void i2cInit(I2CDevice index);
 static I2C_TypeDef *I2Cx = NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,7 +237,7 @@ void i2c_init(void){
 	i2cInit(I2C_DEVICE);
 }
 
-void i2cInit(I2CDevice index)
+static void i2cInit(I2CDevice index)
 {
     if (index == I2CDEV_1) {
         I2Cx = I2C1;

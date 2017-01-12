@@ -223,6 +223,9 @@ static void pre_init(const struct config *config){
     // Configure the Flash Latency cycles and enable prefetch buffer
     SetSysClock(config->system.emf_avoidance);
 #endif
+
+    // Latch active features to be used for feature() in the remainder of init().
+    //latchActiveFeatures();
     i2cSetOverclock(config->system.i2c_highspeed);
 
     systemInit();
@@ -231,8 +234,6 @@ static void pre_init(const struct config *config){
     detectHardwareRevision();
 #endif
 
-    // Latch active features to be used for feature() in the remainder of init().
-    //latchActiveFeatures();
 #ifdef ALIENFLIGHTF3
     if (hardwareRevision == AFF3_REV_1) {
         led_init(false);
@@ -302,7 +303,6 @@ static void init(const struct config *config)
         };
         pwm_params.sonarGPIOConfig = &sonarGPIOConfig;
 		*/
-    }
 #endif
 
     // when using airplane/wing mixer, servo/motor outputs are remapped
@@ -589,7 +589,8 @@ static uint16_t _read_ppm(const struct system_calls_pwm *pwm, uint8_t id){
 
 static int _gyro_sync(const struct system_calls_imu *imu){
 	(void)imu;
-	return gyro.sync();
+	if(gyro.sync) return gyro.sync();
+	return -1;
 }
 
 static int _read_gyro(const struct system_calls_imu *imu, int16_t output[3]){
@@ -660,7 +661,7 @@ static void _eeprom_get_info(const struct system_calls_bdev *self, struct system
 	info->num_pages = flash_get_num_pages();
 }
 
-static int16_t _logger_write(const struct system_calls_logger *self, const void *data, int16_t size){
+static int16_t _logger_write(const struct system_calls_logger *self, const void *data, size_t size){
 	(void)self;
 	(void)data;
 	return size;
@@ -753,7 +754,7 @@ int main(void) {
 	pre_init(&config.data);
 
 	xTaskCreate(_led_blink, "blnk", 420 / sizeof(StackType_t), NULL, 1, NULL);
-	xTaskCreate(_main_task, "main", 2296 / sizeof(StackType_t), NULL, 1, NULL);
+	xTaskCreate(_main_task, "main", 2296 / sizeof(StackType_t), NULL, 2, NULL);
 	vTaskStartScheduler();
 }
 
@@ -777,22 +778,35 @@ void HardFault_Handler(void)
         transponderIrDisable();
     }
 #endif
-	led_on(0);
-	led_on(1);
-	while(1){}
+	while(1){
+		led_on(0);
+		led_on(1);
+		usleep(100000);
+		led_off(0);
+		led_off(1);
+		usleep(50000);
+	}
 }
 
 void vApplicationMallocFailedHook(void){
-	// TODO: add indicator
-	led_on(0);
-	led_on(1);
-	while(1){}
+	while(1){
+		led_on(0);
+		led_on(1);
+		usleep(500000);
+		led_off(0);
+		led_off(1);
+		usleep(50000);
+	}
 }
 
 void vApplicationStackOverflowHook(void){
-	// TODO: add indicator
-	led_on(0);
-	led_on(1);
-	while(1){}
+	while(1){
+		led_on(0);
+		led_on(1);
+		usleep(50000);
+		led_off(0);
+		led_off(1);
+		usleep(500000);
+	}
 }
 

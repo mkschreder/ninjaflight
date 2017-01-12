@@ -36,6 +36,8 @@
 
 static SemaphoreHandle_t _i2c_lock = NULL;
 
+static void i2cInit(I2CDevice index);
+
 // Copy of peripheral address for IRQ routines
 static I2C_TypeDef *I2Cx = NULL;
 // Copy of device index for reinit, etc purposes
@@ -343,13 +345,7 @@ void i2c_ev_handler(void)
 	portYIELD_FROM_ISR(wake);
 }
 
-void i2c_init(void){
-	_i2c_lock = xSemaphoreCreateBinary();
-	i2cInit(I2C_DEVICE);
-}
-
-void i2cInit(I2CDevice index)
-{
+static void i2cInit(I2CDevice index){
     NVIC_InitTypeDef nvic;
     I2C_InitTypeDef i2c;
 
@@ -398,6 +394,11 @@ void i2cInit(I2CDevice index)
     nvic.NVIC_IRQChannelPreemptionPriority = NVIC_PRIORITY_BASE(NVIC_PRIO_I2C_EV);
     nvic.NVIC_IRQChannelSubPriority = NVIC_PRIORITY_SUB(NVIC_PRIO_I2C_EV);
     NVIC_Init(&nvic);
+}
+
+void i2c_init(void){
+	_i2c_lock = xSemaphoreCreateBinary();
+	i2cInit(I2C_DEVICE);
 }
 
 uint16_t i2cGetErrorCounter(void)

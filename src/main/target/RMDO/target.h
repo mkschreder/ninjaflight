@@ -57,10 +57,11 @@
 #define USE_FLASHFS
 #define USE_FLASH_M25P16
 
+#define USE_BLACKBOX 0
 #define USE_BEEPER 1
 #define LED0
 
-#define SONAR
+//#define SONAR
 #define SONAR_TRIGGER_PIN           Pin_0   // RC_CH7 (PB0) - only 3.3v ( add a 1K Ohms resistor )
 #define SONAR_TRIGGER_GPIO          GPIOB
 #define SONAR_ECHO_PIN              Pin_1   // RC_CH8 (PB1) - only 3.3v ( add a 1K Ohms resistor )
@@ -154,12 +155,11 @@
 #define WS2811_DMA_HANDLER_IDENTIFER    DMA1_CH2_HANDLER
 
 
-#define GPS
-#define GTUNE
-#define BLACKBOX
-#define TELEMETRY
-#define SERIAL_RX
-#define DISPLAY
+//#define GPS
+//#define GTUNE
+//#define TELEMETRY
+//#define SERIAL_RX
+//#define DISPLAY
 #define USE_SERVOS
 #define USE_CLI
 

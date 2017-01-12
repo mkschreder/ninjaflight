@@ -244,78 +244,79 @@ INCLUDE_DIRS := $(INCLUDE_DIRS) \
 VPATH		:= $(VPATH):$(TARGET_DIR)
 
 COMMON_SRC = build_config.c \
-		   debug.c \
-		   version.c \
-		   $(TARGET_SRC) \
-		   drivers/config_flash.c \
-		   config/config.c \
-		   config/rx.c \
-		   config/ledstrip.c \
-		   config/feature.c \
-		   common/packer.c \
-		   common/maths.c \
-		   common/quaternion.c \
-		   common/buf_writer.c \
-		   common/printf.c \
-		   common/typeconversion.c \
-		   common/encoding.c \
-		   common/filter.c \
-		   common/streambuf.c \
-		   main.c \
+			debug.c \
+			version.c \
+			$(TARGET_SRC) \
+			drivers/config_flash.c \
+			config/config.c \
+			config/rx.c \
+			config/ledstrip.c \
+			config/feature.c \
+			common/packer.c \
+			common/maths.c \
+			common/quaternion.c \
+			common/buf_writer.c \
+			common/printf.c \
+			common/typeconversion.c \
+			common/encoding.c \
+			common/filter.c \
+			common/streambuf.c \
+			common/ulink.c \
+			main.c \
 			ninja.c \
 			ninja_config.c \
 			ninja_sched.c \
 			ninjaflight.c \
 			fastloop.c \
 			cli.c \
-		   msp.c \
-		   flight/altitudehold.c \
-		   flight/failsafe.c \
-		   flight/anglerate.c \
-		   flight/mixer.c \
-		   flight/tilt.c \
-		   drivers/bus_i2c_soft.c \
-		   drivers/serial.c \
-		   drivers/sound_beeper.c \
-		   drivers/system.c \
-		   drivers/dma.c \
-		   io/beeper.c \
-		   io/rc_adjustments.c \
-		   io/serial.c \
-		   io/serial_msp.c \
-		   io/serial_4way.c \
-		   io/serial_4way_avrootloader.c \
-		   io/serial_4way_stk500v2.c \
-		   io/statusindicator.c \
-		   rx/msp.c \
-		   rx/rc.c \
-		   rx/rc_command.c \
-		   rx/rx.c \
-		   rx/pwm.c \
-		   rx/msp.c \
-		   rx/sbus.c \
-		   rx/sumd.c \
-		   rx/sumh.c \
-		   rx/spektrum.c \
-		   rx/xbus.c \
-		   rx/ibus.c \
-		   sensors/acceleration.c \
-		   sensors/battery.c \
-		   sensors/boardalignment.c \
-		   sensors/compass.c \
-		   sensors/gyro.c \
-		   sensors/initialisation.c \
-		   sensors/instruments.c \
-		   sensors/imu.c \
-		   libutype/src/cbuf.c\
-		   $(CMSIS_SRC) \
-		   $(DEVICE_STDPERIPH_SRC)\
-		   freertos/Source/croutine.c \
-		   freertos/Source/event_groups.c \
-		   freertos/Source/list.c \
-		   freertos/Source/tasks.c \
-		   freertos/Source/timers.c \
-		   freertos/Source/queue.c \
+			msp.c \
+			flight/altitudehold.c \
+			flight/failsafe.c \
+			flight/anglerate.c \
+			flight/mixer.c \
+			flight/tilt.c \
+			drivers/bus_i2c_soft.c \
+			drivers/serial.c \
+			drivers/sound_beeper.c \
+			drivers/system.c \
+			drivers/dma.c \
+			io/beeper.c \
+			io/rc_adjustments.c \
+			io/serial.c \
+			io/serial_msp.c \
+			io/serial_4way.c \
+			io/serial_4way_avrootloader.c \
+			io/serial_4way_stk500v2.c \
+			io/statusindicator.c \
+			rx/msp.c \
+			rx/rc.c \
+			rx/rc_command.c \
+			rx/rx.c \
+			rx/pwm.c \
+			rx/msp.c \
+			rx/sbus.c \
+			rx/sumd.c \
+			rx/sumh.c \
+			rx/spektrum.c \
+			rx/xbus.c \
+			rx/ibus.c \
+			sensors/acceleration.c \
+			sensors/battery.c \
+			sensors/boardalignment.c \
+			sensors/compass.c \
+			sensors/gyro.c \
+			sensors/initialisation.c \
+			sensors/instruments.c \
+			sensors/imu.c \
+			libutype/src/cbuf.c\
+			$(CMSIS_SRC) \
+			$(DEVICE_STDPERIPH_SRC)\
+			freertos/Source/croutine.c \
+			freertos/Source/event_groups.c \
+			freertos/Source/list.c \
+			freertos/Source/tasks.c \
+			freertos/Source/timers.c \
+			freertos/Source/queue.c \
 			freertos/Source/portable/MemMang/heap_2.c \
 
 HIGHEND_SRC = \
@@ -539,6 +540,7 @@ STM32F30x_COMMON_SRC = \
 		   drivers/system_stm32f30x.c \
 		   drivers/timer.c \
 		   drivers/timer_stm32f30x.c \
+			freertos/Source/portable/GCC/ARM_CM4F/port.c \
 
 NAZE32PRO_SRC = \
 		   $(COMMON_SRC) \
@@ -668,7 +670,6 @@ SPRACINGF3_SRC = \
 		   drivers/sonar_hcsr04.c \
 		   drivers/flashfs.c \
 		   $(HIGHEND_SRC) \
-			freertos/Source/portable/GCC/ARM_CM4F/port.c \
 
 SPRACINGF3EVO_SRC	 = \
 		   $(STM32F30x_COMMON_SRC) \
