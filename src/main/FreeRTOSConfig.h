@@ -110,7 +110,7 @@
 #define configAPPLICATION_ALLOCATED_HEAP 0
 //#define configUSE_APPLICATION_TASK_TAG	0
 #define configUSE_COUNTING_SEMAPHORES	0
-#define configGENERATE_RUN_TIME_STATS	0		//TT - TODO
+#define configGENERATE_RUN_TIME_STATS	1
 #define configSUPPORT_STATIC_ALLOCATION 0
 #define configSUPPORT_DYNAMIC_ALLOCATION 1
 /* Co-routine definitions. */
@@ -143,9 +143,10 @@ to exclude the API function. */
 	#define configPRIO_BITS       		4        /* 15 priority levels */
 #endif
 
-
-
-
+// use micros call to record cpu time. We assume systick timer runs at microsecond precision.
+#include "drivers/system.h"
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() {}
+#define portGET_RUN_TIME_COUNTER_VALUE() micros()
 
 ///* The lowest interrupt priority that can be used in a call to a "set priority"
 //function. */

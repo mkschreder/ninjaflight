@@ -2776,15 +2776,23 @@ static void cliTasks(struct cli *self, char *cmdline)
 	TaskStatus_t status[5]; // 4 is just arbitrary.
 	uint32_t total_time;
 	int16_t ret = uxTaskGetSystemState(status, sizeof(status)/sizeof(status[0]), &total_time);
+	uint32_t total_calculated = 0;
+	for(int c = 0; c < ret; c++){
+		total_calculated += status[c].ulRunTimeCounter;
+	}
 	cliPrintf(self, "== realtime tasks\r\n");
-	cliPrintf(self, "time: %lu\r\n", total_time);
+	cliPrintf(self, "time elapsed: %u, time usr: %u\r\n", total_time, total_calculated);
 	cliPrintf(self, "heap: %lu free of %lu bytes\r\n", xPortGetFreeHeapSize(), configTOTAL_HEAP_SIZE);
-	cliPrintf(self, "%17s %8s\r\n", "name", "stack");
+	cliPrintf(self, "%5s%8s%8s%10s%8s\r\n", "prio", "name", "stack", "cpu (us)", "cpu (%)");
 	if(ret > 0){
 		for(int c = 0; c < ret; c++){
 			TaskStatus_t *stat = &status[c];
-            cliPrintf(self, "%2d - %12s  %6d\r\n",
-					c, stat->pcTaskName, stat->usStackHighWaterMark);
+			uint32_t run_time = stat->ulRunTimeCounter;
+			uint32_t cpu_percent = (uint32_t)((uint64_t)run_time * 10000 / total_calculated);
+			uint32_t cpu_whole = cpu_percent / 100;
+			uint32_t cpu_frac = cpu_percent % 100;
+            cliPrintf(self, "%5d%8s%8d%10d%5d.%02d\r\n",
+					stat->uxBasePriority, stat->pcTaskName, stat->usStackHighWaterMark, stat->ulRunTimeCounter, cpu_whole, cpu_frac);
 		}
 	} else {
 		cliPrintf(self, "(none)\n");

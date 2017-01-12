@@ -731,6 +731,8 @@ void _main_task(void *param){
 	while (!done) {
         ninja_heartbeat(&ninja);
         processLoopback();
+		// TODO: make this task sync to gyro instead of using timeout
+		vTaskDelay(1);
     }
 }
 

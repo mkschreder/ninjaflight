@@ -118,7 +118,7 @@
 #define MAG_HMC5883_ALIGN CW180_DEG
 
 #define USE_BEEPER 1
-#define USE_BLACKBOX 1
+#define USE_BLACKBOX 0
 #define LED0
 #define LED1
 #define INVERTER

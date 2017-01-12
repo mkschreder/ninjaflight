@@ -72,9 +72,6 @@
 #include "ninja_sched.h"
 #include "rx/rc.h"
 
-void led_on(int id);
-void led_off(int id);
-
 #define REALTIME_GUARD_INTERVAL_MIN	 10
 #define REALTIME_GUARD_INTERVAL_MAX	 300
 #define REALTIME_GUARD_INTERVAL_MARGIN  25
@@ -422,7 +419,7 @@ static bool _task_rx_check(struct ninja_sched *sched, uint32_t currentDeltaTime)
 static void updateLEDs(struct ninja_sched *sched){
 	struct ninja *self = container_of(sched, struct ninja, sched);
 	if (self->is_armed) {
-		sys_led_on(self->system, 0);
+		//sys_led_on(self->system, 0);
 	} else {
 		/*
 		// TODO: for now allow arming when not leveled but rethink this logic entirely
